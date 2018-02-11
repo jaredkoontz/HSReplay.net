@@ -1,6 +1,0 @@
-{% load web_extras %}
-
-{% setting "GOOGLE_ADSENSE" as adsense %}
-{% if adsense and not request.dnt %}
-	<script type="text/javascript" async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-{% endif %}

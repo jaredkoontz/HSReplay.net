@@ -25,11 +25,4 @@ ga("send", "pageview", {
 });
 {% endif %}
 
-{% setting "GOOGLE_ADSENSE" as adsense %}
-{% if adsense %}
-(adsbygoogle = window.adsbygoogle || []).push({
-	google_ad_client: "{{ adsense }}",
-});
-{% endif %}
-
 {% endif %}

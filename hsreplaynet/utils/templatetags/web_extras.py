@@ -49,23 +49,6 @@ def setting(name):
 	return getattr(settings, name, "")
 
 
-@register.simple_tag
-def adunit(slot, responsive=True):
-	client = getattr(settings, "GOOGLE_ADSENSE", "")
-	if not client:
-		return ""
-	attributes = {
-		"class": "adsbygoogle",
-		"data-ad-client": client,
-		"data-ad-slot": str(slot),
-	}
-	if responsive:
-		attributes["data-ad-format"] = "auto"
-	attrlist = " ".join('%s="%s"' % (k, v) for k, v in attributes.items())
-	html = "<ins %s></ins>" % (attrlist)
-	return mark_safe(html)
-
-
 @register.simple_tag(takes_context=True)
 def static_absolute(context, value):
 	return context.request.build_absolute_uri(static(value))
