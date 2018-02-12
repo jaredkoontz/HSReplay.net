@@ -304,6 +304,8 @@ table .info-icon, .sort-header .info-icon {
 
 		a.live-now {
 			transition: opacity 0.3s;
+			position: relative;
+			z-index: 1;
 
 			&:active, &:hover, &:focus {
 				opacity: 1;
