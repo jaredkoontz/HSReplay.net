@@ -128,16 +128,6 @@ table .info-icon, .sort-header .info-icon {
 	}
 }
 
-.article-tooltip {
-	width: 0;
-	height: 0;
-
-	.card-image {
-		position: fixed;
-		z-index: 1000;
-	}
-}
-
 .card-icon-link {
 	&:active, &:focus {
 		outline: none;

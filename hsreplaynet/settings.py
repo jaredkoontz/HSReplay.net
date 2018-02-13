@@ -84,7 +84,6 @@ INSTALLED_APPS_WEB = [
 	"webpack_loader",
 	"hearthsim.identity.oauth2",
 	"hsreplaynet.admin",
-	"hsreplaynet.articles",
 	"hsreplaynet.billing",
 	"hsreplaynet.packs",
 	"hsreplaynet.web",
@@ -268,17 +267,6 @@ OAUTH2_PROVIDER = {
 }
 
 OAUTH2_PROVIDER_APPLICATION_MODEL = "oauth2.Application"
-
-
-# Markdown
-
-MARKDOWN_EXTENSIONS = [
-	"markdown.extensions.attr_list",
-	"markdown.extensions.nl2br",
-	"markdown.extensions.sane_lists",
-	"markdown.extensions.tables",
-	"hsreplaynet.articles.markdown.macros",
-]
 
 
 ##

@@ -15,7 +15,7 @@ if (
 }
 
 if (
-	document.location.pathname.match(/\/(replay|games|articles|decks|cards)\//)
+	document.location.pathname.match(/\/(replay|games|decks|cards)\//)
 ) {
 	UserData.create();
 	document.addEventListener("DOMContentLoaded", () => {
