@@ -22,8 +22,8 @@
 			{% with request.resolver_match.url_name as urlname %}
 				{% block navlinks %}
 					<ul class="nav navbar-nav">
-						<li{% nav_active 'articles_article_list' %}>
-							<a href="{% url 'articles_article_list' %}" id="navbar-link-articles">
+						<li>
+							<a href="https://articles.hsreplay.net/" id="navbar-link-articles" target="_blank">
 								<span class="glyphicon glyphicon-comment"></span>
 								<span class="hidden-sm">Articles</span>
 							</a>
