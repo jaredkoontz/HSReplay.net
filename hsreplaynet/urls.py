@@ -44,7 +44,7 @@ if not settings.ENV_LAMBDA:
 		# decks and cards
 		url(r"^", include("hsreplaynet.decks.urls")),
 		# redirects
-		url(r"^articles/(?P<pk>\d+)?", ArticlesRedirectView.as_view()),
+		url(r"^articles/(?P<pk>[^/]+)?", ArticlesRedirectView.as_view()),
 		url(r"^about/premium/$", RedirectView.as_view(pattern_name="premium", permanent=True)),
 		# sitemaps
 		url(

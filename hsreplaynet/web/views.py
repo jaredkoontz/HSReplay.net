@@ -140,8 +140,12 @@ class ArticlesRedirectView(RedirectView):
 	}
 
 	def get_redirect_url(self, *args, **kwargs):
-		# Find the correct path in the redirect map, otherwise go to base_url
-		path = self.redirect_map.get(kwargs["pk"], "/")
+		if kwargs["pk"] == "latest.atom":
+			# feed to feed redirect
+			path = "/rss/"
+		else:
+			# Find the correct path in the redirect map, otherwise go to base_url
+			path = self.redirect_map.get(kwargs["pk"], "/")
 		return self.base_url + path
 
 
