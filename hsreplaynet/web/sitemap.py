@@ -2,7 +2,6 @@ from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
 from django_hearthstone.cards.models import Card
 
-from hsreplaynet.articles.models import Article
 from hsreplaynet.decks.models import Archetype
 
 
@@ -13,11 +12,10 @@ class StaticViewSitemap(Sitemap):
 	def items(self):
 		return [
 			"home",
-			"articles_article_list",
 			"trending_decks",
 			"decks",
 			"cards",
-			"premium"
+			"premium",
 		]
 
 	def changefreq(self, item):
@@ -46,14 +44,6 @@ class CardSitemap(Sitemap):
 		return "daily"
 
 
-class ArticleSitemap(Sitemap):
-	changefreq = "monthly"
-	priority = 0.8
-
-	def items(self):
-		return Article.objects.filter(listed=True, draft=False)
-
-
 class ArchetypeSitemap(Sitemap):
 	changefreq = "daily"
 	priority = 0.8
@@ -65,6 +55,5 @@ class ArchetypeSitemap(Sitemap):
 SITEMAPS = {
 	"static": StaticViewSitemap,
 	"cards": CardSitemap,
-	"articles": ArticleSitemap,
 	"archetypes": ArchetypeSitemap,
 }
