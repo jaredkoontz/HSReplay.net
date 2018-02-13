@@ -55,6 +55,7 @@
 		"whatwg-fetch": "^2.0.3"
 	},
 	"devDependencies": {
+		"hard-source-webpack-plugin": "^0.5.18",
 		"prettier": "^1.10.2",
 		"tslint": "^5.9.1",
 		"tslint-config-prettier": "^1.6.0",
