@@ -3,7 +3,7 @@ from django.conf.urls import include, url
 from django.views.generic import RedirectView
 
 from .games.views import ReplayDetailView, ReplayEmbedView
-from .web.views import DownloadsView, HomeView
+from .web.views import ArticlesRedirectView, DownloadsView, HomeView
 
 
 urlpatterns = [
@@ -27,13 +27,11 @@ if not settings.ENV_LAMBDA:
 	urlpatterns += [
 		url(r"^admin/", include("hsreplaynet.admin.urls")),
 		url(r"^api/", include("hsreplaynet.api.urls")),
-		url(r"^articles/", include("hsreplaynet.articles.urls")),
 		url(r"^account/", include("hsreplaynet.accounts.urls")),
 		url(r"^account/billing/", include("hsreplaynet.billing.urls")),
 		url(r"^comments/", include("django_comments.urls")),
 		url(r"^premium/$", PremiumDetailView.as_view(), name="premium"),
 		url(r"^contact/$", flatpage, {"url": "/contact/"}, name="contact_us"),
-		url(r"^about/premium/$", RedirectView.as_view(pattern_name="premium", permanent=True)),
 		url(r"^about/privacy/$", flatpage, {"url": "/about/privacy/"}, name="privacy_policy"),
 		url(r"^about/tos/$", flatpage, {"url": "/about/tos/"}, name="terms_of_service"),
 		url(r"^downloads/", DownloadsView.as_view(), name="downloads"),
@@ -45,6 +43,9 @@ if not settings.ENV_LAMBDA:
 		url(r"^ref/", include("django_reflinks.urls")),
 		# decks and cards
 		url(r"^", include("hsreplaynet.decks.urls")),
+		# redirects
+		url(r"^articles/(?P<pk>\d+)?", ArticlesRedirectView.as_view()),
+		url(r"^about/premium/$", RedirectView.as_view(pattern_name="premium", permanent=True)),
 		# sitemaps
 		url(
 			r"^sitemap\.xml", sitemap, {"sitemaps": SITEMAPS},
