@@ -3,7 +3,7 @@ from django.conf.urls import include, url
 from django.views.generic import RedirectView
 
 from .games.views import ReplayDetailView, ReplayEmbedView
-from .views import DownloadsView, HomeView
+from .web.views import DownloadsView, HomeView
 
 
 urlpatterns = [

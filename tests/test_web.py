@@ -14,7 +14,7 @@ def test_load_homepage(client, settings, mocker):
 	settings.STATICFILES_STORAGE = settings.DEFAULT_FILE_STORAGE
 
 	# Until we start mocking aws.utils.redshift, mock HomeView.get_winrate_data directly
-	with mocker.patch("hsreplaynet.views.HomeView.get_winrate_data") as get_winrate_data:
+	with mocker.patch("hsreplaynet.web.views.HomeView.get_winrate_data") as get_winrate_data:
 		get_winrate_data.return_value = {"standard": {}, "wild": {}}
 
 	response = client.get("/")
