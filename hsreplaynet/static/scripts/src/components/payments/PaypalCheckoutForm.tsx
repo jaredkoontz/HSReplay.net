@@ -45,7 +45,9 @@ export default class PaypalCheckoutForm extends React.Component<
 	}
 
 	private getPlanData(paypalId: string): PaypalPlan | null {
-		return this.props.plans ? this.props.plans.find(p => p.paypalId === paypalId) : null;
+		return this.props.plans
+			? this.props.plans.find(p => p.paypalId === paypalId)
+			: null;
 	}
 
 	submit() {
