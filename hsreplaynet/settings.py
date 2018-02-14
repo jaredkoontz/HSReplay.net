@@ -307,6 +307,7 @@ UPLOAD_USER_AGENT_BLACKLIST = ()
 
 S3_DESCRIPTORS_BUCKET = "hsreplaynet-descriptors"
 S3_RAW_LOG_UPLOAD_BUCKET = "hsreplaynet-uploads"
+S3_COLLECTIONS_BUCKET = "hsreplaynet-collections"
 
 KINESIS_UPLOAD_PROCESSING_STREAM_NAME = "replay-upload-processing-stream"
 KINESIS_UPLOAD_PROCESSING_STREAM_MIN_SHARDS = 1
