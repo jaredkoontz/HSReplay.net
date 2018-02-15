@@ -457,7 +457,7 @@ export default class MetaOverview extends React.Component<
 		return obj;
 	}
 
-	componentWillMount() {
+	componentDidMount() {
 		window.addEventListener("resize", this.onResize);
 	}
 
