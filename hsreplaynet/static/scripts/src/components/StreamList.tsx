@@ -148,6 +148,7 @@ class StreamList extends React.Component<Props, State> {
 						url={"https://hsdecktracker.net/twitch/setup/"}
 						thumbnailWidth={400}
 						thumbnailHeight={225}
+						noMetrics
 					/>
 				</li>
 			</ul>

@@ -11,6 +11,7 @@ interface Props extends React.ClassAttributes<StreamThumbnail> {
 	target?: string;
 	title?: string;
 	viewerCount?: number | string;
+	noMetrics?: boolean;
 }
 
 export default class StreamThumbnail extends React.Component<Props> {
@@ -19,6 +20,9 @@ export default class StreamThumbnail extends React.Component<Props> {
 	};
 
 	visitStream = (event: React.MouseEvent<HTMLAnchorElement>): void => {
+		if (this.props.noMetrics) {
+			return;
+		}
 		TwitchStreamPromotionEvents.onVisitStream(this.props.displayName, {
 			transport: "beacon"
 		});
