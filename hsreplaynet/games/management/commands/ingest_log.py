@@ -13,11 +13,10 @@ class Command(BaseCommand):
 		parser.add_argument("file", nargs="+")
 		group = parser.add_mutually_exclusive_group(required=False)
 		group.add_argument(
-			"--username", type=str, metavar="USERNAME",
+			"--token", type=str, metavar="AUTH_TOKEN",
 			help=" ".join((
-				"User to attach the resulting replays to.",
-				"Will only attach after processing, so webhooks will not fire.",
-				"Use --pick-token instead.",
+				"Auth token for the upload event.",
+				"Will attach replays to owning user and fire webhooks.",
 			))
 		)
 		group.add_argument(
@@ -25,28 +24,25 @@ class Command(BaseCommand):
 			help="User to pick an auth token from. Will attach token like --token."
 		)
 		group.add_argument(
-			"--token", type=str, metavar="AUTH_TOKEN",
+			"--force-attach", type=str, metavar="USERNAME",
 			help=" ".join((
-				"Auth token for the upload event.",
-				"Will attach replays to owning user and fire webhooks.",
+				"User to attach the resulting replays to.",
+				"Will only attach after processing, so webhooks will not fire.",
+				"Use --pick-token instead.",
 			))
 		)
 
 	def handle(self, *args, **options):
-		username = options["username"]
-		username_to_pick_from = options["pick_token"]
 		raw_token = options["token"]
-		if username:
-			user = User.objects.get(username=username)
-			if not user:
-				raise Exception("User not found")
-			self.stdout.write(" ".join((
-				"Warning: Will only attach to user after processing and not fire webhooks.",
-				"Use --pick-token instead.",
-			)))
-			token = None
-		elif username_to_pick_from:
-			user = User.objects.get(username=username_to_pick_from)
+		pick_token_username = options["pick_token"]
+		force_attach_username = options["force_attach"]
+		if raw_token:
+			user = None
+			token = AuthToken.objects.get(key=raw_token)
+			if not token:
+				raise Exception("Auth token not found")
+		elif pick_token_username:
+			user = User.objects.get(username=pick_token_username)
 			# pick the user's first token
 			token = user.auth_tokens.first()
 			if token:
@@ -57,11 +53,15 @@ class Command(BaseCommand):
 				raise Exception("No auth token found")
 			# should already be attached by token
 			user = None
-		elif raw_token:
-			user = None
-			token = AuthToken.objects.get(key=raw_token)
-			if not token:
-				raise Exception("Auth token not found")
+		elif force_attach_username:
+			user = User.objects.get(username=force_attach_username)
+			if not user:
+				raise Exception("User not found")
+			self.stdout.write(" ".join((
+				"Warning: Will only attach to user after processing and not fire webhooks.",
+				"Use --pick-token instead.",
+			)))
+			token = None
 		else:
 			user = None
 			token = None
