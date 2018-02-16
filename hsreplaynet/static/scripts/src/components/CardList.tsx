@@ -105,6 +105,7 @@ export default class CardList extends React.Component<CardListProps, any> {
 						countBoxSize={customCounts && 50}
 						predicted={predicted}
 						subtitle={predicted ? "Predicted Card" : null}
+						key={dbfIds ? card.dbfId : card.id}
 					/>
 				);
 			};

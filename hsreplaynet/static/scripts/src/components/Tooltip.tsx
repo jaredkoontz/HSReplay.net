@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-export type TooltipContent = string | JSX.Element | JSX.Element[];
+export type TooltipContent = string | JSX.Element;
 
 export interface ClickTouch<T> {
 	click: T;
@@ -109,20 +109,16 @@ export default class Tooltip extends React.Component<Props, State> {
 				(this.props.xOffset || 0);
 		}
 
-		const content = [];
-		if (this.props.header) {
-			content.push(<h4>{this.props.header}</h4>);
-		}
-
+		let body = null;
 		if (this.props.content) {
 			const selectedContent = Tooltip.getSelectedContent(
 				this.props.content,
 				this.state.isTouchDevice
 			);
 			if (typeof selectedContent === "string") {
-				content.push(<p>{selectedContent}</p>);
+				body = <p>{selectedContent}</p>;
 			} else {
-				content.push(selectedContent);
+				body = selectedContent;
 			}
 		}
 
@@ -133,7 +129,8 @@ export default class Tooltip extends React.Component<Props, State> {
 				style={style}
 				ref={ref => (this.tooltip = ref)}
 			>
-				{content}
+				{this.props.header ? <h4>{this.props.header}</h4> : null}
+				{body}
 			</div>,
 			this.tooltipContainer,
 			() => {

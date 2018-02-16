@@ -175,7 +175,7 @@ export default class PlayerInfo extends React.Component<
 		const playerDeck = [];
 		const separator =
 			defaultDisplay === "none" ? null : (
-				<div className="deck-separator" />
+				<div className="deck-separator" key="separator" />
 			);
 		if (display === "opponent" || display === "both") {
 			opponentDeck.push(
@@ -184,13 +184,16 @@ export default class PlayerInfo extends React.Component<
 						"deck-container" +
 						(display === "opponent" ? " full" : "")
 					}
+					key="opponentCards"
 				>
 					{opponentCards}
 				</div>
 			);
 		}
 		if (display === "both") {
-			opponentDeck.push(<div className="gradient-container" />);
+			opponentDeck.push(
+				<div className="gradient-container" key="opponentGradient" />
+			);
 		}
 		if (display === "player" || display === "both") {
 			playerDeck.push(
@@ -198,13 +201,16 @@ export default class PlayerInfo extends React.Component<
 					className={
 						"deck-container" + (display === "player" ? " full" : "")
 					}
+					key="playerCards"
 				>
 					{playerCards}
 				</div>
 			);
 		}
 		if (display === "both") {
-			playerDeck.push(<div className="gradient-container" />);
+			playerDeck.push(
+				<div className="gradient-container" key="playerGradient" />
+			);
 		}
 
 		const opponentExpandButton = (
@@ -230,7 +236,11 @@ export default class PlayerInfo extends React.Component<
 		);
 
 		const opponentHeader = (
-			<div className="deck-header" style={opponentHeaderStyle}>
+			<div
+				className="deck-header"
+				style={opponentHeaderStyle}
+				key="opponentHeader"
+			>
 				<div className="deck-header-fade" />
 				<div className="deck-name">
 					<span>
@@ -272,7 +282,11 @@ export default class PlayerInfo extends React.Component<
 		);
 
 		const playerHeader = (
-			<div className="deck-header" style={playerHeaderStyle}>
+			<div
+				className="deck-header"
+				style={playerHeaderStyle}
+				key="playerHeader"
+			>
 				<div className="deck-header-fade" />
 				<div className="deck-name">
 					{(playerName ? this.pluralize(playerName) : "Player") +

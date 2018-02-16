@@ -70,7 +70,9 @@ export default class PrivacyDropdown extends React.Component<
 				disabled={this.state.working}
 			>
 				{Object.keys(options).map((key: string) => (
-					<option value={"" + +options[key]}>{key}</option>
+					<option value={"" + +options[key]} key={key}>
+						{key}
+					</option>
 				))}
 			</select>
 		);

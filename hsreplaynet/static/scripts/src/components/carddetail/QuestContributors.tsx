@@ -83,25 +83,27 @@ export default class QuestContributors extends React.Component<
 				text: "Contributor",
 				sortable: false,
 				infoHeader: "Contributor",
-				infoText: [
-					<p>
-						Cards that contributed to the completion of this quest
-						in some way.
-					</p>,
-					<br />,
-					<strong>Created cards:</strong>,
-					<p>
-						Created cards count towards their source: e.g. Fireballs
-						created by Archmage Antonidas will count towards the
-						Archmage, rather than Fireball.
-					</p>,
-					<br />,
-					<strong>The Caverns Below (Rogue):</strong>,
-					<p>
-						All progress ticks are included, not just the ones that
-						eventually complete the Quest.
-					</p>
-				]
+				infoText: (
+					<>
+						<p>
+							Cards that contributed to the completion of this
+							quest in some way.
+						</p>
+						<br />
+						<strong>Created cards:</strong>,
+						<p>
+							Created cards count towards their source: e.g.
+							Fireballs created by Archmage Antonidas will count
+							towards the Archmage, rather than Fireball.
+						</p>
+						<br />
+						<strong>The Caverns Below (Rogue):</strong>,
+						<p>
+							All progress ticks are included, not just the ones
+							that eventually complete the Quest.
+						</p>
+					</>
+				)
 			},
 			{
 				sortKey: "win_rate",

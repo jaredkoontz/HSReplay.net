@@ -316,16 +316,18 @@ export default class DeckDetail extends React.Component<
 					<InfoboxFilterGroup
 						header="Rank Range"
 						infoHeader="Rank Range"
-						infoContent={[
-							<p>
-								Check out how this deck performs at higher
-								ranks!
-							</p>,
-							<p>
-								Greyed out filters indicate an insufficient
-								amount of data for that rank range.
-							</p>
-						]}
+						infoContent={
+							<>
+								<p>
+									Check out how this deck performs at higher
+									ranks!
+								</p>
+								<p>
+									Greyed out filters indicate an insufficient
+									amount of data for that rank range.
+								</p>
+							</>
+						}
 						selectedValue={this.getRankRange()}
 						onClick={rankRange =>
 							this.props.setRankRange(rankRange)
@@ -358,17 +360,19 @@ export default class DeckDetail extends React.Component<
 					<PremiumWrapper
 						name="Single Deck Region"
 						infoHeader="Deck breakdown region"
-						infoContent={[
-							<p>
-								Take a look at how this deck performs in your
-								region!
-							</p>,
-							<br />,
-							<p>
-								Greyed out filters indicate an insufficient
-								amount of data for that region.
-							</p>
-						]}
+						infoContent={
+							<>
+								<p>
+									Take a look at how this deck performs in
+									your region!
+								</p>
+								<br />
+								<p>
+									Greyed out filters indicate an insufficient
+									amount of data for that region.
+								</p>
+							</>
+						}
 					>
 						<InfoboxFilterGroup
 							header="Region"
