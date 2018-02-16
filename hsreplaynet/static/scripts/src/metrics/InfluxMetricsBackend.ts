@@ -55,6 +55,7 @@ export default class InfluxMetricsBackend implements MetricsBackend {
 			// fallback to plain old XML http requests
 			let request = new XMLHttpRequest();
 			request.open("POST", url, true);
+			request.withCredentials = false;
 			request.send(blob);
 		}
 	}
