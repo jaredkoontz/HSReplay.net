@@ -93,6 +93,14 @@ INSTALLED_APPS = INSTALLED_APPS_CORE
 if not ENV_LAMBDA:
 	INSTALLED_APPS += INSTALLED_APPS_WEB
 
+
+##
+# Databases
+
+UPLOADS_DB = "uploads"
+DATABASE_ROUTERS = ["hsreplaynet.utils.routers.UploadEventsRouter"]
+
+
 MIDDLEWARE = [
 	"django.contrib.sessions.middleware.SessionMiddleware",
 	"django.middleware.common.CommonMiddleware",
