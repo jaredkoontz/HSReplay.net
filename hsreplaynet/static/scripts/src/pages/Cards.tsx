@@ -278,6 +278,28 @@ export default class Cards extends React.Component<CardsProps, CardsState> {
 		) {
 			this.updateFilteredCards();
 		}
+
+		if (UserData.hasFeature("current-arena-event-filter")) {
+			if (
+				prevProps.timeRange !== "ARENA_EVENT" &&
+				this.props.timeRange === "ARENA_EVENT"
+			) {
+				this.props.setGameType("ARENA");
+			}
+			if (
+				prevProps.gameType !== "ARENA" &&
+				this.props.gameType === "ARENA"
+			) {
+				this.props.setTimeRange("ARENA_EVENT");
+			}
+			if (
+				this.props.timeRange === "ARENA_EVENT" &&
+				prevProps.gameType === "ARENA" &&
+				this.props.gameType !== "ARENA"
+			) {
+				this.props.reset("timeRange");
+			}
+		}
 	}
 
 	updateFilteredCards(): void {
@@ -986,6 +1008,14 @@ export default class Cards extends React.Component<CardsProps, CardsState> {
 							<Feature feature={"current-patch-filter"}>
 								<InfoboxFilter value="CURRENT_PATCH">
 									Patch 10.2
+								</InfoboxFilter>
+							</Feature>
+							<Feature feature={"current-arena-event-filter"}>
+								<InfoboxFilter
+									value="ARENA_EVENT"
+									disabled={this.props.gameType !== "ARENA"}
+								>
+									Wildfest
 									<span className="infobox-value">New!</span>
 								</InfoboxFilter>
 							</Feature>

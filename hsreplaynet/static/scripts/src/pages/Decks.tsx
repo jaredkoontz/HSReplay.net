@@ -645,7 +645,6 @@ export default class Decks extends React.Component<DecksProps, DecksState> {
 							<Feature feature={"current-patch-filter"}>
 								<InfoboxFilter value="CURRENT_PATCH">
 									Patch 10.2
-									<span className="infobox-value">New!</span>
 								</InfoboxFilter>
 							</Feature>
 						</InfoboxFilterGroup>

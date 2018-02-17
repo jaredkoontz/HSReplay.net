@@ -12,10 +12,7 @@ interface InfoboxFilterProps extends React.ClassAttributes<InfoboxFilter> {
 	value: string;
 }
 
-export default class InfoboxFilter extends React.Component<
-	InfoboxFilterProps,
-	{}
-> {
+export default class InfoboxFilter extends React.Component<InfoboxFilterProps> {
 	private ref;
 
 	static contextTypes = {
