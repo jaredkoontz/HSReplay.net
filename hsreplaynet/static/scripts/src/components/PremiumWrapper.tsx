@@ -71,6 +71,9 @@ export default class PremiumWrapper extends React.Component<
 	}
 
 	componentWillUnmount() {
+		if (typeof window[key] === "undefined") {
+			return;
+		}
 		window[key].forEach((wrapper: PremiumWrapper) => {
 			wrapper.release(this);
 		});
