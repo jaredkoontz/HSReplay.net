@@ -5,6 +5,7 @@ import MyReplays from "../pages/MyReplays";
 import UserData from "../UserData";
 import Fragments from "../components/Fragments";
 import CardData from "../CardData";
+import ErrorReporter from "../components/ErrorReporter";
 
 UserData.create();
 let username = UserData.getUsername();
@@ -22,24 +23,26 @@ for (let part of parts) {
 
 const render = (cardData: CardData) => {
 	ReactDOM.render(
-		<Fragments
-			defaults={{
-				name: "",
-				mode: "",
-				format: "",
-				result: "",
-				hero: "ALL",
-				opponent: "ALL"
-			}}
-			debounce={"name"}
-		>
-			<MyReplays
-				image={image}
-				cardArt={cardArt}
-				cardData={cardData}
-				username={username}
-			/>
-		</Fragments>,
+		<ErrorReporter>
+			<Fragments
+				defaults={{
+					name: "",
+					mode: "",
+					format: "",
+					result: "",
+					hero: "ALL",
+					opponent: "ALL"
+				}}
+				debounce={"name"}
+			>
+				<MyReplays
+					image={image}
+					cardArt={cardArt}
+					cardData={cardData}
+					username={username}
+				/>
+			</Fragments>
+		</ErrorReporter>,
 		document.getElementById("my-games-container")
 	);
 };

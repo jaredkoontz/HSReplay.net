@@ -1249,3 +1249,17 @@ table .info-icon, .sort-header .info-icon {
 		align-items: center;
 	}
 }
+
+.error-reporter {
+	margin-top: 4rem;
+	font-size: 2rem;
+
+	h1 {
+		font-size: 3.5rem;
+		font-weight: normal;
+	}
+
+	pre {
+		font-size: 2rem;
+	}
+}

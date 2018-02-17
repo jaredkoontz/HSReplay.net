@@ -206,6 +206,8 @@ interface Window {
 	) => void;
 }
 
+declare var Raven: any;
+
 declare module "sunwell" {
 	export default class Sunwell {
 		constructor(options?: any);

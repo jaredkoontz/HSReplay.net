@@ -5,6 +5,7 @@ import Cards from "../pages/Cards";
 import UserData from "../UserData";
 import Fragments from "../components/Fragments";
 import GoogleAnalytics from "../metrics/GoogleAnalytics";
+import ErrorReporter from "../components/ErrorReporter";
 
 const container = document.getElementById("card-container");
 const personal = container.getAttribute("data-view-type") === "personal";
@@ -21,43 +22,45 @@ if (personal && !defaultAccount) {
 
 const render = (cardData: CardData) => {
 	ReactDOM.render(
-		<Fragments
-			defaults={{
-				text: "",
-				showSparse: false,
-				format: "",
-				gameType: "RANKED_STANDARD",
-				playerClass: "ALL",
-				rankRange: "ALL",
-				timeRange: personal
-					? "LAST_30_DAYS"
-					: UserData.hasFeature("current-patch-filter")
-						? "CURRENT_PATCH"
-						: UserData.hasFeature("current-expansion-filter")
-							? "CURRENT_EXPANSION"
-							: "LAST_14_DAYS",
+		<ErrorReporter>
+			<Fragments
+				defaults={{
+					text: "",
+					showSparse: false,
+					format: "",
+					gameType: "RANKED_STANDARD",
+					playerClass: "ALL",
+					rankRange: "ALL",
+					timeRange: personal
+						? "LAST_30_DAYS"
+						: UserData.hasFeature("current-patch-filter")
+							? "CURRENT_PATCH"
+							: UserData.hasFeature("current-expansion-filter")
+								? "CURRENT_EXPANSION"
+								: "LAST_14_DAYS",
 
-				exclude: "",
-				cost: [],
-				rarity: [],
-				set: [],
-				type: [],
-				race: [],
-				mechanics: [],
-				sortBy: "timesPlayed",
-				sortDirection: "descending",
-				display: "statistics",
-				uncollectible: ""
-			}}
-			debounce="text"
-			immutable={UserData.isPremium() ? null : ["rankRange"]}
-		>
-			<Cards
-				cardData={cardData}
-				personal={personal}
-				accounts={availableAccounts}
-			/>
-		</Fragments>,
+					exclude: "",
+					cost: [],
+					rarity: [],
+					set: [],
+					type: [],
+					race: [],
+					mechanics: [],
+					sortBy: "timesPlayed",
+					sortDirection: "descending",
+					display: "statistics",
+					uncollectible: ""
+				}}
+				debounce="text"
+				immutable={UserData.isPremium() ? null : ["rankRange"]}
+			>
+				<Cards
+					cardData={cardData}
+					personal={personal}
+					accounts={availableAccounts}
+				/>
+			</Fragments>
+		</ErrorReporter>,
 		container
 	);
 };

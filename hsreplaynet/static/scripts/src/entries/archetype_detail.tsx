@@ -4,6 +4,7 @@ import CardData from "../CardData";
 import ArchetypeDetail from "../pages/ArchetypeDetail";
 import UserData from "../UserData";
 import Fragments from "../components/Fragments";
+import ErrorReporter from "../components/ErrorReporter";
 
 const container = document.getElementById("archetype-container");
 const archetypeId = container.getAttribute("data-archetype-id");
@@ -17,23 +18,25 @@ UserData.create();
 
 const render = (cardData: CardData) => {
 	ReactDOM.render(
-		<Fragments
-			defaults={{
-				rankRange: "LEGEND_THROUGH_TWENTY",
-				tab: "overview"
-			}}
-			immutable={!UserData.isPremium() ? ["rankRange"] : null}
-		>
-			<ArchetypeDetail
-				cardData={cardData}
-				archetypeId={+archetypeId}
-				archetypeName={archetypeName}
-				playerClass={playerClass}
-				hasStandardData={hasStandardData}
-				hasWildData={hasWildData}
-				gameType="RANKED_STANDARD"
-			/>
-		</Fragments>,
+		<ErrorReporter>
+			<Fragments
+				defaults={{
+					rankRange: "LEGEND_THROUGH_TWENTY",
+					tab: "overview"
+				}}
+				immutable={!UserData.isPremium() ? ["rankRange"] : null}
+			>
+				<ArchetypeDetail
+					cardData={cardData}
+					archetypeId={+archetypeId}
+					archetypeName={archetypeName}
+					playerClass={playerClass}
+					hasStandardData={hasStandardData}
+					hasWildData={hasWildData}
+					gameType="RANKED_STANDARD"
+				/>
+			</Fragments>
+		</ErrorReporter>,
 		container
 	);
 };
