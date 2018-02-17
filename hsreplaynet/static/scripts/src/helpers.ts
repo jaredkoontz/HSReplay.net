@@ -813,6 +813,9 @@ export function getFragments(
 	keys: string[],
 	overwrite?: { [key: string]: string }
 ) {
+	if (!document.location) {
+		return "";
+	}
 	const fragments = Fragments.parseFragmentString(document.location.hash);
 	Object.keys(fragments).forEach(key => {
 		if (keys.indexOf(key) === -1) {
