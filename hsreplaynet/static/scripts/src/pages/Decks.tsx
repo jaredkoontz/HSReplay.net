@@ -37,7 +37,7 @@ interface DecksState {
 }
 
 interface DecksProps extends FragmentChildProps, React.ClassAttributes<Decks> {
-	cardData: CardData;
+	cardData: CardData | null;
 	latestSet?: string;
 	promoteLatestSet?: boolean;
 	// fragments
@@ -546,6 +546,9 @@ export default class Decks extends React.Component<DecksProps, DecksState> {
 							selectedCards={selectedCards("includedCards")}
 							cardLimit={Limit.DOUBLE}
 							onPaste={e => {
+								if (!this.props.cardData) {
+									return;
+								}
 								const input = e.clipboardData.getData(
 									"text/plain"
 								);
