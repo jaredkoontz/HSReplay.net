@@ -10,15 +10,12 @@ import { commaSeparate } from "../../helpers";
 import UserData from "../../UserData";
 
 interface ClusterDetailProps extends React.ClassAttributes<ClusterDetail> {
-	cardData: CardData;
+	cardData: CardData | null;
 	clusterId: string;
 	data?: ClusterData;
 }
 
-export default class ClusterDetail extends React.Component<
-	ClusterDetailProps,
-	{}
-> {
+export default class ClusterDetail extends React.Component<ClusterDetailProps> {
 	render(): JSX.Element {
 		const { cardData, clusterId, data } = this.props;
 		const signature: ApiArchetypeSignature = {

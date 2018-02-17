@@ -40,7 +40,7 @@ interface ClassAnalysisState {
 }
 
 interface ClassAnalysisProps extends React.ClassAttributes<ClassAnalysis> {
-	cardData: CardData;
+	cardData: CardData | null;
 	data?: ClusterData;
 	format: string;
 	includedCards: number[];

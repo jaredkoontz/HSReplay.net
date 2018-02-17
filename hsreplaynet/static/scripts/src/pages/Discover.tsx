@@ -20,7 +20,7 @@ import { Limit } from "../components/ObjectSearch";
 import { cardSorting, isCollectibleCard, isWildSet } from "../helpers";
 
 interface DiscoverProps extends React.ClassAttributes<Discover> {
-	cardData: CardData;
+	cardData: CardData | null;
 	dataset?: string;
 	format?: string;
 	includedCards?: string[];

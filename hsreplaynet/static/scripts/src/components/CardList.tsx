@@ -8,7 +8,7 @@ import UserData from "../UserData";
 type CardId = string | number;
 
 interface CardListProps {
-	cardData: CardData;
+	cardData: CardData | null;
 	cardList: CardId[];
 	predictedCardList?: CardId[];
 	cardHeight?: number;

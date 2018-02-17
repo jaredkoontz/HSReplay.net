@@ -11,7 +11,7 @@ interface ClusterSignatureState {
 
 interface ClusterSignatureProps
 	extends React.ClassAttributes<ClusterSignature> {
-	cardData: CardData;
+	cardData: CardData | null;
 	signature?: ApiArchetypeSignature;
 }
 
@@ -29,6 +29,10 @@ export default class ClusterSignature extends React.Component<
 
 	render(): JSX.Element {
 		const { cardData, signature } = this.props;
+
+		if (!cardData) {
+			return <div className="text-center">Loading cards…</div>;
+		}
 
 		const cards = [];
 		const prevalences = [];

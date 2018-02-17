@@ -6,7 +6,7 @@ import { ClusterMetaData } from "./ClassAnalysis";
 import UserData from "../../UserData";
 
 interface DeckInfoProps extends React.ClassAttributes<DeckInfo> {
-	cardData: CardData;
+	cardData: CardData | null;
 	clusterColor: string;
 	deck: ClusterMetaData;
 	format: string;
