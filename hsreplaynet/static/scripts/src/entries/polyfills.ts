@@ -14,9 +14,7 @@ if (
 	};
 }
 
-if (
-	document.location.pathname.match(/\/(replay|games|decks|cards)\//)
-) {
+if (document.location.pathname.match(/\/(replay|games|decks|cards)\//)) {
 	UserData.create();
 	document.addEventListener("DOMContentLoaded", () => {
 		// locate the premium navbar item
