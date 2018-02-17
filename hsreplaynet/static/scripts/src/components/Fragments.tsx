@@ -280,10 +280,13 @@ export default class Fragments extends React.Component<
 	}
 
 	componentDidUpdate(prevProps: FragmentsProps, prevState: FragmentsState) {
-		const parts = Object.assign(
-			{},
-			Fragments.parseFragmentString(document.location.hash)
-		);
+		if (!document.location) {
+			return;
+		}
+
+		const hash = document.location.hash;
+
+		const parts = Object.assign({}, Fragments.parseFragmentString(hash));
 
 		// find ones that we're added or changed
 		for (let key of Object.keys(this.state.childProps)) {
@@ -308,11 +311,11 @@ export default class Fragments extends React.Component<
 		const hasData = Object.keys(parts).length > 0;
 		const fragments = Fragments.encodeFragmentString(parts);
 
-		if (fragments === document.location.hash) {
+		if (fragments === hash) {
 			return;
 		}
 
-		if (!hasData && !document.location.hash) {
+		if (!hasData && !hash) {
 			return;
 		}
 
@@ -337,12 +340,18 @@ export default class Fragments extends React.Component<
 			console.error(`Refusing to return fragment part "${key}"`);
 			return;
 		}
+		if (!document.location) {
+			return "";
+		}
 		const parts = Fragments.parseFragmentString(document.location.hash);
-		return parts[key];
+		return parts[key] || "";
 	}
 
 	// returns the parts of the fragment that are relevant
 	getParts(): FragmentMap {
+		if (!document.location) {
+			return {};
+		}
 		const parts = Fragments.parseFragmentString(document.location.hash);
 		const map = {};
 		for (let key of Object.keys(parts)) {
