@@ -47,7 +47,7 @@ export default class Fragments extends React.Component<
 		this.timeout = null;
 	}
 
-	public reset(key: string): void {
+	public reset(key?: string): void {
 		let childProps = {};
 		if (key) {
 			childProps = Object.assign({}, this.state.childProps);

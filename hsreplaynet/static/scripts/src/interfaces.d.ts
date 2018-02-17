@@ -342,7 +342,7 @@ export const enum LoadingStatus {
 
 export interface FragmentChildProps {
 	canBeReset?: boolean;
-	reset?: () => void;
+	reset?: (key?: string) => void;
 }
 
 export type SortDirection = "ascending" | "descending";
