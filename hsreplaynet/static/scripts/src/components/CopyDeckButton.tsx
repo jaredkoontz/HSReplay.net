@@ -97,6 +97,12 @@ export default class CopyDeckButton extends React.Component<
 		);
 	}
 
+	componentWillUnmount() {
+		if (this.timeout) {
+			clearTimeout(this.timeout);
+		}
+	}
+
 	buildCopieableString(onlyDeckstring?: boolean): string {
 		const dbfs = {};
 		let cards = this.props.cards;
