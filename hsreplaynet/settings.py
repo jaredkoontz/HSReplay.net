@@ -67,7 +67,6 @@ INSTALLED_APPS_CORE = [
 INSTALLED_APPS_WEB = [
 	"django.contrib.admin",
 	"django.contrib.flatpages",
-	"django.contrib.humanize",
 	"django.contrib.sitemaps",
 	"django_comments",
 	"django_reflinks",

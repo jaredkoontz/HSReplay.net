@@ -7,7 +7,6 @@ django-contrib-comments==1.8.0
 django-loginas==0.3.3
 django-reflinks==0.5.0
 django-webpack-loader==0.5.0
-humanize==0.5.1
 
 uwsgi==2.0.16
 
