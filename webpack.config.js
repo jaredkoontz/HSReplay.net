@@ -109,6 +109,8 @@ module.exports = env => {
 		vendor: [
 			"babel-polyfill",
 			"whatwg-fetch",
+			"react",
+			"react-dom",
 			makeEntry("export-react"),
 			"hearthstonejson-client",
 			makeEntry("polyfills")
