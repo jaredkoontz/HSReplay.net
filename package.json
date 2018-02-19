@@ -20,7 +20,7 @@
 		"@types/react-virtualized": "^9.7.10",
 		"@types/stripe": "^4.9.0",
 		"@types/stripe-checkout": "^1.0.1",
-		"@types/victory": "^0.9.14",
+		"@types/victory": "^0.9.15",
 		"babel-core": "^6.26.0",
 		"babel-loader": "^7.1.2",
 		"babel-polyfill": "^6.26.0",
@@ -49,7 +49,7 @@
 		"ts-loader": "^3.2.0",
 		"typescript": "^2.6.2",
 		"uglifyjs-webpack-plugin": "^1.1.2",
-		"victory": "^0.24.5",
+		"victory": "^0.25.6",
 		"webpack": "^3.10.0",
 		"webpack-bundle-tracker": "^0.2.1",
 		"whatwg-fetch": "^2.0.3"
