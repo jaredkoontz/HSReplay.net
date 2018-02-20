@@ -1,4 +1,4 @@
-import { FormatType, PlayState } from "./hearthstone";
+import { FormatType, GameType, PlayState } from "./hearthstone";
 import { TooltipContent } from "./components/Tooltip";
 import { CardData as HearthstoneJSONCardData } from "hearthstonejson-client";
 
@@ -383,4 +383,18 @@ export interface SortableProps {
 	sortBy: string;
 	sortDirection: SortDirection;
 	onSortChanged: (sortBy: string, sortDirection: SortDirection) => void;
+}
+
+export interface ApiStream {
+	deck: number[];
+	hero: number;
+	format: number;
+	rank: number;
+	legend_rank: 0 | number;
+	game_type: GameType;
+	twitch: {
+		_id: number;
+		name: string;
+		display_name: string;
+	};
 }

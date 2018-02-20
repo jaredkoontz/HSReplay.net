@@ -3,7 +3,7 @@ import * as _ from "lodash";
 import CardIcon from "./CardIcon";
 import ManaCurve from "./ManaCurve";
 import * as moment from "moment";
-import { CardObj, DeckObj, User } from "../interfaces";
+import { ApiStream, CardObj, DeckObj, User } from "../interfaces";
 import {
 	cardSorting,
 	compareDecks,
@@ -16,7 +16,6 @@ import UserData from "../UserData";
 import Tooltip from "./Tooltip";
 import DataInjector from "./DataInjector";
 import SemanticAge from "./SemanticAge";
-import { Stream } from "./StreamList";
 import { TwitchStreamPromotionEvents } from "../metrics/GoogleAnalytics";
 
 interface DeckTileProps extends DeckObj, React.ClassAttributes<DeckTile> {
@@ -28,7 +27,7 @@ interface DeckTileProps extends DeckObj, React.ClassAttributes<DeckTile> {
 }
 
 interface StreamsProps {
-	streams: Stream[];
+	streams: ApiStream[];
 }
 
 class DeckTile extends React.Component<DeckTileProps & StreamsProps> {

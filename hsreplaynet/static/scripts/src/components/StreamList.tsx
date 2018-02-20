@@ -1,20 +1,9 @@
 import React from "react";
 import { withLoading } from "./loading/Loading";
 import StreamThumbnail from "./StreamThumbnail";
-import UserData from "../UserData";
+import { ApiStream } from "../interfaces";
 
-export interface Stream {
-	deck: number[];
-	hero: number;
-	format: number;
-	twitch: {
-		_id: number;
-		name: string;
-		display_name: string;
-	};
-}
-
-export interface TwitchStream {
+interface TwitchStream {
 	language: string;
 	thumbnail_url: string;
 	title: string;
@@ -23,7 +12,7 @@ export interface TwitchStream {
 }
 
 interface Props extends React.ClassAttributes<StreamList> {
-	streams?: Stream[];
+	streams?: ApiStream[];
 	verifyExtension?: boolean;
 }
 
@@ -62,7 +51,7 @@ class StreamList extends React.Component<Props, State> {
 		});
 	}
 
-	static async fetchMetadata(streams: Stream[]): Promise<TwitchStream[]> {
+	static async fetchMetadata(streams: ApiStream[]): Promise<TwitchStream[]> {
 		const user_params = streams.map(
 			stream => `user_login=${stream.twitch.name}`
 		);
@@ -123,7 +112,7 @@ class StreamList extends React.Component<Props, State> {
 			<ul className="stream-list">
 				{this.state.metadata.map((twitchStream: TwitchStream) => {
 					const stream = this.props.streams.find(
-						(toCompare: Stream) =>
+						(toCompare: ApiStream) =>
 							"" + toCompare.twitch._id === twitchStream.user_id
 					);
 					const url = `https://www.twitch.tv/${stream.twitch.name}`;
