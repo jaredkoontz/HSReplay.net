@@ -72,13 +72,15 @@ declare module "joust" {
 
 		playing: boolean;
 
+		readonly fullscreenSupported: boolean;
+
 		enableKeybindings(): Launcher;
 
 		disableKeybindings(): Launcher;
 
 		addPlayerName(playerName: string): Launcher;
 
-		fromUrl(url: string): void;
+		fromUrl(url: string, cb?: () => any): void;
 
 		readonly percentageWatched: number;
 

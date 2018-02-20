@@ -204,10 +204,10 @@ export default class JoustEmbedder {
 		this.url = url;
 	}
 
-	public render() {
+	public render(cb?: () => any) {
 		if (!this.url) {
 			throw new Error("Not prepared"); // you are
 		}
-		this.launcher.fromUrl(this.url);
+		this.launcher.fromUrl(this.url, cb);
 	}
 }

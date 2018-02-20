@@ -160,9 +160,13 @@ ReactDOM.render(
 			className="btn btn-primary btn-full visible-xs"
 			type="button"
 			onClick={() => {
-				first = false;
-				container.classList.remove("hidden-xs");
-				embedder.launcher.fullscreen(true);
+				if (embedder.launcher.fullscreenSupported) {
+					first = false;
+					container.classList.remove("hidden-xs");
+					embedder.launcher.fullscreen(true);
+				} else {
+					container.scrollIntoView();
+				}
 			}}
 		>
 			Enter Replay
@@ -209,7 +213,11 @@ embedder.launcher.onFullscreen((fullscreen: boolean): void => {
 });
 
 // embed joust
-embedder.render();
+embedder.render(() => {
+	if (!embedder.launcher.fullscreenSupported) {
+		container.classList.remove("hidden-xs");
+	}
+});
 
 // track banner clikcs
 const banner = document.getElementById("banner-link");
