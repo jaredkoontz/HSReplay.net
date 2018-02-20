@@ -347,10 +347,10 @@ export interface FragmentChildProps {
 
 export interface HearthstoneCollection {
 	cardbacks: number[];
-	collection: {[dbfId: string]: [number, number]};
+	collection: { [dbfId: string]: [number, number] };
 	dust: number;
 	gold: number;
-	heroes: {[dbfId: number]: [number, number]};
+	heroes: { [dbfId: number]: [number, number] };
 }
 
 export type SortDirection = "ascending" | "descending";
