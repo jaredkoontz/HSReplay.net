@@ -13,9 +13,15 @@ import {
 	compareDecks,
 	isCollectibleCard,
 	isWildSet,
-	sortCards
+	sortCards,
+	getDustCost
 } from "../helpers";
-import { ApiTrainingData, DeckObj, FragmentChildProps } from "../interfaces";
+import {
+	ApiTrainingData,
+	DeckObj,
+	FragmentChildProps,
+	HearthstoneCollection
+} from "../interfaces";
 import InfoboxLastUpdated from "../components/InfoboxLastUpdated";
 import UserData from "../UserData";
 import Fragments from "../components/Fragments";
@@ -38,6 +44,7 @@ interface DecksState {
 
 interface DecksProps extends FragmentChildProps, React.ClassAttributes<Decks> {
 	cardData: CardData | null;
+	collection: HearthstoneCollection | null;
 	latestSet?: string;
 	promoteLatestSet?: boolean;
 	// fragments
@@ -47,6 +54,8 @@ interface DecksProps extends FragmentChildProps, React.ClassAttributes<Decks> {
 	setGameType?: (gameType: string) => void;
 	includedCards?: string[];
 	setIncludedCards?: (includedCards: string[]) => void;
+	maxDustCost?: -1 | number;
+	setMaxDustCost?: (maxDustCost: number) => void;
 	opponentClasses?: FilterOption[];
 	setOpponentClasses?: (opponentClasses: FilterOption[]) => void;
 	playerClasses?: FilterOption[];
@@ -97,6 +106,7 @@ export default class Decks extends React.Component<DecksProps, DecksState> {
 			this.props.cardData !== prevProps.cardData ||
 			this.props.includedSet !== prevProps.includedSet ||
 			this.props.trainingData !== prevProps.trainingData ||
+			this.props.maxDustCost !== prevProps.maxDustCost ||
 			this.props.withStream !== prevProps.withStream
 		) {
 			this.updateFilteredDecks();
@@ -175,7 +185,7 @@ export default class Decks extends React.Component<DecksProps, DecksState> {
 				);
 			});
 		};
-		const cardList = cards =>
+		const cardList = (cards: [number, number][]) =>
 			cards.map((c: any[]) => {
 				return { card: this.props.cardData.fromDbf(c[0]), count: c[1] };
 			});
@@ -282,6 +292,35 @@ export default class Decks extends React.Component<DecksProps, DecksState> {
 								return;
 							}
 						}
+
+						if (
+							this.props.collection &&
+							this.props.maxDustCost >= 0
+						) {
+							let missingdust = 0;
+							for (const ccard of cards) {
+								const coll = this.props.collection.collection[
+									"" + ccard.card.dbfId
+								] || [0, 0];
+								const count = coll[0] + coll[1];
+								if (ccard.count > count) {
+									missingdust +=
+										getDustCost(ccard.card) *
+										(ccard.count - count);
+									if (missingdust > this.props.maxDustCost) {
+										return;
+									}
+								}
+							}
+						}
+
+						/*
+						if (filter selected) {
+							get list of cards we dont have
+							dust = getdust(cards)
+							if dust > filter.dust  return
+						} */
+
 						deck.player_class = key;
 						pushDeck(deck, cards);
 					});
@@ -597,6 +636,34 @@ export default class Decks extends React.Component<DecksProps, DecksState> {
 							cardLimit={Limit.SINGLE}
 						/>
 					</section>
+
+					<Feature feature="max-dust-filter">
+						<section id="max-dust-filter" className="form-group">
+							<h2 id="max-dust-label">Max Dust</h2>
+							<input
+								type="number"
+								disabled={!this.props.collection}
+								step={100}
+								placeholder="Max dust"
+								value={
+									this.props.maxDustCost !== -1
+										? this.props.maxDustCost
+										: ""
+								}
+								min={0}
+								max={50000}
+								onChange={e => {
+									this.props.setMaxDustCost(
+										e.target.value !== ""
+											? +e.target.value
+											: -1
+									);
+								}}
+								className="form-control"
+							/>
+						</section>
+					</Feature>
+
 					<section id="game-mode-filter">
 						<h2>Game Mode</h2>
 						<InfoboxFilterGroup
