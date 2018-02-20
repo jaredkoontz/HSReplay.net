@@ -86,7 +86,7 @@ class StreamList extends React.Component<Props, State> {
 			if (data) {
 				resultSet = resultSet.concat(data);
 			}
-		} while (cursor);
+		} while (resultSet.length < streams.length && cursor);
 		return resultSet;
 	}
 
