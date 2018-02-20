@@ -280,11 +280,11 @@ export default class Fragments extends React.Component<
 	}
 
 	componentDidUpdate(prevProps: FragmentsProps, prevState: FragmentsState) {
-		if (!document.location) {
+		if (!window.location) {
 			return;
 		}
 
-		const hash = document.location.hash;
+		const hash = window.location.hash;
 
 		const parts = Object.assign({}, Fragments.parseFragmentString(hash));
 
@@ -319,7 +319,7 @@ export default class Fragments extends React.Component<
 			return;
 		}
 
-		document.location.replace(fragments);
+		window.location.replace(fragments);
 
 		if (!hasData && typeof history !== "undefined") {
 			// hide the hash in the url if supported
@@ -340,19 +340,19 @@ export default class Fragments extends React.Component<
 			console.error(`Refusing to return fragment part "${key}"`);
 			return;
 		}
-		if (!document.location) {
+		if (!window.location) {
 			return "";
 		}
-		const parts = Fragments.parseFragmentString(document.location.hash);
+		const parts = Fragments.parseFragmentString(window.location.hash);
 		return parts[key] || "";
 	}
 
 	// returns the parts of the fragment that are relevant
 	getParts(): FragmentMap {
-		if (!document.location) {
+		if (!window.location) {
 			return {};
 		}
-		const parts = Fragments.parseFragmentString(document.location.hash);
+		const parts = Fragments.parseFragmentString(window.location.hash);
 		const map = {};
 		for (let key of Object.keys(parts)) {
 			if (!this.isValidKey(key)) {

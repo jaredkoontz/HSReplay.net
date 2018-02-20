@@ -813,10 +813,10 @@ export function getFragments(
 	keys: string[],
 	overwrite?: { [key: string]: string }
 ) {
-	if (!document.location) {
+	if (!window.location) {
 		return "";
 	}
-	const fragments = Fragments.parseFragmentString(document.location.hash);
+	const fragments = Fragments.parseFragmentString(window.location.hash);
 	Object.keys(fragments).forEach(key => {
 		if (keys.indexOf(key) === -1) {
 			delete fragments[key];
