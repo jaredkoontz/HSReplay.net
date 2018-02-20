@@ -16,7 +16,7 @@ export default class SemanticAge extends React.Component<Props, State> {
 	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
-			counter: 0,
+			counter: 0
 		};
 	}
 
@@ -24,7 +24,7 @@ export default class SemanticAge extends React.Component<Props, State> {
 		this.interval = window.setInterval(() => {
 			// update state to refresh the timestamp
 			this.setState(state => ({
-				counter: state.counter + 1 % 100,
+				counter: state.counter + 1 % 100
 			}));
 		}, 5000);
 	}
