@@ -813,7 +813,7 @@ export function getFragments(
 	keys: string[],
 	overwrite?: { [key: string]: string }
 ) {
-	if (!window.location) {
+	if (!window || !window.location) {
 		return "";
 	}
 	const fragments = Fragments.parseFragmentString(window.location.hash);

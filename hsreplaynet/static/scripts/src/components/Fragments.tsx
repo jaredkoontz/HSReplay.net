@@ -280,7 +280,7 @@ export default class Fragments extends React.Component<
 	}
 
 	componentDidUpdate(prevProps: FragmentsProps, prevState: FragmentsState) {
-		if (!window.location) {
+		if (!window || !window.location) {
 			return;
 		}
 
@@ -340,7 +340,7 @@ export default class Fragments extends React.Component<
 			console.error(`Refusing to return fragment part "${key}"`);
 			return;
 		}
-		if (!window.location) {
+		if (!window || !window.location) {
 			return "";
 		}
 		const parts = Fragments.parseFragmentString(window.location.hash);
@@ -349,7 +349,7 @@ export default class Fragments extends React.Component<
 
 	// returns the parts of the fragment that are relevant
 	getParts(): FragmentMap {
-		if (!window.location) {
+		if (!window || !window.location) {
 			return {};
 		}
 		const parts = Fragments.parseFragmentString(window.location.hash);

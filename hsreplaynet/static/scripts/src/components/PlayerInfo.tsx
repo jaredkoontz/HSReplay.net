@@ -108,7 +108,11 @@ export default class PlayerInfo extends React.Component<
 								deckClass
 							}
 							simple={true}
-							sourceUrl={window.location.toString().split("#")[0]}
+							sourceUrl={
+								window && window.location
+									? window.location.toString().split("#")[0]
+									: undefined
+							}
 						/>
 					);
 					opponentInfoIcon = (
@@ -156,7 +160,11 @@ export default class PlayerInfo extends React.Component<
 								deckClass
 							}
 							simple={true}
-							sourceUrl={window.location.toString().split("#")[0]}
+							sourceUrl={
+								window && window.location
+									? window.location.toString().split("#")[0]
+									: undefined
+							}
 						/>
 					);
 				}
