@@ -46,7 +46,7 @@ export default class CardIcon extends React.Component<
 		return (
 			"https://art.hearthstonejson.com/v1/tiles/" +
 			this.props.card.id +
-			".png"
+			".jpg"
 		);
 	}
 

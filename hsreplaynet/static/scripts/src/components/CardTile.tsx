@@ -133,7 +133,7 @@ export default class CardTile extends React.Component<CardTileProps, {}> {
 							src={
 								"https://art.hearthstonejson.com/v1/tiles/" +
 								this.props.card.id +
-								".png"
+								".jpg"
 							}
 							style={imageStyle}
 						/>
