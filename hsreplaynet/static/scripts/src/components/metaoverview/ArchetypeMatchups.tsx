@@ -14,8 +14,7 @@ import { withLoading } from "../loading/Loading";
 import { getOtherArchetype } from "../../helpers";
 import LowDataWarning from "./LowDataWarning";
 
-interface ArchetypeMatchupsProps
-	extends React.ClassAttributes<ArchetypeMatchups> {
+interface Props {
 	archetypeData?: any;
 	cardData: CardData;
 	gameType: string;
@@ -28,7 +27,7 @@ interface ArchetypeMatchupsProps
 	setSortBy?: (prop: string) => void;
 }
 
-interface ArchetypeMatchupsState {
+interface State {
 	apiArchetypes?: ApiArchetype[];
 	archetypeData?: ArchetypeData[];
 	currentSort?: number[];
@@ -40,13 +39,10 @@ interface ArchetypeMatchupsState {
 	useCustomWeights?: boolean;
 }
 
-const popularityCutoff = 0;
+const POPULARITY_CUTOFF_PERCENTAGE = 0;
 
-class ArchetypeMatchups extends React.Component<
-	ArchetypeMatchupsProps,
-	ArchetypeMatchupsState
-> {
-	constructor(props: ArchetypeMatchupsProps, context?: any) {
+class ArchetypeMatchups extends React.Component<Props, State> {
+	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
 			apiArchetypes: [],
@@ -62,7 +58,7 @@ class ArchetypeMatchups extends React.Component<
 		};
 	}
 
-	componentDidMount() {
+	public componentDidMount(): void {
 		if (this.props.sortBy === "none") {
 			// switch to default sorting of page is loaded with "sortBy=none"
 			this.props.setSortBy("popularity");
@@ -70,11 +66,14 @@ class ArchetypeMatchups extends React.Component<
 		this.updateData(this.props);
 	}
 
-	componentWillReceiveProps(nextProps: ArchetypeMatchupsProps) {
+	public componentWillReceiveProps(
+		nextProps: Readonly<Props>,
+		nextContext: any
+	): void {
 		this.updateData(nextProps);
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		const commonProps = {
 			allArchetypes: this.state.apiArchetypes,
 			archetypes: this.state.archetypeData,
@@ -139,7 +138,7 @@ class ArchetypeMatchups extends React.Component<
 		);
 	}
 
-	updateData(props: ArchetypeMatchupsProps) {
+	updateData(props: Props) {
 		let archetypeData: ArchetypeData[] = [];
 		const { archetypeIds, apiArchetypes } = this.getAllArchetypes(
 			props.matchupData,
@@ -156,7 +155,7 @@ class ArchetypeMatchups extends React.Component<
 			);
 			if (popularity) {
 				return (
-					popularity.pct_of_total >= popularityCutoff ||
+					popularity.pct_of_total >= POPULARITY_CUTOFF_PERCENTAGE ||
 					this.isFavorite(archetype.id)
 				);
 			}
@@ -343,7 +342,7 @@ class ArchetypeMatchups extends React.Component<
 				const archetype = this.state.archetypeData.find(
 					a => a.id === archetypeId
 				);
-				if (archetype.popularityTotal < popularityCutoff) {
+				if (archetype.popularityTotal < POPULARITY_CUTOFF_PERCENTAGE) {
 					// favorite is below cutoff, so remove entirely
 					sortedIds = sortedIds.filter(id => id !== archetypeId);
 				}

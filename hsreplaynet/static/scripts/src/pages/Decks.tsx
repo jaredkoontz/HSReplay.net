@@ -32,17 +32,7 @@ import { Limit } from "../components/ObjectSearch";
 import Feature from "../components/Feature";
 import { BnetGameType } from "../hearthstone";
 
-interface DecksState {
-	availableArchetypes?: string[];
-	cardSearchExcludeKey?: number;
-	cardSearchIncludeKey?: number;
-	cards?: any[];
-	filteredDecks: DeckObj[];
-	loading?: boolean;
-	showFilters?: boolean;
-}
-
-interface DecksProps extends FragmentChildProps, React.ClassAttributes<Decks> {
+interface Props extends FragmentChildProps {
 	cardData: CardData | null;
 	collection: HearthstoneCollection | null;
 	latestSet?: string;
@@ -76,11 +66,21 @@ interface DecksProps extends FragmentChildProps, React.ClassAttributes<Decks> {
 	setWithStream?: (withStream: boolean) => void;
 }
 
-export default class Decks extends React.Component<DecksProps, DecksState> {
+interface State {
+	availableArchetypes?: string[];
+	cardSearchExcludeKey?: number;
+	cardSearchIncludeKey?: number;
+	cards?: any[];
+	filteredDecks: DeckObj[];
+	loading?: boolean;
+	showFilters?: boolean;
+}
+
+export default class Decks extends React.Component<Props, State> {
 	private deckListsFragmentsRef;
 
-	constructor(props: DecksProps, state: DecksState) {
-		super(props, state);
+	constructor(props: Props, context: any) {
+		super(props, context);
 		this.state = {
 			availableArchetypes: [],
 			cardSearchExcludeKey: 0,
@@ -93,7 +93,11 @@ export default class Decks extends React.Component<DecksProps, DecksState> {
 		this.updateFilteredDecks();
 	}
 
-	componentDidUpdate(prevProps: DecksProps, prevState: DecksState) {
+	public componentDidUpdate(
+		prevProps: Readonly<Props>,
+		prevState: Readonly<State>,
+		prevContext: any
+	): void {
 		if (
 			this.props.excludedCards !== prevProps.excludedCards ||
 			this.props.gameType !== prevProps.gameType ||
@@ -115,7 +119,10 @@ export default class Decks extends React.Component<DecksProps, DecksState> {
 		}
 	}
 
-	componentWillReceiveProps(nextProps: DecksProps) {
+	public componentWillReceiveProps(
+		nextProps: Readonly<Props>,
+		nextContext: any
+	): void {
 		if (!this.state.cards && nextProps.cardData) {
 			const cards = [];
 			nextProps.cardData.all().forEach(card => {
@@ -388,7 +395,7 @@ export default class Decks extends React.Component<DecksProps, DecksState> {
 			});
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		let content = null;
 		if (this.state.loading) {
 			content = (

@@ -4,7 +4,7 @@ import { toDynamicFixed, toTitleCase } from "../../helpers";
 import PopularityLineChart from "./PopularityLineChart";
 import { LoadingStatus } from "../../interfaces";
 
-interface Props extends React.ClassAttributes<PopularityBox> {
+interface Props {
 	chartData?: any;
 	href: string;
 	onClick?: () => void;
@@ -14,7 +14,7 @@ interface Props extends React.ClassAttributes<PopularityBox> {
 }
 
 export default class PopularityBox extends React.Component<Props> {
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		let chart = null;
 		if (this.props.chartData) {
 			chart = (

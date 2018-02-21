@@ -5,19 +5,16 @@ import { getChartMetaData, toTimeSeries } from "../../helpers";
 import { RenderData } from "../../interfaces";
 import WinLossGradient from "../charts/gradients/WinLossGradient";
 
-interface WinrateLineChartProps {
+interface Props {
 	data?: RenderData;
 	height: number;
 	width: number;
 }
 
-export default class WinrateLineChart extends React.Component<
-	WinrateLineChartProps,
-	any
-> {
+export default class WinrateLineChart extends React.Component<Props> {
 	private filterId = _.uniqueId("popularity-gradient-");
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		const series = toTimeSeries(
 			this.props.data.series.find(x => x.name === "winrates_over_time") ||
 				this.props.data.series[0]

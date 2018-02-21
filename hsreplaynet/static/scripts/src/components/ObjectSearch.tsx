@@ -6,14 +6,7 @@ export const enum Limit {
 	UNLIMITED
 }
 
-interface ObjectSearchState {
-	searchCount?: number;
-	searchText?: string;
-	selectedIndex?: number;
-	showSearchResults?: boolean;
-}
-
-interface ObjectSearchProps<T> extends React.ClassAttributes<ObjectSearch<T>> {
+interface Props<T> {
 	getFilteredObjects: (query: string) => T[];
 	getObjectElement: (object: T, count?: number) => JSX.Element;
 	getObjectKey: (object: T) => string;
@@ -31,17 +24,21 @@ interface ObjectSearchProps<T> extends React.ClassAttributes<ObjectSearch<T>> {
 	getMaxCount?: (object: T) => number;
 }
 
-export default class ObjectSearch<T> extends React.Component<
-	ObjectSearchProps<T>,
-	ObjectSearchState
-> {
+interface State {
+	searchCount?: number;
+	searchText?: string;
+	selectedIndex?: number;
+	showSearchResults?: boolean;
+}
+
+export default class ObjectSearch<T> extends React.Component<Props<T>, State> {
 	readonly defaultCount = 10;
 	private search: HTMLDivElement;
 	private input: HTMLInputElement;
 	private objectList: HTMLUListElement;
 
-	constructor(props: ObjectSearchProps<T>, state: ObjectSearchState) {
-		super(props, state);
+	constructor(props: Props<T>, context: any) {
+		super(props, context);
 		this.state = {
 			searchCount: this.defaultCount,
 			searchText: "",
@@ -50,7 +47,7 @@ export default class ObjectSearch<T> extends React.Component<
 		};
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		const objects = [];
 		const matches = this.props.getFilteredObjects(this.state.searchText);
 		matches
@@ -171,10 +168,11 @@ export default class ObjectSearch<T> extends React.Component<
 		);
 	}
 
-	componentDidUpdate(
-		prevProps: ObjectSearchProps<T>,
-		prevState: ObjectSearchState
-	) {
+	public componentDidUpdate(
+		prevProps: Readonly<Props<T>>,
+		prevState: Readonly<State>,
+		prevContext: any
+	): void {
 		if (prevState.searchText !== this.state.searchText) {
 			if (this.search) {
 				this.search["scrollTop"] = 0;

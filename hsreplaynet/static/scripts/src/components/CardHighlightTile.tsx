@@ -1,6 +1,6 @@
 import React from "react";
 
-interface CardHighlightTileProps {
+interface Props {
 	card: any;
 	title: string;
 	value: string;
@@ -8,11 +8,8 @@ interface CardHighlightTileProps {
 	href?: string;
 }
 
-export default class CardHighlightTile extends React.Component<
-	CardHighlightTileProps,
-	{}
-> {
-	render(): JSX.Element {
+export default class CardHighlightTile extends React.Component<Props> {
+	public render(): React.ReactNode {
 		return (
 			<div className="col-xs-12 col-sm-6 col-md-4 col-lg-3">
 				<a

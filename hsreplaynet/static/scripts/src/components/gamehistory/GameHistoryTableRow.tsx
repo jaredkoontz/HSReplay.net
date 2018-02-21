@@ -8,10 +8,7 @@ import { PlayState, BnetGameType } from "../../hearthstone";
 import { getDuration } from "../../PrettyTime";
 import SemanticAge from "../SemanticAge";
 
-interface GameHistoryTableRowProps
-	extends ImageProps,
-		CardArtProps,
-		React.ClassAttributes<GameHistoryTableRow> {
+interface Props extends ImageProps, CardArtProps {
 	shortid: string;
 	startTime: Date;
 	endTime: Date;
@@ -24,11 +21,8 @@ interface GameHistoryTableRowProps
 	opposingPlayer: GlobalGamePlayer;
 }
 
-export default class GameHistoryTableRow extends React.Component<
-	GameHistoryTableRowProps,
-	any
-> {
-	render(): JSX.Element {
+export default class GameHistoryTableRow extends React.Component<Props> {
+	public render(): React.ReactNode {
 		let url = "/replay/" + this.props.shortid;
 		let result =
 			this.props.won !== null

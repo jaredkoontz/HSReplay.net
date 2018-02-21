@@ -1,12 +1,12 @@
 import React from "react";
 import UserData from "../UserData";
 
-interface FeatureProps {
+interface Props {
 	feature: string;
 }
 
-export default class Feature extends React.Component<FeatureProps, {}> {
-	render(): JSX.Element {
+export default class Feature extends React.Component<Props> {
+	public render(): React.ReactNode {
 		if (!this.props.children || !UserData.hasFeature(this.props.feature)) {
 			return null;
 		}

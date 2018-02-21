@@ -12,7 +12,7 @@ import RowFooter from "./RowFooter";
 import ArchetypeSearch from "../../ArchetypeSearch";
 import PopularityCell from "./../popularity/PopularityCell";
 
-interface ArchetypeListProps extends React.ClassAttributes<ArchetypeList> {
+interface Props {
 	archetypes: ArchetypeData[];
 	allArchetypes: ApiArchetype[];
 	cardData: CardData;
@@ -25,19 +25,14 @@ interface ArchetypeListProps extends React.ClassAttributes<ArchetypeList> {
 	sortDirection: SortDirection;
 }
 
-interface ArchetypeListState {}
-
 const offWhite = "#fbf7f6";
 
-export default class ArchetypeList extends React.Component<
-	ArchetypeListProps,
-	ArchetypeListState
-> {
+export default class ArchetypeList extends React.Component<Props> {
 	private rowHeaders: Grid = null;
 	private popularityCells: Grid = null;
 	private winrateCells: Grid = null;
 
-	render() {
+	public render(): React.ReactNode {
 		const archetypes = this.props.archetypes;
 
 		const headerCellHeight = 40;

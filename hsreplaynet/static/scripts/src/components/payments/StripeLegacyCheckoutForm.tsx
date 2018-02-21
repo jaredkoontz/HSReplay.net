@@ -13,9 +13,7 @@ const enum CheckoutStep {
 	SUBMIT
 }
 
-interface StripeLegacyCheckoutFormProps
-	extends CheckoutFormInstanceProps,
-		React.ClassAttributes<StripeLegacyCheckoutForm> {
+interface Props extends CheckoutFormInstanceProps {
 	apiKey: string;
 	coupon?: string;
 	plans: StripePlan[];
@@ -23,7 +21,7 @@ interface StripeLegacyCheckoutFormProps
 	image?: string;
 }
 
-interface StripeLegacyCheckoutFormState {
+interface State {
 	useDefaultSource?: boolean;
 	selectedPlan?: string;
 	step?: CheckoutStep;
@@ -31,13 +29,13 @@ interface StripeLegacyCheckoutFormState {
 }
 
 export default class StripeLegacyCheckoutForm extends React.Component<
-	StripeLegacyCheckoutFormProps,
-	StripeLegacyCheckoutFormState
+	Props,
+	State
 > {
 	private form: HTMLFormElement;
 	private handler: StripeCheckoutHandler;
 
-	constructor(props: StripeLegacyCheckoutFormProps, context: any) {
+	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
 			selectedPlan: props.plans[0].stripeId,
@@ -46,7 +44,7 @@ export default class StripeLegacyCheckoutForm extends React.Component<
 		};
 	}
 
-	componentDidMount() {
+	public componentDidMount(): void {
 		let promise = null;
 
 		if (typeof StripeCheckout !== "undefined") {
@@ -154,10 +152,11 @@ export default class StripeLegacyCheckoutForm extends React.Component<
 		);
 	}
 
-	componentWillUpdate(
-		nextProps: CheckoutFormInstanceProps,
-		nextState: StripeLegacyCheckoutFormState
-	) {
+	public componentWillUpdate(
+		nextProps: Readonly<Props>,
+		nextState: Readonly<State>,
+		nextContext: any
+	): void {
 		if (nextState.step !== this.state.step) {
 			this.props.onDisable(
 				nextState.step !== CheckoutStep.READY_TO_CHECKOUT &&
@@ -192,7 +191,7 @@ export default class StripeLegacyCheckoutForm extends React.Component<
 		);
 	}
 
-	render() {
+	public render(): React.ReactNode {
 		const disabled = this.state.step !== CheckoutStep.READY_TO_CHECKOUT;
 		const canSelectPlan =
 			!disabled || this.state.step === CheckoutStep.LOADING_STRIPE;

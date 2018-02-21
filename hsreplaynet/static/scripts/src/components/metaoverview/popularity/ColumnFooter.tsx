@@ -1,17 +1,14 @@
 import React from "react";
 import { commaSeparate } from "../../../helpers";
 
-interface ColumnFooterProps extends React.ClassAttributes<ColumnFooter> {
+interface Props {
 	games: number;
 	maxGames?: number;
 	style?: any;
 }
 
-export default class ColumnFooter extends React.Component<
-	ColumnFooterProps,
-	{}
-> {
-	render() {
+export default class ColumnFooter extends React.Component<Props> {
+	public render(): React.ReactNode {
 		const lightness =
 			45 +
 			Math.floor(

@@ -11,23 +11,23 @@ interface Extractor {
 	[prop: string]: (prop: any, props?: any) => any;
 }
 
-interface DataInjectorState {
-	data: Data[];
-	retryCount: number[];
-	status: number[];
-}
-
 export interface Query {
 	key?: string;
 	url: string;
 	params: any;
 }
 
-interface DataInjectorProps {
+interface Props {
 	query: Query | Query[];
 	fetchCondition?: boolean;
 	modify?: (data: any) => any;
 	extract?: Extractor;
+}
+
+interface State {
+	data: Data[];
+	retryCount: number[];
+	status: number[];
 }
 
 const DEFAULT_DATA_KEY = "data";
@@ -39,12 +39,9 @@ const STATUS_SUCCESS = 200;
 const STATUS_PROCESSING = 202;
 const STATUS_NO_DATA = 204;
 
-export default class DataInjector extends React.Component<
-	DataInjectorProps,
-	DataInjectorState
-> {
-	constructor(props: DataInjectorProps, state: DataInjectorState) {
-		super(props, state);
+export default class DataInjector extends React.Component<Props, State> {
+	constructor(props: Props, context: any) {
+		super(props, context);
 		this.state = {
 			data: [],
 			retryCount: this.getQueryArray(props).map(query => 0),
@@ -52,14 +49,14 @@ export default class DataInjector extends React.Component<
 		};
 	}
 
-	getQueryArray(props: DataInjectorProps): Query[] {
+	getQueryArray(props: Props): Query[] {
 		if (!Array.isArray(props.query)) {
 			return [props.query];
 		}
 		return props.query;
 	}
 
-	componentDidMount() {
+	public componentDidMount(): void {
 		this.getQueryArray(this.props).forEach((query, index) => {
 			this.fetch(this.props, index);
 		});
@@ -86,7 +83,10 @@ export default class DataInjector extends React.Component<
 		);
 	}
 
-	componentWillReceiveProps(nextProps: DataInjectorProps) {
+	public componentWillReceiveProps(
+		nextProps: Readonly<Props>,
+		nextContext: any
+	): void {
 		const newStatus = Object.assign([], this.state.status);
 		const queue = [];
 		const allCurrent = this.getQueryArray(this.props);
@@ -104,7 +104,7 @@ export default class DataInjector extends React.Component<
 		queue.forEach(index => this.fetch(nextProps, index));
 	}
 
-	fetch(props: DataInjectorProps, index: number) {
+	fetch(props: Props, index: number) {
 		if (props.fetchCondition === false) {
 			return;
 		}
@@ -158,7 +158,7 @@ export default class DataInjector extends React.Component<
 		);
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		const getStatus = (status: number[]): LoadingStatus => {
 			if (status.every(s => s === STATUS_SUCCESS)) {
 				return LoadingStatus.SUCCESS;

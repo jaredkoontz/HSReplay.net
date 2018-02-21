@@ -1,15 +1,12 @@
 import React from "react";
 
-interface PremiumPromoProps extends React.ClassAttributes<PremiumPromo> {
+interface Props {
 	imageName: string;
 	text: string | JSX.Element;
 }
 
-export default class PremiumPromo extends React.Component<
-	PremiumPromoProps,
-	{}
-> {
-	render(): JSX.Element {
+export default class PremiumPromo extends React.Component<Props> {
+	public render(): React.ReactNode {
 		return (
 			<div className="premium-promo">
 				<div className="premium-background">

@@ -9,8 +9,7 @@ interface ClassArchetypeData {
 	[playerClass: string]: ApiArchetypePopularity[];
 }
 
-interface ArchetypeTierListProps
-	extends React.ClassAttributes<ArchetypeTierList> {
+interface Props {
 	archetypeData?: ApiArchetype[];
 	cardData: CardData;
 	data?: ClassArchetypeData;
@@ -19,8 +18,8 @@ interface ArchetypeTierListProps
 	timestamp?: string;
 }
 
-class ArchetypeTierList extends React.Component<ArchetypeTierListProps, {}> {
-	render(): JSX.Element {
+class ArchetypeTierList extends React.Component<Props> {
+	public render(): React.ReactNode {
 		const archetypes = Object.keys(this.props.data)
 			.map(key => this.props.data[key])
 			.reduce((a, b) => a.concat(b))

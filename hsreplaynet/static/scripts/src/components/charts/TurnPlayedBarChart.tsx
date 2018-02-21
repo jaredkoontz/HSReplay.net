@@ -12,18 +12,15 @@ import { getChartMetaData } from "../../helpers";
 import { VictoryVoronoiContainer } from "victory";
 import ChartHighlighter from "./ChartHighlighter";
 
-interface TurnPlayedBarChartProps {
+interface Props {
 	data?: RenderData;
 	opponentClass?: string;
 	widthRatio?: number;
 	premiumLocked?: boolean;
 }
 
-export default class TurnPlayedBarChart extends React.Component<
-	TurnPlayedBarChartProps,
-	any
-> {
-	render(): JSX.Element {
+export default class TurnPlayedBarChart extends React.Component<Props> {
+	public render(): React.ReactNode {
 		const width = 150 * (this.props.widthRatio || 3);
 
 		const renderData = this.props.premiumLocked

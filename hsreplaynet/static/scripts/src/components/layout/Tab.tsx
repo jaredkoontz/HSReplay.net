@@ -1,6 +1,6 @@
 import React from "react";
 
-interface TabProps extends React.ClassAttributes<Tab> {
+interface Props {
 	id: string;
 	hidden?: boolean;
 	disabled?: boolean;
@@ -8,8 +8,8 @@ interface TabProps extends React.ClassAttributes<Tab> {
 	highlight?: boolean;
 }
 
-export default class Tab extends React.Component<TabProps> {
-	render() {
+export default class Tab extends React.Component<Props> {
+	public render(): React.ReactNode {
 		return <div>{this.props.children}</div>;
 	}
 }

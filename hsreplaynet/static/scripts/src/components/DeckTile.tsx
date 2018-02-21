@@ -18,7 +18,7 @@ import DataInjector from "./DataInjector";
 import SemanticAge from "./SemanticAge";
 import { TwitchStreamPromotionEvents } from "../metrics/GoogleAnalytics";
 
-interface DeckTileProps extends DeckObj, React.ClassAttributes<DeckTile> {
+interface DeckTileProps extends DeckObj {
 	dustCost?: number;
 	compareWith?: CardObj[];
 	archetypeName?: string;
@@ -30,7 +30,9 @@ interface StreamsProps {
 	streams: ApiStream[];
 }
 
-class DeckTile extends React.Component<DeckTileProps & StreamsProps> {
+interface Props extends DeckTileProps, StreamsProps {}
+
+class DeckTile extends React.Component<Props> {
 	public getUrl(customTab?: string) {
 		const { hrefTab } = this.props;
 		const tab = customTab
@@ -43,7 +45,7 @@ class DeckTile extends React.Component<DeckTileProps & StreamsProps> {
 		return `/decks/${this.props.deckId}/` + getFragments(fragments, tab);
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		const cards = this.props.cards || [];
 		const cardIcons = [];
 
@@ -268,7 +270,7 @@ class DeckTile extends React.Component<DeckTileProps & StreamsProps> {
 }
 
 export default class InjectedDeckTile extends React.Component<DeckTileProps> {
-	render() {
+	public render(): React.ReactNode {
 		const props = _.omit(this.props, "children") as any;
 
 		return (

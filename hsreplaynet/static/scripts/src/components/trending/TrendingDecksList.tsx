@@ -3,16 +3,13 @@ import CardData from "../../CardData";
 import { DeckObj, TableData } from "../../interfaces";
 import DeckList from "../DeckList";
 
-interface TrendingDecksListProps {
+interface Props {
 	cardData?: CardData;
 	data?: TableData;
 }
 
-export default class TrendingDecksList extends React.Component<
-	TrendingDecksListProps,
-	{}
-> {
-	render(): JSX.Element {
+export default class TrendingDecksList extends React.Component<Props> {
+	public render(): React.ReactNode {
 		const decks: DeckObj[] = [];
 		const data = this.props.data.series.data;
 		Object.keys(data).forEach(key => {

@@ -12,9 +12,7 @@ import CardData from "../../CardData";
 import ArchetypeSignatureTooltip from "./ArchetypeSignatureTooltip";
 import OtherArchetype from "./OtherArchetype";
 
-interface ArchetypeClassTableProps
-	extends SortableProps,
-		React.ClassAttributes<ArchetypeClassTable> {
+interface Props extends SortableProps {
 	data: ApiArchetypePopularity[];
 	archetypeData: ApiArchetype[];
 	gameType: string;
@@ -28,11 +26,8 @@ const MIN_COLUMN_WIDTH = 100;
 const MAX_HEADER_WIDTH = 217;
 const MIN_HEADER_WIDTH = 150;
 
-export default class ArchetypeClassTable extends React.Component<
-	ArchetypeClassTableProps,
-	{}
-> {
-	render(): JSX.Element {
+export default class ArchetypeClassTable extends React.Component<Props> {
+	public render(): React.ReactNode {
 		const { data, playerClass, sortBy, sortDirection } = this.props;
 		const columns = this.getColumns();
 		const rows = [];

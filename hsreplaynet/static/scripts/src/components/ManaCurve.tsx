@@ -1,12 +1,12 @@
 import React from "react";
 import { CardObj } from "../interfaces";
 
-interface ManaCurveProps {
+interface Props {
 	cards: CardObj[];
 }
 
-export default class ManaCurve extends React.Component<ManaCurveProps, any> {
-	render(): JSX.Element {
+export default class ManaCurve extends React.Component<Props> {
+	public render(): React.ReactNode {
 		const bars = [];
 		const costs = [0, 0, 0, 0, 0, 0, 0, 0];
 

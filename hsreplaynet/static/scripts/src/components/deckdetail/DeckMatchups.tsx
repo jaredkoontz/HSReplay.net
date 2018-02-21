@@ -1,17 +1,14 @@
 import React from "react";
 import ClassMatchup, { ArchetypeData } from "../ClassMatchup";
 
-interface DeckMatchupsProps extends React.ClassAttributes<DeckMatchups> {
+interface Props {
 	archetypeMatchupData?: any;
 	classMatchupData?: any;
 	archetypeData?: any;
 }
 
-export default class DeckMatchups extends React.Component<
-	DeckMatchupsProps,
-	{}
-> {
-	render(): JSX.Element {
+export default class DeckMatchups extends React.Component<Props> {
+	public render(): React.ReactNode {
 		const matchupsTiles = [];
 		const matchupData = this.props.classMatchupData.series.data;
 		const playerClasses = Object.keys(matchupData).filter(

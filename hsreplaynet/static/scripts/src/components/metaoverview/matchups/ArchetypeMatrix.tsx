@@ -16,7 +16,7 @@ import ColumnFooter from "./ColumnFooter";
 import ArchetypeSearch from "../../ArchetypeSearch";
 import InfoIcon from "../../InfoIcon";
 
-interface ArchetypeMatrixProps extends React.ClassAttributes<ArchetypeMatrix> {
+interface Props {
 	archetypes: ArchetypeData[];
 	allArchetypes: ApiArchetype[];
 	cardData: CardData;
@@ -35,22 +35,19 @@ interface ArchetypeMatrixProps extends React.ClassAttributes<ArchetypeMatrix> {
 	sortDirection: SortDirection;
 }
 
-interface ArchetypeMatrixState {
+interface State {
 	highlightColumn?: number;
 	highlightRow?: number;
 }
 
 const offWhite = "#fbf7f6";
 
-export default class ArchetypeMatrix extends React.Component<
-	ArchetypeMatrixProps,
-	ArchetypeMatrixState
-> {
+export default class ArchetypeMatrix extends React.Component<Props, State> {
 	private rowHeaders: Grid = null;
 	private matchupCells: Grid = null;
 	private rowFooters: Grid = null;
 
-	constructor(props: ArchetypeMatrixProps, context?: any) {
+	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
 			highlightColumn: null,
@@ -58,7 +55,7 @@ export default class ArchetypeMatrix extends React.Component<
 		};
 	}
 
-	render() {
+	public render(): React.ReactNode {
 		const archetypes = this.props.archetypes;
 
 		const headerCellWidth = 210;

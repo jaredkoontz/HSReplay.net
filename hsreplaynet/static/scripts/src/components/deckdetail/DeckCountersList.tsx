@@ -3,18 +3,14 @@ import { DeckObj } from "../../interfaces";
 import DeckList from "../DeckList";
 import Fragments from "../Fragments";
 
-interface DeckCountersListProps
-	extends React.ClassAttributes<DeckCountersList> {
+interface Props {
 	deckData?: any;
 	cardData?: any;
 	countersData?: any;
 }
 
-export default class DeckCountersList extends React.Component<
-	DeckCountersListProps,
-	{}
-> {
-	render(): JSX.Element {
+export default class DeckCountersList extends React.Component<Props> {
+	public render(): React.ReactNode {
 		const decks: DeckObj[] = [];
 		const data = this.props.countersData.series.data;
 		Object.keys(data).forEach(playerClass => {

@@ -9,14 +9,14 @@ import ClusterSignature from "./ClusterSignature";
 import { commaSeparate } from "../../helpers";
 import UserData from "../../UserData";
 
-interface ClusterDetailProps extends React.ClassAttributes<ClusterDetail> {
+interface Props {
 	cardData: CardData | null;
 	clusterId: string;
 	data?: ClusterData;
 }
 
-export default class ClusterDetail extends React.Component<ClusterDetailProps> {
-	render(): JSX.Element {
+export default class ClusterDetail extends React.Component<Props> {
+	public render(): React.ReactNode {
 		const { cardData, clusterId, data } = this.props;
 		const signature: ApiArchetypeSignature = {
 			as_of: null,

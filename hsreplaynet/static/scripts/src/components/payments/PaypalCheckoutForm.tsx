@@ -10,25 +10,20 @@ export interface PaypalPlan {
 	currency: string;
 }
 
-interface PaypalCheckoutFormProps
-	extends CheckoutFormInstanceProps,
-		React.ClassAttributes<PaypalCheckoutForm> {
+interface Props extends CheckoutFormInstanceProps {
 	plans: PaypalPlan[];
 	showCouponWarning?: boolean;
 }
 
-interface PaypalCheckoutFormState {
+interface State {
 	selectedPlan: null | string;
 	submit?: boolean;
 }
 
-export default class PaypalCheckoutForm extends React.Component<
-	PaypalCheckoutFormProps,
-	PaypalCheckoutFormState
-> {
+export default class PaypalCheckoutForm extends React.Component<Props, State> {
 	form: HTMLFormElement;
 
-	constructor(props: PaypalCheckoutFormProps, context: any) {
+	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
 			submit: false,
@@ -116,7 +111,7 @@ export default class PaypalCheckoutForm extends React.Component<
 		}
 	}
 
-	render() {
+	public render(): React.ReactNode {
 		const working = this.state.submit;
 		return (
 			<form

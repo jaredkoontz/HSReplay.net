@@ -10,16 +10,13 @@ import {
 import { getChartScheme } from "../../helpers";
 import { RenderData } from "../../interfaces";
 
-interface ClassAreaChartChartProps {
+interface Props {
 	data?: RenderData;
 	widthRatio?: number;
 }
 
-export default class ClassAreaChartChart extends React.Component<
-	ClassAreaChartChartProps,
-	any
-> {
-	render(): JSX.Element {
+export default class ClassAreaChartChart extends React.Component<Props> {
+	public render(): React.ReactNode {
 		const width = 150 * (this.props.widthRatio || 3);
 
 		// semi mock data

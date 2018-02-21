@@ -1,19 +1,14 @@
 import React from "react";
 
-interface GameHistorySelectFilterProps {
+interface Props {
 	default: string;
 	options: [string, string][];
 	onChanged: (type: string) => void;
 	selected: string;
 }
 
-interface GameHistorySelectFilterState {}
-
-export default class GameHistorySelectFilter extends React.Component<
-	GameHistorySelectFilterProps,
-	GameHistorySelectFilterState
-> {
-	render(): JSX.Element {
+export default class GameHistorySelectFilter extends React.Component<Props> {
+	public render(): React.ReactNode {
 		const options = [];
 		this.props.options.forEach(o =>
 			options.push(<option value={o[0]}>{o[1]}</option>)

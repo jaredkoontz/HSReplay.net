@@ -36,19 +36,7 @@ import Fragments from "../components/Fragments";
 import QuestCompletionDetail from "../components/carddetail/QuestCompletionDetail";
 import QuestContributors from "../components/carddetail/QuestContributors";
 
-interface TableDataMap {
-	[key: string]: TableData;
-}
-
-interface RenderDataMap {
-	[key: string]: RenderData;
-}
-
-interface CardDetailState {
-	showInfo?: boolean;
-}
-
-interface CardDetailProps {
+interface Props {
 	card: any;
 	cardData: CardData;
 	cardId: string;
@@ -63,12 +51,13 @@ interface CardDetailProps {
 	tab?: string;
 }
 
-export default class CardDetail extends React.Component<
-	CardDetailProps,
-	CardDetailState
-> {
-	constructor(props: CardDetailProps, state: CardDetailState) {
-		super(props, state);
+interface State {
+	showInfo?: boolean;
+}
+
+export default class CardDetail extends React.Component<Props, State> {
+	constructor(props: Props, context: any) {
+		super(props, context);
 		this.state = {
 			showInfo: false
 		};
@@ -136,7 +125,10 @@ export default class CardDetail extends React.Component<
 		);
 	}
 
-	componentWillReceiveProps(nextProps: CardDetailProps) {
+	public componentWillReceiveProps(
+		nextProps: Readonly<Props>,
+		nextContext: any
+	): void {
 		if (!this.props.card && nextProps.card) {
 			if (isWildSet(nextProps.card.set)) {
 				this.props.setGameType("RANKED_WILD");
@@ -144,7 +136,7 @@ export default class CardDetail extends React.Component<
 		}
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		const isPremium = UserData.isPremium();
 		let content = null;
 		if (this.props.card) {

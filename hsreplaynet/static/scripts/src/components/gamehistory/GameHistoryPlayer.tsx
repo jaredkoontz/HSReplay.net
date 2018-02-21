@@ -1,25 +1,14 @@
 import React from "react";
 import { CardArtProps } from "../../interfaces";
 
-interface GameHistoryPlayerProps
-	extends CardArtProps,
-		React.ClassAttributes<GameHistoryPlayer> {
+interface Props extends CardArtProps {
 	name: string;
 	heroId: string;
 	won: boolean;
 }
 
-interface GameHistoryPlayerState {}
-
-export default class GameHistoryPlayer extends React.Component<
-	GameHistoryPlayerProps,
-	GameHistoryPlayerState
-> {
-	constructor(props: GameHistoryPlayerProps, context: any) {
-		super(props, context);
-	}
-
-	render(): JSX.Element {
+export default class GameHistoryPlayer extends React.Component<Props> {
+	public render(): React.ReactNode {
 		return (
 			<figure className={this.props.won ? "winner" : "loser"}>
 				<img src={this.props.cardArt(this.props.heroId)} />

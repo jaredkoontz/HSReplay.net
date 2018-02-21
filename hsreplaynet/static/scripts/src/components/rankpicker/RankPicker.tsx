@@ -2,13 +2,13 @@ import React from "react";
 import RowSelector, { Mode } from "./RowSelector";
 import RankSelector from "./RankSelector";
 
-interface RankPickerState {
-	forceSet?: boolean;
-}
-
-interface RankPickerProps extends React.ClassAttributes<RankPicker> {
+interface Props {
 	selected: string;
 	onSelectionChanged: (selected: string) => void;
+}
+
+interface State {
+	forceSet?: boolean;
 }
 
 const rankMap = {
@@ -40,23 +40,20 @@ const rankMap = {
 	25: "TWENTYFIVE"
 };
 
-export default class RankPicker extends React.Component<
-	RankPickerProps,
-	RankPickerState
-> {
-	constructor(props: RankPickerProps, context?: any) {
+export default class RankPicker extends React.Component<Props, State> {
+	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
 			forceSet: false
 		};
 	}
 
-	componentDidMount() {
+	public componentDidMount(): void {
 		document.addEventListener("keydown", this.handleKeyDown);
 		document.addEventListener("keyup", this.handleKeyUp);
 	}
 
-	componentWillUnmount() {
+	public componentWillUnmount(): void {
 		document.removeEventListener("keydown", this.handleKeyDown);
 		document.removeEventListener("keyup", this.handleKeyUp);
 	}
@@ -73,7 +70,7 @@ export default class RankPicker extends React.Component<
 		}
 	};
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		const selectedRanks = this.getSelectedRanks();
 		const { forceSet } = this.state;
 

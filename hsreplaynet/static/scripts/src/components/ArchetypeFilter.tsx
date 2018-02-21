@@ -3,7 +3,7 @@ import InfoboxFilterGroup from "./InfoboxFilterGroup";
 import InfoboxFilter from "./InfoboxFilter";
 import UserData from "../UserData";
 
-interface ArchetypeFilterProps extends React.ClassAttributes<ArchetypeFilter> {
+interface Props {
 	archetypes: any[];
 	playerClasses: string[];
 	selectedArchetypes: string[];
@@ -11,11 +11,8 @@ interface ArchetypeFilterProps extends React.ClassAttributes<ArchetypeFilter> {
 	data?: any;
 }
 
-export default class ArchetypeFilter extends React.Component<
-	ArchetypeFilterProps,
-	{}
-> {
-	render(): JSX.Element {
+export default class ArchetypeFilter extends React.Component<Props> {
+	public render(): React.ReactNode {
 		const {
 			archetypes,
 			archetypesChanged,

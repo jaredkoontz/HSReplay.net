@@ -3,7 +3,7 @@ import UserData from "../UserData";
 import clipboard from "clipboard-polyfill";
 import GoogleAnalytics from "../metrics/GoogleAnalytics";
 
-interface Props extends React.ClassAttributes<ReferralsPromo> {
+interface Props {
 	url: string;
 	discount: string;
 	onCopy?: () => any;
@@ -18,7 +18,7 @@ export default class ReferralsPromo extends React.Component<Props, State> {
 	private timeout: number | null;
 	private urlBox: HTMLInputElement;
 
-	constructor(props: Props, context?: any) {
+	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
 			expanded: UserData.isPremium(),
@@ -26,7 +26,7 @@ export default class ReferralsPromo extends React.Component<Props, State> {
 		};
 	}
 
-	componentWillUnmount() {
+	public componentWillUnmount(): void {
 		if (this.timeout) {
 			clearTimeout(this.timeout);
 		}
@@ -52,7 +52,7 @@ export default class ReferralsPromo extends React.Component<Props, State> {
 		});
 	};
 
-	render() {
+	public render(): React.ReactNode {
 		return (
 			<div className="referrals-promo">
 				<div

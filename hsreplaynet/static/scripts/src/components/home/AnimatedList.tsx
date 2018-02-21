@@ -18,26 +18,23 @@ export interface AnimatedListObject {
 	item: JSX.Element;
 }
 
-interface AnimatedListState {
+interface Props {
+	rowHeight: number;
+	items: AnimatedListObject[];
+}
+
+interface State {
 	indices?: Indices;
 	items?: AnimatedListObject[];
 	nextItems?: AnimatedListObject[];
 	step?: Step;
 }
 
-interface AnimatedListProps extends React.ClassAttributes<AnimatedList> {
-	rowHeight: number;
-	items: AnimatedListObject[];
-}
-
 const ROW_PADDING = 2;
 
-export default class AnimatedList extends React.Component<
-	AnimatedListProps,
-	AnimatedListState
-> {
-	constructor(props: AnimatedListProps, state: AnimatedListState) {
-		super(props, state);
+export default class AnimatedList extends React.Component<Props, State> {
+	constructor(props: Props, context: any) {
+		super(props, context);
 		const { items } = this.props;
 		this.state = {
 			indices: this.generateIndices(items),
@@ -47,7 +44,10 @@ export default class AnimatedList extends React.Component<
 		};
 	}
 
-	componentWillReceiveProps(nextProps: AnimatedListProps) {
+	public componentWillReceiveProps(
+		nextProps: Readonly<Props>,
+		nextContext: any
+	): void {
 		const currentKeys = this.props.items.map(x => x.key);
 		const nextKeys = nextProps.items.map(x => x.key);
 		if (currentKeys.length === 0 || _.isEqual(currentKeys, nextKeys)) {
@@ -66,7 +66,11 @@ export default class AnimatedList extends React.Component<
 		return indices;
 	}
 
-	componentDidUpdate() {
+	public componentDidUpdate(
+		prevProps: Readonly<Props>,
+		prevState: Readonly<State>,
+		prevContext: any
+	): void {
 		switch (this.state.step) {
 			case Step.EXPAND:
 				this.expandList();
@@ -127,7 +131,7 @@ export default class AnimatedList extends React.Component<
 		}, 1000);
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		const { rowHeight } = this.props;
 		const { items } = this.state;
 		const style = {

@@ -19,7 +19,7 @@ import CardSearch from "../components/CardSearch";
 import { Limit } from "../components/ObjectSearch";
 import { cardSorting, isCollectibleCard, isWildSet } from "../helpers";
 
-interface DiscoverProps extends React.ClassAttributes<Discover> {
+interface Props {
 	cardData: CardData | null;
 	dataset?: string;
 	format?: string;
@@ -35,24 +35,24 @@ interface DiscoverProps extends React.ClassAttributes<Discover> {
 	tab?: string;
 }
 
-interface DiscoverState {
+interface State {
 	cards?: any[];
 	deck: ClusterMetaData;
 }
 
-export default class Discover extends React.Component<
-	DiscoverProps,
-	DiscoverState
-> {
-	constructor(props: DiscoverProps, state: DiscoverState) {
-		super(props, state);
+export default class Discover extends React.Component<Props, State> {
+	constructor(props: Props, context: any) {
+		super(props, context);
 		this.state = {
 			cards: null,
 			deck: null
 		};
 	}
 
-	componentWillReceiveProps(nextProps: DiscoverProps) {
+	public componentWillReceiveProps(
+		nextProps: Readonly<Props>,
+		nextContext: any
+	): void {
 		if (!this.state.cards && nextProps.cardData) {
 			const cards = [];
 			nextProps.cardData.all().forEach(card => {
@@ -65,7 +65,7 @@ export default class Discover extends React.Component<
 		}
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		const {
 			cardData,
 			tab,

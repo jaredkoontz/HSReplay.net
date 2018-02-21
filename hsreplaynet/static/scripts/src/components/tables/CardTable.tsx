@@ -13,9 +13,7 @@ import {
 	generateCardTableRowData
 } from "./cardtable/RowDataGenerator";
 
-interface CardTableProps
-	extends SortableProps,
-		React.ClassAttributes<CardTable> {
+interface Props extends SortableProps {
 	baseWinrate?: number;
 	cards?: CardObj[];
 	columns: CardTableColumnKey[];
@@ -33,8 +31,8 @@ const MIN_COLUMN_WIDTH = 150;
 const MAX_HEADER_WIDTH = 217;
 const MIN_HEADER_WIDTH = 150;
 
-class CardTable extends React.Component<CardTableProps, {}> {
-	render(): JSX.Element {
+class CardTable extends React.Component<Props> {
+	public render(): React.ReactNode {
 		const {
 			baseWinrate,
 			cards,

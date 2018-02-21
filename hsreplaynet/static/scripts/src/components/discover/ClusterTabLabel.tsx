@@ -4,7 +4,7 @@ import ClusterArchetypeSelector from "./ClusterArchetypeSelector";
 import UserData from "../../UserData";
 import { ApiArchetype } from "../../interfaces";
 
-interface ClusterTabLabelProps extends React.ClassAttributes<ClusterTabLabel> {
+interface Props {
 	active?: boolean;
 	clusterId: string;
 	clusterName: string;
@@ -16,11 +16,8 @@ interface ClusterTabLabelProps extends React.ClassAttributes<ClusterTabLabel> {
 
 const EXPERIMENTAL_CLUSTER_ID = "-1";
 
-export default class ClusterTabLabel extends React.Component<
-	ClusterTabLabelProps,
-	{}
-> {
-	render(): JSX.Element {
+export default class ClusterTabLabel extends React.Component<Props> {
+	public render(): React.ReactNode {
 		const {
 			active,
 			canModifyArchetype,

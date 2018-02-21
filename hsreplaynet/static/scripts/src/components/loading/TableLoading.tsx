@@ -3,18 +3,15 @@ import CardData from "../../CardData";
 import { cloneComponent } from "../../helpers";
 import { LoadingStatus } from "../../interfaces";
 
-interface TableLoadingProps {
+interface Props {
 	cardData?: CardData;
 	customMessage?: string;
 	dataKeys?: string[];
 	status?: LoadingStatus;
 }
 
-export default class TableLoading extends React.Component<
-	TableLoadingProps,
-	{}
-> {
-	render(): JSX.Element {
+export default class TableLoading extends React.Component<Props> {
+	public render(): React.ReactNode {
 		if (this.props.customMessage) {
 			return (
 				<h3 className="message-wrapper">{this.props.customMessage}</h3>

@@ -1,17 +1,12 @@
 import React from "react";
 
-interface GameHistorySearchProps {
+interface Props {
 	query: string;
 	setQuery: (query: string) => void;
 }
 
-interface GameHistorySearchState {}
-
-export default class GameHistorySearch extends React.Component<
-	GameHistorySearchProps,
-	GameHistorySearchState
-> {
-	render(): JSX.Element {
+export default class GameHistorySearch extends React.Component<Props> {
+	public render(): React.ReactNode {
 		return (
 			<div className="search-wrapper">
 				<input

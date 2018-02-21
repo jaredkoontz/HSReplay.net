@@ -1,8 +1,8 @@
 import React from "react";
-import * as PropTypes from "prop-types";
+import PropTypes from "prop-types";
 import InfoIcon, { InfoIconProps } from "./InfoIcon";
 
-interface InfoboxFilterGroupProps {
+interface Props {
 	classNames?: string[];
 	collapsed?: boolean;
 	collapsible?: boolean;
@@ -15,25 +15,19 @@ interface InfoboxFilterGroupProps {
 	disabled?: boolean;
 }
 
-interface InfoboxFilterGroupState {
+interface State {
 	collapsed?: boolean;
 }
 
-export default class InfoboxFilterGroup extends React.Component<
-	InfoboxFilterGroupProps,
-	InfoboxFilterGroupState
-> {
-	constructor(
-		props: InfoboxFilterGroupProps,
-		state: InfoboxFilterGroupState
-	) {
-		super(props, state);
+export default class InfoboxFilterGroup extends React.Component<Props, State> {
+	constructor(props: Props, context: any) {
+		super(props, context);
 		this.state = {
 			collapsed: props.collapsed
 		};
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		const selected = value => {
 			if (!this.props.selectedValue || this.props.disabled) {
 				return false;

@@ -1,11 +1,8 @@
 import React from "react";
 import * as _ from "lodash";
 
-export default class PropMultiplexer extends React.Component<
-	React.ClassAttributes<PropMultiplexer>,
-	{}
-> {
-	render() {
+export default class PropMultiplexer extends React.Component {
+	public render(): React.ReactNode {
 		const children = this.props.children;
 		const childProps: any = _.omit(this.props, [
 			"children",

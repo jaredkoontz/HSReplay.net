@@ -5,15 +5,12 @@ import ChartLoading from "../loading/ChartLoading";
 import WinrateByTurnLineChart from "../charts/WinrateByTurnLineChart";
 import TurnPlayedBarChart from "../charts/TurnPlayedBarChart";
 
-interface QuestCompletionDetailProps {
+interface Props {
 	query: Query | Query[];
 }
 
-export default class QuestCompletionDetail extends React.Component<
-	QuestCompletionDetailProps,
-	{}
-> {
-	render(): JSX.Element {
+export default class QuestCompletionDetail extends React.Component<Props> {
+	public render(): React.ReactNode {
 		return (
 			<div className="container-fluid">
 				<div className="row">

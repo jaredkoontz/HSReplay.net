@@ -1,21 +1,18 @@
 import React from "react";
 import { getCardUrl } from "../helpers";
 
-interface CardImageState {
-	url: string;
-}
-
-interface CardImageProps {
+interface Props {
 	card: any;
 	placeholder: string;
 }
 
-export default class CardImage extends React.Component<
-	CardImageProps,
-	CardImageState
-> {
-	constructor(props: CardImageProps, state: CardImageState) {
-		super(props, state);
+interface State {
+	url: string;
+}
+
+export default class CardImage extends React.Component<Props, State> {
+	constructor(props: Props, context: any) {
+		super(props, context);
 		this.state = {
 			url: props.placeholder
 		};
@@ -32,7 +29,7 @@ export default class CardImage extends React.Component<
 		image.src = url;
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		const img = (
 			<img src={this.state.url} height={350} alt={this.props.card.name} />
 		);

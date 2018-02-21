@@ -9,8 +9,7 @@ import RowHeader from "./RowHeader";
 import PopularityCell from "./PopularityCell";
 import ColumnFooter from "./ColumnFooter";
 
-interface PopularityMatrixProps
-	extends React.ClassAttributes<PopularityMatrix> {
+interface Props {
 	archetypes: ArchetypeRankPopularity[];
 	cardData: CardData;
 	games: number[];
@@ -23,11 +22,8 @@ interface PopularityMatrixProps
 	numRanks: number;
 }
 
-export default class PopularityMatrix extends React.Component<
-	PopularityMatrixProps,
-	{}
-> {
-	render() {
+export default class PopularityMatrix extends React.Component<Props> {
+	public render(): React.ReactNode {
 		const { archetypes, numRanks } = this.props;
 
 		const headerCellWidth = 210;

@@ -1,11 +1,11 @@
 import React from "react";
 
-interface ConditionalProps {
+interface Props {
 	condition: boolean;
 }
 
-export default class Conditional extends React.Component<ConditionalProps, {}> {
-	render(): JSX.Element {
+export default class Conditional extends React.Component<Props> {
+	public render(): React.ReactNode {
 		if (this.props.condition) {
 			return React.Children.only(this.props.children);
 		}

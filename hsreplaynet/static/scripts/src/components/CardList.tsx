@@ -7,7 +7,7 @@ import UserData from "../UserData";
 
 type CardId = string | number;
 
-interface CardListProps {
+interface Props {
 	cardData: CardData | null;
 	cardList: CardId[];
 	predictedCardList?: CardId[];
@@ -22,7 +22,7 @@ interface CardListProps {
 	sortByCount?: boolean;
 }
 
-export default class CardList extends React.Component<CardListProps, any> {
+export default class CardList extends React.Component<Props> {
 	cardCounts(cards: CardId[]): any {
 		if (!cards) {
 			return [];
@@ -32,7 +32,7 @@ export default class CardList extends React.Component<CardListProps, any> {
 		return counts;
 	}
 
-	public render(): JSX.Element {
+	public render(): React.ReactNode {
 		if (!this.props.cardList) {
 			return null;
 		}

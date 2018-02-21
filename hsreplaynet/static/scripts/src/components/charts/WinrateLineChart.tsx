@@ -19,7 +19,7 @@ import { RenderData } from "../../interfaces";
 import ChartHighlighter from "./ChartHighlighter";
 import WinLossGradient from "./gradients/WinLossGradient";
 
-interface WinrateLineChartProps {
+interface Props {
 	data?: RenderData;
 	title?: string;
 	widthRatio?: number;
@@ -29,11 +29,8 @@ interface WinrateLineChartProps {
 	axisLabelY?: string;
 }
 
-export default class WinrateLineChart extends React.Component<
-	WinrateLineChartProps,
-	any
-> {
-	render(): JSX.Element {
+export default class WinrateLineChart extends React.Component<Props> {
+	public render(): React.ReactNode {
 		const height = this.props.height || 150;
 		const width =
 			Math.max(0, this.props.width) ||

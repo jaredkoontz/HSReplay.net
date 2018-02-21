@@ -8,15 +8,12 @@ import Tooltip from "../components/Tooltip";
 import PropRemapper from "../components/utils/PropRemapper";
 import SemanticAge from "../components/SemanticAge";
 
-interface DeckSpotlightProps {
+interface Props {
 	cardData: CardData;
 }
 
-export default class DeckSpotlight extends React.Component<
-	DeckSpotlightProps,
-	{}
-> {
-	render(): JSX.Element {
+export default class DeckSpotlight extends React.Component<Props> {
+	public render(): React.ReactNode {
 		return (
 			<div id="deck-spotlight">
 				<span className="pull-right">

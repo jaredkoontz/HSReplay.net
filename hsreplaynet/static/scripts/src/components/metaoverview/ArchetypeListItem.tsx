@@ -5,8 +5,7 @@ import { getHeroCardId, toDynamicFixed, winrateData } from "../../helpers";
 import ArchetypeClassTable from "./ArchetypeClassTable";
 import CardIcon from "../CardIcon";
 
-interface ArchetypeListItemProps
-	extends React.ClassAttributes<ArchetypeListItem> {
+interface Props {
 	archetype: ApiArchetypePopularity;
 	archetypeData: ApiArchetype[];
 	cardData: CardData;
@@ -14,11 +13,8 @@ interface ArchetypeListItemProps
 	deckData?: any;
 }
 
-export default class ArchetypeListItem extends React.Component<
-	ArchetypeListItemProps,
-	{}
-> {
-	render(): JSX.Element {
+export default class ArchetypeListItem extends React.Component<Props> {
+	public render(): React.ReactNode {
 		const archetype = this.props.archetypeData.find(
 			a => a.id === this.props.archetype.archetype_id
 		);

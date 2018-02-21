@@ -4,7 +4,7 @@ import { ArchetypeData } from "../../../interfaces";
 import Tooltip from "../../Tooltip";
 import { toTitleCase } from "../../../helpers";
 
-interface ColumnHeaderProps extends React.ClassAttributes<ColumnHeader> {
+interface Props {
 	archetypeData: ArchetypeData;
 	highlight?: boolean;
 	isIgnored: boolean;
@@ -13,13 +13,12 @@ interface ColumnHeaderProps extends React.ClassAttributes<ColumnHeader> {
 	onHover?: (hovering: boolean) => void;
 }
 
-interface ColumnHeaderState {}
-
-export default class ColumnHeader extends React.Component<
-	ColumnHeaderProps,
-	ColumnHeaderState
-> {
-	shouldComponentUpdate(nextProps: ColumnHeaderProps): boolean {
+export default class ColumnHeader extends React.Component<Props> {
+	public shouldComponentUpdate(
+		nextProps: Readonly<Props>,
+		nextState: Readonly<{}>,
+		nextContext: any
+	): boolean {
 		return (
 			this.props.highlight !== nextProps.highlight ||
 			this.props.isIgnored !== nextProps.isIgnored ||
@@ -28,7 +27,7 @@ export default class ColumnHeader extends React.Component<
 		);
 	}
 
-	render() {
+	public render(): React.ReactNode {
 		const { archetypeData, isIgnored } = this.props;
 		const classNames = [
 			"matchup-column-header matchup-column-header-archetype"

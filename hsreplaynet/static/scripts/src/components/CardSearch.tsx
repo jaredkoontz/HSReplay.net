@@ -3,9 +3,7 @@ import { cardSorting, cleanText, slangToCardId } from "../helpers";
 import ObjectSearch, { Limit } from "./ObjectSearch";
 import CardTile from "./CardTile";
 
-interface CardSearchState {}
-
-interface CardSearchProps {
+interface Props {
 	availableCards: any[];
 	id: string;
 	onCardsChanged: (cards: any[]) => void;
@@ -15,11 +13,8 @@ interface CardSearchProps {
 	onPaste?: (e: any) => any;
 }
 
-export default class CardSearch extends React.Component<
-	CardSearchProps,
-	CardSearchState
-> {
-	render(): JSX.Element {
+export default class CardSearch extends React.Component<Props> {
+	public render(): React.ReactNode {
 		return (
 			<CardObjectSearch
 				getFilteredObjects={query => this.getFilteredCards(query)}

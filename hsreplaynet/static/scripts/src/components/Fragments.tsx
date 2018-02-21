@@ -13,7 +13,7 @@ interface InternalFragmentMap {
 	[key: string]: string;
 }
 
-interface FragmentsProps extends React.ClassAttributes<Fragments> {
+interface Props {
 	defaults: FragmentMap;
 	debounce?: string | string[];
 	immutable?: string | string[];
@@ -21,7 +21,7 @@ interface FragmentsProps extends React.ClassAttributes<Fragments> {
 	keepDefaults?: boolean;
 }
 
-interface FragmentsState {
+interface State {
 	childProps: FragmentMap;
 	intermediate: InternalFragmentMap;
 }
@@ -30,14 +30,11 @@ interface FragmentsState {
  * This component maps url fragments (such as index.html#a=1&b=2) to it's child's props.
  * A default key pageNumber:1 will result in the props pageNumber:1 and setPageNumber:(newPageNumber).
  */
-export default class Fragments extends React.Component<
-	FragmentsProps,
-	FragmentsState
-> {
+export default class Fragments extends React.Component<Props, State> {
 	private listener: any | null;
 	private timeout: any | null;
 
-	constructor(props: FragmentsProps, context: any) {
+	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
 			childProps: this.getParts(), // populate with initial url parts
@@ -56,7 +53,7 @@ export default class Fragments extends React.Component<
 		this.setState({ childProps });
 	}
 
-	render(): any {
+	public render(): React.ReactNode {
 		let props = {};
 
 		const values = Object.assign(
@@ -161,7 +158,7 @@ export default class Fragments extends React.Component<
 				}
 			}, this.props.delay || 100);
 		} else {
-			this.setState((prevState: FragmentsState) => {
+			this.setState((prevState: State) => {
 				let newProps = {};
 				if (value === null) {
 					newProps = Object.assign(newProps, prevState.childProps);
@@ -258,28 +255,33 @@ export default class Fragments extends React.Component<
 		return keys.indexOf(key) !== -1;
 	}
 
-	componentDidMount() {
+	public componentDidMount(): void {
 		this.listener = window.addEventListener("hashchange", () => {
 			this.setState({ childProps: this.getParts() });
 		});
 	}
 
-	componentWillUnmount() {
+	public componentWillUnmount(): void {
 		window.removeEventListener("hashchange", this.listener);
 		this.listener = null;
 	}
 
-	shouldComponentUpdate(
-		nextProps: FragmentsProps,
-		nextState: FragmentsState
-	) {
+	public shouldComponentUpdate(
+		nextProps: Readonly<Props>,
+		nextState: Readonly<State>,
+		nextContext: any
+	): boolean {
 		return (
 			!_.isEqual(nextProps, this.props) ||
 			!_.isEqual(nextState, this.state)
 		);
 	}
 
-	componentDidUpdate(prevProps: FragmentsProps, prevState: FragmentsState) {
+	public componentDidUpdate(
+		prevProps: Readonly<Props>,
+		prevState: Readonly<State>,
+		prevContext: any
+	): void {
 		if (!window || !window.location) {
 			return;
 		}

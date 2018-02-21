@@ -9,8 +9,8 @@ import {
 } from "../hearthstone";
 import Sunwell from "sunwell";
 
-class Fieldset extends React.Component<any, {}> {
-	render(): JSX.Element {
+class Fieldset extends React.Component<any> {
+	public render(): React.ReactNode {
 		return (
 			<fieldset name={this.props.name}>
 				<legend>{this.props.legend}</legend>
@@ -20,12 +20,12 @@ class Fieldset extends React.Component<any, {}> {
 	}
 }
 
-class LabeledInput extends React.Component<any, {}> {
+class LabeledInput extends React.Component<any> {
 	labelAfter(): boolean {
 		return this.props.type == "checkbox" || this.props.type == "radio";
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		return (
 			<label>
 				{this.labelAfter() ? "" : this.props.label}
@@ -36,7 +36,7 @@ class LabeledInput extends React.Component<any, {}> {
 	}
 }
 
-class LabeledSelect extends React.Component<any, {}> {
+class LabeledSelect extends React.Component<any> {
 	getOptions(): Array<JSX.Element> {
 		let ret: Array<JSX.Element> = [];
 		this.props.options.forEach((option: JSX.Element) => {
@@ -49,7 +49,7 @@ class LabeledSelect extends React.Component<any, {}> {
 		return ret;
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		return (
 			<label>
 				{this.props.label}
@@ -99,21 +99,21 @@ class RadioInputGroup extends React.Component<any, RadioInputGroupState> {
 		return ret;
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		return (
 			<p className={"group-" + this.props.name}>{this.getOptions()}</p>
 		);
 	}
 }
 
-class StatInput extends React.Component<any, {}> {
-	render(): JSX.Element {
+class StatInput extends React.Component<any> {
+	public render(): React.ReactNode {
 		return <LabeledInput {...this.props} type="number" min={0} max={99} />;
 	}
 }
 
-class TextureUploadInput extends React.Component<any, {}> {
-	componentDidMount(): void {
+class TextureUploadInput extends React.Component<any> {
+	public componentDidMount(): void {
 		ReactDOM.findDOMNode(this).addEventListener(
 			"dragover",
 			this.handleDragOver.bind(this)
@@ -144,7 +144,7 @@ class TextureUploadInput extends React.Component<any, {}> {
 		reader.readAsDataURL(file);
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		return (
 			<p id="texture-upload-input" className="drop-zone">
 				<input
@@ -266,7 +266,7 @@ class CardEditorForm extends React.Component<any, CardEditorFormState> {
 		};
 	}
 
-	componentDidMount(): void {
+	public componentDidMount(): void {
 		ReactDOM.findDOMNode(this).addEventListener(
 			"submit",
 			this.onFormSubmit.bind(this)
@@ -381,7 +381,7 @@ class CardEditorForm extends React.Component<any, CardEditorFormState> {
 		this.updatePreview();
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		let onChange = this.handleChange.bind(this);
 		let updateTexture = this.updateTexture.bind(this);
 		return (
@@ -519,13 +519,13 @@ class CardEditorForm extends React.Component<any, CardEditorFormState> {
 }
 
 class SunwellRender extends React.Component<any, any> {
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		return <canvas id={this.props.id} />;
 	}
 }
 
-class DownloadButton extends React.Component<any, {}> {
-	componentDidMount(): void {
+class DownloadButton extends React.Component<any> {
+	public componentDidMount(): void {
 		ReactDOM.findDOMNode(this).addEventListener(
 			"click",
 			this.handleClick.bind(this)
@@ -559,7 +559,7 @@ class DownloadButton extends React.Component<any, {}> {
 			.replace(/-+$/, "");
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		return (
 			<a
 				href="javascript:;"
@@ -573,8 +573,8 @@ class DownloadButton extends React.Component<any, {}> {
 	}
 }
 
-class PublishButton extends React.Component<any, {}> {
-	render(): JSX.Element {
+class PublishButton extends React.Component<any> {
+	public render(): React.ReactNode {
 		return (
 			<button
 				type="submit"
@@ -588,7 +588,7 @@ class PublishButton extends React.Component<any, {}> {
 }
 
 class CardEditor extends React.Component<any, any> {
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		let formId = "cardrender-create-form";
 		let previewId = "preview-render";
 

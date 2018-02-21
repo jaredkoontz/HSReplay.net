@@ -1,12 +1,12 @@
 import React from "react";
 
-interface ResetHeaderProps {
+interface Props {
 	onReset: () => void;
 	showReset: boolean;
 }
 
-export default class ResetHeader extends React.Component<ResetHeaderProps, {}> {
-	render(): JSX.Element {
+export default class ResetHeader extends React.Component<Props> {
+	public render(): React.ReactNode {
 		const classNames = ["reset-header"];
 		if (this.props.showReset) {
 			classNames.push("btn btn-danger btn-full");

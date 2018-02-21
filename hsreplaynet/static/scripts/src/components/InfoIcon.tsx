@@ -1,14 +1,14 @@
 import React from "react";
 import Tooltip, { ClickTouch, TooltipContent } from "./Tooltip";
 
-export interface InfoIconProps extends React.ClassAttributes<InfoIcon> {
+export interface InfoIconProps {
 	content?: TooltipContent | ClickTouch<TooltipContent>;
 	header?: string;
 	className?: string;
 }
 
-export default class InfoIcon extends React.Component<InfoIconProps, {}> {
-	render(): JSX.Element {
+export default class InfoIcon extends React.Component<InfoIconProps> {
+	public render(): React.ReactNode {
 		return (
 			<Tooltip
 				className={

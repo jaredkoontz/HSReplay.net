@@ -1,17 +1,14 @@
 import React from "react";
 import { toDynamicFixed } from "../../../helpers";
 
-interface PopularityCellProps extends React.ClassAttributes<PopularityCell> {
+interface Props {
 	popularity: number;
 	maxPopularity: number;
 	style?: any;
 }
 
-export default class PopularityCell extends React.Component<
-	PopularityCellProps,
-	{}
-> {
-	render() {
+export default class PopularityCell extends React.Component<Props> {
+	public render(): React.ReactNode {
 		const classNames = ["matchup-cell"];
 		const lightness =
 			45 +

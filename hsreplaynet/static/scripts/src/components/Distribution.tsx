@@ -2,9 +2,7 @@ import React from "react";
 import * as _ from "lodash";
 import { SelectableProps } from "../interfaces";
 
-interface DistributionProps
-	extends SelectableProps,
-		React.ClassAttributes<Distribution> {
+interface DistributionProps extends SelectableProps {
 	distributions: NumberDistribution;
 	title?: string;
 	value?: string;
@@ -20,7 +18,7 @@ export default class Distribution extends React.Component<
 	DistributionProps,
 	DistributionState
 > {
-	public render(): JSX.Element {
+	public render(): React.ReactNode {
 		let count = 0;
 
 		const elements = _.map(

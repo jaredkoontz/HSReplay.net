@@ -18,15 +18,13 @@ export interface StripePlan {
 	currency: string;
 }
 
-interface StripeElementsCheckoutFormProps
-	extends CheckoutFormInstanceProps,
-		React.ClassAttributes<StripeElementsCheckoutForm> {
+interface Props extends CheckoutFormInstanceProps {
 	plans: StripePlan[];
 	defaultSource?: string;
 	coupon?: string;
 }
 
-interface StripeElementsCheckoutFormState {
+interface State {
 	step?: StripeCheckoutStep;
 	errorMessage?: null | string;
 	sourceId?: string;
@@ -38,14 +36,11 @@ interface Redirect {
 	url: string;
 }
 
-class StripeElementsCheckoutForm extends React.Component<
-	StripeElementsCheckoutFormProps,
-	StripeElementsCheckoutFormState
-> {
+class StripeElementsCheckoutForm extends React.Component<Props, State> {
 	private formRef: HTMLFormElement;
 	private cardElement: any; // CardElement
 
-	constructor(props: StripeElementsCheckoutFormProps, context: any) {
+	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
 			step: StripeCheckoutStep.READY_TO_PAY,
@@ -257,10 +252,11 @@ class StripeElementsCheckoutForm extends React.Component<
 		);
 	}
 
-	componentWillUpdate(
-		nextProps: StripeElementsCheckoutFormProps,
-		nextState: StripeElementsCheckoutFormState
-	) {
+	public componentWillUpdate(
+		nextProps: Readonly<Props>,
+		nextState: Readonly<State>,
+		nextContext: any
+	): void {
 		if (nextState.step !== this.state.step) {
 			this.props.onDisable(
 				nextState.step !== StripeCheckoutStep.READY_TO_PAY
@@ -268,7 +264,7 @@ class StripeElementsCheckoutForm extends React.Component<
 		}
 	}
 
-	render() {
+	public render(): React.ReactNode {
 		let message = null;
 		const disabled = this.state.step !== StripeCheckoutStep.READY_TO_PAY;
 

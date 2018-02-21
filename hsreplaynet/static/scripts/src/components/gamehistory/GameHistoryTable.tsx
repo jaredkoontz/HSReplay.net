@@ -8,18 +8,12 @@ import {
 } from "../../interfaces";
 import GameHistoryList from "./GameHistoryList";
 
-interface GameHistoryTableProps
-	extends ImageProps,
-		CardArtProps,
-		React.ClassAttributes<GameHistoryTable> {
+interface Props extends ImageProps, CardArtProps {
 	games: GameReplay[];
 }
 
-export default class GameHistoryTable extends React.Component<
-	GameHistoryTableProps,
-	{}
-> {
-	render(): JSX.Element {
+export default class GameHistoryTable extends React.Component<Props> {
+	public render(): React.ReactNode {
 		let columns = [];
 		this.props.games.forEach((game: GameReplay, i: number) => {
 			var startTime: Date = new Date(game.global_game.match_start);

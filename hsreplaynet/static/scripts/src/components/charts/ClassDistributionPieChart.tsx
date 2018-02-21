@@ -3,29 +3,28 @@ import { GameReplay } from "../../interfaces";
 import { VictoryContainer, VictoryPie } from "victory";
 import { getHeroColor, pieScaleTransform } from "../../helpers";
 
-interface ClassDistributionPieChartState {
-	hoveringSlice: any;
-}
-
-export interface ClassDistributionPieChartProps
-	extends React.ClassAttributes<ClassDistributionPieChart> {
+export interface Props {
 	data: any[];
 	loading?: boolean;
 	onPieceClicked?: (name: string) => void;
 }
 
+interface State {
+	hoveringSlice: any;
+}
+
 export default class ClassDistributionPieChart extends React.Component<
-	ClassDistributionPieChartProps,
-	ClassDistributionPieChartState
+	Props,
+	State
 > {
-	constructor(props: ClassDistributionPieChartProps) {
-		super(props);
+	constructor(props: Props, context: any) {
+		super(props, context);
 		this.state = {
 			hoveringSlice: null
 		};
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		let text = "";
 		const data =
 			this.props.data && this.props.data.length

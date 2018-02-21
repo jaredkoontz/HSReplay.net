@@ -33,17 +33,7 @@ import PopularityBox from "../components/box/PopularityBox";
 import MatchupBox from "../components/box/MatchupBox";
 import DeckBox from "../components/box/DeckBox";
 
-interface ArchetypeDetailState {
-	deckData?: any;
-	popularDecks?: DeckObj[];
-	popularDecksPage?: number;
-	popularDecksSortBy?: string;
-	popularDecksSortDirection?: SortDirection;
-	mulliganGuideSortBy?: string;
-	mulliganGuideSortDirection?: string;
-}
-
-interface ArchetypeDetailProps {
+interface Props {
 	archetypeId: number;
 	archetypeName: string;
 	hasStandardData: boolean;
@@ -58,12 +48,19 @@ interface ArchetypeDetailProps {
 	setTab?: (tab: string) => void;
 }
 
-export default class ArchetypeDetail extends React.Component<
-	ArchetypeDetailProps,
-	ArchetypeDetailState
-> {
-	constructor(props: ArchetypeDetailProps, state: ArchetypeDetailState) {
-		super(props, state);
+interface State {
+	deckData?: any;
+	popularDecks?: DeckObj[];
+	popularDecksPage?: number;
+	popularDecksSortBy?: string;
+	popularDecksSortDirection?: SortDirection;
+	mulliganGuideSortBy?: string;
+	mulliganGuideSortDirection?: string;
+}
+
+export default class ArchetypeDetail extends React.Component<Props, State> {
+	constructor(props: Props, context: any) {
+		super(props, context);
 		this.state = {
 			deckData: null,
 			popularDecks: [],
@@ -78,7 +75,7 @@ export default class ArchetypeDetail extends React.Component<
 		this.fetchDeckData(props);
 	}
 
-	hasData(props?: ArchetypeDetailProps): boolean {
+	hasData(props?: Props): boolean {
 		const { gameType, hasWildData, hasStandardData } = props || this.props;
 		return (gameType === "RANKED_WILD" && hasWildData) || hasStandardData;
 	}
@@ -90,7 +87,7 @@ export default class ArchetypeDetail extends React.Component<
 		}
 	}
 
-	fetchDeckData(props: ArchetypeDetailProps) {
+	fetchDeckData(props: Props) {
 		if (!this.hasData(props)) {
 			return;
 		}
@@ -149,10 +146,10 @@ export default class ArchetypeDetail extends React.Component<
 		this.setState({ popularDecks: decks });
 	}
 
-	componentWillReceiveProps(
-		nextProps: ArchetypeDetailProps,
-		nextState: ArchetypeDetailState
-	) {
+	public componentWillReceiveProps(
+		nextProps: Readonly<Props>,
+		nextContext: any
+	): void {
 		if (
 			this.getGameType() !== nextProps.gameType ||
 			this.props.rankRange !== nextProps.rankRange
@@ -164,7 +161,7 @@ export default class ArchetypeDetail extends React.Component<
 		}
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		const gameType = this.getGameType();
 		const { GameType, RankRange, archetype_id } = {
 			GameType: gameType,
@@ -572,7 +569,7 @@ export default class ArchetypeDetail extends React.Component<
 		);
 	}
 
-	getGameType(props?: ArchetypeDetailProps): string {
+	getGameType(props?: Props): string {
 		const { gameType, hasWildData, hasStandardData } = props || this.props;
 		if (!hasStandardData && !hasWildData) {
 			return "RANKED_STANDARD";

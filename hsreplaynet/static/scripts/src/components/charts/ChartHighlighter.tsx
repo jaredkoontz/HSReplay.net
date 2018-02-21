@@ -3,16 +3,13 @@ import PropMultiplexer from "./PropMultiplexer";
 import HighlightPointComponent from "./HighlightPointComponent";
 import { Flyout, VictoryLabel, VictoryTooltip } from "victory";
 
-interface ChartHighlighterProps {
+interface Props {
 	xCenter: number;
 	sizeFactor?: number;
 }
 
-export default class ChartHighlighter extends React.Component<
-	ChartHighlighterProps,
-	any
-> {
-	render() {
+export default class ChartHighlighter extends React.Component<Props> {
+	public render(): React.ReactNode {
 		const factor = this.props.sizeFactor || 1;
 		return React.cloneElement(<PropMultiplexer />, this.props, [
 			<HighlightPointComponent sizeFactor={factor} />,

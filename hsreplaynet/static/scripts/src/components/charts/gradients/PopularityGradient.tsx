@@ -1,16 +1,13 @@
 import React from "react";
 
-interface PopularityGradientProps {
+interface Props {
 	id: string;
 	colorMin: string;
 	colorMax: string;
 }
 
-export default class PopularityGradient extends React.Component<
-	PopularityGradientProps,
-	any
-> {
-	render(): JSX.Element {
+export default class PopularityGradient extends React.Component<Props> {
+	public render(): React.ReactNode {
 		return (
 			<linearGradient
 				id={this.props.id}

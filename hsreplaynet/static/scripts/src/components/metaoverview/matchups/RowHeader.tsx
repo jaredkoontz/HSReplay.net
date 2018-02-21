@@ -10,7 +10,7 @@ import ArchetypeSignature from "../../archetypedetail/ArchetypeSignature";
 import ArchetypeSignatureTooltip from "../ArchetypeSignatureTooltip";
 import OtherArchetype from "../OtherArchetype";
 
-interface RowHeaderProps extends React.ClassAttributes<RowHeader> {
+interface Props {
 	archetypeData?: ArchetypeData;
 	cardData: CardData;
 	gameType: string;
@@ -21,8 +21,12 @@ interface RowHeaderProps extends React.ClassAttributes<RowHeader> {
 	style?: any;
 }
 
-export default class RowHeader extends React.Component<RowHeaderProps, {}> {
-	shouldComponentUpdate(nextProps: RowHeaderProps): boolean {
+export default class RowHeader extends React.Component<Props> {
+	public shouldComponentUpdate(
+		nextProps: Readonly<Props>,
+		nextState: Readonly<{}>,
+		nextContext: any
+	): boolean {
 		return (
 			this.props.highlight !== nextProps.highlight ||
 			this.props.isFavorite !== nextProps.isFavorite ||
@@ -31,7 +35,7 @@ export default class RowHeader extends React.Component<RowHeaderProps, {}> {
 		);
 	}
 
-	render() {
+	public render(): React.ReactNode {
 		let activeFavIcon = null;
 		const favIconClasses = ["glyphicon glyphicon-star favorite-toggle"];
 		if (this.props.isFavorite) {

@@ -35,11 +35,11 @@ export interface ClusterMetaData {
 	shortid: string;
 }
 
-interface ClassAnalysisState {
+interface State {
 	selectedDeck?: ClusterMetaData;
 }
 
-interface ClassAnalysisProps extends React.ClassAttributes<ClassAnalysis> {
+interface Props {
 	cardData: CardData | null;
 	data?: ClusterData;
 	format: string;
@@ -72,18 +72,15 @@ const COLORS = [
 	"#BAB4B6"
 ];
 
-class ClassAnalysis extends React.Component<
-	ClassAnalysisProps,
-	ClassAnalysisState
-> {
-	constructor(props: ClassAnalysisProps, state: ClassAnalysisState) {
-		super(props, state);
+class ClassAnalysis extends React.Component<Props, State> {
+	constructor(props: Props, context: any) {
+		super(props, context);
 		this.state = {
 			selectedDeck: null
 		};
 	}
 
-	componentDidMount() {
+	public componentDidMount(): void {
 		this.showTour(false);
 	}
 
@@ -119,14 +116,17 @@ class ClassAnalysis extends React.Component<
 		);
 	}
 
-	componentWillReceiveProps(nextProps: ClassAnalysisProps) {
+	public componentWillReceiveProps(
+		nextProps: Readonly<Props>,
+		nextContext: any
+	): void {
 		if (nextProps.playerClass !== this.props.playerClass) {
 			this.setState({ selectedDeck: null });
 			this.props.setClusterTab("decks");
 		}
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		const { data, maxGames, playerClass } = this.props;
 		const { selectedDeck } = this.state;
 		const clusterIds = Object.keys(data.cluster_map).sort();

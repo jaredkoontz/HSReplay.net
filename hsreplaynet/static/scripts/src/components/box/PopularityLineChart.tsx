@@ -4,7 +4,7 @@ import { VictoryArea, VictoryAxis, VictoryChart } from "victory";
 import { getChartMetaData, toTimeSeries } from "../../helpers";
 import { RenderData } from "../../interfaces";
 
-interface Props extends React.ClassAttributes<PopularityLineChart> {
+interface Props {
 	data?: RenderData;
 	height: number;
 	width: number;
@@ -13,7 +13,7 @@ interface Props extends React.ClassAttributes<PopularityLineChart> {
 export default class PopularityLineChart extends React.Component<Props> {
 	private filterId = _.uniqueId("popularity-gradient-");
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		const series = toTimeSeries(
 			this.props.data.series.find(
 				x => x.name === "popularity_over_time"

@@ -3,16 +3,13 @@ import Tooltip from "../Tooltip";
 import { ArchetypeData } from "../../interfaces";
 import { toTitleCase } from "../../helpers";
 
-interface OtherArchetypeProps extends React.ClassAttributes<OtherArchetype> {
+interface Props {
 	name: string;
 	playerClass: string;
 }
 
-export default class OtherArchetype extends React.Component<
-	OtherArchetypeProps,
-	{}
-> {
-	render(): JSX.Element {
+export default class OtherArchetype extends React.Component<Props> {
+	public render(): React.ReactNode {
 		const { name, playerClass } = this.props;
 		return (
 			<Tooltip

@@ -1,16 +1,12 @@
 import React from "react";
 
-interface SelectionState {
-	selected?: string;
-}
-
 interface Option {
 	key: string;
 	name: string;
 	premium: boolean;
 }
 
-interface SelectionProps {
+interface Props {
 	name: string;
 	visible: Option[];
 	collapsed: Option[];
@@ -19,18 +15,19 @@ interface SelectionProps {
 	premiumAvailable?: boolean;
 }
 
-export default class Selection extends React.Component<
-	SelectionProps,
-	SelectionState
-> {
-	constructor(props: SelectionProps, state: SelectionState) {
-		super(props, state);
+interface State {
+	selected?: string;
+}
+
+export default class Selection extends React.Component<Props, State> {
+	constructor(props: Props, context: any) {
+		super(props, context);
 		this.state = {
 			selected: this.props.default || this.props.visible[0].key
 		};
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		const visible = [];
 		const options = this.getSortedOptions();
 

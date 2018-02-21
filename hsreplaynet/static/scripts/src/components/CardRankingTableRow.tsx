@@ -2,7 +2,7 @@ import React from "react";
 import CardTile from "./CardTile";
 import { winrateData } from "../helpers";
 
-interface CardRankingTableRowProps {
+interface Props {
 	card: any;
 	customCardText?: string;
 	popularity: number;
@@ -11,11 +11,8 @@ interface CardRankingTableRowProps {
 	noLink?: boolean;
 }
 
-export default class CardRankingTableRow extends React.Component<
-	CardRankingTableRowProps,
-	any
-> {
-	render(): JSX.Element {
+export default class CardRankingTableRow extends React.Component<Props> {
+	public render(): React.ReactNode {
 		if (!this.props.card) {
 			return null;
 		}

@@ -11,7 +11,7 @@ import {
 import { RenderData } from "../../interfaces";
 import { getChartScheme } from "../../helpers";
 
-interface CardDetailBarChartProps {
+interface Props {
 	data?: RenderData;
 	title?: string;
 	labelX?: string;
@@ -20,11 +20,8 @@ interface CardDetailBarChartProps {
 	showYAxis?: boolean;
 }
 
-export default class CardDetailBarChart extends React.Component<
-	CardDetailBarChartProps,
-	any
-> {
-	render(): JSX.Element {
+export default class CardDetailBarChart extends React.Component<Props> {
+	public render(): React.ReactNode {
 		const width = 150 * (this.props.widthRatio || 3);
 		const series = this.props.data.series[0];
 

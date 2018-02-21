@@ -2,7 +2,7 @@ import React from "react";
 import { getCardUrl, getFragments } from "../helpers";
 import Tooltip from "./Tooltip";
 
-interface CardTileProps {
+interface Props {
 	card: any;
 	count: number;
 	customText?: string;
@@ -15,8 +15,8 @@ interface CardTileProps {
 	subtitle?: string;
 }
 
-export default class CardTile extends React.Component<CardTileProps, {}> {
-	public render(): JSX.Element {
+export default class CardTile extends React.Component<Props> {
+	public render(): React.ReactNode {
 		const baseHeight = 34;
 		const baseCountWidth = this.props.countBoxSize || 24;
 		const baseImageWidth = 134 + this.props.countBoxSize - 24;

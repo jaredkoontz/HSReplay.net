@@ -1,14 +1,14 @@
 import React from "react";
 import Tab from "./Tab";
 
-interface Props extends React.ClassAttributes<TabList> {
+interface Props {
 	tab: string;
 	setTab(tab?: string): void;
 	tabFragment?: string;
 }
 
 export default class TabList extends React.Component<Props> {
-	render() {
+	public render(): React.ReactNode {
 		const children = TabList.getValidChildren(this.props.children);
 
 		if (!children.length) {
@@ -92,11 +92,14 @@ export default class TabList extends React.Component<Props> {
 		);
 	}
 
-	componentDidMount() {
+	public componentDidMount(): void {
 		TabList.ensureVisibleTab(this.props);
 	}
 
-	componentWillReceiveProps(nextProps) {
+	public componentWillReceiveProps(
+		nextProps: Readonly<Props>,
+		nextContext: any
+	): void {
 		TabList.ensureVisibleTab(nextProps);
 	}
 

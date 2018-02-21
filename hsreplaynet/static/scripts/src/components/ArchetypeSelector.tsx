@@ -2,30 +2,27 @@ import React from "react";
 import { fetchCSRF } from "../helpers";
 import { ApiArchetype } from "../interfaces";
 
-interface ArchetypeSelectorState {
-	selectedArchetype?: number;
-	working?: boolean;
-}
-
-interface ArchetypeSelectorProps {
+interface Props {
 	archetypes?: ApiArchetype[];
 	deckId: string;
 	defaultSelectedArchetype?: number;
 }
 
-export default class ArchetypeSelector extends React.Component<
-	ArchetypeSelectorProps,
-	ArchetypeSelectorState
-> {
-	constructor(props: ArchetypeSelectorProps, state: ArchetypeSelectorState) {
-		super(props, state);
+interface State {
+	selectedArchetype?: number;
+	working?: boolean;
+}
+
+export default class ArchetypeSelector extends React.Component<Props, State> {
+	constructor(props: Props, context: any) {
+		super(props, context);
 		this.state = {
 			selectedArchetype: props.defaultSelectedArchetype,
 			working: false
 		};
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		return (
 			<div className="dropdown">
 				<button

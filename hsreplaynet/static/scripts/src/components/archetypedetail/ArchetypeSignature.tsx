@@ -10,8 +10,7 @@ interface Bucket {
 	title: string;
 }
 
-interface ArchetypeSignatureProps
-	extends React.ClassAttributes<ArchetypeSignature> {
+interface Props {
 	cardData: CardData;
 	signature?: ApiArchetypeSignature;
 	showOccasional?: boolean;
@@ -19,18 +18,19 @@ interface ArchetypeSignatureProps
 	maxCards?: number;
 }
 
-export default class ArchetypeSignature extends React.Component<
-	ArchetypeSignatureProps,
-	{}
-> {
-	shouldComponentUpdate(nextProps: ArchetypeSignatureProps) {
+export default class ArchetypeSignature extends React.Component<Props> {
+	public shouldComponentUpdate(
+		nextProps: Readonly<Props>,
+		nextState: Readonly<{}>,
+		nextContext: any
+	): boolean {
 		return (
 			!!this.props.cardData !== !!nextProps.cardData ||
 			!_.isEqual(this.props.signature, nextProps.signature)
 		);
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		const { cardData, signature, showValues } = this.props;
 		if (!signature || !signature.components || !cardData) {
 			return null;

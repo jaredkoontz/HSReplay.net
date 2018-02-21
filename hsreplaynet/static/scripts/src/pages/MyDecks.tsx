@@ -25,19 +25,7 @@ import { decode as decodeDeckstring } from "deckstrings";
 import { Limit } from "../components/ObjectSearch";
 import Feature from "../components/Feature";
 
-interface MyDecksState {
-	account?: string;
-	cardSearchExcludeKey?: number;
-	cardSearchIncludeKey?: number;
-	cards?: any[];
-	filteredDecks: DeckObj[];
-	loading?: boolean;
-	showFilters?: boolean;
-}
-
-interface MyDecksProps
-	extends FragmentChildProps,
-		React.ClassAttributes<MyDecks> {
+interface Props extends FragmentChildProps {
 	cardData: CardData;
 	excludedCards?: string[];
 	setExcludedCards?: (excludedCards: string[]) => void;
@@ -53,14 +41,21 @@ interface MyDecksProps
 	setTimeRange?: (timeRange: string) => void;
 }
 
-export default class MyDecks extends React.Component<
-	MyDecksProps,
-	MyDecksState
-> {
+interface State {
+	account?: string;
+	cardSearchExcludeKey?: number;
+	cardSearchIncludeKey?: number;
+	cards?: any[];
+	filteredDecks: DeckObj[];
+	loading?: boolean;
+	showFilters?: boolean;
+}
+
+export default class MyDecks extends React.Component<Props, State> {
 	private deckListsFragmentsRef;
 
-	constructor(props: MyDecksProps, state: MyDecksState) {
-		super(props, state);
+	constructor(props: Props, context: any) {
+		super(props, context);
 		this.state = {
 			account: UserData.getDefaultAccountKey(),
 			cardSearchExcludeKey: 0,
@@ -73,7 +68,11 @@ export default class MyDecks extends React.Component<
 		this.updateFilteredDecks();
 	}
 
-	componentDidUpdate(prevProps: MyDecksProps, prevState: MyDecksState) {
+	public componentDidUpdate(
+		prevProps: Readonly<Props>,
+		prevState: Readonly<State>,
+		prevContext: any
+	): void {
 		if (
 			this.state.account !== prevState.account ||
 			this.props.excludedCards !== prevProps.excludedCards ||
@@ -90,7 +89,10 @@ export default class MyDecks extends React.Component<
 		}
 	}
 
-	componentWillReceiveProps(nextProps: MyDecksProps) {
+	public componentWillReceiveProps(
+		nextProps: Readonly<Props>,
+		nextContext: any
+	): void {
 		if (!this.state.cards && nextProps.cardData) {
 			const cards = [];
 			nextProps.cardData.all().forEach(card => {
@@ -305,7 +307,7 @@ export default class MyDecks extends React.Component<
 			});
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		let content = null;
 		const userAccounts = UserData.getAccounts();
 

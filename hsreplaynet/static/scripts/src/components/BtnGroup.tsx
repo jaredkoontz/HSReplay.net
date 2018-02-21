@@ -9,7 +9,7 @@ export interface Btn {
 	disabled?: boolean;
 }
 
-interface BtnGroupProps extends React.ClassAttributes<any> {
+interface Props {
 	name: string;
 	id?: string;
 	buttons: Btn[];
@@ -20,15 +20,19 @@ interface BtnGroupProps extends React.ClassAttributes<any> {
 	required?: boolean;
 }
 
-export default class BtnGroup extends React.Component<BtnGroupProps, {}> {
+export default class BtnGroup extends React.Component<Props> {
 	btnRefs: { [value: string]: HTMLElement };
 
-	constructor(props: BtnGroupProps, context: any) {
+	constructor(props: Props, context: any) {
 		super(props, context);
 		this.btnRefs = {};
 	}
 
-	componentDidUpdate(prevProps: BtnGroupProps, prevState: any) {
+	public componentDidUpdate(
+		prevProps: Readonly<Props>,
+		prevState: Readonly<{}>,
+		prevContext: any
+	): void {
 		if (prevProps.value !== this.props.value) {
 			const prevBtn = this.btnRefs[prevProps.value];
 			const currentBtn = this.btnRefs[this.props.value];
@@ -123,7 +127,7 @@ export default class BtnGroup extends React.Component<BtnGroupProps, {}> {
 		});
 	}
 
-	render() {
+	public render(): React.ReactNode {
 		return (
 			<div
 				role="radiogroup"

@@ -4,15 +4,7 @@ import * as d3 from "d3";
 import { ClusterMetaData, DeckData } from "../discover/ClassAnalysis";
 import { hexToHsl, stringifyHsl } from "../../helpers";
 
-interface ClusterChartState {
-	decks?: { [shortId: string]: number[] };
-	dragging?: boolean;
-	initialized?: boolean;
-	scaling?: number;
-	selectedDatum?: DeckData;
-}
-
-interface ClusterChartProps extends React.ClassAttributes<ClusterChart> {
+interface Props {
 	clusterIds: string[];
 	colors: string[];
 	data: DeckData[];
@@ -25,23 +17,28 @@ interface ClusterChartProps extends React.ClassAttributes<ClusterChart> {
 	width: number;
 }
 
+interface State {
+	decks?: { [shortId: string]: number[] };
+	dragging?: boolean;
+	initialized?: boolean;
+	scaling?: number;
+	selectedDatum?: DeckData;
+}
+
 const PADDING = 50;
 const MIN_POINT_SIZE = 5;
 const MAX_POINT_SIZE = 45;
 const STROKE_WIDTH = 1.5;
 const STROKE_WIDTH_SELECTED = 2.5;
 
-export default class ClusterChart extends React.Component<
-	ClusterChartProps,
-	ClusterChartState
-> {
+export default class ClusterChart extends React.Component<Props, State> {
 	private container: SVGGElement;
 	private decks: SVGGElement;
 	private voronoi: SVGGElement;
 	private svg: SVGSVGElement;
 
-	constructor(props: ClusterChartProps, state: ClusterChartState) {
-		super(props, state);
+	constructor(props: Props, context: any) {
+		super(props, context);
 		this.state = {
 			decks: {},
 			dragging: false,
@@ -51,22 +48,26 @@ export default class ClusterChart extends React.Component<
 		};
 	}
 
-	componentDidMount() {
+	public componentDidMount(): void {
 		if (this.props.data) {
 			this.updateDecks();
 		}
 	}
 
-	componentWillReceiveProps(nextProps: ClusterChartProps) {
+	public componentWillReceiveProps(
+		nextProps: Readonly<Props>,
+		nextContext: any
+	): void {
 		if (nextProps.playerClass !== this.props.playerClass) {
 			this.setState({ scaling: 1, selectedDatum: null });
 		}
 	}
 
-	componentDidUpdate(
-		prevProps: ClusterChartProps,
-		prevState: ClusterChartState
-	) {
+	public componentDidUpdate(
+		prevProps: Readonly<Props>,
+		prevState: Readonly<State>,
+		prevContext: any
+	): void {
 		if (prevProps.playerClass !== this.props.playerClass) {
 			this.initialize();
 		}
@@ -380,10 +381,11 @@ export default class ClusterChart extends React.Component<
 		);
 	};
 
-	shouldComponentUpdate(
-		nextProps: ClusterChartProps,
-		nextState: ClusterChartState
-	) {
+	public shouldComponentUpdate(
+		nextProps: Readonly<Props>,
+		nextState: Readonly<State>,
+		nextContext: any
+	): boolean {
 		return (
 			nextProps.playerClass !== this.props.playerClass ||
 			!_.isEqual(nextProps.data, this.props.data) ||
@@ -412,7 +414,7 @@ export default class ClusterChart extends React.Component<
 		);
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		return (
 			<svg
 				width={this.props.width}

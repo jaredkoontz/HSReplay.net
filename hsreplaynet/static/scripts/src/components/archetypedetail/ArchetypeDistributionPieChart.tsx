@@ -9,8 +9,7 @@ import {
 import { VictoryLabel, VictoryLegend, VictoryPie } from "victory";
 import { ApiArchetype } from "../../interfaces";
 
-interface ArchetypeDistributionPieChartProps
-	extends React.ClassAttributes<ArchetypeDistributionPieChart> {
+interface ArchetypeDistributionPieChartProps {
 	matchupData?: any;
 	archetypeData?: any;
 	selectedArchetypeId?: number;
@@ -96,7 +95,7 @@ export default class ArchetypeDistributionPieChart extends React.Component<
 		return coloredData;
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		const data = this.getChartData();
 		const legendData = data.map(p => {
 			const hovering = p.archetypeId === this.state.hovering;

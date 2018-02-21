@@ -1,16 +1,13 @@
 import React from "react";
 
-interface RankSelectorProps extends React.ClassAttributes<RankSelector> {
+interface Props {
 	classNames: string[];
 	onClick: () => void;
 	rank: number;
 }
 
-export default class RankSelector extends React.Component<
-	RankSelectorProps,
-	{}
-> {
-	render(): JSX.Element {
+export default class RankSelector extends React.Component<Props> {
+	public render(): React.ReactNode {
 		const { rank } = this.props;
 		const classNames = ["rank-selector"].concat(this.props.classNames);
 		const rankStr = rank === 0 ? "Legend" : rank;

@@ -6,8 +6,7 @@ interface ClusterArchetypeSelectorState {
 	working?: boolean;
 }
 
-interface ClusterArchetypeSelectorProps
-	extends React.ClassAttributes<ClusterArchetypeSelector> {
+interface ClusterArchetypeSelectorProps {
 	archetypes?: ApiArchetype[];
 	clusterId: string;
 	format: string;
@@ -28,7 +27,7 @@ export default class ClusterArchetypeSelector extends React.Component<
 		};
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		let btnClassName = "btn btn-secondary dropdown-toggle";
 		if (this.state.working) {
 			btnClassName += " disabled";

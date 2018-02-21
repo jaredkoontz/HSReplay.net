@@ -4,17 +4,14 @@ import { DeckObj, TableData } from "../../interfaces";
 import DeckList from "../DeckList";
 import Fragments from "../Fragments";
 
-interface RecommendedDecksListProps {
+interface Props {
 	card: any;
 	cardData: CardData;
 	data?: TableData;
 }
 
-export default class RecommendedDecksList extends React.Component<
-	RecommendedDecksListProps,
-	{}
-> {
-	render(): JSX.Element {
+export default class RecommendedDecksList extends React.Component<Props> {
+	public render(): React.ReactNode {
 		const decks: DeckObj[] = [];
 		const data = this.props.data.series.data;
 

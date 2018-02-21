@@ -1,20 +1,17 @@
 import React from "react";
 
-interface LowDataWarningProps extends React.ClassAttributes<LowDataWarning> {
+interface Props {
 	date: Date;
 	numArchetypes: number;
 }
 
-const MIN_ARCHETYPES_THRESHHOLD = 6;
+const MIN_ARCHETYPES_THRESHOLD = 6;
 const SEVERE_MIN_ARCHETYPES_THRESHHOLD = 3;
 const SEASON_AGE_THRESHOLD = 7;
 
-export default class LowDataWarning extends React.Component<
-	LowDataWarningProps,
-	{}
-> {
-	render(): JSX.Element {
-		if (this.props.numArchetypes >= MIN_ARCHETYPES_THRESHHOLD) {
+export default class LowDataWarning extends React.Component<Props> {
+	public render(): React.ReactNode {
+		if (this.props.numArchetypes >= MIN_ARCHETYPES_THRESHOLD) {
 			return null;
 		}
 		const message =

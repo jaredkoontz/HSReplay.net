@@ -21,7 +21,7 @@ export default class ClassIcon extends React.Component<ClassIconProps, any> {
 		"warrior"
 	];
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		const basePath =
 			STATIC_URL + "images/" + (this.props.small ? "64x/" : "");
 		const heroClassName = toTitleCase(this.props.heroClassName);

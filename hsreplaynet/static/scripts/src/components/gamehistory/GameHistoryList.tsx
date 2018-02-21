@@ -8,18 +8,12 @@ import {
 } from "../../interfaces";
 import { PlayState } from "../../hearthstone";
 
-interface GameHistoryListProps
-	extends ImageProps,
-		CardArtProps,
-		React.ClassAttributes<GameHistoryList> {
+interface Props extends ImageProps, CardArtProps {
 	games: GameReplay[];
 }
 
-export default class GameHistoryList extends React.Component<
-	GameHistoryListProps,
-	{}
-> {
-	render(): JSX.Element {
+export default class GameHistoryList extends React.Component<Props> {
+	public render(): React.ReactNode {
 		let columns = [];
 		this.props.games.forEach((game: GameReplay, i: number) => {
 			var startTime: Date = new Date(game.global_game.match_start);

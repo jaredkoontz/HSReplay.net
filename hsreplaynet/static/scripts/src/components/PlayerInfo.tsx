@@ -9,7 +9,7 @@ import InfoIcon from "./InfoIcon";
 import DataManager from "../DataManager";
 import UserData from "../UserData";
 
-interface PlayerInfoProps {
+interface Props {
 	build: number;
 	gameId: string;
 	opponentName: string;
@@ -18,16 +18,13 @@ interface PlayerInfoProps {
 	playerExpandDirection: "up" | "down";
 }
 
-interface PlayerInfoState {
+interface State {
 	display?: "player" | "opponent" | "both" | "none";
 	game?: GameReplay;
 }
 
-export default class PlayerInfo extends React.Component<
-	PlayerInfoProps,
-	PlayerInfoState
-> {
-	constructor(props: PlayerInfoProps, context: any) {
+export default class PlayerInfo extends React.Component<Props, State> {
+	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
 			display: props.playerExpandDirection === "up" ? "both" : "none",
@@ -48,7 +45,7 @@ export default class PlayerInfo extends React.Component<
 		);
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		let playerCards = null;
 		let opponentCards = null;
 		let playerName = null;

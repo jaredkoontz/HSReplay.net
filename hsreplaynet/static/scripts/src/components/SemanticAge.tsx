@@ -1,7 +1,7 @@
 import React from "react";
 import * as moment from "moment";
 
-interface Props extends React.ClassAttributes<SemanticAge> {
+interface Props {
 	date?: Date;
 	noSuffix?: boolean;
 }
@@ -13,14 +13,14 @@ interface State {
 export default class SemanticAge extends React.Component<Props, State> {
 	private interval: number;
 
-	constructor(props: Props, context?: any) {
+	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
 			counter: 0
 		};
 	}
 
-	componentDidMount() {
+	public componentDidMount(): void {
 		this.interval = window.setInterval(() => {
 			// update state to refresh the timestamp
 			this.setState(state => ({
@@ -29,11 +29,11 @@ export default class SemanticAge extends React.Component<Props, State> {
 		}, 5000);
 	}
 
-	componentWillUnmount() {
+	public componentWillUnmount(): void {
 		window.clearInterval(this.interval);
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		const { date, noSuffix } = this.props;
 
 		if (!date || !(date instanceof Date)) {

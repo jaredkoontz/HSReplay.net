@@ -5,7 +5,7 @@ import DataInjector from "../DataInjector";
 import { ClusterMetaData } from "./ClassAnalysis";
 import UserData from "../../UserData";
 
-interface DeckInfoProps extends React.ClassAttributes<DeckInfo> {
+interface Props {
 	cardData: CardData | null;
 	clusterColor: string;
 	deck: ClusterMetaData;
@@ -14,8 +14,8 @@ interface DeckInfoProps extends React.ClassAttributes<DeckInfo> {
 	playerClass: string;
 }
 
-export default class DeckInfo extends React.Component<DeckInfoProps, {}> {
-	render(): JSX.Element {
+export default class DeckInfo extends React.Component<Props> {
+	public render(): React.ReactNode {
 		const {
 			cardData,
 			clusterColor,

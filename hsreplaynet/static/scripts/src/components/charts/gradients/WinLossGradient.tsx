@@ -1,16 +1,13 @@
 import React from "react";
 import { ChartMetaData } from "../../../interfaces";
 
-interface WinLossGradientProps {
+interface Props {
 	metadata: ChartMetaData;
 	id: string;
 }
 
-export default class WinLossGradient extends React.Component<
-	WinLossGradientProps,
-	any
-> {
-	render(): JSX.Element {
+export default class WinLossGradient extends React.Component<Props> {
+	public render(): React.ReactNode {
 		const gradientStops = [];
 		if (this.props.metadata.yMinMax[1].y > 50) {
 			gradientStops.push(

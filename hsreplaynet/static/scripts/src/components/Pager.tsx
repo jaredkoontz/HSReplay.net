@@ -6,15 +6,15 @@ interface Page {
 	skip?: boolean;
 }
 
-interface PagerProps {
+interface Props {
 	currentPage?: number;
 	setCurrentPage?: (page: number) => void;
 	pageCount?: number;
 	minimal?: boolean;
 }
 
-export default class Pager extends React.Component<PagerProps, {}> {
-	render(): JSX.Element {
+export default class Pager extends React.Component<Props> {
+	public render(): React.ReactNode {
 		if (
 			typeof this.props.pageCount === "number" &&
 			this.props.pageCount <= 1

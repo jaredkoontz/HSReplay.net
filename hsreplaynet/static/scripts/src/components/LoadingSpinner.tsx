@@ -1,15 +1,12 @@
 import React from "react";
 
-interface LoadingSpinnerProps extends React.ClassAttributes<LoadingSpinner> {
+interface Props {
 	active?: boolean;
 	glyphicon?: string;
 }
 
-export default class LoadingSpinner extends React.Component<
-	LoadingSpinnerProps,
-	{}
-> {
-	render(): JSX.Element {
+export default class LoadingSpinner extends React.Component<Props> {
+	public render(): React.ReactNode {
 		if (!this.props.active) {
 			return null;
 		}

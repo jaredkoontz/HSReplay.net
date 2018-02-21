@@ -1,18 +1,11 @@
 import React from "react";
 
-interface PropMap {
-	[prop: string]: string;
+interface Props {
+	map?: { [prop: string]: string };
 }
 
-interface PropRemapperProps extends React.ClassAttributes<PropRemapper> {
-	map?: PropMap;
-}
-
-export default class PropRemapper extends React.Component<
-	PropRemapperProps,
-	{}
-> {
-	render(): JSX.Element {
+export default class PropRemapper extends React.Component<Props> {
+	public render(): React.ReactNode {
 		const child = this.props.children;
 		if (!child) {
 			return;

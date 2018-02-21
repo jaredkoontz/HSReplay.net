@@ -7,27 +7,23 @@ import Tooltip from "../Tooltip";
 import DataManager from "../../DataManager";
 import LoadingSpinner from "../LoadingSpinner";
 
-interface ArchetypeSignatureTooltipState {
-	signature?: ApiArchetypeSignature;
-}
-
-interface ArchetypeSignatureTooltipProps
-	extends React.ClassAttributes<ArchetypeSignatureTooltip> {
+interface Props {
 	cardData: CardData;
 	archetypeName: string;
 	archetypeId: number;
 	gameType: string;
 }
 
+interface State {
+	signature?: ApiArchetypeSignature;
+}
+
 export default class ArchetypeSignatureTooltip extends React.Component<
-	ArchetypeSignatureTooltipProps,
-	ArchetypeSignatureTooltipState
+	Props,
+	State
 > {
-	constructor(
-		props: ArchetypeSignatureTooltipProps,
-		state: ArchetypeSignatureTooltipState
-	) {
-		super(props, state);
+	constructor(props: Props, context: any) {
+		super(props, context);
 		this.state = {
 			signature: null
 		};
@@ -47,7 +43,7 @@ export default class ArchetypeSignatureTooltip extends React.Component<
 		});
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		return (
 			<Tooltip
 				id="tooltip-archetype-signature"

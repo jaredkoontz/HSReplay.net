@@ -3,21 +3,18 @@ import CardData from "../../CardData";
 import { TableData } from "../../interfaces";
 import CardHighlightTile from "../CardHighlightTile";
 
-interface HighlightTilesProps {
+interface Props {
 	cardData?: CardData;
 	cardStats?: TableData;
 	ranks?: TableData;
 }
 
-export default class HighlightTiles extends React.Component<
-	HighlightTilesProps,
-	{}
-> {
+export default class HighlightTiles extends React.Component<Props> {
 	getCard(dbfId: number): any {
 		return this.props.cardData.fromDbf(dbfId || 1674);
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		const max = {
 			damage_done: {},
 			healing_done: {},

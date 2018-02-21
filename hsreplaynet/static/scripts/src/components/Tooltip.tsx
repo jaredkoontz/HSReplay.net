@@ -8,7 +8,7 @@ export interface ClickTouch<T> {
 	touch: T;
 }
 
-interface Props extends React.ClassAttributes<Tooltip> {
+interface Props {
 	belowCursor?: boolean;
 	centered?: boolean;
 	className?: string;
@@ -44,7 +44,11 @@ export default class Tooltip extends React.Component<Props, State> {
 		};
 	}
 
-	componentDidUpdate() {
+	public componentDidUpdate(
+		prevProps: Readonly<Props>,
+		prevState: Readonly<State>,
+		prevContext: any
+	): void {
 		if (this.state.hovering) {
 			if (!this.tooltipContainer) {
 				this.tooltipContainer = document.createElement("div");
@@ -57,7 +61,7 @@ export default class Tooltip extends React.Component<Props, State> {
 		}
 	}
 
-	componentWillUnmount() {
+	public componentWillUnmount(): void {
 		this.removeTooltipContainer();
 	}
 
@@ -145,7 +149,7 @@ export default class Tooltip extends React.Component<Props, State> {
 		);
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		const classNames = ["tooltip-wrapper"];
 		if (this.props.className) {
 			classNames.push(this.props.className);

@@ -3,7 +3,7 @@ import * as _ from "lodash";
 import Bar, { BarDirection } from "./Bar";
 import { ArchetypeData } from "../../../interfaces";
 
-interface ColumnFooterProps extends React.ClassAttributes<ColumnFooter> {
+interface Props {
 	archetypeData: ArchetypeData;
 	highlight?: boolean;
 	max?: number;
@@ -15,24 +15,22 @@ interface ColumnFooterProps extends React.ClassAttributes<ColumnFooter> {
 	onInputFocus?: (focus: boolean) => void;
 }
 
-interface ColumnFooterState {
+interface State {
 	text?: string;
 }
 
-export default class ColumnFooter extends React.Component<
-	ColumnFooterProps,
-	ColumnFooterState
-> {
-	constructor(props: ColumnFooterProps, context?: any) {
+export default class ColumnFooter extends React.Component<Props, State> {
+	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
 			text: "" + props.customWeight
 		};
 	}
 
-	shouldComponentUpdate(
-		nextProps: ColumnFooterProps,
-		nextState: ColumnFooterState
+	public shouldComponentUpdate(
+		nextProps: Readonly<Props>,
+		nextState: Readonly<State>,
+		nextContext: any
 	): boolean {
 		return (
 			this.props.highlight !== nextProps.highlight ||
@@ -47,13 +45,16 @@ export default class ColumnFooter extends React.Component<
 		);
 	}
 
-	componentWillReceiveProps(nextProps: ColumnFooterProps) {
+	public componentWillReceiveProps(
+		nextProps: Readonly<Props>,
+		nextContext: any
+	): void {
 		if (nextProps.useCustomWeight) {
 			this.setState({ text: "" + nextProps.customWeight });
 		}
 	}
 
-	render() {
+	public render(): React.ReactNode {
 		let element = null;
 		if (this.props.useCustomWeight) {
 			element = (

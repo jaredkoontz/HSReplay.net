@@ -11,7 +11,7 @@ interface TwitchStream {
 	viewer_count: number;
 }
 
-interface Props extends React.ClassAttributes<StreamList> {
+interface Props {
 	streams?: ApiStream[];
 	verifyExtension?: boolean;
 }
@@ -21,14 +21,14 @@ interface State {
 }
 
 class StreamList extends React.Component<Props, State> {
-	constructor(props: Props) {
-		super(props);
+	constructor(props: Props, context: any) {
+		super(props, context);
 		this.state = {
 			metadata: null
 		};
 	}
 
-	componentDidMount() {
+	public componentDidMount(): void {
 		Promise.all([
 			StreamList.fetchMetadata(this.props.streams),
 			this.props.verifyExtension
@@ -99,7 +99,7 @@ class StreamList extends React.Component<Props, State> {
 		return resultSet;
 	}
 
-	render() {
+	public render(): React.ReactNode {
 		if (!this.props.streams || !Array.isArray(this.props.streams)) {
 			return null;
 		}

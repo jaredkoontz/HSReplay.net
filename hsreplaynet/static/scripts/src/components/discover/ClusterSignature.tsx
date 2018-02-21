@@ -4,30 +4,26 @@ import { ApiArchetypeSignature, SortDirection } from "../../interfaces";
 import CardData from "../../CardData";
 import { toDynamicFixed } from "../../helpers";
 
-interface ClusterSignatureState {
-	sortBy: string;
-	sortDirection: SortDirection;
-}
-
-interface ClusterSignatureProps
-	extends React.ClassAttributes<ClusterSignature> {
+interface Props {
 	cardData: CardData | null;
 	signature?: ApiArchetypeSignature;
 }
 
-export default class ClusterSignature extends React.Component<
-	ClusterSignatureProps,
-	ClusterSignatureState
-> {
-	constructor(props: ClusterSignatureProps, state: ClusterSignatureState) {
-		super(props, state);
+interface State {
+	sortBy: string;
+	sortDirection: SortDirection;
+}
+
+export default class ClusterSignature extends React.Component<Props, State> {
+	constructor(props: Props, context: any) {
+		super(props, context);
 		this.state = {
 			sortBy: "prevalence",
 			sortDirection: "descending"
 		};
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		const { cardData, signature } = this.props;
 
 		if (!cardData) {

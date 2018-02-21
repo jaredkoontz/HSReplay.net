@@ -1,14 +1,11 @@
 import React from "react";
 
-interface LoadingIndicatorProps {
+interface Props {
 	height: number;
 }
 
-export default class LoadingIndicator extends React.Component<
-	LoadingIndicatorProps,
-	any
-> {
-	render(): JSX.Element {
+export default class LoadingIndicator extends React.Component<Props> {
+	public render(): React.ReactNode {
 		return (
 			<div
 				className="loading-indicator"

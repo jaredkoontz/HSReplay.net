@@ -47,10 +47,6 @@ import PremiumPromo from "../components/PremiumPromo";
 import ArchetypeMatchups from "../components/archetypedetail/ArchetypeMatchups";
 import StreamList from "../components/StreamList";
 
-interface TableDataCache {
-	[key: string]: TableData;
-}
-
 interface InventoryGameType {
 	[gameType: string]: InventoryRegion[];
 }
@@ -59,19 +55,7 @@ interface InventoryRegion {
 	[region: string]: string[];
 }
 
-interface DeckDetailState {
-	account?: string;
-	inventory?: InventoryGameType;
-	expandWinrate?: boolean;
-	hasData?: boolean;
-	personalSortBy?: string;
-	personalSortDirection?: SortDirection;
-	showInfo?: boolean;
-	sortBy?: string;
-	sortDirection?: SortDirection;
-}
-
-interface DeckDetailProps {
+interface Props {
 	adminUrl: string;
 	archetypeId?: string;
 	archetypeName?: string;
@@ -93,12 +77,21 @@ interface DeckDetailProps {
 	setRegion?: (region: string) => void;
 }
 
-export default class DeckDetail extends React.Component<
-	DeckDetailProps,
-	DeckDetailState
-> {
-	constructor(props: DeckDetailProps, state: DeckDetailState) {
-		super(props, state);
+interface State {
+	account?: string;
+	inventory?: InventoryGameType;
+	expandWinrate?: boolean;
+	hasData?: boolean;
+	personalSortBy?: string;
+	personalSortDirection?: SortDirection;
+	showInfo?: boolean;
+	sortBy?: string;
+	sortDirection?: SortDirection;
+}
+
+export default class DeckDetail extends React.Component<Props, State> {
+	constructor(props: Props, context: any) {
+		super(props, context);
 		this.state = {
 			account: UserData.getDefaultAccountKey(),
 			inventory: {},
@@ -145,7 +138,7 @@ export default class DeckDetail extends React.Component<
 			});
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		const deckParams = this.getParams();
 		const globalParams = _.omit(deckParams, "deck_id");
 		const personalParams = this.getPersonalParams();
@@ -986,7 +979,7 @@ export default class DeckDetail extends React.Component<
 		};
 	}
 
-	getPersonalParams(state?: DeckDetailState): any {
+	getPersonalParams(state?: State): any {
 		state = state || this.state;
 		const getRegion = (account: string) => account && account.split("-")[0];
 		const getLo = (account: string) => account && account.split("-")[1];

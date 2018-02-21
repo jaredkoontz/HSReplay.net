@@ -2,13 +2,14 @@ import React from "react";
 import CardData from "../../CardData";
 import { TableData } from "../../interfaces";
 import CardHighlightTile from "../CardHighlightTile";
-interface BiggestHitsProps {
+
+interface Props {
 	cardData?: CardData;
 	data?: TableData;
 }
 
-export default class BiggestHits extends React.Component<BiggestHitsProps, {}> {
-	render(): JSX.Element {
+export default class BiggestHits extends React.Component<Props> {
+	public render(): React.ReactNode {
 		const tiles = [];
 		const hits = this.props.data.series.data["ALL"];
 		if (hits.length) {

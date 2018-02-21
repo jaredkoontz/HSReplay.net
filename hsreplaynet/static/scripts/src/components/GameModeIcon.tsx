@@ -24,7 +24,7 @@ export default class GameModeIcon extends React.Component<
 		return this.props.scenarioId == 2109;
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		if (this.props.disconnected) {
 			return (
 				<img

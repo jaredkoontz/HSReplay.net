@@ -14,13 +14,7 @@ import { getDustCost, getManaCost } from "../helpers";
 import UserData from "../UserData";
 import DataManager from "../DataManager";
 
-interface DeckListState {
-	archetypeData?: any[];
-}
-
-interface DeckListProps
-	extends FragmentChildProps,
-		React.ClassAttributes<DeckList> {
+interface Props extends FragmentChildProps {
 	decks: DeckObj[];
 	pageSize: number;
 	hideTopPager?: boolean;
@@ -38,13 +32,14 @@ interface DeckListProps
 	infoRow?: JSX.Element;
 }
 
-export default class DeckList extends React.Component<
-	DeckListProps,
-	DeckListState
-> {
+interface State {
+	archetypeData?: any[];
+}
+
+export default class DeckList extends React.Component<Props, State> {
 	private cache: any;
 
-	constructor(props: DeckListProps, context) {
+	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
 			archetypeData: []
@@ -54,7 +49,10 @@ export default class DeckList extends React.Component<
 		this.fetchArchetypeDict();
 	}
 
-	componentWillReceiveProps(nextProps: DeckListProps) {
+	public componentWillReceiveProps(
+		nextProps: Readonly<Props>,
+		nextContext: any
+	): void {
 		if (
 			this.props.setPage &&
 			(!_.isEqual(nextProps.decks, this.props.decks) ||
@@ -89,7 +87,7 @@ export default class DeckList extends React.Component<
 		});
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		const currentPage =
 			typeof this.props.page !== "undefined" ? this.props.page : 1;
 		const pageOffset = (currentPage - 1) * this.props.pageSize;

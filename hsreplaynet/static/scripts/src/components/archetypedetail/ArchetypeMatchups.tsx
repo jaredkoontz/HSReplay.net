@@ -8,8 +8,7 @@ import { withLoading } from "../loading/Loading";
 import ClassArchetypesBox from "../metaoverview/ClassArchetypesBox";
 import CardData from "../../CardData";
 
-interface ArchetypeMatchupsProps
-	extends React.ClassAttributes<ArchetypeMatchups> {
+interface Props {
 	archetypeId: number;
 	archetypeMatchupData?: any;
 	archetypeData?: any;
@@ -18,24 +17,21 @@ interface ArchetypeMatchupsProps
 	minGames?: number;
 }
 
-interface ArchetypeMatchupsState {
+interface State {
 	sortBy: string;
 	sortDirection: SortDirection;
 }
 
-class ArchetypeMatchups extends React.Component<
-	ArchetypeMatchupsProps,
-	ArchetypeMatchupsState
-> {
-	constructor(props: ArchetypeMatchupsProps, state: ArchetypeMatchupsState) {
-		super(props, state);
+class ArchetypeMatchups extends React.Component<Props, State> {
+	constructor(props: Props, context: any) {
+		super(props, context);
 		this.state = {
 			sortBy: "archetype",
 			sortDirection: "ascending"
 		};
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		const { archetypeMatchupData, archetypeId, minGames } = this.props;
 
 		const opponentClasses: { [key: string]: ApiArchetypePopularity[] } = {};

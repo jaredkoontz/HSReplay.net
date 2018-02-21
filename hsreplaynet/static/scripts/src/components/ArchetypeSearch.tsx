@@ -3,9 +3,7 @@ import { cardSorting, cleanText } from "../helpers";
 import ObjectSearch, { Limit } from "./ObjectSearch";
 import { ApiArchetype } from "../interfaces";
 
-interface ArchetypeSearchState {}
-
-interface ArchetypeSearchProps {
+interface Props {
 	availableArchetypes: ApiArchetype[];
 	selectedArchetypes?: ApiArchetype[];
 	onArchetypeSelected?: (archetype: ApiArchetype) => void;
@@ -14,11 +12,8 @@ interface ArchetypeSearchProps {
 	label?: string;
 }
 
-export default class ArchetypeSearch extends React.Component<
-	ArchetypeSearchProps,
-	ArchetypeSearchState
-> {
-	render(): JSX.Element {
+export default class ArchetypeSearch extends React.Component<Props> {
+	public render(): React.ReactNode {
 		return (
 			<ArchetypeObjectSearch
 				getFilteredObjects={query => this.getFilteredArchetypes(query)}

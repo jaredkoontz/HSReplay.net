@@ -2,22 +2,19 @@ import React from "react";
 import { Visibility } from "../interfaces";
 import { fetchCSRF } from "../helpers";
 
-interface VisibilityDropdownProps {
+interface Props {
 	initial: Visibility;
 	shortid: string;
 }
 
-interface VisibilityDropdownState {
+interface State {
 	previous?: Visibility;
 	selected?: Visibility;
 	working?: boolean;
 }
 
-export default class PrivacyDropdown extends React.Component<
-	VisibilityDropdownProps,
-	VisibilityDropdownState
-> {
-	constructor(props: VisibilityDropdownProps, context: any) {
+export default class PrivacyDropdown extends React.Component<Props, State> {
+	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
 			previous: props.initial,
@@ -26,7 +23,7 @@ export default class PrivacyDropdown extends React.Component<
 		};
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		let options = {
 			Public: Visibility.Public,
 			Unlisted: Visibility.Unlisted

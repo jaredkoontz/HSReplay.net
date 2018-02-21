@@ -12,19 +12,16 @@ import HighlightTiles from "../components/myhighlights/HighlightTiles";
 import { RenderData } from "../interfaces";
 import InfoboxLastUpdated from "../components/InfoboxLastUpdated";
 
-interface MyHighlightsProps {
+interface Props {
 	cardData: CardData;
 }
 
-export default class MyHighlights extends React.Component<
-	MyHighlightsProps,
-	{}
-> {
+export default class MyHighlights extends React.Component<Props> {
 	getCard(dbfId: number): any {
 		return this.props.cardData.fromDbf(dbfId || 1720);
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		return (
 			<div id="my-highlights">
 				<aside className="infobox">

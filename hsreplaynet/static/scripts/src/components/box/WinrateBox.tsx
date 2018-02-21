@@ -4,7 +4,7 @@ import WinrateLineChart from "./WinrateLineChart";
 import { commaSeparate, toDynamicFixed, winrateData } from "../../helpers";
 import { LoadingStatus } from "../../interfaces";
 
-interface Props extends React.ClassAttributes<WinrateBox> {
+interface Props {
 	chartData?: any;
 	games?: number;
 	href: string;
@@ -14,7 +14,7 @@ interface Props extends React.ClassAttributes<WinrateBox> {
 }
 
 export default class WinrateBox extends React.Component<Props> {
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		let chart = null;
 		if (this.props.chartData) {
 			chart = (

@@ -13,25 +13,22 @@ import { RenderData } from "../../interfaces";
 import ChartHighlighter from "./ChartHighlighter";
 import WinLossGradient from "./gradients/WinLossGradient";
 
-interface WinrateByTurnLineChartProps
-	extends React.ClassAttributes<WinrateByTurnLineChart> {
+interface Props {
 	data?: RenderData;
 	opponentClass?: string;
 	widthRatio?: number;
 	premiumLocked?: boolean;
 }
 
-export default class WinrateByTurnLineChart extends React.Component<
-	WinrateByTurnLineChartProps
-> {
-	constructor(props: WinrateByTurnLineChartProps, state: any) {
-		super(props, state);
+export default class WinrateByTurnLineChart extends React.Component<Props> {
+	constructor(props: Props, context: any) {
+		super(props, context);
 		this.state = {
 			cursorPos: null
 		};
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		const width = 150 * (this.props.widthRatio || 3);
 		const renderData = this.props.premiumLocked
 			? this.mockData

@@ -5,13 +5,13 @@ import HideLoading from "../loading/HideLoading";
 import { ApiArchetype } from "../../interfaces";
 import { withLoading } from "../loading/Loading";
 
-interface AdminDeckInfoProps extends React.ClassAttributes<AdminDeckInfo> {
+interface Props {
 	data?: any;
 	playerClass: string;
 }
 
-class AdminDeckInfo extends React.Component<AdminDeckInfoProps, {}> {
-	render(): JSX.Element {
+class AdminDeckInfo extends React.Component<Props> {
+	public render(): React.ReactNode {
 		const { data, playerClass } = this.props;
 		return (
 			<ul>

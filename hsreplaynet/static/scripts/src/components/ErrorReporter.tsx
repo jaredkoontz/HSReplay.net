@@ -1,6 +1,6 @@
 import React from "react";
 
-interface Props extends React.ClassAttributes<ErrorReporter> {}
+interface Props {}
 
 interface State {
 	error: Error | null;
@@ -8,7 +8,7 @@ interface State {
 }
 
 export default class ErrorReporter extends React.Component<Props, State> {
-	constructor(props: Props, context?: any) {
+	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
 			error: null,
@@ -16,7 +16,7 @@ export default class ErrorReporter extends React.Component<Props, State> {
 		};
 	}
 
-	componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
+	public componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
 		const report = { error };
 		if (typeof Raven === "object") {
 			Raven.captureException(error, { extra: errorInfo });
@@ -25,7 +25,7 @@ export default class ErrorReporter extends React.Component<Props, State> {
 		this.setState(report);
 	}
 
-	render() {
+	public render(): React.ReactNode {
 		if (!this.state.error) {
 			return this.props.children;
 		}

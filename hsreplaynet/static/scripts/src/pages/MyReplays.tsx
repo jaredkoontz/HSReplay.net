@@ -31,11 +31,7 @@ interface GamesPage {
 	[index: number]: GameReplay[];
 }
 
-interface MyReplaysProps
-	extends ImageProps,
-		CardArtProps,
-		FragmentChildProps,
-		React.ClassAttributes<MyReplays> {
+interface Props extends ImageProps, CardArtProps, FragmentChildProps {
 	cardData: CardData;
 	username: string;
 	name?: string;
@@ -52,7 +48,7 @@ interface MyReplaysProps
 	setOpponent?: (opponent: string) => void;
 }
 
-interface MyReplaysState {
+interface State {
 	count?: number;
 	currentLocalPage?: number;
 	gamesPages?: GamesPage;
@@ -64,13 +60,10 @@ interface MyReplaysState {
 	working?: boolean;
 }
 
-export default class MyReplays extends React.Component<
-	MyReplaysProps,
-	MyReplaysState
-> {
+export default class MyReplays extends React.Component<Props, State> {
 	readonly viewCookie: string = "myreplays_viewtype";
 
-	constructor(props: MyReplaysProps, context: any) {
+	constructor(props: Props, context: any) {
 		super(props, context);
 		const viewType = cookie.get(this.viewCookie, "tiles") as ViewType;
 		this.state = {
@@ -220,7 +213,7 @@ export default class MyReplays extends React.Component<
 		return data;
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		let games = [];
 		const hasFilters = this.props.canBeReset;
 

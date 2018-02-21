@@ -20,14 +20,7 @@ import RankPicker from "../components/rankpicker/RankPicker";
 import InfoIcon from "../components/InfoIcon";
 import PremiumPromo from "../components/PremiumPromo";
 
-interface MetaOverviewState {
-	archetypeListSortBy: string;
-	archetypeListSortDirection: SortDirection;
-	mobileView?: boolean;
-	showFilters?: boolean;
-}
-
-interface MetaOverviewProps {
+interface Props {
 	cardData: CardData;
 	popularitySortBy?: string;
 	setPopularitySortBy?: (popularitySortBy: string) => void;
@@ -49,18 +42,22 @@ interface MetaOverviewProps {
 	setRegion?: (region: string) => void;
 }
 
-const mobileWidth = 530;
+interface State {
+	archetypeListSortBy: string;
+	archetypeListSortDirection: SortDirection;
+	mobileView?: boolean;
+	showFilters?: boolean;
+}
 
-export default class MetaOverview extends React.Component<
-	MetaOverviewProps,
-	MetaOverviewState
-> {
-	constructor(props: MetaOverviewProps, context: any) {
+const MOBILE_WIDTH = 530;
+
+export default class MetaOverview extends React.Component<Props, State> {
+	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
 			archetypeListSortBy: "archetype",
 			archetypeListSortDirection: "ascending",
-			mobileView: window.innerWidth <= mobileWidth,
+			mobileView: window.innerWidth <= MOBILE_WIDTH,
 			showFilters: false
 		};
 	}
@@ -89,7 +86,7 @@ export default class MetaOverview extends React.Component<
 		};
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		const params = this.getParams();
 		const popularityParams = this.getPopularityParams();
 
@@ -457,19 +454,19 @@ export default class MetaOverview extends React.Component<
 		return obj;
 	}
 
-	componentDidMount() {
+	public componentDidMount(): void {
 		window.addEventListener("resize", this.onResize);
 	}
 
-	componentWillUnmount() {
+	public componentWillUnmount(): void {
 		window.removeEventListener("resize", this.onResize);
 	}
 
 	onResize = () => {
 		const width = window.innerWidth;
-		if (this.state.mobileView && width > mobileWidth) {
+		if (this.state.mobileView && width > MOBILE_WIDTH) {
 			this.setState({ mobileView: false });
-		} else if (!this.state.mobileView && width <= mobileWidth) {
+		} else if (!this.state.mobileView && width <= MOBILE_WIDTH) {
 			this.setState({ mobileView: true });
 		}
 	};

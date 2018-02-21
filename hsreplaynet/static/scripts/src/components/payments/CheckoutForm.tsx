@@ -14,7 +14,14 @@ export const enum PaymentMethods {
 	PAYPAL = "paypal"
 }
 
-interface CheckoutFormProps extends React.ClassAttributes<CheckoutForm> {
+export interface CheckoutFormInstanceProps {
+	submitUrl: string;
+	csrfElement: { __html: string };
+	onDisable: (disabled: boolean) => any;
+	onSubscribe: (value: number) => any;
+}
+
+interface Props {
 	defaultPaymentMethod?: PaymentMethods;
 	stripeApiKey: string;
 	stripeDefaultSource?: string;
@@ -30,25 +37,14 @@ interface CheckoutFormProps extends React.ClassAttributes<CheckoutForm> {
 	onSubscribe: (value: number) => any;
 }
 
-export interface CheckoutFormInstanceProps {
-	submitUrl: string;
-	csrfElement: { __html: string };
-	onDisable: (disabled: boolean) => any;
-	onSubscribe: (value: number) => any;
-}
-
-interface CheckoutFormState {
+interface State {
 	disabled?: boolean;
 	paymentMethod?: PaymentMethods;
 }
 
-export default class CheckoutForm extends React.Component<
-	CheckoutFormProps,
-	CheckoutFormState
-> {
-	constructor(props: CheckoutFormProps, context: any) {
+export default class CheckoutForm extends React.Component<Props, State> {
+	constructor(props: Props, context: any) {
 		super(props, context);
-
 		this.state = {
 			paymentMethod: props.defaultPaymentMethod
 				? props.defaultPaymentMethod
@@ -178,7 +174,7 @@ export default class CheckoutForm extends React.Component<
 		}
 	}
 
-	render() {
+	public render(): React.ReactNode {
 		return (
 			<div style={{ width: "100%", maxWidth: "500px", margin: "0 auto" }}>
 				{this.renderPaymentMethods()}

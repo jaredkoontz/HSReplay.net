@@ -3,7 +3,7 @@ import CardData from "../../CardData";
 import { cloneComponent } from "../../helpers";
 import { LoadingStatus, RenderData } from "../../interfaces";
 
-interface ChartLoadingProps {
+interface Props {
 	cardData?: CardData;
 	data?: RenderData;
 	dataKeys?: string[];
@@ -12,11 +12,8 @@ interface ChartLoadingProps {
 	widthRatio?: number;
 }
 
-export default class ChartLoading extends React.Component<
-	ChartLoadingProps,
-	{}
-> {
-	render(): JSX.Element {
+export default class ChartLoading extends React.Component<Props> {
+	public render(): React.ReactNode {
 		const width = 150 * (this.props.widthRatio || 2);
 		const loadingMessage = this.getLoadingMessage();
 		if (loadingMessage) {

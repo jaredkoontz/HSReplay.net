@@ -13,7 +13,7 @@ interface ClassArchetypeData {
 	[playerClass: string]: ApiArchetypePopularity[];
 }
 
-interface Props extends SortableProps, React.ClassAttributes<ArchetypeList> {
+interface Props extends SortableProps {
 	data?: ClassArchetypeData;
 	archetypeData?: ApiArchetype[];
 	cardData: CardData;
@@ -22,7 +22,7 @@ interface Props extends SortableProps, React.ClassAttributes<ArchetypeList> {
 }
 
 class ArchetypeList extends React.Component<Props> {
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		const { data } = this.props;
 		const tiles = Object.keys(data)
 			.sort()

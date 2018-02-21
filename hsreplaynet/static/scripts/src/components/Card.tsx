@@ -1,30 +1,34 @@
 import React from "react";
 
-interface CardProps {
+interface Props {
 	id: string;
 	x?: number;
 	y?: number;
 }
 
-interface CardState {
+interface State {
 	loaded?: boolean;
 }
 
-export default class Card extends React.Component<CardProps, CardState> {
-	constructor(props, context) {
+export default class Card extends React.Component<Props, State> {
+	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
 			loaded: false
 		};
 	}
 
-	componentDidUpdate(prevProps: CardProps, prevState: CardState) {
+	public componentDidUpdate(
+		prevProps: Readonly<Props>,
+		prevState: Readonly<State>,
+		prevContext: any
+	): void {
 		if (prevProps.id !== this.props.id) {
 			this.setState({ loaded: false });
 		}
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		const imageStyle = {
 			top: Math.max(0, this.props.y - 350) + "px"
 		};

@@ -5,7 +5,7 @@ export const enum BarDirection {
 	HORIZONTAL
 }
 
-interface BarProps extends React.ClassAttributes<Bar> {
+interface Props {
 	total: number;
 	value: number;
 	valueElement?: JSX.Element;
@@ -13,8 +13,8 @@ interface BarProps extends React.ClassAttributes<Bar> {
 	direction?: BarDirection;
 }
 
-export default class Bar extends React.Component<BarProps, {}> {
-	render() {
+export default class Bar extends React.Component<Props> {
+	public render(): React.ReactNode {
 		const direction = this.props.direction || BarDirection.VERTICAL;
 		const style = {};
 

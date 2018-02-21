@@ -3,11 +3,7 @@ import { toPrettyNumber } from "../../helpers";
 import { TableData } from "../../interfaces";
 import InfoboxLastUpdated from "../InfoboxLastUpdated";
 
-interface DeckStatsState {
-	expandWinrate?: boolean;
-}
-
-interface DeckStatsProps {
+interface Props {
 	data?: TableData;
 	deckId?: string;
 	lastUpdatedParams: any;
@@ -15,18 +11,19 @@ interface DeckStatsProps {
 	playerClass: string;
 }
 
-export default class DeckStats extends React.Component<
-	DeckStatsProps,
-	DeckStatsState
-> {
-	constructor(props: DeckStatsProps, state: DeckStatsState) {
-		super(props, state);
+interface State {
+	expandWinrate?: boolean;
+}
+
+export default class DeckStats extends React.Component<Props, State> {
+	constructor(props: Props, context: any) {
+		super(props, context);
 		this.state = {
 			expandWinrate: false
 		};
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		const deck = this.props.data.series.data[this.props.playerClass].find(
 			x => x.deck_id === this.props.deckId
 		);

@@ -1,12 +1,12 @@
 import React from "react";
 
-interface InfoboxItemProps extends React.ClassAttributes<InfoboxItem> {
+interface Props {
 	header: string;
 	value?: any;
 }
 
-export default class InfoboxItem extends React.Component<InfoboxItemProps, {}> {
-	render(): JSX.Element {
+export default class InfoboxItem extends React.Component<Props> {
+	public render(): React.ReactNode {
 		return (
 			<li>
 				{this.props.header}

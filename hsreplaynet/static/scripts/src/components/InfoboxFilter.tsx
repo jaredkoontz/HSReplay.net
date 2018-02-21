@@ -1,8 +1,8 @@
 import React from "react";
-import * as PropTypes from "prop-types";
+import PropTypes from "prop-types";
 import UserData from "../UserData";
 
-interface InfoboxFilterProps extends React.ClassAttributes<InfoboxFilter> {
+interface Props {
 	classNames?: string[];
 	deselectable?: string;
 	disabled?: boolean;
@@ -12,7 +12,7 @@ interface InfoboxFilterProps extends React.ClassAttributes<InfoboxFilter> {
 	value: string;
 }
 
-export default class InfoboxFilter extends React.Component<InfoboxFilterProps> {
+export default class InfoboxFilter extends React.Component<Props> {
 	private ref;
 
 	static contextTypes = {
@@ -38,7 +38,7 @@ export default class InfoboxFilter extends React.Component<InfoboxFilterProps> {
 		return this.props.selected;
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		const onClick = () => {
 			if (this.isPremiumFilter() && !UserData.isPremium()) {
 				return;

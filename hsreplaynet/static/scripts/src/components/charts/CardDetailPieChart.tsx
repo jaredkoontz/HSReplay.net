@@ -8,7 +8,7 @@ import {
 import { getChartScheme, pieScaleTransform, toTitleCase } from "../../helpers";
 import { ChartScheme, RenderData } from "../../interfaces";
 
-interface CardDetailPieChartProps {
+interface Props {
 	data?: RenderData;
 	title?: string;
 	scheme?: ChartScheme;
@@ -19,11 +19,8 @@ interface CardDetailPieChartProps {
 	customViewbox?: string;
 }
 
-export default class CardDetailPieChart extends React.Component<
-	CardDetailPieChartProps,
-	{}
-> {
-	render(): JSX.Element {
+export default class CardDetailPieChart extends React.Component<Props> {
+	public render(): React.ReactNode {
 		const series = this.props.data.series[0];
 		let data = series.data;
 		let fill = null;

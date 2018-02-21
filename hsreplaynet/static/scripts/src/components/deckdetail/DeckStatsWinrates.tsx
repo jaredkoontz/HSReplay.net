@@ -2,22 +2,12 @@ import React from "react";
 import { toTitleCase } from "../../helpers";
 import { TableData } from "../../interfaces";
 
-interface DeckStatsWinratesState {}
-
-interface DeckStatsWinratesProps {
+interface Props {
 	data?: TableData;
 }
 
-export default class DeckStatsWinrates extends React.Component<
-	DeckStatsWinratesProps,
-	DeckStatsWinratesState
-> {
-	constructor(props: DeckStatsWinratesProps, state: DeckStatsWinratesState) {
-		super(props, state);
-		this.state = {};
-	}
-
-	render(): JSX.Element {
+export default class DeckStatsWinrates extends React.Component<Props> {
+	public render(): React.ReactNode {
 		const data = Object.assign({}, this.props.data.series.data);
 		const keys = Object.keys(this.props.data.series.data);
 		keys.sort(

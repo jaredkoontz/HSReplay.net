@@ -7,17 +7,14 @@ export interface ArchetypeData {
 	winrate: number;
 }
 
-interface ClassMatchupProps extends React.ClassAttributes<ClassMatchup> {
+interface Props {
 	playerClass: string;
 	totalWinrate?: number;
 	archetypes: ArchetypeData[];
 }
 
-export default class ClassMatchup extends React.Component<
-	ClassMatchupProps,
-	{}
-> {
-	render(): JSX.Element {
+export default class ClassMatchup extends React.Component<Props> {
+	public render(): React.ReactNode {
 		const data = this.props.archetypes.sort(
 			(a, b) => (a.name > b.name ? 1 : -1)
 		);

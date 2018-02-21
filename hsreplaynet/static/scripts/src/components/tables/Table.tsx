@@ -33,24 +33,24 @@ export interface BaseTableProps extends SortableProps {
 	headerWidthRatio?: number;
 }
 
-interface TableProps extends BaseTableProps, React.ClassAttributes<Table> {
+interface Props extends BaseTableProps {
 	cellHeight: number;
 	minColumnWidth: number;
 	headerWidth: [number, number];
 	rowHighlighting?: boolean;
 }
 
-interface TableState {
+interface State {
 	hoveringRow: number;
 }
 
 const HEADER_WIDTH_RATIO = 0.33;
 const INFO_ROW_HEIGHT = 50;
 
-export default class Table extends React.Component<TableProps, TableState> {
+export default class Table extends React.Component<Props, State> {
 	referenceId: string;
 
-	constructor(props: TableProps, context?: any) {
+	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
 			hoveringRow: -1
@@ -58,7 +58,7 @@ export default class Table extends React.Component<TableProps, TableState> {
 		this.referenceId = _.uniqueId("table");
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		const {
 			cellHeight,
 			columns,

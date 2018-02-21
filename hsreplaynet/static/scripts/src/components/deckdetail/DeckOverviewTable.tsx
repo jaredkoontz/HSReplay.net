@@ -3,7 +3,7 @@ import React from "react";
 import { TableData } from "../../interfaces";
 import { toTitleCase, winrateData } from "../../helpers";
 
-interface Props extends React.ClassAttributes<DeckOverviewTable> {
+interface Props {
 	opponentWinrateData?: TableData;
 	deckListData?: TableData;
 	deckId: string;
@@ -11,7 +11,7 @@ interface Props extends React.ClassAttributes<DeckOverviewTable> {
 }
 
 export default class DeckOverviewTable extends React.Component<Props> {
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		const deck = this.props.deckListData.series.data[
 			this.props.playerClass
 		].find(x => x.deck_id === this.props.deckId);

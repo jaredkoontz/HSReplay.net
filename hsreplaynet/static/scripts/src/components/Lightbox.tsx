@@ -1,7 +1,7 @@
 import React from "react";
 import Pager from "./Pager";
 
-interface LightboxProps {
+interface Props {
 	body: any;
 	hidden: boolean;
 	close: () => void;
@@ -10,20 +10,20 @@ interface LightboxProps {
 	pageCount?: number;
 }
 
-export default class Lightbox extends React.Component<LightboxProps, {}> {
+export default class Lightbox extends React.Component<Props> {
 	private ref: HTMLDivElement;
 	private onkeydown: (event) => void;
 
-	constructor(props) {
-		super(props);
+	constructor(props: Props, context: any) {
+		super(props, context);
 		this.onkeydown = event => this.onKeyDown(event);
 	}
 
-	componentDidMount() {
+	public componentDidMount(): void {
 		window.addEventListener("keydown", this.onkeydown);
 	}
 
-	componentWillUnmount() {
+	public componentWillUnmount(): void {
 		window.addEventListener("keydown", this.onkeydown);
 	}
 
@@ -54,7 +54,7 @@ export default class Lightbox extends React.Component<LightboxProps, {}> {
 		}
 	}
 
-	render() {
+	public render(): React.ReactNode {
 		if (this.props.hidden) {
 			return null;
 		}

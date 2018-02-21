@@ -3,7 +3,7 @@ import { winrateData } from "../../helpers";
 import CardIcon from "../CardIcon";
 import { LoadingStatus } from "../../interfaces";
 
-interface Props extends React.ClassAttributes<DeckBox> {
+interface Props {
 	cards?: any[];
 	deckId?: string;
 	games?: number;
@@ -13,7 +13,7 @@ interface Props extends React.ClassAttributes<DeckBox> {
 }
 
 export default class DeckBox extends React.Component<Props> {
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		let content = null;
 		let href = null;
 		if (

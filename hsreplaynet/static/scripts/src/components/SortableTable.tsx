@@ -2,18 +2,15 @@ import React from "react";
 import SortHeader from "./SortHeader";
 import { SortDirection, TableHeaderProps } from "../interfaces";
 
-interface SortableTableProps {
+interface Props {
 	sortBy: string;
 	sortDirection: SortDirection;
 	onSortChanged?: (sortBy: string, sortDirection: SortDirection) => void;
 	headers: TableHeaderProps[];
 }
 
-export default class SortableTable extends React.Component<
-	SortableTableProps,
-	{}
-> {
-	render(): JSX.Element {
+export default class SortableTable extends React.Component<Props> {
+	public render(): React.ReactNode {
 		const headers = this.props.headers.map(header => {
 			return (
 				<SortHeader

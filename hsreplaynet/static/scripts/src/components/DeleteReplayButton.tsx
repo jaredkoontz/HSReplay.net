@@ -1,21 +1,18 @@
 import React from "react";
 import { fetchCSRF } from "../helpers";
 
-interface DeleteReplayButtonProps {
+interface Props {
 	shortid: string;
 	done?: () => void;
 }
 
-interface DeleteReplayButtonState {
+interface State {
 	deleted?: boolean;
 	working?: boolean;
 }
 
-export default class DeleteReplayButton extends React.Component<
-	DeleteReplayButtonProps,
-	DeleteReplayButtonState
-> {
-	constructor(props: DeleteReplayButtonProps, context: any) {
+export default class DeleteReplayButton extends React.Component<Props, State> {
+	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
 			deleted: false,
@@ -23,7 +20,7 @@ export default class DeleteReplayButton extends React.Component<
 		};
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		return (
 			<button
 				className="btn btn-danger btn-xs"

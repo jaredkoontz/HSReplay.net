@@ -11,7 +11,7 @@ interface TooltipMap<T> {
 	winrate?: T;
 }
 
-interface CardRankingTableProps {
+interface Props {
 	data?: TableData;
 	dataKey: string;
 	cardData: CardData;
@@ -19,22 +19,19 @@ interface CardRankingTableProps {
 	tooltips?: TooltipMap<JSX.Element>;
 }
 
-interface CardRankingTableState {
+interface State {
 	page: number;
 }
 
-export default class CardRankingTable extends React.Component<
-	CardRankingTableProps,
-	CardRankingTableState
-> {
-	constructor(props, context) {
+export default class CardRankingTable extends React.Component<Props, State> {
+	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
 			page: 1
 		};
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		const tableRows = this.props.data.series.data[this.props.dataKey];
 		const hasWinrate = tableRows[0] && tableRows[0].win_rate;
 		const rowCount = tableRows.length;

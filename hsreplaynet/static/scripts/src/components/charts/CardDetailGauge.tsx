@@ -2,7 +2,7 @@ import React from "react";
 import { VictoryContainer, VictoryLabel, VictoryPie } from "victory";
 import { ChartSchemeData, RenderData } from "../../interfaces";
 
-interface CardDetailGaugeProps {
+interface Props {
 	renderData: RenderData;
 	title?: string;
 	speedometer?: boolean;
@@ -11,13 +11,10 @@ interface CardDetailGaugeProps {
 	reverse?: boolean;
 }
 
-export default class CardDetailGauge extends React.Component<
-	CardDetailGaugeProps,
-	any
-> {
+export default class CardDetailGauge extends React.Component<Props> {
 	private readonly speedometerAngle = 90;
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		const maxValue = this.props.maxValue || 100;
 		const percentBased = maxValue === 100;
 		const offsetY = this.props.speedometer ? -75 : 0;

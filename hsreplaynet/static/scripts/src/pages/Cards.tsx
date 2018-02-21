@@ -44,18 +44,7 @@ interface CardFilters {
 	type: any;
 }
 
-interface CardsState {
-	account?: string;
-	cards?: any[];
-	filteredCards?: any[];
-	filterCounts?: CardFilters;
-	hasPersonalData?: boolean;
-	hasStatisticsData?: boolean;
-	numCards?: number;
-	showFilters?: boolean;
-}
-
-interface CardsProps extends FragmentChildProps, React.ClassAttributes<Cards> {
+interface Props extends FragmentChildProps {
 	cardData: CardData;
 	personal: boolean;
 	accounts?: Account[];
@@ -106,12 +95,23 @@ interface CardsProps extends FragmentChildProps, React.ClassAttributes<Cards> {
 	setDisplay?: (display: string) => void;
 }
 
+interface State {
+	account?: string;
+	cards?: any[];
+	filteredCards?: any[];
+	filterCounts?: CardFilters;
+	hasPersonalData?: boolean;
+	hasStatisticsData?: boolean;
+	numCards?: number;
+	showFilters?: boolean;
+}
+
 const PLACEHOLDER_MINION = STATIC_URL + "images/loading_minion.png";
 const PLACEHOLDER_SPELL = STATIC_URL + "images/loading_spell.png";
 const PLACEHOLDER_WEAPON = STATIC_URL + "images/loading_weapon.png";
 const PLACEHOLDER_HERO = STATIC_URL + "images/loading_hero.png";
 
-export default class Cards extends React.Component<CardsProps, CardsState> {
+export default class Cards extends React.Component<Props, State> {
 	readonly filters = {
 		cost: [0, 1, 2, 3, 4, 5, 6, 7],
 		format: ["standard"],
@@ -202,8 +202,8 @@ export default class Cards extends React.Component<CardsProps, CardsState> {
 
 	showMoreButton: HTMLDivElement;
 
-	constructor(props: CardsProps, state: CardsState) {
-		super(props, state);
+	constructor(props: Props, context: any) {
+		super(props, context);
 		this.state = {
 			account: UserData.getDefaultAccountKey(),
 			cards: null,
@@ -249,16 +249,20 @@ export default class Cards extends React.Component<CardsProps, CardsState> {
 
 	private scrollCb;
 
-	componentDidMount() {
+	public componentDidMount(): void {
 		this.scrollCb = () => this.onSearchScroll();
 		document.addEventListener("scroll", this.scrollCb);
 	}
 
-	componentWillUnmount() {
+	public componentWillUnmount(): void {
 		document.removeEventListener("scroll", this.scrollCb);
 	}
 
-	componentDidUpdate(prevProps: CardsProps, prevState: CardsState) {
+	public componentDidUpdate(
+		prevProps: Readonly<Props>,
+		prevState: Readonly<State>,
+		prevContext: any
+	): void {
 		// omit functions (not supported) and unused custom* props to prevent multiple update calls
 		const ignore = Object.keys(this.props)
 			.filter(key => {
@@ -405,7 +409,10 @@ export default class Cards extends React.Component<CardsProps, CardsState> {
 		}
 	}
 
-	componentWillReceiveProps(nextProps: CardsProps) {
+	public componentWillReceiveProps(
+		nextProps: Readonly<Props>,
+		nextContext: any
+	): void {
 		if (!this.state.cards && nextProps.cardData) {
 			const cards = [];
 			const { set, type } = this.filters;
@@ -423,7 +430,11 @@ export default class Cards extends React.Component<CardsProps, CardsState> {
 		}
 	}
 
-	componentWillUpdate(nextProps: CardsProps, nextState: CardsState) {
+	public componentWillUpdate(
+		nextProps: Readonly<Props>,
+		nextState: Readonly<State>,
+		nextContext: any
+	): void {
 		if (!this.props.personal && this.props.display !== nextProps.display) {
 			if (nextProps.display === "gallery") {
 				const minion = new Image();
@@ -438,7 +449,7 @@ export default class Cards extends React.Component<CardsProps, CardsState> {
 		}
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		const isStatsView = this.isStatsView();
 		const content = [];
 

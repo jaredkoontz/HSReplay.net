@@ -1,16 +1,13 @@
 import React from "react";
 import { SortDirection } from "../interfaces";
 
-interface SortIndicatorProps {
+interface Props {
 	className?: string;
 	direction?: SortDirection | null;
 }
 
-export default class SortIndicator extends React.Component<
-	SortIndicatorProps,
-	{}
-> {
-	render() {
+export default class SortIndicator extends React.Component<Props> {
+	public render(): React.ReactNode {
 		let classNameAsc = "glyphicon glyphicon-triangle-top";
 		let classNameDesc = "glyphicon glyphicon-triangle-bottom";
 		let className = this.props.className

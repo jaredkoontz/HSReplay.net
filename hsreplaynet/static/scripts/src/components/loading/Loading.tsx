@@ -4,7 +4,7 @@ import * as _ from "lodash";
 
 type StringOrJSX = string | JSX.Element | JSX.Element[];
 
-interface LoadingProps {
+interface Props {
 	customNoDataMessage?: StringOrJSX;
 	status?: LoadingStatus;
 }
@@ -13,8 +13,8 @@ export const withLoading = (dataKeys?: string[]) => <T extends {}>(
 	// tslint:disable-next-line:variable-name
 	Component: React.ComponentClass<T>
 ) => {
-	return class Loading extends React.Component<T & LoadingProps, {}> {
-		render(): JSX.Element {
+	return class Loading extends React.Component<T & Props> {
+		public render(): React.ReactNode {
 			const { customNoDataMessage, status } = this.props;
 			if (status !== undefined) {
 				const message = getLoadingMessage(status, customNoDataMessage);

@@ -2,7 +2,7 @@ import React from "react";
 import { getArchetypeUrl, winrateData } from "../../helpers";
 import { LoadingStatus } from "../../interfaces";
 
-interface Props extends React.ClassAttributes<MatchupBox> {
+interface Props {
 	archetypeId?: number;
 	archetypeName?: string;
 	games?: number;
@@ -13,7 +13,7 @@ interface Props extends React.ClassAttributes<MatchupBox> {
 }
 
 export default class MatchupBox extends React.Component<Props> {
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		let content = null;
 		if (
 			this.props.playerClass &&

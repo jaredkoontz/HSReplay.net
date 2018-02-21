@@ -9,27 +9,24 @@ import { winrateData } from "../../helpers";
 import Pager from "../Pager";
 import SortableTable from "../SortableTable";
 
-interface AdaptDetailState {
-	page?: number;
-	sortBy?: string;
-	sortDirection?: SortDirection;
-}
-
-interface AdaptDetailProps {
+interface Props {
 	cardData: CardData;
 	data?: TableData;
 	opponentClass: string;
 	setOpponentClass: (opponentClass: string) => void;
 }
 
-export default class AdaptDetail extends React.Component<
-	AdaptDetailProps,
-	AdaptDetailState
-> {
+interface State {
+	page?: number;
+	sortBy?: string;
+	sortDirection?: SortDirection;
+}
+
+export default class AdaptDetail extends React.Component<Props, State> {
 	private readonly numRows = 10;
 
-	constructor(props: AdaptDetailProps, state: AdaptDetailState) {
-		super(props, state);
+	constructor(props: Props, context: any) {
+		super(props, context);
 		this.state = {
 			page: 1,
 			sortBy: "popularity",
@@ -37,7 +34,7 @@ export default class AdaptDetail extends React.Component<
 		};
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		let adaptations = 0;
 		let totalRows = 0;
 		const rows = [];

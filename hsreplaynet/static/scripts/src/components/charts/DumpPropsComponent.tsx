@@ -1,16 +1,19 @@
 import React from "react";
 
-export default class DumpPropsComponent extends React.Component<any, any> {
+export default class DumpPropsComponent extends React.Component<any> {
 	constructor(props: any, context: any) {
 		super(props, context);
 		console.debug(props);
 	}
 
-	componentWillReceiveProps(nextProps: any, nextContext: any): void {
+	public componentWillReceiveProps(
+		nextProps: Readonly<{}>,
+		nextContext: any
+	): void {
 		console.debug(nextProps);
 	}
 
-	render(): JSX.Element | any {
+	public render(): React.ReactNode | any {
 		return null;
 	}
 }

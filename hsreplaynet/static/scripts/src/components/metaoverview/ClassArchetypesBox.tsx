@@ -8,9 +8,7 @@ import CardData from "../../CardData";
 import { toTitleCase } from "../../helpers";
 import ArchetypeClassTable from "./ArchetypeClassTable";
 
-interface Props
-	extends SortableProps,
-		React.ClassAttributes<ClassArchetypesBox> {
+interface Props extends SortableProps {
 	data: ApiArchetypePopularity[];
 	archetypeData: ApiArchetype[];
 	playerClass: string;
@@ -20,7 +18,7 @@ interface Props
 }
 
 export default class ClassArchetypesBox extends React.Component<Props> {
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		const { playerClass } = this.props;
 		return (
 			<div className="box class-box">

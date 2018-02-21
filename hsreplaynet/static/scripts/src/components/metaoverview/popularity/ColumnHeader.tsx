@@ -2,7 +2,7 @@ import React from "react";
 import { ArchetypeRankData, SortDirection } from "../../../interfaces";
 import SortIndicator from "../../SortIndicator";
 
-interface ColumnHeaderProps extends React.ClassAttributes<ColumnHeader> {
+interface Props {
 	active: boolean;
 	direction: SortDirection;
 	rankData: ArchetypeRankData;
@@ -11,13 +11,8 @@ interface ColumnHeaderProps extends React.ClassAttributes<ColumnHeader> {
 	onClick?: (key: string, direction: SortDirection) => void;
 }
 
-interface ColumnHeaderState {}
-
-export default class ColumnHeader extends React.Component<
-	ColumnHeaderProps,
-	ColumnHeaderState
-> {
-	render() {
+export default class ColumnHeader extends React.Component<Props> {
+	public render(): React.ReactNode {
 		const imageName =
 			"Medal_Ranked_" + (this.props.rankData.rank || "Legend");
 		return (

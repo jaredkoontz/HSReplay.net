@@ -12,8 +12,7 @@ import {
 import { RenderData } from "../../interfaces";
 import ChartHighlighter from "./ChartHighlighter";
 
-interface PopularityLineChartProps
-	extends React.ClassAttributes<PopularityLineChart> {
+interface PopularityLineChartProps {
 	data?: RenderData;
 	maxYDomain: 10 | 100;
 	widthRatio?: number;
@@ -33,7 +32,7 @@ export default class PopularityLineChart extends React.Component<
 	private readonly colorMin = "rgba(0, 196, 255, 1.0)";
 	private readonly colorMax = "rgba(255, 128, 0, 1.0)";
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		const height = this.props.height || 150;
 		const width =
 			Math.max(0, this.props.width) ||

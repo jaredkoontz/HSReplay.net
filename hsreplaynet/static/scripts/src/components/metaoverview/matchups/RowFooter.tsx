@@ -4,15 +4,19 @@ import { ArchetypeData } from "../../../interfaces";
 import { getColorString } from "../../../helpers";
 import { Colors } from "../../../Colors";
 
-interface RowFooterProps extends React.ClassAttributes<RowFooter> {
+interface Props {
 	archetypeData?: ArchetypeData;
 	highlight?: boolean;
 	style?: any;
 	onHover?: (hovering: boolean) => void;
 }
 
-export default class RowFooter extends React.Component<RowFooterProps, {}> {
-	shouldComponentUpdate(nextProps: RowFooterProps): boolean {
+export default class RowFooter extends React.Component<Props> {
+	public shouldComponentUpdate(
+		nextProps: Readonly<Props>,
+		nextState: Readonly<{}>,
+		nextContext: any
+	): boolean {
 		return (
 			this.props.highlight !== nextProps.highlight ||
 			this.props.archetypeData.id !== nextProps.archetypeData.id ||
@@ -22,7 +26,7 @@ export default class RowFooter extends React.Component<RowFooterProps, {}> {
 		);
 	}
 
-	render() {
+	public render(): React.ReactNode {
 		const style = {
 			backgroundColor: "transparent",
 			...this.props.style

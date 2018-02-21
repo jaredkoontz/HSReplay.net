@@ -1,18 +1,18 @@
 import React from "react";
-import * as PropTypes from "prop-types";
+import PropTypes from "prop-types";
 import InfoIcon, { InfoIconProps } from "./InfoIcon";
 import { showModal } from "../Premium";
 import { ClickTouch, TooltipContent } from "./Tooltip";
 import UserData from "../UserData";
 
-interface PremiumWrapperProps {
+interface Props {
 	name?: string; // used for tracking only
 	iconStyle?: any;
 	infoHeader?: InfoIconProps["header"];
 	infoContent?: InfoIconProps["content"];
 }
 
-interface PremiumWrapperState {
+interface State {
 	hovering?: boolean;
 	triggered?: PremiumWrapper[];
 	touchCount?: number;
@@ -20,11 +20,8 @@ interface PremiumWrapperState {
 
 const key = "hsreplaynet_premium_wrappers";
 
-export default class PremiumWrapper extends React.Component<
-	PremiumWrapperProps,
-	PremiumWrapperState
-> {
-	constructor(props: PremiumWrapperProps, context: any) {
+export default class PremiumWrapper extends React.Component<Props, State> {
+	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
 			hovering: false,
@@ -62,7 +59,7 @@ export default class PremiumWrapper extends React.Component<
 		}));
 	}
 
-	componentDidMount() {
+	public componentDidMount(): void {
 		// register to global list of premium wrappers
 		if (typeof window[key] === "undefined") {
 			window[key] = [];
@@ -70,7 +67,7 @@ export default class PremiumWrapper extends React.Component<
 		window[key].push(this);
 	}
 
-	componentWillUnmount() {
+	public componentWillUnmount(): void {
 		if (typeof window[key] === "undefined") {
 			return;
 		}
@@ -82,10 +79,11 @@ export default class PremiumWrapper extends React.Component<
 		);
 	}
 
-	componentWillUpdate(
-		nextProps: PremiumWrapperProps,
-		nextState: PremiumWrapperState
-	) {
+	public componentWillUpdate(
+		nextProps: Readonly<Props>,
+		nextState: Readonly<State>,
+		nextContext: any
+	): void {
 		if (nextState.hovering === this.state.hovering) {
 			return;
 		}
@@ -99,7 +97,7 @@ export default class PremiumWrapper extends React.Component<
 		});
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		const {
 			name,
 			iconStyle,

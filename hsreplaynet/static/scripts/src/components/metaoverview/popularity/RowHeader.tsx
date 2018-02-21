@@ -9,15 +9,15 @@ import ArchetypeSignature from "../../archetypedetail/ArchetypeSignature";
 import ArchetypeSignatureTooltip from "../ArchetypeSignatureTooltip";
 import OtherArchetype from "../OtherArchetype";
 
-interface RowHeaderProps extends React.ClassAttributes<RowHeader> {
+interface Props {
 	archetypeData?: ArchetypeRankPopularity;
 	cardData: CardData;
 	gameType: string;
 	style?: any;
 }
 
-export default class RowHeader extends React.Component<RowHeaderProps, {}> {
-	render() {
+export default class RowHeader extends React.Component<Props> {
+	public render(): React.ReactNode {
 		return (
 			<div className="matchup-row-header" style={this.props.style}>
 				<div className="archetype">

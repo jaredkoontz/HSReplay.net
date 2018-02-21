@@ -7,7 +7,7 @@ import { toTitleCase } from "../helpers";
 import { FormatType } from "../hearthstone";
 import { CardData as HearthstoneJSONCardData } from "hearthstonejson-client";
 
-interface CopyDeckButtonProps extends React.ClassAttributes<CopyDeckButton> {
+interface Props {
 	cardData: CardData;
 	name?: string;
 	deckClass?: string;
@@ -18,17 +18,14 @@ interface CopyDeckButtonProps extends React.ClassAttributes<CopyDeckButton> {
 	simple?: boolean;
 }
 
-interface CopyDeckButtonState {
+interface State {
 	copied?: boolean;
 }
 
-export default class CopyDeckButton extends React.Component<
-	CopyDeckButtonProps,
-	CopyDeckButtonState
-> {
+export default class CopyDeckButton extends React.Component<Props, State> {
 	private timeout: number;
 
-	constructor(props: CopyDeckButtonProps, context: any) {
+	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
 			copied: false
@@ -48,7 +45,7 @@ export default class CopyDeckButton extends React.Component<
 			});
 	};
 
-	render() {
+	public render(): React.ReactNode {
 		const classNames = ["copy-deck-button btn"];
 		if (this.state.copied) {
 			classNames.push("btn-success");
@@ -97,7 +94,7 @@ export default class CopyDeckButton extends React.Component<
 		);
 	}
 
-	componentWillUnmount() {
+	public componentWillUnmount(): void {
 		if (this.timeout) {
 			clearTimeout(this.timeout);
 		}

@@ -5,18 +5,15 @@ import Tooltip from "./Tooltip";
 import SemanticAge from "./SemanticAge";
 import PropRemapper from "./utils/PropRemapper";
 
-interface InfoboxLastUpdatedProps {
+interface Props {
 	fetchCondition?: boolean;
 	params: any;
 	url: string;
 	modify?: (data: any) => any;
 }
 
-export default class InfoboxLastUpdated extends React.Component<
-	InfoboxLastUpdatedProps,
-	{}
-> {
-	render(): JSX.Element {
+export default class InfoboxLastUpdated extends React.Component<Props> {
+	public render(): React.ReactNode {
 		const { fetchCondition, modify, params, url } = this.props;
 		return (
 			<li>

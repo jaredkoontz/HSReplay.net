@@ -3,17 +3,15 @@ import InfoIcon from "./InfoIcon";
 import SortIndicator from "./SortIndicator";
 import { SortDirection, TableHeaderProps } from "../interfaces";
 
-interface SortHeaderProps
-	extends TableHeaderProps,
-		React.ClassAttributes<SortHeader> {
+interface Props extends TableHeaderProps {
 	active?: boolean;
 	direction?: SortDirection;
 	onClick?: (key: string, direction: SortDirection) => void;
 	element?: JSX.Element;
 }
 
-export default class SortHeader extends React.Component<SortHeaderProps, {}> {
-	render(): JSX.Element {
+export default class SortHeader extends React.Component<Props> {
+	public render(): React.ReactNode {
 		let info = null;
 		let { text, element } = this.props;
 

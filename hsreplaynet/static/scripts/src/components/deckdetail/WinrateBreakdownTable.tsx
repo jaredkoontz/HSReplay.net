@@ -3,34 +3,31 @@ import { SortDirection, TableData } from "../../interfaces";
 import { toTitleCase, winrateData } from "../../helpers";
 import SortableTable from "../SortableTable";
 
-interface WinrateBreakdownTableState {
-	sortBy?: string;
-	sortDirection?: SortDirection;
-}
-
-interface WinrateBreakdownTableProps {
+interface Props {
 	opponentWinrateData?: TableData;
 	deckListData?: TableData;
 	deckId: string;
 	playerClass: string;
 }
 
+interface State {
+	sortBy?: string;
+	sortDirection?: SortDirection;
+}
+
 export default class WinrateBreakdownTable extends React.Component<
-	WinrateBreakdownTableProps,
-	WinrateBreakdownTableState
+	Props,
+	State
 > {
-	constructor(
-		props: WinrateBreakdownTableProps,
-		state: WinrateBreakdownTableState
-	) {
-		super(props, state);
+	constructor(props: Props, context: any) {
+		super(props, context);
 		this.state = {
 			sortBy: "opponent",
 			sortDirection: "ascending"
 		};
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		const deck = this.props.deckListData.series.data[
 			this.props.playerClass
 		].find(x => x.deck_id === this.props.deckId);

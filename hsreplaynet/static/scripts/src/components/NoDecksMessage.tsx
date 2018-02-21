@@ -1,12 +1,7 @@
 import React from "react";
 
-interface NoDecksMessageProps {}
-
-export default class NoDecksMessage extends React.Component<
-	NoDecksMessageProps,
-	{}
-> {
-	render(): JSX.Element {
+export default class NoDecksMessage extends React.Component {
+	public render(): React.ReactNode {
 		return (
 			<div className="message-wrapper">
 				<h2>No decks found</h2>

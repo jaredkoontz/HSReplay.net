@@ -25,17 +25,17 @@ interface CardCount {
 	[dbfId: string]: number;
 }
 
-interface LiveDataState {
+interface Props {
+	cardData: CardData;
+	numCards: number;
+}
+
+interface State {
 	cursor: number;
 	data: GameTypeData<PlayedCards>;
 	doUpdate?: boolean;
 	fetching?: boolean;
 	renderedGameTypes?: string[];
-}
-
-interface LiveDataProps extends React.ClassAttributes<LiveData> {
-	cardData: CardData;
-	numCards: number;
 }
 
 type GameType = "BGT_ARENA" | "BGT_RANKED_STANDARD" | "BGT_RANKED_WILD";
@@ -46,12 +46,9 @@ const entranceAnimationOrder: GameType[] = [
 	"BGT_ARENA"
 ];
 
-export default class LiveData extends React.Component<
-	LiveDataProps,
-	LiveDataState
-> {
-	constructor(props: LiveDataProps, state: LiveDataState) {
-		super(props, state);
+export default class LiveData extends React.Component<Props, State> {
+	constructor(props: Props, context: any) {
+		super(props, context);
 		this.state = {
 			cursor: 0,
 			data: null,
@@ -120,7 +117,11 @@ export default class LiveData extends React.Component<
 		}
 	}
 
-	shouldComponentUpdate(nextProps: LiveDataProps, nextState: LiveDataState) {
+	public shouldComponentUpdate(
+		nextProps: Readonly<Props>,
+		nextState: Readonly<State>,
+		nextContext: any
+	): boolean {
 		return (
 			this.props.cardData !== nextProps.cardData ||
 			this.state.cursor !== nextState.cursor ||
@@ -129,7 +130,11 @@ export default class LiveData extends React.Component<
 		);
 	}
 
-	componentDidUpdate(prevProps: LiveDataProps, prevState: LiveDataState) {
+	public componentDidUpdate(
+		prevProps: Readonly<Props>,
+		prevState: Readonly<State>,
+		prevContext: any
+	): void {
 		const renderedGameTypes = this.state.renderedGameTypes.slice();
 		if (
 			this.state.data &&
@@ -142,7 +147,7 @@ export default class LiveData extends React.Component<
 		}
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		if (!this.state.doUpdate) {
 			return null;
 		}

@@ -2,7 +2,7 @@ import React from "react";
 import { getCardUrl, getFragments } from "../helpers";
 import Tooltip from "./Tooltip";
 
-interface CardIconProps extends React.ClassAttributes<CardIcon> {
+interface Props {
 	card: any;
 	size?: number;
 	mark?: string;
@@ -10,30 +10,30 @@ interface CardIconProps extends React.ClassAttributes<CardIcon> {
 	tabIndex?: number;
 }
 
-interface CardIconState {
+interface State {
 	backgroundLoaded?: boolean;
 }
 
-export default class CardIcon extends React.Component<
-	CardIconProps,
-	CardIconState
-> {
+export default class CardIcon extends React.Component<Props, State> {
 	readonly baseSize = 34;
 	readonly baseBackgroundWidth = 126;
 	readonly baseOffset = -70;
 
-	constructor(props: CardIconProps, state: CardIconState) {
-		super(props, state);
+	constructor(props: Props, context: any) {
+		super(props, context);
 		this.state = {
 			backgroundLoaded: false
 		};
 	}
 
-	componentDidMount() {
+	public componentDidMount(): void {
 		this.loadBackgroundImage();
 	}
 
-	componentWillReceiveProps(nextProps: CardIconProps) {
+	public componentWillReceiveProps(
+		nextProps: Readonly<Props>,
+		nextContext: any
+	): void {
 		if (
 			!this.props.card ||
 			(!nextProps.card && this.props.card.id !== nextProps.card.id)
@@ -61,7 +61,7 @@ export default class CardIcon extends React.Component<
 		image.src = this.buildBackgroundImageUrl();
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		const classNames = ["card-icon"];
 
 		if (this.props.card) {

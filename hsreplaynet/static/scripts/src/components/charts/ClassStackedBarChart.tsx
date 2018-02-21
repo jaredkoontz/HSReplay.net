@@ -12,25 +12,12 @@ import { RenderData } from "../../interfaces";
 import { getHeroColor } from "../../helpers";
 import ClassFilter, { FilterOption } from "../ClassFilter";
 
-interface ClassStackedBarChartState {}
-
-interface ClassStackedBarChartProps {
+interface Props {
 	data: RenderData;
 }
 
-export default class ClassStackedBarChart extends React.Component<
-	ClassStackedBarChartProps,
-	ClassStackedBarChartState
-> {
-	constructor(
-		props: ClassStackedBarChartProps,
-		state: ClassStackedBarChartState
-	) {
-		super(props, state);
-		this.state = {};
-	}
-
-	render(): JSX.Element {
+export default class ClassStackedBarChart extends React.Component<Props> {
+	public render(): React.ReactNode {
 		const bars = [];
 		const xValues = [];
 

@@ -2,7 +2,7 @@ import React from "react";
 import { commaSeparate } from "../helpers";
 import { TwitchStreamPromotionEvents } from "../metrics/GoogleAnalytics";
 
-interface Props extends React.ClassAttributes<StreamThumbnail> {
+interface Props {
 	url?: string;
 	displayName?: string;
 	thumbnailUrl?: string;
@@ -28,7 +28,7 @@ export default class StreamThumbnail extends React.Component<Props> {
 		});
 	};
 
-	render() {
+	public render(): React.ReactNode {
 		let thumbnail = null;
 		if (this.props.thumbnailUrl) {
 			const thumbnail_url = this.props.thumbnailUrl

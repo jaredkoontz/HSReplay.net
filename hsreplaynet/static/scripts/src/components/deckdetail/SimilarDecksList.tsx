@@ -4,7 +4,7 @@ import { CardObj, DeckObj, TableData } from "../../interfaces";
 import DeckList from "../DeckList";
 import Fragments from "../Fragments";
 
-interface Props extends React.ClassAttributes<SimilarDecksList> {
+interface Props {
 	cardData?: CardData;
 	data?: TableData;
 	playerClass: string;
@@ -13,7 +13,7 @@ interface Props extends React.ClassAttributes<SimilarDecksList> {
 }
 
 export default class SimilarDecksList extends React.Component<Props> {
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		const dbfIds = this.props.rawCardList.split(",");
 
 		const deckList = {};

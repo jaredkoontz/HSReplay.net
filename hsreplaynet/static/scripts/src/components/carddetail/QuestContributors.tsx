@@ -6,25 +6,22 @@ import { toDynamicFixed, winrateData } from "../../helpers";
 import Pager from "../Pager";
 import SortableTable from "../SortableTable";
 
-interface QuestContributorsState {
+interface Props {
+	cardData: CardData;
+	data?: TableData;
+}
+
+interface State {
 	page?: number;
 	sortBy?: string;
 	sortDirection?: SortDirection;
 }
 
-interface QuestContributorsProps {
-	cardData: CardData;
-	data?: TableData;
-}
-
-export default class QuestContributors extends React.Component<
-	QuestContributorsProps,
-	QuestContributorsState
-> {
+export default class QuestContributors extends React.Component<Props, State> {
 	private readonly numRows = 15;
 
-	constructor(props: QuestContributorsProps, state: QuestContributorsState) {
-		super(props, state);
+	constructor(props: Props, context: any) {
+		super(props, context);
 		this.state = {
 			page: 1,
 			sortBy: "popularity",
@@ -32,7 +29,7 @@ export default class QuestContributors extends React.Component<
 		};
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		let totalRows = 0;
 		const rows = [];
 		const offset = (this.state.page - 1) * this.numRows;

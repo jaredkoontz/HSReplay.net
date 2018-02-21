@@ -9,7 +9,7 @@ import {
 import { Colors } from "../../../Colors";
 import Tooltip from "../../Tooltip";
 
-interface MatchupCellProps extends React.ClassAttributes<MatchupCell> {
+interface Props {
 	highlightColumn?: boolean;
 	highlightRow?: boolean;
 	matchupData: MatchupData;
@@ -18,8 +18,12 @@ interface MatchupCellProps extends React.ClassAttributes<MatchupCell> {
 	onHover?: (hovering: boolean) => void;
 }
 
-export default class MatchupCell extends React.Component<MatchupCellProps, {}> {
-	shouldComponentUpdate(nextProps: MatchupCellProps): boolean {
+export default class MatchupCell extends React.Component<Props> {
+	public shouldComponentUpdate(
+		nextProps: Readonly<Props>,
+		nextState: Readonly<{}>,
+		nextContext: any
+	): boolean {
 		return (
 			this.props.highlightColumn !== nextProps.highlightColumn ||
 			this.props.highlightRow !== nextProps.highlightRow ||
@@ -29,7 +33,7 @@ export default class MatchupCell extends React.Component<MatchupCellProps, {}> {
 		);
 	}
 
-	render() {
+	public render(): React.ReactNode {
 		const { matchupData } = this.props;
 		let label: string | JSX.Element = "";
 		const color = "black";

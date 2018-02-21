@@ -1,7 +1,7 @@
 import React from "react";
 import { toDynamicFixed, winrateData } from "../../helpers";
 
-interface Props extends React.ClassAttributes<RankBox> {
+interface Props {
 	href: string;
 	popularity?: number;
 	rank?: number;
@@ -11,7 +11,7 @@ interface Props extends React.ClassAttributes<RankBox> {
 }
 
 export default class RankBox extends React.Component<Props> {
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		let content = null;
 		if (
 			this.props.rank !== undefined &&

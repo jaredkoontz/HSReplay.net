@@ -11,8 +11,7 @@ import { withLoading } from "../loading/Loading";
 import PopularityMatrix from "./popularity/PopularityMatrix";
 import { getOtherArchetype } from "../../helpers";
 
-interface ArchetypePopularityProps
-	extends React.ClassAttributes<ArchetypePopularity> {
+interface Props {
 	archetypeData?: any;
 	cardData: CardData;
 	gameType: string;
@@ -23,11 +22,8 @@ interface ArchetypePopularityProps
 	setSortBy?: (prop: string) => void;
 }
 
-class ArchetypePopularity extends React.Component<
-	ArchetypePopularityProps,
-	{}
-> {
-	render() {
+class ArchetypePopularity extends React.Component<Props> {
+	public render(): React.ReactNode {
 		const archetypeData: ArchetypeRankPopularity[] = [];
 		const archetypes = this.getAllArchetypes();
 		const popularityData = this.props.popularityData.series.data;

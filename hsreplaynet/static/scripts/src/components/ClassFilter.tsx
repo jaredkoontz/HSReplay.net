@@ -20,7 +20,7 @@ export type FilterOption =
 
 type FilterPreset = "All" | "AllNeutral" | "Neutral" | "ClassesOnly";
 
-interface ClassFilterProps {
+interface Props {
 	disabled?: boolean;
 	filters: FilterOption[] | FilterPreset;
 	hideAll?: boolean;
@@ -34,7 +34,7 @@ interface ClassFilterProps {
 	archetypesChanged?: (archetypes: string[]) => void;
 }
 
-export default class ClassFilter extends React.Component<ClassFilterProps, {}> {
+export default class ClassFilter extends React.Component<Props> {
 	private readonly classes: FilterOption[] = [
 		"DRUID",
 		"HUNTER",
@@ -57,11 +57,10 @@ export default class ClassFilter extends React.Component<ClassFilterProps, {}> {
 		["ClassesOnly", this.classes]
 	]);
 
-	constructor(props: ClassFilterProps) {
-		super(props);
-	}
-
-	componentWillReceiveProps(nextProps: ClassFilterProps) {
+	public componentWillReceiveProps(
+		nextProps: Readonly<Props>,
+		nextContext: any
+	): void {
 		if (nextProps.archetypes && nextProps.archetypes.length) {
 			const archetypes = nextProps.selectedArchetypes.map(
 				selectedArchetype => {
@@ -92,7 +91,7 @@ export default class ClassFilter extends React.Component<ClassFilterProps, {}> {
 		return fromPreset || (this.props.filters as FilterOption[]);
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		const filters = [];
 		this.getAvailableFilters().forEach(key => {
 			if (this.props.hideAll && key === "ALL") {

@@ -1,7 +1,7 @@
 import React from "react";
 import clipboard from "clipboard-polyfill";
 
-interface ShareGameDialogProps {
+interface Props {
 	url: string;
 	turn: number;
 	reveal?: boolean;
@@ -13,20 +13,17 @@ interface ShareGameDialogProps {
 	onShare?: (network: string, linkToTurn?: boolean) => void;
 }
 
-interface ShareGameDialogState {
+interface State {
 	linkToTurn?: boolean;
 	preservePerspective?: boolean;
 	confirming?: boolean;
 }
 
-export default class ShareGameDialog extends React.Component<
-	ShareGameDialogProps,
-	ShareGameDialogState
-> {
+export default class ShareGameDialog extends React.Component<Props, State> {
 	private input: HTMLInputElement;
 	private timeout: number = null;
 
-	constructor(props: ShareGameDialogProps, context: any) {
+	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
 			linkToTurn: false,
@@ -35,7 +32,7 @@ export default class ShareGameDialog extends React.Component<
 		};
 	}
 
-	componentWillUnmount(): void {
+	public componentWillUnmount(): void {
 		window.clearTimeout(this.timeout);
 	}
 
@@ -110,7 +107,7 @@ export default class ShareGameDialog extends React.Component<
 		}
 	}
 
-	render(): JSX.Element {
+	public render(): React.ReactNode {
 		let url = this.buildUrl();
 		return (
 			<form>
