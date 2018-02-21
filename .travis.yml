@@ -1,0 +1,21 @@
+language: generic
+stages:
+  - name: test
+jobs:
+  include:
+  - stage: test
+    language: node_js
+    node_js: "node"
+    env: SCRIPT=lint:prettier
+    script: yarn run $SCRIPT
+
+  - stage: test
+    language: node_js
+    node_js: "node"
+    env: SCRIPT=lint:tslint
+    script: yarn run $SCRIPT
+matrix:
+  allow_failures:
+    - env: SCRIPT=lint:tslint
+cache:
+  yarn: true
