@@ -77,7 +77,17 @@ if (isProduction) {
 	);
 } else {
 	const HardSourceWebpackPlugin = require("hard-source-webpack-plugin");
-	plugins.push(new HardSourceWebpackPlugin());
+	plugins.push(
+		new HardSourceWebpackPlugin({
+			cacheDirectory: path.join(
+				__dirname,
+				"build",
+				"cache",
+				"hard-source",
+				"[confighash]"
+			)
+		})
+	);
 }
 
 module.exports = env => {
@@ -192,7 +202,8 @@ module.exports = env => {
 								],
 								cacheDirectory: path.join(
 									__dirname,
-									".cache",
+									"build",
+									"cache",
 									"babel-loader"
 								)
 							}
