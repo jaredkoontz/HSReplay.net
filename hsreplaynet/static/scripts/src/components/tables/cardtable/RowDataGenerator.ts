@@ -1,7 +1,6 @@
-import { CardObj, SortDirection, TableData } from "../../../interfaces";
+import { CardObj, SortDirection } from "../../../interfaces";
 import { cardSorting } from "../../../helpers";
 import { TableColumn } from "../Table";
-import CardTile from "../../CardTile";
 
 export interface CardData {
 	card: CardObj;

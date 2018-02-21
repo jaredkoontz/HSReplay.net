@@ -1,9 +1,9 @@
 import React from "react";
-import { GlobalGamePlayer, ImageProps, CardArtProps } from "../../interfaces";
+import { CardArtProps, GlobalGamePlayer, ImageProps } from "../../interfaces";
 import GameHistoryPlayer from "./GameHistoryPlayer";
 import GameModeIcon from "../GameModeIcon";
 import GameModeText from "../GameModeText";
-import { PlayState, BnetGameType } from "../../hearthstone";
+import { PlayState } from "../../hearthstone";
 import { getDuration } from "../../PrettyTime";
 import SemanticAge from "../SemanticAge";
 

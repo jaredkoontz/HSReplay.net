@@ -1,11 +1,6 @@
 import React from "react";
 import GameHistoryTableRow from "./GameHistoryTableRow";
-import {
-	GameReplay,
-	CardArtProps,
-	ImageProps,
-	GlobalGamePlayer
-} from "../../interfaces";
+import { CardArtProps, GameReplay, ImageProps } from "../../interfaces";
 import GameHistoryList from "./GameHistoryList";
 
 interface Props extends ImageProps, CardArtProps {
@@ -14,12 +9,12 @@ interface Props extends ImageProps, CardArtProps {
 
 export default class GameHistoryTable extends React.Component<Props> {
 	public render(): React.ReactNode {
-		let columns = [];
+		const columns = [];
 		this.props.games.forEach((game: GameReplay, i: number) => {
-			var startTime: Date = new Date(game.global_game.match_start);
-			var endTime: Date = new Date(game.global_game.match_end);
+			const startTime: Date = new Date(game.global_game.match_start);
+			const endTime: Date = new Date(game.global_game.match_end);
 
-			let players = [];
+			const players = [];
 			if (game.friendly_player) {
 				players.push(game.friendly_player);
 			}

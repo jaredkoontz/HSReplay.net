@@ -71,7 +71,7 @@ export default class CardDetailPieChart extends React.Component<Props> {
 
 		if (this.props.sortByValue) {
 			data = data.sort((a, b) => {
-				let o = [a.x, b.x].indexOf("other");
+				const o = [a.x, b.x].indexOf("other");
 				if (o !== -1) {
 					return -2 * o + 1;
 				}

@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import InfoIcon, { InfoIconProps } from "./InfoIcon";
 
 interface Props {

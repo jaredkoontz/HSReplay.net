@@ -1,5 +1,4 @@
 import React from "react";
-import CardTile from "../CardTile";
 
 interface Props {
 	index: number;

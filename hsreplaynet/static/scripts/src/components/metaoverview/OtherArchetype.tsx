@@ -1,6 +1,5 @@
 import React from "react";
 import Tooltip from "../Tooltip";
-import { ArchetypeData } from "../../interfaces";
 import { toTitleCase } from "../../helpers";
 
 interface Props {

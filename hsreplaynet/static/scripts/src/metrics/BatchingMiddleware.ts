@@ -20,7 +20,7 @@ export default class BatchingMiddleware implements MetricsBackend {
 	}
 
 	private _consume() {
-		let points = this.points;
+		const points = this.points;
 		this.points = [];
 		this.backend.writePoints(points);
 	}
@@ -39,9 +39,9 @@ export default class BatchingMiddleware implements MetricsBackend {
 	}
 
 	public writePoint(series: string, values: Object, tags?: Object) {
-		let point: Point = {
-			series: series,
-			values: values
+		const point: Point = {
+			series,
+			values
 		};
 		if (tags) {
 			point.tags = tags;

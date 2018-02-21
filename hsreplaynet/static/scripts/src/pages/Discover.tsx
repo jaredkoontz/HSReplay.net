@@ -1,20 +1,14 @@
 import React from "react";
-import * as _ from "lodash";
-import AdminDeckInfo from "../components/discover/AdminDeckInfo";
 import CardData from "../CardData";
 import ClassFilter, { FilterOption } from "../components/ClassFilter";
 import ClassAnalysis, {
 	ClusterMetaData
 } from "../components/discover/ClassAnalysis";
 import DataInjector from "../components/DataInjector";
-import DataManager from "../DataManager";
 import InfoboxFilter from "../components/InfoboxFilter";
 import InfoboxFilterGroup from "../components/InfoboxFilterGroup";
 import UserData from "../UserData";
-import InfoIcon from "../components/InfoIcon";
 import InfoboxLastUpdated from "../components/InfoboxLastUpdated";
-import HideLoading from "../components/loading/HideLoading";
-import ClusterChart from "../components/d3/ClusterChart";
 import CardSearch from "../components/CardSearch";
 import { Limit } from "../components/ObjectSearch";
 import { cardSorting, isCollectibleCard, isWildSet } from "../helpers";

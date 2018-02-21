@@ -932,7 +932,7 @@ export function compareDecks(dbfIdsA: number[], dbfIdsB: number[]): boolean {
 	}
 	dbfIdsA = dbfIdsA.slice();
 	dbfIdsB = dbfIdsB.slice();
-	let a = undefined;
+	let a;
 	while ((a = dbfIdsA.pop()) !== undefined) {
 		let found = false;
 		for (let i = 0; i < lengthB; i++) {

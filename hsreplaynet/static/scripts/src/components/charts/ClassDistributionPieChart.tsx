@@ -1,5 +1,4 @@
 import React from "react";
-import { GameReplay } from "../../interfaces";
 import { VictoryContainer, VictoryPie } from "victory";
 import { getHeroColor, pieScaleTransform } from "../../helpers";
 

@@ -1,10 +1,10 @@
 import React from "react";
 import GameHistoryItem from "./GameHistoryItem";
 import {
-	GameReplay,
 	CardArtProps,
-	ImageProps,
-	GlobalGamePlayer
+	GameReplay,
+	GlobalGamePlayer,
+	ImageProps
 } from "../../interfaces";
 import { PlayState } from "../../hearthstone";
 
@@ -14,10 +14,10 @@ interface Props extends ImageProps, CardArtProps {
 
 export default class GameHistoryList extends React.Component<Props> {
 	public render(): React.ReactNode {
-		let columns = [];
+		const columns = [];
 		this.props.games.forEach((game: GameReplay, i: number) => {
-			var startTime: Date = new Date(game.global_game.match_start);
-			var endTime: Date = new Date(game.global_game.match_end);
+			const startTime: Date = new Date(game.global_game.match_start);
+			const endTime: Date = new Date(game.global_game.match_end);
 			if (i > 0) {
 				if (!(i % 2)) {
 					columns.push(<div className="clearfix visible-sm-block" />);
@@ -30,7 +30,7 @@ export default class GameHistoryList extends React.Component<Props> {
 				}
 			}
 
-			let players = [];
+			const players = [];
 			if (game.friendly_player) {
 				players.push(game.friendly_player);
 			}

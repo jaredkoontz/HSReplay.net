@@ -58,7 +58,7 @@ export default class GameModeText extends React.Component<
 	}
 
 	public render(): React.ReactNode {
-		let text = this.getIconInfo();
+		const text = this.getIconInfo();
 		if (!text) {
 			return null;
 		}

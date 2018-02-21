@@ -23,13 +23,11 @@ import {
 import InfoboxLastUpdated from "../components/InfoboxLastUpdated";
 import UserData, { Account } from "../UserData";
 import {
-	CardObj,
 	FragmentChildProps,
 	LoadingStatus,
 	SortDirection
 } from "../interfaces";
 import CardTable from "../components/tables/CardTable";
-import InfoIcon from "../components/InfoIcon";
 import Feature from "../components/Feature";
 const Fragment = React.Fragment;
 
@@ -480,7 +478,7 @@ export default class Cards extends React.Component<Props, State> {
 			if (this.state.account) {
 				let accountDisplayName = "";
 				if (this.props.accounts && this.props.accounts.length) {
-					let accounts = this.props.accounts;
+					const accounts = this.props.accounts;
 					for (let i = 0; i < accounts.length; i++) {
 						if (
 							`${accounts[i].region}-${accounts[i].lo}` ===

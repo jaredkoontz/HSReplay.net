@@ -13,7 +13,7 @@ let username = UserData.getUsername();
 // override username from url if available
 const query = location.search;
 const parts = query.split("&");
-for (let part of parts) {
+for (const part of parts) {
 	const matches = part.match(/\??username=(.*)/);
 	if (matches) {
 		username = decodeURIComponent(matches[1]);

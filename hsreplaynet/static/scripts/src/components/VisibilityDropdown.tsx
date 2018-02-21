@@ -24,7 +24,7 @@ export default class PrivacyDropdown extends React.Component<Props, State> {
 	}
 
 	public render(): React.ReactNode {
-		let options = {
+		const options = {
 			Public: Visibility.Public,
 			Unlisted: Visibility.Unlisted
 		};
@@ -35,7 +35,7 @@ export default class PrivacyDropdown extends React.Component<Props, State> {
 					if (this.state.working) {
 						return;
 					}
-					let selected = e.target.value;
+					const selected = e.target.value;
 					this.setState({
 						selected
 					});

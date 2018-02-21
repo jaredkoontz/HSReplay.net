@@ -1,5 +1,12 @@
+import {
+	cardSorting,
+	compareDecks,
+	getDustCost,
+	isCollectibleCard,
+	isWildSet,
+	sortCards
+} from "../helpers";
 import React from "react";
-import * as _ from "lodash";
 import CardData from "../CardData";
 import CardSearch from "../components/CardSearch";
 import ClassFilter, { FilterOption } from "../components/ClassFilter";
@@ -8,16 +15,8 @@ import InfoboxFilter from "../components/InfoboxFilter";
 import InfoboxFilterGroup from "../components/InfoboxFilterGroup";
 import PremiumWrapper from "../components/PremiumWrapper";
 import ResetHeader from "../components/ResetHeader";
+import * as _ from "lodash";
 import {
-	cardSorting,
-	compareDecks,
-	isCollectibleCard,
-	isWildSet,
-	sortCards,
-	getDustCost
-} from "../helpers";
-import {
-	ApiTrainingData,
 	DeckObj,
 	FragmentChildProps,
 	HearthstoneCollection
@@ -30,7 +29,6 @@ import { decode as decodeDeckstring } from "deckstrings";
 import DataManager from "../DataManager";
 import { Limit } from "../components/ObjectSearch";
 import Feature from "../components/Feature";
-import { BnetGameType } from "../hearthstone";
 
 interface Props extends FragmentChildProps {
 	cardData: CardData | null;

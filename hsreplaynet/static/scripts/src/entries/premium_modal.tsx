@@ -1,8 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import CheckoutForm, {
-	PaymentMethods
-} from "../components/payments/CheckoutForm";
+import CheckoutForm from "../components/payments/CheckoutForm";
 import UserData from "../UserData";
 import { SubscriptionEvents } from "../metrics/GoogleAnalytics";
 
@@ -34,7 +32,7 @@ const trackModalInteraction = (
 		eventCategory: "Premium Modal",
 		eventAction: action,
 		eventLabel: label,
-		nonInteraction: nonInteraction
+		nonInteraction
 	});
 };
 

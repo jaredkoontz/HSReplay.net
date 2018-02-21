@@ -1,6 +1,5 @@
 import React from "react";
 import {
-	getArchetypeUrl,
 	getHeroColor,
 	hexToHsl,
 	stringifyHsl,

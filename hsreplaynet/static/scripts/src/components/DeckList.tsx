@@ -11,7 +11,6 @@ import {
 	SortDirection
 } from "../interfaces";
 import { getDustCost, getManaCost } from "../helpers";
-import UserData from "../UserData";
 import DataManager from "../DataManager";
 
 interface Props extends FragmentChildProps {

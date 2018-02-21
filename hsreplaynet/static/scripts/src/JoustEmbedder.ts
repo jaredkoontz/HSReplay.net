@@ -55,9 +55,9 @@ export default class JoustEmbedder {
 
 		// setup RavenJS/Sentry
 		let logger = null;
-		let dsn = JOUST_RAVEN_DSN_PUBLIC;
+		const dsn = JOUST_RAVEN_DSN_PUBLIC;
 		if (dsn) {
-			let raven = Raven.config(dsn, {
+			const raven = Raven.config(dsn, {
 				release,
 				environment: JOUST_RAVEN_ENVIRONMENT || "development"
 			}).install();
@@ -76,7 +76,7 @@ export default class JoustEmbedder {
 						raven.captureException(err);
 					}
 				}
-				let message = err["message"] ? err["message"] : err;
+				const message = err["message"] ? err["message"] : err;
 				console.error(message);
 			};
 			launcher.logger(logger);
@@ -98,7 +98,7 @@ export default class JoustEmbedder {
 		}
 
 		// setup influx
-		let endpoint = INFLUX_DATABASE_JOUST;
+		const endpoint = INFLUX_DATABASE_JOUST;
 		if (endpoint) {
 			// track startup time
 			let realtimeElapsed = 0;
@@ -115,7 +115,7 @@ export default class JoustEmbedder {
 				});
 			}
 			let metrics = null;
-			let track = (series, values, tags) => {
+			const track = (series, values, tags) => {
 				if (!tags) {
 					tags = {};
 				}
@@ -130,7 +130,7 @@ export default class JoustEmbedder {
 				new BatchingMiddleware(
 					new InfluxMetricsBackend(endpoint),
 					(): void => {
-						let values = {
+						const values = {
 							percentage: launcher.percentageWatched,
 							seconds: launcher.secondsWatched,
 							duration: launcher.replayDuration,
@@ -176,7 +176,7 @@ export default class JoustEmbedder {
 		});
 
 		// autoplay
-		let autoplay = target.getAttribute("data-autoplay");
+		const autoplay = target.getAttribute("data-autoplay");
 		if (autoplay === "false") {
 			// Only disable autoplay if it's *specifically* set to "false"
 			launcher.startPaused(true);

@@ -1,11 +1,7 @@
 import React from "react";
 import { getArchetypeUrl } from "../../../helpers";
-import Feature from "../../Feature";
-import Tooltip from "../../Tooltip";
-import DataInjector from "../../DataInjector";
 import CardData from "../../../CardData";
 import { ArchetypeRankPopularity } from "../../../interfaces";
-import ArchetypeSignature from "../../archetypedetail/ArchetypeSignature";
 import ArchetypeSignatureTooltip from "../ArchetypeSignatureTooltip";
 import OtherArchetype from "../OtherArchetype";
 

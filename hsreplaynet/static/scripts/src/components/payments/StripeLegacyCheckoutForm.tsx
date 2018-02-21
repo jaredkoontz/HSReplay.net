@@ -1,5 +1,4 @@
 import React from "react";
-import { CardElement, injectStripe } from "react-stripe-elements";
 import BtnGroup from "../BtnGroup";
 import { CheckoutFormInstanceProps } from "./CheckoutForm";
 import { StripePlan } from "./StripeElementsCheckoutForm";
@@ -147,7 +146,7 @@ export default class StripeLegacyCheckoutForm extends React.Component<
 	}
 
 	submit(token?: stripe.StripeTokenResponse) {
-		this.setState({ step: CheckoutStep.SUBMIT, token: token }, () =>
+		this.setState({ step: CheckoutStep.SUBMIT, token }, () =>
 			this.form.submit()
 		);
 	}

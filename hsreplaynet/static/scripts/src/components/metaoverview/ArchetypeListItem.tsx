@@ -2,7 +2,6 @@ import React from "react";
 import { ApiArchetype, ApiArchetypePopularity } from "../../interfaces";
 import CardData from "../../CardData";
 import { getHeroCardId, toDynamicFixed, winrateData } from "../../helpers";
-import ArchetypeClassTable from "./ArchetypeClassTable";
 import CardIcon from "../CardIcon";
 
 interface Props {

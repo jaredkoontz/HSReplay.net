@@ -26,7 +26,7 @@ export default class Pager extends React.Component<Props> {
 
 		const pages = [];
 		let lastPage: number | null = null;
-		for (let page of this.getPagesToShow()) {
+		for (const page of this.getPagesToShow()) {
 			if (lastPage !== null && lastPage + 1 !== page) {
 				pages.push({ skip: true });
 			}
@@ -217,7 +217,7 @@ export default class Pager extends React.Component<Props> {
 			return [];
 		}
 
-		let pivot = Math.min(
+		const pivot = Math.min(
 			Math.max(this.getCurrentPage(), min + 2 * range + 1),
 			max - 2 * range - 1
 		);

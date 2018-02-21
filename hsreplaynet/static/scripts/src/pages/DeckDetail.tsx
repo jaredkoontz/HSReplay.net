@@ -21,13 +21,7 @@ import {
 	isWildSet,
 	toTitleCase
 } from "../helpers";
-import {
-	ApiArchetype,
-	CardObj,
-	RenderData,
-	SortDirection,
-	TableData
-} from "../interfaces";
+import { CardObj, RenderData, SortDirection } from "../interfaces";
 import UserData from "../UserData";
 import InfoIcon from "../components/InfoIcon";
 import ManaCurve from "../components/ManaCurve";
@@ -38,7 +32,6 @@ import DeckOverviewTable from "../components/deckdetail/DeckOverviewTable";
 import CopyDeckButton from "../components/CopyDeckButton";
 import CardList from "../components/CardList";
 import CardDetailPieChart from "../components/charts/CardDetailPieChart";
-import ArchetypeSelector from "../components/ArchetypeSelector";
 import DeckCountersList from "../components/deckdetail/DeckCountersList";
 import CardTable from "../components/tables/CardTable";
 import * as _ from "lodash";

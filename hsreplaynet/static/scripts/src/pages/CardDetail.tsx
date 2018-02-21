@@ -154,7 +154,7 @@ export default class CardDetail extends React.Component<Props, State> {
 				);
 			} else {
 				let utilization = [];
-				let cardStatsLoading = false;
+				const cardStatsLoading = false;
 
 				if (utilization.length) {
 					const colWidth = 12 / utilization.length;

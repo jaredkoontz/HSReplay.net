@@ -3,7 +3,6 @@ import { toTitleCase } from "../helpers";
 import ClassIcon from "./ClassIcon";
 import DataInjector from "./DataInjector";
 import ArchetypeFilter from "./ArchetypeFilter";
-import UserData from "../UserData";
 
 export type FilterOption =
 	| "ALL"

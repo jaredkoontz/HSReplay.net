@@ -1,7 +1,6 @@
 import React from "react";
 import CardTile from "../CardTile";
-import Table, { BaseTableProps } from "./Table";
-import * as _ from "lodash";
+import Table from "./Table";
 import { CardObj, SortableProps } from "../../interfaces";
 import { withLoading } from "../loading/Loading";
 import {

@@ -34,7 +34,7 @@ export default class GameModeIcon extends React.Component<
 				/>
 			);
 		}
-		let info = this.getIconInfo(this.props.gameType);
+		const info = this.getIconInfo(this.props.gameType);
 		if (!info) {
 			return null;
 		}
@@ -60,7 +60,7 @@ export default class GameModeIcon extends React.Component<
 		let text = null;
 		switch (gameType) {
 			case BnetGameType.BGT_ARENA:
-				let wins = this.props.player ? this.props.player.wins + 1 : 1;
+				const wins = this.props.player ? this.props.player.wins + 1 : 1;
 				imgPath = "arena-medals/Medal_Key_" + wins + ".png";
 				text = "Arena";
 				break;

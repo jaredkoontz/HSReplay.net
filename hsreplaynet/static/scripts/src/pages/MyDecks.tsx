@@ -347,7 +347,7 @@ export default class MyDecks extends React.Component<Props, State> {
 			} else {
 				let accountDisplayName = "";
 				for (let i = 0; i < userAccounts.length; i++) {
-					let account = userAccounts[i];
+					const account = userAccounts[i];
 					if (
 						`${account.region}-${account.lo}` === this.state.account
 					) {

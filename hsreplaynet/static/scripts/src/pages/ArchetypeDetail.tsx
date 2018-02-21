@@ -4,7 +4,6 @@ import {
 	LoadingStatus,
 	SortDirection
 } from "../interfaces";
-import TableLoading from "../components/loading/TableLoading";
 import { AutoSizer } from "react-virtualized";
 import DataManager from "../DataManager";
 import UserData from "../UserData";

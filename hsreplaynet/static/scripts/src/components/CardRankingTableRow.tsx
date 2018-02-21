@@ -16,7 +16,7 @@ export default class CardRankingTableRow extends React.Component<Props> {
 		if (!this.props.card) {
 			return null;
 		}
-		let cardTile = (
+		const cardTile = (
 			<CardTile
 				height={34}
 				card={this.props.card}

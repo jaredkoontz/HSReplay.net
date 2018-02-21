@@ -8,16 +8,16 @@ export default class InfluxMetricsBackend implements MetricsBackend {
 		if (!points.length) {
 			return;
 		}
-		let url = this.url;
+		const url = this.url;
 		if (!Blob) {
 			return;
 		}
-		let blob = new Blob(
+		const blob = new Blob(
 			[
 				points
 					.map(function(point) {
-						let tags = [];
-						for (let tagKey in point.tags) {
+						const tags = [];
+						for (const tagKey in point.tags) {
 							let tag = point.tags[tagKey];
 							if (typeof tag === "boolean") {
 								tag = !!tag ? 1 : 0;
@@ -27,15 +27,15 @@ export default class InfluxMetricsBackend implements MetricsBackend {
 							}
 							tags.push(tagKey + "=" + tag);
 						}
-						let values = [];
-						for (let valueKey in point.values) {
+						const values = [];
+						for (const valueKey in point.values) {
 							let value = point.values[valueKey];
 							if (typeof value === "boolean") {
 								value = value ? "t" : "f";
 							}
 							values.push(valueKey + "=" + value);
 						}
-						let line =
+						const line =
 							point.series +
 							(tags.length ? "," + tags.join(",") : "") +
 							" " +
@@ -53,7 +53,7 @@ export default class InfluxMetricsBackend implements MetricsBackend {
 		}
 		if (!success) {
 			// fallback to plain old XML http requests
-			let request = new XMLHttpRequest();
+			const request = new XMLHttpRequest();
 			request.open("POST", url, true);
 			request.withCredentials = false;
 			request.send(blob);
@@ -61,6 +61,6 @@ export default class InfluxMetricsBackend implements MetricsBackend {
 	}
 
 	public writePoint(series: string, values: Object, tags?: Object) {
-		this.writePoints([{ series: series, values: values, tags: tags }]);
+		this.writePoints([{ series, values, tags }]);
 	}
 }

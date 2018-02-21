@@ -38,7 +38,7 @@ export default class ShareGameDialog extends React.Component<Props, State> {
 
 	protected buildUrl(): string {
 		let url = this.props.url;
-		let parts = [];
+		const parts = [];
 		if (
 			this.props.turn &&
 			((this.props.showLinkToTurn && this.state.linkToTurn) ||
@@ -93,7 +93,7 @@ export default class ShareGameDialog extends React.Component<Props, State> {
 
 	protected onExternalShare(e: React.MouseEvent<HTMLAnchorElement>): void {
 		e.preventDefault();
-		let target = e.currentTarget;
+		const target = e.currentTarget;
 		window.open(
 			target.getAttribute("href"),
 			"_blank",
@@ -108,7 +108,7 @@ export default class ShareGameDialog extends React.Component<Props, State> {
 	}
 
 	public render(): React.ReactNode {
-		let url = this.buildUrl();
+		const url = this.buildUrl();
 		return (
 			<form>
 				<fieldset>

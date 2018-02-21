@@ -8,7 +8,6 @@ import TabList from "../layout/TabList";
 import { withLoading } from "../loading/Loading";
 import { AutoSizer } from "react-virtualized";
 import { toTitleCase } from "../../helpers";
-import UserData from "../../UserData";
 import ClusterChart from "../d3/ClusterChart";
 import TourManager from "../../TourManager";
 

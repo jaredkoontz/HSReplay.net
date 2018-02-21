@@ -4,7 +4,6 @@ import CardTile from "../CardTile";
 import CardData from "../../CardData";
 import AnimatedList, { AnimatedListObject } from "./AnimatedList";
 import DataManager from "../../DataManager";
-import { getHeroCardId, toDynamicFixed, toTitleCase } from "../../helpers";
 
 interface GameTypeData<T> {
 	BGT_ARENA: T;

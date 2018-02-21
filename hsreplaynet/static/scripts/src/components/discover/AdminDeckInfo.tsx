@@ -1,8 +1,4 @@
 import React from "react";
-import ArchetypeSelector from "../ArchetypeSelector";
-import DataInjector from "../DataInjector";
-import HideLoading from "../loading/HideLoading";
-import { ApiArchetype } from "../../interfaces";
 import { withLoading } from "../loading/Loading";
 
 interface Props {

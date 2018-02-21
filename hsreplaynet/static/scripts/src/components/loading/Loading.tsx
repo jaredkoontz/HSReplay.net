@@ -1,5 +1,5 @@
 import React from "react";
-import { LoadingStatus, TableData } from "../../interfaces";
+import { LoadingStatus } from "../../interfaces";
 import * as _ from "lodash";
 
 type StringOrJSX = string | JSX.Element | JSX.Element[];

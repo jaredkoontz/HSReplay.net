@@ -1,8 +1,7 @@
 import React from "react";
-import ArchetypeSignature from "../archetypedetail/ArchetypeSignature";
 import CardData from "../../CardData";
 import { ApiArchetypeSignature } from "../../interfaces";
-import { ClusterData, ClusterMetaData, DeckData } from "./ClassAnalysis";
+import { ClusterData, DeckData } from "./ClassAnalysis";
 import * as _ from "lodash";
 import CardList from "../CardList";
 import ClusterSignature from "./ClusterSignature";

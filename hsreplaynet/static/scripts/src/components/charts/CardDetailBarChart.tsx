@@ -4,9 +4,7 @@ import {
 	VictoryBar,
 	VictoryChart,
 	VictoryContainer,
-	VictoryLabel,
-	VictoryStack,
-	VictoryVoronoiTooltip
+	VictoryLabel
 } from "victory";
 import { RenderData } from "../../interfaces";
 import { getChartScheme } from "../../helpers";
@@ -95,8 +93,8 @@ export default class CardDetailBarChart extends React.Component<Props> {
 					style={{
 						data: {
 							width: "" + 0.7 * width / series.data.length,
-							fill: fill,
-							stroke: stroke,
+							fill,
+							stroke,
 							strokeWidth: 0.5
 						}
 					}}

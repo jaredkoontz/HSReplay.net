@@ -290,13 +290,15 @@ export default class ObjectSearch<T> extends React.Component<Props<T>, State> {
 			const count = objects[key].count;
 			const updateObject = (newValue: number) => {
 				let updatedCount = count;
-				let newSelectedObjects = this.props.selectedObjects.slice(0);
+				const newSelectedObjects = this.props.selectedObjects.slice(0);
 				while (updatedCount < newValue) {
 					newSelectedObjects.push(object);
 					updatedCount++;
 				}
 				while (updatedCount > newValue) {
-					let index = this.props.selectedObjects.lastIndexOf(object);
+					const index = this.props.selectedObjects.lastIndexOf(
+						object
+					);
 					newSelectedObjects.splice(index, 1);
 					updatedCount--;
 				}

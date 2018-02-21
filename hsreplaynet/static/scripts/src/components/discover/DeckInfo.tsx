@@ -1,9 +1,7 @@
 import React from "react";
 import CardData from "../../CardData";
 import CardList from "../CardList";
-import DataInjector from "../DataInjector";
 import { ClusterMetaData } from "./ClassAnalysis";
-import UserData from "../../UserData";
 
 interface Props {
 	cardData: CardData | null;

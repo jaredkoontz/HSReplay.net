@@ -3,7 +3,7 @@ import * as _ from "lodash";
 import CardIcon from "./CardIcon";
 import ManaCurve from "./ManaCurve";
 import * as moment from "moment";
-import { ApiStream, CardObj, DeckObj, User } from "../interfaces";
+import { ApiStream, CardObj, DeckObj } from "../interfaces";
 import {
 	cardSorting,
 	compareDecks,

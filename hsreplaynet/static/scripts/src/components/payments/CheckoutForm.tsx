@@ -6,7 +6,7 @@ import PaypalCheckoutForm, { PaypalPlan } from "./PaypalCheckoutForm";
 import BtnGroup from "../BtnGroup";
 import UserData from "../../UserData";
 import StripeLegacyCheckoutForm from "./StripeLegacyCheckoutForm";
-import { StripeProvider, Elements, CardElement } from "react-stripe-elements";
+import { Elements, StripeProvider } from "react-stripe-elements";
 
 export const enum PaymentMethods {
 	STRIPECHECKOUT = "stripe-checkout",

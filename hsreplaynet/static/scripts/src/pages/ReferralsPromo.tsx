@@ -1,7 +1,6 @@
 import React from "react";
 import UserData from "../UserData";
 import clipboard from "clipboard-polyfill";
-import GoogleAnalytics from "../metrics/GoogleAnalytics";
 
 interface Props {
 	url: string;

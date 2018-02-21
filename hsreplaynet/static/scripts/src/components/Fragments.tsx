@@ -61,7 +61,7 @@ export default class Fragments extends React.Component<Props, State> {
 			this.props.defaults,
 			this.state.childProps
 		);
-		for (let key in values) {
+		for (const key in values) {
 			const suffix = capitalize(key);
 			// prepare the callback
 			const callback = this.isDebounced(key)
@@ -148,7 +148,7 @@ export default class Fragments extends React.Component<Props, State> {
 			}
 			this.timeout = setTimeout(() => {
 				this.timeout = null;
-				for (let key in this.state.intermediate) {
+				for (const key in this.state.intermediate) {
 					this.onChange(
 						key,
 						this.state.intermediate[key],
@@ -291,7 +291,7 @@ export default class Fragments extends React.Component<Props, State> {
 		const parts = Object.assign({}, Fragments.parseFragmentString(hash));
 
 		// find ones that we're added or changed
-		for (let key of Object.keys(this.state.childProps)) {
+		for (const key of Object.keys(this.state.childProps)) {
 			const value = this.state.childProps[key];
 			if (value) {
 				parts[key] = value;
@@ -301,7 +301,7 @@ export default class Fragments extends React.Component<Props, State> {
 		}
 
 		// find ones that were removed
-		for (let key of Object.keys(prevState.childProps)) {
+		for (const key of Object.keys(prevState.childProps)) {
 			if (
 				typeof this.state.childProps[key] === "undefined" &&
 				typeof parts[key] !== "undefined"
@@ -356,7 +356,7 @@ export default class Fragments extends React.Component<Props, State> {
 		}
 		const parts = Fragments.parseFragmentString(window.location.hash);
 		const map = {};
-		for (let key of Object.keys(parts)) {
+		for (const key of Object.keys(parts)) {
 			if (!this.isValidKey(key)) {
 				continue;
 			}
@@ -372,7 +372,7 @@ export default class Fragments extends React.Component<Props, State> {
 		const result = {};
 		if (fragment.startsWith("#") && fragment.indexOf("=") !== -1) {
 			fragment = fragment.substr(1);
-			for (let part of fragment.split("&")) {
+			for (const part of fragment.split("&")) {
 				const atoms = part.split("=");
 				const key = decodeURIComponent(atoms[0]);
 				const value = decodeURIComponent(atoms.slice(1).join(""));
@@ -386,7 +386,7 @@ export default class Fragments extends React.Component<Props, State> {
 		let fragment = "#_";
 
 		const parts = [];
-		for (let key in map) {
+		for (const key in map) {
 			parts.push(
 				encodeURIComponent(key) + "=" + encodeURIComponent(map[key])
 			);

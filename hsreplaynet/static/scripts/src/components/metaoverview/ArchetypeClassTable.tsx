@@ -5,9 +5,6 @@ import {
 	SortableProps
 } from "../../interfaces";
 import Table, { TableColumn } from "../tables/Table";
-import Tooltip from "../Tooltip";
-import ArchetypeSignature from "../archetypedetail/ArchetypeSignature";
-import DataInjector from "../DataInjector";
 import CardData from "../../CardData";
 import ArchetypeSignatureTooltip from "./ArchetypeSignatureTooltip";
 import OtherArchetype from "./OtherArchetype";

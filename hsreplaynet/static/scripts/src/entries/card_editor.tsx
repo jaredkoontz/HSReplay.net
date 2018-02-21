@@ -38,7 +38,7 @@ class LabeledInput extends React.Component<any> {
 
 class LabeledSelect extends React.Component<any> {
 	getOptions(): Array<JSX.Element> {
-		let ret: Array<JSX.Element> = [];
+		const ret: Array<JSX.Element> = [];
 		this.props.options.forEach((option: JSX.Element) => {
 			ret.push(
 				<option value={option[0]} key={option[0]}>
@@ -76,10 +76,10 @@ class RadioInputGroup extends React.Component<any, RadioInputGroupState> {
 	}
 
 	getOptions(): Array<JSX.Element> {
-		let ret: Array<JSX.Element> = [];
-		let onChange = (e: Event) => {
-			let value = parseInt((e.target as HTMLInputElement).value);
-			this.setState({ value: value });
+		const ret: Array<JSX.Element> = [];
+		const onChange = (e: Event) => {
+			const value = parseInt((e.target as HTMLInputElement).value);
+			this.setState({ value });
 			this.props.onChange(e, this.props.name, true);
 		};
 
@@ -134,8 +134,8 @@ class TextureUploadInput extends React.Component<any> {
 		event.stopPropagation();
 		event.preventDefault();
 
-		let file = event.dataTransfer.files[0];
-		let reader = new FileReader();
+		const file = event.dataTransfer.files[0];
+		const reader = new FileReader();
 
 		reader.onload = (e: ProgressEvent) => {
 			this.props.onChange(this.props.name, e.target["result"], file);
@@ -282,25 +282,25 @@ class CardEditorForm extends React.Component<any, CardEditorFormState> {
 		console.log("onformsubmit");
 		event.preventDefault();
 
-		let textureInput = document.getElementById(
+		const textureInput = document.getElementById(
 			"id_texture"
 		) as HTMLInputElement;
-		let file = this.state.file;
+		const file = this.state.file;
 
 		if (!file) {
 			console.error("No file!");
 			return;
 		}
 
-		let xhr = new XMLHttpRequest();
+		const xhr = new XMLHttpRequest();
 		xhr.open("POST", this.props.uploadApiUrl);
 		xhr.setRequestHeader("Content-Type", "application/json");
 		xhr.setRequestHeader("X-CSRFToken", this.props.csrfToken);
 		xhr.onload = () => {
-			let response = JSON.parse(xhr.responseText);
+			const response = JSON.parse(xhr.responseText);
 			if (xhr.status == 201 && response.upload_url && response.url) {
 				// Upload the file
-				let put = new XMLHttpRequest();
+				const put = new XMLHttpRequest();
 				put.open("PUT", response.upload_url);
 				put.onload = () => {
 					if (put.status == 204 && textureInput) {
@@ -322,7 +322,7 @@ class CardEditorForm extends React.Component<any, CardEditorFormState> {
 			}
 		};
 
-		let data = {
+		const data = {
 			filename: file.name,
 			content_type: file.type,
 			size: file.size
@@ -337,9 +337,9 @@ class CardEditorForm extends React.Component<any, CardEditorFormState> {
 	}
 
 	handleChange(event: Event, key: string, castToInt: boolean): void {
-		let state: CardEditorFormState = {};
+		const state: CardEditorFormState = {};
 		let value: any;
-		let inputType: string = event.target["type"];
+		const inputType: string = event.target["type"];
 
 		if (inputType == "checkbox") {
 			value = event.target["checked"];
@@ -360,8 +360,8 @@ class CardEditorForm extends React.Component<any, CardEditorFormState> {
 	}
 
 	createInput(elementType: any, props: any): JSX.Element {
-		let sunwellName = SunwellNameMap.get(props.name) || props.name;
-		let castToInt = elementType == LabeledSelect;
+		const sunwellName = SunwellNameMap.get(props.name) || props.name;
+		const castToInt = elementType == LabeledSelect;
 		if (elementType != "textarea") {
 			props.type = props.type || "text";
 		}
@@ -373,7 +373,7 @@ class CardEditorForm extends React.Component<any, CardEditorFormState> {
 	}
 
 	updateTexture(name: string, data: string, file: File) {
-		let state: CardEditorFormState = {};
+		const state: CardEditorFormState = {};
 		state.file = file;
 		state[name] = data;
 		this.setState(state);
@@ -382,8 +382,8 @@ class CardEditorForm extends React.Component<any, CardEditorFormState> {
 	}
 
 	public render(): React.ReactNode {
-		let onChange = this.handleChange.bind(this);
-		let updateTexture = this.updateTexture.bind(this);
+		const onChange = this.handleChange.bind(this);
+		const updateTexture = this.updateTexture.bind(this);
 		return (
 			<form method="POST" action="" id={this.props.id}>
 				<input
@@ -533,9 +533,9 @@ class DownloadButton extends React.Component<any> {
 	}
 
 	handleClick(event: Event): void {
-		let element = event.target as HTMLAnchorElement;
+		const element = event.target as HTMLAnchorElement;
 		element.download = this.getFilename();
-		let canvas = document.getElementById(
+		const canvas = document.getElementById(
 			this.props.canvasId
 		) as HTMLCanvasElement;
 		if (canvas) {
@@ -544,7 +544,7 @@ class DownloadButton extends React.Component<any> {
 	}
 
 	getFilename(): string {
-		let input = document.getElementById(
+		const input = document.getElementById(
 			this.props.nameInputId
 		) as HTMLInputElement;
 		if (!input || !input.value) {
@@ -589,10 +589,10 @@ class PublishButton extends React.Component<any> {
 
 class CardEditor extends React.Component<any, any> {
 	public render(): React.ReactNode {
-		let formId = "cardrender-create-form";
-		let previewId = "preview-render";
+		const formId = "cardrender-create-form";
+		const previewId = "preview-render";
 
-		let refreshCallback = (state: CardEditorFormState): void => {
+		const refreshCallback = (state: CardEditorFormState): void => {
 			this.props.sunwell.createCard(
 				state,
 				512,

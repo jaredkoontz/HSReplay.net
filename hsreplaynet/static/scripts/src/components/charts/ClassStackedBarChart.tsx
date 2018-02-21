@@ -10,7 +10,6 @@ import {
 } from "victory";
 import { RenderData } from "../../interfaces";
 import { getHeroColor } from "../../helpers";
-import ClassFilter, { FilterOption } from "../ClassFilter";
 
 interface Props {
 	data: RenderData;

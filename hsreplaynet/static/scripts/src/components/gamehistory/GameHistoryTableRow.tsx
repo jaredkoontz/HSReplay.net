@@ -1,10 +1,9 @@
 import React from "react";
-import { GlobalGamePlayer, ImageProps, CardArtProps } from "../../interfaces";
+import { CardArtProps, GlobalGamePlayer, ImageProps } from "../../interfaces";
 import ClassIcon from "../ClassIcon";
-import GameHistoryPlayer from "./GameHistoryPlayer";
 import GameModeIcon from "../GameModeIcon";
 import GameModeText from "../GameModeText";
-import { PlayState, BnetGameType } from "../../hearthstone";
+import { BnetGameType } from "../../hearthstone";
 import { getDuration } from "../../PrettyTime";
 import SemanticAge from "../SemanticAge";
 
@@ -23,8 +22,8 @@ interface Props extends ImageProps, CardArtProps {
 
 export default class GameHistoryTableRow extends React.Component<Props> {
 	public render(): React.ReactNode {
-		let url = "/replay/" + this.props.shortid;
-		let result =
+		const url = "/replay/" + this.props.shortid;
+		const result =
 			this.props.won !== null
 				? this.props.won ? "result-won" : "result-lost"
 				: null;

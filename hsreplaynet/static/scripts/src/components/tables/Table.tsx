@@ -1,10 +1,9 @@
 import React from "react";
 import _ from "lodash";
 import { AutoSizer, Grid, ScrollSync } from "react-virtualized";
-import { CardObj, SortableProps, SortDirection } from "../../interfaces";
+import { SortableProps, SortDirection } from "../../interfaces";
 import scrollbarSize from "dom-helpers/util/scrollbarSize";
 import SortHeader from "../SortHeader";
-import CardTile from "../CardTile";
 import { toDynamicFixed, toPrettyNumber, winrateData } from "../../helpers";
 
 export interface TableColumn {

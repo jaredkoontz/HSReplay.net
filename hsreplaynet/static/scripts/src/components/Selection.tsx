@@ -41,7 +41,7 @@ export default class Selection extends React.Component<Props, State> {
 			visible.push(
 				<button
 					data-toggle={selected ? "dropdown" : ""}
-					style={{ width: width }}
+					style={{ width }}
 					type="button"
 					className={className}
 					onClick={() => this.onClick(option)}
@@ -62,7 +62,7 @@ export default class Selection extends React.Component<Props, State> {
 							? "not-allowed"
 							: "pointer";
 					items.push(
-						<li style={{ padding: 0, cursor: cursor }}>
+						<li style={{ padding: 0, cursor }}>
 							<a
 								className={
 									"btn btn-default" + this.disabled(option)

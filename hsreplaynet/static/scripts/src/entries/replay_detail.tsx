@@ -13,12 +13,12 @@ import UserData from "../UserData";
 import CardData from "../CardData";
 
 // shortid
-let shortid = document
+const shortid = document
 	.getElementById("replay-infobox")
 	.getAttribute("data-shortid");
 
 // Joust
-let embedder = new JoustEmbedder();
+const embedder = new JoustEmbedder();
 
 const container = document.getElementById("joust-container");
 const startPaused = container.getAttribute("data-autoplay") === "false";
@@ -41,14 +41,14 @@ if (location.hash) {
 
 // share dialog
 let metrics: MetricsReporter = null;
-let endpoint = INFLUX_DATABASE_JOUST;
+const endpoint = INFLUX_DATABASE_JOUST;
 if (endpoint) {
 	metrics = new MetricsReporter(
 		new BatchingMiddleware(new InfluxMetricsBackend(endpoint)),
 		(series: string): string => "hsreplaynet_" + series
 	);
 }
-let shared = {};
+const shared = {};
 
 function renderShareDialog() {
 	ReactDOM.render(
@@ -88,9 +88,11 @@ embedder.onToggleSwap = () => renderShareDialog();
 embedder.prepare(container);
 
 // privacy dropodown
-let visibilityTarget = document.getElementById("replay-visibility");
+const visibilityTarget = document.getElementById("replay-visibility");
 if (visibilityTarget) {
-	let status = +visibilityTarget.getAttribute("data-selected") as Visibility;
+	const status = +visibilityTarget.getAttribute(
+		"data-selected"
+	) as Visibility;
 	ReactDOM.render(
 		<VisibilityDropdown initial={status} shortid={shortid} />,
 		visibilityTarget
@@ -98,9 +100,9 @@ if (visibilityTarget) {
 }
 
 // delete link
-let deleteTarget = document.getElementById("replay-delete");
+const deleteTarget = document.getElementById("replay-delete");
 if (deleteTarget) {
-	let redirect = deleteTarget.getAttribute("data-redirect");
+	const redirect = deleteTarget.getAttribute("data-redirect");
 	ReactDOM.render(
 		<DeleteReplayButton
 			shortid={shortid}
