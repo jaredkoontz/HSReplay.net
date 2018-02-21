@@ -135,6 +135,7 @@ export default class CardTile extends React.Component<Props> {
 								this.props.card.id +
 								".jpg"
 							}
+							alt={label}
 							style={imageStyle}
 						/>
 						{countBox}
