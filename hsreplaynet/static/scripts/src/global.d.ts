@@ -176,7 +176,7 @@ declare module "tether-shepherd" {
 	export class Tour extends TetherEvents {
 		constructor(options?: TourOptions);
 
-		addStep(id?: string, options: StepOptions): void;
+		addStep(id: string, options?: StepOptions): void;
 
 		getById(id: string): Step;
 
