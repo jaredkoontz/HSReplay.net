@@ -1,5 +1,4 @@
 import InfluxMetricsBackend from "./InfluxMetricsBackend";
-import BatchingMiddleware from "./BatchingMiddleware";
 import MetricsReporter from "./MetricsReporter";
 
 const INFLUX_CLIENT = new MetricsReporter(

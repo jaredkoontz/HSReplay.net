@@ -2,7 +2,7 @@ import React from "react";
 import { GlobalGamePlayer } from "../interfaces";
 import { BnetGameType } from "../hearthstone";
 
-export interface GameModeIconProps {
+export interface Props {
 	player: GlobalGamePlayer;
 	gameType: BnetGameType;
 	disconnected: boolean;
@@ -16,12 +16,9 @@ interface IconInfo {
 	text: string;
 }
 
-export default class GameModeIcon extends React.Component<
-	GameModeIconProps,
-	any
-> {
+export default class GameModeIcon extends React.Component<Props> {
 	isHeroicTavernBrawl(): boolean {
-		return this.props.scenarioId == 2109;
+		return this.props.scenarioId === 2109;
 	}
 
 	public render(): React.ReactNode {
@@ -39,7 +36,7 @@ export default class GameModeIcon extends React.Component<
 			return null;
 		}
 		const style =
-			this.props.small && this.props.gameType == BnetGameType.BGT_VS_AI
+			this.props.small && this.props.gameType === BnetGameType.BGT_VS_AI
 				? { height: "1.5em", margin: "0.25em" }
 				: null;
 		return (
