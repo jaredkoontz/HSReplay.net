@@ -11,6 +11,8 @@ interface Props {
 	target?: string;
 	title?: string;
 	viewerCount?: number | string;
+	rank?: number;
+	legendRank?: number;
 	noMetrics?: boolean;
 }
 
@@ -31,12 +33,12 @@ export default class StreamThumbnail extends React.Component<Props> {
 	public render(): React.ReactNode {
 		let thumbnail = null;
 		if (this.props.thumbnailUrl) {
-			const thumbnail_url = this.props.thumbnailUrl
+			const thumbnailUrl = this.props.thumbnailUrl
 				.replace("{width}", "" + this.props.thumbnailWidth)
 				.replace("{height}", "" + this.props.thumbnailHeight);
 			thumbnail = (
 				<img
-					src={thumbnail_url}
+					src={thumbnailUrl}
 					alt={this.props.displayName}
 					height={this.props.thumbnailHeight}
 					width={this.props.thumbnailWidth}

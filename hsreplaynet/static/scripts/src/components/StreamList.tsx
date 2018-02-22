@@ -126,6 +126,8 @@ class StreamList extends React.Component<Props, State> {
 								thumbnailHeight={225}
 								title={twitchStream.title}
 								viewerCount={twitchStream.viewer_count}
+								rank={stream.rank}
+								legendRank={stream.legend_rank}
 							/>
 						</li>
 					);
