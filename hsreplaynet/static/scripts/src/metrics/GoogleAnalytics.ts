@@ -1,3 +1,12 @@
+import InfluxMetricsBackend from "./InfluxMetricsBackend";
+import BatchingMiddleware from "./BatchingMiddleware";
+import MetricsReporter from "./MetricsReporter";
+
+const INFLUX_CLIENT = new MetricsReporter(
+	new InfluxMetricsBackend(INFLUX_DATABASE_JOUST),
+	(series: string): string => "hsreplaynet_" + series
+);
+
 export default class GoogleAnalytics {
 	public static async event(
 		category: string,
@@ -42,6 +51,11 @@ export class TwitchStreamPromotionEvents extends GoogleAnalytics {
 		deck: string,
 		params?: UniversalAnalytics.FieldsObject
 	): Promise<void> {
+		INFLUX_CLIENT.writePoint(
+			"twitch_click_live_now",
+			{ count: "1i" },
+			{ deck }
+		);
 		return this.event("Twitch", "view", deck, params);
 	}
 
@@ -49,6 +63,11 @@ export class TwitchStreamPromotionEvents extends GoogleAnalytics {
 		stream: string,
 		params?: UniversalAnalytics.FieldsObject
 	): Promise<void> {
+		INFLUX_CLIENT.writePoint(
+			"twitch_visit_stream",
+			{ count: "1i" },
+			{ stream }
+		);
 		return this.event("Twitch", "visit", stream, params);
 	}
 }
