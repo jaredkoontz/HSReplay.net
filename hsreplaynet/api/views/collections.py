@@ -15,7 +15,7 @@ from ..serializers.collections import CollectionRequestSerializer
 class CollectionURLPresigner(APIView):
 	authentication_classes = (SessionAuthentication, OAuth2Authentication)
 	permission_classes = (
-		OAuth2HasScopes(read_scopes=["collections:write"], write_scopes=[])
+		OAuth2HasScopes(read_scopes=["collection:write"], write_scopes=[]),
 	)
 	serializer_class = CollectionRequestSerializer
 
@@ -52,7 +52,7 @@ class CollectionURLPresigner(APIView):
 class CollectionView(APIView):
 	authentication_classes = (SessionAuthentication, OAuth2Authentication)
 	permission_classes = (
-		OAuth2HasScopes(read_scopes=["collections:read"], write_scopes=[]),
+		OAuth2HasScopes(read_scopes=["collection:read"], write_scopes=[]),
 	)
 
 	def get(self, request, **kwargs):
