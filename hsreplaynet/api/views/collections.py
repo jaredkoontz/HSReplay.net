@@ -12,11 +12,8 @@ from hsreplaynet.utils.aws.clients import S3
 from ..serializers.collections import CollectionRequestSerializer
 
 
-class CollectionURLPresigner(APIView):
+class BaseCollectionView(APIView):
 	authentication_classes = (SessionAuthentication, OAuth2Authentication)
-	permission_classes = (
-		OAuth2HasScopes(read_scopes=["collection:write"], write_scopes=[]),
-	)
 	serializer_class = CollectionRequestSerializer
 
 	def get(self, request, **kwargs):
@@ -31,6 +28,16 @@ class CollectionURLPresigner(APIView):
 			raise ValidationError({"detail": "Account hi/lo not found for user."})
 
 		key = f"collections/{account.account_hi}/{account.account_lo}/collection.json"
+
+		return self._get_response(account, key)
+
+
+class CollectionURLPresigner(BaseCollectionView):
+	permission_classes = (
+		OAuth2HasScopes(read_scopes=["collection:write"], write_scopes=[]),
+	)
+
+	def _get_response(self, account, key):
 		content_type = "application/json"
 		url = self.get_presigned_url(key, content_type)
 		return Response({
@@ -49,27 +56,20 @@ class CollectionURLPresigner(APIView):
 		}, ExpiresIn=expires, HttpMethod="PUT")
 
 
-class CollectionView(APIView):
-	authentication_classes = (SessionAuthentication, OAuth2Authentication)
+class CollectionView(BaseCollectionView):
 	permission_classes = (
 		OAuth2HasScopes(read_scopes=["collection:read"], write_scopes=[]),
 	)
 
-	def get(self, request, **kwargs):
-		return Response({
-			"collection": {
-				43122: [1, 0],
-				41566: [2, 1],
-				41153: [1, 0],
-				40426: [2, 0],
-				1261: [2, 0],
-			},
-			"heroes": {
-				11345: [1, 0],
-				11346: [1, 0],
-				11347: [1, 1],
-			},
-			"cardbacks": [2134, 1115],
-			"dust": 6500,
-			"gold": 100,
-		})
+	def _get_collection_json(self, key: str) -> dict:
+		import json
+
+		obj = S3.get_object(Bucket=S3_COLLECTIONS_BUCKET, Key=key)
+		try:
+			return json.loads(obj["Body"])
+		except json.decoder.JSONDecodeError:
+			return {}
+
+	def _get_response(self, account, key):
+		collection = self._get_collection_json(key)
+		return Response(collection)
