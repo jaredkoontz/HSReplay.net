@@ -1,4 +1,4 @@
-import { FormatType, GameType, PlayState } from "./hearthstone";
+import { BnetGameType, FormatType, GameType, PlayState } from "./hearthstone";
 import { TooltipContent } from "./components/Tooltip";
 import { CardData as HearthstoneJSONCardData } from "hearthstonejson-client";
 
@@ -391,7 +391,7 @@ export interface ApiStream {
 	format: number;
 	rank: number;
 	legend_rank: 0 | number;
-	game_type: GameType;
+	game_type: BnetGameType;
 	twitch: {
 		_id: number;
 		name: string;

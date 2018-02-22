@@ -1,6 +1,8 @@
 import React from "react";
 import { commaSeparate } from "../helpers";
 import { TwitchStreamPromotionEvents } from "../metrics/GoogleAnalytics";
+import { BnetGameType } from "../hearthstone";
+import RankIcon from "./RankIcon";
 
 interface Props {
 	url?: string;
@@ -11,6 +13,7 @@ interface Props {
 	target?: string;
 	title?: string;
 	viewerCount?: number | string;
+	gameType?: BnetGameType;
 	rank?: number;
 	legendRank?: number;
 	noMetrics?: boolean;
@@ -80,6 +83,13 @@ export default class StreamThumbnail extends React.Component<Props> {
 			>
 				<figure>
 					{thumbnail}
+					<aside>
+						<RankIcon
+							gameType={this.props.gameType}
+							rank={this.props.rank}
+							legendRank={this.props.legendRank}
+						/>
+					</aside>
 					<figcaption>
 						<strong title={this.props.title}>
 							{this.props.title}
