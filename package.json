@@ -6,7 +6,7 @@
 		"lint": "yarn lint:prettier; yarn lint:tslint",
 		"lint:prettier": "prettier -l \"{hsreplaynet/static/scripts/src/**/*.ts{,x},*.js}\"",
 		"lint:tslint": "tslint \"hsreplaynet/static/scripts/src/**/*\" --project tsconfig.json",
-		"format": "yarn format:prettier; yarn format:tslint",
+		"format": "yarn format:tslint; yarn format:prettier",
 		"format:prettier": "prettier --write \"{hsreplaynet/static/scripts/src/**/*.ts{,x},*.js}\"",
 		"format:tslint": "tslint \"hsreplaynet/static/scripts/src/**/*\" --project tsconfig.json --fix"
 	},
