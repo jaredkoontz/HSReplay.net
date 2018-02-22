@@ -124,7 +124,8 @@ module.exports = env => {
 			makeEntry("export-react"),
 			"hearthstonejson-client",
 			makeEntry("polyfills")
-		]
+		],
+		site: makeEntry("site")
 	};
 
 	// flatten the entry points for config
