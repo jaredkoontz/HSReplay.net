@@ -44,7 +44,6 @@ class ClaimAccountView(LoginRequiredMixin, View):
 				return HttpResponseForbidden("This token has already been claimed.")
 		claim.token.user = request.user
 		claim.token.save()
-		# Replays are claimed in AuthToken post_save signal (games.models)
 		claim.delete()
 		messages.info(request, "You have claimed your account. Nice!")
 		influx_metric("hsreplaynet_account_claim", {"count": 1})

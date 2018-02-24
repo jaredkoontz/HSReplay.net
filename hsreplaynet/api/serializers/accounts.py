@@ -1,7 +1,13 @@
 from allauth.socialaccount.models import SocialAccount
-from rest_framework.serializers import HyperlinkedModelSerializer, SerializerMethodField
+from rest_framework.serializers import (
+	HyperlinkedModelSerializer, Serializer, SerializerMethodField, UUIDField
+)
 
 from hearthsim.identity.accounts.api import UserSerializer
+
+
+class ClaimTokenSerializer(Serializer):
+	token = UUIDField()
 
 
 class TwitchSocialAccountSerializer(HyperlinkedModelSerializer):

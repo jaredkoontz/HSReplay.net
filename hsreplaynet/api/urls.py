@@ -24,6 +24,7 @@ router.register(r"webhooks", views.webhooks.WebhookViewSet)
 
 urlpatterns = [
 	url(r"^v1/account/$", UserDetailsView.as_view()),
+	url(r"^v1/account/claim_token/$", views.accounts.ClaimTokenAPIView.as_view()),
 	url(r"^v1/account/social/twitch/$", views.accounts.TwitchSocialAccountListView.as_view()),
 	url(r"^v1/claim_account/$", CreateAccountClaimView.as_view()),
 	url(r"^v1/comments/(?P<pk>\d+)/$", views.comments.CommentDetailView.as_view()),
