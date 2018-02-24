@@ -15,7 +15,7 @@ const exportSettings = [
 	"SUNWELL_URL",
 	"HEARTHSTONE_ART_URL",
 	"JOUST_RAVEN_DSN_PUBLIC",
-	"JOUST_RAVEN_ENVIRONMENT",
+	"JOUST_RAVEN_ENVIRONMENT"
 ];
 const influxKey = "INFLUX_DATABASES";
 const python = process.env.PYTHON || "python";
