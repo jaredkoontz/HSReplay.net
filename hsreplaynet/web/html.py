@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.utils.html import escape
 
@@ -40,6 +41,7 @@ class HTMLHead:
 		self.canonical_url = ""
 		self.opengraph = {}
 		# self.favicon = ""
+		self.static_url = settings.STATIC_URL
 
 		self.favicon = "images/favicon.ico"
 		self.apple_touch_icon = "images/hsreplay-thumbnail.png"
@@ -64,6 +66,11 @@ class HTMLHead:
 			self.opengraph["og:title"] = title
 
 		tags += self._meta_tags
+
+		if self.static_url:
+			tags.append(
+				HTMLTag("link", attrs={"rel": "assets", "href": self.static_url})
+			)
 
 		if self.favicon:
 			url = static(self.favicon)
