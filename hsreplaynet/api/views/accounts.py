@@ -22,6 +22,7 @@ class ClaimTokenAPIView(APIView):
 
 	def post(self, request):
 		serializer = self.serializer_class(request.data)
+		serializer.is_valid(raise_exception=True)
 		assert not request.user.is_fake
 		token = get_uuid_object_or_404(AuthToken, id=serializer.validated_data["token"])
 
