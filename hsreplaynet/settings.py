@@ -19,7 +19,7 @@ from django.urls import reverse_lazy
 # ENV_VAGRANT: True if running on the Vagrant box
 
 HOSTNAME = platform.node()
-ENV_LIVE = HOSTNAME.endswith("hsreplay.net")
+ENV_LIVE = HOSTNAME.endswith("hsreplay.net") or os.environ.get("HSREPLAYNET_LIVE") == "1"
 ENV_LAMBDA = bool(os.environ.get("AWS_LAMBDA_FUNCTION_NAME"))
 ENV_AWS = ENV_LIVE or ENV_LAMBDA
 ENV_DEV = bool(os.environ.get("HSREPLAYNET_DEBUG"))
