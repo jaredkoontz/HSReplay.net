@@ -7,7 +7,6 @@ declare var JOUST_STATIC_URL: string;
 declare var SUNWELL_URL: string;
 declare var JOUST_RAVEN_DSN_PUBLIC: string;
 declare var JOUST_RAVEN_ENVIRONMENT: string;
-declare var HEARTHSTONEJSON_URL: string;
 declare var INFLUX_DATABASE_JOUST: string;
 
 declare module "blob" {
