@@ -3,7 +3,7 @@ from django.conf.urls import include, url
 from django.views.generic import RedirectView
 
 from .games.views import ReplayDetailView, ReplayEmbedView
-from .web.views import ArticlesRedirectView, DownloadsView, HomeView
+from .web.views import ArticlesRedirectView, DownloadsView, HomeView, PingView
 
 
 urlpatterns = [
@@ -40,6 +40,7 @@ if not settings.ENV_LAMBDA:
 		url(r"^profile/", include("hsreplaynet.profiles.urls")),
 		url(r"^pages/", include("django.contrib.flatpages.urls")),
 		url(r"^oauth2/", include("hearthsim.identity.oauth2.urls")),
+		url(r"^ping/$", PingView.as_view()),
 		url(r"^ref/", include("django_reflinks.urls")),
 		# decks and cards
 		url(r"^", include("hsreplaynet.decks.urls")),

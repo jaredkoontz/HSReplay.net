@@ -1,7 +1,8 @@
 import json
 
 from django.conf import settings
-from django.views.generic import RedirectView, TemplateView
+from django.http import HttpResponse
+from django.views.generic import RedirectView, TemplateView, View
 from hearthstone.enums import BnetGameType, CardClass
 
 from ..analytics.views import fetch_query_results
@@ -155,3 +156,8 @@ class DownloadsView(RequestMetaMixin, TemplateView):
 	stylesheets = (
 		{"href": settings.FONTAWESOME_CSS_URL, "integrity": settings.FONTAWESOME_CSS_INTEGRITY},
 	)
+
+
+class PingView(View):
+	def get(self, request):
+		return HttpResponse("OK")
