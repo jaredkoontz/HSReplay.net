@@ -1,7 +1,7 @@
 import json
 
 from django.conf import settings
-from django.http import HttpResponse
+from django.http import HttpRequest, HttpResponse
 from django.views.generic import RedirectView, TemplateView, View
 from hearthstone.enums import BnetGameType, CardClass
 
@@ -161,3 +161,15 @@ class DownloadsView(RequestMetaMixin, TemplateView):
 class PingView(View):
 	def get(self, request):
 		return HttpResponse("OK")
+
+
+def _get_host_monkeypatch(self):
+	if self.path == "/ping/":
+		# We want /ping/ to skip ALLOWED_HOSTS validation.
+		# As of Django 2.0, there is no native way to do this.
+		return HttpRequest._get_raw_host(self)
+	return HttpRequest._get_host_orig(self)
+
+
+HttpRequest._get_host_orig = HttpRequest.get_host
+HttpRequest.get_host = _get_host_monkeypatch
