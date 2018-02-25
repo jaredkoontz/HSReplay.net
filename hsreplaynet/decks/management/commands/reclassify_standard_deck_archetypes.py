@@ -1,6 +1,5 @@
 import json
 import math
-import time
 from datetime import date, datetime, timedelta
 
 from django.conf import settings
@@ -9,6 +8,7 @@ from hearthstone.enums import CardClass, FormatType
 from hsarchetypes import classify_deck
 from sqlalchemy import Date, Integer, String
 from sqlalchemy.sql import bindparam, text
+from utils.aws.streams import publish_from_iterable_at_fixed_speed
 
 from hsreplaynet.decks.models import Archetype, ClusterSnapshot, Deck
 from hsreplaynet.utils.aws import redshift
@@ -201,7 +201,7 @@ class Command(BaseCommand):
 		self.stdout.write("Writing %i total items to Firehose" % len(self.firehose_buffer))
 		bulk_records = self.to_data_blobs(self.firehose_buffer)
 		if len(bulk_records):
-			self.publish_from_iterable_at_fixed_speed(
+			publish_from_iterable_at_fixed_speed(
 				iter(bulk_records),
 				self._publish_function,
 				max_records_per_second=5000,
@@ -232,48 +232,6 @@ class Command(BaseCommand):
 				"Data": "".join(current_blob_components)
 			})
 
-		return result
-
-	def publish_from_iterable_at_fixed_speed(
-		self,
-		iterable,
-		publisher_func,
-		max_records_per_second,
-		publish_batch_size=1
-	):
-		if max_records_per_second == 0:
-			raise ValueError("times_per_second must be greater than 0!")
-
-		finished = False
-		while not finished:
-			try:
-				start_time = time.time()
-				records_this_second = 0
-				while not finished and records_this_second < max_records_per_second:
-					batch = self.next_record_batch_of_size(iterable, publish_batch_size)
-					if batch:
-						records_this_second += len(batch)
-						publisher_func(batch)
-					else:
-						finished = True
-
-				if not finished:
-					elapsed_time = time.time() - start_time
-					sleep_duration = 1 - elapsed_time
-					if sleep_duration > 0:
-						time.sleep(sleep_duration)
-			except StopIteration:
-				finished = True
-
-	def next_record_batch_of_size(self, iterable, max_batch_size):
-		result = []
-		count = 0
-		while count < max_batch_size:
-			record = next(iterable, None)
-			if not record:
-				break
-			result.append(record)
-			count += 1
 		return result
 
 	def _publish_function(self, batch):
