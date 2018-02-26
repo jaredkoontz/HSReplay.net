@@ -8,11 +8,11 @@ from hearthstone.enums import CardClass, FormatType
 from hsarchetypes import classify_deck
 from sqlalchemy import Date, Integer, String
 from sqlalchemy.sql import bindparam, text
-from utils.aws.streams import publish_from_iterable_at_fixed_speed
 
 from hsreplaynet.decks.models import Archetype, ClusterSnapshot, Deck
 from hsreplaynet.utils.aws import redshift
 from hsreplaynet.utils.aws.clients import FIREHOSE
+from hsreplaynet.utils.aws.streams import publish_from_iterable_at_fixed_speed
 
 
 REDSHIFT_QUERY = text("""
