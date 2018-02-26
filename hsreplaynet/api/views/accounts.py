@@ -24,7 +24,7 @@ class ClaimTokenAPIView(APIView):
 		serializer = self.serializer_class(data=request.data)
 		serializer.is_valid(raise_exception=True)
 		assert not request.user.is_fake
-		token = get_uuid_object_or_404(AuthToken, id=serializer.validated_data["token"])
+		token = get_uuid_object_or_404(AuthToken, key=serializer.validated_data["token"])
 
 		if token.user and not token.user.is_fake:
 			influx_metric("hsreplaynet_account_claim", {"count": 1}, error=1)
