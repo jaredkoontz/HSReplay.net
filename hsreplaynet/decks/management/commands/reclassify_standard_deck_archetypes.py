@@ -42,6 +42,7 @@ REDSHIFT_QUERY = text("""
 	JOIN deck_player_class dpc ON dpc.deck_id = p.proxy_deck_id
 	LEFT JOIN deck_archetype_map m ON m.deck_id = p.proxy_deck_id
 	WHERE p.game_date BETWEEN :start_date AND :end_date
+	AND p.full_deck_known
 	AND p.game_type = 2
 	GROUP BY p.game_type, p.proxy_deck_id
 	ORDER BY p.game_type;
