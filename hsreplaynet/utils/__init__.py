@@ -42,7 +42,7 @@ def get_uuid_object_or_404(cls, version=4, **kwargs):
 	"""
 	for k, v in kwargs.items():
 		try:
-			kwargs[k] = UUID(v, version=version)
+			kwargs[k] = UUID(str(v), version=version)
 		except ValueError:
 			raise Http404("Object not found")
 	return get_object_or_404(cls, **kwargs)
