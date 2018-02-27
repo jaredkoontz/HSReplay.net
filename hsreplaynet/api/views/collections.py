@@ -1,7 +1,8 @@
+from botocore.exceptions import ClientError
 from django.core.exceptions import ObjectDoesNotExist
 from oauth2_provider.contrib.rest_framework import OAuth2Authentication
 from rest_framework.authentication import SessionAuthentication
-from rest_framework.exceptions import ValidationError
+from rest_framework.exceptions import NotFound, ValidationError
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -64,7 +65,13 @@ class CollectionView(BaseCollectionView):
 	def _get_collection_json(self, key: str) -> dict:
 		import json
 
-		obj = S3.get_object(Bucket=S3_COLLECTIONS_BUCKET, Key=key)
+		try:
+			obj = S3.get_object(Bucket=S3_COLLECTIONS_BUCKET, Key=key)
+		except ClientError as e:
+			if e.response["Error"]["Code"] == "404":
+				raise NotFound()
+			else:
+				raise e
 		try:
 			return json.loads(obj["Body"].read())
 		except json.decoder.JSONDecodeError:
