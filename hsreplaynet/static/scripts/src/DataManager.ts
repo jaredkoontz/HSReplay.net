@@ -3,7 +3,10 @@ export default class DataManager {
 	private static readonly responses = {};
 	private static readonly running = {};
 
-	private static genCacheKey(url: string, params: any): string {
+	private static genCacheKey(
+		url: string,
+		params: { [param: string]: string }
+	): string {
 		const paramStrings = [];
 		Object.keys(params).forEach(key => {
 			const value = params[key];
@@ -14,7 +17,10 @@ export default class DataManager {
 		return this.cleanUrl(url) + paramStrings.sort().join("");
 	}
 
-	private static fullUrl(url: string, params: any): string {
+	private static fullUrl(
+		url: string,
+		params: { [param: string]: string }
+	): string {
 		url = this.cleanUrl(url);
 		const keys = params ? Object.keys(params) : [];
 		const query = keys.reduce((prev, key, i) => {
@@ -38,7 +44,11 @@ export default class DataManager {
 		return url;
 	}
 
-	static get(url: string, params?: any, noCache?: boolean): Promise<any> {
+	static get(
+		url: string,
+		params?: { [param: string]: string },
+		noCache?: boolean
+	): Promise<any> {
 		const cacheKey = this.genCacheKey(url, params || {});
 		const headers = new Headers();
 		if (noCache) {
