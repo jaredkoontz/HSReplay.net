@@ -271,7 +271,6 @@ def test_deck_exchange(client):
 
 	response = client.post(decks_by_list_url, data=data)
 	obj = response.json()
-	print(obj)
 	assert obj["cards"] == sorted(decklist)
 	assert obj["shortid"] == "If2f3dQc0qnIqvulN18KId"
 	assert response.status_code == 201
