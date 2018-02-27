@@ -28,6 +28,7 @@ export interface Account {
 	display: string;
 	battletag: string;
 	region: number;
+	hi: string;
 	lo: number;
 }
 
