@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import CardData from "../CardData";
 import Decks from "../pages/Decks";
-import UserData from "../UserData";
+import UserData, { Account } from "../UserData";
 import Fragments from "../components/Fragments";
 import ErrorReporter from "../components/ErrorReporter";
 import { HearthstoneCollection } from "../interfaces";
@@ -69,8 +69,26 @@ new CardData().load(cardData => {
 });
 
 if (UserData.isAuthenticated() && UserData.hasFeature("max-dust-filter")) {
-	DataManager.get("/api/v1/collection/").then(collection => {
-		myCollectionData = collection;
-		render(myCardData, myCollectionData);
-	});
+	(() => {
+		const defaultAccount = UserData.getDefaultAccountKey();
+		const [region, account_lo] = defaultAccount.split("-");
+		const accounts = UserData.getAccounts();
+		if (!accounts.length) {
+			return;
+		}
+		const account = accounts.find(
+			(account: Account) =>
+				+account.region === +region && +account.lo === +account_lo
+		);
+		if (!account) {
+			return;
+		}
+		DataManager.get("/api/v1/collection/", {
+			account_lo: "" + account.lo,
+			account_hi: "" + account.hi,
+		}).then(collection => {
+			myCollectionData = collection;
+			render(myCardData, myCollectionData);
+		});
+	})();
 }
