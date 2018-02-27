@@ -1,4 +1,3 @@
-from botocore.exceptions import ClientError
 from django.core.exceptions import ObjectDoesNotExist
 from oauth2_provider.contrib.rest_framework import OAuth2Authentication
 from rest_framework.authentication import SessionAuthentication
@@ -64,16 +63,22 @@ class CollectionView(BaseCollectionView):
 
 	def _get_collection_json(self, key: str) -> dict:
 		import json
+		import gzip
 
 		try:
 			obj = S3.get_object(Bucket=S3_COLLECTIONS_BUCKET, Key=key)
-		except ClientError as e:
-			if e.response["Error"]["Code"] == "404":
-				raise NotFound()
-			else:
-				raise e
+		except S3.exceptions.NoSuchKey:
+			raise NotFound()
+
+		body = obj.get("Body")
+		if not body:
+			return {}
+
+		if obj.get("ContentEncoding", "") == "gzip":
+			body = gzip.GzipFile(None, "rb", fileobj=body)
+
 		try:
-			return json.loads(obj["Body"].read())
+			return json.load(body)
 		except json.decoder.JSONDecodeError:
 			return {}
 
