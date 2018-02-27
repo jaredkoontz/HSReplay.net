@@ -66,7 +66,7 @@ class CollectionView(BaseCollectionView):
 
 		obj = S3.get_object(Bucket=S3_COLLECTIONS_BUCKET, Key=key)
 		try:
-			return json.loads(obj["Body"])
+			return json.loads(obj["Body"].read())
 		except json.decoder.JSONDecodeError:
 			return {}
 
