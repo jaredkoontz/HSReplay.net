@@ -589,7 +589,7 @@ export default class DeckDetail extends React.Component<Props, State> {
 									</span>
 								}
 								id="matchups"
-								hidden={this.state.hasData === false}
+								hidden={this.state.hasData === false || this.isWildDeck()}
 							>
 								{this.renderMatchups(deckParams)}
 							</Tab>
