@@ -6,9 +6,9 @@ django-allauth==0.35.0
 django-contrib-comments==1.8.0
 django-loginas==0.3.3
 django-reflinks==0.5.0
-django-webpack-loader==0.5.0
+django-webpack-loader==0.6.0
 
-uwsgi==2.0.16
+uwsgi==2.0.17
 
 numpy
 scikit-learn[alldeps]

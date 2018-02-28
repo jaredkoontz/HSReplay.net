@@ -3,12 +3,12 @@
 hearthstone
 hslog==1.3.3
 hsreplay==1.5.4
-hearthsim-identity==2.2.3
+hearthsim-identity==2.2.4
 https://github.com/HearthSim/hsarchetypes/archive/master.tar.gz
 https://github.com/HearthSim/hsredshift/archive/master.tar.gz
 
-aniso8601==2.0.0
-boto3==1.5.22
+aniso8601==2.0.1
+boto3==1.6.1
 Django==2.0.2
 django-intenumfield==1.4.0
 django-hearthstone==0.4.0
