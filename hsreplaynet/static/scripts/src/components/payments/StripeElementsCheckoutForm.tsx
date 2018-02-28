@@ -8,7 +8,7 @@ const enum StripeCheckoutStep {
 	READY_TO_PAY,
 	CONFIRM_3D_SECURE,
 	WORKING,
-	SUBMIT
+	SUBMIT,
 }
 
 export interface StripePlan {
@@ -48,7 +48,7 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 			selectedPlan: this.props.plans
 				? this.props.plans[0].stripeId
 				: null,
-			email: UserData.getEmail()
+			email: UserData.getEmail(),
 		};
 	}
 
@@ -68,7 +68,7 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 		if (this.state.step === StripeCheckoutStep.CONFIRM_3D_SECURE) {
 			// continue with card, despite 3D Secure
 			this.setState({ step: StripeCheckoutStep.SUBMIT }, () =>
-				this.submit()
+				this.submit(),
 			);
 			return;
 		}
@@ -90,8 +90,8 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 					flow: "none",
 					currency: "usd",
 					owner: {
-						email: this.state.email
-					}
+						email: this.state.email,
+					},
 				};
 				break;
 			default:
@@ -99,12 +99,12 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 		}
 
 		const commonSourceData = {
-			currency: "usd"
+			currency: "usd",
 		};
 		sourceData = Object.assign({}, sourceData, commonSourceData);
 
 		const result = await (this.props as any).stripe.createSource(
-			sourceData
+			sourceData,
 		);
 
 		// handle errors
@@ -114,7 +114,7 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 				[
 					"validation_error",
 					"card_error",
-					"invalid_request_error"
+					"invalid_request_error",
 				].indexOf(result.error.type) !== -1;
 
 			if (presentErrorToUser && result.error.message) {
@@ -122,12 +122,12 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 			}
 			this.setState({
 				step: StripeCheckoutStep.READY_TO_PAY,
-				errorMessage
+				errorMessage,
 			});
 
 			if (!presentErrorToUser) {
 				throw new Error(
-					`${result.error.type}: ${result.error.message}`
+					`${result.error.type}: ${result.error.message}`,
 				);
 			}
 			return;
@@ -142,7 +142,7 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 				if (card.three_d_secure === "required") {
 					this.setState({
 						sourceId,
-						step: StripeCheckoutStep.CONFIRM_3D_SECURE
+						step: StripeCheckoutStep.CONFIRM_3D_SECURE,
 					});
 					return;
 				}
@@ -150,9 +150,9 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 				this.setState(
 					{
 						sourceId,
-						step: StripeCheckoutStep.SUBMIT
+						step: StripeCheckoutStep.SUBMIT,
 					},
-					() => this.submit()
+					() => this.submit(),
 				);
 				break;
 		}
@@ -174,7 +174,7 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 		}
 		this.setState({
 			sourceId: null,
-			step: StripeCheckoutStep.READY_TO_PAY
+			step: StripeCheckoutStep.READY_TO_PAY,
 		});
 	}
 
@@ -199,7 +199,7 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 		const buttons = [];
 		const submittables = [
 			StripeCheckoutStep.READY_TO_PAY,
-			StripeCheckoutStep.CONFIRM_3D_SECURE
+			StripeCheckoutStep.CONFIRM_3D_SECURE,
 		];
 
 		buttons.push(
@@ -209,7 +209,7 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 				disabled={submittables.indexOf(this.state.step) === -1}
 			>
 				{StripeElementsCheckoutForm.getButtonMessage(this.state.step)}
-			</button>
+			</button>,
 		);
 
 		if (this.state.step === StripeCheckoutStep.CONFIRM_3D_SECURE) {
@@ -220,7 +220,7 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 					onClick={() => this.reset()}
 				>
 					Reset
-				</button>
+				</button>,
 			);
 		}
 
@@ -231,7 +231,7 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 		return this.props.plans.map((plan: StripePlan) => ({
 			label: <h4>{plan.description}</h4>,
 			value: plan.stripeId,
-			className: "btn btn-default"
+			className: "btn btn-default",
 		}));
 	}
 
@@ -255,11 +255,11 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 	public componentWillUpdate(
 		nextProps: Readonly<Props>,
 		nextState: Readonly<State>,
-		nextContext: any
+		nextContext: any,
 	): void {
 		if (nextState.step !== this.state.step) {
 			this.props.onDisable(
-				nextState.step !== StripeCheckoutStep.READY_TO_PAY
+				nextState.step !== StripeCheckoutStep.READY_TO_PAY,
 			);
 		}
 	}
@@ -296,7 +296,7 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 				action={this.props.submitUrl}
 				onSubmit={evt => this.handleSubmit(evt)}
 				style={{
-					width: "100%"
+					width: "100%",
 				}}
 			>
 				<div
@@ -322,7 +322,7 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 				<div
 					style={{
 						margin: "25px auto",
-						width: "100%"
+						width: "100%",
 					}}
 				>
 					<label htmlFor="stripe-email">Email address</label>
@@ -332,7 +332,7 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 							type="email"
 							style={{
 								padding: "9px",
-								width: "100%"
+								width: "100%",
 							}}
 							placeholder="thelichking@example.com"
 							disabled={disabled}
@@ -353,14 +353,14 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 							{
 								backgroundColor: "white",
 								border: "solid 1px #ccc",
-								padding: "10px"
+								padding: "10px",
 							},
 							disabled
 								? {
 										backgroundColor: "#eee",
-										pointerEvents: "none"
+										pointerEvents: "none",
 									}
-								: {}
+								: {},
 						)}
 					>
 						{disabled ? (
@@ -370,7 +370,7 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 							style={
 								disabled
 									? {
-											visibility: "hidden"
+											visibility: "hidden",
 										}
 									: null
 							}
@@ -378,8 +378,8 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 							<CardElement
 								style={{
 									base: {
-										fontSize: "16px"
-									}
+										fontSize: "16px",
+									},
 								}}
 								ref={ref =>
 									(this.cardElement = ref
@@ -389,7 +389,7 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 								onChange={e => {
 									if (e.error) {
 										this.setState({
-											errorMessage: e.error.message
+											errorMessage: e.error.message,
 										});
 									} else if (
 										this.state.errorMessage !== null

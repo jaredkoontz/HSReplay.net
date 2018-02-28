@@ -5,7 +5,7 @@ export default class DataManager {
 
 	private static genCacheKey(
 		url: string,
-		params: { [param: string]: string }
+		params: { [param: string]: string },
 	): string {
 		const paramStrings = [];
 		Object.keys(params).forEach(key => {
@@ -19,7 +19,7 @@ export default class DataManager {
 
 	private static fullUrl(
 		url: string,
-		params: { [param: string]: string }
+		params: { [param: string]: string },
 	): string {
 		url = this.cleanUrl(url);
 		const keys = params ? Object.keys(params) : [];
@@ -47,7 +47,7 @@ export default class DataManager {
 	static get(
 		url: string,
 		params?: { [param: string]: string },
-		noCache?: boolean
+		noCache?: boolean,
 	): Promise<any> {
 		const cacheKey = this.genCacheKey(url, params || {});
 		const headers = new Headers();
@@ -67,7 +67,7 @@ export default class DataManager {
 		}
 		const promise = fetch(this.fullUrl(url, params || {}), {
 			credentials: "include",
-			headers
+			headers,
 		}).then((response: Response) => {
 			if (response.status === 200) {
 				this.cache[cacheKey] = response.json();

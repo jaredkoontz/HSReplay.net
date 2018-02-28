@@ -59,14 +59,14 @@ export default class JoustEmbedder {
 		if (dsn) {
 			const raven = Raven.config(dsn, {
 				release,
-				environment: JOUST_RAVEN_ENVIRONMENT || "development"
+				environment: JOUST_RAVEN_ENVIRONMENT || "development",
 			}).install();
 			const username = UserData.getUsername();
 			if (username) {
 				raven.setUserContext({ username });
 			}
 			(raven as any).setTagsContext({
-				react: React.version
+				react: React.version,
 			});
 			logger = (err: string | Error) => {
 				if (raven) {
@@ -134,18 +134,18 @@ export default class JoustEmbedder {
 							percentage: launcher.percentageWatched,
 							seconds: launcher.secondsWatched,
 							duration: launcher.replayDuration,
-							realtime: undefined
+							realtime: undefined,
 						};
 						if (measuring && startupTime) {
 							realtimeElapsed += Date.now() - startupTime;
 							values.realtime = realtimeElapsed / 1000;
 						}
 						metrics.writePoint("watched", values, {
-							realtime_fixed: 1
+							realtime_fixed: 1,
 						});
-					}
+					},
 				),
-				(series: string): string => "joust_" + series
+				(series: string): string => "joust_" + series,
 			);
 			launcher.events(track);
 		}

@@ -10,7 +10,7 @@ export default class BatchingMiddleware implements MetricsBackend {
 	constructor(
 		backend: MetricsBackend,
 		finalCallback?: () => void,
-		interval?: number
+		interval?: number,
 	) {
 		this.backend = backend;
 		this.finalCallback = finalCallback;
@@ -41,7 +41,7 @@ export default class BatchingMiddleware implements MetricsBackend {
 	public writePoint(series: string, values: Object, tags?: Object) {
 		const point: Point = {
 			series,
-			values
+			values,
 		};
 		if (tags) {
 			point.tags = tags;

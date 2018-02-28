@@ -1,6 +1,6 @@
 import { cookie } from "cookie_js";
 import HearthstoneJSON, {
-	CardData as HearthstoneJSONCardData
+	CardData as HearthstoneJSONCardData,
 } from "hearthstonejson-client";
 import UserData from "./UserData";
 

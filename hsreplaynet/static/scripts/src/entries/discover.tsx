@@ -19,7 +19,7 @@ const render = (cardData: CardData) => {
 					format: "FT_STANDARD",
 					includedCards: [],
 					playerClass: "DRUID",
-					tab: "decks"
+					tab: "decks",
 				}}
 				immutable={
 					!UserData.hasFeature("archetype-training")
@@ -30,7 +30,7 @@ const render = (cardData: CardData) => {
 				<Discover cardData={cardData} />
 			</Fragments>
 		</ErrorReporter>,
-		container
+		container,
 	);
 };
 

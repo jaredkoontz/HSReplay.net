@@ -2,7 +2,7 @@ import React from "react";
 import {
 	ApiArchetype,
 	ApiArchetypePopularity,
-	SortableProps
+	SortableProps,
 } from "../../interfaces";
 import Table, { TableColumn } from "../tables/Table";
 import CardData from "../../CardData";
@@ -30,23 +30,23 @@ export default class ArchetypeClassTable extends React.Component<Props> {
 		const rows = [];
 		data.forEach(datum => {
 			const archetype = this.props.archetypeData.find(
-				a => a.id === datum.archetype_id
+				a => a.id === datum.archetype_id,
 			);
 			if (archetype) {
 				rows.push({
 					archetype_name: archetype.name,
 					archetype,
-					...datum
+					...datum,
 				});
 			} else {
 				rows.push({
 					archetype: {
 						id: datum.archetype_id,
 						name: "Other",
-						player_class_name: playerClass
+						player_class_name: playerClass,
 					},
 					archetype_name: "Other",
-					...datum
+					...datum,
 				});
 			}
 		});
@@ -68,9 +68,9 @@ export default class ArchetypeClassTable extends React.Component<Props> {
 			return {
 				data: [
 					this.renderHeader(row.archetype),
-					...columns.slice(1).map(c => row[c.dataKey])
+					...columns.slice(1).map(c => row[c.dataKey]),
 				],
-				href: row.archetype.url
+				href: row.archetype.url,
 			};
 		});
 
@@ -126,26 +126,26 @@ export default class ArchetypeClassTable extends React.Component<Props> {
 			{
 				dataKey: "archetype_name",
 				sortKey: "archetype",
-				text: "Archetype"
+				text: "Archetype",
 			},
 			{
 				dataKey: "win_rate",
 				sortKey: "winrate",
 				text: "Winrate",
-				winrateData: true
+				winrateData: true,
 			},
 			{
 				dataKey: popularityKey,
 				percent: true,
 				sortKey: "games",
-				text: "Popularity"
+				text: "Popularity",
 			},
 			{
 				dataKey: "total_games",
 				prettify: true,
 				sortKey: "games",
-				text: "Games"
-			}
+				text: "Games",
+			},
 		];
 	}
 }

@@ -27,7 +27,7 @@ export default class CardRankingTable extends React.Component<Props, State> {
 	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
-			page: 1
+			page: 1,
 		};
 	}
 
@@ -39,13 +39,13 @@ export default class CardRankingTable extends React.Component<Props, State> {
 		const cardRows = tableRows
 			.slice(
 				(this.state.page - 1) * this.props.numRows,
-				this.state.page * this.props.numRows
+				this.state.page * this.props.numRows,
 			)
 			.map((row, index) => {
 				const isFace = !!row["is_opponent_hero"];
 				const isNoTarget = +row.dbf_id === -1 && !isFace;
 				const card = this.props.cardData.fromDbf(
-					isFace ? 39770 : isNoTarget ? 1674 : row.dbf_id
+					isFace ? 39770 : isNoTarget ? 1674 : row.dbf_id,
 				);
 				if (isNoTarget) {
 					card.cost = null;

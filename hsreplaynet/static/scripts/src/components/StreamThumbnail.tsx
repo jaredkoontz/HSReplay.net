@@ -21,7 +21,7 @@ interface Props {
 
 export default class StreamThumbnail extends React.Component<Props> {
 	static defaultProps = {
-		target: "_blank"
+		target: "_blank",
 	};
 
 	visitStream = (event: React.MouseEvent<HTMLAnchorElement>): void => {
@@ -29,7 +29,7 @@ export default class StreamThumbnail extends React.Component<Props> {
 			return;
 		}
 		TwitchStreamPromotionEvents.onVisitStream(this.props.displayName, {
-			transport: "beacon"
+			transport: "beacon",
 		});
 	};
 
@@ -54,7 +54,7 @@ export default class StreamThumbnail extends React.Component<Props> {
 					style={{
 						paddingBottom: `${100 /
 							(this.props.thumbnailWidth /
-								this.props.thumbnailHeight)}%`
+								this.props.thumbnailHeight)}%`,
 					}}
 				>
 					<div>

@@ -12,7 +12,9 @@ export default class DeckStatsWinrates extends React.Component<Props> {
 		const keys = Object.keys(this.props.data.series.data);
 		keys.sort(
 			(a, b) =>
-				data[a][0]["player_class"] > data[b][0]["player_class"] ? 1 : -1
+				data[a][0]["player_class"] > data[b][0]["player_class"]
+					? 1
+					: -1,
 		);
 		const winrates = [];
 		keys.forEach(key => {
@@ -23,7 +25,7 @@ export default class DeckStatsWinrates extends React.Component<Props> {
 					<span className="infobox-value">
 						{(+winrate).toFixed(1) + "%"}
 					</span>
-				</li>
+				</li>,
 			);
 		});
 		return <ul>{winrates}</ul>;

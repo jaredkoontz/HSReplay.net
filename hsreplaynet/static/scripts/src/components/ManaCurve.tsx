@@ -11,7 +11,7 @@ export default class ManaCurve extends React.Component<Props> {
 		const costs = [0, 0, 0, 0, 0, 0, 0, 0];
 
 		(this.props.cards || []).forEach(
-			cardObj => (costs[Math.min(cardObj.card.cost, 7)] += cardObj.count)
+			cardObj => (costs[Math.min(cardObj.card.cost, 7)] += cardObj.count),
 		);
 
 		const maxCost = Math.max.apply(Math, costs) || 1;
@@ -24,7 +24,7 @@ export default class ManaCurve extends React.Component<Props> {
 						data-count={cost || ""}
 						data-cost={index === 7 ? "7+" : index}
 					/>
-				</li>
+				</li>,
 			);
 		});
 

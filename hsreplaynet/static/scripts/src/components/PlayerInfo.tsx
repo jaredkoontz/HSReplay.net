@@ -28,7 +28,7 @@ export default class PlayerInfo extends React.Component<Props, State> {
 		super(props, context);
 		this.state = {
 			display: props.playerExpandDirection === "up" ? "both" : "none",
-			game: null
+			game: null,
 		};
 		if (this.props.gameId) {
 			this.fetch();
@@ -39,9 +39,9 @@ export default class PlayerInfo extends React.Component<Props, State> {
 		DataManager.get("/api/v1/games/" + this.props.gameId + "/", {}).then(
 			(json: any) => {
 				this.setState({
-					game: json
+					game: json,
 				});
-			}
+			},
 		);
 	}
 
@@ -62,7 +62,7 @@ export default class PlayerInfo extends React.Component<Props, State> {
 				friendly_player,
 				global_game,
 				opposing_deck,
-				opposing_player
+				opposing_player,
 			} = this.state.game;
 			playerName = friendly_player.name;
 			opponentName = opposing_player.name;
@@ -73,7 +73,7 @@ export default class PlayerInfo extends React.Component<Props, State> {
 				opposing_deck.cards.length > 0
 			) {
 				const deckClass = this.toTitleCase(
-					opposing_player.hero_class_name
+					opposing_player.hero_class_name,
 				);
 				opponentCards = (
 					<CardList
@@ -95,8 +95,8 @@ export default class PlayerInfo extends React.Component<Props, State> {
 							heroes={[
 								getHeroDbfId(
 									this.props.cardData,
-									opposing_player
-								)
+									opposing_player,
+								),
 							]}
 							format={global_game.format}
 							name={
@@ -130,7 +130,7 @@ export default class PlayerInfo extends React.Component<Props, State> {
 				friendly_deck.cards.length > 0
 			) {
 				const deckClass = this.toTitleCase(
-					friendly_player.hero_class_name
+					friendly_player.hero_class_name,
 				);
 				playerCards = (
 					<CardList
@@ -147,8 +147,8 @@ export default class PlayerInfo extends React.Component<Props, State> {
 							heroes={[
 								getHeroDbfId(
 									this.props.cardData,
-									friendly_player
-								)
+									friendly_player,
+								),
 							]}
 							format={global_game.format}
 							name={
@@ -192,12 +192,12 @@ export default class PlayerInfo extends React.Component<Props, State> {
 					key="opponentCards"
 				>
 					{opponentCards}
-				</div>
+				</div>,
 			);
 		}
 		if (display === "both") {
 			opponentDeck.push(
-				<div className="gradient-container" key="opponentGradient" />
+				<div className="gradient-container" key="opponentGradient" />,
 			);
 		}
 		if (display === "player" || display === "both") {
@@ -209,12 +209,12 @@ export default class PlayerInfo extends React.Component<Props, State> {
 					key="playerCards"
 				>
 					{playerCards}
-				</div>
+				</div>,
 			);
 		}
 		if (display === "both") {
 			playerDeck.push(
-				<div className="gradient-container" key="playerGradient" />
+				<div className="gradient-container" key="playerGradient" />,
 			);
 		}
 
@@ -233,7 +233,7 @@ export default class PlayerInfo extends React.Component<Props, State> {
 							display:
 								display === "opponent"
 									? defaultDisplay
-									: "opponent"
+									: "opponent",
 						})
 					}
 				/>
@@ -279,7 +279,9 @@ export default class PlayerInfo extends React.Component<Props, State> {
 					onClick={() =>
 						this.setState({
 							display:
-								display === "player" ? defaultDisplay : "player"
+								display === "player"
+									? defaultDisplay
+									: "player",
 						})
 					}
 				/>

@@ -5,7 +5,7 @@ import { AutoSizer, Grid } from "react-virtualized";
 import {
 	ApiArchetype,
 	ArchetypeData,
-	SortDirection
+	SortDirection,
 } from "../../../interfaces";
 import RowHeader from "./RowHeader";
 import RowFooter from "./RowFooter";
@@ -48,7 +48,7 @@ export default class ArchetypeList extends React.Component<Props> {
 						this.props.archetypes.length * cellHeight +
 						headerCellHeight +
 						"px",
-					margin: "15px 10px"
+					margin: "15px 10px",
 				}}
 			>
 				<ArchetypeSearch
@@ -67,13 +67,13 @@ export default class ArchetypeList extends React.Component<Props> {
 								style={{
 									height: headerCellHeight,
 									width: width - 2 * cellWidth,
-									top: headerCellHeight
+									top: headerCellHeight,
 								}}
 							>
 								{this.getSortHeader(
 									"class",
 									"Archetype",
-									"ascending"
+									"ascending",
 								)}
 							</div>
 							<div
@@ -82,7 +82,7 @@ export default class ArchetypeList extends React.Component<Props> {
 									height: headerCellHeight,
 									width: cellWidth,
 									right: cellWidth,
-									top: headerCellHeight
+									top: headerCellHeight,
 								}}
 							>
 								{this.getSortHeader(
@@ -90,7 +90,7 @@ export default class ArchetypeList extends React.Component<Props> {
 									"Pop.",
 									null,
 									"Popularity on Ladder",
-									"The percentage of decks played that belong to this archetype."
+									"The percentage of decks played that belong to this archetype.",
 								)}
 							</div>
 							<div
@@ -98,7 +98,7 @@ export default class ArchetypeList extends React.Component<Props> {
 								style={{
 									height: headerCellHeight,
 									width: cellWidth,
-									top: headerCellHeight
+									top: headerCellHeight,
 								}}
 							>
 								{this.getSortHeader(
@@ -106,7 +106,7 @@ export default class ArchetypeList extends React.Component<Props> {
 									"EWR",
 									null,
 									"Effective Winrate",
-									"The expected winrate against all active archetypes, weighted by their popularity."
+									"The expected winrate against all active archetypes, weighted by their popularity.",
 								)}
 							</div>
 							<div
@@ -117,12 +117,12 @@ export default class ArchetypeList extends React.Component<Props> {
 									cellRenderer={({
 										key,
 										rowIndex,
-										style
+										style,
 									}) => {
 										const archetype = archetypes[rowIndex];
 										const isFavorite =
 											this.props.favorites.indexOf(
-												archetype.id
+												archetype.id,
 											) !== -1;
 
 										if (this.isLastFavorite(rowIndex)) {
@@ -137,11 +137,11 @@ export default class ArchetypeList extends React.Component<Props> {
 												archetypeData={archetype}
 												isFavorite={isFavorite}
 												onFavoriteChanged={(
-													favorite: boolean
+													favorite: boolean,
 												) => {
 													this.props.onFavoriteChanged(
 														archetype.id,
-														favorite
+														favorite,
 													);
 													this.recomputeGridSize();
 												}}
@@ -176,7 +176,7 @@ export default class ArchetypeList extends React.Component<Props> {
 										columnIndex,
 										key,
 										rowIndex,
-										style
+										style,
 									}) => {
 										if (this.isLastFavorite(rowIndex)) {
 											style["border-bottom"] =
@@ -247,7 +247,7 @@ export default class ArchetypeList extends React.Component<Props> {
 		text: string,
 		direction?: SortDirection,
 		infoHeader?: string,
-		infoText?: string
+		infoText?: string,
 	): JSX.Element {
 		return (
 			<SortHeader

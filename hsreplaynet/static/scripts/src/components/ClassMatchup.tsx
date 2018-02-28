@@ -16,7 +16,7 @@ interface Props {
 export default class ClassMatchup extends React.Component<Props> {
 	public render(): React.ReactNode {
 		const data = this.props.archetypes.sort(
-			(a, b) => (a.name > b.name ? 1 : -1)
+			(a, b) => (a.name > b.name ? 1 : -1),
 		);
 		const archetypes = data.map(archetype => (
 			<a

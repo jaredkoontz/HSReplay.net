@@ -6,7 +6,7 @@ import {
 	ApiArchetypePopularity,
 	ArchetypeData,
 	MatchupData,
-	SortDirection
+	SortDirection,
 } from "../../interfaces";
 import UserData from "../../UserData";
 import CardData from "../../CardData";
@@ -54,7 +54,7 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 			ignoredColumns: UserData.getSetting("archetype-ignored") || [],
 			maxPopularity: 0,
 			sortedIds: [],
-			useCustomWeights: false
+			useCustomWeights: false,
 		};
 	}
 
@@ -68,7 +68,7 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 
 	public componentWillReceiveProps(
 		nextProps: Readonly<Props>,
-		nextContext: any
+		nextContext: any,
 	): void {
 		this.updateData(nextProps);
 	}
@@ -79,7 +79,7 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 			archetypes: this.state.archetypeData,
 			cardData: this.props.cardData,
 			favorites: this.state.favorites.filter(
-				id => this.state.sortedIds.indexOf(id) !== -1
+				id => this.state.sortedIds.indexOf(id) !== -1,
 			),
 			gameType: this.props.gameType,
 			maxPopularity: this.state.maxPopularity,
@@ -90,7 +90,7 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 				this.props.setSortBy(sortBy);
 			},
 			sortBy: this.props.sortBy,
-			sortDirection: this.props.sortDirection
+			sortDirection: this.props.sortDirection,
 		};
 
 		const { popularityData } = this.props;
@@ -109,11 +109,11 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 					customWeights={this.state.customWeights}
 					onCustomWeightsChanged={(
 						archetypeId: number,
-						popularity: number
+						popularity: number,
 					) => {
 						this.onCustomPopularitiesChanged(
 							archetypeId,
-							popularity
+							popularity,
 						);
 					}}
 					useCustomWeights={this.state.useCustomWeights}
@@ -127,7 +127,7 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 						});
 					}}
 					ignoredColumns={this.state.ignoredColumns.filter(
-						id => this.state.sortedIds.indexOf(id) !== -1
+						id => this.state.sortedIds.indexOf(id) !== -1,
 					)}
 					onIgnoreChanged={(archetypeId: number, ignore: boolean) =>
 						this.onIgnoreChanged(archetypeId, ignore)
@@ -142,7 +142,7 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 		let archetypeData: ArchetypeData[] = [];
 		const { archetypeIds, apiArchetypes } = this.getAllArchetypes(
 			props.matchupData,
-			props.archetypeData
+			props.archetypeData,
 		);
 
 		let maxPopularity = null;
@@ -151,7 +151,7 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 		const visibleArchetypes = apiArchetypes.filter(archetype => {
 			const popularity = this.getPopularity(
 				archetype,
-				props.popularityData
+				props.popularityData,
 			);
 			if (popularity) {
 				return (
@@ -171,7 +171,7 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 				const apiMatchup = this.getMatchup(
 					friendly,
 					opponent,
-					props.matchupData
+					props.matchupData,
 				);
 				matchups.push({
 					friendlyId: friendly.id,
@@ -181,7 +181,7 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 					opponentName: opponent.name,
 					opponentPlayerClass: opponent.player_class_name,
 					totalGames: apiMatchup && apiMatchup.total_games,
-					winrate: apiMatchup && apiMatchup.win_rate
+					winrate: apiMatchup && apiMatchup.win_rate,
 				});
 				if (
 					apiMatchup &&
@@ -201,7 +201,7 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 			// Todo: optimize this to only call getPopularity once (see visibleArchetypes filtering)
 			const popularity = this.getPopularity(
 				friendly,
-				props.popularityData
+				props.popularityData,
 			);
 			if (popularity && popularity.pct_of_total > 0) {
 				archetypeData.push({
@@ -212,7 +212,7 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 					popularityClass: popularity.pct_of_class,
 					popularityTotal: popularity.pct_of_total,
 					winrate: popularity.win_rate,
-					effectiveWinrate
+					effectiveWinrate,
 				});
 				if (
 					!useCustomWeights &&
@@ -234,20 +234,20 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 		let sortedIds = this.state.sortedIds;
 		if (props.sortBy === "none") {
 			archetypeData = this.state.sortedIds.map(id =>
-				archetypeData.find(a => a.id === id)
+				archetypeData.find(a => a.id === id),
 			);
 		} else {
 			this.sortArchetypes(
 				archetypeData,
 				props.sortDirection,
-				props.sortBy
+				props.sortBy,
 			);
 			sortedIds = archetypeData.map(archetype => archetype.id);
 		}
 
 		archetypeData.forEach(archetype => {
 			archetype.matchups = sortedIds.map(id =>
-				archetype.matchups.find(m => m.opponentId === id)
+				archetype.matchups.find(m => m.opponentId === id),
 			);
 		});
 
@@ -255,14 +255,14 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 			apiArchetypes,
 			archetypeData,
 			maxPopularity,
-			sortedIds
+			sortedIds,
 		});
 	}
 
 	sortArchetypes(
 		archetypes: ArchetypeData[],
 		sortDirection: SortDirection,
-		sortBy: string
+		sortBy: string,
 	) {
 		const direction = sortDirection === "ascending" ? 1 : -1;
 
@@ -323,7 +323,7 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 	onFavoriteChanged(archetypeId: number, favorite: boolean) {
 		let favorites = this.state.favorites.slice();
 		favorites = favorites.filter(id =>
-			this.state.archetypeData.some(a => a.id === id)
+			this.state.archetypeData.some(a => a.id === id),
 		);
 		favorites = favorites.filter(id => id !== archetypeId);
 		if (favorite) {
@@ -340,7 +340,7 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 				sortedIds.push(archetypeId);
 			} else if (!favorite) {
 				const archetype = this.state.archetypeData.find(
-					a => a.id === archetypeId
+					a => a.id === archetypeId,
 				);
 				if (archetype.popularityTotal < POPULARITY_CUTOFF_PERCENTAGE) {
 					// favorite is below cutoff, so remove entirely
@@ -367,10 +367,10 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 			: [archetypeId];
 		let ignoredColumns = this.state.ignoredColumns.slice();
 		ignoredColumns = ignoredColumns.filter(id =>
-			this.state.archetypeData.some(a => a.id === id)
+			this.state.archetypeData.some(a => a.id === id),
 		);
 		ignoredColumns = ignoredColumns.filter(
-			id => archetypeIds.indexOf(id) === -1
+			id => archetypeIds.indexOf(id) === -1,
 		);
 		if (ignore) {
 			archetypeIds.forEach(id => ignoredColumns.push(id));
@@ -387,7 +387,7 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 
 	getAllArchetypes(
 		matchupData: any,
-		archetypeData: any
+		archetypeData: any,
 	): { archetypeIds: number[]; apiArchetypes: ApiArchetype[] } {
 		const archetypeIds = [];
 		Object.keys(matchupData.series.data).forEach((friendlyId: string) => {
@@ -399,14 +399,14 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 					if (archetypeIds.indexOf(+opponentId) === -1) {
 						archetypeIds.push(+opponentId);
 					}
-				}
+				},
 			);
 		});
 		return {
 			archetypeIds,
 			apiArchetypes: archetypeIds
 				.map(id => this.getApiArchetype(id, archetypeData))
-				.filter(x => x !== undefined)
+				.filter(x => x !== undefined),
 		};
 	}
 
@@ -417,7 +417,7 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 	getMatchup(
 		friendly: ApiArchetype,
 		opponent: ApiArchetype,
-		matchupData: any
+		matchupData: any,
 	): ApiArchetypeMatchupData {
 		const matchups = matchupData.series.data["" + friendly.id];
 		return matchups && matchups["" + opponent.id];
@@ -425,7 +425,7 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 
 	getPopularity(
 		archetype: ApiArchetype,
-		popularityData: any
+		popularityData: any,
 	): ApiArchetypePopularity {
 		const data = popularityData.series.data[archetype.player_class_name];
 		return (
@@ -438,5 +438,5 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 }
 
 export default withLoading(["archetypeData", "matchupData", "popularityData"])(
-	ArchetypeMatchups
+	ArchetypeMatchups,
 );

@@ -9,7 +9,7 @@ const enum CheckoutStep {
 	LOADING_STRIPE,
 	READY_TO_CHECKOUT,
 	CHECKOUT,
-	SUBMIT
+	SUBMIT,
 }
 
 interface Props extends CheckoutFormInstanceProps {
@@ -39,7 +39,7 @@ export default class StripeLegacyCheckoutForm extends React.Component<
 		this.state = {
 			selectedPlan: props.plans[0].stripeId,
 			step: CheckoutStep.LOADING_STRIPE,
-			useDefaultSource: !!this.props.defaultSource
+			useDefaultSource: !!this.props.defaultSource,
 		};
 	}
 
@@ -66,7 +66,7 @@ export default class StripeLegacyCheckoutForm extends React.Component<
 				locale: "auto",
 				panelLabel: "Subscribe for",
 				email: UserData.getEmail(),
-				allowRememberMe: false
+				allowRememberMe: false,
 			});
 			this.setState({ step: CheckoutStep.READY_TO_CHECKOUT });
 		});
@@ -76,13 +76,13 @@ export default class StripeLegacyCheckoutForm extends React.Component<
 		return this.props.plans.map((plan: StripePlan) => ({
 			label: <h4>{plan.description}</h4>,
 			value: plan.stripeId,
-			className: "btn btn-default"
+			className: "btn btn-default",
 		}));
 	}
 
 	private static getButtonMessage(
 		step: CheckoutStep,
-		useDefaultSource?: boolean
+		useDefaultSource?: boolean,
 	) {
 		switch (step) {
 			case CheckoutStep.LOADING_STRIPE:
@@ -115,7 +115,7 @@ export default class StripeLegacyCheckoutForm extends React.Component<
 		this.setState({ step: CheckoutStep.CHECKOUT, useDefaultSource: false });
 
 		const plan: StripePlan = this.props.plans.find(
-			(plan: StripePlan) => plan.stripeId === this.state.selectedPlan
+			(plan: StripePlan) => plan.stripeId === this.state.selectedPlan,
 		);
 		if (!plan) {
 			// no valid plan selected
@@ -134,32 +134,32 @@ export default class StripeLegacyCheckoutForm extends React.Component<
 			.checkout({
 				amount: plan.amount,
 				currency: plan.currency,
-				description: plan.description
+				description: plan.description,
 			})
 			.then(token => this.submit(token))
 			.catch(() =>
 				this.setState({
 					step: CheckoutStep.READY_TO_CHECKOUT,
-					useDefaultSource
-				})
+					useDefaultSource,
+				}),
 			);
 	}
 
 	submit(token?: stripe.StripeTokenResponse) {
 		this.setState({ step: CheckoutStep.SUBMIT, token }, () =>
-			this.form.submit()
+			this.form.submit(),
 		);
 	}
 
 	public componentWillUpdate(
 		nextProps: Readonly<Props>,
 		nextState: Readonly<State>,
-		nextContext: any
+		nextContext: any,
 	): void {
 		if (nextState.step !== this.state.step) {
 			this.props.onDisable(
 				nextState.step !== CheckoutStep.READY_TO_CHECKOUT &&
-					nextState.step !== CheckoutStep.LOADING_STRIPE
+					nextState.step !== CheckoutStep.LOADING_STRIPE,
 			);
 		}
 	}
@@ -229,7 +229,7 @@ export default class StripeLegacyCheckoutForm extends React.Component<
 					>
 						{StripeLegacyCheckoutForm.getButtonMessage(
 							this.state.step,
-							this.state.useDefaultSource
+							this.state.useDefaultSource,
 						)}
 					</button>
 				</p>
@@ -250,7 +250,7 @@ export default class StripeLegacyCheckoutForm extends React.Component<
 								type="hidden"
 								name="stripeTokenType"
 								value={this.state.token.type}
-							/>
+							/>,
 						]
 					: null}
 				<div dangerouslySetInnerHTML={this.props.csrfElement} />

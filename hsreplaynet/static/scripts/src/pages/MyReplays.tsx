@@ -14,13 +14,13 @@ import {
 	heroMatch,
 	modeMatch,
 	nameMatch,
-	resultMatch
+	resultMatch,
 } from "../GameFilters";
 import {
 	CardArtProps,
 	FragmentChildProps,
 	GameReplay,
-	ImageProps
+	ImageProps,
 } from "../interfaces";
 import CardData from "../CardData";
 import { getHeroCard, toTitleCase } from "../helpers";
@@ -75,20 +75,20 @@ export default class MyReplays extends React.Component<Props, State> {
 			receivedPages: 0,
 			showFilters: false,
 			viewType,
-			working: true
+			working: true,
 		};
 		this.query(
-			"/api/v1/games/?username=" + encodeURIComponent(props.username)
+			"/api/v1/games/?username=" + encodeURIComponent(props.username),
 		);
 	}
 
 	protected query(url: string) {
 		this.setState({
-			working: true
+			working: true,
 		});
 		fetch(url, {
 			credentials: "include",
-			headers: new Headers({ accept: "application/json" })
+			headers: new Headers({ accept: "application/json" }),
 		})
 			.then(response => response.json())
 			.then((data: any) => {
@@ -98,7 +98,7 @@ export default class MyReplays extends React.Component<Props, State> {
 						this.setState({
 							count: data.count,
 							gamesPages: {},
-							receivedPages: 0
+							receivedPages: 0,
 						});
 						this.query("/api/v1/games/");
 						return;
@@ -107,7 +107,7 @@ export default class MyReplays extends React.Component<Props, State> {
 
 					if (
 						Object.keys(this.state.gamesPages).indexOf(
-							"" + this.state.receivedPages
+							"" + this.state.receivedPages,
 						) === -1
 					) {
 						const pages = Object.assign({}, this.state.gamesPages);
@@ -118,10 +118,10 @@ export default class MyReplays extends React.Component<Props, State> {
 							next: data.next,
 							pageSize: Math.max(
 								this.state.pageSize,
-								games.length
+								games.length,
 							),
 							receivedPages: this.state.receivedPages + 1,
-							working: false
+							working: false,
 						});
 						return;
 					}
@@ -129,7 +129,7 @@ export default class MyReplays extends React.Component<Props, State> {
 				this.setState({
 					count: data.count,
 					next: data.next,
-					working: false
+					working: false,
 				});
 			});
 	}
@@ -168,7 +168,7 @@ export default class MyReplays extends React.Component<Props, State> {
 					!heroMatch(
 						this.props.cardData,
 						game.opposing_player,
-						opponent
+						opponent,
 					)
 				) {
 					return false;
@@ -190,7 +190,7 @@ export default class MyReplays extends React.Component<Props, State> {
 			if (game.friendly_player) {
 				const heroCard = getHeroCard(
 					this.props.cardData,
-					game.friendly_player
+					game.friendly_player,
 				);
 				if (heroCard !== null) {
 					const hero = toTitleCase(heroCard.cardClass);
@@ -206,7 +206,7 @@ export default class MyReplays extends React.Component<Props, State> {
 			data.push({
 				x: key,
 				y: value,
-				winrate: (heroWins[key] || 0) / value
+				winrate: (heroWins[key] || 0) / value,
 			});
 		});
 		data.sort((a, b) => (a.y > b.y ? 1 : -1));
@@ -241,7 +241,7 @@ export default class MyReplays extends React.Component<Props, State> {
 			}
 			// slice off everything before the currentLocalPage
 			games = games.slice(
-				this.state.pageSize * this.state.currentLocalPage
+				this.state.pageSize * this.state.currentLocalPage,
 			);
 		}
 
@@ -363,16 +363,16 @@ export default class MyReplays extends React.Component<Props, State> {
 						hideAll
 						minimal
 						selectedClasses={[
-							this.props.hero.toUpperCase() as FilterOption
+							this.props.hero.toUpperCase() as FilterOption,
 						]}
 						selectionChanged={selection => {
 							const selected =
 								selection.find(x => x !== "ALL") || null;
 							this.props.setHero(
-								selected && selected.toLowerCase()
+								selected && selected.toLowerCase(),
 							);
 							this.setState({
-								currentLocalPage: 0
+								currentLocalPage: 0,
 							});
 						}}
 					/>
@@ -382,16 +382,16 @@ export default class MyReplays extends React.Component<Props, State> {
 						hideAll
 						minimal
 						selectedClasses={[
-							this.props.opponent.toUpperCase() as FilterOption
+							this.props.opponent.toUpperCase() as FilterOption,
 						]}
 						selectionChanged={selection => {
 							const selected =
 								selection.find(x => x !== "ALL") || null;
 							this.props.setOpponent(
-								selected && selected.toLowerCase()
+								selected && selected.toLowerCase(),
 							);
 							this.setState({
-								currentLocalPage: 0
+								currentLocalPage: 0,
 							});
 						}}
 					/>
@@ -465,7 +465,7 @@ export default class MyReplays extends React.Component<Props, State> {
 	private onPiePieceClicked(hero: string) {
 		this.props.setHero(this.props.hero === hero ? null : hero);
 		this.setState({
-			currentLocalPage: 0
+			currentLocalPage: 0,
 		});
 	}
 }

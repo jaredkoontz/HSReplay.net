@@ -20,7 +20,7 @@ const render = (cardData: CardData) => {
 				defaults={{
 					gameType: "RANKED_STANDARD",
 					opponentClass: "ALL",
-					rankRange: "ALL"
+					rankRange: "ALL",
 				}}
 				immutable={
 					!UserData.isPremium()
@@ -36,7 +36,7 @@ const render = (cardData: CardData) => {
 				/>
 			</Fragments>
 		</ErrorReporter>,
-		document.getElementById("card-container")
+		document.getElementById("card-container"),
 	);
 };
 

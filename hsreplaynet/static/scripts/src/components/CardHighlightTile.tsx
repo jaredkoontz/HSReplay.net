@@ -19,7 +19,7 @@ export default class CardHighlightTile extends React.Component<Props> {
 						backgroundImage:
 							"url(https://art.hearthstonejson.com/v1/512x/" +
 							this.props.card.id +
-							".jpg"
+							".jpg",
 					}}
 				>
 					<div className="card-info-container">

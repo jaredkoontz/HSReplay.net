@@ -17,7 +17,7 @@ export default class HighlightPointComponent extends React.Component<Props> {
 				style={{
 					stroke: "black",
 					fill: "black",
-					pointerEvents: "none"
+					pointerEvents: "none",
 				}}
 				x={this.props.x}
 				y={this.props.y + 10}

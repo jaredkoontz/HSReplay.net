@@ -2,7 +2,7 @@ import React from "react";
 import CardData from "../CardData";
 import ClassFilter, { FilterOption } from "../components/ClassFilter";
 import ClassAnalysis, {
-	ClusterMetaData
+	ClusterMetaData,
 } from "../components/discover/ClassAnalysis";
 import DataInjector from "../components/DataInjector";
 import InfoboxFilter from "../components/InfoboxFilter";
@@ -39,13 +39,13 @@ export default class Discover extends React.Component<Props, State> {
 		super(props, context);
 		this.state = {
 			cards: null,
-			deck: null
+			deck: null,
 		};
 	}
 
 	public componentWillReceiveProps(
 		nextProps: Readonly<Props>,
-		nextContext: any
+		nextContext: any,
 	): void {
 		if (!this.state.cards && nextProps.cardData) {
 			const cards = [];
@@ -68,7 +68,7 @@ export default class Discover extends React.Component<Props, State> {
 			excludedCards,
 			includedCards,
 			playerClass,
-			setTab
+			setTab,
 		} = this.props;
 		const adminControls = [];
 		if (UserData.hasFeature("archetypes-gamemode-filter")) {
@@ -83,7 +83,7 @@ export default class Discover extends React.Component<Props, State> {
 				>
 					<InfoboxFilter value="FT_STANDARD">Standard</InfoboxFilter>
 					<InfoboxFilter value="FT_WILD">Wild</InfoboxFilter>
-				</InfoboxFilterGroup>
+				</InfoboxFilterGroup>,
 			);
 		}
 		if (UserData.hasFeature("archetype-training")) {
@@ -96,7 +96,7 @@ export default class Discover extends React.Component<Props, State> {
 				>
 					<InfoboxFilter value="live">Live</InfoboxFilter>
 					<InfoboxFilter value="latest">Latest</InfoboxFilter>
-				</InfoboxFilterGroup>
+				</InfoboxFilterGroup>,
 			);
 		}
 
@@ -140,7 +140,7 @@ export default class Discover extends React.Component<Props, State> {
 							availableCards={filteredCards}
 							onCardsChanged={cards =>
 								this.props.setIncludedCards(
-									cards.map(card => card.dbfId)
+									cards.map(card => card.dbfId),
 								)
 							}
 							selectedCards={
@@ -157,7 +157,7 @@ export default class Discover extends React.Component<Props, State> {
 							availableCards={filteredCards}
 							onCardsChanged={cards =>
 								this.props.setExcludedCards(
-									cards.map(card => card.dbfId)
+									cards.map(card => card.dbfId),
 								)
 							}
 							selectedCards={
@@ -204,7 +204,7 @@ export default class Discover extends React.Component<Props, State> {
 								});
 
 								return { data, maxGames };
-							}
+							},
 						}}
 					>
 						<ClassAnalysis

@@ -16,7 +16,7 @@ export default class InfoboxFilter extends React.Component<Props> {
 	private ref;
 
 	static contextTypes = {
-		requiresPremium: PropTypes.bool
+		requiresPremium: PropTypes.bool,
 	};
 
 	private isPremiumFilter(): boolean {

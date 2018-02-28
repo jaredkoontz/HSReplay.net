@@ -12,7 +12,7 @@ export default class ErrorReporter extends React.Component<Props, State> {
 		super(props, context);
 		this.state = {
 			error: null,
-			tracing: null
+			tracing: null,
 		};
 	}
 

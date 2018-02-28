@@ -3,7 +3,7 @@ import MetricsReporter from "./MetricsReporter";
 
 const INFLUX_CLIENT = new MetricsReporter(
 	new InfluxMetricsBackend(INFLUX_DATABASE_JOUST),
-	(series: string): string => "hsreplaynet_" + series
+	(series: string): string => "hsreplaynet_" + series,
 );
 
 export default class GoogleAnalytics {
@@ -11,7 +11,7 @@ export default class GoogleAnalytics {
 		category: string,
 		action: string,
 		label: string,
-		params?: UniversalAnalytics.FieldsObject
+		params?: UniversalAnalytics.FieldsObject,
 	): Promise<void> {
 		return new Promise<void>((resolve, reject) => {
 			if (typeof ga !== "function") {
@@ -21,11 +21,11 @@ export default class GoogleAnalytics {
 			const requiredParams: UniversalAnalytics.FieldsObject = {
 				eventCategory: category,
 				eventAction: action,
-				eventLabel: label
+				eventLabel: label,
 			};
 			const defaults: UniversalAnalytics.FieldsObject = {
 				hitType: "event",
-				hitCallback: () => resolve()
+				hitCallback: () => resolve(),
 			};
 			ga("send", "event", { ...defaults, ...requiredParams, ...params });
 		});
@@ -36,11 +36,11 @@ export class SubscriptionEvents extends GoogleAnalytics {
 	public static onSubscribe(
 		usdValue: number,
 		location: string,
-		params?: UniversalAnalytics.FieldsObject
+		params?: UniversalAnalytics.FieldsObject,
 	): Promise<void> {
 		return this.event("Checkout", "subscribe", location, {
 			...params,
-			eventValue: Math.ceil(+usdValue / 100)
+			eventValue: Math.ceil(+usdValue / 100),
 		});
 	}
 }
@@ -48,24 +48,24 @@ export class SubscriptionEvents extends GoogleAnalytics {
 export class TwitchStreamPromotionEvents extends GoogleAnalytics {
 	public static onClickLiveNow(
 		deck: string,
-		params?: UniversalAnalytics.FieldsObject
+		params?: UniversalAnalytics.FieldsObject,
 	): Promise<void> {
 		INFLUX_CLIENT.writePoint(
 			"twitch_click_live_now",
 			{ count: "1i" },
-			{ deck }
+			{ deck },
 		);
 		return this.event("Twitch", "view", deck, params);
 	}
 
 	public static onVisitStream(
 		stream: string,
-		params?: UniversalAnalytics.FieldsObject
+		params?: UniversalAnalytics.FieldsObject,
 	): Promise<void> {
 		INFLUX_CLIENT.writePoint(
 			"twitch_visit_stream",
 			{ count: "1i" },
-			{ stream }
+			{ stream },
 		);
 		return this.event("Twitch", "visit", stream, params);
 	}

@@ -17,7 +17,7 @@ export default class TrendingDecksList extends React.Component<Props> {
 				return;
 			}
 			data[key].sort(
-				(a, b) => +b["popularity_delta"] - +a["popularity_delta"]
+				(a, b) => +b["popularity_delta"] - +a["popularity_delta"],
 			);
 			const deck = data[key][0];
 			const cards = JSON.parse(deck["deck_list"]);
@@ -31,7 +31,7 @@ export default class TrendingDecksList extends React.Component<Props> {
 				duration: +deck["avg_game_length_seconds"],
 				numGames: +deck["total_games"],
 				playerClass: key,
-				winrate: +deck["win_rate"]
+				winrate: +deck["win_rate"],
 			});
 		});
 		decks.sort((a, b) => (a.playerClass > b.playerClass ? 1 : -1));

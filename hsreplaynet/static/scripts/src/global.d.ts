@@ -24,7 +24,10 @@ declare module "joust" {
 		cardArt(url: string | ((cardId: string) => string)): Launcher;
 
 		metadataSource(
-			metadateSource: (build: number | "latest", locale: string) => string
+			metadateSource: (
+				build: number | "latest",
+				locale: string,
+			) => string,
 		): Launcher;
 
 		setOptions(opts: any): Launcher;
@@ -50,7 +53,7 @@ declare module "joust" {
 		logger(logger: (message: string | Error) => void): Launcher;
 
 		events(
-			cb: (event: string, values: Object, tags?: Object) => void
+			cb: (event: string, values: Object, tags?: Object) => void,
 		): Launcher;
 
 		debug(enable?: boolean): Launcher;
@@ -203,7 +206,7 @@ interface Window {
 	hsreplaynet_load_hscheckout: (
 		targetElement: any,
 		plansElements: any,
-		location?: string
+		location?: string,
 	) => void;
 }
 

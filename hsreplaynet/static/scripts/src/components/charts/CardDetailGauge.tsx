@@ -25,7 +25,7 @@ export default class CardDetailGauge extends React.Component<Props> {
 		const value = hasData ? +series.data[0].y : maxValue / 2;
 
 		const data = [
-			{ x: "data", y: this.props.reverse ? maxValue - value : value }
+			{ x: "data", y: this.props.reverse ? maxValue - value : value },
 		];
 		const remaining = maxValue - data[0].y;
 		data.push({ x: "empty", y: remaining });
@@ -59,8 +59,8 @@ export default class CardDetailGauge extends React.Component<Props> {
 					style={{
 						data: {
 							fill: d =>
-								d.xName === "empty" ? emptyColor : color
-						}
+								d.xName === "empty" ? emptyColor : color,
+						},
 					}}
 					labels={[]}
 				/>,

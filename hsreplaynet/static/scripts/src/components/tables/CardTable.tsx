@@ -5,11 +5,11 @@ import { CardObj, SortableProps } from "../../interfaces";
 import { withLoading } from "../loading/Loading";
 import {
 	cardTableColumnData,
-	CardTableColumnKey
+	CardTableColumnKey,
 } from "./cardtable/CardTableColumns";
 import {
 	ApiCardStatsData,
-	generateCardTableRowData
+	generateCardTableRowData,
 } from "./cardtable/RowDataGenerator";
 
 interface Props extends SortableProps {
@@ -40,7 +40,7 @@ class CardTable extends React.Component<Props> {
 			sortDirection,
 			numCards,
 			minColumnWidth,
-			headerWidth
+			headerWidth,
 		} = this.props;
 		const columnKeys = ["card"].concat(this.props.columns);
 		const columns = columnKeys.map(key => cardTableColumnData[key]);
@@ -49,7 +49,7 @@ class CardTable extends React.Component<Props> {
 			data,
 			sortBy,
 			sortDirection,
-			columns.slice(1)
+			columns.slice(1),
 		);
 		if (numCards !== undefined) {
 			rowData = rowData.slice(0, numCards);
@@ -61,7 +61,7 @@ class CardTable extends React.Component<Props> {
 					card={card.card}
 					count={card.count}
 					height={CELL_HEIGHT - 2}
-				/>
+				/>,
 			);
 			return { data: row };
 		});

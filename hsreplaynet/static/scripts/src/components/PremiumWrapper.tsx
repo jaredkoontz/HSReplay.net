@@ -25,12 +25,12 @@ export default class PremiumWrapper extends React.Component<Props, State> {
 		this.state = {
 			hovering: false,
 			touchCount: 0,
-			triggered: []
+			triggered: [],
 		};
 	}
 
 	static childContextTypes = {
-		requiresPremium: PropTypes.bool
+		requiresPremium: PropTypes.bool,
 	};
 
 	getChildContext() {
@@ -43,7 +43,7 @@ export default class PremiumWrapper extends React.Component<Props, State> {
 		}
 		this.setState((state, props) => ({
 			touchCount: 0,
-			triggered: state.triggered.concat([wrapper])
+			triggered: state.triggered.concat([wrapper]),
 		}));
 	}
 
@@ -53,8 +53,8 @@ export default class PremiumWrapper extends React.Component<Props, State> {
 		}
 		this.setState((state, props) => ({
 			triggered: state.triggered.filter(
-				(toRemove: PremiumWrapper) => toRemove !== wrapper
-			)
+				(toRemove: PremiumWrapper) => toRemove !== wrapper,
+			),
 		}));
 	}
 
@@ -74,14 +74,14 @@ export default class PremiumWrapper extends React.Component<Props, State> {
 			wrapper.release(this);
 		});
 		window[key] = window[key].filter(
-			(component: PremiumWrapper) => component !== this
+			(component: PremiumWrapper) => component !== this,
 		);
 	}
 
 	public componentWillUpdate(
 		nextProps: Readonly<Props>,
 		nextState: Readonly<State>,
-		nextContext: any
+		nextContext: any,
 	): void {
 		if (nextState.hovering === this.state.hovering) {
 			return;
@@ -125,7 +125,7 @@ export default class PremiumWrapper extends React.Component<Props, State> {
 				onTouchStart={() =>
 					this.setState({
 						hovering: true,
-						touchCount: this.state.touchCount + 1
+						touchCount: this.state.touchCount + 1,
 					})
 				}
 				onTouchCancel={() => this.setState({ hovering: false })}
@@ -178,8 +178,8 @@ export default class PremiumWrapper extends React.Component<Props, State> {
 					(child: React.ReactElement<any>) =>
 						React.cloneElement(
 							child,
-							Object.assign({}, childProps, child.props)
-						)
+							Object.assign({}, childProps, child.props),
+						),
 				)}
 			</div>
 		);

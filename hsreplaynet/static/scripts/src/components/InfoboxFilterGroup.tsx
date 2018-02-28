@@ -22,7 +22,7 @@ export default class InfoboxFilterGroup extends React.Component<Props, State> {
 	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
-			collapsed: props.collapsed
+			collapsed: props.collapsed,
 		};
 	}
 
@@ -47,8 +47,8 @@ export default class InfoboxFilterGroup extends React.Component<Props, State> {
 							? child.props.onClick
 							: this.props.onClick,
 					deselectable: this.props.deselectable,
-					disabled: this.props.disabled || child.props.disabled
-				})
+					disabled: this.props.disabled || child.props.disabled,
+				}),
 			);
 		};
 

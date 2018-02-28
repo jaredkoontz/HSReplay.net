@@ -42,9 +42,9 @@ export default class InfluxMetricsBackend implements MetricsBackend {
 							values.join(",");
 						return line;
 					})
-					.join("\n")
+					.join("\n"),
 			],
-			{ type: "text/plain" }
+			{ type: "text/plain" },
 		);
 		let success = false;
 		if (navigator["sendBeacon"]) {

@@ -22,7 +22,7 @@ export default class ArchetypeSignature extends React.Component<Props> {
 	public shouldComponentUpdate(
 		nextProps: Readonly<Props>,
 		nextState: Readonly<{}>,
-		nextContext: any
+		nextContext: any,
 	): boolean {
 		return (
 			!!this.props.cardData !== !!nextProps.cardData ||
@@ -38,14 +38,14 @@ export default class ArchetypeSignature extends React.Component<Props> {
 
 		const buckets: Bucket[] = [
 			{ title: "Core Cards", threshold: 0.8, cards: [] },
-			{ title: "Popular Tech Cards", threshold: 0.5, cards: [] }
+			{ title: "Popular Tech Cards", threshold: 0.5, cards: [] },
 		];
 
 		if (this.props.showOccasional) {
 			buckets.push({
 				title: "Occasional Tech Cards",
 				threshold: 0.1,
-				cards: []
+				cards: [],
 			});
 		}
 
@@ -80,7 +80,7 @@ export default class ArchetypeSignature extends React.Component<Props> {
 							customCounts={showValues && customCounts}
 							sortByCount={showValues}
 						/>
-					</div>
+					</div>,
 				);
 			}
 		});

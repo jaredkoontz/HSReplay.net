@@ -25,7 +25,7 @@ export default class QuestContributors extends React.Component<Props, State> {
 		this.state = {
 			page: 1,
 			sortBy: "popularity",
-			sortDirection: "descending"
+			sortDirection: "descending",
 		};
 	}
 
@@ -39,7 +39,7 @@ export default class QuestContributors extends React.Component<Props, State> {
 			const sortDir = this.state.sortDirection === "descending" ? 1 : -1;
 			contributors.sort(
 				(a, b) =>
-					(+b[this.state.sortBy] - +a[this.state.sortBy]) * sortDir
+					(+b[this.state.sortBy] - +a[this.state.sortBy]) * sortDir,
 			);
 			contributors
 				.slice(offset, offset + this.numRows)
@@ -51,7 +51,7 @@ export default class QuestContributors extends React.Component<Props, State> {
 						</td>
 					);
 					const card = this.props.cardData.fromDbf(
-						contributor.dbf_id
+						contributor.dbf_id,
 					);
 					rows.push(
 						<tr className="card-table-row">
@@ -66,10 +66,10 @@ export default class QuestContributors extends React.Component<Props, State> {
 							<td>{contributor.median_turn_completed}</td>
 							<td>
 								{contributor.quest_completion_frequency.toFixed(
-									2
+									2,
 								) + "%"}
 							</td>
-						</tr>
+						</tr>,
 					);
 				});
 		}
@@ -100,35 +100,36 @@ export default class QuestContributors extends React.Component<Props, State> {
 							that eventually complete the Quest.
 						</p>
 					</>
-				)
+				),
 			},
 			{
 				sortKey: "win_rate",
 				text: "Played Winrate",
 				infoHeader: "Played Winrate",
 				infoText:
-					"Average winrate of games where the card contributed to the quest."
+					"Average winrate of games where the card contributed to the quest.",
 			},
 			{
 				sortKey: "popularity",
 				text: "Popularity",
 				infoHeader: "Popularity",
-				infoText: "Total percentage of quest progress made by the card."
+				infoText:
+					"Total percentage of quest progress made by the card.",
 			},
 			{
 				sortKey: "median_turn_completed",
 				text: "Median Turn",
 				infoHeader: "Median Turn Completed",
 				infoText:
-					"Turn this quest is most commonly completed on when the card contributed the progress."
+					"Turn this quest is most commonly completed on when the card contributed the progress.",
 			},
 			{
 				sortKey: "quest_completion_frequency",
 				text: "Completed",
 				infoHeader: "Completion Frequency",
 				infoText:
-					"Frequency of this quest being completed when the card contributed to the progress."
-			}
+					"Frequency of this quest being completed when the card contributed to the progress.",
+			},
 		];
 
 		const table = (

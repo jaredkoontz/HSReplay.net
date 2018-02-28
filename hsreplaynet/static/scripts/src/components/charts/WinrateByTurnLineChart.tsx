@@ -5,7 +5,7 @@ import {
 	VictoryAxis,
 	VictoryChart,
 	VictoryLabel,
-	VictoryScatter
+	VictoryScatter,
 } from "victory";
 import { VictoryVoronoiContainer } from "victory";
 import { getChartMetaData } from "../../helpers";
@@ -24,7 +24,7 @@ export default class WinrateByTurnLineChart extends React.Component<Props> {
 	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
-			cursorPos: null
+			cursorPos: null,
 		};
 	}
 
@@ -38,7 +38,7 @@ export default class WinrateByTurnLineChart extends React.Component<Props> {
 			s =>
 				s.name === "winrates_by_turn" &&
 				(this.props.opponentClass === "ALL" ||
-					s.metadata["opponent_class"] === this.props.opponentClass)
+					s.metadata["opponent_class"] === this.props.opponentClass),
 		);
 
 		const yDomain: [number, number] = [Number.MAX_SAFE_INTEGER, 0];
@@ -54,7 +54,7 @@ export default class WinrateByTurnLineChart extends React.Component<Props> {
 
 		const yTicks = [50];
 		yDomain.forEach(
-			value => yTicks.indexOf(value) === -1 && yTicks.push(value)
+			value => yTicks.indexOf(value) === -1 && yTicks.push(value),
 		);
 
 		const filterId = _.uniqueId("winrate-by-turn-gradient-");
@@ -84,7 +84,7 @@ export default class WinrateByTurnLineChart extends React.Component<Props> {
 						axisLabel: { fontSize },
 						tickLabels: { fontSize },
 						grid: { stroke: "lightgray" },
-						axis: { visibility: "hidden" }
+						axis: { visibility: "hidden" },
 					}}
 				/>
 				<VictoryAxis
@@ -110,9 +110,10 @@ export default class WinrateByTurnLineChart extends React.Component<Props> {
 						axis: { visibility: "hidden" },
 						axisLabel: { fontSize },
 						grid: {
-							stroke: tick => (tick === 50 ? "gray" : "lightgray")
+							stroke: tick =>
+								tick === 50 ? "gray" : "lightgray",
 						},
-						tickLabels: { fontSize }
+						tickLabels: { fontSize },
 					}}
 				/>
 				<VictoryScatter
@@ -134,8 +135,8 @@ export default class WinrateByTurnLineChart extends React.Component<Props> {
 						data: {
 							fill: `url(#${filterId})`,
 							stroke: "black",
-							strokeWidth: 0.3
-						}
+							strokeWidth: 0.3,
+						},
 					}}
 					interpolation="monotoneX"
 					scale="linear"
@@ -177,9 +178,9 @@ export default class WinrateByTurnLineChart extends React.Component<Props> {
 					{ y: 54, x: 7 },
 					{ y: 46, x: 8 },
 					{ y: 54, x: 9 },
-					{ y: 46, x: 10 }
-				]
-			}
-		]
+					{ y: 46, x: 10 },
+				],
+			},
+		],
 	};
 }

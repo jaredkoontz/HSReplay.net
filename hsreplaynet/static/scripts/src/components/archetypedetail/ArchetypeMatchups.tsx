@@ -2,7 +2,7 @@ import React from "react";
 import {
 	ApiArchetype,
 	ApiArchetypePopularity,
-	SortDirection
+	SortDirection,
 } from "../../interfaces";
 import { withLoading } from "../loading/Loading";
 import ClassArchetypesBox from "../metaoverview/ClassArchetypesBox";
@@ -27,7 +27,7 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 		super(props, context);
 		this.state = {
 			sortBy: "archetype",
-			sortDirection: "ascending"
+			sortDirection: "ascending",
 		};
 	}
 
@@ -54,7 +54,7 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 					pct_of_class: matchup.total_games,
 					pct_of_total: 0,
 					total_games: matchup.total_games,
-					win_rate: matchup.win_rate
+					win_rate: matchup.win_rate,
 				});
 			}
 		});
@@ -83,7 +83,7 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 					gameType={this.props.gameType}
 					onSortChanged={(
 						sortBy: string,
-						sortDirection: SortDirection
+						sortDirection: SortDirection,
 					) => {
 						this.setState({ sortBy, sortDirection });
 					}}
@@ -102,5 +102,5 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 }
 
 export default withLoading(["archetypeMatchupData", "archetypeData"])(
-	ArchetypeMatchups
+	ArchetypeMatchups,
 );

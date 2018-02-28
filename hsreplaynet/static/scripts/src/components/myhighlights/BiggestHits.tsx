@@ -21,7 +21,7 @@ export default class BiggestHits extends React.Component<Props> {
 						title="Click to watch replay"
 						value={hit.damage + " damage"}
 						href={hit.replay_url}
-					/>
+					/>,
 				);
 			});
 			return <div>{tiles}</div>;

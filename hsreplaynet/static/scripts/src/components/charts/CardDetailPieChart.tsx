@@ -3,7 +3,7 @@ import {
 	VictoryContainer,
 	VictoryLabel,
 	VictoryLegend,
-	VictoryPie
+	VictoryPie,
 } from "victory";
 import { getChartScheme, pieScaleTransform, toTitleCase } from "../../helpers";
 import { ChartScheme, RenderData } from "../../interfaces";
@@ -38,8 +38,8 @@ export default class CardDetailPieChart extends React.Component<Props> {
 			data = Object.keys(scheme).map(
 				key =>
 					data.find(
-						d => ("" + d.x).toLowerCase() === key.toLowerCase()
-					) || { x: key, y: 0 }
+						d => ("" + d.x).toLowerCase() === key.toLowerCase(),
+					) || { x: key, y: 0 },
 			);
 			if (this.props.removeEmpty) {
 				data = data.filter(x => x.y > 0);
@@ -61,7 +61,7 @@ export default class CardDetailPieChart extends React.Component<Props> {
 					if (remaining > 0) {
 						filteredData.push({
 							x: "other",
-							y: remaining
+							y: remaining,
 						});
 					}
 					data = filteredData;
@@ -85,8 +85,8 @@ export default class CardDetailPieChart extends React.Component<Props> {
 					name: toTitleCase("" + d.x),
 					symbol: {
 						type: "circle",
-						fill: scheme[("" + d.x).toLowerCase()].stroke
-					}
+						fill: scheme[("" + d.x).toLowerCase()].stroke,
+					},
 				});
 			});
 		}
@@ -114,8 +114,8 @@ export default class CardDetailPieChart extends React.Component<Props> {
 							transition: "transform .2s ease-in-out",
 							fill,
 							stroke,
-							strokeWidth: series.data.length > 1 ? 2 : 0
-						}
+							strokeWidth: series.data.length > 1 ? 2 : 0,
+						},
 					}}
 					events={[
 						{
@@ -131,12 +131,12 @@ export default class CardDetailPieChart extends React.Component<Props> {
 													{
 														transform: pieScaleTransform(
 															props,
-															1.1
-														)
-													}
-												)
-											})
-										}
+															1.1,
+														),
+													},
+												),
+											}),
+										},
 									];
 								},
 								onMouseOut: () => {
@@ -147,14 +147,14 @@ export default class CardDetailPieChart extends React.Component<Props> {
 												style: Object.assign(
 													{},
 													props.style,
-													{ transform: null }
-												)
-											})
-										}
+													{ transform: null },
+												),
+											}),
+										},
 									];
-								}
-							}
-						}
+								},
+							},
+						},
 					]}
 				/>
 				<VictoryLegend
@@ -171,7 +171,7 @@ export default class CardDetailPieChart extends React.Component<Props> {
 						y={20}
 						text={this.props.title}
 						style={{
-							fontSize: 20
+							fontSize: 20,
 						}}
 					/>
 				) : null}

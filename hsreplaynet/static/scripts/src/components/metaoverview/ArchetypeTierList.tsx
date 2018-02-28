@@ -28,7 +28,7 @@ class ArchetypeTierList extends React.Component<Props> {
 		const values = archetypes.map(d => d.win_rate);
 		const avg = this.average(values);
 		const stdDevWinning = this.standardDeviation(
-			values.filter(x => x >= 50)
+			values.filter(x => x >= 50),
 		);
 		const stdDevLosing = this.standardDeviation(values.filter(x => x < 50));
 		const max = Math.max(...values);
@@ -36,14 +36,14 @@ class ArchetypeTierList extends React.Component<Props> {
 			wr => wr > max - stdDevWinning,
 			wr => wr >= 50,
 			wr => wr > 50 - stdDevLosing,
-			() => true
+			() => true,
 		];
 
 		const tiers = [[], [], [], []];
 
 		archetypes.forEach(archetype => {
 			const index = buckets.findIndex(bucket =>
-				bucket(archetype.win_rate)
+				bucket(archetype.win_rate),
 			);
 			tiers[index].push(
 				<ArchetypeListItem
@@ -51,7 +51,7 @@ class ArchetypeTierList extends React.Component<Props> {
 					archetypeData={this.props.archetypeData}
 					cardData={this.props.cardData}
 					deckData={this.props.deckData.series.data}
-				/>
+				/>,
 			);
 		});
 
@@ -97,17 +97,17 @@ class ArchetypeTierList extends React.Component<Props> {
 		"Winrate within one standard deviation of the strongest archetype.",
 		"Winrate above 50%.",
 		"Winrate within one standard deviation below 50%.",
-		"Winrate more than one standard deviation below 50%."
+		"Winrate more than one standard deviation below 50%.",
 	];
 
 	tierInfoHeader = [
 		"Overperforming Archetypes",
 		"Winning Archetypes",
 		"Underperforming Archetypes",
-		"Losing Archetypes"
+		"Losing Archetypes",
 	];
 }
 
 export default withLoading(["data", "deckData", "archetypeData", "cardData"])(
-	ArchetypeTierList
+	ArchetypeTierList,
 );

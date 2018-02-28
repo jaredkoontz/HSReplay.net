@@ -4,7 +4,7 @@ import {
 	VictoryBar,
 	VictoryChart,
 	VictoryContainer,
-	VictoryLabel
+	VictoryLabel,
 } from "victory";
 import { RenderData } from "../../interfaces";
 import { getChartScheme } from "../../helpers";
@@ -57,7 +57,7 @@ export default class CardDetailBarChart extends React.Component<Props> {
 					label={this.props.labelY}
 					style={{
 						axisLabel: { fontSize: 12 },
-						tickLabels: { fontSize: 12 }
+						tickLabels: { fontSize: 12 },
 					}}
 				/>
 			);
@@ -70,7 +70,7 @@ export default class CardDetailBarChart extends React.Component<Props> {
 				}
 				domainPadding={{
 					x: Math.max(20, 180 / series.data.length),
-					y: 0
+					y: 0,
 				}}
 				height={150}
 				width={width}
@@ -84,7 +84,7 @@ export default class CardDetailBarChart extends React.Component<Props> {
 					style={{
 						axisLabel: { fontSize: 12 },
 						tickLabels: { fontSize: 12 },
-						grid: { strokeWidth: 0 }
+						grid: { strokeWidth: 0 },
 					}}
 				/>
 				{yAxis}
@@ -95,8 +95,8 @@ export default class CardDetailBarChart extends React.Component<Props> {
 							width: "" + 0.7 * width / series.data.length,
 							fill,
 							stroke,
-							strokeWidth: 0.5
-						}
+							strokeWidth: 0.5,
+						},
 					}}
 				/>
 			</VictoryChart>

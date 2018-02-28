@@ -42,7 +42,7 @@ type GameType = "BGT_ARENA" | "BGT_RANKED_STANDARD" | "BGT_RANKED_WILD";
 const entranceAnimationOrder: GameType[] = [
 	"BGT_RANKED_STANDARD",
 	"BGT_RANKED_WILD",
-	"BGT_ARENA"
+	"BGT_ARENA",
 ];
 
 export default class LiveData extends React.Component<Props, State> {
@@ -53,7 +53,7 @@ export default class LiveData extends React.Component<Props, State> {
 			data: null,
 			doUpdate: true,
 			fetching: false,
-			renderedGameTypes: [entranceAnimationOrder[0]]
+			renderedGameTypes: [entranceAnimationOrder[0]],
 		};
 
 		this.fetchData();
@@ -90,7 +90,7 @@ export default class LiveData extends React.Component<Props, State> {
 				});
 
 				this.setState({ data, fetching: false });
-			}
+			},
 		);
 	}
 
@@ -119,7 +119,7 @@ export default class LiveData extends React.Component<Props, State> {
 	public shouldComponentUpdate(
 		nextProps: Readonly<Props>,
 		nextState: Readonly<State>,
-		nextContext: any
+		nextContext: any,
 	): boolean {
 		return (
 			this.props.cardData !== nextProps.cardData ||
@@ -132,7 +132,7 @@ export default class LiveData extends React.Component<Props, State> {
 	public componentDidUpdate(
 		prevProps: Readonly<Props>,
 		prevState: Readonly<State>,
-		prevContext: any
+		prevContext: any,
 	): void {
 		const renderedGameTypes = this.state.renderedGameTypes.slice();
 		if (
@@ -140,7 +140,7 @@ export default class LiveData extends React.Component<Props, State> {
 			renderedGameTypes.length < entranceAnimationOrder.length
 		) {
 			renderedGameTypes.push(
-				entranceAnimationOrder[renderedGameTypes.length]
+				entranceAnimationOrder[renderedGameTypes.length],
 			);
 			setTimeout(() => this.setState({ renderedGameTypes }), 100);
 		}
@@ -162,12 +162,12 @@ export default class LiveData extends React.Component<Props, State> {
 					{this.renderCardList(
 						"BGT_RANKED_STANDARD",
 						"standard",
-						"Ranked Standard"
+						"Ranked Standard",
 					)}
 					{this.renderCardList(
 						"BGT_RANKED_WILD",
 						"wild",
-						"Ranked Wild"
+						"Ranked Wild",
 					)}
 					{this.renderCardList("BGT_ARENA", "arena", "Arena")}
 				</div>
@@ -178,7 +178,7 @@ export default class LiveData extends React.Component<Props, State> {
 	renderCardList(
 		gameType: GameType,
 		icon: string,
-		title: string
+		title: string,
 	): JSX.Element {
 		return (
 			<div className="col-sm-12 col-md-4">
@@ -208,7 +208,7 @@ export default class LiveData extends React.Component<Props, State> {
 			if (cards) {
 				const dataList = Object.keys(cards).map(dbfId => ({
 					dbfId,
-					games: cards[dbfId]
+					games: cards[dbfId],
 				}));
 				dataList.sort((a, b) => b.games - a.games);
 				dataList.slice(0, numCards).forEach(({ dbfId, games }) => {
@@ -220,9 +220,9 @@ export default class LiveData extends React.Component<Props, State> {
 								height={34}
 								count={games}
 								countBoxSize={40}
-							/>
+							/>,
 						],
-						key: "" + dbfId
+						key: "" + dbfId,
 					});
 				});
 				return items;

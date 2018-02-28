@@ -7,7 +7,7 @@ import {
 	ChartSchemeType,
 	ChartSeries,
 	DataPoint,
-	GlobalGamePlayer
+	GlobalGamePlayer,
 } from "./interfaces";
 import { adventureSets } from "./contants";
 import { wildSets } from "./contants";
@@ -99,156 +99,156 @@ export function getChartScheme(theme: ChartSchemeType): ChartScheme {
 		{
 			other: {
 				fill: "rgb(140, 140, 140)",
-				stroke: "rgb(140, 140, 140)"
-			}
+				stroke: "rgb(140, 140, 140)",
+			},
 		},
-		scheme
+		scheme,
 	);
 }
 
 const costScheme: ChartScheme = {
 	0: {
 		fill: "rgba(204, 204, 255, 0.5)",
-		stroke: "rgba(204, 204, 255, 0.9)"
+		stroke: "rgba(204, 204, 255, 0.9)",
 	},
 	1: {
 		fill: "rgba(153, 153, 255, 0.5)",
-		stroke: "rgba(153, 153, 255, 0.9)"
+		stroke: "rgba(153, 153, 255, 0.9)",
 	},
 	2: {
 		fill: "rgba(102, 102, 255, 0.5)",
-		stroke: "rgba(102, 102, 255, 0.9)"
+		stroke: "rgba(102, 102, 255, 0.9)",
 	},
 	3: {
 		fill: "rgba(51, 51, 255, 0.5)",
-		stroke: "rgba(51, 51, 255, 0.9)"
+		stroke: "rgba(51, 51, 255, 0.9)",
 	},
 	4: {
 		fill: "rgba(0, 0, 255, 0.5)",
-		stroke: "rgba(0, 0, 255, 0.9)"
+		stroke: "rgba(0, 0, 255, 0.9)",
 	},
 	5: {
 		fill: "rgba(0, 0, 204, 0.5)",
-		stroke: "rgba(0, 0, 204, 0.9)"
+		stroke: "rgba(0, 0, 204, 0.9)",
 	},
 	6: {
 		fill: "rgba(0, 0, 153, 0.5)",
-		stroke: "rgba(0, 0, 153, 0.9)"
+		stroke: "rgba(0, 0, 153, 0.9)",
 	},
 	7: {
 		fill: "rgba(0, 0, 102, 0.5)",
 		stroke: "rgba(0, 0, 102, 0.9)",
-		name: "7+"
-	}
+		name: "7+",
+	},
 };
 
 const rarityScheme: ChartScheme = {
 	free: {
 		fill: "rgba(211, 211, 211, 0.5)",
 		stroke: "rgba(211, 211, 211, 0.9)",
-		name: "Free"
+		name: "Free",
 	},
 	common: {
 		fill: "rgba(169, 169, 169, 0.5)",
 		stroke: "rgba(169, 169, 169, 0.9)",
-		name: "Common"
+		name: "Common",
 	},
 	rare: {
 		fill: "rgba(0, 112, 221, 0.5)",
 		stroke: "rgba(0, 112, 221, 0.9)",
-		name: "Rare"
+		name: "Rare",
 	},
 	epic: {
 		fill: "rgba(163, 53, 238, 0.5)",
 		stroke: "rgba(163, 53, 238, 0.9)",
-		name: "Epic"
+		name: "Epic",
 	},
 	legendary: {
 		fill: "rgba(255, 128, 0, 0.5)",
 		stroke: "rgba(255, 128, 0, 0.9)",
-		name: "Legendary"
-	}
+		name: "Legendary",
+	},
 };
 
 const cardtypeScheme: ChartScheme = {
 	minion: {
 		fill: "rgba(171, 212, 115, 0.5)",
 		stroke: "rgba(171, 212, 115, 0.9)",
-		name: "Minion"
+		name: "Minion",
 	},
 	spell: {
 		fill: "rgba(0, 112, 222, 0.5)",
 		stroke: "rgba(0, 112, 222, 0.9)",
-		name: "Spell"
+		name: "Spell",
 	},
 	weapon: {
 		fill: "rgba(196, 30, 59, 0.5)",
 		stroke: "rgba(196, 30, 59, 0.9)",
-		name: "Weapon"
-	}
+		name: "Weapon",
+	},
 };
 
 const classColorScheme: ChartScheme = {
 	all: {
 		stroke: "rgba(169, 169, 169, 1)",
 		fill: "rgba(169, 169, 169, 0.7)",
-		name: "All"
+		name: "All",
 	},
 	neutral: {
 		stroke: "rgba(169, 169, 169, 1)",
 		fill: "rgba(169, 169, 169, 0.7)",
-		name: "Neutral"
+		name: "Neutral",
 	},
 	druid: {
 		stroke: "rgba(255, 125, 10, 1)",
 		fill: "rgba(255, 125, 10, 0.7)",
-		name: "Druid"
+		name: "Druid",
 	},
 	hunter: {
 		stroke: "rgba(171, 212, 114, 1)",
 		fill: "rgba(171, 212, 114, 0.7)",
-		name: "Hunter"
+		name: "Hunter",
 	},
 	mage: {
 		stroke: "rgba(105, 204, 240, 1)",
 		fill: "rgba(105, 204, 240, 0.7)",
-		name: "Mage"
+		name: "Mage",
 	},
 	paladin: {
 		stroke: "rgba(245, 140, 186, 1)",
 		fill: "rgba(245, 140, 186, 0.7)",
-		name: "Paladin"
+		name: "Paladin",
 	},
 	priest: {
 		stroke: "rgba(210, 210, 210, 1)",
 		fill: "rgba(210, 210, 210, 0.7)",
-		name: "Priest"
+		name: "Priest",
 	},
 	rogue: {
 		stroke: "rgba(255, 217, 26, 1)",
 		fill: "rgba(255, 240, 26, 0.7)",
-		name: "Rogue"
+		name: "Rogue",
 	},
 	shaman: {
 		stroke: "rgba(0, 122, 222, 1)",
 		fill: "rgba(0, 122, 222, 0.7)",
-		name: "Shaman"
+		name: "Shaman",
 	},
 	warlock: {
 		stroke: "rgba(148, 130, 201, 1)",
 		fill: "rgba(148, 130, 201, 0.7)",
-		name: "Warlock"
+		name: "Warlock",
 	},
 	warrior: {
 		stroke: "rgba(199, 156, 110, 1)",
 		fill: "rgba(199, 156, 110, 0.7)",
-		name: "Warrior"
+		name: "Warrior",
 	},
 	other: {
 		stroke: "rgba(122, 122, 122, 1)",
 		fill: "rgba(122, 122, 122, 0.7)",
-		name: "Other"
-	}
+		name: "Other",
+	},
 };
 
 export const setNames = {
@@ -266,7 +266,7 @@ export const setNames = {
 	gangs: "Mean Streets of Gadgetzan",
 	ungoro: "Journey to Un'Goro",
 	icecrown: "Knights of the Frozen Throne",
-	lootapalooza: "Kobolds and Catacombs"
+	lootapalooza: "Kobolds and Catacombs",
 };
 
 export function isCollectibleCard(card: any) {
@@ -285,7 +285,7 @@ export function getChartMetaData(
 	data: DataPoint[],
 	midLine?: number,
 	seasonTicks?: boolean,
-	baseRoundingFactor?: number
+	baseRoundingFactor?: number,
 ): ChartMetaData {
 	const ticks = [];
 	const xMin = data[0];
@@ -336,13 +336,13 @@ export function getChartMetaData(
 		100,
 		Math.ceil(Math.ceil(top / factor) / roundingFactor) *
 			roundingFactor *
-			factor
+			factor,
 	);
 	const domainMin = Math.max(
 		0,
 		Math.floor(Math.floor(bottom / factor) / roundingFactor) *
 			roundingFactor *
-			factor
+			factor,
 	);
 
 	return {
@@ -359,7 +359,7 @@ export function getChartMetaData(
 			const split = fixed.split(".");
 			const precision = sliceZeros(split[1]);
 			return split[0] + (precision.length ? "." + precision : "");
-		}
+		},
 	};
 }
 
@@ -399,7 +399,7 @@ export function toTimeSeries(series: ChartSeries): ChartSeries {
 			return { x: new Date("" + d.x).getTime(), y: d.y };
 		}),
 		name: series.name,
-		metadata: series.metadata
+		metadata: series.metadata,
 	};
 	timeSeries.data.sort((a, b) => +a.x - +b.x);
 	return timeSeries;
@@ -410,7 +410,7 @@ export function getColorString(
 	intensity: number,
 	winrate: number,
 	mirror?: boolean,
-	disable?: boolean
+	disable?: boolean,
 ): string {
 	if (mirror) {
 		return "black";
@@ -479,12 +479,12 @@ export function getColorString(
 	const scaleTriple = (
 		x: number,
 		from: Array<number | null>,
-		to: Array<number | null>
+		to: Array<number | null>,
 	): number[] => {
 		return [
 			scale(x, from[0], to[0]),
 			scale(x, from[1], to[1]),
-			scale(x, from[2], to[2])
+			scale(x, from[2], to[2]),
 		];
 	};
 
@@ -543,7 +543,7 @@ export function cardObjSorting(
 	a: any,
 	b: any,
 	prop: string,
-	direction: number
+	direction: number,
 ): number {
 	const aVal = a[prop] || 0;
 	const bVal = b[prop] || 0;
@@ -564,7 +564,7 @@ export function getHeroCardId(playerClass: string, skin: boolean) {
 		"DRUID",
 		"WARLOCK",
 		"MAGE",
-		"PRIEST"
+		"PRIEST",
 	];
 
 	const hasSkin = [
@@ -575,7 +575,7 @@ export function getHeroCardId(playerClass: string, skin: boolean) {
 		"HUNTER",
 		"MAGE",
 		"PRIEST",
-		"WARLOCK"
+		"WARLOCK",
 	];
 
 	const index = sorted.indexOf(playerClass.toUpperCase());
@@ -667,7 +667,7 @@ export function getManaCost(card: any | any[]): number {
 export function winrateData(
 	baseWinrate: number,
 	winrate: number,
-	deltaFactor: number
+	deltaFactor: number,
 ) {
 	const winrateDelta = winrate - baseWinrate;
 	const colorWinrate =
@@ -739,7 +739,7 @@ export function slangToCardId(slang: string): string | null {
 
 export function toDynamicFixed(
 	value: number,
-	fractionDigits: number = 1
+	fractionDigits: number = 1,
 ): string {
 	if (value === 0) {
 		return "0";
@@ -747,7 +747,7 @@ export function toDynamicFixed(
 	const digits =
 		Math.min(
 			Math.max(0, Math.floor(Math.log10(1 / value))),
-			7 - fractionDigits
+			7 - fractionDigits,
 		) + fractionDigits;
 	return value.toFixed(digits);
 }
@@ -785,7 +785,7 @@ export function getCookie(name: string): string {
 			// Does this cookie string begin with the name we want?
 			if (cookie.substring(0, name.length + 1) === name + "=") {
 				cookieValue = decodeURIComponent(
-					cookie.substring(name.length + 1)
+					cookie.substring(name.length + 1),
 				);
 				break;
 			}
@@ -811,7 +811,7 @@ export function fetchCSRF(url: string, options?) {
 
 export function getFragments(
 	keys: string[],
-	overwrite?: { [key: string]: string }
+	overwrite?: { [key: string]: string },
 ) {
 	if (!window || !window.location) {
 		return "";
@@ -881,7 +881,7 @@ export function stringifyHsl(h: number, s: number, l: number): string {
 
 export function pieScaleTransform(
 	props: { origin: { x: number; y: number } },
-	scale: number
+	scale: number,
 ): string {
 	const origin = Object.assign({ x: 0, y: 0 }, props.origin);
 	return `translate(${origin.x}px, ${origin.y}px) scale(${+scale})`;
@@ -897,7 +897,7 @@ export function getHeroCard(cardData: CardData, player: GlobalGamePlayer): any {
 
 export function getHeroDbfId(
 	cardData: CardData,
-	player: GlobalGamePlayer
+	player: GlobalGamePlayer,
 ): number | null {
 	if (player.hero_id.startsWith("HERO_")) {
 		return player.hero_dbf_id;
@@ -921,7 +921,7 @@ export function getOtherArchetype(archetypeId: number): ApiArchetype {
 		name: "Other " + toTitleCase(cardClass[classId]),
 		player_class: -archetypeId,
 		player_class_name: cardClass[classId],
-		url: ""
+		url: "",
 	};
 }
 
@@ -962,5 +962,5 @@ export const cardClass = [
 	"WARLOCK",
 	"WARRIOR",
 	"DREAM",
-	"NEUTRAL"
+	"NEUTRAL",
 ];

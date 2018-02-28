@@ -44,7 +44,7 @@ export default class ClusterChart extends React.Component<Props, State> {
 			dragging: false,
 			initialized: false,
 			scaling: 1,
-			selectedDatum: null
+			selectedDatum: null,
 		};
 	}
 
@@ -56,7 +56,7 @@ export default class ClusterChart extends React.Component<Props, State> {
 
 	public componentWillReceiveProps(
 		nextProps: Readonly<Props>,
-		nextContext: any
+		nextContext: any,
 	): void {
 		if (nextProps.playerClass !== this.props.playerClass) {
 			this.setState({ scaling: 1, selectedDatum: null });
@@ -66,7 +66,7 @@ export default class ClusterChart extends React.Component<Props, State> {
 	public componentDidUpdate(
 		prevProps: Readonly<Props>,
 		prevState: Readonly<State>,
-		prevContext: any
+		prevContext: any,
 	): void {
 		if (prevProps.playerClass !== this.props.playerClass) {
 			this.initialize();
@@ -84,7 +84,7 @@ export default class ClusterChart extends React.Component<Props, State> {
 					.select(this.decks)
 					.selectAll("circle")
 					.transition()
-					.duration(500)
+					.duration(500),
 			);
 			this.updateZoom();
 			this.updateVoronoi();
@@ -104,7 +104,7 @@ export default class ClusterChart extends React.Component<Props, State> {
 		const decks = {};
 		this.props.data.forEach(d => {
 			const cards: Array<[string, string]> = JSON.parse(
-				d.metadata.deck_list
+				d.metadata.deck_list,
 			);
 			decks[d.metadata.shortid] = cards.map(([dbfId, count]) => +dbfId);
 		});
@@ -123,7 +123,7 @@ export default class ClusterChart extends React.Component<Props, State> {
 				.select(this.decks)
 				.selectAll("circle")
 				.transition()
-				.duration(500)
+				.duration(500),
 		);
 		this.updateZoom();
 		this.updateFilteredCards();
@@ -194,7 +194,7 @@ export default class ClusterChart extends React.Component<Props, State> {
 				.attr("r", highlightRadius)
 				.attr("stroke-width", this.state.scaling);
 			this.updatePosition(highlight).on("end", () =>
-				this.props.onPointClicked(datum.metadata)
+				this.props.onPointClicked(datum.metadata),
 			);
 		};
 
@@ -214,13 +214,13 @@ export default class ClusterChart extends React.Component<Props, State> {
 				.attr("r", highlightRadius)
 				.attr(
 					"stroke-width",
-					STROKE_WIDTH_SELECTED * this.state.scaling
+					STROKE_WIDTH_SELECTED * this.state.scaling,
 				);
 			if (this.state.selectedDatum) {
 				this.updatePosition(highlight);
 			}
 			highlight.on("end", () =>
-				this.props.onPointClicked(datum ? datum.metadata : null)
+				this.props.onPointClicked(datum ? datum.metadata : null),
 			);
 		};
 
@@ -237,7 +237,7 @@ export default class ClusterChart extends React.Component<Props, State> {
 				.attr(
 					"stroke-width",
 					(newDatum === null ? STROKE_WIDTH : STROKE_WIDTH_SELECTED) *
-						this.state.scaling
+						this.state.scaling,
 				);
 			this.setState({ selectedDatum: newDatum });
 		};
@@ -245,7 +245,7 @@ export default class ClusterChart extends React.Component<Props, State> {
 		const polygons = voronoi.polygons(
 			this.getData().map((d: any) => {
 				return [scale.x(d.x), scale.y(d.y)] as [number, number];
-			})
+			}),
 		);
 		const hoverGroups = d3
 			.select(this.voronoi)
@@ -295,7 +295,7 @@ export default class ClusterChart extends React.Component<Props, State> {
 			.selectAll(".deck-circle")
 			.attr(
 				"opacity",
-				(d: any) => (this.containsFilteredCards(d.metadata) ? 1 : 0.1)
+				(d: any) => (this.containsFilteredCards(d.metadata) ? 1 : 0.1),
 			);
 	}
 
@@ -357,7 +357,7 @@ export default class ClusterChart extends React.Component<Props, State> {
 	} {
 		return {
 			x: this.scaleDimension("x"),
-			y: this.scaleDimension("y")
+			y: this.scaleDimension("y"),
 		};
 	}
 
@@ -384,7 +384,7 @@ export default class ClusterChart extends React.Component<Props, State> {
 	public shouldComponentUpdate(
 		nextProps: Readonly<Props>,
 		nextState: Readonly<State>,
-		nextContext: any
+		nextContext: any,
 	): boolean {
 		return (
 			nextProps.playerClass !== this.props.playerClass ||

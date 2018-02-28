@@ -3,7 +3,7 @@ import {
 	getHeroColor,
 	hexToHsl,
 	stringifyHsl,
-	toTitleCase
+	toTitleCase,
 } from "../../helpers";
 import { VictoryLabel, VictoryLegend, VictoryPie } from "victory";
 import { ApiArchetype } from "../../interfaces";
@@ -30,11 +30,11 @@ export default class ArchetypeDistributionPieChart extends React.Component<
 
 	constructor(
 		props: ArchetypeDistributionPieChartProps,
-		state: ArchetypeDistributionPieChartState
+		state: ArchetypeDistributionPieChartState,
 	) {
 		super(props, state);
 		this.state = {
-			hovering: null
+			hovering: null,
 		};
 	}
 
@@ -69,7 +69,7 @@ export default class ArchetypeDistributionPieChart extends React.Component<
 					transform: `translate(${radius}px, ${radius}px) scale(${scale})`,
 					url: archetype && archetype.url,
 					x: archetype ? this.getArchetypeName(archetype) : "Other",
-					y: matchup.pct_of_class
+					y: matchup.pct_of_class,
 				};
 			})
 			.filter(x => x !== undefined);
@@ -87,8 +87,8 @@ export default class ArchetypeDistributionPieChart extends React.Component<
 				fill: stringifyHsl(
 					baseHsl[0],
 					baseHsl[1],
-					Math.floor(margin + index * stride)
-				)
+					Math.floor(margin + index * stride),
+				),
 			});
 		});
 		return coloredData;
@@ -104,7 +104,7 @@ export default class ArchetypeDistributionPieChart extends React.Component<
 				isSelectedArchetype: p.isSelectedArchetype,
 				name: p.x + (hovering ? ` ${p.y}% ` : ""),
 				symbol: { style: "circle", fill: p.fill },
-				url: p.url
+				url: p.url,
 			};
 		});
 
@@ -127,11 +127,11 @@ export default class ArchetypeDistributionPieChart extends React.Component<
 					style={{
 						data: {
 							cursor,
-							transition: "transform .2s ease-in-out"
+							transition: "transform .2s ease-in-out",
 						},
 						labels: {
-							cursor
-						}
+							cursor,
+						},
 					}}
 					events={this.mouseEvents()}
 				/>
@@ -143,12 +143,12 @@ export default class ArchetypeDistributionPieChart extends React.Component<
 					y={358}
 					style={{
 						data: {
-							cursor
+							cursor,
 						},
 						labels: {
 							cursor,
-							fontWeight: d => d.fontWeight
-						}
+							fontWeight: d => d.fontWeight,
+						},
 					}}
 					events={this.mouseEvents()}
 				/>
@@ -176,8 +176,8 @@ export default class ArchetypeDistributionPieChart extends React.Component<
 							) {
 								window.open(props.datum.url, "_self");
 							}
-						}
-					}
+						},
+					},
 				];
 			},
 			onMouseOut: () => {
@@ -189,8 +189,8 @@ export default class ArchetypeDistributionPieChart extends React.Component<
 							) {
 								this.setState({ hovering: null });
 							}
-						}
-					}
+						},
+					},
 				];
 			},
 			onMouseOver: () => {
@@ -198,16 +198,16 @@ export default class ArchetypeDistributionPieChart extends React.Component<
 					{
 						mutation: props => {
 							this.setState({
-								hovering: props.datum.archetypeId
+								hovering: props.datum.archetypeId,
 							});
-						}
-					}
+						},
+					},
 				];
-			}
+			},
 		};
 		return [
 			{ eventHandlers, target: "data" },
-			{ eventHandlers, target: "labels" }
+			{ eventHandlers, target: "labels" },
 		];
 	}
 }

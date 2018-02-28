@@ -41,7 +41,7 @@ export default class DeckBox extends React.Component<Props> {
 							<td>{this.props.games}</td>
 						</tr>
 					</table>
-				</div>
+				</div>,
 			];
 			href = `/decks/${this.props.deckId}/`;
 		} else if (

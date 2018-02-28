@@ -18,7 +18,7 @@ export default class ClassIcon extends React.Component<ClassIconProps, any> {
 		"rogue",
 		"shaman",
 		"warlock",
-		"warrior"
+		"warrior",
 	];
 
 	public render(): React.ReactNode {

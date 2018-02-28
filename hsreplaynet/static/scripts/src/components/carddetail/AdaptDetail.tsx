@@ -30,7 +30,7 @@ export default class AdaptDetail extends React.Component<Props, State> {
 		this.state = {
 			page: 1,
 			sortBy: "popularity",
-			sortDirection: "descending"
+			sortDirection: "descending",
 		};
 	}
 
@@ -50,15 +50,15 @@ export default class AdaptDetail extends React.Component<Props, State> {
 				choices.sort(
 					(a, b) =>
 						(+b[this.state.sortBy] - +a[this.state.sortBy]) *
-						sortDir
+						sortDir,
 				);
 				const visibleChoices = choices.slice(
 					offset,
-					offset + this.numRows
+					offset + this.numRows,
 				);
 				adaptations = Math.max.apply(
 					Math,
-					visibleChoices.map(choice => choice.adaptations.length)
+					visibleChoices.map(choice => choice.adaptations.length),
 				);
 				visibleChoices.forEach((choice, index) => {
 					const cards = [];
@@ -73,7 +73,7 @@ export default class AdaptDetail extends React.Component<Props, State> {
 									noLink
 									customText={this.shortAdaptText(card)}
 								/>
-							</td>
+							</td>,
 						);
 					});
 					for (let i = cards.length; i < adaptations; i++) {
@@ -93,7 +93,7 @@ export default class AdaptDetail extends React.Component<Props, State> {
 							{cards}
 							{winrateCell}
 							<td>{choice.popularity + "%"}</td>
-						</tr>
+						</tr>,
 					);
 				});
 			}
@@ -104,20 +104,20 @@ export default class AdaptDetail extends React.Component<Props, State> {
 				sortKey: "rank",
 				text: "Rank",
 				sortable: false,
-				classNames: ["hidden-xs"]
+				classNames: ["hidden-xs"],
 			},
-			{ sortKey: "adaptations", text: "Adaptations", sortable: false }
+			{ sortKey: "adaptations", text: "Adaptations", sortable: false },
 		];
 		Array.from({ length: adaptations - 1 }, (x, index) =>
 			headers.push({
 				sortKey: "adaptations-" + index,
 				text: "",
-				sortable: false
-			})
+				sortable: false,
+			}),
 		);
 		headers.push(
 			{ sortKey: "win_rate", text: "Winrate" },
-			{ sortKey: "popularity", text: "Popularity" }
+			{ sortKey: "popularity", text: "Popularity" },
 		);
 
 		const table = (
@@ -144,7 +144,7 @@ export default class AdaptDetail extends React.Component<Props, State> {
 								hideAll
 								minimal
 								selectedClasses={[
-									this.props.opponentClass as FilterOption
+									this.props.opponentClass as FilterOption,
 								]}
 								selectionChanged={selected =>
 									UserData.isPremium() &&

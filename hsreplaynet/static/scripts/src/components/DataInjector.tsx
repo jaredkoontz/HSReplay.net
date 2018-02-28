@@ -45,7 +45,7 @@ export default class DataInjector extends React.Component<Props, State> {
 		this.state = {
 			data: [],
 			retryCount: this.getQueryArray(props).map(query => 0),
-			status: this.getQueryArray(props).map(query => STATUS_LOADING)
+			status: this.getQueryArray(props).map(query => STATUS_LOADING),
 		};
 	}
 
@@ -71,7 +71,7 @@ export default class DataInjector extends React.Component<Props, State> {
 		return nextKeys.some(
 			key =>
 				currentKeys.indexOf(key) === -1 ||
-				next.params[key] !== current.params[key]
+				next.params[key] !== current.params[key],
 		);
 	}
 
@@ -85,7 +85,7 @@ export default class DataInjector extends React.Component<Props, State> {
 
 	public componentWillReceiveProps(
 		nextProps: Readonly<Props>,
-		nextContext: any
+		nextContext: any,
 	): void {
 		const newStatus = Object.assign([], this.state.status);
 		const queue = [];
@@ -131,18 +131,18 @@ export default class DataInjector extends React.Component<Props, State> {
 					if (this.state.retryCount[index] < MAX_RETRY_COUNT) {
 						window.setTimeout(
 							() => this.fetch(props, index),
-							RETRY_DELAY
+							RETRY_DELAY,
 						);
 						const newStatus = Object.assign([], this.state.status);
 						const newRetryCount = Object.assign(
 							[],
-							this.state.retryCount
+							this.state.retryCount,
 						);
 						newStatus[index] = STATUS_PROCESSING;
 						newRetryCount[index] = newRetryCount[index] + 1;
 						this.setState({
 							status: newStatus,
-							retryCount: newRetryCount
+							retryCount: newRetryCount,
 						});
 					} else {
 						const newStatus = Object.assign([], this.state.status);
@@ -154,7 +154,7 @@ export default class DataInjector extends React.Component<Props, State> {
 					newStatus[index] = status;
 					this.setState({ status: newStatus });
 				}
-			}
+			},
 		);
 	}
 
@@ -170,8 +170,8 @@ export default class DataInjector extends React.Component<Props, State> {
 							STATUS_SUCCESS,
 							STATUS_LOADING,
 							STATUS_PROCESSING,
-							STATUS_NO_DATA
-						].indexOf(s) === -1
+							STATUS_NO_DATA,
+						].indexOf(s) === -1,
 				)
 			) {
 				return LoadingStatus.ERROR;
@@ -197,7 +197,7 @@ export default class DataInjector extends React.Component<Props, State> {
 					if (childProps[prop]) {
 						const newProps = this.props.extract[prop](
 							childProps[prop],
-							childProps
+							childProps,
 						);
 						delete childProps[prop];
 						Object.assign(childProps, newProps);

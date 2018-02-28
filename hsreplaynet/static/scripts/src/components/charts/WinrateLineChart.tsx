@@ -7,13 +7,13 @@ import {
 	VictoryChart,
 	VictoryClipContainer,
 	VictoryLabel,
-	VictoryVoronoiContainer
+	VictoryVoronoiContainer,
 } from "victory";
 import {
 	getChartMetaData,
 	sliceZeros,
 	toDynamicFixed,
-	toTimeSeries
+	toTimeSeries,
 } from "../../helpers";
 import { RenderData } from "../../interfaces";
 import ChartHighlighter from "./ChartHighlighter";
@@ -37,15 +37,15 @@ export default class WinrateLineChart extends React.Component<Props> {
 			height * (this.props.widthRatio || 3);
 		const series = toTimeSeries(
 			this.props.data.series.find(x => x.name === "winrates_over_time") ||
-				this.props.data.series[0]
+				this.props.data.series[0],
 		);
 
 		// This is a temporary solution to remove very low volume data points from the Un'Goro launch
 		if (series.data[0].x === new Date("2017-04-05").getTime()) {
 			const popularity = toTimeSeries(
 				this.props.data.series.find(
-					x => x.name === "popularity_over_time"
-				) || this.props.data.series[0]
+					x => x.name === "popularity_over_time",
+				) || this.props.data.series[0],
 			);
 			if (
 				popularity.data[0].x === new Date("2017-04-05").getTime() &&
@@ -64,7 +64,7 @@ export default class WinrateLineChart extends React.Component<Props> {
 
 		const yTicks = [50];
 		metadata.yDomain.forEach(
-			value => yTicks.indexOf(value) === -1 && yTicks.push(value)
+			value => yTicks.indexOf(value) === -1 && yTicks.push(value),
 		);
 
 		const filterId = _.uniqueId("winrate-by-time-gradient-");
@@ -75,7 +75,7 @@ export default class WinrateLineChart extends React.Component<Props> {
 			left: 40 * factor,
 			top: 10 * factor,
 			right: 20 * factor,
-			bottom: 30 * factor
+			bottom: 30 * factor,
 		};
 		const yCenter = height / 2 - (padding.bottom - padding.top) / 2;
 
@@ -85,7 +85,7 @@ export default class WinrateLineChart extends React.Component<Props> {
 					this.props.absolute && {
 						position: "absolute",
 						width: "100%",
-						height: "100%"
+						height: "100%",
 					}
 				}
 			>
@@ -111,7 +111,7 @@ export default class WinrateLineChart extends React.Component<Props> {
 							axisLabel: { fontSize },
 							tickLabels: { fontSize },
 							grid: { stroke: "gray" },
-							axis: { visibility: "hidden" }
+							axis: { visibility: "hidden" },
 						}}
 					/>
 					<VictoryAxis
@@ -148,9 +148,9 @@ export default class WinrateLineChart extends React.Component<Props> {
 										: (minAbove50 && isMinTick(tick)) ||
 											(maxBelow50 && isMaxTick(tick))
 											? "transparent"
-											: "lightgray"
+											: "lightgray",
 							},
-							axis: { visibility: "hidden" }
+							axis: { visibility: "hidden" },
 						}}
 					/>
 					<defs>
@@ -160,7 +160,7 @@ export default class WinrateLineChart extends React.Component<Props> {
 						data={series.data.map(p => ({
 							x: p.x,
 							y: p.y,
-							_y0: 50
+							_y0: 50,
 						}))}
 						groupComponent={
 							<VictoryClipContainer clipPadding={5} />
@@ -182,8 +182,8 @@ export default class WinrateLineChart extends React.Component<Props> {
 							data: {
 								fill: `url(#${filterId})`,
 								stroke: "black",
-								strokeWidth: 0.3 * factor
-							}
+								strokeWidth: 0.3 * factor,
+							},
 						}}
 					/>
 				</VictoryChart>

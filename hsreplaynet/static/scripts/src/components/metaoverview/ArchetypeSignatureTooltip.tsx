@@ -24,7 +24,7 @@ export default class ArchetypeSignatureTooltip extends React.Component<
 	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
-			signature: null
+			signature: null,
 		};
 	}
 

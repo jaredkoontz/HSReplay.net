@@ -21,7 +21,7 @@ const render = (cardData: CardData) => {
 					sortBy: "popularity",
 					sortDirection: "descending",
 					tab: "tierlist",
-					timeFrame: "LAST_7_DAYS"
+					timeFrame: "LAST_7_DAYS",
 				}}
 				immutable={
 					!UserData.isPremium()
@@ -32,7 +32,7 @@ const render = (cardData: CardData) => {
 				<MetaOverview cardData={cardData} region="ALL" />
 			</Fragments>
 		</ErrorReporter>,
-		document.getElementById("meta-overview-container")
+		document.getElementById("meta-overview-container"),
 	);
 };
 

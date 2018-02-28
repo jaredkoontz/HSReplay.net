@@ -19,11 +19,11 @@ export default class ClusterArchetypeSelector extends React.Component<
 > {
 	constructor(
 		props: ClusterArchetypeSelectorProps,
-		state: ClusterArchetypeSelectorState
+		state: ClusterArchetypeSelectorState,
 	) {
 		super(props, state);
 		this.state = {
-			working: false
+			working: false,
 		};
 	}
 
@@ -97,7 +97,7 @@ export default class ClusterArchetypeSelector extends React.Component<
 			body: JSON.stringify({ archetype_id: archetypeId }),
 			credentials: "same-origin",
 			headers,
-			method: "PATCH"
+			method: "PATCH",
 		})
 			.then((response: Response) => {
 				if (!response.ok) {

@@ -21,7 +21,7 @@ export default class DeckCountersList extends React.Component<Props> {
 					const cardData = cards.map(c => {
 						return {
 							card: this.props.cardData.fromDbf(c[0]),
-							count: c[1]
+							count: c[1],
 						};
 					});
 
@@ -33,7 +33,7 @@ export default class DeckCountersList extends React.Component<Props> {
 						duration: +deck.avg_game_length_seconds,
 						numGames: +deck.total_games,
 						playerClass: deck.playerClass,
-						winrate: 100 - deckData.win_rate
+						winrate: 100 - deckData.win_rate,
 					});
 				}
 			});
@@ -43,7 +43,7 @@ export default class DeckCountersList extends React.Component<Props> {
 			<Fragments
 				defaults={{
 					sortBy: "popularity",
-					sortDirection: "descending"
+					sortDirection: "descending",
 				}}
 			>
 				<DeckList decks={decks} pageSize={10} hideTopPager />

@@ -31,7 +31,7 @@ const render = (cardData: CardData) => {
 					format: "",
 					result: "",
 					hero: "ALL",
-					opponent: "ALL"
+					opponent: "ALL",
 				}}
 				debounce={"name"}
 			>
@@ -43,7 +43,7 @@ const render = (cardData: CardData) => {
 				/>
 			</Fragments>
 		</ErrorReporter>,
-		document.getElementById("my-games-container")
+		document.getElementById("my-games-container"),
 	);
 };
 

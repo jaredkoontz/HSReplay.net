@@ -53,7 +53,7 @@ export default class CardRankingTableRow extends React.Component<Props> {
 		const digits =
 			Math.min(
 				Math.max(0, Math.floor(Math.log10(1 / this.props.popularity))),
-				2
+				2,
 			) + 2;
 		return this.props.popularity.toFixed(digits) + "%";
 	}

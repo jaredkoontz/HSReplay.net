@@ -13,7 +13,7 @@ export default class TourManager {
 		name: string,
 		steps: StepDefinition[],
 		customDefaults?: object,
-		force?: boolean
+		force?: boolean,
 	): Shepherd.Tour {
 		if (!force && this.hasSeen(name)) {
 			// no need to show tours we've already seen
@@ -26,16 +26,16 @@ export default class TourManager {
 
 		const defaultDefaults = {
 			scrollTo: false,
-			showCancelLink: true
+			showCancelLink: true,
 		};
 		const tourDefaults = Object.assign(
 			{},
 			defaultDefaults,
-			customDefaults || {}
+			customDefaults || {},
 		);
 
 		const tour = new Shepherd.Tour({
-			defaults: tourDefaults
+			defaults: tourDefaults,
 		});
 
 		this.tours[name] = tour;
@@ -52,20 +52,20 @@ export default class TourManager {
 				buttons.push({
 					text: "Back",
 					classes: "btn btn-default",
-					action: () => tour.back()
+					action: () => tour.back(),
 				});
 			}
 			if (last) {
 				buttons.push({
 					text: "Done",
 					classes: "btn btn-success",
-					action: () => tour.complete()
+					action: () => tour.complete(),
 				});
 			} else {
 				buttons.push({
 					text: "Next",
 					classes: "btn btn-primary",
-					action: () => tour.next()
+					action: () => tour.next(),
 				});
 			}
 

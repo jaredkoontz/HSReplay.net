@@ -13,7 +13,7 @@ export default class Feature extends React.Component<Props> {
 		const { feature, children, ...props } = this.props;
 		return React.cloneElement(
 			React.Children.only(this.props.children),
-			props
+			props,
 		);
 	}
 }

@@ -59,7 +59,7 @@ export default class MyHighlights extends React.Component<Props> {
 									query={{
 										url:
 											"single_account_lo_lifetime_class_performance_over_time",
-										params: {}
+										params: {},
 									}}
 								>
 									<ChartLoading
@@ -78,7 +78,7 @@ export default class MyHighlights extends React.Component<Props> {
 									query={{
 										url:
 											"single_account_lo_lifetime_class_performance_over_time",
-										params: {}
+										params: {},
 									}}
 									modify={data =>
 										this.buildWinrateChartData(data)
@@ -118,14 +118,14 @@ export default class MyHighlights extends React.Component<Props> {
 											key: "cardStats",
 											url:
 												"single_account_lo_individual_card_stats",
-											params: {}
+											params: {},
 										},
 										{
 											key: "ranks",
 											url:
 												"single_account_lo_best_rank_by_season",
-											params: {}
-										}
+											params: {},
+										},
 									]}
 								>
 									<TableLoading
@@ -140,7 +140,7 @@ export default class MyHighlights extends React.Component<Props> {
 								<DataInjector
 									query={{
 										url: "single_account_lo_biggest_hits",
-										params: {}
+										params: {},
 									}}
 								>
 									<TableLoading
@@ -176,9 +176,9 @@ export default class MyHighlights extends React.Component<Props> {
 					data: Object.keys(data).map(key => {
 						return { x: key, y: data[key] };
 					}),
-					name: "winrate_over_time"
-				}
-			]
+					name: "winrate_over_time",
+				},
+			],
 		};
 	}
 }

@@ -40,7 +40,7 @@ export default class CheckoutProcess {
 					this.trackInteraction("close", dollars).then(() => {
 						reject();
 					});
-				}
+				},
 			});
 			this.handler.open(options);
 		});
@@ -60,7 +60,7 @@ export default class CheckoutProcess {
 				eventLabel: this.label,
 				eventValue: value,
 				hitCallback: () => resolve(),
-				nonInteraction: false
+				nonInteraction: false,
 			});
 			setTimeout(() => resolve(), 2000);
 		});

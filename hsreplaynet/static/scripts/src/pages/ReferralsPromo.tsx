@@ -21,7 +21,7 @@ export default class ReferralsPromo extends React.Component<Props, State> {
 		super(props, context);
 		this.state = {
 			expanded: UserData.isPremium(),
-			copied: false
+			copied: false,
 		};
 	}
 
@@ -78,7 +78,7 @@ export default class ReferralsPromo extends React.Component<Props, State> {
 								onSelect={e => {
 									this.urlBox.setSelectionRange(
 										0,
-										this.urlBox.value.length
+										this.urlBox.value.length,
 									);
 								}}
 								onCopy={e =>

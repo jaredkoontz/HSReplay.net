@@ -5,7 +5,7 @@ import {
 	CardSet,
 	CardType,
 	MultiClassGroup,
-	Rarity
+	Rarity,
 } from "../hearthstone";
 import Sunwell from "sunwell";
 
@@ -43,7 +43,7 @@ class LabeledSelect extends React.Component<any> {
 			ret.push(
 				<option value={option[0]} key={option[0]}>
 					{option[1]}
-				</option>
+				</option>,
 			);
 		});
 		return ret;
@@ -93,7 +93,7 @@ class RadioInputGroup extends React.Component<any, RadioInputGroupState> {
 					checked={this.state.value == option[0]}
 					onChange={onChange}
 					key={option[0]}
-				/>
+				/>,
 			);
 		});
 		return ret;
@@ -116,11 +116,11 @@ class TextureUploadInput extends React.Component<any> {
 	public componentDidMount(): void {
 		ReactDOM.findDOMNode(this).addEventListener(
 			"dragover",
-			this.handleDragOver.bind(this)
+			this.handleDragOver.bind(this),
 		);
 		ReactDOM.findDOMNode(this).addEventListener(
 			"drop",
-			this.handleFileSelect.bind(this)
+			this.handleFileSelect.bind(this),
 		);
 	}
 
@@ -163,7 +163,7 @@ const RarityOptions = [
 	[Rarity.COMMON, "Common"],
 	[Rarity.RARE, "Rare"],
 	[Rarity.EPIC, "Epic"],
-	[Rarity.LEGENDARY, "Legendary"]
+	[Rarity.LEGENDARY, "Legendary"],
 ];
 
 const CardClassOptions = [
@@ -176,14 +176,14 @@ const CardClassOptions = [
 	[CardClass.ROGUE, "Rogue"],
 	[CardClass.SHAMAN, "Shaman"],
 	[CardClass.WARLOCK, "Warlock"],
-	[CardClass.WARRIOR, "Warrior"]
+	[CardClass.WARRIOR, "Warrior"],
 ];
 
 const MultiClassGroupOptions = [
 	[MultiClassGroup.INVALID, "None"],
 	[MultiClassGroup.GRIMY_GOONS, "Grimy Goons"],
 	[MultiClassGroup.JADE_LOTUS, "Jade Lotus"],
-	[MultiClassGroup.KABAL, "Kabal"]
+	[MultiClassGroup.KABAL, "Kabal"],
 ];
 
 const CardSetOptions = [
@@ -200,7 +200,7 @@ const CardSetOptions = [
 	[CardSet.GANGS, "Mean Streets of Gadgetzan"],
 	[CardSet.UNGORO, "Journey to Un'Goro"],
 	[CardSet.ICECROWN, "Knigts of the Frozen Throne"],
-	[CardSet.LOOTAPALOOZA, "Kobolds and Catacombs"]
+	[CardSet.LOOTAPALOOZA, "Kobolds and Catacombs"],
 ];
 
 const CardTypeOptions = [
@@ -208,7 +208,7 @@ const CardTypeOptions = [
 	[CardType.SPELL, "Spell"],
 	[CardType.WEAPON, "Weapon"],
 	[CardType.HERO, "Hero"],
-	[CardType.HERO_POWER, "Hero Power"]
+	[CardType.HERO_POWER, "Hero Power"],
 ];
 
 interface CardEditorFormState {
@@ -240,7 +240,7 @@ const SunwellNameMap = new Map<string, string>([
 	["costs_health", "costsHealth"],
 	["hide_stats", "hideStats"],
 	["multi_class_group", "multiClassGroup"],
-	["race_text", "raceText"]
+	["race_text", "raceText"],
 ]);
 
 class CardEditorForm extends React.Component<any, CardEditorFormState> {
@@ -262,14 +262,14 @@ class CardEditorForm extends React.Component<any, CardEditorFormState> {
 			rarity: Rarity.FREE,
 			elite: false,
 			premium: false,
-			set: CardSet.EXPERT1
+			set: CardSet.EXPERT1,
 		};
 	}
 
 	public componentDidMount(): void {
 		ReactDOM.findDOMNode(this).addEventListener(
 			"submit",
-			this.onFormSubmit.bind(this)
+			this.onFormSubmit.bind(this),
 		);
 		// Re-render once fonts have loaded
 		document["fonts"].onloadingdone = e => {
@@ -283,7 +283,7 @@ class CardEditorForm extends React.Component<any, CardEditorFormState> {
 		event.preventDefault();
 
 		const textureInput = document.getElementById(
-			"id_texture"
+			"id_texture",
 		) as HTMLInputElement;
 		const file = this.state.file;
 
@@ -311,7 +311,7 @@ class CardEditorForm extends React.Component<any, CardEditorFormState> {
 					} else {
 						console.error(
 							"Something went wrong during PUT",
-							put.status
+							put.status,
 						);
 					}
 				};
@@ -325,7 +325,7 @@ class CardEditorForm extends React.Component<any, CardEditorFormState> {
 		const data = {
 			filename: file.name,
 			content_type: file.type,
-			size: file.size
+			size: file.size,
 		};
 
 		console.log("Requesting upload policy for texture");
@@ -396,7 +396,7 @@ class CardEditorForm extends React.Component<any, CardEditorFormState> {
 						{this.createInput(LabeledInput, {
 							name: "name",
 							label: "Name",
-							required: true
+							required: true,
 						})}
 					</p>
 					<p>
@@ -407,14 +407,14 @@ class CardEditorForm extends React.Component<any, CardEditorFormState> {
 						{this.createInput(LabeledInput, {
 							type: "checkbox",
 							name: "manual_linebreaks",
-							label: "Manual linebreaks"
+							label: "Manual linebreaks",
 						})}
 					</p>
 					<p>
 						{this.createInput(LabeledInput, {
 							name: "race_text",
 							label: "Race",
-							disabled: this.state.type != CardType.MINION
+							disabled: this.state.type != CardType.MINION,
 						})}
 					</p>
 				</Fieldset>
@@ -422,12 +422,12 @@ class CardEditorForm extends React.Component<any, CardEditorFormState> {
 					<p className="h-group">
 						{this.createInput(StatInput, {
 							name: "cost",
-							label: "Cost"
+							label: "Cost",
 						})}
 						{this.createInput(StatInput, {
 							name: "atk",
 							label: "Attack",
-							disabled: this.state.type == CardType.SPELL
+							disabled: this.state.type == CardType.SPELL,
 						})}
 						{this.createInput(StatInput, {
 							name: "health",
@@ -435,7 +435,7 @@ class CardEditorForm extends React.Component<any, CardEditorFormState> {
 								this.state.type == CardType.WEAPON
 									? "Durability"
 									: "Health",
-							disabled: this.state.type == CardType.SPELL
+							disabled: this.state.type == CardType.SPELL,
 						})}
 					</p>
 					<p className="advanced-option">
@@ -443,21 +443,21 @@ class CardEditorForm extends React.Component<any, CardEditorFormState> {
 							type: "checkbox",
 							name: "silenced",
 							label: "Silenced",
-							disabled: this.state.type != CardType.MINION
+							disabled: this.state.type != CardType.MINION,
 						})}
 					</p>
 					<p className="advanced-option">
 						{this.createInput(LabeledInput, {
 							type: "checkbox",
 							name: "costs_health",
-							label: "Costs Health instead of Mana"
+							label: "Costs Health instead of Mana",
 						})}
 					</p>
 					<p className="advanced-option">
 						{this.createInput(LabeledInput, {
 							type: "checkbox",
 							name: "hide_stats",
-							label: "Hide stats"
+							label: "Hide stats",
 						})}
 					</p>
 				</Fieldset>
@@ -472,38 +472,38 @@ class CardEditorForm extends React.Component<any, CardEditorFormState> {
 						{this.createInput(LabeledSelect, {
 							name: "card_class",
 							label: "Class",
-							options: CardClassOptions
+							options: CardClassOptions,
 						})}
 						{this.createInput(LabeledSelect, {
 							name: "multi_class_group",
 							label: "Multi-class group",
-							options: MultiClassGroupOptions
+							options: MultiClassGroupOptions,
 						})}
 					</p>
 					<p>
 						{this.createInput(LabeledSelect, {
 							name: "rarity",
 							label: "Rarity",
-							options: RarityOptions
+							options: RarityOptions,
 						})}
 					</p>
 					<p className="advanced-option">
 						{this.createInput(LabeledInput, {
 							type: "checkbox",
 							name: "elite",
-							label: "Elite"
+							label: "Elite",
 						})}
 						{this.createInput(LabeledInput, {
 							type: "checkbox",
 							name: "premium",
-							label: "Premium"
+							label: "Premium",
 						})}
 					</p>
 					<p>
 						{this.createInput(LabeledSelect, {
 							name: "card_set",
 							label: "Card set",
-							options: CardSetOptions
+							options: CardSetOptions,
 						})}
 					</p>
 					<TextureUploadInput
@@ -528,7 +528,7 @@ class DownloadButton extends React.Component<any> {
 	public componentDidMount(): void {
 		ReactDOM.findDOMNode(this).addEventListener(
 			"click",
-			this.handleClick.bind(this)
+			this.handleClick.bind(this),
 		);
 	}
 
@@ -536,7 +536,7 @@ class DownloadButton extends React.Component<any> {
 		const element = event.target as HTMLAnchorElement;
 		element.download = this.getFilename();
 		const canvas = document.getElementById(
-			this.props.canvasId
+			this.props.canvasId,
 		) as HTMLCanvasElement;
 		if (canvas) {
 			element.href = canvas.toDataURL("image/png");
@@ -545,7 +545,7 @@ class DownloadButton extends React.Component<any> {
 
 	getFilename(): string {
 		const input = document.getElementById(
-			this.props.nameInputId
+			this.props.nameInputId,
 		) as HTMLInputElement;
 		if (!input || !input.value) {
 			return "card";
@@ -597,7 +597,7 @@ class CardEditor extends React.Component<any, any> {
 				state,
 				512,
 				state.premium,
-				document.getElementById(previewId)
+				document.getElementById(previewId),
 			);
 		};
 
@@ -636,7 +636,7 @@ window.onload = function() {
 		// bodyFontOffset: {x: 0, y: 0},
 		assetFolder: SUNWELL_URL + "assets/",
 		cacheSkeleton: true,
-		debug: false
+		debug: false,
 	});
 
 	const root = document.getElementById("cardrender-editor");
@@ -651,7 +651,7 @@ window.onload = function() {
 				csrfToken={csrfToken}
 				uploadApiUrl={uploadApiUrl}
 			/>,
-			root
+			root,
 		);
 	}
 };

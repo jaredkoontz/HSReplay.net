@@ -25,7 +25,7 @@ export default class DeckSpotlight extends React.Component<Props> {
 						<DataInjector
 							query={{
 								url: "trending_decks_by_popularity",
-								params: {}
+								params: {},
 							}}
 							modify={data =>
 								data && data.as_of ? new Date(data.as_of) : null

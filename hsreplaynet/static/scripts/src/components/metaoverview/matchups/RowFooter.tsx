@@ -15,7 +15,7 @@ export default class RowFooter extends React.Component<Props> {
 	public shouldComponentUpdate(
 		nextProps: Readonly<Props>,
 		nextState: Readonly<{}>,
-		nextContext: any
+		nextContext: any,
 	): boolean {
 		return (
 			this.props.highlight !== nextProps.highlight ||
@@ -29,7 +29,7 @@ export default class RowFooter extends React.Component<Props> {
 	public render(): React.ReactNode {
 		const style = {
 			backgroundColor: "transparent",
-			...this.props.style
+			...this.props.style,
 		};
 
 		const winrate = this.props.archetypeData.effectiveWinrate;
@@ -37,7 +37,7 @@ export default class RowFooter extends React.Component<Props> {
 			Colors.REDORANGEGREEN,
 			80,
 			winrate / 100,
-			false
+			false,
 		);
 
 		const label = isNaN(winrate) ? "-" : winrate + "%";

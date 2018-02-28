@@ -2,7 +2,7 @@ import {
 	ApiArchetype,
 	DeckObj,
 	LoadingStatus,
-	SortDirection
+	SortDirection,
 } from "../interfaces";
 import { AutoSizer } from "react-virtualized";
 import DataManager from "../DataManager";
@@ -67,7 +67,7 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 			popularDecksSortBy: "popularity",
 			popularDecksSortDirection: "descending",
 			mulliganGuideSortBy: "card",
-			mulliganGuideSortDirection: "ascending"
+			mulliganGuideSortDirection: "ascending",
 		};
 
 		this.fixGameTypeFragments();
@@ -92,11 +92,11 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 		}
 		const params = {
 			GameType: this.getGameType(props),
-			RankRange: props.rankRange
+			RankRange: props.rankRange,
 		};
 		const setDeckData = data => {
 			this.setState({ deckData: data.series.data }, () =>
-				this.updateData(this.props.cardData)
+				this.updateData(this.props.cardData),
 			);
 		};
 		DataManager.get("list_decks_by_win_rate", params)
@@ -119,7 +119,7 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 		const { archetypeId, playerClass } = this.props;
 
 		const archetypeDecks = deckData[playerClass].filter(
-			deck => deck.archetype_id === archetypeId
+			deck => deck.archetype_id === archetypeId,
 		);
 		if (!archetypeDecks.length) {
 			this.setState({ popularDecks: [] });
@@ -139,7 +139,7 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 				duration: +deck["avg_game_length_seconds"],
 				numGames: +deck["total_games"],
 				playerClass: deck["playerClass"],
-				winrate: +deck["win_rate"]
+				winrate: +deck["win_rate"],
 			};
 		});
 		this.setState({ popularDecks: decks });
@@ -147,7 +147,7 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 
 	public componentWillReceiveProps(
 		nextProps: Readonly<Props>,
-		nextContext: any
+		nextContext: any,
 	): void {
 		if (
 			this.getGameType() !== nextProps.gameType ||
@@ -165,7 +165,7 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 		const { GameType, RankRange, archetype_id } = {
 			GameType: gameType,
 			RankRange: this.props.rankRange,
-			archetype_id: this.props.archetypeId
+			archetype_id: this.props.archetypeId,
 		};
 		const chartParams = { GameType, RankRange, archetype_id };
 		const params = { GameType, RankRange };
@@ -181,16 +181,16 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 									{
 										key: "chartData",
 										url: "single_archetype_stats_over_time",
-										params: chartParams
+										params: chartParams,
 									},
 									{
 										key: "matchupData",
 										params,
-										url: "head_to_head_archetype_matchups"
-									}
+										url: "head_to_head_archetype_matchups",
+									},
 								]}
 								extract={{
-									matchupData: this.extractMatchupData
+									matchupData: this.extractMatchupData,
 								}}
 							>
 								<WinrateBox
@@ -205,17 +205,17 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 									{
 										key: "chartData",
 										url: "single_archetype_stats_over_time",
-										params: chartParams
+										params: chartParams,
 									},
 									{
 										key: "popularityData",
 										params,
 										url:
-											"archetype_popularity_distribution_stats"
-									}
+											"archetype_popularity_distribution_stats",
+									},
 								]}
 								extract={{
-									popularityData: this.extractPopularityData
+									popularityData: this.extractPopularityData,
 								}}
 							>
 								<PopularityBox
@@ -231,16 +231,18 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 									{
 										key: "matchupData",
 										params,
-										url: "head_to_head_archetype_matchups"
+										url: "head_to_head_archetype_matchups",
 									},
 									{
 										key: "archetypeData",
 										params: {},
-										url: "/api/v1/archetypes/"
-									}
+										url: "/api/v1/archetypes/",
+									},
 								]}
 								extract={{
-									matchupData: this.matchupTileExtractor(true)
+									matchupData: this.matchupTileExtractor(
+										true,
+									),
 								}}
 							>
 								<MatchupBox title="Best Matchup" />
@@ -250,18 +252,18 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 									{
 										key: "matchupData",
 										params,
-										url: "head_to_head_archetype_matchups"
+										url: "head_to_head_archetype_matchups",
 									},
 									{
 										key: "archetypeData",
 										params: {},
-										url: "/api/v1/archetypes/"
-									}
+										url: "/api/v1/archetypes/",
+									},
 								]}
 								extract={{
 									matchupData: this.matchupTileExtractor(
-										false
-									)
+										false,
+									),
 								}}
 							>
 								<MatchupBox title="Worst Matchup" />
@@ -271,20 +273,20 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 									{
 										key: "deckData",
 										params,
-										url: "list_decks_by_win_rate"
+										url: "list_decks_by_win_rate",
 									},
 									{
 										key: "archetypeData",
 										params: {},
 										url:
 											"/api/v1/archetypes/" +
-											this.props.archetypeId
-									}
+											this.props.archetypeId,
+									},
 								]}
 								extract={{
 									deckData: this.deckTileExtractor(
-										"total_games"
-									)
+										"total_games",
+									),
 								}}
 							>
 								<DeckBox title="Most popular deck" />
@@ -294,18 +296,20 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 									{
 										key: "deckData",
 										params,
-										url: "list_decks_by_win_rate"
+										url: "list_decks_by_win_rate",
 									},
 									{
 										key: "archetypeData",
 										params: {},
 										url:
 											"/api/v1/archetypes/" +
-											this.props.archetypeId
-									}
+											this.props.archetypeId,
+									},
 								]}
 								extract={{
-									deckData: this.deckTileExtractor("win_rate")
+									deckData: this.deckTileExtractor(
+										"win_rate",
+									),
 								}}
 							>
 								<DeckBox title="Best performing deck" />
@@ -323,11 +327,11 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 										params: {},
 										url:
 											"/api/v1/archetypes/" +
-											this.props.archetypeId
+											this.props.archetypeId,
 									}}
 									extract={{
 										data: data =>
-											extractSignature(data, gameType)
+											extractSignature(data, gameType),
 									}}
 								>
 									<ArchetypeSignature
@@ -344,19 +348,19 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 												key: "matchupData",
 												params,
 												url:
-													"archetype_popularity_distribution_stats"
+													"archetype_popularity_distribution_stats",
 											},
 											{
 												key: "archetypeData",
 												params: {},
-												url: "/api/v1/archetypes/"
-											}
+												url: "/api/v1/archetypes/",
+											},
 										]}
 									>
 										<ChartLoading
 											dataKeys={[
 												"matchupData",
-												"archetypeData"
+												"archetypeData",
 											]}
 											noDataCondition={data => !data}
 										>
@@ -393,21 +397,21 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 									{
 										key: "archetypeMatchupData",
 										params,
-										url: "head_to_head_archetype_matchups"
+										url: "head_to_head_archetype_matchups",
 									},
 									{
 										key: "archetypeData",
 										params: {},
-										url: "/api/v1/archetypes/"
-									}
+										url: "/api/v1/archetypes/",
+									},
 								]}
 								extract={{
 									archetypeMatchupData: data => ({
 										archetypeMatchupData:
 											data.series.data[
 												"" + this.props.archetypeId
-											]
-									})
+											],
+									}),
 								}}
 							>
 								<ArchetypeMatchups
@@ -428,12 +432,12 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 								}
 								setSortBy={sortBy =>
 									this.setState({
-										popularDecksSortBy: sortBy
+										popularDecksSortBy: sortBy,
 									})
 								}
 								setSortDirection={sortDirection =>
 									this.setState({
-										popularDecksSortDirection: sortDirection
+										popularDecksSortDirection: sortDirection,
 									})
 								}
 								page={this.state.popularDecksPage}
@@ -451,7 +455,7 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 												query={{
 													url:
 														"single_archetype_stats_over_time",
-													params: chartParams
+													params: chartParams,
 												}}
 											>
 												<ChartLoading>
@@ -479,7 +483,7 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 												query={{
 													url:
 														"single_archetype_stats_over_time",
-													params: chartParams
+													params: chartParams,
 												}}
 											>
 												<ChartLoading>
@@ -500,7 +504,7 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 							</div>
 						</Tab>
 					</TabList>
-				</section>
+				</section>,
 			];
 		} else {
 			content = <h3 className="message-wrapper">No data available</h3>;
@@ -612,7 +616,7 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 				const data = Object.keys(matchups)
 					.map(id => {
 						const opponentData: ApiArchetype = props.archetypeData.find(
-							archetype => archetype.id === +id
+							archetype => archetype.id === +id,
 						);
 						if (opponentData) {
 							return {
@@ -620,7 +624,7 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 								archetypeName: opponentData.name,
 								games: matchups[id].total_games,
 								playerClass: opponentData.player_class_name,
-								winrate: matchups[id].win_rate
+								winrate: matchups[id].win_rate,
 							};
 						}
 					})
@@ -647,14 +651,14 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 			}
 			const signatureData = extractSignature(
 				props.archetypeData,
-				gameType
+				gameType,
 			);
 			if (!signatureData) {
 				return { status: LoadingStatus.NO_DATA };
 			}
 
 			const decks = classDecks.filter(
-				deck => deck.archetype_id === archetypeId
+				deck => deck.archetype_id === archetypeId,
 			);
 			if (decks.length > 0) {
 				decks.sort((a, b) => {
@@ -693,7 +697,7 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 					cards,
 					deckId: decks[0].deck_id,
 					games: decks[0].total_games,
-					winrate: decks[0].win_rate
+					winrate: decks[0].win_rate,
 				};
 			}
 			return { status: LoadingStatus.NO_DATA };
@@ -726,15 +730,15 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 						params: {
 							GameType: this.getGameType(),
 							RankRange: this.props.rankRange,
-							archetype_id: this.props.archetypeId
+							archetype_id: this.props.archetypeId,
 						},
-						url: "single_archetype_mulligan_guide"
+						url: "single_archetype_mulligan_guide",
 					},
 					{
 						key: "matchupData",
 						params,
-						url: "head_to_head_archetype_matchups"
-					}
+						url: "head_to_head_archetype_matchups",
+					},
 				]}
 				extract={{
 					mulliganData: data => ({
@@ -743,8 +747,8 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 							.filter(row => row.rank <= 40)
 							.map(row => ({
 								card: cardData.fromDbf(row.dbf_id),
-								count: 1
-							}))
+								count: 1,
+							})),
 					}),
 					matchupData: matchupData => {
 						const data =
@@ -755,7 +759,7 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 							return { baseWinrate: data.win_rate };
 						}
 						return { status: LoadingStatus.NO_DATA };
-					}
+					},
 				}}
 			>
 				<CardTable
@@ -765,15 +769,15 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 						"drawnWinrate",
 						"playedWinrate",
 						"turnsInHand",
-						"turnPlayed"
+						"turnPlayed",
 					]}
 					onSortChanged={(
 						sortBy: string,
-						sortDirection: SortDirection
+						sortDirection: SortDirection,
 					) => {
 						this.setState({
 							mulliganGuideSortBy: sortBy,
-							mulliganGuideSortDirection: sortDirection
+							mulliganGuideSortDirection: sortDirection,
 						});
 					}}
 					sortBy={this.state.mulliganGuideSortBy}

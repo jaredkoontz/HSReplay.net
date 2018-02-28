@@ -18,8 +18,8 @@ export default class PopularityCell extends React.Component<Props> {
 						0,
 						1 -
 							(this.props.popularity || 0) /
-								this.props.maxPopularity
-					)
+								this.props.maxPopularity,
+					),
 			);
 		const color = lightness > 60 ? "black" : "white";
 		const backgroundColor = `hsl(214,50%,${lightness}%)`;

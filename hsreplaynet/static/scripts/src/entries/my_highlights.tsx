@@ -9,7 +9,7 @@ UserData.create();
 const render = (cardData: CardData) => {
 	ReactDOM.render(
 		<MyHighlights cardData={cardData} />,
-		document.getElementById("my-highlights-container")
+		document.getElementById("my-highlights-container"),
 	);
 };
 

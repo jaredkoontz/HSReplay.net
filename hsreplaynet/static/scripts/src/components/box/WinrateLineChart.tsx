@@ -17,20 +17,20 @@ export default class WinrateLineChart extends React.Component<Props> {
 	public render(): React.ReactNode {
 		const series = toTimeSeries(
 			this.props.data.series.find(x => x.name === "winrates_over_time") ||
-				this.props.data.series[0]
+				this.props.data.series[0],
 		);
 		const metadata = getChartMetaData(series.data, 50, true, 10);
 
 		const yTicks = [50];
 		metadata.yDomain.forEach(
-			value => yTicks.indexOf(value) === -1 && yTicks.push(value)
+			value => yTicks.indexOf(value) === -1 && yTicks.push(value),
 		);
 
 		return (
 			<div
 				style={{
 					height: `${this.props.height}px`,
-					width: `${this.props.width}px`
+					width: `${this.props.width}px`,
 				}}
 			>
 				<VictoryChart
@@ -44,7 +44,7 @@ export default class WinrateLineChart extends React.Component<Props> {
 						tickFormat={tick => ""}
 						style={{
 							grid: { stroke: "transparent" },
-							axis: { visibility: "hidden" }
+							axis: { visibility: "hidden" },
 						}}
 					/>
 					<VictoryAxis
@@ -52,7 +52,7 @@ export default class WinrateLineChart extends React.Component<Props> {
 						tickFormat={tick => ""}
 						style={{
 							axis: { visibility: "hidden" },
-							grid: { stroke: "transparent" }
+							grid: { stroke: "transparent" },
 						}}
 					/>
 					<defs>
@@ -69,8 +69,8 @@ export default class WinrateLineChart extends React.Component<Props> {
 							data: {
 								fill: `url(#${this.filterId})`,
 								stroke: "black",
-								strokeWidth: 1
-							}
+								strokeWidth: 1,
+							},
 						}}
 						interpolation="monotoneX"
 					/>

@@ -19,7 +19,7 @@ export default class ClassDistributionPieChart extends React.Component<
 	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
-			hoveringSlice: null
+			hoveringSlice: null,
 		};
 	}
 
@@ -72,9 +72,9 @@ export default class ClassDistributionPieChart extends React.Component<
 						data: {
 							fill: d => d.color || getHeroColor(d.xName),
 							strokeWidth: 2,
-							transition: "transform .2s ease-in-out"
+							transition: "transform .2s ease-in-out",
 						},
-						labels: { fill: "#FFFFFF", fontSize: 20 }
+						labels: { fill: "#FFFFFF", fontSize: 20 },
 					}}
 					padding={padding}
 					padAngle={2}
@@ -94,7 +94,7 @@ export default class ClassDistributionPieChart extends React.Component<
 											mutation: props => {
 												this.setState({
 													hoveringSlice:
-														props.slice.data
+														props.slice.data,
 												});
 												return {
 													style: Object.assign(
@@ -104,13 +104,13 @@ export default class ClassDistributionPieChart extends React.Component<
 															stroke: "white",
 															transform: pieScaleTransform(
 																props,
-																1.05
-															)
-														}
-													)
+																1.05,
+															),
+														},
+													),
 												};
-											}
-										}
+											},
+										},
 									];
 								},
 								onMouseOut: () => {
@@ -121,16 +121,16 @@ export default class ClassDistributionPieChart extends React.Component<
 												style: Object.assign(
 													{},
 													props.style,
-													{ transform: null }
-												)
-											})
-										}
+													{ transform: null },
+												),
+											}),
+										},
 									];
 								},
 								onClick: () => {
 									if (this.props.onPieceClicked) {
 										this.props.onPieceClicked(
-											this.state.hoveringSlice.x.toLowerCase()
+											this.state.hoveringSlice.x.toLowerCase(),
 										);
 									}
 									return [
@@ -139,14 +139,14 @@ export default class ClassDistributionPieChart extends React.Component<
 												style: Object.assign(
 													{},
 													props.style,
-													{ transform: null }
-												)
-											})
-										}
+													{ transform: null },
+												),
+											}),
+										},
 									];
-								}
-							}
-						}
+								},
+							},
+						},
 					]}
 				/>
 				<h5 style={{ textAlign: "center", marginTop: "-20px" }}>

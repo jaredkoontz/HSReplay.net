@@ -25,7 +25,7 @@ export default class Distribution extends React.Component<
 			this.props.distributions,
 			(value: number, key: string) => {
 				return [key, value];
-			}
+			},
 		);
 
 		const distributions = _.sortBy(elements, (tuple: any[]) => {

@@ -23,7 +23,7 @@ import {
 	isWildSet,
 	setNames,
 	toPrettyNumber,
-	toTitleCase
+	toTitleCase,
 } from "../helpers";
 import { RenderData, TableData } from "../interfaces";
 import InfoboxLastUpdated from "../components/InfoboxLastUpdated";
@@ -59,7 +59,7 @@ export default class CardDetail extends React.Component<Props, State> {
 	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
-			showInfo: false
+			showInfo: false,
 		};
 	}
 
@@ -70,11 +70,11 @@ export default class CardDetail extends React.Component<Props, State> {
 			"REQ_TARGET_IF_AVAILABLE",
 			"REQ_TARGET_IF_AVAILABE_AND_ELEMENTAL_PLAYED_LAST_TURN", // [sic]
 			"REQ_TARGET_IF_AVAILABLE_AND_DRAGON_IN_HAND",
-			"REQ_TARGET_IF_AVAILABLE_AND_MINIMUM_FRIENDLY_MINIONS"
+			"REQ_TARGET_IF_AVAILABLE_AND_MINIMUM_FRIENDLY_MINIONS",
 		];
 		if (this.props.card && this.props.card.playRequirements) {
 			const card_requirements = Object.keys(
-				this.props.card.playRequirements
+				this.props.card.playRequirements,
 			);
 			for (let i = 0; i < target_requirements.length; i++) {
 				if (card_requirements.indexOf(target_requirements[i]) !== -1) {
@@ -95,7 +95,7 @@ export default class CardDetail extends React.Component<Props, State> {
 		const implicit = [
 			41331, // Kalimos, Primal Lord
 			43329, // Kobold Hermit
-			46305 // The Runespear
+			46305, // The Runespear
 		];
 		return hasDiscover || implicit.indexOf(this.props.dbfId) !== -1;
 	}
@@ -127,7 +127,7 @@ export default class CardDetail extends React.Component<Props, State> {
 
 	public componentWillReceiveProps(
 		nextProps: Readonly<Props>,
-		nextContext: any
+		nextContext: any,
 	): void {
 		if (!this.props.card && nextProps.card) {
 			if (isWildSet(nextProps.card.set)) {
@@ -169,13 +169,13 @@ export default class CardDetail extends React.Component<Props, State> {
 					));
 				} else if (cardStatsLoading) {
 					utilization.push(
-						<h3 className="message-wrapper">Loading…</h3>
+						<h3 className="message-wrapper">Loading…</h3>,
 					);
 				} else {
 					utilization.push(
 						<h3 className="message-wrapper">
 							No utilization data for this card available
-						</h3>
+						</h3>,
 					);
 				}
 
@@ -185,7 +185,7 @@ export default class CardDetail extends React.Component<Props, State> {
 							<DataInjector
 								query={{
 									url: "single_card_stats_over_time",
-									params: this.getParams()
+									params: this.getParams(),
 								}}
 							>
 								<ChartLoading>
@@ -206,7 +206,7 @@ export default class CardDetail extends React.Component<Props, State> {
 							<DataInjector
 								query={{
 									url: "single_card_stats_over_time",
-									params: this.getParams()
+									params: this.getParams(),
 								}}
 							>
 								<ChartLoading>
@@ -221,7 +221,7 @@ export default class CardDetail extends React.Component<Props, State> {
 								content="Winrate of decks that include at least one copy of this card."
 							/>
 						</div>
-					</div>
+					</div>,
 				];
 
 				const turnStatsQuery = {
@@ -229,17 +229,17 @@ export default class CardDetail extends React.Component<Props, State> {
 					url:
 						this.props.opponentClass !== "ALL"
 							? "/analytics/query/single_card_stats_by_turn_and_opponent"
-							: "/analytics/query/single_card_stats_by_turn"
+							: "/analytics/query/single_card_stats_by_turn",
 				};
 
 				const turnStatsNoDataCondition = (
-					data: RenderData
+					data: RenderData,
 				): boolean => {
 					if (this.props.opponentClass !== "ALL" && isPremium) {
 						const selectedSeries = data.series.find(
 							s =>
 								s.metadata.opponent_class ===
-								this.props.opponentClass
+								this.props.opponentClass,
 						);
 						return (
 							!selectedSeries || selectedSeries.data.length < 2
@@ -274,7 +274,8 @@ export default class CardDetail extends React.Component<Props, State> {
 									hideAll
 									minimal
 									selectedClasses={[
-										this.props.opponentClass as FilterOption
+										this.props
+											.opponentClass as FilterOption,
 									]}
 									selectionChanged={selected =>
 										isPremium &&
@@ -341,7 +342,7 @@ export default class CardDetail extends React.Component<Props, State> {
 					<section id="page-content">
 						<Fragments
 							defaults={{
-								tab: ""
+								tab: "",
 							}}
 							keepDefaults={true}
 						>
@@ -358,9 +359,9 @@ export default class CardDetail extends React.Component<Props, State> {
 										query={{
 											params: {
 												GameType: this.props.gameType,
-												RankRange: this.props.rankRange
+												RankRange: this.props.rankRange,
 											},
-											url: "list_decks_by_win_rate"
+											url: "list_decks_by_win_rate",
 										}}
 									>
 										<TableLoading>
@@ -401,14 +402,14 @@ export default class CardDetail extends React.Component<Props, State> {
 											query={{
 												url:
 													"single_card_class_distribution_by_include_count",
-												params: this.getParams()
+												params: this.getParams(),
 											}}
 										>
 											<ChartLoading>
 												<CardDetailPieChart
 													removeEmpty
 													scheme={getChartScheme(
-														"class"
+														"class",
 													)}
 													sortByValue
 													groupSparseData
@@ -429,7 +430,7 @@ export default class CardDetail extends React.Component<Props, State> {
 											query={{
 												url:
 													"single_card_popular_targets",
-												params: this.getParams()
+												params: this.getParams(),
 											}}
 											modify={data =>
 												this.mergeHeroes(data)
@@ -458,7 +459,7 @@ export default class CardDetail extends React.Component<Props, State> {
 											query={{
 												url:
 													"single_card_choices_by_winrate",
-												params: this.getParams()
+												params: this.getParams(),
 											}}
 										>
 											<TableLoading>
@@ -474,7 +475,7 @@ export default class CardDetail extends React.Component<Props, State> {
 																header="Popularity for Discover"
 																content="A card's percentage represents how often the card was picked over others if it was available for choice."
 															/>
-														)
+														),
 													}}
 												/>
 											</TableLoading>
@@ -494,7 +495,7 @@ export default class CardDetail extends React.Component<Props, State> {
 												this.props.opponentClass !==
 													"ALL"
 													? "single_card_adapt_stats_by_opponent"
-													: "single_card_adapt_stats"
+													: "single_card_adapt_stats",
 										}}
 									>
 										<AdaptDetail
@@ -513,7 +514,7 @@ export default class CardDetail extends React.Component<Props, State> {
 									id="quest-contributors"
 									hidden={
 										!UserData.hasFeature(
-											"card-quest-data"
+											"card-quest-data",
 										) ||
 										!this.cardIsQuest() ||
 										this.isArena()
@@ -522,7 +523,7 @@ export default class CardDetail extends React.Component<Props, State> {
 									<DataInjector
 										query={{
 											params: this.getParams(),
-											url: "quest_contributor_stats"
+											url: "quest_contributor_stats",
 										}}
 									>
 										<QuestContributors
@@ -535,7 +536,7 @@ export default class CardDetail extends React.Component<Props, State> {
 									id="quest-completion"
 									hidden={
 										!UserData.hasFeature(
-											"card-quest-data"
+											"card-quest-data",
 										) ||
 										!this.cardIsQuest() ||
 										this.isArena()
@@ -545,13 +546,13 @@ export default class CardDetail extends React.Component<Props, State> {
 										query={{
 											params: this.getParams(),
 											url:
-												"quest_completion_stats_by_turn"
+												"quest_completion_stats_by_turn",
 										}}
 									/>
 								</Tab>
 							</TabList>
 						</Fragments>
-					</section>
+					</section>,
 				];
 			}
 		} else {
@@ -663,17 +664,17 @@ export default class CardDetail extends React.Component<Props, State> {
 									}
 									query={{
 										url: "single_card_stats_over_time",
-										params: this.getParams()
+										params: this.getParams(),
 									}}
 									modify={data => {
 										if (data) {
 											const series = data.series.find(
-												x => x.metadata.is_winrate_data
+												x => x.metadata.is_winrate_data,
 											);
 											return (
 												toPrettyNumber(
 													series.metadata
-														.num_data_points
+														.num_data_points,
 												) + " replays"
 											);
 										}
@@ -778,7 +779,7 @@ export default class CardDetail extends React.Component<Props, State> {
 	getParams(): any {
 		const params = {
 			GameType: this.props.gameType,
-			card_id: this.props.dbfId
+			card_id: this.props.dbfId,
 		};
 		if (!this.isArena()) {
 			params["RankRange"] = this.props.rankRange;

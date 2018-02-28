@@ -17,7 +17,7 @@ window.onload = function() {
 				url={reflink}
 				onCopy={() => ReferralEvents.onCopyRefLink("Premium Page")}
 			/>,
-			root
+			root,
 		);
 	}
 };

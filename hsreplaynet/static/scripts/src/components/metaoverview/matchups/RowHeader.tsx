@@ -21,7 +21,7 @@ export default class RowHeader extends React.Component<Props> {
 	public shouldComponentUpdate(
 		nextProps: Readonly<Props>,
 		nextState: Readonly<{}>,
-		nextContext: any
+		nextContext: any,
 	): boolean {
 		return (
 			this.props.highlight !== nextProps.highlight ||
@@ -58,7 +58,7 @@ export default class RowHeader extends React.Component<Props> {
 						onClick={e => {
 							e.preventDefault();
 							this.props.onFavoriteChanged(
-								!this.props.isFavorite
+								!this.props.isFavorite,
 							);
 						}}
 					>

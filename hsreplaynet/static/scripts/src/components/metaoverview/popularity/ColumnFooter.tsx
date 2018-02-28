@@ -15,8 +15,8 @@ export default class ColumnFooter extends React.Component<Props> {
 				55 *
 					Math.max(
 						0,
-						1 - (this.props.games || 0) / this.props.maxGames
-					)
+						1 - (this.props.games || 0) / this.props.maxGames,
+					),
 			);
 		const color = lightness > 60 ? "black" : "white";
 		const backgroundColor = `hsl(214,50%,${lightness}%)`;

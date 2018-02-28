@@ -43,7 +43,7 @@ const render = (cardData: CardData) => {
 					rankRange: "ALL",
 					region: "ALL",
 					selectedClasses: [],
-					tab: "mulligan-guide"
+					tab: "mulligan-guide",
 				}}
 				immutable={
 					!UserData.isPremium()
@@ -64,7 +64,7 @@ const render = (cardData: CardData) => {
 				/>
 			</Fragments>
 		</ErrorReporter>,
-		document.getElementById("deck-container")
+		document.getElementById("deck-container"),
 	);
 };
 

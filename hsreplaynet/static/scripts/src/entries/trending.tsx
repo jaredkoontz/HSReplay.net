@@ -9,7 +9,7 @@ const render = (cardData: CardData) => {
 		<ErrorReporter>
 			<DeckSpotlight cardData={cardData} />
 		</ErrorReporter>,
-		document.getElementById("trending-container")
+		document.getElementById("trending-container"),
 	);
 };
 

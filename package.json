@@ -63,6 +63,7 @@
 		"tslint-react": "^3.2.0"
 	},
 	"prettier": {
-		"useTabs": true
+		"useTabs": true,
+		"trailingComma": "all"
 	}
 }

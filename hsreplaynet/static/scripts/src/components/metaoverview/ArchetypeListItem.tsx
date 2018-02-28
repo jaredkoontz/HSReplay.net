@@ -15,7 +15,7 @@ interface Props {
 export default class ArchetypeListItem extends React.Component<Props> {
 	public render(): React.ReactNode {
 		const archetype = this.props.archetypeData.find(
-			a => a.id === this.props.archetype.archetype_id
+			a => a.id === this.props.archetype.archetype_id,
 		);
 		const imgUrl = `/static/images/64x/class-icons/${archetype.player_class_name.toLowerCase()}.png`;
 		const coreCards = [];
@@ -27,7 +27,7 @@ export default class ArchetypeListItem extends React.Component<Props> {
 				coreCards.push(
 					<li>
 						<CardIcon card={cardData.fromDbf(dbfId)} />
-					</li>
+					</li>,
 				);
 			});
 		}
@@ -72,7 +72,7 @@ export default class ArchetypeListItem extends React.Component<Props> {
 								>
 									{toDynamicFixed(
 										this.props.archetype.win_rate,
-										2
+										2,
 									)}%
 								</div>
 							</div>

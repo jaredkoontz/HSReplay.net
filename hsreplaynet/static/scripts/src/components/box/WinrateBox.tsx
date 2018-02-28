@@ -40,7 +40,7 @@ export default class WinrateBox extends React.Component<Props> {
 				<h1 style={{ color: wrData.color }}>
 					{toDynamicFixed(this.props.winrate, 2)}%
 				</h1>,
-				<h3>over {commaSeparate(this.props.games)} games</h3>
+				<h3>over {commaSeparate(this.props.games)} games</h3>,
 			];
 		} else if (
 			this.props.status === LoadingStatus.NO_DATA ||

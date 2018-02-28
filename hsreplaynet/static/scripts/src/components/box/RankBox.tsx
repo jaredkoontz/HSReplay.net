@@ -34,7 +34,7 @@ export default class RankBox extends React.Component<Props> {
 					<span className="winrate">Winrate:</span>,
 					<span style={{ color: wrData.color }}>
 						{toDynamicFixed(this.props.winrate, 2)}%
-					</span>
+					</span>,
 				];
 			}
 
@@ -46,7 +46,7 @@ export default class RankBox extends React.Component<Props> {
 				<h2>
 					{this.props.rank ? "Rank " + this.props.rank : "Legend"}
 				</h2>,
-				<div className="box-data">{data}</div>
+				<div className="box-data">{data}</div>,
 			];
 		}
 

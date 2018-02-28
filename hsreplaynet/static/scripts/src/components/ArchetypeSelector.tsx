@@ -18,7 +18,7 @@ export default class ArchetypeSelector extends React.Component<Props, State> {
 		super(props, context);
 		this.state = {
 			selectedArchetype: props.defaultSelectedArchetype,
-			working: false
+			working: false,
 		};
 	}
 
@@ -73,7 +73,7 @@ export default class ArchetypeSelector extends React.Component<Props, State> {
 			return "No Archetype";
 		}
 		const archetype = this.props.archetypes.find(
-			a => a.id === this.state.selectedArchetype
+			a => a.id === this.state.selectedArchetype,
 		);
 		return archetype ? archetype.name : "Unknown Archetype";
 	}
@@ -87,14 +87,14 @@ export default class ArchetypeSelector extends React.Component<Props, State> {
 			body: JSON.stringify({ archetype: archetypeId }),
 			credentials: "same-origin",
 			headers,
-			method: "PATCH"
+			method: "PATCH",
 		})
 			.then((response: Response) => {
 				if (response.ok) {
 					response.json().then(data => {
 						this.setState({
 							selectedArchetype: data.archetype,
-							working: false
+							working: false,
 						});
 					});
 				} else {

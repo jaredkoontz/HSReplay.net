@@ -15,13 +15,13 @@ const exportSettings = [
 	"SUNWELL_URL",
 	"HEARTHSTONE_ART_URL",
 	"JOUST_RAVEN_DSN_PUBLIC",
-	"JOUST_RAVEN_ENVIRONMENT"
+	"JOUST_RAVEN_ENVIRONMENT",
 ];
 const influxKey = "INFLUX_DATABASES";
 const python = process.env.PYTHON || "python";
 const settingsCmd = [path.resolve(__dirname, "hsreplaynet/settings.py")];
 let proc = spawnSync(python, settingsCmd.concat(exportSettings, [influxKey]), {
-	encoding: "utf-8"
+	encoding: "utf-8",
 });
 console.log(proc.stderr);
 const exportedSettings = JSON.parse(proc.stdout);
@@ -45,8 +45,8 @@ const buildInfluxEndpoint = db =>
 			db: db.NAME,
 			u: db.USER,
 			p: db.PASSWORD,
-			precision: "s"
-		}
+			precision: "s",
+		},
 	});
 
 const joustDb = exportedSettings[influxKey]
@@ -60,8 +60,8 @@ const settings = exportSettings.reduce(
 	{
 		INFLUX_DATABASE_JOUST: joustDb
 			? JSON.stringify(buildInfluxEndpoint(joustDb))
-			: undefined
-	}
+			: undefined,
+	},
 );
 
 const isProduction = process.env.NODE_ENV === "production";
@@ -71,8 +71,8 @@ if (isProduction) {
 	const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
 	plugins.push(
 		new UglifyJSPlugin({
-			parallel: true
-		})
+			parallel: true,
+		}),
 	);
 } else {
 	const HardSourceWebpackPlugin = require("hard-source-webpack-plugin");
@@ -83,9 +83,9 @@ if (isProduction) {
 				"build",
 				"cache",
 				"hard-source",
-				"[confighash]"
-			)
-		})
+				"[confighash]",
+			),
+		}),
 	);
 }
 
@@ -108,7 +108,7 @@ module.exports = env => {
 			my_highlights: makeEntry("my_highlights"),
 			meta_overview: makeEntry("meta_overview"),
 			trending: makeEntry("trending"),
-			archetype_detail: makeEntry("archetype_detail")
+			archetype_detail: makeEntry("archetype_detail"),
 		},
 		premium_detail: makeEntry("premium_detail"),
 		discover: makeEntry("discover"),
@@ -122,9 +122,9 @@ module.exports = env => {
 			"react-dom",
 			makeEntry("export-react"),
 			"hearthstonejson-client",
-			makeEntry("polyfills")
+			makeEntry("polyfills"),
 		],
-		site: makeEntry("site")
+		site: makeEntry("site"),
 	};
 
 	// flatten the entry points for config
@@ -148,14 +148,14 @@ module.exports = env => {
 			new webpack.optimize.CommonsChunkPlugin({
 				names: group,
 				chunks: Object.keys(entries[group]),
-				minChunks: 3
-			})
+				minChunks: 3,
+			}),
 	);
 
 	entriesFlat["main"] = path.join(
 		__dirname,
 		"hsreplaynet/static/styles",
-		"main.scss"
+		"main.scss",
 	);
 	const extractSCSS = new ExtractTextPlugin("main.css");
 
@@ -164,14 +164,14 @@ module.exports = env => {
 		entry: entriesFlat,
 		output: {
 			path: path.join(__dirname, "build", "generated", "webpack"),
-			filename: "[name].js"
+			filename: "[name].js",
 		},
 		resolve: {
 			extensions: [".ts", ".tsx", ".js"],
 			alias: {
 				// we need to this to get the fully bundled d3, instead of the independent module
-				d3: "d3/build/d3.js"
-			}
+				d3: "d3/build/d3.js",
+			},
 		},
 		module: {
 			rules: [
@@ -193,28 +193,28 @@ module.exports = env => {
 													"last 2 chrome versions",
 													"last 2 firefox versions",
 													"last 2 edge versions",
-													"safari >= 9"
-												]
+													"safari >= 9",
+												],
 											},
-											modules: false
-										}
-									]
+											modules: false,
+										},
+									],
 								],
 								cacheDirectory: path.join(
 									__dirname,
 									"build",
 									"cache",
-									"babel-loader"
-								)
-							}
+									"babel-loader",
+								),
+							},
 						},
 						{
 							loader: "ts-loader",
 							options: {
-								silent: true
-							}
-						}
-					]
+								silent: true,
+							},
+						},
+					],
 				},
 				{
 					test: /\.scss$/,
@@ -223,46 +223,46 @@ module.exports = env => {
 						{
 							loader: "css-loader",
 							options: {
-								minimize: true
-							}
+								minimize: true,
+							},
 						},
-						"sass-loader"
-					])
-				}
-			]
+						"sass-loader",
+					]),
+				},
+			],
 		},
 		externals: {
 			jquery: "jQuery",
 			joust: "Joust",
-			sunwell: "Sunwell"
+			sunwell: "Sunwell",
 		},
 		plugins: [
 			new BundleTracker({
 				path: __dirname,
-				filename: "./build/webpack-stats.json"
+				filename: "./build/webpack-stats.json",
 			}),
 			new webpack.DefinePlugin(settings),
 			new webpack.DefinePlugin({
 				"process.env": {
 					NODE_ENV: JSON.stringify(
-						isProduction ? "production" : "development"
-					)
-				}
+						isProduction ? "production" : "development",
+					),
+				},
 			}),
 			extractSCSS,
 			new webpack.optimize.CommonsChunkPlugin({
 				name: "vendor",
-				minChunks: Infinity
-			})
+				minChunks: Infinity,
+			}),
 		]
 			.concat(commons)
 			.concat(plugins),
 		watchOptions: {
 			// required in the Vagrant setup due to Vagrant inotify not working
-			poll: 1000
+			poll: 1000,
 		},
 		stats: {
-			modules: false
-		}
+			modules: false,
+		},
 	};
 };

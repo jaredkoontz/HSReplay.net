@@ -23,7 +23,7 @@ export default class RecommendedDecksList extends React.Component<Props> {
 					classDecks.push({
 						cards,
 						deck,
-						numGames: +deck["total_games"]
+						numGames: +deck["total_games"],
 					});
 				}
 			});
@@ -31,7 +31,7 @@ export default class RecommendedDecksList extends React.Component<Props> {
 				const cardData = deck.cards.map(c => {
 					return {
 						card: this.props.cardData.fromDbf(c[0]),
-						count: c[1]
+						count: c[1],
 					};
 				});
 				decks.push({
@@ -41,7 +41,7 @@ export default class RecommendedDecksList extends React.Component<Props> {
 					duration: +deck.deck["avg_game_length_seconds"],
 					numGames: +deck.deck["total_games"],
 					playerClass,
-					winrate: +deck.deck["win_rate"]
+					winrate: +deck.deck["win_rate"],
 				});
 			});
 		});
@@ -55,7 +55,7 @@ export default class RecommendedDecksList extends React.Component<Props> {
 				defaults={{
 					sortBy: "popularity",
 					sortDirection: "descending",
-					page: 1
+					page: 1,
 				}}
 			>
 				<DeckList decks={decks} pageSize={10} hideTopPager />

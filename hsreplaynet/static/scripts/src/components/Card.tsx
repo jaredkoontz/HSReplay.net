@@ -14,14 +14,14 @@ export default class Card extends React.Component<Props, State> {
 	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
-			loaded: false
+			loaded: false,
 		};
 	}
 
 	public componentDidUpdate(
 		prevProps: Readonly<Props>,
 		prevState: Readonly<State>,
-		prevContext: any
+		prevContext: any,
 	): void {
 		if (prevProps.id !== this.props.id) {
 			this.setState({ loaded: false });
@@ -30,7 +30,7 @@ export default class Card extends React.Component<Props, State> {
 
 	public render(): React.ReactNode {
 		const imageStyle = {
-			top: Math.max(0, this.props.y - 350) + "px"
+			top: Math.max(0, this.props.y - 350) + "px",
 		};
 		const left = this.props.x < window.innerWidth / 2;
 		if (left) {

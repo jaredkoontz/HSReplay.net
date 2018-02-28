@@ -68,14 +68,14 @@ const COLORS = [
 	"#E67300",
 	"#8B0707",
 	"#A29262",
-	"#BAB4B6"
+	"#BAB4B6",
 ];
 
 class ClassAnalysis extends React.Component<Props, State> {
 	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
-			selectedDeck: null
+			selectedDeck: null,
 		};
 	}
 
@@ -91,9 +91,9 @@ class ClassAnalysis extends React.Component<Props, State> {
 					id: "introduction",
 					text: [
 						"On this page you can find the deck clusters that were automatically detected by our archetype algorithm.",
-						"Each dot represents a deck and the distance between decks is proportional to their similarity."
+						"Each dot represents a deck and the distance between decks is proportional to their similarity.",
 					],
-					title: "Discover Introduction"
+					title: "Discover Introduction",
 				},
 				{
 					id: "interaction",
@@ -105,19 +105,19 @@ class ClassAnalysis extends React.Component<Props, State> {
 							Focusing a deck will cause the cursor to return to it when no other deck is hovered.
 							This allows for easier comparison of two distant decks and interaction with the deck list on the right.
 						`,
-						"Click the same deck again to defocus it."
+						"Click the same deck again to defocus it.",
 					],
-					title: "Interaction"
-				}
+					title: "Interaction",
+				},
 			],
 			null,
-			force
+			force,
 		);
 	}
 
 	public componentWillReceiveProps(
 		nextProps: Readonly<Props>,
-		nextContext: any
+		nextContext: any,
 	): void {
 		if (nextProps.playerClass !== this.props.playerClass) {
 			this.setState({ selectedDeck: null });
@@ -164,14 +164,14 @@ class ClassAnalysis extends React.Component<Props, State> {
 											playerClass={playerClass}
 											onPointClicked={deck => {
 												this.setState({
-													selectedDeck: deck
+													selectedDeck: deck,
 												});
 												if (
 													this.props
 														.onSelectedDeckChanged
 												) {
 													this.props.onSelectedDeckChanged(
-														deck
+														deck,
 													);
 												}
 											}}
@@ -192,7 +192,7 @@ class ClassAnalysis extends React.Component<Props, State> {
 								selectedDeck &&
 								this.getClusterColor(
 									"" + selectedDeck.cluster_id,
-									clusterIds
+									clusterIds,
 								)
 							}
 							deck={selectedDeck}

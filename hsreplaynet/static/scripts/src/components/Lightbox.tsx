@@ -104,12 +104,12 @@ export default class Lightbox extends React.Component<Props> {
 							if (advance) {
 								if (hasNext) {
 									this.props.setCurrentPage(
-										this.props.currentPage + 1
+										this.props.currentPage + 1,
 									);
 								}
 							} else if (hasPrevious) {
 								this.props.setCurrentPage(
-									this.props.currentPage - 1
+									this.props.currentPage - 1,
 								);
 							}
 						}}

@@ -16,7 +16,7 @@ const defaultAccount = UserData.getDefaultAccountKey();
 
 if (personal && !defaultAccount) {
 	GoogleAnalytics.event("Pegasus Account", "missing", "My Cards", {
-		nonInteraction: true
+		nonInteraction: true,
 	});
 }
 
@@ -49,7 +49,7 @@ const render = (cardData: CardData) => {
 					sortBy: "timesPlayed",
 					sortDirection: "descending",
 					display: "statistics",
-					uncollectible: ""
+					uncollectible: "",
 				}}
 				debounce="text"
 				immutable={UserData.isPremium() ? null : ["rankRange"]}
@@ -61,7 +61,7 @@ const render = (cardData: CardData) => {
 				/>
 			</Fragments>
 		</ErrorReporter>,
-		container
+		container,
 	);
 };
 

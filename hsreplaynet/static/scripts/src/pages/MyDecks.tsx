@@ -14,7 +14,7 @@ import {
 	cardSorting,
 	isCollectibleCard,
 	isWildSet,
-	sortCards
+	sortCards,
 } from "../helpers";
 import { DeckObj, FragmentChildProps, TableData } from "../interfaces";
 import InfoboxLastUpdated from "../components/InfoboxLastUpdated";
@@ -63,7 +63,7 @@ export default class MyDecks extends React.Component<Props, State> {
 			cards: null,
 			filteredDecks: [],
 			loading: true,
-			showFilters: false
+			showFilters: false,
 		};
 		this.updateFilteredDecks();
 	}
@@ -71,7 +71,7 @@ export default class MyDecks extends React.Component<Props, State> {
 	public componentDidUpdate(
 		prevProps: Readonly<Props>,
 		prevState: Readonly<State>,
-		prevContext: any
+		prevContext: any,
 	): void {
 		if (
 			this.state.account !== prevState.account ||
@@ -91,7 +91,7 @@ export default class MyDecks extends React.Component<Props, State> {
 
 	public componentWillReceiveProps(
 		nextProps: Readonly<Props>,
-		nextContext: any
+		nextContext: any,
 	): void {
 		if (!this.state.cards && nextProps.cardData) {
 			const cards = [];
@@ -122,7 +122,7 @@ export default class MyDecks extends React.Component<Props, State> {
 				} else {
 					cards.push({
 						card: this.props.cardData.fromDbf(dbfId),
-						count: 1
+						count: 1,
 					});
 				}
 			});
@@ -149,7 +149,7 @@ export default class MyDecks extends React.Component<Props, State> {
 				return (
 					excludedCardObj &&
 					deckList.some(
-						cardObj => cardObj.card.id === excludedCardObj.card.id
+						cardObj => cardObj.card.id === excludedCardObj.card.id,
 					)
 				);
 			});
@@ -168,31 +168,31 @@ export default class MyDecks extends React.Component<Props, State> {
 		if (
 			!DataManager.has(this.getDataUrl(), params) ||
 			!DataManager.has("list_decks_by_win_rate", {
-				GameType: this.props.gameType
+				GameType: this.props.gameType,
 			})
 		) {
 			this.setState({ loading: true });
 		}
 
 		return DataManager.get("list_decks_by_win_rate", {
-			GameType: this.props.gameType
+			GameType: this.props.gameType,
 		}).then(deckData => {
 			if (UserData.hasFeature("mydecks-rds-api")) {
 				return DataManager.get(
 					"/api/v1/analytics/decks/summary/",
-					params
+					params,
 				).then((data: TableData) => {
 					if (data && data.series) {
 						Object.keys(data.series.data).forEach(shortId => {
 							const deck = Object.assign(
 								{},
-								data.series.data[shortId]
+								data.series.data[shortId],
 							) as any;
 							const playerClass = cardClass[deck.player_class];
 							if (
 								this.props.playerClasses.length &&
 								this.props.playerClasses.indexOf(
-									playerClass as FilterOption
+									playerClass as FilterOption,
 								) === -1
 							) {
 								return;
@@ -209,7 +209,7 @@ export default class MyDecks extends React.Component<Props, State> {
 								cards.every(
 									cardObj =>
 										cardObj.card.set !==
-										this.props.includedSet
+										this.props.includedSet,
 								)
 							) {
 								return;
@@ -231,14 +231,14 @@ export default class MyDecks extends React.Component<Props, State> {
 			}
 			return DataManager.get(
 				"single_account_lo_decks_summary",
-				params
+				params,
 			).then((data: TableData) => {
 				if (data && data.series) {
 					Object.keys(data.series.data).forEach(playerClass => {
 						if (
 							this.props.playerClasses.length &&
 							this.props.playerClasses.indexOf(
-								playerClass as FilterOption
+								playerClass as FilterOption,
 							) === -1
 						) {
 							return;
@@ -256,7 +256,7 @@ export default class MyDecks extends React.Component<Props, State> {
 								cards.every(
 									cardObj =>
 										cardObj.card.set !==
-										this.props.includedSet
+										this.props.includedSet,
 								)
 							) {
 								return;
@@ -295,7 +295,7 @@ export default class MyDecks extends React.Component<Props, State> {
 						hasGlobalData: deck.hasGlobalData,
 						numGames: deck.total_games,
 						playerClass: deck.player_class,
-						winrate: deck.win_rate
+						winrate: deck.win_rate,
 					};
 				});
 				this.setState({ filteredDecks: decks, loading: false });
@@ -381,7 +381,7 @@ export default class MyDecks extends React.Component<Props, State> {
 					defaults={{
 						sortBy: "lastPlayed",
 						sortDirection: "descending",
-						page: 1
+						page: 1,
 					}}
 					ref={ref => this.deckListsFragmentsRef}
 				>
@@ -428,7 +428,7 @@ export default class MyDecks extends React.Component<Props, State> {
 				return undefined;
 			}
 			let cards = this.props[key].map(dbfId =>
-				this.props.cardData.fromDbf(dbfId)
+				this.props.cardData.fromDbf(dbfId),
 			);
 			cards = cards.filter(card => !!card);
 			return cards;
@@ -480,7 +480,7 @@ export default class MyDecks extends React.Component<Props, State> {
 										</p>
 									),
 									touch:
-										"Only show decks for specific classes."
+										"Only show decks for specific classes.",
 								}}
 							/>
 						</h2>
@@ -517,14 +517,14 @@ export default class MyDecks extends React.Component<Props, State> {
 							availableCards={filteredCards}
 							onCardsChanged={cards =>
 								this.props.setIncludedCards(
-									cards.map(card => card.dbfId)
+									cards.map(card => card.dbfId),
 								)
 							}
 							selectedCards={selectedCards("includedCards")}
 							cardLimit={Limit.DOUBLE}
 							onPaste={e => {
 								const input = e.clipboardData.getData(
-									"text/plain"
+									"text/plain",
 								);
 								const lines = input
 									.trim()
@@ -542,13 +542,13 @@ export default class MyDecks extends React.Component<Props, State> {
 									const [dbfId, count] = tuple;
 									for (let i = 0; i < count; i++) {
 										cards.push(
-											this.props.cardData.fromDbf(dbfId)
+											this.props.cardData.fromDbf(dbfId),
 										);
 									}
 								}
 								cards.sort(sortCards);
 								this.props.setIncludedCards(
-									cards.map(card => card.dbfId)
+									cards.map(card => card.dbfId),
 								);
 							}}
 						/>
@@ -564,7 +564,7 @@ export default class MyDecks extends React.Component<Props, State> {
 							availableCards={filteredCards}
 							onCardsChanged={cards =>
 								this.props.setExcludedCards(
-									cards.map(card => card.dbfId)
+									cards.map(card => card.dbfId),
 								)
 							}
 							selectedCards={selectedCards("excludedCards")}
@@ -674,7 +674,7 @@ export default class MyDecks extends React.Component<Props, State> {
 			Region: getRegion(this.state.account),
 			account_lo: getLo(this.state.account),
 			GameType: this.props.gameType,
-			TimeRange: this.props.timeRange
+			TimeRange: this.props.timeRange,
 		};
 	}
 

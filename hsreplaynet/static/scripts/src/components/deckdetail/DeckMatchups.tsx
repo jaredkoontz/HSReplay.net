@@ -12,7 +12,7 @@ export default class DeckMatchups extends React.Component<Props> {
 		const matchupsTiles = [];
 		const matchupData = this.props.classMatchupData.series.data;
 		const playerClasses = Object.keys(matchupData).filter(
-			playerClass => matchupData[playerClass].length
+			playerClass => matchupData[playerClass].length,
 		);
 		playerClasses.sort();
 		playerClasses.forEach((playerClass: string, i: number) => {
@@ -22,16 +22,16 @@ export default class DeckMatchups extends React.Component<Props> {
 						archetypes={this.getArchetypes(playerClass)}
 						playerClass={playerClass}
 						totalWinrate={matchupData[playerClass][0].winrate}
-					/>
+					/>,
 				);
 				if ((i + 1) % 2 === 0) {
 					matchupsTiles.push(
-						<div className="clearfix visible-md-block" />
+						<div className="clearfix visible-md-block" />,
 					);
 				}
 				if ((i + 1) % 3 === 0) {
 					matchupsTiles.push(
-						<div className="clearfix visible-lg-block" />
+						<div className="clearfix visible-lg-block" />,
 					);
 				}
 			}
@@ -44,16 +44,16 @@ export default class DeckMatchups extends React.Component<Props> {
 		this.props.archetypeMatchupData.series.data[playerClass].forEach(
 			archetype => {
 				const data = this.props.archetypeData.find(
-					a => a.id === archetype.archetype_id
+					a => a.id === archetype.archetype_id,
 				);
 				if (data) {
 					archetypes.push({
 						id: archetype.archetype_id,
 						name: data.name,
-						winrate: archetype.win_rate
+						winrate: archetype.win_rate,
 					});
 				}
-			}
+			},
 		);
 		return archetypes;
 	}

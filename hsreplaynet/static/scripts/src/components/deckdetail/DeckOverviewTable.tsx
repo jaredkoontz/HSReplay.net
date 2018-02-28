@@ -19,7 +19,7 @@ export default class DeckOverviewTable extends React.Component<Props> {
 		const winrateCell = (
 			winrate: number,
 			baseWinrate: number,
-			tendency: boolean
+			tendency: boolean,
 		) => {
 			const wrData = winrateData(baseWinrate, winrate, 5);
 			return (
@@ -33,7 +33,8 @@ export default class DeckOverviewTable extends React.Component<Props> {
 		const secondsPerTurn =
 			deck &&
 			Math.round(
-				+deck.avg_game_length_seconds / (+deck.avg_num_player_turns * 2)
+				+deck.avg_game_length_seconds /
+					(+deck.avg_num_player_turns * 2),
 			);
 
 		const opponents = this.props.opponentWinrateData.series.data;
@@ -73,7 +74,7 @@ export default class DeckOverviewTable extends React.Component<Props> {
 								moment
 									.duration(
 										+deck.avg_game_length_seconds,
-										"second"
+										"second",
 									)
 									.asMinutes()
 									.toFixed(1) + " minutes"}

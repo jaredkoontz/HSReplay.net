@@ -52,7 +52,7 @@ export default class Table extends React.Component<Props, State> {
 	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
-			hoveringRow: -1
+			hoveringRow: -1,
 		};
 		this.referenceId = _.uniqueId("table");
 	}
@@ -63,7 +63,7 @@ export default class Table extends React.Component<Props, State> {
 			columns,
 			minColumnWidth,
 			topInfoRow,
-			bottomInfoRow
+			bottomInfoRow,
 		} = this.props;
 		const [minHeaderWidth, maxHeaderWidth] = this.props.headerWidth;
 		const numColumns = this.props.columns.length - 1;
@@ -83,7 +83,7 @@ export default class Table extends React.Component<Props, State> {
 							this.props.headerWidthRatio || HEADER_WIDTH_RATIO;
 						const headerWidth = Math.max(
 							minHeaderWidth,
-							Math.min(maxHeaderWidth, width * headerWidthRatio)
+							Math.min(maxHeaderWidth, width * headerWidthRatio),
 						);
 						const requiredWith =
 							headerWidth + minColumnWidth * numColumns;
@@ -91,7 +91,7 @@ export default class Table extends React.Component<Props, State> {
 						if (requiredWith < width) {
 							columnWidth = Math.max(
 								minColumnWidth,
-								(width - headerWidth) / numColumns
+								(width - headerWidth) / numColumns,
 							);
 						}
 						return (
@@ -105,7 +105,7 @@ export default class Table extends React.Component<Props, State> {
 													lineHeight:
 														cellHeight - 1 + "px",
 													textAlign: "center",
-													width: headerWidth
+													width: headerWidth,
 												}}
 											>
 												{this.getSortHeader(
@@ -115,26 +115,26 @@ export default class Table extends React.Component<Props, State> {
 														.defaultSortDirection ||
 														"descending",
 													columns[0].infoHeader,
-													columns[0].infoText
+													columns[0].infoText,
 												)}
 											</div>
 										</div>
 										{this.renderRowHighlighter(
 											width,
 											cellHeight,
-											topOffset
+											topOffset,
 										)}
 										{this.renderInfoRow(
 											topInfoRow,
 											width,
-											cellHeight
+											cellHeight,
 										)}
 										{this.renderInfoRow(
 											bottomInfoRow,
 											width,
 											totalHeight -
 												INFO_ROW_HEIGHT -
-												scrollbarSize()
+												scrollbarSize(),
 										)}
 										<div
 											className="grid-container grid-container-top"
@@ -158,7 +158,7 @@ export default class Table extends React.Component<Props, State> {
 										<div
 											className="grid-container grid-container-left"
 											style={{
-												top: cellHeight + topOffset
+												top: cellHeight + topOffset,
 											}}
 										>
 											<Grid
@@ -179,7 +179,7 @@ export default class Table extends React.Component<Props, State> {
 											className="grid-container"
 											style={{
 												top: cellHeight + topOffset,
-												left: headerWidth
+												left: headerWidth,
 											}}
 										>
 											<Grid
@@ -215,7 +215,7 @@ export default class Table extends React.Component<Props, State> {
 	renderRowHighlighter(
 		width: number,
 		cellHeight: number,
-		topOffset: number
+		topOffset: number,
 	): JSX.Element {
 		if (this.state.hoveringRow === -1) {
 			return null;
@@ -226,7 +226,7 @@ export default class Table extends React.Component<Props, State> {
 				style={{
 					height: cellHeight,
 					top: (this.state.hoveringRow + 1) * cellHeight + topOffset,
-					width
+					width,
 				}}
 			/>
 		);
@@ -235,7 +235,7 @@ export default class Table extends React.Component<Props, State> {
 	renderInfoRow(
 		infoRow: JSX.Element,
 		width: number,
-		top: number
+		top: number,
 	): JSX.Element {
 		if (!infoRow) {
 			return null;
@@ -262,7 +262,7 @@ export default class Table extends React.Component<Props, State> {
 			key,
 			style,
 			role: "rowheader",
-			...this.rowHighlighting(rowIndex)
+			...this.rowHighlighting(rowIndex),
 		};
 		if (row.href) {
 			return (
@@ -281,10 +281,10 @@ export default class Table extends React.Component<Props, State> {
 			column.text,
 			column.defaultSortDirection || "descending",
 			column.infoHeader,
-			column.infoText
+			column.infoText,
 		);
 		style = Object.assign({}, style, {
-			lineHeight: `${this.props.cellHeight}px`
+			lineHeight: `${this.props.cellHeight}px`,
 		});
 		return (
 			<div
@@ -313,7 +313,7 @@ export default class Table extends React.Component<Props, State> {
 				const wrdata = winrateData(
 					this.props.baseWinrate || 50,
 					+content,
-					5
+					5,
 				);
 				color = wrdata.color;
 				const showTendency =
@@ -337,7 +337,7 @@ export default class Table extends React.Component<Props, State> {
 		style = Object.assign({}, style, {
 			color,
 			lineHeight: `${this.props.cellHeight}px`,
-			background
+			background,
 		});
 
 		const props = {
@@ -346,9 +346,9 @@ export default class Table extends React.Component<Props, State> {
 			style,
 			role: "gridcell",
 			"aria-describedby": `${this.getRowId(rowIndex)} ${this.getColumnId(
-				columnIndex
+				columnIndex,
 			)}`,
-			...this.rowHighlighting(rowIndex)
+			...this.rowHighlighting(rowIndex),
 		};
 
 		if (row.href) {
@@ -368,7 +368,7 @@ export default class Table extends React.Component<Props, State> {
 		}
 		return {
 			onMouseEnter: () => this.setState({ hoveringRow: rowIndex }),
-			onMouseLeave: () => this.setState({ hoveringRow: -1 })
+			onMouseLeave: () => this.setState({ hoveringRow: -1 }),
 		};
 	}
 
@@ -385,7 +385,7 @@ export default class Table extends React.Component<Props, State> {
 		text: string,
 		direction?: SortDirection,
 		infoHeader?: string,
-		infoText?: string
+		infoText?: string,
 	): JSX.Element {
 		return (
 			<SortHeader

@@ -53,7 +53,7 @@ export function modeMatch(game: GameReplay, mode: string): boolean {
 export function formatMatch(
 	game: GameReplay,
 	format: string,
-	mode: string
+	mode: string,
 ): boolean {
 	if (!(!mode || mode === "ranked" || mode === "casual")) {
 		return true;
@@ -82,7 +82,7 @@ export function resultMatch(game: GameReplay, result: string): boolean {
 export function heroMatch(
 	cardData: CardData,
 	player: GlobalGamePlayer,
-	hero: string
+	hero: string,
 ): boolean {
 	if (!cardData) {
 		return false;

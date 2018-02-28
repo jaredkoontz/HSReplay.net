@@ -22,7 +22,7 @@ const render = (cardData: CardData) => {
 			<Fragments
 				defaults={{
 					rankRange: "LEGEND_THROUGH_TWENTY",
-					tab: "overview"
+					tab: "overview",
 				}}
 				immutable={!UserData.isPremium() ? ["rankRange"] : null}
 			>
@@ -37,7 +37,7 @@ const render = (cardData: CardData) => {
 				/>
 			</Fragments>
 		</ErrorReporter>,
-		container
+		container,
 	);
 };
 

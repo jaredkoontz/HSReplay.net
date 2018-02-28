@@ -37,14 +37,14 @@ const rankMap = {
 	22: "TWENTYTWO",
 	23: "TWENTYTHREE",
 	24: "TWENTYFOUR",
-	25: "TWENTYFIVE"
+	25: "TWENTYFIVE",
 };
 
 export default class RankPicker extends React.Component<Props, State> {
 	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
-			forceSet: false
+			forceSet: false,
 		};
 	}
 
@@ -103,7 +103,7 @@ export default class RankPicker extends React.Component<Props, State> {
 			if (rank === 0 || (rank - 1) % 5 === 0) {
 				const row = Math.floor((rank - 1) / 5);
 				const adjacentSelected = [row - 1, row, row + 1].some(
-					r => selectedRows.indexOf(r) !== -1
+					r => selectedRows.indexOf(r) !== -1,
 				);
 				items.push(
 					<RowSelector
@@ -114,7 +114,7 @@ export default class RankPicker extends React.Component<Props, State> {
 								? "add"
 								: "set"
 						}
-					/>
+					/>,
 				);
 			}
 			items.push(
@@ -122,11 +122,11 @@ export default class RankPicker extends React.Component<Props, State> {
 					classNames={rankClasses}
 					onClick={() =>
 						this.props.onSelectionChanged(
-							this.encodeRankRange(rank, rank)
+							this.encodeRankRange(rank, rank),
 						)
 					}
 					rank={rank}
-				/>
+				/>,
 			);
 		});
 

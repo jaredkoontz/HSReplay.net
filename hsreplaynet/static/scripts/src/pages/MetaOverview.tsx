@@ -58,7 +58,7 @@ export default class MetaOverview extends React.Component<Props, State> {
 			archetypeListSortBy: "archetype",
 			archetypeListSortDirection: "ascending",
 			mobileView: window.innerWidth <= MOBILE_WIDTH,
-			showFilters: false
+			showFilters: false,
 		};
 	}
 
@@ -74,7 +74,7 @@ export default class MetaOverview extends React.Component<Props, State> {
 			GameType: this.getGameType(),
 			RankRange: this.props.rankRange,
 			Region: this.props.region,
-			TimeRange: this.props.timeFrame
+			TimeRange: this.props.timeFrame,
 		};
 	}
 
@@ -82,7 +82,7 @@ export default class MetaOverview extends React.Component<Props, State> {
 		return {
 			GameType: this.getGameType(),
 			Region: this.props.region,
-			TimeRange: this.props.timeFrame
+			TimeRange: this.props.timeFrame,
 		};
 	}
 
@@ -93,15 +93,15 @@ export default class MetaOverview extends React.Component<Props, State> {
 		const regionFilters = [
 			<InfoboxFilter value="REGION_US">America</InfoboxFilter>,
 			<InfoboxFilter value="REGION_EU">Europe</InfoboxFilter>,
-			<InfoboxFilter value="REGION_KR">Asia</InfoboxFilter>
+			<InfoboxFilter value="REGION_KR">Asia</InfoboxFilter>,
 		];
 		if (UserData.hasFeature("region-filter-china")) {
 			regionFilters.push(
-				<InfoboxFilter value="REGION_CN">China</InfoboxFilter>
+				<InfoboxFilter value="REGION_CN">China</InfoboxFilter>,
 			);
 		}
 		regionFilters.push(
-			<InfoboxFilter value="ALL">All Regions</InfoboxFilter>
+			<InfoboxFilter value="ALL">All Regions</InfoboxFilter>,
 		);
 
 		let rankRangeFilter = null;
@@ -221,15 +221,15 @@ export default class MetaOverview extends React.Component<Props, State> {
 							<DataInjector
 								query={{
 									params,
-									url: "head_to_head_archetype_matchups"
+									url: "head_to_head_archetype_matchups",
 								}}
 								extract={{
 									data: data => ({
 										value: commaSeparate(
 											data.series.metadata.totals
-												.contributors
-										)
-									})
+												.contributors,
+										),
+									}),
 								}}
 							>
 								<InfoboxItem header="Contributors" />
@@ -237,15 +237,15 @@ export default class MetaOverview extends React.Component<Props, State> {
 							<DataInjector
 								query={{
 									params,
-									url: "head_to_head_archetype_matchups"
+									url: "head_to_head_archetype_matchups",
 								}}
 								extract={{
 									data: data => ({
 										value: commaSeparate(
 											data.series.metadata.totals
-												.total_games
-										)
-									})
+												.total_games,
+										),
+									}),
 								}}
 							>
 								<InfoboxItem header="Games" />
@@ -273,26 +273,26 @@ export default class MetaOverview extends React.Component<Props, State> {
 									{
 										key: "archetypeData",
 										params: {},
-										url: "/api/v1/archetypes/"
+										url: "/api/v1/archetypes/",
 									},
 									{
 										key: "deckData",
 										params: {
-											GameType: this.getGameType()
+											GameType: this.getGameType(),
 										},
-										url: "list_decks_by_win_rate"
+										url: "list_decks_by_win_rate",
 									},
 									{
 										params,
 										url:
-											"archetype_popularity_distribution_stats"
-									}
+											"archetype_popularity_distribution_stats",
+									},
 								]}
 								extract={{
 									data: data => ({
 										data: data.series.data,
-										timestamp: data.as_of
-									})
+										timestamp: data.as_of,
+									}),
 								}}
 							>
 								<ArchetypeTierList
@@ -307,19 +307,19 @@ export default class MetaOverview extends React.Component<Props, State> {
 									{
 										key: "archetypeData",
 										params: {},
-										url: "/api/v1/archetypes/"
+										url: "/api/v1/archetypes/",
 									},
 									{
 										params,
 										url:
-											"archetype_popularity_distribution_stats"
-									}
+											"archetype_popularity_distribution_stats",
+									},
 								]}
 								extract={{
 									data: data => ({
 										data: data.series.data,
-										timestamp: data.as_of
-									})
+										timestamp: data.as_of,
+									}),
 								}}
 							>
 								<ArchetypeList
@@ -329,11 +329,11 @@ export default class MetaOverview extends React.Component<Props, State> {
 									}
 									onSortChanged={(
 										archetypeListSortBy,
-										archetypeListSortDirection
+										archetypeListSortDirection,
 									) => {
 										this.setState({
 											archetypeListSortBy,
-											archetypeListSortDirection
+											archetypeListSortDirection,
 										});
 									}}
 									gameType={this.getGameType()}
@@ -351,19 +351,19 @@ export default class MetaOverview extends React.Component<Props, State> {
 									{
 										key: "archetypeData",
 										params: {},
-										url: "/api/v1/archetypes/"
+										url: "/api/v1/archetypes/",
 									},
 									{
 										key: "matchupData",
 										params,
-										url: "head_to_head_archetype_matchups"
+										url: "head_to_head_archetype_matchups",
 									},
 									{
 										key: "popularityData",
 										params,
 										url:
-											"archetype_popularity_distribution_stats"
-									}
+											"archetype_popularity_distribution_stats",
+									},
 								]}
 							>
 								<ArchetypeMatchups
@@ -415,13 +415,13 @@ export default class MetaOverview extends React.Component<Props, State> {
 					{
 						key: "archetypeData",
 						params: {},
-						url: "/api/v1/archetypes/"
+						url: "/api/v1/archetypes/",
 					},
 					{
 						key: "popularityData",
 						params: popularityParams,
-						url: "archetype_popularity_by_rank"
-					}
+						url: "archetype_popularity_by_rank",
+					},
 				]}
 			>
 				<ArchetypePopularity

@@ -13,7 +13,7 @@ UserData.create();
 
 const render = (
 	cardData: CardData,
-	collection: HearthstoneCollection | null
+	collection: HearthstoneCollection | null,
 ) => {
 	ReactDOM.render(
 		<ErrorReporter>
@@ -36,7 +36,7 @@ const render = (
 							? "CURRENT_EXPANSION"
 							: "LAST_30_DAYS",
 					trainingData: "",
-					withStream: false
+					withStream: false,
 				}}
 				immutable={
 					!UserData.isPremium()
@@ -49,12 +49,12 @@ const render = (
 					collection={collection}
 					latestSet="LOOTAPALOOZA"
 					promoteLatestSet={UserData.hasFeature(
-						"current-expansion-filter"
+						"current-expansion-filter",
 					)}
 				/>
 			</Fragments>
 		</ErrorReporter>,
-		container
+		container,
 	);
 };
 
@@ -78,14 +78,14 @@ if (UserData.isAuthenticated() && UserData.hasFeature("max-dust-filter")) {
 		}
 		const account = accounts.find(
 			(account: Account) =>
-				+account.region === +region && +account.lo === +account_lo
+				+account.region === +region && +account.lo === +account_lo,
 		);
 		if (!account) {
 			return;
 		}
 		DataManager.get("/api/v1/collection/", {
 			account_lo: "" + account.lo,
-			account_hi: "" + account.hi
+			account_hi: "" + account.hi,
 		}).then(collection => {
 			myCollectionData = collection;
 			render(myCardData, myCollectionData);

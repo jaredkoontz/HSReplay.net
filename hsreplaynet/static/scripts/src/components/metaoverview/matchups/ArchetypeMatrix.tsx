@@ -6,7 +6,7 @@ import { AutoSizer, Grid, ScrollSync } from "react-virtualized";
 import {
 	ApiArchetype,
 	ArchetypeData,
-	SortDirection
+	SortDirection,
 } from "../../../interfaces";
 import scrollbarSize from "dom-helpers/util/scrollbarSize";
 import ColumnHeader from "./ColumnHeader";
@@ -51,7 +51,7 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 		super(props, context);
 		this.state = {
 			highlightColumn: null,
-			highlightRow: null
+			highlightRow: null,
 		};
 	}
 
@@ -81,11 +81,11 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 							totalWidth > width ? scrollbarSize() : 0;
 						const right = Math.max(
 							0,
-							width - totalWidth - scrollbarWidth
+							width - totalWidth - scrollbarWidth,
 						);
 						const bottom = Math.max(
 							0,
-							height - totalHeight - scrollbarHeight
+							height - totalHeight - scrollbarHeight,
 						);
 						return (
 							<ScrollSync>
@@ -96,20 +96,20 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 									scrollHeight,
 									scrollLeft,
 									scrollTop,
-									scrollWidth
+									scrollWidth,
 								}) => (
 									<div className="matchup-matrix">
 										<div
 											className="matchup-header-cell matchup-header-top-left matchup-header-archetype"
 											style={{
 												height: headerCellHeight,
-												width: headerCellWidth
+												width: headerCellWidth,
 											}}
 										>
 											{this.getSortHeader(
 												"class",
 												"Archetype",
-												"ascending"
+												"ascending",
 											)}
 											<ArchetypeSearch
 												availableArchetypes={this.props.allArchetypes
@@ -118,12 +118,12 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 														(a, b) =>
 															a.name > b.name
 																? 1
-																: -1
+																: -1,
 													)}
 												onArchetypeSelected={archetype => {
 													this.props.onFavoriteChanged(
 														archetype.id,
-														true
+														true,
 													);
 													this.recomputeGridSize();
 												}}
@@ -133,20 +133,20 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 											className="grid-container grid-container-top"
 											style={{
 												left: headerCellWidth,
-												background: "none"
+												background: "none",
 											}}
 										>
 											<Grid
 												cellRenderer={({
 													columnIndex,
 													key,
-													style
+													style,
 												}) => {
 													const archetype =
 														archetypes[columnIndex];
 													const isIgnored =
 														this.props.ignoredColumns.indexOf(
-															archetype.id
+															archetype.id,
 														) !== -1;
 
 													return (
@@ -164,7 +164,7 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 															}
 															onIgnoredChanged={(
 																ignore: boolean,
-																ignoreClass?: boolean
+																ignoreClass?: boolean,
 															) => {
 																if (
 																	ignoreClass
@@ -176,32 +176,32 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 																					a.player_class_name ===
 																					archetype.playerClass
 																				);
-																			}
+																			},
 																		)
 																		.map(
 																			x =>
-																				x.id
+																				x.id,
 																		);
 																	this.props.onIgnoreChanged(
 																		archetypeIds,
-																		ignore
+																		ignore,
 																	);
 																} else {
 																	this.props.onIgnoreChanged(
 																		archetype.id,
-																		ignore
+																		ignore,
 																	);
 																}
 															}}
 															key={key}
 															style={style}
 															onHover={(
-																hovering: boolean
+																hovering: boolean,
 															) =>
 																this.onHover(
 																	hovering,
 																	columnIndex,
-																	columnIndex
+																	columnIndex,
 																)
 															}
 														/>
@@ -246,7 +246,7 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 											style={{
 												height: headerCellHeight,
 												width: cellWidth,
-												right
+												right,
 											}}
 										>
 											{this.getSortHeader(
@@ -254,7 +254,7 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 												"EWR",
 												null,
 												"Effective Winrate",
-												"The expected winrate against all active archetypes, weighted by their popularity."
+												"The expected winrate against all active archetypes, weighted by their popularity.",
 											)}
 										</div>
 										<div
@@ -265,18 +265,18 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 												cellRenderer={({
 													key,
 													rowIndex,
-													style
+													style,
 												}) => {
 													const archetype =
 														archetypes[rowIndex];
 													const isFavorite =
 														this.props.favorites.indexOf(
-															archetype.id
+															archetype.id,
 														) !== -1;
 
 													if (
 														this.isLastFavorite(
-															rowIndex
+															rowIndex,
 														)
 													) {
 														style["border-bottom"] =
@@ -299,11 +299,11 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 																isFavorite
 															}
 															onFavoriteChanged={(
-																favorite: boolean
+																favorite: boolean,
 															) => {
 																this.props.onFavoriteChanged(
 																	archetype.id,
-																	favorite
+																	favorite,
 																);
 																this.recomputeGridSize();
 															}}
@@ -314,12 +314,12 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 															key={key}
 															style={style}
 															onHover={(
-																hovering: boolean
+																hovering: boolean,
 															) =>
 																this.onHover(
 																	hovering,
 																	rowIndex,
-																	rowIndex
+																	rowIndex,
 																)
 															}
 															gameType={
@@ -376,7 +376,7 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 											className="grid-container"
 											style={{
 												top: headerCellHeight,
-												left: headerCellWidth
+												left: headerCellWidth,
 											}}
 										>
 											<Grid
@@ -384,7 +384,7 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 													columnIndex,
 													key,
 													rowIndex,
-													style
+													style,
 												}) => {
 													const archetype =
 														archetypes[rowIndex];
@@ -394,7 +394,7 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 														];
 													const isIgnored =
 														this.props.ignoredColumns.indexOf(
-															matchup.opponentId
+															matchup.opponentId,
 														) !== -1;
 													const hasNoCustomData =
 														this.props
@@ -406,7 +406,7 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 
 													if (
 														this.isLastFavorite(
-															rowIndex
+															rowIndex,
 														)
 													) {
 														style["border-bottom"] =
@@ -437,12 +437,12 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 																rowIndex
 															}
 															onHover={(
-																hovering: boolean
+																hovering: boolean,
 															) =>
 																this.onHover(
 																	hovering,
 																	columnIndex,
-																	rowIndex
+																	rowIndex,
 																)
 															}
 														/>
@@ -457,7 +457,7 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 														scrollbarWidth,
 													width -
 														headerCellWidth -
-														cellWidth
+														cellWidth,
 												)}
 												height={Math.min(
 													cellHeight *
@@ -465,7 +465,7 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 														scrollbarHeight,
 													height -
 														headerCellHeight -
-														footerCellHeight
+														footerCellHeight,
 												)}
 												columnCount={archetypes.length}
 												columnWidth={cellWidth}
@@ -503,7 +503,7 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 														: "")
 												}
 												style={{
-													bottom: scrollbarHeight
+													bottom: scrollbarHeight,
 												}}
 											/>
 											<div
@@ -525,7 +525,7 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 														: "")
 												}
 												style={{
-													right: scrollbarWidth
+													right: scrollbarWidth,
 												}}
 											/>
 										</div>
@@ -534,7 +534,7 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 											style={{
 												height: footerCellHeight,
 												width: headerCellWidth,
-												bottom
+												bottom,
 											}}
 										>
 											{this.getSortHeader(
@@ -542,7 +542,7 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 												"Popularity",
 												null,
 												"Popularity on Ladder",
-												"The percentage of decks played that belong to this archetype."
+												"The percentage of decks played that belong to this archetype.",
 											)}
 											<label className="custom-weight-checkbox">
 												<input
@@ -550,7 +550,7 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 													onChange={() =>
 														this.props.onUseCustomWeightsChanged(
 															!this.props
-																.useCustomWeights
+																.useCustomWeights,
 														)
 													}
 													checked={
@@ -569,14 +569,14 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 											className="grid-container grid-container-bottom"
 											style={{
 												left: headerCellWidth,
-												bottom
+												bottom,
 											}}
 										>
 											<Grid
 												cellRenderer={({
 													columnIndex,
 													key,
-													style
+													style,
 												}) => {
 													const archetype =
 														archetypes[columnIndex];
@@ -606,29 +606,29 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 																	.useCustomWeights
 															}
 															onCustomWeightChanged={(
-																popularity: number
+																popularity: number,
 															) => {
 																this.props.onCustomWeightsChanged(
 																	archetype.id,
-																	popularity
+																	popularity,
 																);
 															}}
 															onHover={(
-																hovering: boolean
+																hovering: boolean,
 															) =>
 																this.onHover(
 																	hovering,
 																	columnIndex,
-																	columnIndex
+																	columnIndex,
 																)
 															}
 															onInputFocus={(
-																hovering: boolean
+																hovering: boolean,
 															) =>
 																this.onHover(
 																	hovering,
 																	columnIndex,
-																	columnIndex
+																	columnIndex,
 																)
 															}
 														/>
@@ -672,18 +672,18 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 											className="grid-container grid-container-right"
 											style={{
 												top: headerCellHeight,
-												right
+												right,
 											}}
 										>
 											<Grid
 												cellRenderer={({
 													key,
 													rowIndex,
-													style
+													style,
 												}) => {
 													if (
 														this.isLastFavorite(
-															rowIndex
+															rowIndex,
 														)
 													) {
 														style["border-bottom"] =
@@ -706,12 +706,12 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 															key={key}
 															style={style}
 															onHover={(
-																hovering: boolean
+																hovering: boolean,
 															) =>
 																this.onHover(
 																	hovering,
 																	rowIndex,
-																	rowIndex
+																	rowIndex,
 																)
 															}
 														/>
@@ -809,7 +809,7 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 		text: string,
 		direction?: SortDirection,
 		infoHeader?: string,
-		infoText?: string
+		infoText?: string,
 	): JSX.Element {
 		return (
 			<SortHeader

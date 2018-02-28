@@ -21,14 +21,14 @@ export function generateCardTableRowData(
 	data: ApiCardStatsData[],
 	sortBy: string,
 	sortDirection: SortDirection,
-	columns: TableColumn[]
+	columns: TableColumn[],
 ): RowData[] {
 	const cardData = generateCardData(cards, data);
 	const sortedCardData = sortCardData(
 		cardData,
 		sortBy,
 		sortDirection,
-		columns
+		columns,
 	);
 	const rowData = generateRowData(sortedCardData, columns);
 	return rowData;
@@ -36,12 +36,12 @@ export function generateCardTableRowData(
 
 function generateCardData(
 	cards: CardObj[],
-	data: ApiCardStatsData[]
+	data: ApiCardStatsData[],
 ): CardData[] {
 	return cards.map((cardObj: CardObj) => {
 		return {
 			card: cardObj,
-			data: data.find(x => x.dbf_id === cardObj.card.dbfId)
+			data: data.find(x => x.dbf_id === cardObj.card.dbfId),
 		};
 	});
 }
@@ -50,13 +50,13 @@ function sortCardData(
 	cardData: CardData[],
 	sortBy: string,
 	sortDirection: SortDirection,
-	columns: TableColumn[]
+	columns: TableColumn[],
 ): CardData[] {
 	const direction = sortDirection === "descending" ? 1 : -1;
 	cardData = cardData.slice();
 	if (sortBy === "card") {
 		cardData.sort((a, b) =>
-			cardSorting(a.card.card, b.card.card, -direction)
+			cardSorting(a.card.card, b.card.card, -direction),
 		);
 	} else {
 		const column = columns.find(x => x.sortKey === sortBy);
@@ -79,12 +79,12 @@ function sortCardData(
 
 function generateRowData(
 	cardData: CardData[],
-	columns: TableColumn[]
+	columns: TableColumn[],
 ): RowData[] {
 	return cardData.map(({ card, data }) => {
 		return {
 			card: { card: card.card, count: card.count },
-			values: columns.map(x => (data ? data[x.dataKey] : null))
+			values: columns.map(x => (data ? data[x.dataKey] : null)),
 		};
 	});
 }

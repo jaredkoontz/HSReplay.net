@@ -28,7 +28,7 @@ export default class ShareGameDialog extends React.Component<Props, State> {
 		this.state = {
 			linkToTurn: false,
 			preservePerspective: false,
-			confirming: false
+			confirming: false,
 		};
 	}
 
@@ -47,7 +47,7 @@ export default class ShareGameDialog extends React.Component<Props, State> {
 			parts.push(
 				"turn=" +
 					Math.ceil(this.props.turn / 2) +
-					(this.props.turn % 2 ? "a" : "b")
+					(this.props.turn % 2 ? "a" : "b"),
 			);
 		}
 		if (
@@ -97,12 +97,12 @@ export default class ShareGameDialog extends React.Component<Props, State> {
 		window.open(
 			target.getAttribute("href"),
 			"_blank",
-			"resizable,scrollbars=yes,status=1"
+			"resizable,scrollbars=yes,status=1",
 		);
 		if (this.props.onShare) {
 			this.props.onShare(
 				target.getAttribute("data-network") || "unknown",
-				this.state.linkToTurn
+				this.state.linkToTurn,
 			);
 		}
 	}
@@ -123,7 +123,7 @@ export default class ShareGameDialog extends React.Component<Props, State> {
 								onSelect={e =>
 									this.input.setSelectionRange(
 										0,
-										this.input.value.length
+										this.input.value.length,
 									)
 								}
 								ref={node => (this.input = node)}

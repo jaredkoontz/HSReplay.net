@@ -23,7 +23,7 @@ export default class WinrateBreakdownTable extends React.Component<
 		super(props, context);
 		this.state = {
 			sortBy: "opponent",
-			sortDirection: "ascending"
+			sortDirection: "ascending",
 		};
 	}
 
@@ -56,7 +56,7 @@ export default class WinrateBreakdownTable extends React.Component<
 			(a, b) =>
 				a[this.state.sortBy] > b[this.state.sortBy]
 					? direction
-					: -direction
+					: -direction,
 		);
 		const winrates = rows.map(row => {
 			return (
@@ -79,14 +79,14 @@ export default class WinrateBreakdownTable extends React.Component<
 			{
 				sortKey: "opponent",
 				text: "Opponent",
-				defaultSortDirection: "ascending" as SortDirection
+				defaultSortDirection: "ascending" as SortDirection,
 			},
 			{
 				sortKey: "winrate",
 				text: "Winrate",
 				infoHeader: "Winrate",
-				infoText: "Winrate of the deck versus the given opponent."
-			}
+				infoText: "Winrate of the deck versus the given opponent.",
+			},
 		];
 
 		return (

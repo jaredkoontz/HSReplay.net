@@ -2,7 +2,7 @@ import React from "react";
 
 export const enum BarDirection {
 	VERTICAL,
-	HORIZONTAL
+	HORIZONTAL,
 }
 
 interface Props {

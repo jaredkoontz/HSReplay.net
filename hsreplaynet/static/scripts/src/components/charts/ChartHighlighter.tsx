@@ -22,17 +22,17 @@ export default class ChartHighlighter extends React.Component<Props> {
 				style={{
 					fill: "white",
 					fontSize: 6 * factor,
-					padding: 5 * factor
+					padding: 5 * factor,
 				}}
 				flyoutStyle={{
 					fill: "rgba(0, 0, 0, 0.8)",
 					stroke: "white",
-					strokeWidth: 0
+					strokeWidth: 0,
 				}}
 				activateData={true}
 				labelComponent={<VictoryLabel dy={8} />}
 				flyoutComponent={<Flyout dy={-8} />}
-			/>
+			/>,
 		]);
 	}
 }

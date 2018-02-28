@@ -19,7 +19,7 @@ export default class DeckInfo extends React.Component<Props> {
 			clusterColor,
 			deck,
 			height,
-			playerClass
+			playerClass,
 		} = this.props;
 		const infoboxClassNames = ["infobox"];
 
@@ -71,7 +71,7 @@ export default class DeckInfo extends React.Component<Props> {
 						Games
 						<span className="infobox-value">{deck.games}</span>
 					</li>
-				</ul>
+				</ul>,
 			];
 		}
 

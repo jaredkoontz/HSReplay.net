@@ -22,7 +22,7 @@ export default class CardIcon extends React.Component<Props, State> {
 	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
-			backgroundLoaded: false
+			backgroundLoaded: false,
 		};
 	}
 
@@ -32,7 +32,7 @@ export default class CardIcon extends React.Component<Props, State> {
 
 	public componentWillReceiveProps(
 		nextProps: Readonly<Props>,
-		nextContext: any
+		nextContext: any,
 	): void {
 		if (
 			!this.props.card ||
@@ -68,7 +68,7 @@ export default class CardIcon extends React.Component<Props, State> {
 			const size = this.props.size || this.baseSize;
 			const style: any = {
 				height: size + "px",
-				width: size + "px"
+				width: size + "px",
 			};
 
 			let mark = null;

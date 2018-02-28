@@ -19,14 +19,14 @@ export default class PrivacyDropdown extends React.Component<Props, State> {
 		this.state = {
 			previous: props.initial,
 			selected: props.initial,
-			working: false
+			working: false,
 		};
 	}
 
 	public render(): React.ReactNode {
 		const options = {
 			Public: Visibility.Public,
-			Unlisted: Visibility.Unlisted
+			Unlisted: Visibility.Unlisted,
 		};
 
 		return (
@@ -37,7 +37,7 @@ export default class PrivacyDropdown extends React.Component<Props, State> {
 					}
 					const selected = e.target.value;
 					this.setState({
-						selected
+						selected,
 					});
 					const headers = new Headers();
 					headers.set("content-type", "application/json");
@@ -45,7 +45,7 @@ export default class PrivacyDropdown extends React.Component<Props, State> {
 						body: JSON.stringify({ visibility: selected }),
 						credentials: "same-origin",
 						headers,
-						method: "PATCH"
+						method: "PATCH",
 					})
 						.then((response: Response) => {
 							const statusCode = response.status;
@@ -53,7 +53,7 @@ export default class PrivacyDropdown extends React.Component<Props, State> {
 								throw new Error(
 									"Unexpected status code " +
 										statusCode +
-										", expected 200 or 204"
+										", expected 200 or 204",
 								);
 							}
 							this.setState({ previous: this.state.selected });

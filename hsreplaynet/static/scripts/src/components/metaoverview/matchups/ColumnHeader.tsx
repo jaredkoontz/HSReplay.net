@@ -17,7 +17,7 @@ export default class ColumnHeader extends React.Component<Props> {
 	public shouldComponentUpdate(
 		nextProps: Readonly<Props>,
 		nextState: Readonly<{}>,
-		nextContext: any
+		nextContext: any,
 	): boolean {
 		return (
 			this.props.highlight !== nextProps.highlight ||
@@ -30,7 +30,7 @@ export default class ColumnHeader extends React.Component<Props> {
 	public render(): React.ReactNode {
 		const { archetypeData, isIgnored } = this.props;
 		const classNames = [
-			"matchup-column-header matchup-column-header-archetype"
+			"matchup-column-header matchup-column-header-archetype",
 		];
 		if (isIgnored) {
 			classNames.push("ignored");
@@ -61,7 +61,7 @@ export default class ColumnHeader extends React.Component<Props> {
 						onClick={e => {
 							this.props.onIgnoredChanged(
 								!this.props.isIgnored,
-								true
+								true,
 							);
 							e.stopPropagation();
 						}}

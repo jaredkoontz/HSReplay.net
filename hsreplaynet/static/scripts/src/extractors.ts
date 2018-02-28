@@ -2,7 +2,7 @@ import { ApiArchetype, ApiArchetypeSignature } from "./interfaces";
 
 export function extractSignature(
 	data: ApiArchetype,
-	gameType: string
+	gameType: string,
 ): { signature: ApiArchetypeSignature } {
 	const signature =
 		gameType === "RANKED_WILD"

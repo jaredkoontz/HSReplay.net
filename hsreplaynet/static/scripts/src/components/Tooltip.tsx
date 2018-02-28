@@ -40,14 +40,14 @@ export default class Tooltip extends React.Component<Props, State> {
 			clientX: 0,
 			clientY: 0,
 			hovering: false,
-			isTouchDevice: false
+			isTouchDevice: false,
 		};
 	}
 
 	public componentDidUpdate(
 		prevProps: Readonly<Props>,
 		prevState: Readonly<State>,
-		prevContext: any
+		prevContext: any,
 	): void {
 		if (this.state.hovering) {
 			if (!this.tooltipContainer) {
@@ -93,7 +93,7 @@ export default class Tooltip extends React.Component<Props, State> {
 			top += this.props.yOffset || 0;
 			style["top"] = Math.min(
 				window.innerHeight - height,
-				Math.max(0, top)
+				Math.max(0, top),
 			);
 		} else {
 			style["visibility"] = "hidden";
@@ -102,7 +102,7 @@ export default class Tooltip extends React.Component<Props, State> {
 			const width = this.tooltip.getBoundingClientRect().width;
 			style["left"] = Math.min(
 				window.innerWidth - width,
-				Math.max(0, this.state.clientX - width / 2)
+				Math.max(0, this.state.clientX - width / 2),
 			);
 		} else if (this.state.clientX < window.innerWidth / 2) {
 			style["left"] = this.state.clientX + 20 + (this.props.xOffset || 0);
@@ -117,7 +117,7 @@ export default class Tooltip extends React.Component<Props, State> {
 		if (this.props.content) {
 			const selectedContent = Tooltip.getSelectedContent(
 				this.props.content,
-				this.state.isTouchDevice
+				this.state.isTouchDevice,
 			);
 			if (typeof selectedContent === "string") {
 				body = <p>{selectedContent}</p>;
@@ -145,7 +145,7 @@ export default class Tooltip extends React.Component<Props, State> {
 					// re-render if this render caused a height change, to update position
 					this.renderTooltip();
 				}
-			}
+			},
 		);
 	}
 
@@ -167,7 +167,7 @@ export default class Tooltip extends React.Component<Props, State> {
 			this.setState({
 				hovering: true,
 				clientX: e.clientX,
-				clientY: e.clientY
+				clientY: e.clientY,
 			});
 		};
 
@@ -175,7 +175,7 @@ export default class Tooltip extends React.Component<Props, State> {
 		if (this.props.content) {
 			const selectedContent = Tooltip.getSelectedContent(
 				this.props.content,
-				this.state.isTouchDevice
+				this.state.isTouchDevice,
 			);
 			if (typeof selectedContent === "string") {
 				content.push(<p>{selectedContent}</p>);
@@ -206,7 +206,7 @@ export default class Tooltip extends React.Component<Props, State> {
 
 	protected static getSelectedContent(
 		content: TooltipContent | ClickTouch<TooltipContent>,
-		isTouchDevice: boolean
+		isTouchDevice: boolean,
 	): TooltipContent {
 		if (typeof content !== "object") {
 			return content;

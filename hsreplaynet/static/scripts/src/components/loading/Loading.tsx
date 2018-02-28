@@ -11,7 +11,7 @@ interface Props {
 
 export const withLoading = (dataKeys?: string[]) => <T extends {}>(
 	// tslint:disable-next-line:variable-name
-	Component: React.ComponentClass<T>
+	Component: React.ComponentClass<T>,
 ) => {
 	return class Loading extends React.Component<T & Props> {
 		public render(): React.ReactNode {
@@ -39,7 +39,7 @@ export const withLoading = (dataKeys?: string[]) => <T extends {}>(
 			if (noData) {
 				const message = getLoadingMessage(
 					LoadingStatus.NO_DATA,
-					customNoDataMessage
+					customNoDataMessage,
 				);
 				if (typeof message === "string") {
 					return <h3 className="message-wrapper">{message}</h3>;
@@ -50,7 +50,7 @@ export const withLoading = (dataKeys?: string[]) => <T extends {}>(
 			const props = _.omit(
 				this.props,
 				"status",
-				"customNoDataMessage"
+				"customNoDataMessage",
 			) as T;
 			return <Component {...props} />;
 		}
@@ -59,7 +59,7 @@ export const withLoading = (dataKeys?: string[]) => <T extends {}>(
 
 function getLoadingMessage(
 	status: LoadingStatus,
-	customNoDataMessage?: StringOrJSX
+	customNoDataMessage?: StringOrJSX,
 ): StringOrJSX | null {
 	switch (status) {
 		case LoadingStatus.SUCCESS:
@@ -71,7 +71,7 @@ function getLoadingMessage(
 				<h3>Loading…</h3>,
 				<p>
 					<i>This may take a few seconds</i>
-				</p>
+				</p>,
 			];
 		case LoadingStatus.NO_DATA:
 			return customNoDataMessage || "No available data";

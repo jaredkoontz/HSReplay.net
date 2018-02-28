@@ -22,7 +22,7 @@ export default class HighlightTiles extends React.Component<Props> {
 			minions_killed: {},
 			heroes_killed: {},
 			num_distinct_decks: {},
-			win_rate: {}
+			win_rate: {},
 		};
 		const maxKeys = Object.keys(max);
 		const cards = this.props.cardStats.series.data.ALL;
@@ -37,16 +37,16 @@ export default class HighlightTiles extends React.Component<Props> {
 		const gameCounts = { num_standard_games: 0, num_wild_games: 0 };
 		const rank = {
 			best_standard_rank: undefined,
-			best_wild_rank: undefined
+			best_wild_rank: undefined,
 		};
 		const legendRank = {
 			best_standard_legend_rank: undefined,
-			best_wild_legend_rank: undefined
+			best_wild_legend_rank: undefined,
 		};
 		const seasons = this.props.ranks.series.data.ALL;
 		seasons.forEach(season => {
 			Object.keys(gameCounts).forEach(
-				key => (gameCounts[key] += season[key])
+				key => (gameCounts[key] += season[key]),
 			);
 			Object.keys(rank).forEach(key => {
 				if ((!rank[key] || season[key] < rank[key]) && season[key]) {
@@ -75,11 +75,11 @@ export default class HighlightTiles extends React.Component<Props> {
 
 		const maxStandardRank = makeRank(
 			legendRank.best_standard_legend_rank,
-			rank.best_standard_rank
+			rank.best_standard_rank,
 		);
 		const maxWildRank = makeRank(
 			legendRank.best_wild_legend_rank,
-			rank.best_wild_rank
+			rank.best_wild_rank,
 		);
 		return (
 			<div>

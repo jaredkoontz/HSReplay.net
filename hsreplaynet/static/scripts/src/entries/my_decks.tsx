@@ -19,13 +19,13 @@ const render = (cardData: CardData) => {
 					includedCards: [],
 					includedSet: "ALL",
 					timeRange: "LAST_30_DAYS",
-					playerClasses: []
+					playerClasses: [],
 				}}
 			>
 				<MyDecks cardData={cardData} />
 			</Fragments>
 		</ErrorReporter>,
-		container
+		container,
 	);
 };
 

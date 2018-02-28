@@ -38,7 +38,7 @@ export default class Fragments extends React.Component<Props, State> {
 		super(props, context);
 		this.state = {
 			childProps: this.getParts(), // populate with initial url parts
-			intermediate: {}
+			intermediate: {},
 		};
 		this.listener = null;
 		this.timeout = null;
@@ -59,7 +59,7 @@ export default class Fragments extends React.Component<Props, State> {
 		const values = Object.assign(
 			{},
 			this.props.defaults,
-			this.state.childProps
+			this.state.childProps,
 		);
 		for (const key in values) {
 			const suffix = capitalize(key);
@@ -68,7 +68,7 @@ export default class Fragments extends React.Component<Props, State> {
 				? (
 						value: any,
 						debounce?: boolean,
-						callback?: () => void
+						callback?: () => void,
 					): void => {
 						this.onChange(key, value, debounce, callback);
 					}
@@ -81,20 +81,20 @@ export default class Fragments extends React.Component<Props, State> {
 				key,
 				typeof this.state.intermediate[key] !== "undefined"
 					? this.state.intermediate[key]
-					: values[key]
+					: values[key],
 			);
 			props[callbackKey] = callback;
 			if (this.isArray(key)) {
 				props["toggle" + suffix] = (
 					value: any,
-					callback?: () => void
+					callback?: () => void,
 				): void => {
 					this.onToggle(key, value, callback);
 				};
 			}
 			props["default" + suffix] = this.cast(
 				key,
-				this.props.defaults[key]
+				this.props.defaults[key],
 			);
 			props["custom" + suffix] =
 				typeof this.state.childProps[key] !== "undefined"
@@ -104,7 +104,7 @@ export default class Fragments extends React.Component<Props, State> {
 
 		props = Object.assign({}, props, {
 			canBeReset: Object.keys(this.state.childProps).length > 0,
-			reset: (key?) => this.reset(key)
+			reset: (key?) => this.reset(key),
 		});
 
 		return React.cloneElement(this.props.children as any, props);
@@ -114,11 +114,11 @@ export default class Fragments extends React.Component<Props, State> {
 		key: string,
 		value: any,
 		debounce?: boolean,
-		callback?: () => void
+		callback?: () => void,
 	): void {
 		if (!this.isValidKey(key)) {
 			console.error(
-				`Attempted to change undefined fragment key "${key}"`
+				`Attempted to change undefined fragment key "${key}"`,
 			);
 			return;
 		}
@@ -140,7 +140,7 @@ export default class Fragments extends React.Component<Props, State> {
 
 		if (debounce) {
 			const intermediate = Object.assign({}, this.state.intermediate, {
-				[key]: this.stringify(key, value)
+				[key]: this.stringify(key, value),
 			});
 			this.setState({ intermediate });
 			if (this.timeout) {
@@ -153,7 +153,7 @@ export default class Fragments extends React.Component<Props, State> {
 						key,
 						this.state.intermediate[key],
 						false,
-						callback
+						callback,
 					);
 				}
 			}, this.props.delay || 100);
@@ -165,12 +165,12 @@ export default class Fragments extends React.Component<Props, State> {
 					delete newProps[key];
 				} else {
 					newProps = Object.assign(newProps, prevState.childProps, {
-						[key]: this.stringify(key, value)
+						[key]: this.stringify(key, value),
 					});
 				}
 				return {
 					childProps: newProps,
-					intermediate: {}
+					intermediate: {},
 				};
 			}, callback);
 		}
@@ -269,7 +269,7 @@ export default class Fragments extends React.Component<Props, State> {
 	public shouldComponentUpdate(
 		nextProps: Readonly<Props>,
 		nextState: Readonly<State>,
-		nextContext: any
+		nextContext: any,
 	): boolean {
 		return (
 			!_.isEqual(nextProps, this.props) ||
@@ -280,7 +280,7 @@ export default class Fragments extends React.Component<Props, State> {
 	public componentDidUpdate(
 		prevProps: Readonly<Props>,
 		prevState: Readonly<State>,
-		prevContext: any
+		prevContext: any,
 	): void {
 		if (!window || !window.location) {
 			return;
@@ -328,7 +328,7 @@ export default class Fragments extends React.Component<Props, State> {
 			history.replaceState(
 				"",
 				document.title,
-				window.location.pathname + window.location.search
+				window.location.pathname + window.location.search,
 			);
 		}
 	}
@@ -388,7 +388,7 @@ export default class Fragments extends React.Component<Props, State> {
 		const parts = [];
 		for (const key in map) {
 			parts.push(
-				encodeURIComponent(key) + "=" + encodeURIComponent(map[key])
+				encodeURIComponent(key) + "=" + encodeURIComponent(map[key]),
 			);
 		}
 

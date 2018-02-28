@@ -11,7 +11,7 @@ export default class GameHistorySelectFilter extends React.Component<Props> {
 	public render(): React.ReactNode {
 		const options = [];
 		this.props.options.forEach(o =>
-			options.push(<option value={o[0]}>{o[1]}</option>)
+			options.push(<option value={o[0]}>{o[1]}</option>),
 		);
 		return (
 			<select

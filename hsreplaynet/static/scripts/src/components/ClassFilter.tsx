@@ -43,30 +43,30 @@ export default class ClassFilter extends React.Component<Props> {
 		"ROGUE",
 		"SHAMAN",
 		"WARLOCK",
-		"WARRIOR"
+		"WARRIOR",
 	];
 
 	private readonly presets = new Map<FilterPreset, FilterOption[]>([
 		["All", ["ALL"].concat(this.classes) as FilterOption[]],
 		[
 			"AllNeutral",
-			["ALL"].concat(this.classes).concat(["NEUTRAL"]) as FilterOption[]
+			["ALL"].concat(this.classes).concat(["NEUTRAL"]) as FilterOption[],
 		],
 		["Neutral", this.classes.concat(["NEUTRAL"]) as FilterOption[]],
-		["ClassesOnly", this.classes]
+		["ClassesOnly", this.classes],
 	]);
 
 	public componentWillReceiveProps(
 		nextProps: Readonly<Props>,
-		nextContext: any
+		nextContext: any,
 	): void {
 		if (nextProps.archetypes && nextProps.archetypes.length) {
 			const archetypes = nextProps.selectedArchetypes.map(
 				selectedArchetype => {
 					return nextProps.archetypes.find(
-						a => a.id === selectedArchetype
+						a => a.id === selectedArchetype,
 					);
-				}
+				},
 			);
 
 			const newArchetypes = archetypes
@@ -74,7 +74,7 @@ export default class ClassFilter extends React.Component<Props> {
 					return (
 						archetype &&
 						nextProps.selectedClasses.indexOf(
-							archetype.playerClass
+							archetype.playerClass,
 						) !== -1
 					);
 				})
@@ -193,7 +193,7 @@ export default class ClassFilter extends React.Component<Props> {
 	onLabelClick(
 		className: FilterOption,
 		selected: boolean,
-		modifier?: boolean
+		modifier?: boolean,
 	) {
 		if (this.props.disabled) {
 			return;

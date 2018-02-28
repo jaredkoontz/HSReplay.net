@@ -16,7 +16,7 @@ export default class DeleteReplayButton extends React.Component<Props, State> {
 		super(props, context);
 		this.state = {
 			deleted: false,
-			working: false
+			working: false,
 		};
 	}
 
@@ -47,7 +47,7 @@ export default class DeleteReplayButton extends React.Component<Props, State> {
 		fetchCSRF("/api/v1/games/" + this.props.shortid + "/", {
 			credentials: "same-origin",
 			method: "DELETE",
-			headers
+			headers,
 		})
 			.then((response: Response) => {
 				const statusCode = response.status;
@@ -59,7 +59,7 @@ export default class DeleteReplayButton extends React.Component<Props, State> {
 					throw new Error(
 						"Unexpected status code " +
 							statusCode +
-							", expected 200, 204 or 404"
+							", expected 200, 204 or 404",
 					);
 				}
 				if (this.props.done) {

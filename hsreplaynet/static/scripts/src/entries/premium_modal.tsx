@@ -22,7 +22,7 @@ UserData.create();
 const trackModalInteraction = (
 	action: string,
 	nonInteraction: boolean = false,
-	label?: string
+	label?: string,
 ) => {
 	if (typeof ga !== "function") {
 		return;
@@ -32,7 +32,7 @@ const trackModalInteraction = (
 		eventCategory: "Premium Modal",
 		eventAction: action,
 		eventLabel: label,
-		nonInteraction
+		nonInteraction,
 	});
 };
 
@@ -51,7 +51,7 @@ const loadCheckout = (location?: string) => {
 	window.hsreplaynet_load_hscheckout(
 		document.getElementById("modal-checkout"),
 		document.getElementById("premium-plan-data"),
-		location
+		location,
 	);
 	loadedCheckout = true;
 };
@@ -142,7 +142,7 @@ const getDataAttributes = (element: Element) => {
 		if (optionName) {
 			// camel case
 			const camelName = optionName.replace(/-(.)/g, (match, letter) =>
-				letter.toUpperCase()
+				letter.toUpperCase(),
 			);
 			// typecast to boolean if possible
 			let value: any = attribute.value;
@@ -167,25 +167,25 @@ const getDataAttributes = (element: Element) => {
 window.hsreplaynet_load_hscheckout = (
 	targetElement: HTMLDivElement,
 	plansElements: HTMLScriptElement,
-	location?: string
+	location?: string,
 ) => {
 	const apiKey = targetElement.getAttribute("data-api-key");
 	const stripeCheckoutImage = targetElement.getAttribute(
-		"data-stripe-checkout-image"
+		"data-stripe-checkout-image",
 	);
 	const stripeCoupon = targetElement.getAttribute("data-stripe-coupon");
 	const stripeCheckoutSubmitUrl = targetElement.getAttribute(
-		"data-stripe-checkout-submit-url"
+		"data-stripe-checkout-submit-url",
 	);
 	const stripeElementsSubmitUrl = targetElement.getAttribute(
-		"data-stripe-elements-submit-url"
+		"data-stripe-elements-submit-url",
 	);
 	const paypalSubmitUrl = targetElement.getAttribute(
-		"data-paypal-submit-url"
+		"data-paypal-submit-url",
 	);
 	const csrfToken = targetElement.getAttribute("data-csrf-token");
 	const defaultSource = targetElement.getAttribute(
-		"data-stripe-default-source"
+		"data-stripe-default-source",
 	);
 	const planData = JSON.parse(plansElements.textContent);
 	const supportStripeElements =
@@ -209,11 +209,11 @@ window.hsreplaynet_load_hscheckout = (
 				supportStripeElements={supportStripeElements}
 				onSubscribe={(value: number) => {
 					SubscriptionEvents.onSubscribe(value, location, {
-						transport: "beacon"
+						transport: "beacon",
 					});
 				}}
 			/>,
-			targetElement
+			targetElement,
 		);
 	};
 	document.head.appendChild(stripe);

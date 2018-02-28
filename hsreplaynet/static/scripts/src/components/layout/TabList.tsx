@@ -98,7 +98,7 @@ export default class TabList extends React.Component<Props> {
 
 	public componentWillReceiveProps(
 		nextProps: Readonly<Props>,
-		nextContext: any
+		nextContext: any,
 	): void {
 		TabList.ensureVisibleTab(nextProps);
 	}
@@ -106,13 +106,13 @@ export default class TabList extends React.Component<Props> {
 	private static getValidChildren(
 		children,
 		excludeDisabled?: boolean,
-		warn?: boolean
+		warn?: boolean,
 	): React.ReactChild[] {
 		return React.Children.toArray(children).filter((child: any) => {
 			if (child.type !== Tab) {
 				if (warn) {
 					console.warn(
-						"TabList requires <Tab> components as children"
+						"TabList requires <Tab> components as children",
 					);
 				}
 				return false;
@@ -139,7 +139,7 @@ export default class TabList extends React.Component<Props> {
 		const validChildren = this.getValidChildren(
 			props.children,
 			true,
-			true
+			true,
 		) as any[];
 		if (!validChildren.length) {
 			// no valid tabs, nothing we can do

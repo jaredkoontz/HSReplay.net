@@ -3,7 +3,7 @@ import React from "react";
 export const enum Limit {
 	SINGLE,
 	DOUBLE,
-	UNLIMITED
+	UNLIMITED,
 }
 
 interface Props<T> {
@@ -43,7 +43,7 @@ export default class ObjectSearch<T> extends React.Component<Props<T>, State> {
 			searchCount: this.defaultCount,
 			searchText: "",
 			selectedIndex: 0,
-			showSearchResults: false
+			showSearchResults: false,
 		};
 	}
 
@@ -70,7 +70,7 @@ export default class ObjectSearch<T> extends React.Component<Props<T>, State> {
 						}
 					>
 						{this.props.getObjectElement(object)}
-					</li>
+					</li>,
 				);
 			});
 
@@ -80,7 +80,7 @@ export default class ObjectSearch<T> extends React.Component<Props<T>, State> {
 					<div className="search-message">
 						{this.props.noDataText}
 					</div>
-				</li>
+				</li>,
 			);
 		}
 
@@ -91,7 +91,7 @@ export default class ObjectSearch<T> extends React.Component<Props<T>, State> {
 			) {
 				if (matches.length > this.state.searchCount) {
 					this.setState({
-						searchCount: this.state.searchCount + this.defaultCount
+						searchCount: this.state.searchCount + this.defaultCount,
 					});
 				}
 			}
@@ -153,7 +153,7 @@ export default class ObjectSearch<T> extends React.Component<Props<T>, State> {
 						onChange={e =>
 							this.setState({
 								searchText: e.target["value"],
-								selectedIndex: 0
+								selectedIndex: 0,
 							})
 						}
 						onKeyDown={e => this.onKeyDown(e, objects.length)}
@@ -171,7 +171,7 @@ export default class ObjectSearch<T> extends React.Component<Props<T>, State> {
 	public componentDidUpdate(
 		prevProps: Readonly<Props<T>>,
 		prevState: Readonly<State>,
-		prevContext: any
+		prevContext: any,
 	): void {
 		if (prevState.searchText !== this.state.searchText) {
 			if (this.search) {
@@ -196,13 +196,13 @@ export default class ObjectSearch<T> extends React.Component<Props<T>, State> {
 			searchCount: this.defaultCount,
 			showSearchResults: false,
 			searchText: "",
-			selectedIndex: 0
+			selectedIndex: 0,
 		});
 	}
 
 	onKeyDown(
 		event: React.KeyboardEvent<HTMLInputElement>,
-		numObjects: number
+		numObjects: number,
 	): void {
 		let height = 35;
 		if (
@@ -224,8 +224,8 @@ export default class ObjectSearch<T> extends React.Component<Props<T>, State> {
 					showSearchResults: true,
 					selectedIndex: Math.min(
 						numObjects - 1,
-						this.state.selectedIndex + 1
-					)
+						this.state.selectedIndex + 1,
+					),
 				});
 				if (this.search["scrollTop"] === 0) {
 					this.search["scrollTop"] += 5;
@@ -238,7 +238,7 @@ export default class ObjectSearch<T> extends React.Component<Props<T>, State> {
 				}
 				this.setState({
 					showSearchResults: true,
-					selectedIndex: Math.max(0, this.state.selectedIndex - 1)
+					selectedIndex: Math.max(0, this.state.selectedIndex - 1),
 				});
 				this.search["scrollTop"] -= height;
 				break;
@@ -247,7 +247,7 @@ export default class ObjectSearch<T> extends React.Component<Props<T>, State> {
 					return;
 				}
 				const filteredObjects = this.props.getFilteredObjects(
-					this.state.searchText
+					this.state.searchText,
 				);
 				if (!filteredObjects.length) {
 					return;
@@ -280,7 +280,7 @@ export default class ObjectSearch<T> extends React.Component<Props<T>, State> {
 			} else {
 				objects[key] = {
 					object,
-					count: 1
+					count: 1,
 				};
 			}
 		});
@@ -297,7 +297,7 @@ export default class ObjectSearch<T> extends React.Component<Props<T>, State> {
 				}
 				while (updatedCount > newValue) {
 					const index = this.props.selectedObjects.lastIndexOf(
-						object
+						object,
 					);
 					newSelectedObjects.splice(index, 1);
 					updatedCount--;

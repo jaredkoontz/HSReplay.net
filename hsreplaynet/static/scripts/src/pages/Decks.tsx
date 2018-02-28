@@ -4,7 +4,7 @@ import {
 	getDustCost,
 	isCollectibleCard,
 	isWildSet,
-	sortCards
+	sortCards,
 } from "../helpers";
 import React from "react";
 import CardData from "../CardData";
@@ -19,7 +19,7 @@ import * as _ from "lodash";
 import {
 	DeckObj,
 	FragmentChildProps,
-	HearthstoneCollection
+	HearthstoneCollection,
 } from "../interfaces";
 import InfoboxLastUpdated from "../components/InfoboxLastUpdated";
 import UserData from "../UserData";
@@ -86,7 +86,7 @@ export default class Decks extends React.Component<Props, State> {
 			cards: null,
 			filteredDecks: [],
 			loading: true,
-			showFilters: false
+			showFilters: false,
 		};
 		this.updateFilteredDecks();
 	}
@@ -94,7 +94,7 @@ export default class Decks extends React.Component<Props, State> {
 	public componentDidUpdate(
 		prevProps: Readonly<Props>,
 		prevState: Readonly<State>,
-		prevContext: any
+		prevContext: any,
 	): void {
 		if (
 			this.props.excludedCards !== prevProps.excludedCards ||
@@ -119,7 +119,7 @@ export default class Decks extends React.Component<Props, State> {
 
 	public componentWillReceiveProps(
 		nextProps: Readonly<Props>,
-		nextContext: any
+		nextContext: any,
 	): void {
 		if (!this.state.cards && nextProps.cardData) {
 			const cards = [];
@@ -158,7 +158,7 @@ export default class Decks extends React.Component<Props, State> {
 				} else {
 					cards.push({
 						card: this.props.cardData.fromDbf(dbfId),
-						count: 1
+						count: 1,
 					});
 				}
 			});
@@ -185,7 +185,7 @@ export default class Decks extends React.Component<Props, State> {
 				return (
 					excludedCardObj &&
 					deckList.some(
-						cardObj => cardObj.card.id === excludedCardObj.card.id
+						cardObj => cardObj.card.id === excludedCardObj.card.id,
 					)
 				);
 			});
@@ -208,7 +208,7 @@ export default class Decks extends React.Component<Props, State> {
 				const newParams = this.getParams();
 				if (
 					Object.keys(params).some(
-						key => params[key] !== newParams[key]
+						key => params[key] !== newParams[key],
 					)
 				) {
 					return Promise.reject("Params changed");
@@ -221,7 +221,7 @@ export default class Decks extends React.Component<Props, State> {
 					return DataManager.get("/live/streaming-now/", null).then(
 						streams => {
 							return Promise.resolve({ data, streams });
-						}
+						},
 					);
 				}
 				return Promise.resolve({ data, streams: null });
@@ -238,18 +238,18 @@ export default class Decks extends React.Component<Props, State> {
 						if (
 							deck.archetype_id &&
 							archetypes.every(
-								a => a.id !== "" + deck.archetype_id
+								a => a.id !== "" + deck.archetype_id,
 							)
 						) {
 							archetypes.push({
 								id: "" + deck.archetype_id,
-								playerClass: key
+								playerClass: key,
 							});
 						}
 						if (
 							this.props.archetypes.length &&
 							this.props.archetypes.indexOf(
-								"" + deck.archetype_id
+								"" + deck.archetype_id,
 							) === -1
 						) {
 							return;
@@ -257,7 +257,7 @@ export default class Decks extends React.Component<Props, State> {
 						// hotfix for unload issue 2017-09-24
 						const fixedDeckList = (deck.deck_list || "").replace(
 							/\\,/g,
-							","
+							",",
 						);
 						const rawCards = JSON.parse(fixedDeckList);
 						const cards = cardList(rawCards);
@@ -273,7 +273,7 @@ export default class Decks extends React.Component<Props, State> {
 								cardObj =>
 									cardObj.card.set !==
 										this.props.includedSet ||
-									cardObj.card.dbfId === 45988 // "Marin the Fox" was released outside the expansion
+									cardObj.card.dbfId === 45988, // "Marin the Fox" was released outside the expansion
 							)
 						) {
 							return;
@@ -353,7 +353,7 @@ export default class Decks extends React.Component<Props, State> {
 									x + deck["total_games_vs_" + playerClass]
 								);
 							},
-							0
+							0,
 						);
 						winrate =
 							opponents
@@ -363,8 +363,8 @@ export default class Decks extends React.Component<Props, State> {
 											deck[
 												"total_games_vs_" + playerClass
 											],
-											deck["win_rate_vs_" + playerClass]
-										]
+											deck["win_rate_vs_" + playerClass],
+										],
 								)
 								.reduce((a: number, b) => a + b[0] * b[1], 0) /
 							numGames;
@@ -377,13 +377,13 @@ export default class Decks extends React.Component<Props, State> {
 						numGames,
 						hasGlobalData: deck.hasGlobalData,
 						playerClass: deck.player_class,
-						winrate
+						winrate,
 					});
 				});
 				this.setState({
 					availableArchetypes: data.archetypes,
 					filteredDecks: decks,
-					loading: false
+					loading: false,
 				});
 			})
 			.catch(reason => {
@@ -424,7 +424,7 @@ export default class Decks extends React.Component<Props, State> {
 					defaults={{
 						sortBy: "popularity",
 						sortDirection: "descending",
-						page: 1
+						page: 1,
 					}}
 					ref={ref => this.deckListsFragmentsRef}
 				>
@@ -460,7 +460,7 @@ export default class Decks extends React.Component<Props, State> {
 				return undefined;
 			}
 			let cards = this.props[key].map(dbfId =>
-				this.props.cardData.fromDbf(dbfId)
+				this.props.cardData.fromDbf(dbfId),
 			);
 			cards = cards.filter(card => !!card);
 			return cards;
@@ -515,7 +515,7 @@ export default class Decks extends React.Component<Props, State> {
 										</p>
 									),
 									touch:
-										"Only show decks for specific classes."
+										"Only show decks for specific classes.",
 								}}
 							/>
 						</h2>
@@ -584,7 +584,7 @@ export default class Decks extends React.Component<Props, State> {
 							availableCards={filteredCards}
 							onCardsChanged={cards =>
 								this.props.setIncludedCards(
-									cards.map(card => card.dbfId)
+									cards.map(card => card.dbfId),
 								)
 							}
 							selectedCards={selectedCards("includedCards")}
@@ -594,7 +594,7 @@ export default class Decks extends React.Component<Props, State> {
 									return;
 								}
 								const input = e.clipboardData.getData(
-									"text/plain"
+									"text/plain",
 								);
 								const lines = input
 									.trim()
@@ -612,13 +612,13 @@ export default class Decks extends React.Component<Props, State> {
 									const [dbfId, count] = tuple;
 									for (let i = 0; i < count; i++) {
 										cards.push(
-											this.props.cardData.fromDbf(dbfId)
+											this.props.cardData.fromDbf(dbfId),
 										);
 									}
 								}
 								cards.sort(sortCards);
 								this.props.setIncludedCards(
-									cards.map(card => card.dbfId)
+									cards.map(card => card.dbfId),
 								);
 							}}
 						/>
@@ -634,7 +634,7 @@ export default class Decks extends React.Component<Props, State> {
 							availableCards={filteredCards}
 							onCardsChanged={cards =>
 								this.props.setExcludedCards(
-									cards.map(card => card.dbfId)
+									cards.map(card => card.dbfId),
 								)
 							}
 							selectedCards={selectedCards("excludedCards")}
@@ -661,7 +661,7 @@ export default class Decks extends React.Component<Props, State> {
 									this.props.setMaxDustCost(
 										e.target.value !== ""
 											? +e.target.value
-											: -1
+											: -1,
 									);
 								}}
 								className="form-control"
@@ -786,7 +786,7 @@ export default class Decks extends React.Component<Props, State> {
 								}
 								onClick={value =>
 									this.props.setWithStream(
-										!this.props.withStream
+										!this.props.withStream,
 									)
 								}
 							>
@@ -835,7 +835,7 @@ export default class Decks extends React.Component<Props, State> {
 			Region: UserData.hasFeature("deck-region-filter")
 				? this.props.region
 				: "ALL",
-			TimeRange: this.props.timeRange
+			TimeRange: this.props.timeRange,
 		};
 	}
 }

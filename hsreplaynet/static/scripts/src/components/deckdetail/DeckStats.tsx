@@ -19,13 +19,13 @@ export default class DeckStats extends React.Component<Props, State> {
 	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
-			expandWinrate: false
+			expandWinrate: false,
 		};
 	}
 
 	public render(): React.ReactNode {
 		const deck = this.props.data.series.data[this.props.playerClass].find(
-			x => x.deck_id === this.props.deckId
+			x => x.deck_id === this.props.deckId,
 		);
 		if (!deck) {
 			return null;

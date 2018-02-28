@@ -5,7 +5,7 @@ export default class MetricsReporter {
 
 	constructor(
 		public backend: MetricsBackend,
-		prefix?: string | ((series: string) => string)
+		prefix?: string | ((series: string) => string),
 	) {
 		let prefixer = null;
 		if (!prefix) {

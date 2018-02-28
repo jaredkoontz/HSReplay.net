@@ -10,7 +10,7 @@ import {
 	getFragments,
 	getHeroCardId,
 	toPrettyNumber,
-	toTitleCase
+	toTitleCase,
 } from "../helpers";
 import UserData from "../UserData";
 import Tooltip from "./Tooltip";
@@ -51,7 +51,7 @@ class DeckTile extends React.Component<Props> {
 
 		if (this.props.compareWith) {
 			const removed = this.props.compareWith.filter(c1 =>
-				cards.every(c2 => c2.card.id !== c1.card.id)
+				cards.every(c2 => c2.card.id !== c1.card.id),
 			);
 			removed.forEach(c => cards.push({ card: c.card, count: 0 }));
 		}
@@ -69,13 +69,13 @@ class DeckTile extends React.Component<Props> {
 				color: "#f4d442",
 				fontSize: "1em",
 				right: 0,
-				top: 0
+				top: 0,
 			};
 
 			let itemClassName = null;
 			if (this.props.compareWith) {
 				const comparisonCard = this.props.compareWith.find(
-					c => c.card.id === card.id
+					c => c.card.id === card.id,
 				);
 				if (obj.count === 0) {
 					itemClassName = "removed";
@@ -111,7 +111,7 @@ class DeckTile extends React.Component<Props> {
 						markStyle={markStyle}
 						tabIndex={-1}
 					/>
-				</li>
+				</li>,
 			);
 		});
 
@@ -119,7 +119,7 @@ class DeckTile extends React.Component<Props> {
 			backgroundImage:
 				"url(/static/images/64x/class-icons/" +
 				this.props.playerClass.toLowerCase() +
-				".png)"
+				".png)",
 		};
 
 		const dustCost =
@@ -128,7 +128,7 @@ class DeckTile extends React.Component<Props> {
 				: null;
 
 		const dustCostStyle = {
-			backgroundImage: "url(/static/images/dust.png)"
+			backgroundImage: "url(/static/images/dust.png)",
 		};
 
 		let deckName = null;
@@ -173,7 +173,7 @@ class DeckTile extends React.Component<Props> {
 			headerData = [
 				<span key="last-played" className="last-played">
 					<SemanticAge date={this.props.lastPlayed} />
-				</span>
+				</span>,
 			];
 		} else if (dustCost !== null) {
 			headerData = [
@@ -183,7 +183,7 @@ class DeckTile extends React.Component<Props> {
 					style={dustCostStyle}
 				>
 					{this.props.dustCost}
-				</span>
+				</span>,
 			];
 			if (this.props.streams && this.props.streams.length > 0) {
 				const streamCount = this.props.streams.length;
@@ -196,8 +196,8 @@ class DeckTile extends React.Component<Props> {
 							TwitchStreamPromotionEvents.onClickLiveNow(
 								this.props.deckId,
 								{
-									transport: "beacon"
-								}
+									transport: "beacon",
+								},
 							)
 						}
 					>
@@ -207,7 +207,7 @@ class DeckTile extends React.Component<Props> {
 						&nbsp;{streamCount > 1
 							? `${streamCount} streams`
 							: "Live now"}
-					</a>
+					</a>,
 				);
 			}
 		}
@@ -218,7 +218,7 @@ class DeckTile extends React.Component<Props> {
 					backgroundImage:
 						"url(https://art.hearthstonejson.com/v1/256x/" +
 						getHeroCardId(this.props.playerClass, true) +
-						".jpg)"
+						".jpg)",
 				}}
 				key={this.props.deckId}
 			>
@@ -249,7 +249,7 @@ class DeckTile extends React.Component<Props> {
 									moment
 										.duration(
 											this.props.duration,
-											"seconds"
+											"seconds",
 										)
 										.asMinutes()
 										.toFixed(1) +
@@ -276,7 +276,7 @@ export default class InjectedDeckTile extends React.Component<DeckTileProps> {
 		return (
 			<DataInjector
 				query={[
-					{ key: "streams", params: {}, url: "/live/streaming-now/" }
+					{ key: "streams", params: {}, url: "/live/streaming-now/" },
 				]}
 				extract={{
 					streams: data => {
@@ -291,10 +291,10 @@ export default class InjectedDeckTile extends React.Component<DeckTileProps> {
 								stream =>
 									Array.isArray(stream.deck) &&
 									stream.deck.length &&
-									compareDecks(stream.deck.map(Number), deck)
-							)
+									compareDecks(stream.deck.map(Number), deck),
+							),
 						};
-					}
+					},
 				}}
 				fetchCondition={UserData.hasFeature("twitch-stream-promotion")}
 				key={props.deckId}

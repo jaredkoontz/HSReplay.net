@@ -6,7 +6,7 @@ const enum Step {
 	WAITING,
 	EXPAND,
 	SORT,
-	TRIM
+	TRIM,
 }
 
 interface Indices {
@@ -40,13 +40,13 @@ export default class AnimatedList extends React.Component<Props, State> {
 			indices: this.generateIndices(items),
 			items,
 			nextItems: [],
-			step: Step.WAITING
+			step: Step.WAITING,
 		};
 	}
 
 	public componentWillReceiveProps(
 		nextProps: Readonly<Props>,
-		nextContext: any
+		nextContext: any,
 	): void {
 		const currentKeys = this.props.items.map(x => x.key);
 		const nextKeys = nextProps.items.map(x => x.key);
@@ -69,7 +69,7 @@ export default class AnimatedList extends React.Component<Props, State> {
 	public componentDidUpdate(
 		prevProps: Readonly<Props>,
 		prevState: Readonly<State>,
-		prevContext: any
+		prevContext: any,
 	): void {
 		switch (this.state.step) {
 			case Step.EXPAND:
@@ -125,7 +125,7 @@ export default class AnimatedList extends React.Component<Props, State> {
 			if (this.state.step === Step.TRIM) {
 				this.setState({
 					items: this.state.nextItems.slice(),
-					step: Step.WAITING
+					step: Step.WAITING,
 				});
 			}
 		}, 1000);
@@ -135,7 +135,7 @@ export default class AnimatedList extends React.Component<Props, State> {
 		const { rowHeight } = this.props;
 		const { items } = this.state;
 		const style = {
-			height: this.props.items.length * (rowHeight + ROW_PADDING) + "px"
+			height: this.props.items.length * (rowHeight + ROW_PADDING) + "px",
 		};
 
 		const listItems = items.map(({ key, item }) => (

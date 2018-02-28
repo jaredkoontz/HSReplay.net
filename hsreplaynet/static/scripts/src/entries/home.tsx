@@ -16,7 +16,7 @@ if (liveData) {
 	const render = (cardData: CardData) => {
 		ReactDOM.render(
 			<LiveData cardData={cardData} numCards={12} />,
-			document.getElementById("live-data")
+			document.getElementById("live-data"),
 		);
 	};
 

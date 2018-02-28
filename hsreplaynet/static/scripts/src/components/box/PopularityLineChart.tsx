@@ -16,8 +16,8 @@ export default class PopularityLineChart extends React.Component<Props> {
 	public render(): React.ReactNode {
 		const series = toTimeSeries(
 			this.props.data.series.find(
-				x => x.name === "popularity_over_time"
-			) || this.props.data.series[0]
+				x => x.name === "popularity_over_time",
+			) || this.props.data.series[0],
 		);
 
 		const metadata = getChartMetaData(series.data, undefined, true, 1);
@@ -27,7 +27,7 @@ export default class PopularityLineChart extends React.Component<Props> {
 			<div
 				style={{
 					height: `${this.props.height}px`,
-					width: `${this.props.width}px`
+					width: `${this.props.width}px`,
 				}}
 			>
 				<VictoryChart
@@ -41,7 +41,7 @@ export default class PopularityLineChart extends React.Component<Props> {
 						tickFormat={tick => ""}
 						style={{
 							grid: { stroke: "transparent" },
-							axis: { visibility: "hidden" }
+							axis: { visibility: "hidden" },
 						}}
 					/>
 					<VictoryAxis
@@ -51,7 +51,7 @@ export default class PopularityLineChart extends React.Component<Props> {
 						tickFormat={tick => ""}
 						style={{
 							axis: { visibility: "hidden" },
-							grid: { stroke: "transparent" }
+							grid: { stroke: "transparent" },
 						}}
 					/>
 					<defs>
@@ -81,8 +81,8 @@ export default class PopularityLineChart extends React.Component<Props> {
 							data: {
 								fill: `url(#${this.filterId})`,
 								stroke: "black",
-								strokeWidth: 1
-							}
+								strokeWidth: 1,
+							},
 						}}
 					/>
 				</VictoryChart>

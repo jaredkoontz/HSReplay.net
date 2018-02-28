@@ -45,7 +45,7 @@ const endpoint = INFLUX_DATABASE_JOUST;
 if (endpoint) {
 	metrics = new MetricsReporter(
 		new BatchingMiddleware(new InfluxMetricsBackend(endpoint)),
-		(series: string): string => "hsreplaynet_" + series
+		(series: string): string => "hsreplaynet_" + series,
 	);
 }
 const shared = {};
@@ -72,12 +72,12 @@ function renderShareDialog() {
 				metrics.writePoint(
 					"shares",
 					{ count: 1, link_to_turn: linkToTurn },
-					{ network }
+					{ network },
 				);
 				shared[network] = true;
 			}}
 		/>,
-		document.getElementById("share-game-dialog")
+		document.getElementById("share-game-dialog"),
 	);
 }
 
@@ -91,11 +91,11 @@ embedder.prepare(container);
 const visibilityTarget = document.getElementById("replay-visibility");
 if (visibilityTarget) {
 	const status = +visibilityTarget.getAttribute(
-		"data-selected"
+		"data-selected",
 	) as Visibility;
 	ReactDOM.render(
 		<VisibilityDropdown initial={status} shortid={shortid} />,
-		visibilityTarget
+		visibilityTarget,
 	);
 }
 
@@ -108,14 +108,14 @@ if (deleteTarget) {
 			shortid={shortid}
 			done={() => (window.location.href = redirect)}
 		/>,
-		deleteTarget
+		deleteTarget,
 	);
 }
 
 // Player info
 const renderPlayerInfo = (
 	playerInfo: HTMLElement,
-	playerExpandDirection: "up" | "down"
+	playerExpandDirection: "up" | "down",
 ) => {
 	if (!playerInfo) {
 		return;
@@ -134,7 +134,7 @@ const renderPlayerInfo = (
 				cardData={cards}
 				playerExpandDirection={playerExpandDirection}
 			/>,
-			playerInfo
+			playerInfo,
 		);
 	};
 	renderPlayerInfoComponent();
@@ -148,7 +148,7 @@ UserData.create();
 renderPlayerInfo(document.getElementById("infobox-players-container"), "up");
 renderPlayerInfo(
 	document.getElementById("infobox-players-container-small"),
-	"down"
+	"down",
 );
 
 // fullscreen button for mobile
@@ -182,15 +182,15 @@ ReactDOM.render(
 					[
 						"Something went wrong when trying to initialize our Replay applet (Joust).",
 						"Please ensure you have no plugins blocking it, such as Adblockers or NoScript.",
-						"Otherwise try opening this replay on another device."
-					].join(" ")
+						"Otherwise try opening this replay on another device.",
+					].join(" "),
 				);
 			}}
 		>
 			Something went wrong…
 		</button>
 	),
-	toggleButton
+	toggleButton,
 );
 
 const style =
@@ -232,7 +232,7 @@ if (banner) {
 			hitType: "event",
 			eventCategory: "Banner",
 			eventAction: "click",
-			eventLabel: "Replay Sidebar Banner"
+			eventLabel: "Replay Sidebar Banner",
 		});
 	});
 }

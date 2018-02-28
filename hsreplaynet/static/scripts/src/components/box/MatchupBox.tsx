@@ -42,7 +42,7 @@ export default class MatchupBox extends React.Component<Props> {
 							<td>{this.props.games}</td>
 						</tr>
 					</table>
-				</div>
+				</div>,
 			];
 		} else if (
 			this.props.status === LoadingStatus.NO_DATA ||
@@ -55,7 +55,7 @@ export default class MatchupBox extends React.Component<Props> {
 		if (this.props.archetypeId && this.props.archetypeName) {
 			href = getArchetypeUrl(
 				this.props.archetypeId,
-				this.props.archetypeName
+				this.props.archetypeName,
 			);
 		}
 

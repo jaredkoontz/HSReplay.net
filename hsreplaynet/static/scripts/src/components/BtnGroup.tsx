@@ -31,7 +31,7 @@ export default class BtnGroup extends React.Component<Props> {
 	public componentDidUpdate(
 		prevProps: Readonly<Props>,
 		prevState: Readonly<{}>,
-		prevContext: any
+		prevContext: any,
 	): void {
 		if (prevProps.value !== this.props.value) {
 			const prevBtn = this.btnRefs[prevProps.value];
@@ -77,7 +77,7 @@ export default class BtnGroup extends React.Component<Props> {
 									if (keyCode === 38 || keyCode === 37) {
 										e.preventDefault();
 										this.props.onChange(
-											availableValues[Math.max(i - 1, 0)]
+											availableValues[Math.max(i - 1, 0)],
 										);
 										return;
 									}
@@ -87,9 +87,9 @@ export default class BtnGroup extends React.Component<Props> {
 											availableValues[
 												Math.min(
 													i + 1,
-													availableValues.length - 1
+													availableValues.length - 1,
 												)
-											]
+											],
 										);
 										return;
 									}
@@ -119,7 +119,7 @@ export default class BtnGroup extends React.Component<Props> {
 							position: "absolute",
 							clip: "rect(0,0,0,0)",
 							height: "0px",
-							pointerEvents: "none"
+							pointerEvents: "none",
 						}}
 					/>
 				</label>

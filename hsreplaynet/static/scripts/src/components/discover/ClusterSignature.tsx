@@ -19,7 +19,7 @@ export default class ClusterSignature extends React.Component<Props, State> {
 		super(props, context);
 		this.state = {
 			sortBy: "prevalence",
-			sortDirection: "descending"
+			sortDirection: "descending",
 		};
 	}
 
@@ -37,7 +37,7 @@ export default class ClusterSignature extends React.Component<Props, State> {
 			cards.push({ card: cardData.fromDbf(dbfId), count: 1 });
 			prevalences.push({
 				dbf_id: dbfId,
-				prevalence: toDynamicFixed(prevalence, 3)
+				prevalence: toDynamicFixed(prevalence, 3),
 			});
 		});
 		return (

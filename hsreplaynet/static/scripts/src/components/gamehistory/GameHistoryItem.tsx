@@ -39,7 +39,7 @@ export default class GameHistoryItem extends React.Component<Props> {
 						/>
 						{[
 							this.props.friendlyPlayer,
-							this.props.opposingPlayer
+							this.props.opposingPlayer,
 						].map((player: GlobalGamePlayer, i: number) => {
 							if (!player) {
 								return null;
@@ -65,7 +65,7 @@ export default class GameHistoryItem extends React.Component<Props> {
 							<dd>
 								{getDuration(
 									this.props.startTime,
-									this.props.endTime
+									this.props.endTime,
 								)}
 							</dd>
 							<dt>Turns</dt>

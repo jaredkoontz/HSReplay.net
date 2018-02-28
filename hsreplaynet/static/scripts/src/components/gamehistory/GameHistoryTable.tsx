@@ -36,11 +36,11 @@ export default class GameHistoryTable extends React.Component<Props> {
 					turns={game.global_game.num_turns}
 					won={GameHistoryList.hasWon(
 						game.friendly_player,
-						game.opposing_player
+						game.opposing_player,
 					)}
 					friendlyPlayer={game.friendly_player}
 					opposingPlayer={game.opposing_player}
-				/>
+				/>,
 			);
 		});
 		return (

@@ -6,7 +6,7 @@ import {
 	VictoryContainer,
 	VictoryLabel,
 	VictoryStack,
-	VictoryTooltip
+	VictoryTooltip,
 } from "victory";
 import { RenderData } from "../../interfaces";
 import { getHeroColor } from "../../helpers";
@@ -36,7 +36,7 @@ export default class ClassStackedBarChart extends React.Component<Props> {
 					padding={1}
 					flyoutStyle={{
 						stroke: color,
-						fill: "rgba(255, 255, 255, 0.85)"
+						fill: "rgba(255, 255, 255, 0.85)",
 					}}
 				/>
 			);
@@ -48,15 +48,15 @@ export default class ClassStackedBarChart extends React.Component<Props> {
 					style={{
 						data: {
 							fill: color,
-							width: Math.min(40, 200 / series.data.length)
+							width: Math.min(40, 200 / series.data.length),
 						},
-						labels: { fontSize: 6, padding: 5 }
+						labels: { fontSize: 6, padding: 5 },
 					}}
 					labelComponent={tooltip}
 					labels={x =>
 						x.game_date + "\n" + series.name + ": " + x.num_games
 					}
-				/>
+				/>,
 			);
 		});
 
@@ -86,7 +86,7 @@ export default class ClassStackedBarChart extends React.Component<Props> {
 						dependentAxis
 						style={{
 							tickLabels: { fontSize: 6 },
-							grid: { stroke: "gray" }
+							grid: { stroke: "gray" },
 						}}
 					/>
 					<VictoryStack>{bars}</VictoryStack>

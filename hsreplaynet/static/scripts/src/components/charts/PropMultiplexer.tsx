@@ -8,7 +8,7 @@ export default class PropMultiplexer extends React.Component {
 			"children",
 			"style",
 			"flyoutStyle",
-			"pointerLength"
+			"pointerLength",
 		]);
 		const newChildren = React.Children.map(this.props.children, child => {
 			return React.cloneElement(child as any, childProps);

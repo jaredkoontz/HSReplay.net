@@ -28,7 +28,7 @@ export default class CopyDeckButton extends React.Component<Props, State> {
 	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
-			copied: false
+			copied: false,
 		};
 	}
 
@@ -105,7 +105,7 @@ export default class CopyDeckButton extends React.Component<Props, State> {
 		let cards = this.props.cards;
 		if (cards.length > 0 && typeof cards[0] === "string") {
 			cards = (cards as string[]).map(
-				cardId => this.props.cardData.fromCardId(cardId).dbfId
+				cardId => this.props.cardData.fromCardId(cardId).dbfId,
 			);
 		}
 		for (const card of cards) {
@@ -122,7 +122,7 @@ export default class CopyDeckButton extends React.Component<Props, State> {
 		const deckstring = encodeDeckstring({
 			cards: tuples,
 			heroes: this.props.heroes,
-			format
+			format,
 		});
 
 		if (onlyDeckstring) {
@@ -137,13 +137,13 @@ export default class CopyDeckButton extends React.Component<Props, State> {
 				return [this.props.cardData.fromDbf(dbfId), count];
 			}) as [HearthstoneJSONCardData, number][];
 			dataCountTuples.sort(
-				([a, x], [b, y]) => (a["name"] > b["name"] ? 1 : -1)
+				([a, x], [b, y]) => (a["name"] > b["name"] ? 1 : -1),
 			);
 			dataCountTuples.sort(
-				([a, x], [b, y]) => (a["cost"] > b["cost"] ? 1 : -1)
+				([a, x], [b, y]) => (a["cost"] > b["cost"] ? 1 : -1),
 			);
 			prettyDeckList = dataCountTuples.map(
-				([card, count]) => `${count}x (${card.cost}) ${card.name}`
+				([card, count]) => `${count}x (${card.cost}) ${card.name}`,
 			);
 		}
 
@@ -163,7 +163,7 @@ export default class CopyDeckButton extends React.Component<Props, State> {
 			"# To use this deck, copy it to your clipboard and create a new deck in Hearthstone",
 			...(this.props.sourceUrl
 				? [`# Find the deck on ${this.props.sourceUrl}`]
-				: [])
+				: []),
 		].join("\n");
 	}
 }

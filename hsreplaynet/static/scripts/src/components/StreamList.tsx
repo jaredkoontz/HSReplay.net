@@ -24,7 +24,7 @@ class StreamList extends React.Component<Props, State> {
 	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
-			metadata: null
+			metadata: null,
 		};
 	}
 
@@ -33,7 +33,7 @@ class StreamList extends React.Component<Props, State> {
 			StreamList.fetchMetadata(this.props.streams),
 			this.props.verifyExtension
 				? StreamList.fetchEnabled()
-				: Promise.resolve(null)
+				: Promise.resolve(null),
 		]).then(([streamsForDeck, streamsWithExtension]): void => {
 			let eligibleStreams;
 			if (streamsWithExtension !== null) {
@@ -41,8 +41,9 @@ class StreamList extends React.Component<Props, State> {
 					streamForDeck =>
 						!!streamsWithExtension.find(
 							(streamWithExtension): boolean =>
-								streamWithExtension.id === streamForDeck.user_id
-						)
+								streamWithExtension.id ===
+								streamForDeck.user_id,
+						),
 				);
 			} else {
 				eligibleStreams = streamsForDeck;
@@ -53,7 +54,7 @@ class StreamList extends React.Component<Props, State> {
 
 	static async fetchMetadata(streams: ApiStream[]): Promise<TwitchStream[]> {
 		const user_params = streams.map(
-			stream => `user_login=${stream.twitch.name}`
+			stream => `user_login=${stream.twitch.name}`,
 		);
 		let resultSet = [];
 		let cursor = null;
@@ -66,9 +67,9 @@ class StreamList extends React.Component<Props, State> {
 				`https://api.twitch.tv/helix/streams?${params.join("&")}`,
 				{
 					headers: {
-						"Client-ID": "k0lqdqxso1o3knvydfheacq3jbqidg"
-					}
-				}
+						"Client-ID": "k0lqdqxso1o3knvydfheacq3jbqidg",
+					},
+				},
 			);
 			const { pagination, data } = await response.json();
 			cursor = pagination ? pagination.cursor : null;
@@ -89,8 +90,8 @@ class StreamList extends React.Component<Props, State> {
 			}
 			const response = await fetch(url, {
 				headers: {
-					"Client-ID": "k0lqdqxso1o3knvydfheacq3jbqidg"
-				}
+					"Client-ID": "k0lqdqxso1o3knvydfheacq3jbqidg",
+				},
 			});
 			const json = await response.json();
 			resultSet = resultSet.concat(json.channels);
@@ -113,7 +114,7 @@ class StreamList extends React.Component<Props, State> {
 				{this.state.metadata.map((twitchStream: TwitchStream) => {
 					const stream = this.props.streams.find(
 						(toCompare: ApiStream) =>
-							"" + toCompare.twitch._id === twitchStream.user_id
+							"" + toCompare.twitch._id === twitchStream.user_id,
 					);
 					const url = `https://www.twitch.tv/${stream.twitch.name}`;
 					return (

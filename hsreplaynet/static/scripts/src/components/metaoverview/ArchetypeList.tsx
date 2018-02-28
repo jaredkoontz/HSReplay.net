@@ -2,7 +2,7 @@ import React from "react";
 import {
 	ApiArchetype,
 	ApiArchetypePopularity,
-	SortableProps
+	SortableProps,
 } from "../../interfaces";
 import { withLoading } from "../loading/Loading";
 import CardData from "../../CardData";

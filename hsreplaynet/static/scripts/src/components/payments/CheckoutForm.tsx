@@ -1,6 +1,6 @@
 import React from "react";
 import StripeElementsCheckoutForm, {
-	StripePlan
+	StripePlan,
 } from "./StripeElementsCheckoutForm";
 import PaypalCheckoutForm, { PaypalPlan } from "./PaypalCheckoutForm";
 import BtnGroup from "../BtnGroup";
@@ -11,7 +11,7 @@ import { Elements, StripeProvider } from "react-stripe-elements";
 export const enum PaymentMethods {
 	STRIPECHECKOUT = "stripe-checkout",
 	CREDITCARD = "creditcard",
-	PAYPAL = "paypal"
+	PAYPAL = "paypal",
 }
 
 export interface CheckoutFormInstanceProps {
@@ -48,7 +48,7 @@ export default class CheckoutForm extends React.Component<Props, State> {
 		this.state = {
 			paymentMethod: props.defaultPaymentMethod
 				? props.defaultPaymentMethod
-				: this.getValidPaymentMethods()[0].method
+				: this.getValidPaymentMethods()[0].method,
 		};
 	}
 
@@ -66,7 +66,7 @@ export default class CheckoutForm extends React.Component<Props, State> {
 						<span className="glyphicon glyphicon-credit-card" />&nbsp;Credit
 						Card
 					</strong>
-				)
+				),
 			});
 		} else {
 			methods.push({
@@ -76,7 +76,7 @@ export default class CheckoutForm extends React.Component<Props, State> {
 						<span className="glyphicon glyphicon-credit-card" />&nbsp;Credit
 						Card
 					</strong>
-				)
+				),
 			});
 		}
 
@@ -87,7 +87,7 @@ export default class CheckoutForm extends React.Component<Props, State> {
 					<strong>
 						<span className="glyphicon glyphicon-lock" />&nbsp;PayPal
 					</strong>
-				)
+				),
 			});
 		}
 
@@ -111,7 +111,7 @@ export default class CheckoutForm extends React.Component<Props, State> {
 					buttons={methods.map(method => ({
 						label: method.label,
 						value: method.method,
-						className: "btn btn-default"
+						className: "btn btn-default",
 					}))}
 					aria-describedby="payment-method"
 					value={this.state.paymentMethod}

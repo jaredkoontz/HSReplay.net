@@ -27,7 +27,9 @@ export default class PaypalCheckoutForm extends React.Component<Props, State> {
 		super(props, context);
 		this.state = {
 			submit: false,
-			selectedPlan: this.props.plans ? this.props.plans[0].paypalId : null
+			selectedPlan: this.props.plans
+				? this.props.plans[0].paypalId
+				: null,
 		};
 	}
 
@@ -35,7 +37,7 @@ export default class PaypalCheckoutForm extends React.Component<Props, State> {
 		return this.props.plans.map(plan => ({
 			label: <h4>{plan.description}*</h4>,
 			value: plan.paypalId,
-			className: "btn btn-default"
+			className: "btn btn-default",
 		}));
 	}
 

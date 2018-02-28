@@ -31,7 +31,7 @@ export default class SimilarDecksList extends React.Component<Props> {
 			const removed = Object.assign({}, deckList);
 			cards.forEach(dbfIdCountPair => {
 				distance += Math.abs(
-					dbfIdCountPair[1] - (deckList[dbfIdCountPair[0]] || 0)
+					dbfIdCountPair[1] - (deckList[dbfIdCountPair[0]] || 0),
 				);
 				delete removed[dbfIdCountPair[0]];
 			});
@@ -41,7 +41,7 @@ export default class SimilarDecksList extends React.Component<Props> {
 					cards,
 					deck,
 					distance,
-					numGames: +deck["total_games"]
+					numGames: +deck["total_games"],
 				});
 			}
 		});
@@ -67,7 +67,7 @@ export default class SimilarDecksList extends React.Component<Props> {
 				duration: +deck.deck["avg_game_length_seconds"],
 				numGames: +deck.deck["total_games"],
 				playerClass: this.props.playerClass,
-				winrate: +deck.deck["win_rate"]
+				winrate: +deck.deck["win_rate"],
 			});
 		});
 
@@ -86,7 +86,7 @@ export default class SimilarDecksList extends React.Component<Props> {
 			<Fragments
 				defaults={{
 					sortBy: "popularity",
-					sortDirection: "descending"
+					sortDirection: "descending",
 				}}
 			>
 				<DeckList

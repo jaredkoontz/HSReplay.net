@@ -4,7 +4,7 @@ import { MatchupData } from "../../../interfaces";
 import {
 	commaSeparate,
 	getColorString,
-	toDynamicFixed
+	toDynamicFixed,
 } from "../../../helpers";
 import { Colors } from "../../../Colors";
 import Tooltip from "../../Tooltip";
@@ -22,7 +22,7 @@ export default class MatchupCell extends React.Component<Props> {
 	public shouldComponentUpdate(
 		nextProps: Readonly<Props>,
 		nextState: Readonly<{}>,
-		nextContext: any
+		nextContext: any,
 	): boolean {
 		return (
 			this.props.highlightColumn !== nextProps.highlightColumn ||
@@ -56,7 +56,7 @@ export default class MatchupCell extends React.Component<Props> {
 								stroke: "black",
 								strokeWidth: "0.6pt",
 								strokeOpacity: 1,
-								strokeLinejoin: "round"
+								strokeLinejoin: "round",
 							}}
 						/>
 					</svg>
@@ -69,7 +69,7 @@ export default class MatchupCell extends React.Component<Props> {
 				Colors.REDORANGEGREEN,
 				70,
 				winrate / 100,
-				false
+				false,
 			);
 			label = (
 				<Tooltip
@@ -107,7 +107,7 @@ export default class MatchupCell extends React.Component<Props> {
 									<th>Games:</th>
 									<td>
 										{commaSeparate(
-											matchupData.totalGames || 0
+											matchupData.totalGames || 0,
 										)}
 									</td>
 								</tr>

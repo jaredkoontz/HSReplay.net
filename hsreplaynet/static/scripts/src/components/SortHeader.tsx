@@ -53,7 +53,7 @@ export default class SortHeader extends React.Component<Props> {
 							}
 							this.props.onClick(
 								this.props.sortKey,
-								this.getNextDirection()
+								this.getNextDirection(),
 							);
 						}
 					: null,
@@ -61,13 +61,13 @@ export default class SortHeader extends React.Component<Props> {
 				if (event.which === 13) {
 					this.props.onClick(
 						this.props.sortKey,
-						this.getNextDirection()
+						this.getNextDirection(),
 					);
 				}
 			},
 			tabIndex: sort !== null ? 0 : null,
 			role: "columnheader",
-			"aria-sort": this.props.active ? this.props.direction : "none"
+			"aria-sort": this.props.active ? this.props.direction : "none",
 		};
 
 		const title = <span aria-hidden={!!this.props.infoHeader}>{text}</span>;

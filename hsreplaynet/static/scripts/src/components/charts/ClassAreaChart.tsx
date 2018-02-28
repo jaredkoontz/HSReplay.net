@@ -5,7 +5,7 @@ import {
 	VictoryAxis,
 	VictoryChart,
 	VictoryLabel,
-	VictoryStack
+	VictoryStack,
 } from "victory";
 import { getChartScheme } from "../../helpers";
 import { RenderData } from "../../interfaces";
@@ -22,7 +22,7 @@ export default class ClassAreaChartChart extends React.Component<Props> {
 		// semi mock data
 		const seasonTicks = [
 			new Date("2017-01-31T20:00:00").getTime(),
-			new Date("2017-02-28T20:00:00").getTime()
+			new Date("2017-02-28T20:00:00").getTime(),
 		];
 		const areas = [];
 
@@ -35,7 +35,7 @@ export default class ClassAreaChartChart extends React.Component<Props> {
 			"DRUID",
 			"WARLOCK",
 			"MAGE",
-			"PRIEST"
+			"PRIEST",
 		];
 		const dates = [
 			"2017-01-30T00:00:00",
@@ -43,7 +43,7 @@ export default class ClassAreaChartChart extends React.Component<Props> {
 			"2017-02-13T00:00:00",
 			"2017-02-20T00:00:00",
 			"2017-02-27T00:00:00",
-			"2017-03-06T00:00:00"
+			"2017-03-06T00:00:00",
 		];
 
 		classes.sort();
@@ -51,7 +51,7 @@ export default class ClassAreaChartChart extends React.Component<Props> {
 		const scheme = getChartScheme("class");
 		classes.forEach(playerClass => {
 			const seriesData = this.props.data.series.find(
-				x => x.name === playerClass
+				x => x.name === playerClass,
 			);
 			const series = { name: playerClass, data: [] };
 			dates.forEach(date => {
@@ -60,7 +60,7 @@ export default class ClassAreaChartChart extends React.Component<Props> {
 					seriesData.data.find(x => x.game_date === date);
 				series.data.push({
 					x: new Date(date).getTime(),
-					y: point ? point.num_games : 0
+					y: point ? point.num_games : 0,
 				});
 			});
 			const classColor = scheme[playerClass.toLowerCase()];
@@ -71,11 +71,11 @@ export default class ClassAreaChartChart extends React.Component<Props> {
 						data: {
 							fill: classColor.fill.replace("0.7", "0.6"),
 							stroke: "rgba(0, 0, 0, 0.1)",
-							strokeWidth: 0.5
-						}
+							strokeWidth: 0.5,
+						},
 					}}
 					interpolation="linear"
-				/>
+				/>,
 			);
 		});
 
@@ -99,7 +99,7 @@ export default class ClassAreaChartChart extends React.Component<Props> {
 							axisLabel: { fontSize: 8 },
 							tickLabels: { fontSize: 8 },
 							grid: { stroke: "gray" },
-							axis: { visibility: "hidden" }
+							axis: { visibility: "hidden" },
 						}}
 					/>
 					<VictoryAxis
@@ -109,9 +109,10 @@ export default class ClassAreaChartChart extends React.Component<Props> {
 							axisLabel: { fontSize: 8 },
 							tickLabels: { fontSize: 8 },
 							grid: {
-								stroke: d => (d === 1000 ? "gray" : "lightgray")
+								stroke: d =>
+									d === 1000 ? "gray" : "lightgray",
 							},
-							axis: { visibility: "hidden" }
+							axis: { visibility: "hidden" },
 						}}
 					/>
 					<VictoryStack>{areas}</VictoryStack>

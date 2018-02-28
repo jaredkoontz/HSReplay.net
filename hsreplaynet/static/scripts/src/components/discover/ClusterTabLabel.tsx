@@ -25,7 +25,7 @@ export default class ClusterTabLabel extends React.Component<Props> {
 			clusterName,
 			color,
 			format,
-			playerClass
+			playerClass,
 		} = this.props;
 		let selector = null;
 		const hasFeature = UserData.hasFeature("archetype-training");
@@ -41,16 +41,16 @@ export default class ClusterTabLabel extends React.Component<Props> {
 						{
 							key: "archetypeData",
 							url: "/api/v1/archetypes/",
-							params: {}
-						}
+							params: {},
+						},
 					]}
 					extract={{
 						archetypeData: (data: ApiArchetype[]) => {
 							const archetypes = data.filter(
-								a => a.player_class_name === playerClass
+								a => a.player_class_name === playerClass,
 							);
 							return { archetypes };
-						}
+						},
 					}}
 				>
 					<ClusterArchetypeSelector

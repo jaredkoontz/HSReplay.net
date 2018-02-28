@@ -15,7 +15,7 @@ export default class RankIcon extends React.Component<Props> {
 		if (
 			[
 				BnetGameType.BGT_RANKED_STANDARD,
-				BnetGameType.BGT_RANKED_WILD
+				BnetGameType.BGT_RANKED_WILD,
 			].indexOf(this.props.gameType) !== -1
 		) {
 			if (this.props.rank) {

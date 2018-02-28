@@ -27,16 +27,16 @@ export default class CardTile extends React.Component<Props> {
 
 		const tileStyle = {
 			height: this.props.height + "px",
-			lineHeight: this.props.height + "px"
+			lineHeight: this.props.height + "px",
 		};
 		const gemStyle = { width: this.props.height + "px" };
 		const costStyle = {
-			fontSize: this.props.height / baseHeight * 1.25 + "em"
+			fontSize: this.props.height / baseHeight * 1.25 + "em",
 		};
 		const nameStyle = {
 			fontSize: this.props.height / baseHeight * 0.9 + "em",
 			width:
-				"calc(100% - " + ((showCountBox ? countWidth : 0) + 4) + "px)"
+				"calc(100% - " + ((showCountBox ? countWidth : 0) + 4) + "px)",
 		};
 
 		const imageWidth = this.props.height / baseHeight * baseImageWidth;
@@ -53,7 +53,7 @@ export default class CardTile extends React.Component<Props> {
 			const countboxStyle = { width: countWidth + "px" };
 			const countStyle = {
 				fontSize: this.props.height / baseHeight * 1.15 + "em",
-				top: singleLegendary ? "-2px" : 0
+				top: singleLegendary ? "-2px" : 0,
 			};
 
 			countBox = (
@@ -69,7 +69,7 @@ export default class CardTile extends React.Component<Props> {
 		if (!this.props.hideGem) {
 			const gemClassNames = ["card-gem"];
 			gemClassNames.push(
-				"rarity-" + (this.props.card.rarity || "free").toLowerCase()
+				"rarity-" + (this.props.card.rarity || "free").toLowerCase(),
 			);
 
 			const cost = !this.props.card.hideStats ? this.props.card.cost : "";

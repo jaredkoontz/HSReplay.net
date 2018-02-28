@@ -4,7 +4,7 @@ import {
 	CardArtProps,
 	GameReplay,
 	GlobalGamePlayer,
-	ImageProps
+	ImageProps,
 } from "../../interfaces";
 import { PlayState } from "../../hearthstone";
 
@@ -52,11 +52,11 @@ export default class GameHistoryList extends React.Component<Props> {
 					turns={game.global_game.num_turns}
 					won={GameHistoryList.hasWon(
 						game.friendly_player,
-						game.opposing_player
+						game.opposing_player,
 					)}
 					friendlyPlayer={game.friendly_player}
 					opposingPlayer={game.opposing_player}
-				/>
+				/>,
 			);
 		});
 		return <div className="row">{columns}</div>;
@@ -64,21 +64,21 @@ export default class GameHistoryList extends React.Component<Props> {
 
 	public static hasWon(
 		friendly_player: GlobalGamePlayer,
-		opposing_player: GlobalGamePlayer
+		opposing_player: GlobalGamePlayer,
 	): boolean | null {
 		if (!friendly_player) {
 			return null;
 		}
 		if (
 			[PlayState.WINNING, PlayState.WON].indexOf(
-				friendly_player.final_state
+				friendly_player.final_state,
 			) !== -1
 		) {
 			return true;
 		}
 		if (
 			[PlayState.LOSING, PlayState.LOST].indexOf(
-				friendly_player.final_state
+				friendly_player.final_state,
 			) !== -1
 		) {
 			return false;

@@ -23,7 +23,7 @@ export default class Selection extends React.Component<Props, State> {
 	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
-			selected: this.props.default || this.props.visible[0].key
+			selected: this.props.default || this.props.visible[0].key,
 		};
 	}
 
@@ -48,7 +48,7 @@ export default class Selection extends React.Component<Props, State> {
 				>
 					{option.name}
 					{this.premiumGlyph(option)}
-				</button>
+				</button>,
 			);
 		});
 
@@ -70,14 +70,14 @@ export default class Selection extends React.Component<Props, State> {
 								href="#"
 								style={{
 									display: "block",
-									padding: "0.5em 1em"
+									padding: "0.5em 1em",
 								}}
 								onClick={() => this.onClick(option)}
 							>
 								{option.name}
 								{this.premiumGlyph(option)}
 							</a>
-						</li>
+						</li>,
 					);
 				});
 			dropDown = [
@@ -93,7 +93,7 @@ export default class Selection extends React.Component<Props, State> {
 					style={{ paddingBottom: 0 }}
 				>
 					{items}
-				</ul>
+				</ul>,
 			];
 		}
 
@@ -117,13 +117,13 @@ export default class Selection extends React.Component<Props, State> {
 		const visibleOptions = this.props.visible.slice();
 		let collapsedOptions = this.props.collapsed.slice();
 		const collapsedSelected = this.props.collapsed.find(
-			x => x.key == this.state.selected
+			x => x.key == this.state.selected,
 		);
 		if (collapsedSelected) {
 			collapsedOptions.unshift(visibleOptions.pop());
 			visibleOptions.push(collapsedSelected);
 			collapsedOptions = collapsedOptions.filter(
-				x => x.key !== collapsedSelected.key
+				x => x.key !== collapsedSelected.key,
 			);
 		}
 		return { visible: visibleOptions, collapsed: collapsedOptions };

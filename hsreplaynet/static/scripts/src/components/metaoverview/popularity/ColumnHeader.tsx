@@ -25,14 +25,14 @@ export default class ColumnHeader extends React.Component<Props> {
 					}
 					this.props.onClick(
 						this.props.sortKey,
-						this.getNextDirection()
+						this.getNextDirection(),
 					);
 				}}
 				onKeyPress={event => {
 					if (event.which === 13) {
 						this.props.onClick(
 							this.props.sortKey,
-							this.getNextDirection()
+							this.getNextDirection(),
 						);
 					}
 				}}

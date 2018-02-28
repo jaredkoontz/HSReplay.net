@@ -56,14 +56,14 @@ export default class CardList extends React.Component<Props> {
 				const actualCount = counts[cardId] || 0;
 				cardCounts[cardId] = {
 					count: actualCount,
-					predicted: predictedCounts[cardId] - actualCount
+					predicted: predictedCounts[cardId] - actualCount,
 				};
 			});
 		} else {
 			Object.keys(counts).forEach(cardId => {
 				cardCounts[cardId] = {
 					count: counts[cardId],
-					predicted: 0
+					predicted: 0,
 				};
 			});
 		}
@@ -106,7 +106,7 @@ export default class CardList extends React.Component<Props> {
 						predicted={predicted}
 						subtitle={predicted ? "Predicted Card" : null}
 						key={dbfIds ? card.dbfId : card.id}
-					/>
+					/>,
 				);
 			};
 

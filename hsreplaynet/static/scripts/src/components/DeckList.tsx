@@ -8,7 +8,7 @@ import {
 	CardObj,
 	DeckObj,
 	FragmentChildProps,
-	SortDirection
+	SortDirection,
 } from "../interfaces";
 import { getDustCost, getManaCost } from "../helpers";
 import DataManager from "../DataManager";
@@ -41,7 +41,7 @@ export default class DeckList extends React.Component<Props, State> {
 	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
-			archetypeData: []
+			archetypeData: [],
 		};
 		this.cache = {};
 		this.cacheDecks(props.decks);
@@ -50,7 +50,7 @@ export default class DeckList extends React.Component<Props, State> {
 
 	public componentWillReceiveProps(
 		nextProps: Readonly<Props>,
-		nextContext: any
+		nextContext: any,
 	): void {
 		if (
 			this.props.setPage &&
@@ -73,7 +73,7 @@ export default class DeckList extends React.Component<Props, State> {
 			}
 			this.cache[id] = {
 				dust: getDustCost(deck.cards),
-				mana: getManaCost(deck.cards)
+				mana: getManaCost(deck.cards),
 			};
 		}
 	}
@@ -138,7 +138,7 @@ export default class DeckList extends React.Component<Props, State> {
 		const visibleDecks = decks.slice(pageOffset, nextPageOffset);
 		visibleDecks.forEach(deck => {
 			const archetype = this.state.archetypeData.find(
-				x => x.id === deck.archetypeId
+				x => x.id === deck.archetypeId,
 			);
 			deckTiles.push(
 				<DeckTile
@@ -158,7 +158,7 @@ export default class DeckList extends React.Component<Props, State> {
 					archetypeId={archetype && archetype.id}
 					hrefTab={this.props.hrefTab}
 					lastPlayed={deck.lastPlayed}
-				/>
+				/>,
 			);
 		});
 
@@ -213,7 +213,7 @@ export default class DeckList extends React.Component<Props, State> {
 					this.props.setSortDirection(
 						this.props.sortDirection === "ascending"
 							? "descending"
-							: "ascending"
+							: "ascending",
 					);
 				}
 			} else {

@@ -4,7 +4,7 @@ import {
 	ApiArchetypeRankPopularity,
 	ArchetypeRankData,
 	ArchetypeRankPopularity,
-	SortDirection
+	SortDirection,
 } from "../../interfaces";
 import CardData from "../../CardData";
 import { withLoading } from "../loading/Loading";
@@ -73,7 +73,7 @@ class ArchetypePopularity extends React.Component<Props> {
 					popularityAtRank: (data && data.pct_of_rank) || 0,
 					rank: +rank,
 					totalGames: (data && data.total_games) || 0,
-					winrate: (data && data.win_rate) || 0
+					winrate: (data && data.win_rate) || 0,
 				});
 			});
 
@@ -85,7 +85,7 @@ class ArchetypePopularity extends React.Component<Props> {
 				rankData,
 				name: archetype.name,
 				playerClass: archetype.player_class_name,
-				totalPopularity
+				totalPopularity,
 			});
 		});
 
@@ -103,7 +103,7 @@ class ArchetypePopularity extends React.Component<Props> {
 				sortDirection={this.props.sortDirection}
 				onSortChanged={(
 					sortBy: string,
-					sortDirection: SortDirection
+					sortDirection: SortDirection,
 				) => {
 					this.props.setSortDirection(sortDirection);
 					this.props.setSortBy(sortBy);
@@ -135,7 +135,7 @@ class ArchetypePopularity extends React.Component<Props> {
 					}
 				}
 				return value * direction || (a.name > b.name ? 1 : -1);
-			}
+			},
 		);
 	}
 
@@ -148,7 +148,7 @@ class ArchetypePopularity extends React.Component<Props> {
 					if (archetypeIds.indexOf(matchup.archetype_id) === -1) {
 						archetypeIds.push(matchup.archetype_id);
 					}
-				}
+				},
 			);
 		});
 		return archetypeIds
@@ -165,5 +165,5 @@ class ArchetypePopularity extends React.Component<Props> {
 }
 
 export default withLoading(["archetypeData", "popularityData"])(
-	ArchetypePopularity
+	ArchetypePopularity,
 );

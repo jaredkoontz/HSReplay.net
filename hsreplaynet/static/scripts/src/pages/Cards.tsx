@@ -18,14 +18,14 @@ import {
 	isWildSet,
 	setNames,
 	slangToCardId,
-	toTitleCase
+	toTitleCase,
 } from "../helpers";
 import InfoboxLastUpdated from "../components/InfoboxLastUpdated";
 import UserData, { Account } from "../UserData";
 import {
 	FragmentChildProps,
 	LoadingStatus,
-	SortDirection
+	SortDirection,
 } from "../interfaces";
 import CardTable from "../components/tables/CardTable";
 import Feature from "../components/Feature";
@@ -135,7 +135,7 @@ export default class Cards extends React.Component<Props, State> {
 			"ADAPT",
 			"QUEST",
 			"LIFESTEAL",
-			"SECRET"
+			"SECRET",
 		],
 		playerClass: [
 			"DRUID",
@@ -147,7 +147,7 @@ export default class Cards extends React.Component<Props, State> {
 			"SHAMAN",
 			"WARLOCK",
 			"WARRIOR",
-			"NEUTRAL"
+			"NEUTRAL",
 		],
 		race: [
 			"BEAST",
@@ -157,7 +157,7 @@ export default class Cards extends React.Component<Props, State> {
 			"MECHANICAL",
 			"MURLOC",
 			"PIRATE",
-			"TOTEM"
+			"TOTEM",
 		],
 		rarity: ["FREE", "COMMON", "RARE", "EPIC", "LEGENDARY"],
 		set: [
@@ -174,28 +174,28 @@ export default class Cards extends React.Component<Props, State> {
 			"BRM",
 			"GVG",
 			"NAXX",
-			"HOF"
+			"HOF",
 		],
-		type: ["HERO", "MINION", "SPELL", "WEAPON"]
+		type: ["HERO", "MINION", "SPELL", "WEAPON"],
 	};
 	readonly multiClassGroups = {
 		GRIMY_GOONS: ["HUNTER", "PALADIN", "WARRIOR"],
 		JADE_LOTUS: ["DRUID", "ROGUE", "SHAMAN"],
-		KABAL: ["MAGE", "PRIEST", "WARLOCK"]
+		KABAL: ["MAGE", "PRIEST", "WARLOCK"],
 	};
 
 	private readonly allowedValues = {
 		gameType: ["RANKED_STANDARD", "RANKED_WILD", "ARENA"],
 		rankRange: [],
 		region: [],
-		timeRange: ["LAST_14_DAYS"]
+		timeRange: ["LAST_14_DAYS"],
 	};
 
 	private readonly allowedValuesPremium = {
 		gameType: ["RANKED_STANDARD", "RANKED_WILD", "ARENA"],
 		rankRange: ["LEGEND_THROUGH_TEN"],
 		region: [],
-		timeRange: ["LAST_1_DAY", "LAST_3_DAYS", "LAST_7_DAYS", "LAST_14_DAYS"]
+		timeRange: ["LAST_1_DAY", "LAST_3_DAYS", "LAST_7_DAYS", "LAST_14_DAYS"],
 	};
 
 	showMoreButton: HTMLDivElement;
@@ -210,18 +210,18 @@ export default class Cards extends React.Component<Props, State> {
 			hasPersonalData: false,
 			hasStatisticsData: false,
 			numCards: 24,
-			showFilters: false
+			showFilters: false,
 		};
 		this.filters.mechanics.sort();
 
 		if (this.props.personal && this.state.account) {
 			DataManager.get(
 				"single_account_lo_individual_card_stats",
-				this.getPersonalParams()
+				this.getPersonalParams(),
 			).then(data =>
 				this.setState({
-					hasPersonalData: data && data.series.data.ALL.length > 0
-				})
+					hasPersonalData: data && data.series.data.ALL.length > 0,
+				}),
 			);
 		}
 	}
@@ -259,7 +259,7 @@ export default class Cards extends React.Component<Props, State> {
 	public componentDidUpdate(
 		prevProps: Readonly<Props>,
 		prevState: Readonly<State>,
-		prevContext: any
+		prevContext: any,
 	): void {
 		// omit functions (not supported) and unused custom* props to prevent multiple update calls
 		const ignore = Object.keys(this.props)
@@ -351,7 +351,7 @@ export default class Cards extends React.Component<Props, State> {
 			this.setState({
 				filteredCards,
 				filterCounts: this.filterCounts(filteredByProp as CardFilters),
-				hasStatisticsData: true
+				hasStatisticsData: true,
 			});
 		});
 	}
@@ -362,7 +362,7 @@ export default class Cards extends React.Component<Props, State> {
 			const params = this.getParams();
 			const promises = [
 				DataManager.get("card_played_popularity_report", params),
-				DataManager.get("card_included_popularity_report", params)
+				DataManager.get("card_included_popularity_report", params),
 			];
 			return Promise.all(promises).then(
 				(data: any[]) => {
@@ -383,12 +383,12 @@ export default class Cards extends React.Component<Props, State> {
 				},
 				status => {
 					return [];
-				}
+				},
 			);
 		} else if (this.props.personal && this.state.account) {
 			return DataManager.get(
 				"single_account_lo_individual_card_stats",
-				this.getPersonalParams()
+				this.getPersonalParams(),
 			).then(
 				data => {
 					const sparseDict = {};
@@ -400,7 +400,7 @@ export default class Cards extends React.Component<Props, State> {
 				},
 				status => {
 					return [];
-				}
+				},
 			);
 		} else {
 			return Promise.resolve([]);
@@ -409,7 +409,7 @@ export default class Cards extends React.Component<Props, State> {
 
 	public componentWillReceiveProps(
 		nextProps: Readonly<Props>,
-		nextContext: any
+		nextContext: any,
 	): void {
 		if (!this.state.cards && nextProps.cardData) {
 			const cards = [];
@@ -431,7 +431,7 @@ export default class Cards extends React.Component<Props, State> {
 	public componentWillUpdate(
 		nextProps: Readonly<Props>,
 		nextState: Readonly<State>,
-		nextContext: any
+		nextContext: any,
 	): void {
 		if (!this.props.personal && this.props.display !== nextProps.display) {
 			if (nextProps.display === "gallery") {
@@ -464,7 +464,7 @@ export default class Cards extends React.Component<Props, State> {
 						className="btn btn-default"
 						onClick={() =>
 							this.setState({
-								numCards: this.state.numCards + 20
+								numCards: this.state.numCards + 20,
 							})
 						}
 					>
@@ -495,15 +495,15 @@ export default class Cards extends React.Component<Props, State> {
 						<DataInjector
 							query={{
 								params: this.getPersonalParams(),
-								url: "single_account_lo_individual_card_stats"
+								url: "single_account_lo_individual_card_stats",
 							}}
 							extract={{
-								data: data => ({ data: data.series.data.ALL })
+								data: data => ({ data: data.series.data.ALL }),
 							}}
 						>
 							<CardTable
 								cards={(this.state.filteredCards || []).map(
-									card => ({ card, count: 1 })
+									card => ({ card, count: 1 }),
 								)}
 								columns={[
 									"totalGames",
@@ -513,7 +513,7 @@ export default class Cards extends React.Component<Props, State> {
 									"damageDone",
 									"healingDone",
 									"heroesKilled",
-									"minionsKilled"
+									"minionsKilled",
 								]}
 								sortBy={this.props.sortBy}
 								sortDirection={this.props.sortDirection}
@@ -539,11 +539,11 @@ export default class Cards extends React.Component<Props, State> {
 										data to appear on this page. If you are
 										missing data, make sure the filters in
 										the sidebar are correct!
-									</p>
+									</p>,
 								]}
 							/>
 						</DataInjector>
-					</div>
+					</div>,
 				);
 				if (showMoreButton && this.state.hasPersonalData) {
 					content.push(showMoreButton);
@@ -565,7 +565,7 @@ export default class Cards extends React.Component<Props, State> {
 								Contact us if you keep seeing this message.
 							</a>
 						</p>
-					</div>
+					</div>,
 				);
 			}
 		} else if (isStatsView) {
@@ -579,7 +579,7 @@ export default class Cards extends React.Component<Props, State> {
 				"includedPopularity",
 				"timesPlayed",
 				"includedWinrate",
-				"playedWinrate"
+				"playedWinrate",
 			];
 			if (!this.props.showSparse) {
 				const warning = (
@@ -616,13 +616,13 @@ export default class Cards extends React.Component<Props, State> {
 							{
 								key: "played",
 								url: "card_played_popularity_report",
-								params: this.getParams()
+								params: this.getParams(),
 							},
 							{
 								key: "included",
 								url: "card_included_popularity_report",
-								params: this.getParams()
-							}
+								params: this.getParams(),
+							},
 						]}
 						extract={{
 							played: (played, props) => {
@@ -633,7 +633,7 @@ export default class Cards extends React.Component<Props, State> {
 								const set = (
 									dbfId: number,
 									key: string,
-									value: number
+									value: number,
 								) => {
 									if (!data[dbfId]) {
 										data[dbfId] = { dbf_id: dbfId };
@@ -646,20 +646,20 @@ export default class Cards extends React.Component<Props, State> {
 											dbf_id,
 											popularity,
 											winrate,
-											total
+											total,
 										} = playedData;
 										set(
 											dbf_id,
 											"played_popularity",
-											+popularity
+											+popularity,
 										);
 										set(
 											dbf_id,
 											"winrate_when_played",
-											winrate
+											winrate,
 										);
 										set(dbf_id, "times_played", total);
-									}
+									},
 								);
 								props.included.series.data[dataKey].forEach(
 									includedData => {
@@ -668,33 +668,33 @@ export default class Cards extends React.Component<Props, State> {
 											dbf_id,
 											decks,
 											popularity,
-											winrate
+											winrate,
 										} = includedData;
 										set(dbf_id, "included_count", count);
 										set(dbf_id, "included_decks", decks);
 										set(
 											dbf_id,
 											"included_popularity",
-											popularity
+											popularity,
 										);
 										set(
 											dbf_id,
 											"included_winrate",
-											winrate
+											winrate,
 										);
-									}
+									},
 								);
 								return {
 									data: Object.keys(data).map(
-										key => data[key]
-									)
+										key => data[key],
+									),
 								};
-							}
+							},
 						}}
 					>
 						<CardTable
 							cards={(this.state.filteredCards || []).map(
-								card => ({ card, count: 1 })
+								card => ({ card, count: 1 }),
 							)}
 							columns={[
 								"includedPopularity",
@@ -702,7 +702,7 @@ export default class Cards extends React.Component<Props, State> {
 								"includedWinrate",
 								"timesPlayedTotal",
 								"playedPopularity",
-								"playedWinrate"
+								"playedWinrate",
 							]}
 							sortBy={this.props.sortBy}
 							sortDirection={this.props.sortDirection}
@@ -712,7 +712,7 @@ export default class Cards extends React.Component<Props, State> {
 							bottomInfoRow={bottomInfomessage}
 						/>
 					</DataInjector>
-				</div>
+				</div>,
 			);
 			if (showMoreButton && this.state.hasStatisticsData) {
 				content.push(showMoreButton);
@@ -727,7 +727,7 @@ export default class Cards extends React.Component<Props, State> {
 								card={card}
 								placeholder={this.getCardPlaceholder(card)}
 								key={card.id}
-							/>
+							/>,
 						);
 					}
 				});
@@ -740,7 +740,7 @@ export default class Cards extends React.Component<Props, State> {
 					<TableLoading
 						cardData={this.props.cardData}
 						status={LoadingStatus.LOADING}
-					/>
+					/>,
 				);
 			}
 		}
@@ -809,7 +809,7 @@ export default class Cards extends React.Component<Props, State> {
 						type="button"
 						onClick={() =>
 							this.setState({
-								showFilters: !this.state.showFilters
+								showFilters: !this.state.showFilters,
 							})
 						}
 					>
@@ -845,7 +845,7 @@ export default class Cards extends React.Component<Props, State> {
 			race: {},
 			rarity: {},
 			set: {},
-			type: {}
+			type: {},
 		};
 
 		Object.keys(filters).forEach(key => {
@@ -896,7 +896,7 @@ export default class Cards extends React.Component<Props, State> {
 				{this.props.personal
 					? "My Cards"
 					: isStatsView ? "Cards" : "Gallery"}
-			</ResetHeader>
+			</ResetHeader>,
 		];
 
 		const modeFilter = (
@@ -934,7 +934,7 @@ export default class Cards extends React.Component<Props, State> {
 						Statistics view
 					</InfoboxFilter>
 					<InfoboxFilter value="gallery">Gallery view</InfoboxFilter>
-				</InfoboxFilterGroup>
+				</InfoboxFilterGroup>,
 			);
 		}
 
@@ -947,13 +947,13 @@ export default class Cards extends React.Component<Props, State> {
 						hideAll
 						minimal
 						selectedClasses={[
-							this.props.playerClass as FilterOption
+							this.props.playerClass as FilterOption,
 						]}
 						selectionChanged={selected =>
 							this.props.setPlayerClass(selected[0])
 						}
 					/>
-				</Fragment>
+				</Fragment>,
 			);
 		} else {
 			filters.push(
@@ -964,7 +964,7 @@ export default class Cards extends React.Component<Props, State> {
 						hideAll
 						minimal
 						selectedClasses={[
-							this.props.playerClass as FilterOption
+							this.props.playerClass as FilterOption,
 						]}
 						selectionChanged={selected =>
 							this.props.setPlayerClass(selected[0])
@@ -1057,7 +1057,7 @@ export default class Cards extends React.Component<Props, State> {
 						</PremiumWrapper>
 						<InfoboxFilter value="ALL">Legend–25</InfoboxFilter>
 					</InfoboxFilterGroup>
-				</Fragment>
+				</Fragment>,
 			);
 		}
 
@@ -1094,7 +1094,7 @@ export default class Cards extends React.Component<Props, State> {
 							<span className="infobox-value">New!</span>
 						</InfoboxFilter>
 					</Feature>
-				</InfoboxFilterGroup>
+				</InfoboxFilterGroup>,
 			);
 		}
 
@@ -1119,7 +1119,7 @@ export default class Cards extends React.Component<Props, State> {
 						key="accounts"
 					>
 						{accounts}
-					</InfoboxFilterGroup>
+					</InfoboxFilterGroup>,
 				);
 			}
 		}
@@ -1145,7 +1145,7 @@ export default class Cards extends React.Component<Props, State> {
 						selectedValue={this.props.showSparse ? "show" : null}
 						onClick={value =>
 							this.props.setShowSparse(
-								value === "show" ? true : false
+								value === "show" ? true : false,
 							)
 						}
 					>
@@ -1153,7 +1153,7 @@ export default class Cards extends React.Component<Props, State> {
 							Show sparse data
 						</InfoboxFilter>
 					</InfoboxFilterGroup>
-				</Fragment>
+				</Fragment>,
 			);
 		}
 
@@ -1167,7 +1167,7 @@ export default class Cards extends React.Component<Props, State> {
 				onClick={(newValue, cost) => this.props.toggleCost(cost)}
 			>
 				{this.buildCostFilters(
-					this.state.filterCounts && this.state.filterCounts.cost
+					this.state.filterCounts && this.state.filterCounts.cost,
 				)}
 			</InfoboxFilterGroup>,
 			<InfoboxFilterGroup
@@ -1179,7 +1179,7 @@ export default class Cards extends React.Component<Props, State> {
 			>
 				{this.buildFilterItems(
 					"rarity",
-					this.state.filterCounts && this.state.filterCounts.rarity
+					this.state.filterCounts && this.state.filterCounts.rarity,
 				)}
 			</InfoboxFilterGroup>,
 			<InfoboxFilterGroup
@@ -1192,11 +1192,11 @@ export default class Cards extends React.Component<Props, State> {
 			>
 				{this.buildFilterItems(
 					"set",
-					this.state.filterCounts && this.state.filterCounts.set
+					this.state.filterCounts && this.state.filterCounts.set,
 				)}
 				{this.buildFormatFilter(
 					this.state.filterCounts &&
-						this.state.filterCounts.format["standard"]
+						this.state.filterCounts.format["standard"],
 				)}
 			</InfoboxFilterGroup>,
 			<InfoboxFilterGroup
@@ -1209,7 +1209,7 @@ export default class Cards extends React.Component<Props, State> {
 			>
 				{this.buildFilterItems(
 					"type",
-					this.state.filterCounts && this.state.filterCounts.type
+					this.state.filterCounts && this.state.filterCounts.type,
 				)}
 			</InfoboxFilterGroup>,
 			<InfoboxFilterGroup
@@ -1222,7 +1222,7 @@ export default class Cards extends React.Component<Props, State> {
 			>
 				{this.buildFilterItems(
 					"race",
-					this.state.filterCounts && this.state.filterCounts.race
+					this.state.filterCounts && this.state.filterCounts.race,
 				)}
 			</InfoboxFilterGroup>,
 			<InfoboxFilterGroup
@@ -1237,9 +1237,10 @@ export default class Cards extends React.Component<Props, State> {
 			>
 				{this.buildFilterItems(
 					"mechanics",
-					this.state.filterCounts && this.state.filterCounts.mechanics
+					this.state.filterCounts &&
+						this.state.filterCounts.mechanics,
 				)}
-			</InfoboxFilterGroup>
+			</InfoboxFilterGroup>,
 		);
 
 		if (
@@ -1258,7 +1259,7 @@ export default class Cards extends React.Component<Props, State> {
 					<InfoboxFilter value="show">
 						Show uncollectible cards
 					</InfoboxFilter>
-				</InfoboxFilterGroup>
+				</InfoboxFilterGroup>,
 			);
 		}
 
@@ -1359,7 +1360,7 @@ export default class Cards extends React.Component<Props, State> {
 					if (
 						!card.text ||
 						cleanParts.every(
-							part => cleanCardtext.indexOf(part) === -1
+							part => cleanCardtext.indexOf(part) === -1,
 						)
 					) {
 						return true;
@@ -1382,7 +1383,7 @@ export default class Cards extends React.Component<Props, State> {
 				playerClass !== "ALL" &&
 				card.multiClassGroup &&
 				this.multiClassGroups[card.multiClassGroup].indexOf(
-					playerClass
+					playerClass,
 				) === -1
 			) {
 				return true;
@@ -1432,7 +1433,7 @@ export default class Cards extends React.Component<Props, State> {
 			}
 
 			const available = this.filters[key].filter(
-				x => values.indexOf("" + x) !== -1
+				x => values.indexOf("" + x) !== -1,
 			);
 			if (!filter && available.length) {
 				const cardValue = card[key];
@@ -1444,7 +1445,7 @@ export default class Cards extends React.Component<Props, State> {
 					filter = true;
 				} else if (key === "mechanics") {
 					filter = available.every(
-						val => cardValue.indexOf(val) === -1
+						val => cardValue.indexOf(val) === -1,
 					);
 				} else if (key === "cost") {
 					filter = available.indexOf(Math.min(cardValue, 7)) === -1;
@@ -1460,7 +1461,7 @@ export default class Cards extends React.Component<Props, State> {
 		return {
 			GameType: this.props.gameType,
 			RankRange: this.props.rankRange,
-			TimeRange: this.props.timeRange
+			TimeRange: this.props.timeRange,
 			// Region: this.props.region,
 		};
 	}
@@ -1472,7 +1473,7 @@ export default class Cards extends React.Component<Props, State> {
 			GameType: this.props.gameType,
 			Region: getRegion(this.state.account),
 			account_lo: getLo(this.state.account),
-			TimeRange: this.props.timeRange
+			TimeRange: this.props.timeRange,
 		};
 	}
 

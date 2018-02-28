@@ -8,7 +8,7 @@ export default class DumpPropsComponent extends React.Component<any> {
 
 	public componentWillReceiveProps(
 		nextProps: Readonly<{}>,
-		nextContext: any
+		nextContext: any,
 	): void {
 		console.debug(nextProps);
 	}

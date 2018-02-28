@@ -7,7 +7,7 @@ import {
 	getChartMetaData,
 	sliceZeros,
 	toDynamicFixed,
-	toTimeSeries
+	toTimeSeries,
 } from "../../helpers";
 import { RenderData } from "../../interfaces";
 import ChartHighlighter from "./ChartHighlighter";
@@ -26,7 +26,7 @@ export default class PopularityLineChart extends React.Component<
 	PopularityLineChartProps
 > {
 	static defaultProps = {
-		scale: "sqrt"
+		scale: "sqrt",
 	};
 
 	private readonly colorMin = "rgba(0, 196, 255, 1.0)";
@@ -40,8 +40,8 @@ export default class PopularityLineChart extends React.Component<
 
 		const series = toTimeSeries(
 			this.props.data.series.find(
-				x => x.name === "popularity_over_time"
-			) || this.props.data.series[0]
+				x => x.name === "popularity_over_time",
+			) || this.props.data.series[0],
 		);
 
 		// This is a temporary solution to remove very low volume data points from the Un'Goro launch
@@ -55,7 +55,7 @@ export default class PopularityLineChart extends React.Component<
 		const metadata = getChartMetaData(series.data, undefined, true, 1);
 		metadata.yDomain = [
 			0,
-			Math.max(this.props.maxYDomain, metadata.yDomain[1])
+			Math.max(this.props.maxYDomain, metadata.yDomain[1]),
 		];
 
 		const filterId = _.uniqueId("popularity-gradient-");
@@ -66,7 +66,7 @@ export default class PopularityLineChart extends React.Component<
 			left: 40 * factor,
 			top: 10 * factor,
 			right: 20 * factor,
-			bottom: 30 * factor
+			bottom: 30 * factor,
 		};
 		const yCenter = height / 2 - (padding.bottom - padding.top) / 2;
 
@@ -76,7 +76,7 @@ export default class PopularityLineChart extends React.Component<
 					this.props.absolute && {
 						position: "absolute",
 						width: "100%",
-						height: "100%"
+						height: "100%",
 					}
 				}
 			>
@@ -102,7 +102,7 @@ export default class PopularityLineChart extends React.Component<
 							axisLabel: { fontSize },
 							tickLabels: { fontSize },
 							grid: { stroke: "gray" },
-							axis: { visibility: "hidden" }
+							axis: { visibility: "hidden" },
 						}}
 					/>
 					<VictoryAxis
@@ -130,9 +130,9 @@ export default class PopularityLineChart extends React.Component<
 								stroke: d =>
 									d === metadata.yCenter
 										? "gray"
-										: "lightgray"
+										: "lightgray",
 							},
-							axis: { visibility: "hidden" }
+							axis: { visibility: "hidden" },
 						}}
 					/>
 					<defs>
@@ -157,7 +157,7 @@ export default class PopularityLineChart extends React.Component<
 						data={series.data.map(p => ({
 							x: p.x,
 							y: p.y,
-							_y0: metadata.yDomain[0]
+							_y0: metadata.yDomain[0],
 						}))}
 						groupComponent={
 							<VictoryClipContainer clipPadding={5} />
@@ -180,8 +180,8 @@ export default class PopularityLineChart extends React.Component<
 							data: {
 								fill: `url(#${filterId})`,
 								stroke: "black",
-								strokeWidth: 0.3 * factor
-							}
+								strokeWidth: 0.3 * factor,
+							},
 						}}
 					/>
 				</VictoryChart>

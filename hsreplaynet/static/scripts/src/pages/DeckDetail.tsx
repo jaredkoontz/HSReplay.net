@@ -19,7 +19,7 @@ import {
 	getDustCost,
 	getHeroCardId,
 	isWildSet,
-	toTitleCase
+	toTitleCase,
 } from "../helpers";
 import { CardObj, RenderData, SortDirection } from "../interfaces";
 import UserData from "../UserData";
@@ -94,14 +94,14 @@ export default class DeckDetail extends React.Component<Props, State> {
 			personalSortDirection: "ascending",
 			showInfo: false,
 			sortBy: "card",
-			sortDirection: "ascending"
+			sortDirection: "ascending",
 		};
 		this.fetchInventory();
 	}
 
 	fetchInventory() {
 		DataManager.get("single_deck_filter_inventory", {
-			deck_id: this.props.deckId
+			deck_id: this.props.deckId,
 		})
 			.then(data => {
 				if (!data) {
@@ -171,7 +171,7 @@ export default class DeckDetail extends React.Component<Props, State> {
 						className="infobox-value"
 						href={getArchetypeUrl(
 							this.props.archetypeId,
-							this.props.archetypeName
+							this.props.archetypeName,
 						)}
 					>
 						{this.props.archetypeName}
@@ -190,7 +190,7 @@ export default class DeckDetail extends React.Component<Props, State> {
 				accounts.push(
 					<InfoboxFilter value={acc.region + "-" + acc.lo}>
 						{acc.display}
-					</InfoboxFilter>
+					</InfoboxFilter>,
 				);
 			});
 			if (accounts.length) {
@@ -212,7 +212,7 @@ export default class DeckDetail extends React.Component<Props, State> {
 		const infoBoxFilter = (
 			filter: "rankRange" | "region",
 			key: string,
-			text: string
+			text: string,
 		) => {
 			let content: any = text;
 			const hasFilter =
@@ -276,7 +276,7 @@ export default class DeckDetail extends React.Component<Props, State> {
 						this.props.tab !== "my-statistics"
 					}
 				/>
-			</PremiumWrapper>
+			</PremiumWrapper>,
 		];
 		let header = null;
 		if (this.state.hasData === false) {
@@ -294,7 +294,7 @@ export default class DeckDetail extends React.Component<Props, State> {
 				<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 					{deckCharts && deckCharts[0]}
 					{deckCharts && deckCharts[1]}
-				</div>
+				</div>,
 			);
 		} else {
 			filters.push(
@@ -326,17 +326,17 @@ export default class DeckDetail extends React.Component<Props, State> {
 							{infoBoxFilter(
 								"rankRange",
 								"LEGEND_ONLY",
-								"Legend only"
+								"Legend only",
 							)}
 							{infoBoxFilter(
 								"rankRange",
 								"LEGEND_THROUGH_FIVE",
-								"Legend–5"
+								"Legend–5",
 							)}
 							{infoBoxFilter(
 								"rankRange",
 								"LEGEND_THROUGH_TEN",
-								"Legend–10"
+								"Legend–10",
 							)}
 						</PremiumWrapper>
 						{infoBoxFilter("rankRange", "ALL", "Legend–25")}
@@ -371,7 +371,7 @@ export default class DeckDetail extends React.Component<Props, State> {
 							{infoBoxFilter("region", "ALL", "All Regions")}
 						</InfoboxFilterGroup>
 					</PremiumWrapper>
-				</Feature>
+				</Feature>,
 			);
 
 			header = [
@@ -384,7 +384,7 @@ export default class DeckDetail extends React.Component<Props, State> {
 							}
 							query={{
 								url: "single_deck_stats_over_time",
-								params: deckParams
+								params: deckParams,
 							}}
 						>
 							<ChartLoading>
@@ -409,7 +409,7 @@ export default class DeckDetail extends React.Component<Props, State> {
 							}
 							query={{
 								url: "single_deck_stats_over_time",
-								params: deckParams
+								params: deckParams,
 							}}
 						>
 							<ChartLoading>
@@ -421,7 +421,7 @@ export default class DeckDetail extends React.Component<Props, State> {
 							content="Percentage of games won with this deck."
 						/>
 					</div>
-				</div>
+				</div>,
 			];
 
 			overviewContent.push(
@@ -440,13 +440,13 @@ export default class DeckDetail extends React.Component<Props, State> {
 								key: "opponentWinrateData",
 								params: deckParams,
 								url:
-									"single_deck_base_winrate_by_opponent_class"
+									"single_deck_base_winrate_by_opponent_class",
 							},
 							{
 								key: "deckListData",
 								params: globalParams,
-								url: "list_decks_by_win_rate"
-							}
+								url: "list_decks_by_win_rate",
+							},
 						]}
 					>
 						<TableLoading
@@ -462,7 +462,7 @@ export default class DeckDetail extends React.Component<Props, State> {
 				<div className="col-lg-4 col-md-12 col-sm-12 col-xs-12">
 					{deckCharts && deckCharts[0]}
 					{deckCharts && deckCharts[1]}
-				</div>
+				</div>,
 			);
 		}
 
@@ -530,7 +530,7 @@ export default class DeckDetail extends React.Component<Props, State> {
 						}
 						query={{
 							url: "list_decks_by_win_rate",
-							params: globalParams
+							params: globalParams,
 						}}
 					>
 						<HideLoading>
@@ -561,7 +561,7 @@ export default class DeckDetail extends React.Component<Props, State> {
 							>
 								{this.renderMulliganGuideTable(
 									deckParams,
-									globalParams
+									globalParams,
 								)}
 							</Tab>
 							<Tab
@@ -603,7 +603,7 @@ export default class DeckDetail extends React.Component<Props, State> {
 									}
 									query={{
 										url: "list_decks_by_win_rate",
-										params: globalParams
+										params: globalParams,
 									}}
 								>
 									<TableLoading
@@ -638,14 +638,14 @@ export default class DeckDetail extends React.Component<Props, State> {
 										{
 											key: "deckData",
 											params: globalParams,
-											url: "list_decks_by_win_rate"
+											url: "list_decks_by_win_rate",
 										},
 										{
 											key: "countersData",
 											params: deckParams,
 											url:
-												"single_deck_recommended_counters"
-										}
+												"single_deck_recommended_counters",
+										},
 									]}
 								>
 									<TableLoading
@@ -660,7 +660,7 @@ export default class DeckDetail extends React.Component<Props, State> {
 								label="Streams"
 								hidden={
 									!UserData.hasFeature(
-										"twitch-stream-promotion"
+										"twitch-stream-promotion",
 									) && this.props.tab !== "streams"
 								}
 								id="streams"
@@ -696,13 +696,13 @@ export default class DeckDetail extends React.Component<Props, State> {
 						params: deckParams,
 						url: premiumMulligan
 							? "single_deck_mulligan_guide_by_class"
-							: "single_deck_mulligan_guide"
+							: "single_deck_mulligan_guide",
 					},
 					{
 						key: "winrateData",
 						params: deckParams,
-						url: "single_deck_base_winrate_by_opponent_class"
-					}
+						url: "single_deck_base_winrate_by_opponent_class",
+					},
 				]}
 				extract={{
 					mulliganData: data => ({ data: data.series.data[dataKey] }),
@@ -714,7 +714,7 @@ export default class DeckDetail extends React.Component<Props, State> {
 							baseWinrate = +data.series.metadata.total_winrate;
 						}
 						return { baseWinrate };
-					}
+					},
 				}}
 			>
 				<CardTable
@@ -725,11 +725,11 @@ export default class DeckDetail extends React.Component<Props, State> {
 						"drawnWinrate",
 						"playedWinrate",
 						"turnsInHand",
-						"turnPlayed"
+						"turnPlayed",
 					]}
 					onSortChanged={(
 						sortBy: string,
-						sortDirection: SortDirection
+						sortDirection: SortDirection,
 					) => {
 						this.setState({ sortBy, sortDirection });
 					}}
@@ -752,7 +752,7 @@ export default class DeckDetail extends React.Component<Props, State> {
 
 		const params = {
 			deck_id: this.props.deckId,
-			...this.getPersonalParams()
+			...this.getPersonalParams(),
 		};
 		const selectedClass = this.props.selectedClasses.length
 			? this.props.selectedClasses[0]
@@ -765,10 +765,10 @@ export default class DeckDetail extends React.Component<Props, State> {
 				}
 				query={{
 					params,
-					url: "single_account_lo_individual_card_stats_for_deck"
+					url: "single_account_lo_individual_card_stats_for_deck",
 				}}
 				extract={{
-					data: data => ({ data: data.series.data[selectedClass] })
+					data: data => ({ data: data.series.data[selectedClass] }),
 				}}
 			>
 				<CardTable
@@ -784,15 +784,15 @@ export default class DeckDetail extends React.Component<Props, State> {
 						"damageDone",
 						"healingDone",
 						"heroesKilled",
-						"minionsKilled"
+						"minionsKilled",
 					]}
 					onSortChanged={(
 						sortBy: string,
-						sortDirection: SortDirection
+						sortDirection: SortDirection,
 					) => {
 						this.setState({
 							personalSortBy: sortBy,
-							personalSortDirection: sortDirection
+							personalSortDirection: sortDirection,
 						});
 					}}
 					sortBy={this.state.personalSortBy}
@@ -813,7 +813,7 @@ export default class DeckDetail extends React.Component<Props, State> {
 		return (
 			<DataInjector
 				query={[
-					{ key: "streams", params: {}, url: "/live/streaming-now/" }
+					{ key: "streams", params: {}, url: "/live/streaming-now/" },
 				]}
 				extract={{
 					streams: data => {
@@ -822,10 +822,10 @@ export default class DeckDetail extends React.Component<Props, State> {
 							.map(Number);
 						return {
 							streams: data.filter(stream =>
-								compareDecks(stream.deck.map(Number), thisDeck)
-							)
+								compareDecks(stream.deck.map(Number), thisDeck),
+							),
 						};
-					}
+					},
 				}}
 			>
 				<StreamList customNoDataMessage={"No streams available"} />
@@ -848,18 +848,18 @@ export default class DeckDetail extends React.Component<Props, State> {
 					{
 						key: "archetypeMatchupData",
 						params: deckParams,
-						url: "single_deck_archetype_matchups"
+						url: "single_deck_archetype_matchups",
 					},
 					{
 						key: "archetypeData",
 						params: {},
-						url: "/api/v1/archetypes/"
-					}
+						url: "/api/v1/archetypes/",
+					},
 				]}
 				extract={{
 					archetypeMatchupData: data => ({
-						archetypeMatchupData: data.series.data
-					})
+						archetypeMatchupData: data.series.data,
+					}),
 				}}
 				fetchCondition={
 					!!this.state.hasData && this.isWildDeck() !== undefined
@@ -884,7 +884,7 @@ export default class DeckDetail extends React.Component<Props, State> {
 			Object.keys(dbfIds).forEach(dbfId => {
 				cards.push({
 					card: this.props.cardData.fromDbf(dbfId),
-					count: dbfIds[dbfId]
+					count: dbfIds[dbfId],
 				});
 			});
 		}
@@ -971,7 +971,7 @@ export default class DeckDetail extends React.Component<Props, State> {
 			GameType: this.getGameType(),
 			RankRange: this.getRankRange(),
 			Region: this.getRegion(),
-			deck_id: this.props.deckId
+			deck_id: this.props.deckId,
 		};
 	}
 
@@ -982,14 +982,14 @@ export default class DeckDetail extends React.Component<Props, State> {
 		return Object.assign(
 			{},
 			{
-				GameType: this.getGameType(true)
+				GameType: this.getGameType(true),
 			},
 			this.state.account
 				? {
 						Region: getRegion(state.account),
-						account_lo: getLo(state.account)
+						account_lo: getLo(state.account),
 					}
-				: {}
+				: {},
 		);
 	}
 
@@ -1009,19 +1009,19 @@ export default class DeckDetail extends React.Component<Props, State> {
 					{
 						name: "rarity",
 						data: [],
-						metadata: { chart_scheme: "rarity" }
-					}
-				]
+						metadata: { chart_scheme: "rarity" },
+					},
+				],
 			},
 			{
 				series: [
 					{
 						name: "type",
 						data: [],
-						metadata: { chart_scheme: "cardtype" }
-					}
-				]
-			}
+						metadata: { chart_scheme: "cardtype" },
+					},
+				],
+			},
 		];
 
 		dataSets.forEach((set, index) => {
@@ -1042,7 +1042,7 @@ export default class DeckDetail extends React.Component<Props, State> {
 					<span className="infobox-value">
 						<a href={this.props.adminUrl}>Admin link</a>
 					</span>
-				</li>
+				</li>,
 			);
 		}
 

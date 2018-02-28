@@ -48,11 +48,11 @@ export default class PopularityMatrix extends React.Component<Props> {
 							totalWidth > width ? scrollbarSize() : 0;
 						const right = Math.max(
 							0,
-							width - totalWidth - scrollbarWidth
+							width - totalWidth - scrollbarWidth,
 						);
 						const bottom = Math.max(
 							0,
-							height - totalHeight - scrollbarHeight
+							height - totalHeight - scrollbarHeight,
 						);
 						return (
 							<ScrollSync>
@@ -63,20 +63,20 @@ export default class PopularityMatrix extends React.Component<Props> {
 									scrollHeight,
 									scrollLeft,
 									scrollTop,
-									scrollWidth
+									scrollWidth,
 								}) => (
 									<div className="matchup-matrix">
 										<div
 											className="matchup-header-cell matchup-header-top-left"
 											style={{
 												height: headerCellHeight,
-												width: headerCellWidth
+												width: headerCellWidth,
 											}}
 										>
 											{this.getSortHeader(
 												"class",
 												"Archetype",
-												"ascending"
+												"ascending",
 											)}
 										</div>
 										<div
@@ -87,7 +87,7 @@ export default class PopularityMatrix extends React.Component<Props> {
 												cellRenderer={({
 													columnIndex,
 													key,
-													style
+													style,
 												}) => {
 													const archetype =
 														archetypes[0];
@@ -161,13 +161,13 @@ export default class PopularityMatrix extends React.Component<Props> {
 											style={{
 												height: headerCellHeight,
 												width: cellWidth,
-												right
+												right,
 											}}
 										>
 											{this.getSortHeader(
 												"total",
 												"Total",
-												null
+												null,
 											)}
 										</div>
 										<div
@@ -178,7 +178,7 @@ export default class PopularityMatrix extends React.Component<Props> {
 												cellRenderer={({
 													key,
 													rowIndex,
-													style
+													style,
 												}) => {
 													const archetype =
 														archetypes[rowIndex];
@@ -239,7 +239,7 @@ export default class PopularityMatrix extends React.Component<Props> {
 											className="grid-container"
 											style={{
 												top: headerCellHeight,
-												left: headerCellWidth
+												left: headerCellWidth,
 											}}
 										>
 											<Grid
@@ -247,7 +247,7 @@ export default class PopularityMatrix extends React.Component<Props> {
 													columnIndex,
 													key,
 													rowIndex,
-													style
+													style,
 												}) => {
 													const archetype =
 														archetypes[rowIndex];
@@ -277,7 +277,7 @@ export default class PopularityMatrix extends React.Component<Props> {
 														scrollbarWidth,
 													width -
 														headerCellWidth -
-														cellWidth
+														cellWidth,
 												)}
 												height={Math.min(
 													cellHeight *
@@ -285,7 +285,7 @@ export default class PopularityMatrix extends React.Component<Props> {
 														scrollbarHeight,
 													height -
 														headerCellHeight -
-														footerCellHeight
+														footerCellHeight,
 												)}
 												columnCount={numRanks}
 												columnWidth={cellWidth}
@@ -315,7 +315,7 @@ export default class PopularityMatrix extends React.Component<Props> {
 														: "")
 												}
 												style={{
-													bottom: scrollbarHeight
+													bottom: scrollbarHeight,
 												}}
 											/>
 											<div
@@ -337,7 +337,7 @@ export default class PopularityMatrix extends React.Component<Props> {
 														: "")
 												}
 												style={{
-													right: scrollbarWidth
+													right: scrollbarWidth,
 												}}
 											/>
 										</div>
@@ -345,14 +345,14 @@ export default class PopularityMatrix extends React.Component<Props> {
 											className="grid-container grid-container-right"
 											style={{
 												top: headerCellHeight,
-												right
+												right,
 											}}
 										>
 											<Grid
 												cellRenderer={({
 													key,
 													rowIndex,
-													style
+													style,
 												}) => {
 													return (
 														<PopularityCell
@@ -411,7 +411,7 @@ export default class PopularityMatrix extends React.Component<Props> {
 											style={{
 												height: footerCellHeight,
 												width: headerCellWidth,
-												bottom
+												bottom,
 											}}
 										>
 											<div>Games</div>
@@ -420,14 +420,14 @@ export default class PopularityMatrix extends React.Component<Props> {
 											className="grid-container grid-container-bottom"
 											style={{
 												left: headerCellWidth,
-												bottom
+												bottom,
 											}}
 										>
 											<Grid
 												cellRenderer={({
 													columnIndex,
 													key,
-													style
+													style,
 												}) => (
 													<ColumnFooter
 														games={
@@ -490,7 +490,7 @@ export default class PopularityMatrix extends React.Component<Props> {
 		text: string,
 		direction?: SortDirection,
 		infoHeader?: string,
-		infoText?: string
+		infoText?: string,
 	): JSX.Element {
 		return (
 			<SortHeader

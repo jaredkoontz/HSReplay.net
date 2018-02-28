@@ -33,7 +33,7 @@ export default class Pager extends React.Component<Props> {
 
 			pages.push({
 				number: page,
-				active: page === +safeCurrentPage
+				active: page === +safeCurrentPage,
 			});
 
 			lastPage = page;
@@ -41,7 +41,7 @@ export default class Pager extends React.Component<Props> {
 
 		const makeOnClick = (
 			pageNumber: number,
-			keyboard?: boolean
+			keyboard?: boolean,
 		) => event => {
 			if (keyboard && event.which !== 13) {
 				return;
@@ -62,7 +62,7 @@ export default class Pager extends React.Component<Props> {
 		const action = (
 			targetPage: number,
 			children: any,
-			additionalProps?: any
+			additionalProps?: any,
 		) => {
 			const min = 1;
 			const max = this.props.pageCount || null;
@@ -71,9 +71,9 @@ export default class Pager extends React.Component<Props> {
 
 			const props = Object.assign(
 				{
-					className: "weight-normal"
+					className: "weight-normal",
 				},
-				additionalProps
+				additionalProps,
 			);
 
 			let disabled = true;
@@ -111,7 +111,7 @@ export default class Pager extends React.Component<Props> {
 								Previous
 							</span>
 						</>,
-						{ title: "Previous page" }
+						{ title: "Previous page" },
 					)}
 					{!this.props.minimal
 						? pages.map((page: Page, index: number) => {
@@ -133,7 +133,7 @@ export default class Pager extends React.Component<Props> {
 											onClick={makeOnClick(pageNumber)}
 											onKeyDown={makeOnClick(
 												pageNumber,
-												true
+												true,
 											)}
 											className="fixed-width"
 											aria-label={"Page " + pageNumber}
@@ -189,7 +189,7 @@ export default class Pager extends React.Component<Props> {
 							</span>
 							<span className="glyphicon glyphicon-arrow-right" />
 						</>,
-						{ title: "Next page" }
+						{ title: "Next page" },
 					)}
 				</ul>
 			</nav>
@@ -219,7 +219,7 @@ export default class Pager extends React.Component<Props> {
 
 		const pivot = Math.min(
 			Math.max(this.getCurrentPage(), min + 2 * range + 1),
-			max - 2 * range - 1
+			max - 2 * range - 1,
 		);
 
 		// always show these pages

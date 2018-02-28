@@ -18,7 +18,7 @@ export default class ArchetypeFilter extends React.Component<Props> {
 			archetypesChanged,
 			data,
 			playerClasses,
-			selectedArchetypes
+			selectedArchetypes,
 		} = this.props;
 		if (!data) {
 			return null;
@@ -34,7 +34,7 @@ export default class ArchetypeFilter extends React.Component<Props> {
 						>
 							{name}
 						</span>
-					</InfoboxFilter>
+					</InfoboxFilter>,
 				);
 			};
 			const validPlayerClass = archetype =>
@@ -43,13 +43,13 @@ export default class ArchetypeFilter extends React.Component<Props> {
 			const others = {};
 			archetypes.filter(validPlayerClass).map(archetype => {
 				const archetypeData = data.find(
-					a => "" + a.id === archetype.id
+					a => "" + a.id === archetype.id,
 				);
 				if (archetypeData) {
 					addFilter(
 						archetype.id,
 						archetype.playerClass,
-						archetypeData.name
+						archetypeData.name,
 					);
 				} else {
 					others[archetype.playerClass] = archetype.id;
@@ -79,11 +79,11 @@ export default class ArchetypeFilter extends React.Component<Props> {
 							selectedArchetypes.indexOf(value) === -1
 						) {
 							archetypesChanged(
-								selectedArchetypes.concat([value])
+								selectedArchetypes.concat([value]),
 							);
 						} else if (value === null) {
 							archetypesChanged(
-								selectedArchetypes.filter(x => x !== sender)
+								selectedArchetypes.filter(x => x !== sender),
 							);
 						}
 					}}

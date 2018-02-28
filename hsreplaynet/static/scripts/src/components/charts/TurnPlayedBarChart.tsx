@@ -5,7 +5,7 @@ import {
 	VictoryAxis,
 	VictoryChart,
 	VictoryLabel,
-	VictoryScatter
+	VictoryScatter,
 } from "victory";
 import { RenderData } from "../../interfaces";
 import { getChartMetaData } from "../../helpers";
@@ -30,7 +30,7 @@ export default class TurnPlayedBarChart extends React.Component<Props> {
 			s =>
 				s.name === "popularity_by_turn" &&
 				(this.props.opponentClass === "ALL" ||
-					s.metadata["opponent_class"] === this.props.opponentClass)
+					s.metadata["opponent_class"] === this.props.opponentClass),
 		);
 		const metaData = getChartMetaData(series.data, undefined, false, 10);
 
@@ -61,7 +61,7 @@ export default class TurnPlayedBarChart extends React.Component<Props> {
 						axisLabel: { fontSize },
 						tickLabels: { fontSize },
 						grid: { stroke: "lightgray" },
-						axis: { visibility: "hidden" }
+						axis: { visibility: "hidden" },
 					}}
 				/>
 				<VictoryAxis
@@ -82,9 +82,9 @@ export default class TurnPlayedBarChart extends React.Component<Props> {
 						tickLabels: { fontSize },
 						grid: {
 							stroke: d =>
-								d === metaData.yCenter ? "gray" : "lightgray"
+								d === metaData.yCenter ? "gray" : "lightgray",
 						},
-						axis: { visibility: "hidden" }
+						axis: { visibility: "hidden" },
 					}}
 				/>
 				<VictoryScatter
@@ -113,8 +113,8 @@ export default class TurnPlayedBarChart extends React.Component<Props> {
 						data: {
 							fill: `url(#${filterId})`,
 							stroke: "black",
-							strokeWidth: 0.3
-						}
+							strokeWidth: 0.3,
+						},
 					}}
 					interpolation="monotoneX"
 				/>
@@ -155,9 +155,9 @@ export default class TurnPlayedBarChart extends React.Component<Props> {
 					{ y: 51, x: 7 },
 					{ y: 9, x: 8 },
 					{ y: 51, x: 9 },
-					{ y: 9, x: 10 }
-				]
-			}
-		]
+					{ y: 9, x: 10 },
+				],
+			},
+		],
 	};
 }
