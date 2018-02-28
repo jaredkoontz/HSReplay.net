@@ -485,6 +485,17 @@ def _is_decklist_superset(superset_decklist, subset_decklist):
 	return s1.issuperset(s2)
 
 
+def _can_claim(blizzard_account):
+	if blizzard_account.user:
+		return False
+
+	if blizzard_account.account_lo in (0, 1):
+		# Blacklist known AI IDs
+		return False
+
+	return True
+
+
 def update_global_players(global_game, entity_tree, meta, upload_event, exporter):
 	# Fill the player metadata and objects
 	players = {}
@@ -674,7 +685,7 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 			account_hi=player.account_hi, account_lo=player.account_lo,
 			defaults=defaults
 		)
-		if not created and not blizzard_account.user and "user" in defaults:
+		if not created and _can_claim(blizzard_account) and "user" in defaults:
 			# Set BlizzardAccount.user if it's an available claim for the user
 			influx_metric("pegasus_account_claimed", {
 				"count": 1,
