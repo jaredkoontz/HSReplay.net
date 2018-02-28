@@ -178,11 +178,6 @@ def fetch_query_results(request, name):
 	if request.method == "OPTIONS":
 		response = HttpResponse(status=204)
 	else:
-		if name == "single_card_details" and \
-			"HTTP_X_TWITCH_EXTENSION_VERSION" not in request.META:
-			# 2017-01-18 emergency fix
-			return HttpResponse(status=204)
-
 		parameterized_query = _get_query_and_params(request, name)
 		if issubclass(parameterized_query.__class__, HttpResponse):
 			return parameterized_query
