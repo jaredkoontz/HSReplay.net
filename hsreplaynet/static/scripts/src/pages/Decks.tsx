@@ -29,6 +29,7 @@ import { decode as decodeDeckstring } from "deckstrings";
 import DataManager from "../DataManager";
 import { Limit } from "../components/ObjectSearch";
 import Feature from "../components/Feature";
+import DustFilter from "../components/filters/DustFilter";
 
 interface Props extends FragmentChildProps {
 	cardData: CardData | null;
@@ -643,28 +644,25 @@ export default class Decks extends React.Component<Props, State> {
 					</section>
 
 					<Feature feature="max-dust-filter">
-						<section id="max-dust-filter" className="form-group">
-							<h2 id="max-dust-label">Max Dust</h2>
-							<input
-								type="number"
-								disabled={!this.props.collection}
-								step={100}
-								placeholder="Max dust"
-								value={
-									this.props.maxDustCost !== -1
-										? this.props.maxDustCost
-										: ""
+						<section id="max-dust-filter">
+							<h2 id="max-dust-label">My Collection</h2>
+							<DustFilter
+								dust={
+									this.props.maxDustCost === -1
+										? Infinity
+										: this.props.maxDustCost
 								}
-								min={0}
-								max={50000}
-								onChange={e => {
+								setDust={(dust: number) =>
 									this.props.setMaxDustCost(
-										e.target.value !== ""
-											? +e.target.value
-											: -1,
-									);
-								}}
-								className="form-control"
+										dust === Infinity ? -1 : dust,
+									)
+								}
+								placeholder={
+									this.props.collection
+										? "Maximum Dust"
+										: "No collection found"
+								}
+								disabled={!this.props.collection}
 							/>
 						</section>
 					</Feature>
