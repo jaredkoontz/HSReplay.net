@@ -29,6 +29,10 @@ class BaseCollectionView(APIView):
 
 		key = f"collections/{account.account_hi}/{account.account_lo}/collection.json"
 
+		if self.request.auth and not self.request.auth.application.livemode:
+			# For non-livemode oauth apps, return a testmode url
+			key = "sandbox/" + key
+
 		return self._get_response(account, key)
 
 
