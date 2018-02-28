@@ -3,7 +3,6 @@
 const path = require("path");
 const webpack = require("webpack");
 const BundleTracker = require("webpack-bundle-tracker");
-const fs = require("fs");
 const spawnSync = require("child_process").spawnSync;
 const url = require("url");
 const _ = require("lodash");
