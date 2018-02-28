@@ -85,7 +85,7 @@ if (UserData.isAuthenticated() && UserData.hasFeature("max-dust-filter")) {
 		}
 		DataManager.get("/api/v1/collection/", {
 			account_lo: "" + account.lo,
-			account_hi: "" + account.hi,
+			account_hi: "" + account.hi
 		}).then(collection => {
 			myCollectionData = collection;
 			render(myCardData, myCollectionData);
