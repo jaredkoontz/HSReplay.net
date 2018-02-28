@@ -66,8 +66,9 @@ export default class ReferralsPromo extends React.Component<Props, State> {
 						<p>
 							Earn some credits for free Premium! Just refer your
 							friends using your referral link!<br />
-							For each of your friends that subscribes, you'll get{" "}
-							{this.props.discount} off your next month's bill.
+							For each of your friends that subscribes for the
+							first time, you'll get {this.props.discount} off
+							your next month's bill.
 						</p>
 						<div className="input-group input-group-lg">
 							<input
