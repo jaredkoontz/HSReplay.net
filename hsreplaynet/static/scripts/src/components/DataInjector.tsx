@@ -8,7 +8,7 @@ interface Data {
 }
 
 interface Extractor {
-	[prop: string]: (prop: any, props?: any) => any;
+	[key: string]: (prop: any, props?: any) => any;
 }
 
 export interface Query {
@@ -206,6 +206,10 @@ export default class DataInjector extends React.Component<Props, State> {
 			}
 		}
 
-		return cloneComponent(this.props.children, childProps);
+		if (typeof this.props.children === "function") {
+			return (this.props.children as any)(childProps);
+		} else {
+			return cloneComponent(this.props.children, childProps);
+		}
 	}
 }
