@@ -61,7 +61,7 @@ class DeckTile extends React.Component<Props> {
 
 	protected getMark(card: HearthstoneJSONCardData, count: number): string {
 		if (count > 1) {
-			return `x${count}`;
+			return `×${count}`;
 		}
 
 		if (card.rarity === "LEGENDARY") {
