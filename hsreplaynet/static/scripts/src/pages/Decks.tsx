@@ -643,7 +643,7 @@ export default class Decks extends React.Component<Props, State> {
 						/>
 					</section>
 
-					<Feature feature="max-dust-filter">
+					<Feature feature="collection-syncing">
 						<section id="max-dust-filter">
 							<h2 id="max-dust-label">My Collection</h2>
 							<DustFilter

@@ -68,7 +68,7 @@ new CardData().load(cardData => {
 	render(myCardData, myCollectionData);
 });
 
-if (UserData.isAuthenticated() && UserData.hasFeature("max-dust-filter")) {
+if (UserData.isAuthenticated() && UserData.hasFeature("collection-syncing")) {
 	(() => {
 		const defaultAccount = UserData.getDefaultAccountKey();
 		const [region, account_lo] = defaultAccount.split("-");
