@@ -5,6 +5,7 @@ from rest_framework.exceptions import NotFound, ValidationError
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from hearthsim.identity.accounts.models import BlizzardAccount
 from hearthsim.identity.oauth2.permissions import OAuth2HasScopes
 from hsreplaynet.settings import S3_COLLECTIONS_BUCKET
 from hsreplaynet.utils.aws.clients import S3
@@ -19,8 +20,14 @@ class BaseCollectionView(APIView):
 	def get(self, request, **kwargs):
 		serializer = self.serializer_class(data=request.GET)
 		serializer.is_valid(raise_exception=True)
+
+		if request.user.is_staff:
+			accounts = BlizzardAccount.objects
+		else:
+			accounts = request.user.blizzard_accounts
+
 		try:
-			account = request.user.blizzard_accounts.get(
+			account = accounts.get(
 				account_hi=serializer.validated_data["account_hi"],
 				account_lo=serializer.validated_data["account_lo"],
 			)
