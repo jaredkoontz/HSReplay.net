@@ -5,7 +5,7 @@ import Cards from "../pages/Cards";
 import UserData from "../UserData";
 import Fragments from "../components/Fragments";
 import GoogleAnalytics from "../metrics/GoogleAnalytics";
-import ErrorReporter from "../components/ErrorReporter";
+import Root from "../components/Root";
 
 const container = document.getElementById("card-container");
 const personal = container.getAttribute("data-view-type") === "personal";
@@ -22,7 +22,7 @@ if (personal && !defaultAccount) {
 
 const render = (cardData: CardData) => {
 	ReactDOM.render(
-		<ErrorReporter>
+		<Root>
 			<Fragments
 				defaults={{
 					text: "",
@@ -60,7 +60,7 @@ const render = (cardData: CardData) => {
 					accounts={availableAccounts}
 				/>
 			</Fragments>
-		</ErrorReporter>,
+		</Root>,
 		container,
 	);
 };

@@ -4,7 +4,7 @@ import CardData from "../CardData";
 import ArchetypeDetail from "../pages/ArchetypeDetail";
 import UserData from "../UserData";
 import Fragments from "../components/Fragments";
-import ErrorReporter from "../components/ErrorReporter";
+import Root from "../components/Root";
 
 const container = document.getElementById("archetype-container");
 const archetypeId = container.getAttribute("data-archetype-id");
@@ -18,7 +18,7 @@ UserData.create();
 
 const render = (cardData: CardData) => {
 	ReactDOM.render(
-		<ErrorReporter>
+		<Root>
 			<Fragments
 				defaults={{
 					rankRange: "LEGEND_THROUGH_TWENTY",
@@ -36,7 +36,7 @@ const render = (cardData: CardData) => {
 					gameType="RANKED_STANDARD"
 				/>
 			</Fragments>
-		</ErrorReporter>,
+		</Root>,
 		container,
 	);
 };

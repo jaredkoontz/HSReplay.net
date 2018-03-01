@@ -4,14 +4,14 @@ import CardData from "../CardData";
 import UserData from "../UserData";
 import Fragments from "../components/Fragments";
 import MyDecks from "../pages/MyDecks";
-import ErrorReporter from "../components/ErrorReporter";
+import Root from "../components/Root";
 
 const container = document.getElementById("my-decks-container");
 UserData.create();
 
 const render = (cardData: CardData) => {
 	ReactDOM.render(
-		<ErrorReporter>
+		<Root>
 			<Fragments
 				defaults={{
 					excludedCards: [],
@@ -24,7 +24,7 @@ const render = (cardData: CardData) => {
 			>
 				<MyDecks cardData={cardData} />
 			</Fragments>
-		</ErrorReporter>,
+		</Root>,
 		container,
 	);
 };

@@ -4,7 +4,7 @@ import CardData from "../CardData";
 import CardDetail from "../pages/CardDetail";
 import UserData from "../UserData";
 import Fragments from "../components/Fragments";
-import ErrorReporter from "../components/ErrorReporter";
+import Root from "../components/Root";
 
 const cardId = document
 	.getElementById("card-info")
@@ -15,7 +15,7 @@ UserData.create();
 const render = (cardData: CardData) => {
 	const card = cardData && cardData.fromDbf(dbfId);
 	ReactDOM.render(
-		<ErrorReporter>
+		<Root>
 			<Fragments
 				defaults={{
 					gameType: "RANKED_STANDARD",
@@ -35,7 +35,7 @@ const render = (cardData: CardData) => {
 					dbfId={dbfId}
 				/>
 			</Fragments>
-		</ErrorReporter>,
+		</Root>,
 		document.getElementById("card-container"),
 	);
 };

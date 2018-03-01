@@ -4,9 +4,9 @@ import CardData from "../CardData";
 import Decks from "../pages/Decks";
 import UserData, { Account } from "../UserData";
 import Fragments from "../components/Fragments";
-import ErrorReporter from "../components/ErrorReporter";
 import { HearthstoneCollection } from "../interfaces";
 import DataManager from "../DataManager";
+import Root from "../components/Root";
 
 const container = document.getElementById("decks-container");
 UserData.create();
@@ -16,7 +16,7 @@ const render = (
 	collection: HearthstoneCollection | null,
 ) => {
 	ReactDOM.render(
-		<ErrorReporter>
+		<Root>
 			<Fragments
 				defaults={{
 					archetypeSelector: "",
@@ -53,7 +53,7 @@ const render = (
 					)}
 				/>
 			</Fragments>
-		</ErrorReporter>,
+		</Root>,
 		container,
 	);
 };

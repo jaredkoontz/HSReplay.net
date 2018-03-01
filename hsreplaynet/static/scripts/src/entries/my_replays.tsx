@@ -5,7 +5,7 @@ import MyReplays from "../pages/MyReplays";
 import UserData from "../UserData";
 import Fragments from "../components/Fragments";
 import CardData from "../CardData";
-import ErrorReporter from "../components/ErrorReporter";
+import Root from "../components/Root";
 
 UserData.create();
 let username = UserData.getUsername();
@@ -23,7 +23,7 @@ for (const part of parts) {
 
 const render = (cardData: CardData) => {
 	ReactDOM.render(
-		<ErrorReporter>
+		<Root>
 			<Fragments
 				defaults={{
 					name: "",
@@ -42,7 +42,7 @@ const render = (cardData: CardData) => {
 					username={username}
 				/>
 			</Fragments>
-		</ErrorReporter>,
+		</Root>,
 		document.getElementById("my-games-container"),
 	);
 };

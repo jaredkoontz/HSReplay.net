@@ -4,14 +4,14 @@ import CardData from "../CardData";
 import UserData from "../UserData";
 import Fragments from "../components/Fragments";
 import Discover from "../pages/Discover";
-import ErrorReporter from "../components/ErrorReporter";
+import Root from "../components/Root";
 
 const container = document.getElementById("discover-container");
 UserData.create();
 
 const render = (cardData: CardData) => {
 	ReactDOM.render(
-		<ErrorReporter>
+		<Root>
 			<Fragments
 				defaults={{
 					dataset: "live",
@@ -29,7 +29,7 @@ const render = (cardData: CardData) => {
 			>
 				<Discover cardData={cardData} />
 			</Fragments>
-		</ErrorReporter>,
+		</Root>,
 		container,
 	);
 };

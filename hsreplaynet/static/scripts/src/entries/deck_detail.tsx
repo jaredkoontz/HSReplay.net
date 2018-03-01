@@ -4,7 +4,7 @@ import CardData from "../CardData";
 import DeckDetail from "../pages/DeckDetail";
 import UserData from "../UserData";
 import Fragments from "../components/Fragments";
-import ErrorReporter from "../components/ErrorReporter";
+import Root from "../components/Root";
 
 const adminUrl = document
 	.getElementById("deck-info")
@@ -36,7 +36,7 @@ UserData.create();
 
 const render = (cardData: CardData) => {
 	ReactDOM.render(
-		<ErrorReporter>
+		<Root>
 			<Fragments
 				defaults={{
 					gameType: isWild ? "RANKED_WILD" : "RANKED_STANDARD",
@@ -63,7 +63,7 @@ const render = (cardData: CardData) => {
 					heroDbfId={heroDbfId}
 				/>
 			</Fragments>
-		</ErrorReporter>,
+		</Root>,
 		document.getElementById("deck-container"),
 	);
 };

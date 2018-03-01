@@ -4,13 +4,13 @@ import CardData from "../CardData";
 import UserData from "../UserData";
 import Fragments from "../components/Fragments";
 import MetaOverview from "../pages/MetaOverview";
-import ErrorReporter from "../components/ErrorReporter";
+import Root from "../components/Root";
 
 UserData.create();
 
 const render = (cardData: CardData) => {
 	ReactDOM.render(
-		<ErrorReporter>
+		<Root>
 			<Fragments
 				defaults={{
 					gameType: "RANKED_STANDARD",
@@ -31,7 +31,7 @@ const render = (cardData: CardData) => {
 			>
 				<MetaOverview cardData={cardData} region="ALL" />
 			</Fragments>
-		</ErrorReporter>,
+		</Root>,
 		document.getElementById("meta-overview-container"),
 	);
 };

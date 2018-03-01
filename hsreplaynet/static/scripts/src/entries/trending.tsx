@@ -2,13 +2,13 @@ import React from "react";
 import ReactDOM from "react-dom";
 import CardData from "../CardData";
 import DeckSpotlight from "../pages/DeckSpotlight";
-import ErrorReporter from "../components/ErrorReporter";
+import Root from "../components/Root";
 
 const render = (cardData: CardData) => {
 	ReactDOM.render(
-		<ErrorReporter>
+		<Root>
 			<DeckSpotlight cardData={cardData} />
-		</ErrorReporter>,
+		</Root>,
 		document.getElementById("trending-container"),
 	);
 };
