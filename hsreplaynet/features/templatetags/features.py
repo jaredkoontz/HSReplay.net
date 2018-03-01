@@ -18,7 +18,7 @@ def get_feature_context(user, feature_name):
 		feature = Feature.objects.get(name=feature_name)
 	except Feature.DoesNotExist as e:
 		feature_context["exists"] = False
-		feature_context["enabled"] = user.is_staff
+		feature_context["enabled"] = False
 	else:
 		feature_context["enabled"] = feature.enabled_for_user(user)
 		feature_context["read_only"] = feature.read_only
