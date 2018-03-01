@@ -60,7 +60,7 @@ class DeckTile extends React.Component<Props> {
 	}
 
 	protected getMark(card: HearthstoneJSONCardData, count: number): string {
-		if (count > 0) {
+		if (count > 1) {
 			return `x${count}`;
 		}
 
@@ -149,7 +149,7 @@ class DeckTile extends React.Component<Props> {
 				}
 			}
 
-			if (userOwns < count) {
+			if (userOwns !== null && userOwns < count) {
 				markText = this.getMark(card, userOwns);
 			}
 			if (this.props.compareWith || userOwns === null || userOwns > 0) {
