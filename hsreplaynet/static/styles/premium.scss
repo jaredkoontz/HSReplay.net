@@ -298,18 +298,18 @@
 			position: relative;
 
 			&:after {
-                background: $blue;
-                bottom: 0;
-                content: '';
-                display: block;
-                height: 5vw;
-                left: 0;
-                position: absolute;
-                right: 0;
-                transform: skewY(-1.5deg);
-                transform-origin: 125%;
-                z-index: 100;
-            }
+				background: $blue;
+				bottom: 0;
+				content: '';
+				display: block;
+				height: 5vw;
+				left: 0;
+				position: absolute;
+				right: 0;
+				transform: skewY(-1.5deg);
+				transform-origin: 125%;
+				z-index: 99;
+			}
 		}
 
 		a.referrals-promo-cta {
@@ -317,7 +317,7 @@
 			font-weight: bold;
 			margin: 0;
 			position: relative;
-			z-index: 100;
+			z-index: 99;
 
 			color: white;
 			text-decoration: none;
