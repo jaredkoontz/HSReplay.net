@@ -642,31 +642,45 @@ export default class Decks extends React.Component<Props, State> {
 							cardLimit={Limit.SINGLE}
 						/>
 					</section>
-
 					<Feature feature="collection-syncing">
 						<section id="max-dust-filter">
-							<h2 id="max-dust-label">My Collection</h2>
-							<DustFilter
-								dust={
-									this.props.maxDustCost === -1
-										? Infinity
-										: this.props.maxDustCost
+							<InfoboxFilterGroup
+								header="My Collection"
+								deselectable
+								selectedValue={
+									this.props.maxDustCost < 0 ? null : "DUST_FILTER"
 								}
-								setDust={(dust: number) =>
+								onClick={value =>
 									this.props.setMaxDustCost(
-										dust === Infinity ? -1 : dust,
+										value ? 0 : -1
 									)
 								}
-								placeholder={
-									this.props.collection
-										? "Maximum Dust"
-										: "No collection found"
-								}
-								disabled={!this.props.collection}
-							/>
+							>
+								<InfoboxFilter value="DUST_FILTER">
+									Limit to my collection
+								</InfoboxFilter>
+							</InfoboxFilterGroup>
+							{
+								this.props.maxDustCost < 0 ? null : (
+									this.props.collection ? (
+										<DustFilter
+											dust={this.props.maxDustCost}
+											setDust={(dust: number) =>
+												this.props.setMaxDustCost(
+													dust === Infinity ? -1 : dust,
+												)
+											}
+											ownedDust={this.props.collection.dust}
+										/>
+									) : (
+										<div style={{textAlign: "center", margin: 10}}>
+											[PH] No collection found
+										</div>
+									)
+								)
+							}
 						</section>
 					</Feature>
-
 					<section id="game-mode-filter">
 						<h2>Game Mode</h2>
 						<InfoboxFilterGroup

@@ -1326,4 +1326,17 @@ table .info-icon, .sort-header .info-icon {
 
 .dust-filter {
 	padding: 10px;
+	display: flex;
+	position: relative;
+
+	.dust-preset {
+		height: 34px;
+		opacity: 0.3;
+		margin-right: 10px;
+		cursor: pointer;
+
+		&.active {
+			opacity: 1;
+		}
+	}
 }

@@ -633,7 +633,14 @@ export function getDustCost(card: any | any[]): number {
 		return 0;
 	}
 
-	switch (card.rarity) {
+	return GetDustValue(card.rarity);
+}
+
+export function GetDustValue(rarity: string) {
+	if(!rarity) {
+		return 0;
+	}
+	switch (rarity.toUpperCase()) {
 		case "COMMON":
 			return 40;
 		case "RARE":
