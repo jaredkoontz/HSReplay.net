@@ -3,20 +3,30 @@ import * as _ from "lodash";
 import CardIcon from "./CardIcon";
 import ManaCurve from "./ManaCurve";
 import * as moment from "moment";
-import { ApiStream, CardObj, DeckObj } from "../interfaces";
+import {
+	ApiStream,
+	CardObj,
+	DeckObj,
+	HearthstoneCollection,
+	User,
+} from "../interfaces";
 import {
 	cardSorting,
 	compareDecks,
+	getDustCost,
 	getFragments,
 	getHeroCardId,
 	toPrettyNumber,
 	toTitleCase,
 } from "../helpers";
-import UserData from "../UserData";
+import UserData, { Account } from "../UserData";
 import Tooltip from "./Tooltip";
 import DataInjector from "./DataInjector";
 import SemanticAge from "./SemanticAge";
 import { TwitchStreamPromotionEvents } from "../metrics/GoogleAnalytics";
+import HearthstoneJSON, {
+	CardData as HearthstoneJSONCardData,
+} from "hearthstonejson-client";
 
 interface DeckTileProps extends DeckObj {
 	dustCost?: number;
@@ -30,7 +40,11 @@ interface StreamsProps {
 	streams: ApiStream[];
 }
 
-interface Props extends DeckTileProps, StreamsProps {}
+interface CollectionProps {
+	collection: HearthstoneCollection | null;
+}
+
+interface Props extends DeckTileProps, StreamsProps, CollectionProps {}
 
 class DeckTile extends React.Component<Props> {
 	public getUrl(customTab?: string) {
@@ -45,9 +59,22 @@ class DeckTile extends React.Component<Props> {
 		return `/decks/${this.props.deckId}/` + getFragments(fragments, tab);
 	}
 
+	protected getMark(card: HearthstoneJSONCardData, count: number): string {
+		if (count > 0) {
+			return `x${count}`;
+		}
+
+		if (card.rarity === "LEGENDARY") {
+			return "★";
+		}
+
+		return "";
+	}
+
 	public render(): React.ReactNode {
 		const cards = this.props.cards || [];
 		const cardIcons = [];
+		const toCraftCardIcons = [];
 
 		if (this.props.compareWith) {
 			const removed = this.props.compareWith.filter(c1 =>
@@ -58,13 +85,11 @@ class DeckTile extends React.Component<Props> {
 
 		cards.sort(cardSorting);
 
+		let missingDust = null;
 		cards.forEach((obj, index: number) => {
 			const card = obj.card;
-			let markText = obj.count
-				? card.rarity === "LEGENDARY"
-					? "★"
-					: obj.count > 1 && "x" + obj.count
-				: null;
+			const count = +obj.count;
+			let markText = this.getMark(card, count);
 			const markStyle = {
 				color: "#f4d442",
 				fontSize: "1em",
@@ -77,42 +102,75 @@ class DeckTile extends React.Component<Props> {
 				const comparisonCard = this.props.compareWith.find(
 					c => c.card.id === card.id,
 				);
-				if (obj.count === 0) {
+				if (count === 0) {
 					itemClassName = "removed";
 					markText = "" + -comparisonCard.count;
 				} else {
-					if (!comparisonCard || comparisonCard.count < obj.count) {
+					if (!comparisonCard || comparisonCard.count < count) {
 						itemClassName = "added";
 						markText =
 							"+" +
-							(obj.count -
+							(count -
 								(comparisonCard ? comparisonCard.count : 0));
-					} else if (comparisonCard.count > obj.count) {
+					} else if (comparisonCard.count > count) {
 						itemClassName = "reduced";
-						markText = "" + (obj.count - comparisonCard.count);
+						markText = "" + (count - comparisonCard.count);
 					} else {
 						itemClassName = "unchanged";
 					}
 				}
 			}
 
-			cardIcons.push(
-				<li
-					className={itemClassName}
-					key={
-						this.props.compareWith
-							? index
-							: obj.count + "x " + card.id
-					}
-				>
-					<CardIcon
-						card={card}
-						mark={markText}
-						markStyle={markStyle}
-						tabIndex={-1}
-					/>
-				</li>,
-			);
+			let userOwns = null;
+			if (
+				this.props.collection &&
+				typeof this.props.collection.collection === "object"
+			) {
+				const collectionCards = this.props.collection.collection;
+				const dbfId = card.dbfId;
+				const [nonGolden, golden] = collectionCards[dbfId] || [0, 0];
+				userOwns = nonGolden + golden;
+				if (userOwns < count) {
+					const difference = count - userOwns;
+					missingDust += getDustCost(card) * difference;
+					toCraftCardIcons.push(
+						<li
+							className={"needs-crafting"}
+							key={`craft_${card.id}`}
+						>
+							<CardIcon
+								card={card}
+								mark={this.getMark(card, difference)}
+								markStyle={markStyle}
+								tabIndex={-1}
+							/>
+						</li>,
+					);
+				}
+			}
+
+			if (userOwns < count) {
+				markText = this.getMark(card, userOwns);
+			}
+			if (this.props.compareWith || userOwns === null || userOwns > 0) {
+				cardIcons.push(
+					<li
+						className={itemClassName}
+						key={
+							this.props.compareWith
+								? index
+								: `${count}x ${card.id}`
+						}
+					>
+						<CardIcon
+							card={card}
+							mark={markText}
+							markStyle={markStyle}
+							tabIndex={-1}
+						/>
+					</li>,
+				);
+			}
 		});
 
 		const deckNameStyle = {
@@ -260,7 +318,16 @@ class DeckTile extends React.Component<Props> {
 							<ManaCurve cards={this.props.cards} />
 						</div>
 						<div className="col-lg-6 col-md-7 col-sm-8 hidden-xs">
-							<ul className="card-list">{cardIcons}</ul>
+							<ul className="card-list">
+								{toCraftCardIcons}
+								{toCraftCardIcons.length > 0 ? (
+									<li
+										key="separator"
+										className="card-list-separator"
+									/>
+								) : null}
+								{cardIcons}
+							</ul>
 						</div>
 					</div>
 				</a>
@@ -270,6 +337,24 @@ class DeckTile extends React.Component<Props> {
 }
 
 export default class InjectedDeckTile extends React.Component<DeckTileProps> {
+	private getAccount(): Account | null {
+		if (!UserData.isAuthenticated()) {
+			return null;
+		}
+		const accounts = UserData.getAccounts();
+		const defaultAccount = UserData.getDefaultAccountKey();
+		if (!accounts.length || !defaultAccount) {
+			return null;
+		}
+		const [region, account_lo] = defaultAccount.split("-");
+		return (
+			accounts.find(
+				(account: Account) =>
+					+account.region === +region && +account.lo === +account_lo,
+			) || null
+		);
+	}
+
 	public render(): React.ReactNode {
 		const props = _.omit(this.props, "children") as any;
 
@@ -297,9 +382,50 @@ export default class InjectedDeckTile extends React.Component<DeckTileProps> {
 					},
 				}}
 				fetchCondition={UserData.hasFeature("twitch-stream-promotion")}
-				key={props.deckId}
 			>
-				<DeckTile {...props} />
+				{({ streams }) => {
+					const account = this.getAccount();
+					if (!account) {
+						return (
+							<DeckTile
+								{...props}
+								streams={streams}
+								collection={null}
+							/>
+						);
+					}
+
+					return (
+						<DataInjector
+							query={[
+								{
+									key: "collection",
+									params: {
+										account_hi: "" + account.hi,
+										account_lo: "" + account.lo,
+									},
+									url: "/api/v1/collection/",
+								},
+							]}
+							extract={{
+								collection: data => ({
+									collection: data || null,
+								}),
+							}}
+							fetchCondition={UserData.hasFeature(
+								"collection-syncing",
+							)}
+						>
+							{({ collection }) => (
+								<DeckTile
+									{...props}
+									streams={streams}
+									collection={collection}
+								/>
+							)}
+						</DataInjector>
+					);
+				}}
 			</DataInjector>
 		);
 	}

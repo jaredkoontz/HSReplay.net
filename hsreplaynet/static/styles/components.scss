@@ -368,6 +368,13 @@ table .info-icon, .sort-header .info-icon {
 				}
 			}
 
+			&.needs-crafting {
+				.card-icon {
+					background-blend-mode: multiply;
+					background-color: rgba(255, 0, 0, 0.6);
+				}
+			}
+
 			.card-icon {
 				float: left;
 				line-height: 50px;
@@ -378,6 +385,14 @@ table .info-icon, .sort-header .info-icon {
 		.unchanged:hover {
 			filter: grayscale(0);
 			z-index: 999;
+		}
+
+		.card-list-separator {
+			width: 1px;
+			min-width: 1px;
+			height: 65px;
+			background-color: black;
+			margin: 0 0 0 calc(-6% + 52px); // don't even ask
 		}
 	}
 
