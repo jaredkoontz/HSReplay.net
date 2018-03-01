@@ -1,5 +1,5 @@
 import * as _ from "lodash";
-import * as moment from "moment";
+import { addDays, format } from "date-fns";
 import React from "react";
 import {
 	VictoryArea,
@@ -102,11 +102,7 @@ export default class WinrateLineChart extends React.Component<Props> {
 					<VictoryAxis
 						scale="time"
 						tickValues={metadata.seasonTicks}
-						tickFormat={tick =>
-							moment(tick)
-								.add(1, "day")
-								.format("MMMM")
-						}
+						tickFormat={tick => format(addDays(tick, 1), "MMMM")}
 						style={{
 							axisLabel: { fontSize },
 							tickLabels: { fontSize },
@@ -173,7 +169,7 @@ export default class WinrateLineChart extends React.Component<Props> {
 							/>
 						}
 						labels={d =>
-							moment(d.x).format("YYYY-MM-DD") +
+							format(d.x, "YYYY-MM-DD") +
 							": " +
 							sliceZeros(toDynamicFixed(d.y, 2)) +
 							"%"

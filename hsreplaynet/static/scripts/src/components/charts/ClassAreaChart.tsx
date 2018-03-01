@@ -1,5 +1,5 @@
-import * as moment from "moment";
 import React from "react";
+import { addDays, format } from "date-fns";
 import {
 	VictoryArea,
 	VictoryAxis,
@@ -90,11 +90,7 @@ export default class ClassAreaChartChart extends React.Component<Props> {
 					<VictoryAxis
 						scale="time"
 						tickValues={seasonTicks}
-						tickFormat={tick =>
-							moment(tick)
-								.add(1, "day")
-								.format("MMMM")
-						}
+						tickFormat={tick => format(addDays(tick, 1), "MMMM")}
 						style={{
 							axisLabel: { fontSize: 8 },
 							tickLabels: { fontSize: 8 },

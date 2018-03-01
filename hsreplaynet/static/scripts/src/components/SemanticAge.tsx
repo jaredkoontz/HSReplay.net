@@ -1,9 +1,10 @@
 import React from "react";
-import * as moment from "moment";
+import { distanceInWordsStrict, distanceInWordsToNow } from "date-fns";
 
 interface Props {
 	date?: Date;
 	noSuffix?: boolean;
+	strict?: boolean;
 }
 
 interface State {
@@ -34,19 +35,19 @@ export default class SemanticAge extends React.Component<Props, State> {
 	}
 
 	public render(): React.ReactNode {
-		const { date, noSuffix } = this.props;
+		const { date, noSuffix, strict } = this.props;
 
 		if (!date || !(date instanceof Date)) {
 			return null;
 		}
 
-		// for now, set this globally on every render
-		moment.relativeTimeThreshold("m", 60);
-
 		const machineReadable = date.toISOString();
-		const phrasing = moment(date)
-			.utc()
-			.fromNow(!!noSuffix);
+		const dateOpts = {
+			addSuffix: !noSuffix,
+		};
+		const phrasing = strict
+			? distanceInWordsStrict(new Date(), date, dateOpts)
+			: distanceInWordsToNow(date, dateOpts);
 
 		return <time dateTime={machineReadable}>{phrasing}</time>;
 	}

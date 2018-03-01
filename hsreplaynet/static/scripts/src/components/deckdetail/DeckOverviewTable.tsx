@@ -1,4 +1,3 @@
-import * as moment from "moment";
 import React from "react";
 import { TableData } from "../../interfaces";
 import { toTitleCase, winrateData } from "../../helpers";
@@ -71,13 +70,9 @@ export default class DeckOverviewTable extends React.Component<Props> {
 						<td>Match duration</td>
 						<td>
 							{deck &&
-								moment
-									.duration(
-										+deck.avg_game_length_seconds,
-										"second",
-									)
-									.asMinutes()
-									.toFixed(1) + " minutes"}
+								`${(deck.avg_game_length_seconds / 60).toFixed(
+									1,
+								)} minutes`}
 						</td>
 					</tr>
 					<tr>

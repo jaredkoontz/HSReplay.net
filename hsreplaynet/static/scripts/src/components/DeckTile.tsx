@@ -2,13 +2,11 @@ import React from "react";
 import * as _ from "lodash";
 import CardIcon from "./CardIcon";
 import ManaCurve from "./ManaCurve";
-import * as moment from "moment";
 import {
 	ApiStream,
 	CardObj,
 	DeckObj,
 	HearthstoneCollection,
-	User,
 } from "../interfaces";
 import {
 	cardSorting,
@@ -24,9 +22,7 @@ import Tooltip from "./Tooltip";
 import DataInjector from "./DataInjector";
 import SemanticAge from "./SemanticAge";
 import { TwitchStreamPromotionEvents } from "../metrics/GoogleAnalytics";
-import HearthstoneJSON, {
-	CardData as HearthstoneJSONCardData,
-} from "hearthstonejson-client";
+import { CardData as HearthstoneJSONCardData } from "hearthstonejson-client";
 
 interface DeckTileProps extends DeckObj {
 	dustCost?: number;
@@ -304,14 +300,9 @@ class DeckTile extends React.Component<Props> {
 							>
 								<span className="glyphicon glyphicon-time" />
 								{" " +
-									moment
-										.duration(
-											this.props.duration,
-											"seconds",
-										)
-										.asMinutes()
-										.toFixed(1) +
-									" min"}
+									`${(this.props.duration / 60).toFixed(
+										1,
+									)} min`}
 							</div>
 						</div>
 						<div className="col-lg-1 hidden-md hidden-sm hidden-xs">

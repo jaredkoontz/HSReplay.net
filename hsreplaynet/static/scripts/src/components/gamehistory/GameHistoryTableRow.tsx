@@ -86,7 +86,7 @@ export default class GameHistoryTableRow extends React.Component<Props> {
 					{Math.ceil(this.props.turns / 2)}
 				</div>
 				<div className="match-table-cell hide-below-500">
-					<SemanticAge date={this.props.endTime} />
+					<SemanticAge date={this.props.endTime} strict />
 				</div>
 			</a>
 		);

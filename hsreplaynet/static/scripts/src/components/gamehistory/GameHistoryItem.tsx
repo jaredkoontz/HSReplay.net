@@ -59,7 +59,7 @@ export default class GameHistoryItem extends React.Component<Props> {
 						<dl>
 							<dt>Played</dt>
 							<dd>
-								<SemanticAge date={this.props.endTime} />
+								<SemanticAge date={this.props.endTime} strict />
 							</dd>
 							<dt>Duration</dt>
 							<dd>
