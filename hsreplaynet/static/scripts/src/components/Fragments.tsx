@@ -228,7 +228,7 @@ export default class Fragments extends React.Component<Props, State> {
 				break;
 		}
 
-		if (!value) {
+		if (value === this.props.defaults[key]) {
 			return "";
 		}
 
