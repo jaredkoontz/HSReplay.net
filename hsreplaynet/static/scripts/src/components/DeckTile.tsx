@@ -1,5 +1,6 @@
 import React from "react";
 import * as _ from "lodash";
+import { Consumer as HearthtoneAccountConsumer } from "./utils/hearthstone-account";
 import CardIcon from "./CardIcon";
 import ManaCurve from "./ManaCurve";
 import {
@@ -328,24 +329,6 @@ class DeckTile extends React.Component<Props> {
 }
 
 export default class InjectedDeckTile extends React.Component<DeckTileProps> {
-	private getAccount(): Account | null {
-		if (!UserData.isAuthenticated()) {
-			return null;
-		}
-		const accounts = UserData.getAccounts();
-		const defaultAccount = UserData.getDefaultAccountKey();
-		if (!accounts.length || !defaultAccount) {
-			return null;
-		}
-		const [region, account_lo] = defaultAccount.split("-");
-		return (
-			accounts.find(
-				(account: Account) =>
-					+account.region === +region && +account.lo === +account_lo,
-			) || null
-		);
-	}
-
 	public render(): React.ReactNode {
 		const props = _.omit(this.props, "children") as any;
 
@@ -374,49 +357,40 @@ export default class InjectedDeckTile extends React.Component<DeckTileProps> {
 				}}
 				fetchCondition={UserData.hasFeature("twitch-stream-promotion")}
 			>
-				{({ streams }) => {
-					const account = this.getAccount();
-					if (!account) {
-						return (
-							<DeckTile
-								{...props}
-								streams={streams}
-								collection={null}
-							/>
-						);
-					}
-
-					return (
-						<DataInjector
-							query={[
-								{
-									key: "collection",
-									params: {
-										account_hi: "" + account.hi,
-										account_lo: "" + account.lo,
+				{({ streams }) => (
+					<HearthtoneAccountConsumer>
+						{(account: Account) =>
+							<DataInjector
+								query={[
+									{
+										key: "collection",
+										params: {
+											account_hi: "" + (account && account.hi),
+											account_lo: "" + (account && account.lo),
+										},
+										url: "/api/v1/collection/",
 									},
-									url: "/api/v1/collection/",
-								},
-							]}
-							extract={{
-								collection: data => ({
-									collection: data || null,
-								}),
-							}}
-							fetchCondition={UserData.hasFeature(
-								"collection-syncing",
-							)}
-						>
-							{({ collection }) => (
-								<DeckTile
-									{...props}
-									streams={streams}
-									collection={collection}
-								/>
-							)}
-						</DataInjector>
-					);
-				}}
+								]}
+								extract={{
+									collection: data => ({
+										collection: data || null,
+									}),
+								}}
+								fetchCondition={UserData.hasFeature(
+									"collection-syncing",
+								)}
+							>
+								{({ collection }) => (
+									<DeckTile
+										{...props}
+										streams={streams}
+										collection={collection}
+									/>
+								)}
+							</DataInjector>
+						}
+					</HearthtoneAccountConsumer>
+				)}
 			</DataInjector>
 		);
 	}
