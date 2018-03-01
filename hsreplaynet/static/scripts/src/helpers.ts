@@ -637,7 +637,7 @@ export function getDustCost(card: any | any[]): number {
 }
 
 export function GetDustValue(rarity: string) {
-	if(!rarity) {
+	if (!rarity) {
 		return 0;
 	}
 	switch (rarity.toUpperCase()) {

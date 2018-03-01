@@ -32,7 +32,7 @@ export default class CardDetailGauge extends React.Component<Props> {
 
 		const valueText = hasData
 			? (this.props.reverse ? maxValue - data[0].y : data[0].y) +
-				(percentBased ? "%" : "")
+			  (percentBased ? "%" : "")
 			: "";
 		const color = this.props.scheme
 			? this.props.scheme.stroke

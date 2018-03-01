@@ -988,7 +988,7 @@ export default class DeckDetail extends React.Component<Props, State> {
 				? {
 						Region: getRegion(state.account),
 						account_lo: getLo(state.account),
-					}
+				  }
 				: {},
 		);
 	}

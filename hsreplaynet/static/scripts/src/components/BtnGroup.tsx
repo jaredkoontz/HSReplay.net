@@ -49,7 +49,7 @@ export default class BtnGroup extends React.Component<Props> {
 				: event => {
 						event.preventDefault();
 						this.props.onChange && this.props.onChange(btn.value);
-					};
+				  };
 
 		const availableValues = this.props.buttons.map((btn: Btn) => btn.value);
 		const noneChecked = this.props.value === null;
@@ -98,7 +98,7 @@ export default class BtnGroup extends React.Component<Props> {
 										this.props.onChange(availableValues[i]);
 										return;
 									}
-								}
+							  }
 					}
 					tabIndex={!disabled && (selected || noneChecked) ? 0 : -1}
 					ref={ref => (this.btnRefs[btn.value] = ref)}

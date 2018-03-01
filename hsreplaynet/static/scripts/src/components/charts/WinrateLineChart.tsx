@@ -146,7 +146,7 @@ export default class WinrateLineChart extends React.Component<Props> {
 									tick === 50
 										? "gray"
 										: (minAbove50 && isMinTick(tick)) ||
-											(maxBelow50 && isMaxTick(tick))
+										  (maxBelow50 && isMaxTick(tick))
 											? "transparent"
 											: "lightgray",
 							},

@@ -648,37 +648,36 @@ export default class Decks extends React.Component<Props, State> {
 								header="My Collection"
 								deselectable
 								selectedValue={
-									this.props.maxDustCost < 0 ? null : "DUST_FILTER"
+									this.props.maxDustCost < 0
+										? null
+										: "DUST_FILTER"
 								}
 								onClick={value =>
-									this.props.setMaxDustCost(
-										value ? 0 : -1
-									)
+									this.props.setMaxDustCost(value ? 0 : -1)
 								}
 							>
 								<InfoboxFilter value="DUST_FILTER">
 									Limit to my collection
 								</InfoboxFilter>
 							</InfoboxFilterGroup>
-							{
-								this.props.maxDustCost < 0 ? null : (
-									this.props.collection ? (
-										<DustFilter
-											dust={this.props.maxDustCost}
-											setDust={(dust: number) =>
-												this.props.setMaxDustCost(
-													dust === Infinity ? -1 : dust,
-												)
-											}
-											ownedDust={this.props.collection.dust}
-										/>
-									) : (
-										<div style={{textAlign: "center", margin: 10}}>
-											[PH] No collection found
-										</div>
-									)
-								)
-							}
+							{this.props.maxDustCost < 0 ? null : this.props
+								.collection ? (
+								<DustFilter
+									dust={this.props.maxDustCost}
+									setDust={(dust: number) =>
+										this.props.setMaxDustCost(
+											dust === Infinity ? -1 : dust,
+										)
+									}
+									ownedDust={this.props.collection.dust}
+								/>
+							) : (
+								<div
+									style={{ textAlign: "center", margin: 10 }}
+								>
+									[PH] No collection found
+								</div>
+							)}
 						</section>
 					</Feature>
 					<section id="game-mode-filter">

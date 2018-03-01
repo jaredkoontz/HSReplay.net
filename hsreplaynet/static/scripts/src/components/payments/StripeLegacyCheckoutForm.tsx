@@ -251,7 +251,7 @@ export default class StripeLegacyCheckoutForm extends React.Component<
 								name="stripeTokenType"
 								value={this.state.token.type}
 							/>,
-						]
+					  ]
 					: null}
 				<div dangerouslySetInnerHTML={this.props.csrfElement} />
 			</form>

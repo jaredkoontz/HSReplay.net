@@ -164,7 +164,7 @@ export default class Pager extends React.Component<Props> {
 										{content}
 									</li>
 								);
-							})
+						  })
 						: null}
 					{typeof this.props.pageCount === "number" &&
 					this.props.pageCount ? (

@@ -69,12 +69,12 @@ export default class Fragments extends React.Component<Props, State> {
 						value: any,
 						debounce?: boolean,
 						callback?: () => void,
-					): void => {
+				  ): void => {
 						this.onChange(key, value, debounce, callback);
-					}
+				  }
 				: (value: any, callback?: () => void): void => {
 						this.onChange(key, value, undefined, callback);
-					};
+				  };
 			const callbackKey = "set" + suffix;
 			// assign the props
 			props[key] = this.cast(

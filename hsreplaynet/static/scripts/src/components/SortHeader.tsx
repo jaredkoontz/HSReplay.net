@@ -55,7 +55,7 @@ export default class SortHeader extends React.Component<Props> {
 								this.props.sortKey,
 								this.getNextDirection(),
 							);
-						}
+					  }
 					: null,
 			onKeyPress: event => {
 				if (event.which === 13) {

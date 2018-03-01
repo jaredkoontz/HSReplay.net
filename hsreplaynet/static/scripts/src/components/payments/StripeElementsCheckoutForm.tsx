@@ -359,7 +359,7 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 								? {
 										backgroundColor: "#eee",
 										pointerEvents: "none",
-									}
+								  }
 								: {},
 						)}
 					>
@@ -371,7 +371,7 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 								disabled
 									? {
 											visibility: "hidden",
-										}
+									  }
 									: null
 							}
 						>

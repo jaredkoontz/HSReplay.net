@@ -20,7 +20,7 @@ export default class DustFilter extends React.Component<Props> {
 		};
 		const isActive = (value: number) => {
 			return this.props.dust === value;
-		}
+		};
 		const ownedDust = Math.max(0, this.props.ownedDust);
 		const maxDust = Math.max(ownedDust, this.props.maxDust);
 
@@ -31,16 +31,8 @@ export default class DustFilter extends React.Component<Props> {
 					onClick={onClick}
 					isActive={isActive}
 				/>
-				<DustPreset
-					type="rare"
-					onClick={onClick}
-					isActive={isActive}
-				/>
-				<DustPreset
-					type="epic"
-					onClick={onClick}
-					isActive={isActive}
-				/>
+				<DustPreset type="rare" onClick={onClick} isActive={isActive} />
+				<DustPreset type="epic" onClick={onClick} isActive={isActive} />
 				<DustPreset
 					type="legendary"
 					onClick={onClick}
@@ -61,7 +53,7 @@ export default class DustFilter extends React.Component<Props> {
 					max={maxDust}
 					onChange={e => {
 						this.props.setDust(
-							Math.max(0, Math.min(maxDust, +e.target.value))
+							Math.max(0, Math.min(maxDust, +e.target.value)),
 						);
 					}}
 					className="form-control"
