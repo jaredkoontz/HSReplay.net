@@ -6,15 +6,23 @@ import UserData from "../UserData";
 import AccountMenu from "../components/AccountMenu";
 
 const navRoot = document.getElementById("dynamic-nav");
-if (navRoot) {
-	const placeholder = document.getElementById("account-nav-item");
-	const placeholderClassName = placeholder.className as string;
+const placeholder = document.getElementById("account-nav-item");
+if (navRoot && placeholder) {
+	const placeholderClassName: string = placeholder
+		? placeholder.className
+		: "";
 	const renderAccount = selectedAcount => {
 		const accounts = UserData.getAccounts();
-		const [region, lo] = selectedAcount.split("-");
-		const currentAccount = accounts.findIndex(
-			account => account.region === +region && account.lo === +lo,
-		);
+		let currentAccount = null;
+		if (selectedAcount) {
+			const [region, lo] = selectedAcount.split("-");
+			currentAccount = accounts.findIndex(
+				account => account.region === +region && account.lo === +lo,
+			);
+			if (currentAccount === -1) {
+				currentAccount = null;
+			}
+		}
 
 		ReactDOM.render(
 			<AccountMenu

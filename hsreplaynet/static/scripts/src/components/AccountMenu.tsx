@@ -5,7 +5,7 @@ interface Props {
 	username: string;
 	premium: boolean;
 	accounts: Account[];
-	currentAccount: number;
+	currentAccount: number | null;
 	setCurrentAccount: (index: number) => any;
 	className?: string;
 }
