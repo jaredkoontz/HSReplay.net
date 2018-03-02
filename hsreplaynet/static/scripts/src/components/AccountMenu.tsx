@@ -71,7 +71,7 @@ export default class AccountMenu extends React.Component<Props, State> {
 	};
 
 	private renderAccounts(): React.ReactNode {
-		if (!this.props.accounts.length) {
+		if (this.props.accounts.length <= 1) {
 			return;
 		}
 
