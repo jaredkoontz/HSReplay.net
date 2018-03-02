@@ -73,7 +73,27 @@
 					</ul>
 				{% endblock %}
 
-				<ul class="nav navbar-nav navbar-right" id="dynamic-nav"></ul>
+				<ul class="nav navbar-nav navbar-right" id="dynamic-nav">
+					{% if user.is_authenticated %}
+						{% if premium %}
+							<li{% nav_active 'account_edit' css="active active-premium" %} id="account-nav-item">
+								<a href="{% url 'account_edit' %}" class="text-premium" id="you">
+						{% else %}
+							<li{% nav_active 'account_edit' css="active" %} id="account-nav-item">
+								<a href="{% url 'account_edit' %}" id="you">
+						{% endif %}
+								<span>{{ user.username }}</span>
+								<span class="caret"></span>
+							</a>
+						</li>
+					{% elif not hide_login %}
+						<li class="button-container">
+							<a href="{% url 'account_login' %}?next={{ request.path|urlencode }}" class="btn promo-button">
+								Log in or create account
+							</a>
+						</li>
+					{% endif %}
+				</ul>
 
 				<ul class="nav navbar-nav navbar-right">
 						{% if user.is_staff %}
@@ -126,26 +146,6 @@
 								<span class="hidden-sm">My Replays</span>
 							</a>
 						</li>
-
-					{% if user.is_authenticated %}
-						{% if premium %}
-							<li{% nav_active 'account_edit' css="active active-premium" %} id="account-nav-item">
-								<a href="{% url 'account_edit' %}" class="text-premium" id="you">
-						{% else %}
-							<li{% nav_active 'account_edit' css="active" %} id="account-nav-item">
-								<a href="{% url 'account_edit' %}" id="you">
-						{% endif %}
-								<span>{{ user.username }}</span>
-								<span class="caret"></span>
-							</a>
-						</li>
-					{% elif not hide_login %}
-						<li class="button-container">
-							<a href="{% url 'account_login' %}?next={{ request.path|urlencode }}" class="btn promo-button">
-								Log in or create account
-							</a>
-						</li>
-					{% endif %}
 				</ul>
 			{% endwith %}
 		</nav>
