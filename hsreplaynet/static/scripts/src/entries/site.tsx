@@ -1,6 +1,62 @@
+import React from "react";
+import ReactDOM from "react-dom";
 import * as $ from "jquery";
 import { cookie } from "cookie_js";
 import UserData from "../UserData";
+import AccountMenu from "../components/AccountMenu";
+
+const navRoot = document.getElementById("dynamic-nav");
+if (navRoot) {
+	const renderAccount = selectedAcount => {
+		const accounts = UserData.getAccounts();
+		const [region, lo] = selectedAcount.split("-");
+		const currentAccount = accounts.findIndex(
+			account => account.region === +region && account.lo === +lo,
+		);
+
+		ReactDOM.render(
+			<AccountMenu
+				username={UserData.getUsername()}
+				premium={UserData.isPremium()}
+				accounts={accounts}
+				currentAccount={currentAccount}
+				setCurrentAccount={accountIndex => {
+					const account = accounts[accountIndex];
+					const event = new CustomEvent(
+						"hsreplaynet-select-account",
+						{
+							detail: {
+								account: `${account.region}-${account.lo}`,
+							},
+						},
+					);
+					document.dispatchEvent(event);
+				}}
+			/>,
+			navRoot,
+			() => {
+				const placeholder = document.getElementById("account-nav-item");
+				if (placeholder) {
+					placeholder.remove();
+				}
+			},
+		);
+	};
+
+	document.addEventListener(
+		"hsreplaynet-select-account",
+		(event: CustomEvent) => {
+			const account = event.detail.account;
+			if (!account) {
+				return;
+			}
+			renderAccount(account);
+			UserData.setDefaultAccount(account);
+		},
+	);
+
+	renderAccount(UserData.getDefaultAccountKey());
+}
 
 if (
 	window &&

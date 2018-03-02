@@ -5,6 +5,7 @@ import DeckDetail from "../pages/DeckDetail";
 import UserData from "../UserData";
 import Fragments from "../components/Fragments";
 import Root from "../components/Root";
+import { Consumer as AccountConsumer } from "../components/utils/hearthstone-account";
 
 const adminUrl = document
 	.getElementById("deck-info")
@@ -37,32 +38,39 @@ UserData.create();
 const render = (cardData: CardData) => {
 	ReactDOM.render(
 		<Root>
-			<Fragments
-				defaults={{
-					gameType: isWild ? "RANKED_WILD" : "RANKED_STANDARD",
-					rankRange: "ALL",
-					region: "ALL",
-					selectedClasses: [],
-					tab: "mulligan-guide",
-				}}
-				immutable={
-					!UserData.isPremium()
-						? ["selectedClasses", "rankRange", "region"]
-						: null
-				}
-			>
-				<DeckDetail
-					adminUrl={adminUrl}
-					archetypeId={archetypeId}
-					archetypeName={archetypeName}
-					cardData={cardData}
-					deckCards={cards}
-					deckClass={deckClass}
-					deckId={deckId}
-					deckName={deckName}
-					heroDbfId={heroDbfId}
-				/>
-			</Fragments>
+			<AccountConsumer>
+				{account => (
+					<Fragments
+						defaults={{
+							gameType: isWild
+								? "RANKED_WILD"
+								: "RANKED_STANDARD",
+							rankRange: "ALL",
+							region: "ALL",
+							selectedClasses: [],
+							tab: "mulligan-guide",
+						}}
+						immutable={
+							!UserData.isPremium()
+								? ["selectedClasses", "rankRange", "region"]
+								: null
+						}
+					>
+						<DeckDetail
+							adminUrl={adminUrl}
+							archetypeId={archetypeId}
+							archetypeName={archetypeName}
+							cardData={cardData}
+							deckCards={cards}
+							deckClass={deckClass}
+							deckId={deckId}
+							deckName={deckName}
+							heroDbfId={heroDbfId}
+							account={account}
+						/>
+					</Fragments>
+				)}
+			</AccountConsumer>
 		</Root>,
 		document.getElementById("deck-container"),
 	);

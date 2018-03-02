@@ -4,10 +4,7 @@ import CardData from "../CardData";
 import Decks from "../pages/Decks";
 import UserData, { Account } from "../UserData";
 import Fragments from "../components/Fragments";
-import {
-	Consumer as HearthstoneAccountConsumer,
-	Provider as HearthstoneAccountProvider,
-} from "../components/utils/hearthstone-account";
+import { Consumer as HearthstoneAccountConsumer } from "../components/utils/hearthstone-account";
 import DataInjector from "../components/DataInjector";
 import Root from "../components/Root";
 

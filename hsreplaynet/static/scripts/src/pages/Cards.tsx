@@ -45,7 +45,7 @@ interface CardFilters {
 interface Props extends FragmentChildProps {
 	cardData: CardData;
 	personal: boolean;
-	accounts?: Account[];
+	account: Account;
 
 	text?: string;
 	setText?: (text: string, debounce?: boolean) => void;
@@ -94,7 +94,6 @@ interface Props extends FragmentChildProps {
 }
 
 interface State {
-	account?: string;
 	cards?: any[];
 	filteredCards?: any[];
 	filterCounts?: CardFilters;
@@ -203,7 +202,6 @@ export default class Cards extends React.Component<Props, State> {
 	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
-			account: UserData.getDefaultAccountKey(),
 			cards: null,
 			filterCounts: null,
 			filteredCards: [],
@@ -214,7 +212,7 @@ export default class Cards extends React.Component<Props, State> {
 		};
 		this.filters.mechanics.sort();
 
-		if (this.props.personal && this.state.account) {
+		if (this.props.personal && this.props.account) {
 			DataManager.get(
 				"single_account_lo_individual_card_stats",
 				this.getPersonalParams(),
@@ -276,7 +274,7 @@ export default class Cards extends React.Component<Props, State> {
 			!_.isEqual(_.omit(this.props, ignore), _.omit(prevProps, ignore)) ||
 			!this.state.filteredCards ||
 			!_.eq(prevState.cards, this.state.cards) ||
-			this.state.account !== prevState.account
+			this.props.account !== prevProps.account
 		) {
 			this.updateFilteredCards();
 		}
@@ -385,7 +383,7 @@ export default class Cards extends React.Component<Props, State> {
 					return [];
 				},
 			);
-		} else if (this.props.personal && this.state.account) {
+		} else if (this.props.personal && this.props.account) {
 			return DataManager.get(
 				"single_account_lo_individual_card_stats",
 				this.getPersonalParams(),
@@ -475,21 +473,7 @@ export default class Cards extends React.Component<Props, State> {
 		}
 
 		if (this.props.personal) {
-			if (this.state.account) {
-				let accountDisplayName = "";
-				if (this.props.accounts && this.props.accounts.length) {
-					const accounts = this.props.accounts;
-					for (let i = 0; i < accounts.length; i++) {
-						if (
-							`${accounts[i].region}-${accounts[i].lo}` ===
-							this.state.account
-						) {
-							accountDisplayName = accounts[i].battletag;
-							break;
-						}
-					}
-				}
-
+			if (this.props.account) {
 				content.push(
 					<div className="table-wrapper">
 						<DataInjector
@@ -526,7 +510,9 @@ export default class Cards extends React.Component<Props, State> {
 									<p>
 										We've successfully linked your
 										Hearthstone account{" "}
-										<strong>{accountDisplayName}</strong>{" "}
+										<strong>
+											{this.props.account.battletag}
+										</strong>{" "}
 										and will analyze incoming replays.
 									</p>,
 									<p>
@@ -1098,33 +1084,7 @@ export default class Cards extends React.Component<Props, State> {
 			);
 		}
 
-		if (this.props.personal && this.props.accounts.length > 0) {
-			const accounts = this.props.accounts.map(acc => {
-				const value = `${acc.region}-${acc.lo}`;
-				return (
-					<InfoboxFilter value={value} key={value}>
-						{acc.display}
-					</InfoboxFilter>
-				);
-			});
-			if (accounts.length) {
-				filters.push(
-					<InfoboxFilterGroup
-						header="Accounts"
-						selectedValue={this.state.account}
-						onClick={account => {
-							UserData.setDefaultAccount(account);
-							this.setState({ account });
-						}}
-						key="accounts"
-					>
-						{accounts}
-					</InfoboxFilterGroup>,
-				);
-			}
-		}
-
-		if (isStatsView || (this.props.personal && this.state.account)) {
+		if (isStatsView || (this.props.personal && this.props.account)) {
 			const lastUpdatedUrl = isStatsView
 				? "card_played_popularity_report"
 				: "single_account_lo_individual_card_stats";
@@ -1467,12 +1427,13 @@ export default class Cards extends React.Component<Props, State> {
 	}
 
 	getPersonalParams(): any {
-		const getRegion = (account: string) => account && account.split("-")[0];
-		const getLo = (account: string) => account && account.split("-")[1];
+		if (!this.props.account) {
+			return;
+		}
 		return {
 			GameType: this.props.gameType,
-			Region: getRegion(this.state.account),
-			account_lo: getLo(this.state.account),
+			Region: this.props.account.region,
+			account_lo: this.props.account.lo,
 			TimeRange: this.props.timeRange,
 		};
 	}

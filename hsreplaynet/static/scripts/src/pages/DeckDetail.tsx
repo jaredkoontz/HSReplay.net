@@ -22,7 +22,7 @@ import {
 	toTitleCase,
 } from "../helpers";
 import { CardObj, RenderData, SortDirection } from "../interfaces";
-import UserData from "../UserData";
+import UserData, { Account } from "../UserData";
 import InfoIcon from "../components/InfoIcon";
 import ManaCurve from "../components/ManaCurve";
 import TabList from "../components/layout/TabList";
@@ -49,6 +49,7 @@ interface InventoryRegion {
 }
 
 interface Props {
+	account: Account | null;
 	adminUrl: string;
 	archetypeId?: string;
 	archetypeName?: string;
@@ -71,7 +72,6 @@ interface Props {
 }
 
 interface State {
-	account?: string;
 	inventory?: InventoryGameType;
 	expandWinrate?: boolean;
 	hasData?: boolean;
@@ -86,7 +86,6 @@ export default class DeckDetail extends React.Component<Props, State> {
 	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
-			account: UserData.getDefaultAccountKey(),
 			inventory: {},
 			expandWinrate: false,
 			hasData: undefined,
@@ -182,32 +181,6 @@ export default class DeckDetail extends React.Component<Props, State> {
 
 		const isPremium = UserData.isPremium();
 		const premiumTabIndex = isPremium ? 0 : -1;
-
-		let accountFilter = null;
-		if (isPremium && UserData.getAccounts().length > 0) {
-			const accounts = [];
-			UserData.getAccounts().forEach(acc => {
-				accounts.push(
-					<InfoboxFilter value={acc.region + "-" + acc.lo}>
-						{acc.display}
-					</InfoboxFilter>,
-				);
-			});
-			if (accounts.length) {
-				accountFilter = (
-					<InfoboxFilterGroup
-						header="Accounts"
-						selectedValue={this.state.account}
-						onClick={account => {
-							UserData.setDefaultAccount(account);
-							this.setState({ account });
-						}}
-					>
-						{accounts}
-					</InfoboxFilterGroup>
-				);
-			}
-		}
 
 		const infoBoxFilter = (
 			filter: "rankRange" | "region",
@@ -522,7 +495,6 @@ export default class DeckDetail extends React.Component<Props, State> {
 						</li>
 					</ul>
 					{filters}
-					{accountFilter}
 					<DataInjector
 						fetchCondition={
 							!!this.state.hasData &&
@@ -977,17 +949,15 @@ export default class DeckDetail extends React.Component<Props, State> {
 
 	getPersonalParams(state?: State): any {
 		state = state || this.state;
-		const getRegion = (account: string) => account && account.split("-")[0];
-		const getLo = (account: string) => account && account.split("-")[1];
 		return Object.assign(
 			{},
 			{
 				GameType: this.getGameType(true),
 			},
-			this.state.account
+			this.props.account
 				? {
-						Region: getRegion(state.account),
-						account_lo: getLo(state.account),
+						Region: this.props.account.region,
+						account_lo: this.props.account.lo,
 				  }
 				: {},
 		);

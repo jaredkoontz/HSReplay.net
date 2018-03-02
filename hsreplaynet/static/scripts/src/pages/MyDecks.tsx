@@ -18,7 +18,7 @@ import {
 } from "../helpers";
 import { DeckObj, FragmentChildProps, TableData } from "../interfaces";
 import InfoboxLastUpdated from "../components/InfoboxLastUpdated";
-import UserData from "../UserData";
+import UserData, { Account } from "../UserData";
 import Fragments from "../components/Fragments";
 import InfoIcon from "../components/InfoIcon";
 import { decode as decodeDeckstring } from "deckstrings";
@@ -26,6 +26,7 @@ import { Limit } from "../components/ObjectSearch";
 import Feature from "../components/Feature";
 
 interface Props extends FragmentChildProps {
+	account: Account | null;
 	cardData: CardData;
 	excludedCards?: string[];
 	setExcludedCards?: (excludedCards: string[]) => void;
@@ -42,7 +43,6 @@ interface Props extends FragmentChildProps {
 }
 
 interface State {
-	account?: string;
 	cardSearchExcludeKey?: number;
 	cardSearchIncludeKey?: number;
 	cards?: any[];
@@ -57,7 +57,6 @@ export default class MyDecks extends React.Component<Props, State> {
 	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
-			account: UserData.getDefaultAccountKey(),
 			cardSearchExcludeKey: 0,
 			cardSearchIncludeKey: 0,
 			cards: null,
@@ -74,7 +73,7 @@ export default class MyDecks extends React.Component<Props, State> {
 		prevContext: any,
 	): void {
 		if (
-			this.state.account !== prevState.account ||
+			this.props.account !== prevProps.account ||
 			this.props.excludedCards !== prevProps.excludedCards ||
 			this.props.gameType !== prevProps.gameType ||
 			this.props.includedCards !== prevProps.includedCards ||
@@ -345,23 +344,16 @@ export default class MyDecks extends React.Component<Props, State> {
 				);
 				content = <NoDecksMessage>{resetButton}</NoDecksMessage>;
 			} else {
-				let accountDisplayName = "";
-				for (let i = 0; i < userAccounts.length; i++) {
-					const account = userAccounts[i];
-					if (
-						`${account.region}-${account.lo}` === this.state.account
-					) {
-						accountDisplayName = account.battletag;
-						break;
-					}
-				}
 				content = (
 					<div className="message-wrapper">
 						<h2>All set!</h2>
 						<p>
 							We've successfully linked your Hearthstone account{" "}
-							<strong>{accountDisplayName}</strong> and will
-							analyze incoming replays.
+							<strong>
+								{this.props.account &&
+									this.props.account.battletag}
+							</strong>{" "}
+							and will analyze incoming replays.
 						</p>
 						<p>
 							After you've played some games you'll find
@@ -416,12 +408,6 @@ export default class MyDecks extends React.Component<Props, State> {
 				Back to my decks
 			</button>
 		);
-
-		const accounts = userAccounts.map(acc => (
-			<InfoboxFilter value={acc.region + "-" + acc.lo}>
-				{acc.display}
-			</InfoboxFilter>
-		));
 
 		const selectedCards = (key: string) => {
 			if (!this.props.cardData || !this.props[key]) {
@@ -571,20 +557,6 @@ export default class MyDecks extends React.Component<Props, State> {
 							cardLimit={Limit.SINGLE}
 						/>
 					</section>
-					{accounts.length > 0 ? (
-						<section id="account-filter">
-							<InfoboxFilterGroup
-								header="Account"
-								selectedValue={this.state.account}
-								onClick={account => {
-									UserData.setDefaultAccount(account);
-									this.setState({ account });
-								}}
-							>
-								{accounts}
-							</InfoboxFilterGroup>
-						</section>
-					) : null}
 					<section id="game-mode-filter">
 						<h2>Game Mode</h2>
 						<InfoboxFilterGroup
@@ -668,11 +640,12 @@ export default class MyDecks extends React.Component<Props, State> {
 	}
 
 	getPersonalParams(): any {
-		const getRegion = (account: string) => account && account.split("-")[0];
-		const getLo = (account: string) => account && account.split("-")[1];
+		if (!this.props.account) {
+			return;
+		}
 		return {
-			Region: getRegion(this.state.account),
-			account_lo: getLo(this.state.account),
+			Region: this.props.account.region,
+			account_lo: this.props.account.lo,
 			GameType: this.props.gameType,
 			TimeRange: this.props.timeRange,
 		};

@@ -73,6 +73,8 @@
 					</ul>
 				{% endblock %}
 
+				<ul class="nav navbar-nav navbar-right" id="dynamic-nav"></ul>
+
 				<ul class="nav navbar-nav navbar-right">
 						{% if user.is_staff %}
 							<li><a href="{% url 'admin:index' %}">Admin</a></li>
@@ -127,15 +129,15 @@
 
 					{% if user.is_authenticated %}
 						{% if premium %}
-							<li{% nav_active 'account_edit' css="active active-premium" %}>
+							<li{% nav_active 'account_edit' css="active active-premium" %} id="account-nav-item">
 								<a href="{% url 'account_edit' %}" class="text-premium" id="you">
 						{% else %}
-							<li{% nav_active 'account_edit' css="active" %}>
+							<li{% nav_active 'account_edit' css="active" %} id="account-nav-item">
 								<a href="{% url 'account_edit' %}" id="you">
 						{% endif %}
-							<span class="glyphicon glyphicon-cog"></span>
-							<span>{{ user.username }}</span>
-						</a>
+								<span>{{ user.username }}</span>
+								<span class="caret"></span>
+							</a>
 						</li>
 					{% elif not hide_login %}
 						<li class="button-container">

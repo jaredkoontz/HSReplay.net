@@ -359,14 +359,16 @@ export default class InjectedDeckTile extends React.Component<DeckTileProps> {
 			>
 				{({ streams }) => (
 					<HearthtoneAccountConsumer>
-						{(account: Account) =>
+						{(account: Account) => (
 							<DataInjector
 								query={[
 									{
 										key: "collection",
 										params: {
-											account_hi: "" + (account && account.hi),
-											account_lo: "" + (account && account.lo),
+											account_hi:
+												"" + (account && account.hi),
+											account_lo:
+												"" + (account && account.lo),
 										},
 										url: "/api/v1/collection/",
 									},
@@ -388,7 +390,7 @@ export default class InjectedDeckTile extends React.Component<DeckTileProps> {
 									/>
 								)}
 							</DataInjector>
-						}
+						)}
 					</HearthtoneAccountConsumer>
 				)}
 			</DataInjector>
