@@ -1343,4 +1343,9 @@ table .info-icon, .sort-header .info-icon {
 
 .account-dropdown {
 	width: 15em;
+
+	> li > a {
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
 }
