@@ -7,6 +7,8 @@ import AccountMenu from "../components/AccountMenu";
 
 const navRoot = document.getElementById("dynamic-nav");
 if (navRoot) {
+	const placeholder = document.getElementById("account-nav-item");
+	const placeholderClassName = placeholder.className as string;
 	const renderAccount = selectedAcount => {
 		const accounts = UserData.getAccounts();
 		const [region, lo] = selectedAcount.split("-");
@@ -16,6 +18,7 @@ if (navRoot) {
 
 		ReactDOM.render(
 			<AccountMenu
+				className={placeholderClassName}
 				username={UserData.getUsername()}
 				premium={UserData.isPremium()}
 				accounts={accounts}
@@ -35,7 +38,6 @@ if (navRoot) {
 			/>,
 			navRoot,
 			() => {
-				const placeholder = document.getElementById("account-nav-item");
 				if (placeholder) {
 					placeholder.remove();
 				}

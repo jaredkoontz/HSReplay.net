@@ -124,9 +124,15 @@ header .navbar {
 			}
 		}
 
-		&.open > a {
-			background-color: transparent;
-			color: $lighterblue;
+		&.open {
+			> a {
+				background-color: transparent;
+				color: $lighterblue;
+
+				&.text-premium {
+					color: $premium;
+				}
+			}
 		}
 
 		@media (min-width: 768px) {
