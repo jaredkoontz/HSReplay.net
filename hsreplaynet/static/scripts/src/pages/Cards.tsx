@@ -1428,7 +1428,7 @@ export default class Cards extends React.Component<Props, State> {
 
 	getPersonalParams(): any {
 		if (!this.props.account) {
-			return;
+			return {};
 		}
 		return {
 			GameType: this.props.gameType,

@@ -641,7 +641,7 @@ export default class MyDecks extends React.Component<Props, State> {
 
 	getPersonalParams(): any {
 		if (!this.props.account) {
-			return;
+			return {};
 		}
 		return {
 			Region: this.props.account.region,
