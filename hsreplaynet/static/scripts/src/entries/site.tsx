@@ -47,11 +47,6 @@ if (navRoot && placeholder) {
 				signoutUrl={navRoot.getAttribute("data-signout-url")}
 			/>,
 			navRoot,
-			() => {
-				if (placeholder) {
-					placeholder.remove();
-				}
-			},
 		);
 	};
 
