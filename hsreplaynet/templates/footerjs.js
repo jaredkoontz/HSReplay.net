@@ -27,6 +27,7 @@ ga("send", "pageview", {
 
 {% setting "PROFITWELL_TOKEN" as profitwell %}
 
+{% if profitwell %}
 (function(i, s, o, g, r, a, m) {
 	i["ProfitWellObject"] = r;
 	i[r] = i[r] || function() {
@@ -42,6 +43,7 @@ ga("send", "pageview", {
 profitwell("auth_token", "{{ profitwell }}");
 {% if user.email %}
 profitwell("user_email", "{{ user.email }}");
+{% endif %}
 {% endif %}
 
 {% endif %}
