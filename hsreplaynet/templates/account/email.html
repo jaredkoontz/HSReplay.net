@@ -47,9 +47,9 @@
 				{% endfor %}
 			</table>
 
-		{% endif %}
+			<hr/>
 
-		<hr/>
+		{% endif %}
 
 		<form method="post" action="{% url 'account_email' %}" class="add_email">
 			{% csrf_token %}
@@ -58,8 +58,12 @@
 				<div class="alert alert-danger">{{ form.email.errors }}</div>
 			{% endif %}
 
-			<input type="email" name="email" id="id_email" size="30" placeholder="innkeeper@example.com" required="required"/>
-			<button type="submit" name="action_add" class="btn btn-success">{% trans "Add email address" %}</button>
+			<div class="input-group" style="max-width: 400px;">
+				<input type="email" name="email" id="id_email" size="30" placeholder="innkeeper@example.com" required="required" class="form-control" />
+				<span class="input-group-btn">
+					<button type="submit" name="action_add" class="btn btn-success" type="button">{% trans "Add email address" %}</button>
+				</span>
+			</div>
 
 			<p class="help-block">
 				Add an email so we can contact you for billing and account purposes.
@@ -68,4 +72,8 @@
 		</form>
 	</div>
 </section>
+
+<p class="alert alert-info">
+	Looking for a password setting? You can sign with any of <a href="{% url 'socialaccount_connections' %}">your connected Blizzard accounts</a>, there is no HSReplay.net password.
+</p>
 {% endblock %}
