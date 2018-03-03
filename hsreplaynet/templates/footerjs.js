@@ -1,6 +1,6 @@
 {% load web_extras %}
 {% if request.dnt %}
-// You are sending DNT. We won't serve you Google Analytics or Ads.
+// You are sending DNT. We won't serve you Analytics.
 {% else %}
 {% setting "GOOGLE_ANALYTICS" as gua %}
 {% if gua %}
@@ -23,6 +23,25 @@ if(typeof _userdata === "object" && typeof _userdata.userid !== "undefined") {
 ga("send", "pageview", {
 	page: location.pathname,
 });
+{% endif %}
+
+{% setting "PROFITWELL_TOKEN" as profitwell %}
+
+(function(i, s, o, g, r, a, m) {
+	i["ProfitWellObject"] = r;
+	i[r] = i[r] || function() {
+		(i[r].q = i[r].q || []).push(arguments)
+	}, i[r].l = 1 * new Date();
+	a = s.createElement(o),
+	m = s.getElementsByTagName(o)[0];
+	a.async = 1;
+	a.src = g;
+	m.parentNode.insertBefore(a,m);
+})(window, document, "script", "https://dna8twue3dlxq.cloudfront.net/js/profitwell.js", "profitwell");
+
+profitwell("auth_token", "{{ profitwell }}");
+{% if user.email %}
+profitwell("user_email", "{{ user.email }}");
 {% endif %}
 
 {% endif %}
