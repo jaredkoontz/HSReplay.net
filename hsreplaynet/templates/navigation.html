@@ -77,7 +77,7 @@
 					class="nav navbar-nav navbar-right"
 					id="dynamic-nav"
 					data-account-url="{% url 'account_edit' %}"
-					data-signout-url="{% url 'account_logout' %}"
+					data-signout-url="{% url 'account_logout' %}?next={{ request.path|urlencode }}"
 				>
 					{% if user.is_authenticated %}
 						{% if premium %}
