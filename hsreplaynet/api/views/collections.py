@@ -72,20 +72,14 @@ class CollectionView(BaseCollectionView):
 		OAuth2HasScopes(read_scopes=["collection:read"], write_scopes=[]),
 	)
 
-	def _get_collection_json(self, key: str) -> dict:
-		import json
+	def _parse_collection_json(self, body, encoding: str) -> dict:
 		import gzip
+		import json
 
-		try:
-			obj = S3.get_object(Bucket=S3_COLLECTIONS_BUCKET, Key=key)
-		except S3.exceptions.NoSuchKey:
-			raise NotFound()
-
-		body = obj.get("Body")
 		if not body:
 			return {}
 
-		if obj.get("ContentEncoding", "") == "gzip":
+		if encoding == "gzip":
 			body = gzip.GzipFile(None, "rb", fileobj=body)
 
 		try:
@@ -94,5 +88,20 @@ class CollectionView(BaseCollectionView):
 			return {}
 
 	def _get_response(self, account, key):
-		collection = self._get_collection_json(key)
-		return Response(collection)
+		try:
+			obj = S3.get_object(Bucket=S3_COLLECTIONS_BUCKET, Key=key)
+		except S3.exceptions.NoSuchKey:
+			raise NotFound()
+
+		collection = self._parse_collection_json(obj.get("Body"), obj.get("ContentEncoding", ""))
+
+		response_headers = obj.get("ResponseMetadata", {}).get("HTTPHeaders", {})
+		headers = {"cache-control": "private"}
+
+		if collection:
+			for header in ("etag", "last-modified"):
+				v = response_headers.get(header, "")
+				if v:
+					headers[header] = v
+
+		return Response(collection, headers=headers)
