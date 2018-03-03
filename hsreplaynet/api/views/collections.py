@@ -1,8 +1,10 @@
+from botocore.exceptions import ClientError
 from django.core.exceptions import ObjectDoesNotExist
 from oauth2_provider.contrib.rest_framework import OAuth2Authentication
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.exceptions import NotFound, ValidationError
 from rest_framework.response import Response
+from rest_framework.status import HTTP_304_NOT_MODIFIED, HTTP_412_PRECONDITION_FAILED
 from rest_framework.views import APIView
 
 from hearthsim.identity.accounts.models import BlizzardAccount
@@ -87,11 +89,41 @@ class CollectionView(BaseCollectionView):
 		except json.decoder.JSONDecodeError:
 			return {}
 
+	def _translate_s3_cache_headers(self, headers):
+		"""
+		Translate Django HTTP_* cache headers to their matching boto3 arguments.
+		"""
+		ret = {}
+		pairs = {
+			"HTTP_IF_MATCH": "IfMatch",
+			"HTTP_IF_MODIFIED_SINCE": "IfModifiedSince",
+			"HTTP_IF_NONE_MATCH": "IfNoneMatch",
+			"HTTP_IF_UNMODIFIED_SINCE": "IfUnmodifiedSince",
+		}
+
+		for k, v in pairs.items():
+			if k in self.request.META:
+				ret[v] = self.request.META[k]
+
+		return ret
+
 	def _get_response(self, account, key):
+		args = {
+			"Bucket": S3_COLLECTIONS_BUCKET,
+			"Key": key,
+		}
+		args.update(self._translate_s3_cache_headers(self.request.META))
+
 		try:
 			obj = S3.get_object(Bucket=S3_COLLECTIONS_BUCKET, Key=key)
 		except S3.exceptions.NoSuchKey:
 			raise NotFound()
+		except ClientError as e:
+			status_code = e.response.get("ResponseMetadata", {}).get("HTTPStatusCode", 0)
+			if status_code in (HTTP_304_NOT_MODIFIED, HTTP_412_PRECONDITION_FAILED):
+				return Response(status=status_code)
+			else:
+				raise
 
 		collection = self._parse_collection_json(obj.get("Body"), obj.get("ContentEncoding", ""))
 
@@ -104,4 +136,4 @@ class CollectionView(BaseCollectionView):
 				if v:
 					headers[header] = v
 
-		return Response(collection, headers=headers)
+		return Response(collection, status=status_code, headers=headers)
