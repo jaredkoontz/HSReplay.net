@@ -43,6 +43,8 @@ if (navRoot && placeholder) {
 					);
 					document.dispatchEvent(event);
 				}}
+				accountUrl={navRoot.getAttribute("data-account-url")}
+				signoutUrl={navRoot.getAttribute("data-signout-url")}
 			/>,
 			navRoot,
 			() => {

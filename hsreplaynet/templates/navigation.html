@@ -73,7 +73,12 @@
 					</ul>
 				{% endblock %}
 
-				<ul class="nav navbar-nav navbar-right" id="dynamic-nav">
+				<ul
+					class="nav navbar-nav navbar-right"
+					id="dynamic-nav"
+					data-account-url="{% url 'account_edit' %}"
+					data-signout-url="{% url 'account_logout' %}"
+				>
 					{% if user.is_authenticated %}
 						{% if premium %}
 							<li{% nav_active 'account_edit' css="active active-premium" %} id="account-nav-item">

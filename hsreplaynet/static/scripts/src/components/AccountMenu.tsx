@@ -4,6 +4,8 @@ import { Account } from "../UserData";
 interface Props {
 	username: string;
 	premium: boolean;
+	accountUrl: string;
+	signoutUrl: string;
 	accounts: Account[];
 	currentAccount: number | null;
 	setCurrentAccount: (index: number) => any;
@@ -111,12 +113,12 @@ export default class AccountMenu extends React.Component<Props, State> {
 				{this.renderAccounts()}
 				<li role="separator" className="divider" />
 				<li>
-					<a href="/account/" id="account-settings">
+					<a href={this.props.accountUrl} id="account-settings">
 						Settings
 					</a>
 				</li>
 				<li>
-					<a href="/account/logout/" id="sign-out">
+					<a href={this.props.signoutUrl} id="sign-out">
 						Sign out
 					</a>
 				</li>
