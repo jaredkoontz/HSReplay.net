@@ -15,25 +15,3 @@
 		text-align: right;
 	}
 }
-
-#oauth2-authorized-applications {
-	.authorized-app {
-		background: white;
-		border: 1px solid $lightgrey;
-		display: block;
-		margin: 1em;
-		padding: 0.6em;
-
-		.name {
-			font-weight: bold;
-		}
-
-		.subtitle {
-			color: #444;
-		}
-
-		.revoke-form button {
-			float: right;
-		}
-	}
-}

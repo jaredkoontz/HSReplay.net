@@ -510,3 +510,9 @@ header .navbar {
 		max-height: 500px;
 	}
 }
+
+.list-group-item {
+	&:first-child, &:last-child {
+		border-radius: 0;
+	}
+}

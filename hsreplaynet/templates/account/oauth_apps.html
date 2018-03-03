@@ -6,23 +6,37 @@
 		<section id="oauth2-authorized-applications" class="box-section">
 			<h3>Authorized Applications</h3>
 			<div class="inner">
-				You have granted these applications access to your HSReplay.net account.
-				They do not have access to your Blizzard account.
+				<p>
+					You have granted these applications access to your HSReplay.net account.
+					They do not have access to your Blizzard account.
+				</p>
 
+				<ul class="list-group list-group-no-margin">
 				{% for token in authorized_apps %}
-					<div class="authorized-app">
+					<li class="list-group-item">
 						<form
-							method="POST" action="{% url 'oauth2_revoke_access' %}" class="revoke-form"
+							method="POST"
+							action="{% url 'oauth2_revoke_access' %}"
+							class="pull-right"
 							onsubmit="return confirm('Are you sure? There is no undo!')"
 						>
 							{% csrf_token %}
 							<input type="hidden" name="client_id" value="{{ token.application.client_id }}"/>
 							<button type="submit" class="btn btn-danger">Revoke access</button>
 						</form>
-						<h5 class="name"><a href="{{ token.application.homepage }}" target="_blank">{{ token.application }}</a></h5>
-						<span class="subtitle">{{ token.application.description }}</span>
-					</div>
+						<strong>{{ token.application }}</strong>
+						{% if token.application.homepage %}
+							&nbsp;<strong><a href="{{ token.application.homepage }}" target="_blank" rel="noopener"><span class="glyphicon glyphicon-globe"></span> Website</strong></a>
+						{% endif %}
+
+						{% if token.application.description %}
+							<br />
+							<em>{{ token.application.description }}</em>
+						{% endif %}
+						<div class="clearfix"></div>
+					</li>
 				{% endfor %}
+				</ul>
 			</div>
 		</section>
 	{% endif %}
