@@ -136,4 +136,4 @@ class CollectionView(BaseCollectionView):
 				if v:
 					headers[header] = v
 
-		return Response(collection, status=status_code, headers=headers)
+		return Response(collection, headers=headers)
