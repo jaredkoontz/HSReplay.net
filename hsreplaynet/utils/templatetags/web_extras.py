@@ -1,4 +1,5 @@
 import json
+from datetime import date, timedelta
 from decimal import Decimal
 
 from django import template
@@ -91,3 +92,22 @@ def pretty_card(source):
 		last4 = source.source_data["last4"]
 
 	return f"{brand} •••• {last4}"
+
+
+@register.filter
+def last_used(time):
+	"""
+	Formats a datetime to give a very rough ago estimate.
+	It intentionally resolves no less than a week, as it's used for access tokens
+	and we can only determine their usage by knowing they expire after 24 hours.
+	"""
+	difference = date.today() - time.date()
+	if difference > timedelta(days=365):
+		return "more than a year ago"
+	if difference > timedelta(days=31 * 6):
+		return "within the last year"
+	if difference > timedelta(days=31):
+		return "within the last %d months" % ((difference.days - 1) // 31 + 1)
+	if difference > timedelta(days=7):
+		return "within the last %d weeks" % ((difference.days - 1) // 7 + 1)
+	return "within the last week"

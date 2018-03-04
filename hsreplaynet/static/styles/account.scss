@@ -75,6 +75,27 @@ h2 {
 			margin-bottom: 0;
 		}
 	}
+
+	.list-group-item-heading {
+		font-weight: bold;
+		font-size: 1em;
+	}
+
+	.list-group-item-text h5 {
+		text-decoration: underline;
+		margin-bottom: 0.3em;
+	}
+
+	.list-group-item-text {
+		p {
+			margin: 0.2em 0;
+		}
+
+		ul {
+			margin-top: 0;
+		}
+	}
+
 }
 
 .webhook-active {

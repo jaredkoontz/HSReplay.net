@@ -1350,6 +1350,26 @@ table .info-icon, .sort-header .info-icon {
 	}
 }
 
+ul.list-ltr {
+	padding-left: 0;
+	display: grid;
+	grid-auto-flow: row;
+
+	> li {
+		list-style-type: none;
+	}
+
+	&.list-ltr-2 {
+		grid-template-columns: 1fr 1fr;
+	}
+
+	@media(max-width: 991px) {
+		&.list-ltr-2 {
+			grid-template-columns: 1fr;
+		}
+	}
+}
+
 .list-group-no-margin {
 	margin: 0;
 }

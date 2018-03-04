@@ -1,5 +1,6 @@
 {% extends "account/base.html" %}
 {% load setting from web_extras %}
+{% load last_used from web_extras %}
 
 {% block content %}
 	{% if authorized_tokens.count %}
@@ -7,7 +8,7 @@
 			<h3>Authorized Applications</h3>
 			<div class="inner">
 				<p>
-					You have granted these applications access to your HSReplay.net account.
+					These applications have access to your HSReplay.net account.
 					They do not have access to your Blizzard account.
 				</p>
 
@@ -17,22 +18,54 @@
 						<form
 							method="POST"
 							action="{% url 'oauth2_revoke_access' %}"
+							onsubmit="return confirm('This application will no longer have any access to your account. Continue?')"
 							class="pull-right"
-							onsubmit="return confirm('Are you sure? There is no undo!')"
 						>
 							{% csrf_token %}
 							<input type="hidden" name="token" value="{{ token.token }}"/>
-							<button type="submit" class="btn btn-danger">Revoke access</button>
+							<button type="submit" class="btn btn-danger">Revoke access</button><br />
 						</form>
-						<strong>{{ token.application }}</strong>
-						{% if token.application.homepage %}
-							&nbsp;<strong><a href="{{ token.application.homepage }}" target="_blank" rel="noopener"><span class="glyphicon glyphicon-globe"></span> Website</strong></a>
-						{% endif %}
 
-						{% if token.application.description %}
-							<br />
-							<em>{{ token.application.description }}</em>
-						{% endif %}
+						<h4 class="list-group-item-heading">
+							{{ token.application }}
+						</h4>
+
+						<div class="list-group-item-text">
+							Last used {{ token.created|last_used }}.
+							<a href="#token-{{ token.token }}-details" data-toggle="collapse" aria-expanded="false" class="visible-xs-block visible-sm-inline visible-md-inline visible-lg-inline">More details&hellip;</a>
+
+							<div class="collapse" id="token-{{ token.token }}-details">
+								<h5>Permissions</h5>
+								{% if token.scopes %}
+									<p>
+										You have granted the following permission{{ token.scopes|length|pluralize }} to this application:
+									</p>
+									<ul class="list-unstyled">
+									{% for scope, description in token.scopes.items %}
+										<li><strong>&check;</strong>&nbsp;{{ description }}</li>
+									{% endfor %}
+									</ul>
+								{% else %}
+									<p>
+										You have not granted any permissions to this application.
+									</p>
+								{% endif %}
+
+								{% if token.application.description %}
+									<h5>About this application</h5>
+									<p>
+										{{ token.application.description }}
+										&mdash;
+										<strong>
+											<a href="{{ token.application.homepage }}" target="_blank" rel="noopener">
+												<span class="glyphicon glyphicon-globe"></span> Website
+											</a>
+										</strong>
+									</p>
+								{% endif %}
+							</div>
+						</div>
+
 						<div class="clearfix"></div>
 					</li>
 				{% endfor %}
