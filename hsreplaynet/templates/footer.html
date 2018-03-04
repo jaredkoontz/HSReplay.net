@@ -20,13 +20,13 @@
 	</a></li>
 
 	{% setting 'HSREPLAY_DISCORD_URL' as discord_url %}
-	<li><a href="{{ discord_url }}" target="_blank" class="social-button">
+	<li><a href="{{ discord_url }}" target="_blank" rel="noopener" class="social-button">
 		<span class="label">Join our Discord server</span>
 		{% include "snippets/discord_button.svg" with fill="#9e9e9e" width=28 height=28 selector=".social-button" %}
 	</a></li>
 
 	{% setting 'HSREPLAY_FACEBOOK_URL' as facebook_url %}
-	<li><a href="{{ facebook_url }}" target="_blank" class="social-button">
+	<li><a href="{{ facebook_url }}" target="_blank" rel="noopener" class="social-button">
 		<span class="label">Like us on Facebook</span>
 		{% include "snippets/facebook_button.svg" with fill="#9e9e9e" width=28 height=28 selector=".social-button" %}
 	</a></li>
@@ -36,7 +36,7 @@
 	<p>
 		{% setting "RAVEN_CONFIG" as raven_config %}
 		{% if raven_config.release %}
-			<a href="https://github.com/HearthSim/HSReplay.net/commits/{{ raven_config.release }}">
+			<a href="https://github.com/HearthSim/HSReplay.net/commits/{{ raven_config.release }}" target="_blank" rel="noopener">
 				@<abbr title="{{ raven_config.release }}">{{ raven_config.release|slice:":12" }}</abbr>
 			</a>
 		{% else %}

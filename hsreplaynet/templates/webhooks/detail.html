@@ -101,7 +101,7 @@
 				</thead>
 				{% for delivery in deliveries %}
 					<tr>
-						<td><a href="{{ delivery.url }}" target="_blank">{{ delivery.url }}</a></td>
+						<td><a href="{{ delivery.url }}" target="_blank" rel="noopener">{{ delivery.url }}</a></td>
 						<td>{{ delivery.created|htmltime:"%F %X %Z" }}</td>
 						<td>
 							{% if delivery.success %}

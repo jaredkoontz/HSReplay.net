@@ -22,7 +22,7 @@
 			{% csrf_token %}
 
 			<p>
-			<strong><a href="{{ application.homepage }}" target="_blank">{{ application.name }}</a></strong>
+			<strong><a href="{{ application.homepage }}" target="_blank" rel="noopener">{{ application.name }}</a></strong>
 			is requesting permission to:
 
 			{% for field in form %}
