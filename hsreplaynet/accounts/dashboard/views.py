@@ -210,7 +210,7 @@ class ApplicationListView(ApplicationBaseView, ListView):
 		context = super().get_context_data(**kwargs)
 		authorized_tokens = AccessToken.objects.filter(
 			user=self.request.user,
-		)
+		).order_by("-created")
 		context["authorized_tokens"] = authorized_tokens
 		return context
 
