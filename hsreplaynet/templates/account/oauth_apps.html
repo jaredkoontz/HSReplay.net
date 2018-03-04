@@ -51,18 +51,18 @@
 								</p>
 							{% endif %}
 
-							{% if token.application.description %}
-								<h5>About this application</h5>
-								<p>
+							<h5>About this application</h5>
+							<p>
+								{% if token.application.description %}
 									{{ token.application.description }}
 									&mdash;
-									<strong>
-										<a href="{{ token.application.homepage }}" target="_blank" rel="noopener">
-											<span class="glyphicon glyphicon-globe"></span> Website
-										</a>
-									</strong>
-								</p>
-							{% endif %}
+								{% endif %}
+								<strong>
+									<a href="{{ token.application.homepage }}" target="_blank" rel="noopener">
+										<span class="glyphicon glyphicon-globe"></span> Website
+									</a>
+								</strong>
+							</p>
 						</div>
 					</div>
 
