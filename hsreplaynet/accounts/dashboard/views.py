@@ -239,4 +239,5 @@ class UserRevocationView(LoginRequiredMixin, View):
 		if token:
 			obj = get_object_or_404(self.model, token=token)
 			obj.delete()
+			messages.info(self.request, "Access has been revoked.")
 		return redirect(self.next)
