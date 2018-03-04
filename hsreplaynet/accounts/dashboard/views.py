@@ -208,10 +208,10 @@ class ApplicationListView(ApplicationBaseView, ListView):
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
-		authorized_apps = AccessToken.objects.filter(
+		authorized_tokens = AccessToken.objects.filter(
 			user=self.request.user,
-		).distinct("application")
-		context["authorized_apps"] = authorized_apps
+		)
+		context["authorized_tokens"] = authorized_tokens
 		return context
 
 
@@ -231,13 +231,12 @@ class RevokeAllTokensView(ApplicationBaseView):
 
 
 class UserRevocationView(LoginRequiredMixin, View):
-	model = Application
+	model = AccessToken
 	next = reverse_lazy("oauth2_app_list")
 
 	def post(self, request):
-		client_id = request.POST.get("client_id")
-		if client_id:
-			app = get_object_or_404(self.model, client_id=client_id)
-			tokens = app.accesstoken_set.filter(user=request.user)
-			tokens.delete()
+		token = request.POST.get("token")
+		if token:
+			obj = get_object_or_404(self.model, token=token)
+			obj.delete()
 		return redirect(self.next)

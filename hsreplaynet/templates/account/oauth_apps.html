@@ -2,7 +2,7 @@
 {% load setting from web_extras %}
 
 {% block content %}
-	{% if authorized_apps.count %}
+	{% if authorized_tokens.count %}
 		<section id="oauth2-authorized-applications" class="box-section">
 			<h3>Authorized Applications</h3>
 			<div class="inner">
@@ -12,7 +12,7 @@
 				</p>
 
 				<ul class="list-group list-group-no-margin">
-				{% for token in authorized_apps %}
+				{% for token in authorized_tokens %}
 					<li class="list-group-item">
 						<form
 							method="POST"
@@ -21,7 +21,7 @@
 							onsubmit="return confirm('Are you sure? There is no undo!')"
 						>
 							{% csrf_token %}
-							<input type="hidden" name="client_id" value="{{ token.application.client_id }}"/>
+							<input type="hidden" name="token" value="{{ token.token }}"/>
 							<button type="submit" class="btn btn-danger">Revoke access</button>
 						</form>
 						<strong>{{ token.application }}</strong>
