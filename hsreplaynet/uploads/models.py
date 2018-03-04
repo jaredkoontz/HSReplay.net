@@ -838,9 +838,14 @@ class RedshiftStagingTrackManager(models.Manager):
 		return track
 
 	def create_successor_for(self, existing_track):
+		current_prefix = existing_track.track_prefix
+		proposed_prefix = self.generate_track_prefix()
+		# we want to prevent two subsequent tracks with the same prefix
+		while proposed_prefix == current_prefix:
+			proposed_prefix = self.generate_track_prefix()
 		successor = RedshiftStagingTrack.objects.create(
 			predecessor=existing_track,
-			track_prefix=self.generate_track_prefix()
+			track_prefix=proposed_prefix
 		)
 		existing_track.successor = successor
 		existing_track.save()
