@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.safestring import mark_safe
 
 from hearthsim.identity.utils import EstimatedCountPaginator, admin_urlify as urlify
 
@@ -31,6 +32,5 @@ class UploadEventAdmin(admin.ModelAdmin):
 		return qs.prefetch_related("game__global_game__players")
 
 	def processing_logs(self, obj):
-		return '<a href="%s">Cloudwatch Logs</a>' % (obj.cloudwatch_url,)
-	processing_logs.allow_tags = True
+		return mark_safe('<a href="%s">Cloudwatch Logs</a>' % (obj.cloudwatch_url))
 	processing_logs.short_description = "Logs"

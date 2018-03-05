@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.safestring import mark_safe
 
 from hearthsim.identity.utils import EstimatedCountPaginator, admin_urlify as urlify
 from hsreplaynet.uploads.models import UploadEvent
@@ -63,8 +64,7 @@ class GameReplayAdmin(admin.ModelAdmin):
 		return qs.prefetch_related("global_game__players")
 
 	def upload_event(self, obj):
-		return '<a href="%s">%s</a>' % (obj.upload_event_admin_url, obj.shortid)
-	upload_event.allow_tags = True
+		return mark_safe('<a href="%s">%s</a>' % (obj.upload_event_admin_url, obj.shortid))
 	upload_event.short_description = "Upload Event"
 
 
