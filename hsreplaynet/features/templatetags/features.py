@@ -16,7 +16,7 @@ def get_feature_context(user, feature_name):
 
 	try:
 		feature = Feature.objects.get(name=feature_name)
-	except Feature.DoesNotExist as e:
+	except Feature.DoesNotExist:
 		feature_context["exists"] = False
 		feature_context["enabled"] = False
 	else:

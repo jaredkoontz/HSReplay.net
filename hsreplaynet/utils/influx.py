@@ -58,9 +58,11 @@ def influx_write_payload(payload, client=influx):
 		result = client.write_points(payload)
 		if not result:
 			log.warn("Influx write failure")
-	except Exception as e:
+	except Exception:
+		result = False
 		log.exception("Exception while writing to influx.")
-		result = None
+
+	return result
 
 
 def influx_metric(measure, fields, timestamp=None, **kwargs):
