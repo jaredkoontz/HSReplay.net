@@ -225,7 +225,7 @@ def find_or_create_replay(parser, entity_tree, meta, upload_event, global_game, 
 		# Clean up existing replay file
 		filename = existing_replay.replay_xml.name
 		if filename and filename != replay_xml_path and default_storage.exists(filename):
-			# ... but only if it's not the same path as the new one (it'll get overwridden)
+			# ... but only if it's not the same path as the new one (it'll get overwritten)
 			log.debug("Deleting %r", filename)
 			default_storage.delete(filename)
 
