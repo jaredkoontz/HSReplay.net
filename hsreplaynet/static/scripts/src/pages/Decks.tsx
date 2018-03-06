@@ -30,6 +30,7 @@ import DataManager from "../DataManager";
 import { Limit } from "../components/ObjectSearch";
 import Feature from "../components/Feature";
 import DustFilter from "../components/filters/DustFilter";
+import { cookie } from "cookie_js";
 
 interface Props extends FragmentChildProps {
 	cardData: CardData | null;
@@ -73,6 +74,7 @@ interface State {
 	filteredDecks: DeckObj[];
 	loading?: boolean;
 	showFilters?: boolean;
+	showBanner?: boolean;
 }
 
 export default class Decks extends React.Component<Props, State> {
@@ -88,6 +90,7 @@ export default class Decks extends React.Component<Props, State> {
 			filteredDecks: [],
 			loading: true,
 			showFilters: false,
+			showBanner: !cookie.get("decks-collection-banner-closed", 0),
 		};
 		this.updateFilteredDecks();
 	}
@@ -434,39 +437,7 @@ export default class Decks extends React.Component<Props, State> {
 						pageSize={12}
 						helpMessage={helpMessage}
 					>
-						<Feature feature="collection-syncing">
-							<li
-								style={{
-									backgroundImage:
-										"url('/static/images/feature-promotional/collection-syncing-decks.png')",
-								}}
-								className="deck-list-banner"
-							>
-								{UserData.isAuthenticated() ? (
-									<a href="https://articles.hsreplay.net/">
-										<img src="/static/images/logo.png" />
-										<span className="hidden-lg">
-											Upload your collection!
-										</span>
-										<span className="visible-lg">
-											Upload your collection and find the
-											decks you can build!
-										</span>
-									</a>
-								) : (
-									<a href="/account/login/?next=/decks/">
-										<img src="/static/images/logo.png" />
-										<span className="hidden-lg">
-											Sign in to upload your collection!
-										</span>
-										<span className="visible-lg">
-											Sign in to find the decks you can
-											build with your collection!
-										</span>
-									</a>
-								)}
-							</li>
-						</Feature>
+						{this.renderBanner()}
 					</DeckList>
 				</Fragments>
 			);
@@ -882,5 +853,60 @@ export default class Decks extends React.Component<Props, State> {
 				: "ALL",
 			TimeRange: this.props.timeRange,
 		};
+	}
+
+	private dismissBanner = (event: React.MouseEvent<HTMLButtonElement>) => {
+		this.setState({ showBanner: false }, () => {
+			cookie.set("decks-collection-banner-closed", 1);
+		});
+	};
+
+	private renderBanner(): React.ReactNode {
+		if (!this.state.showBanner) {
+			return null;
+		}
+		return (
+			<Feature feature="collection-syncing">
+				<li
+					style={{
+						backgroundImage:
+							"url('/static/images/feature-promotional/collection-syncing-decks.png')",
+					}}
+					className="deck-list-banner"
+				>
+					<button
+						type="button"
+						className="pull-right"
+						onClick={this.dismissBanner}
+						aria-label="Dismiss"
+					>
+						<span aria-hidden="true">&times;</span>
+					</button>
+					{UserData.isAuthenticated() ? (
+						<a href="https://articles.hsreplay.net/">
+							<img src="/static/images/logo.png" />
+							<span className="hidden-lg">
+								Upload your collection!
+							</span>
+							<span className="visible-lg">
+								Upload your collection and find the decks you
+								can build!
+							</span>
+						</a>
+					) : (
+						<a href="/account/login/?next=/decks/">
+							<img src="/static/images/logo.png" />
+							<span className="hidden-lg">
+								Sign in to upload your collection!
+							</span>
+							<span className="visible-lg">
+								Sign in to find the decks you can build with
+								your collection!
+							</span>
+						</a>
+					)}
+				</li>
+			</Feature>
+		);
 	}
 }

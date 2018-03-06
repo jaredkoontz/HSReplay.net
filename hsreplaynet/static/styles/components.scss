@@ -256,13 +256,14 @@ table .info-icon, .sort-header .info-icon {
 			background-color: #333;
 			background-size: cover;
 			background-position: center;
+			overflow: hidden;
 
 			> a {
-				width: 100%;
 				height: 100%;
 				display: flex;
 				align-items: center;
 				background: none !important;
+				color: white;
 
 				img {
 					height: 70%;
@@ -271,7 +272,6 @@ table .info-icon, .sort-header .info-icon {
 
 				> span {
 					display: inline-block;
-					color: white;
 					text-shadow: -1px -1px 0 #000,
 					1px -1px 0 #000,
 					-1px 1px 0 #000,
@@ -284,6 +284,36 @@ table .info-icon, .sort-header .info-icon {
 					@media (max-width: 768px) {
 						font-size: 1.2em;
 					}
+				}
+
+				&:focus {
+					outline: none;
+					color: $lightblue;
+				}
+			}
+
+			> button {
+				display: flex;
+				flex-direction: column;
+				align-items: flex-start;
+				background-color: transparent;
+				border: none;
+				height: 100%;
+				width: 1em;
+				font-size: 2.5em;
+				color: white;
+				text-shadow: -1px -1px 0 #000,
+				1px -1px 0 #000,
+				-1px 1px 0 #000,
+				1px 1px 0 #000;
+
+				&:active {
+					outline: none;
+				}
+
+				&:focus {
+					outline: none;
+					color: $lightblue;
 				}
 			}
 		}
