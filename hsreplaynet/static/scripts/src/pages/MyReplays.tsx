@@ -52,7 +52,7 @@ interface State {
 	count?: number;
 	currentLocalPage?: number;
 	gamesPages?: GamesPage;
-	next?: string;
+	next?: string | null;
 	pageSize?: number;
 	receivedPages?: number;
 	showFilters?: boolean;
@@ -93,8 +93,7 @@ export default class MyReplays extends React.Component<Props, State> {
 			.then(response => response.json())
 			.then((data: any) => {
 				let games = [];
-				// hotfix for HearthSim/server-provisioning#147
-				const next = (data.next || "").replace(/^http:/, "https:");
+				const next = data.next || null;
 				if (data.count) {
 					if (this.state.count && this.state.count !== data.count) {
 						this.setState({
