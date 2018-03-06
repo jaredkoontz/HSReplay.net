@@ -46,6 +46,7 @@ export default class CheckoutForm extends React.Component<Props, State> {
 	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
+			disabled: false,
 			paymentMethod: props.defaultPaymentMethod
 				? props.defaultPaymentMethod
 				: this.getValidPaymentMethods()[0].method,

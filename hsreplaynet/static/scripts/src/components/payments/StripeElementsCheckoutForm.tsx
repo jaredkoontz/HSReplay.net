@@ -27,7 +27,7 @@ interface Props extends CheckoutFormInstanceProps {
 interface State {
 	step?: StripeCheckoutStep;
 	errorMessage?: null | string;
-	sourceId?: string;
+	sourceId?: string | null;
 	selectedPlan: string;
 	email?: string;
 }
@@ -45,6 +45,7 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 		this.state = {
 			step: StripeCheckoutStep.READY_TO_PAY,
 			errorMessage: null,
+			sourceId: null,
 			selectedPlan: this.props.plans
 				? this.props.plans[0].stripeId
 				: null,

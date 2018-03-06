@@ -24,7 +24,7 @@ interface State {
 	useDefaultSource?: boolean;
 	selectedPlan?: string;
 	step?: CheckoutStep;
-	token?: stripe.StripeTokenResponse;
+	token?: stripe.StripeTokenResponse | null;
 }
 
 export default class StripeLegacyCheckoutForm extends React.Component<
@@ -40,6 +40,7 @@ export default class StripeLegacyCheckoutForm extends React.Component<
 			selectedPlan: props.plans[0].stripeId,
 			step: CheckoutStep.LOADING_STRIPE,
 			useDefaultSource: !!this.props.defaultSource,
+			token: null,
 		};
 	}
 
