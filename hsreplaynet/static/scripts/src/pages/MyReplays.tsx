@@ -93,6 +93,8 @@ export default class MyReplays extends React.Component<Props, State> {
 			.then(response => response.json())
 			.then((data: any) => {
 				let games = [];
+				// hotfix for HearthSim/server-provisioning#147
+				const next = (data.next || "").replace(/^http:/, "https:");
 				if (data.count) {
 					if (this.state.count && this.state.count !== data.count) {
 						this.setState({
@@ -115,7 +117,7 @@ export default class MyReplays extends React.Component<Props, State> {
 						this.setState({
 							count: data.count,
 							gamesPages: pages,
-							next: data.next,
+							next: next,
 							pageSize: Math.max(
 								this.state.pageSize,
 								games.length,
@@ -128,7 +130,7 @@ export default class MyReplays extends React.Component<Props, State> {
 				}
 				this.setState({
 					count: data.count,
-					next: data.next,
+					next: next,
 					working: false,
 				});
 			});
