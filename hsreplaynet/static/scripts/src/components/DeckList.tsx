@@ -28,7 +28,6 @@ interface Props extends FragmentChildProps {
 	hrefTab?: string;
 	lastPlayedColumn?: boolean;
 	showGlobalDataNotice?: boolean;
-	infoRow?: JSX.Element;
 }
 
 interface State {
@@ -388,7 +387,7 @@ export default class DeckList extends React.Component<Props, State> {
 					</div>
 				</div>
 				<ul>
-					{this.props.infoRow}
+					{this.props.children}
 					{deckTiles}
 				</ul>
 				{pager(false)}
