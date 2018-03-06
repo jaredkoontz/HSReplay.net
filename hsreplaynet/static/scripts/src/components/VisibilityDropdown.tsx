@@ -8,9 +8,9 @@ interface Props {
 }
 
 interface State {
-	previous?: Visibility;
-	selected?: Visibility;
-	working?: boolean;
+	previous: Visibility;
+	selected: Visibility;
+	working: boolean;
 }
 
 export default class PrivacyDropdown extends React.Component<Props, State> {

@@ -12,9 +12,9 @@ interface Props {
 }
 
 interface State {
-	page?: number;
-	sortBy?: string;
-	sortDirection?: SortDirection;
+	page: number;
+	sortBy: string;
+	sortDirection: SortDirection;
 }
 
 export default class QuestContributors extends React.Component<Props, State> {

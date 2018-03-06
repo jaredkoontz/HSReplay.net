@@ -32,9 +32,9 @@ interface Props {
 interface State {
 	cursor: number;
 	data: GameTypeData<PlayedCards>;
-	doUpdate?: boolean;
-	fetching?: boolean;
-	renderedGameTypes?: string[];
+	doUpdate: boolean;
+	fetching: boolean;
+	renderedGameTypes: string[];
 }
 
 type GameType = "BGT_ARENA" | "BGT_RANKED_STANDARD" | "BGT_RANKED_WILD";

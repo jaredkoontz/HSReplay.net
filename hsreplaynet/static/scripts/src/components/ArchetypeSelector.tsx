@@ -9,8 +9,8 @@ interface Props {
 }
 
 interface State {
-	selectedArchetype?: number;
-	working?: boolean;
+	selectedArchetype: number;
+	working: boolean;
 }
 
 export default class ArchetypeSelector extends React.Component<Props, State> {

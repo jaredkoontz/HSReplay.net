@@ -28,15 +28,15 @@ interface Props {
 }
 
 interface State {
-	apiArchetypes?: ApiArchetype[];
-	archetypeData?: ArchetypeData[];
-	currentSort?: number[];
-	customWeights?: any;
-	favorites?: number[];
-	ignoredColumns?: number[];
-	maxPopularity?: number;
-	sortedIds?: number[];
-	useCustomWeights?: boolean;
+	apiArchetypes: ApiArchetype[];
+	archetypeData: ArchetypeData[];
+	currentSort: number[];
+	customWeights: any;
+	favorites: number[];
+	ignoredColumns: number[];
+	maxPopularity: number;
+	sortedIds: number[];
+	useCustomWeights: boolean;
 }
 
 const POPULARITY_CUTOFF_PERCENTAGE = 0;

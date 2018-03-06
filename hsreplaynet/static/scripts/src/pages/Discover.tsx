@@ -30,7 +30,7 @@ interface Props {
 }
 
 interface State {
-	cards?: any[];
+	cards: any[];
 	deck: ClusterMetaData;
 }
 

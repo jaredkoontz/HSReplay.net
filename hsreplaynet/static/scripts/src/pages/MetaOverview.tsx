@@ -45,8 +45,8 @@ interface Props {
 interface State {
 	archetypeListSortBy: string;
 	archetypeListSortDirection: SortDirection;
-	mobileView?: boolean;
-	showFilters?: boolean;
+	mobileView: boolean;
+	showFilters: boolean;
 }
 
 const MOBILE_WIDTH = 530;

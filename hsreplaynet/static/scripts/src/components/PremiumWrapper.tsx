@@ -12,9 +12,9 @@ interface Props {
 }
 
 interface State {
-	hovering?: boolean;
-	triggered?: PremiumWrapper[];
-	touchCount?: number;
+	hovering: boolean;
+	triggered: PremiumWrapper[];
+	touchCount: number;
 }
 
 const key = "hsreplaynet_premium_wrappers";

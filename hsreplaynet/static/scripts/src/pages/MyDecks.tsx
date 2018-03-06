@@ -43,12 +43,12 @@ interface Props extends FragmentChildProps {
 }
 
 interface State {
-	cardSearchExcludeKey?: number;
-	cardSearchIncludeKey?: number;
-	cards?: any[];
+	cardSearchExcludeKey: number;
+	cardSearchIncludeKey: number;
+	cards: any[];
 	filteredDecks: DeckObj[];
-	loading?: boolean;
-	showFilters?: boolean;
+	loading: boolean;
+	showFilters: boolean;
 }
 
 export default class MyDecks extends React.Component<Props, State> {

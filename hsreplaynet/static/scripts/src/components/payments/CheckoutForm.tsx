@@ -38,8 +38,8 @@ interface Props {
 }
 
 interface State {
-	disabled?: boolean;
-	paymentMethod?: PaymentMethods;
+	disabled: boolean;
+	paymentMethod: PaymentMethods;
 }
 
 export default class CheckoutForm extends React.Component<Props, State> {

@@ -21,10 +21,10 @@ interface Props extends CheckoutFormInstanceProps {
 }
 
 interface State {
-	useDefaultSource?: boolean;
-	selectedPlan?: string;
-	step?: CheckoutStep;
-	token?: stripe.StripeTokenResponse | null;
+	useDefaultSource: boolean;
+	selectedPlan: string;
+	step: CheckoutStep;
+	token: stripe.StripeTokenResponse | null;
 }
 
 export default class StripeLegacyCheckoutForm extends React.Component<

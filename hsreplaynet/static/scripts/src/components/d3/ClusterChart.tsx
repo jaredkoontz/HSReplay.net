@@ -18,11 +18,11 @@ interface Props {
 }
 
 interface State {
-	decks?: { [shortId: string]: number[] };
-	dragging?: boolean;
-	initialized?: boolean;
-	scaling?: number;
-	selectedDatum?: DeckData;
+	decks: { [shortId: string]: number[] };
+	dragging: boolean;
+	initialized: boolean;
+	scaling: number;
+	selectedDatum: DeckData;
 }
 
 const PADDING = 50;

@@ -24,9 +24,9 @@ interface Props {
 }
 
 interface State {
-	hovering?: boolean;
-	clientX?: number;
-	clientY?: number;
+	hovering: boolean;
+	clientX: number;
+	clientY: number;
 	isTouchDevice: boolean;
 }
 

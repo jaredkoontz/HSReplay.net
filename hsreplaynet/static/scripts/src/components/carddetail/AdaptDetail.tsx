@@ -17,9 +17,9 @@ interface Props {
 }
 
 interface State {
-	page?: number;
-	sortBy?: string;
-	sortDirection?: SortDirection;
+	page: number;
+	sortBy: string;
+	sortDirection: SortDirection;
 }
 
 export default class AdaptDetail extends React.Component<Props, State> {

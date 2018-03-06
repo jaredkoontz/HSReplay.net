@@ -25,11 +25,11 @@ interface Props extends CheckoutFormInstanceProps {
 }
 
 interface State {
-	step?: StripeCheckoutStep;
-	errorMessage?: null | string;
-	sourceId?: string | null;
+	step: StripeCheckoutStep;
+	errorMessage: null | string;
+	sourceId: string | null;
 	selectedPlan: string;
-	email?: string;
+	email: string;
 }
 
 interface Redirect {

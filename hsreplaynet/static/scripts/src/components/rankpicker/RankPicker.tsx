@@ -8,7 +8,7 @@ interface Props {
 }
 
 interface State {
-	forceSet?: boolean;
+	forceSet: boolean;
 }
 
 const rankMap = {

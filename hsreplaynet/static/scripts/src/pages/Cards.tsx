@@ -94,13 +94,13 @@ interface Props extends FragmentChildProps {
 }
 
 interface State {
-	cards?: any[];
-	filteredCards?: any[];
-	filterCounts?: CardFilters;
-	hasPersonalData?: boolean;
-	hasStatisticsData?: boolean;
-	numCards?: number;
-	showFilters?: boolean;
+	cards: any[];
+	filteredCards: any[];
+	filterCounts: CardFilters;
+	hasPersonalData: boolean;
+	hasStatisticsData: boolean;
+	numCards: number;
+	showFilters: boolean;
 }
 
 const PLACEHOLDER_MINION = STATIC_URL + "images/loading_minion.png";

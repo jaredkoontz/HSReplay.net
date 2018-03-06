@@ -14,9 +14,9 @@ interface Props {
 }
 
 interface State {
-	linkToTurn?: boolean;
-	preservePerspective?: boolean;
-	confirming?: boolean;
+	linkToTurn: boolean;
+	preservePerspective: boolean;
+	confirming: boolean;
 }
 
 export default class ShareGameDialog extends React.Component<Props, State> {

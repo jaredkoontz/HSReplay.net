@@ -49,15 +49,15 @@ interface Props extends ImageProps, CardArtProps, FragmentChildProps {
 }
 
 interface State {
-	count?: number;
-	currentLocalPage?: number;
-	gamesPages?: GamesPage;
-	next?: string | null;
-	pageSize?: number;
-	receivedPages?: number;
-	showFilters?: boolean;
-	viewType?: ViewType;
-	working?: boolean;
+	count: number;
+	currentLocalPage: number;
+	gamesPages: GamesPage;
+	next: string | null;
+	pageSize: number;
+	receivedPages: number;
+	showFilters: boolean;
+	viewType: ViewType;
+	working: boolean;
 }
 
 export default class MyReplays extends React.Component<Props, State> {

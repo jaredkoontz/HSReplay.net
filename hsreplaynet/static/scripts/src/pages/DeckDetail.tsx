@@ -72,14 +72,14 @@ interface Props {
 }
 
 interface State {
-	inventory?: InventoryGameType;
-	expandWinrate?: boolean;
-	hasData?: boolean;
-	personalSortBy?: string;
-	personalSortDirection?: SortDirection;
-	showInfo?: boolean;
-	sortBy?: string;
-	sortDirection?: SortDirection;
+	inventory: InventoryGameType;
+	expandWinrate: boolean;
+	hasData: boolean;
+	personalSortBy: string;
+	personalSortDirection: SortDirection;
+	showInfo: boolean;
+	sortBy: string;
+	sortDirection: SortDirection;
 }
 
 export default class DeckDetail extends React.Component<Props, State> {

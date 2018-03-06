@@ -11,8 +11,8 @@ interface Props {
 }
 
 interface State {
-	sortBy?: string;
-	sortDirection?: SortDirection;
+	sortBy: string;
+	sortDirection: SortDirection;
 }
 
 export default class WinrateBreakdownTable extends React.Component<

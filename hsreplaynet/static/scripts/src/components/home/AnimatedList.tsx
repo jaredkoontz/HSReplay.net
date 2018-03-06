@@ -24,10 +24,10 @@ interface Props {
 }
 
 interface State {
-	indices?: Indices;
-	items?: AnimatedListObject[];
-	nextItems?: AnimatedListObject[];
-	step?: Step;
+	indices: Indices;
+	items: AnimatedListObject[];
+	nextItems: AnimatedListObject[];
+	step: Step;
 }
 
 const ROW_PADDING = 2;

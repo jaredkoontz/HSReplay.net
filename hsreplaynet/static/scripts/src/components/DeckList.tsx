@@ -31,7 +31,7 @@ interface Props extends FragmentChildProps {
 }
 
 interface State {
-	archetypeData?: any[];
+	archetypeData: any[];
 }
 
 export default class DeckList extends React.Component<Props, State> {

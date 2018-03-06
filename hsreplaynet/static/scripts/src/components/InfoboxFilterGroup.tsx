@@ -15,7 +15,7 @@ interface Props {
 }
 
 interface State {
-	collapsed?: boolean;
+	collapsed: boolean;
 }
 
 export default class InfoboxFilterGroup extends React.Component<Props, State> {

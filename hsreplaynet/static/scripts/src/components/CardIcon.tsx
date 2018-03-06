@@ -11,7 +11,7 @@ interface Props {
 }
 
 interface State {
-	backgroundLoaded?: boolean;
+	backgroundLoaded: boolean;
 }
 
 export default class CardIcon extends React.Component<Props, State> {

@@ -19,8 +19,8 @@ interface Props {
 }
 
 interface State {
-	display?: "player" | "opponent" | "both" | "none";
-	game?: GameReplay;
+	display: "player" | "opponent" | "both" | "none";
+	game: GameReplay;
 }
 
 export default class PlayerInfo extends React.Component<Props, State> {

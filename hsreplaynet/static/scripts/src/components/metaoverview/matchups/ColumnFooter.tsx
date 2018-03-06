@@ -16,7 +16,7 @@ interface Props {
 }
 
 interface State {
-	text?: string;
+	text: string;
 }
 
 export default class ColumnFooter extends React.Component<Props, State> {

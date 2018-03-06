@@ -16,7 +16,7 @@ interface Props {
 }
 
 interface State {
-	selected?: string;
+	selected: string;
 }
 
 export default class Selection extends React.Component<Props, State> {

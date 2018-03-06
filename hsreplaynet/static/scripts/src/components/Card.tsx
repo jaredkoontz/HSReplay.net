@@ -7,7 +7,7 @@ interface Props {
 }
 
 interface State {
-	loaded?: boolean;
+	loaded: boolean;
 }
 
 export default class Card extends React.Component<Props, State> {

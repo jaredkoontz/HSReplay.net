@@ -36,8 +36,8 @@ interface Props {
 }
 
 interface State {
-	highlightColumn?: number;
-	highlightRow?: number;
+	highlightColumn: number;
+	highlightRow: number;
 }
 
 const offWhite = "#fbf7f6";

@@ -7,8 +7,8 @@ interface Props {
 }
 
 interface State {
-	deleted?: boolean;
-	working?: boolean;
+	deleted: boolean;
+	working: boolean;
 }
 
 export default class DeleteReplayButton extends React.Component<Props, State> {

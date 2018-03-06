@@ -48,13 +48,13 @@ interface Props {
 }
 
 interface State {
-	deckData?: any;
-	popularDecks?: DeckObj[];
-	popularDecksPage?: number;
-	popularDecksSortBy?: string;
-	popularDecksSortDirection?: SortDirection;
-	mulliganGuideSortBy?: string;
-	mulliganGuideSortDirection?: string;
+	deckData: any;
+	popularDecks: DeckObj[];
+	popularDecksPage: number;
+	popularDecksSortBy: string;
+	popularDecksSortDirection: SortDirection;
+	mulliganGuideSortBy: string;
+	mulliganGuideSortDirection: string;
 }
 
 export default class ArchetypeDetail extends React.Component<Props, State> {

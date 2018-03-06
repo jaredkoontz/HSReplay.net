@@ -14,7 +14,7 @@ interface Props {
 }
 
 interface State {
-	signature?: ApiArchetypeSignature;
+	signature: ApiArchetypeSignature;
 }
 
 export default class ArchetypeSignatureTooltip extends React.Component<

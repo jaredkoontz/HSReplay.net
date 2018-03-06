@@ -19,7 +19,7 @@ interface Props {
 }
 
 interface State {
-	copied?: boolean;
+	copied: boolean;
 }
 
 export default class CopyDeckButton extends React.Component<Props, State> {

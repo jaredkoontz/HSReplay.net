@@ -35,7 +35,7 @@ export interface ClusterMetaData {
 }
 
 interface State {
-	selectedDeck?: ClusterMetaData;
+	selectedDeck: ClusterMetaData;
 }
 
 interface Props {

@@ -25,10 +25,10 @@ interface Props<T> {
 }
 
 interface State {
-	searchCount?: number;
-	searchText?: string;
-	selectedIndex?: number;
-	showSearchResults?: boolean;
+	searchCount: number;
+	searchText: string;
+	selectedIndex: number;
+	showSearchResults: boolean;
 }
 
 export default class ObjectSearch<T> extends React.Component<Props<T>, State> {

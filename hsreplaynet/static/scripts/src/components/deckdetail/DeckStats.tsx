@@ -12,7 +12,7 @@ interface Props {
 }
 
 interface State {
-	expandWinrate?: boolean;
+	expandWinrate: boolean;
 }
 
 export default class DeckStats extends React.Component<Props, State> {
