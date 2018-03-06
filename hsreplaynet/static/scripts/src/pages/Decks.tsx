@@ -433,7 +433,41 @@ export default class Decks extends React.Component<Props, State> {
 						decks={this.state.filteredDecks}
 						pageSize={12}
 						helpMessage={helpMessage}
-					/>
+					>
+						<Feature feature="collection-syncing">
+							<li
+								style={{
+									backgroundImage:
+										"url('/static/images/feature-promotional/collection-syncing-decks.png')",
+								}}
+								className="deck-list-banner"
+							>
+								{UserData.isAuthenticated() ? (
+									<a href="https://articles.hsreplay.net/">
+										<img src="/static/images/logo.png" />
+										<span className="hidden-lg">
+											Upload your collection!
+										</span>
+										<span className="visible-lg">
+											Upload your collection and find the
+											decks you can build!
+										</span>
+									</a>
+								) : (
+									<a href="/account/login/?next=/decks/">
+										<img src="/static/images/logo.png" />
+										<span className="hidden-lg">
+											Sign in to upload your collection!
+										</span>
+										<span className="visible-lg">
+											Sign in to find the decks you can
+											build with your collection!
+										</span>
+									</a>
+								)}
+							</li>
+						</Feature>
+					</DeckList>
 				</Fragments>
 			);
 		}
