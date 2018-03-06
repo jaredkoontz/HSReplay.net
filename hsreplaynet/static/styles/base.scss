@@ -201,6 +201,10 @@ header .navbar {
 	}
 }
 
+.open .dropdown-toggle .caret {
+	transform: rotate(180deg);
+}
+
 .site-footer {
 	clear: both;
 	color: $darkgrey;
