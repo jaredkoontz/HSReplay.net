@@ -1,10 +1,10 @@
 from botocore.exceptions import ClientError
 from django.core.exceptions import ObjectDoesNotExist
 from oauth2_provider.contrib.rest_framework import OAuth2Authentication
+from rest_framework import status
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.exceptions import NotFound, ValidationError
 from rest_framework.response import Response
-from rest_framework.status import HTTP_304_NOT_MODIFIED, HTTP_412_PRECONDITION_FAILED
 from rest_framework.views import APIView
 
 from hearthsim.identity.accounts.models import BlizzardAccount
@@ -19,7 +19,9 @@ class BaseCollectionView(APIView):
 	authentication_classes = (SessionAuthentication, OAuth2Authentication)
 	serializer_class = CollectionRequestSerializer
 
-	def get(self, request, **kwargs):
+	s3_key = "collections/{hi}/{lo}/collection.json"
+
+	def _serialize_request(self, request):
 		serializer = self.serializer_class(data=request.GET)
 		serializer.is_valid(raise_exception=True)
 
@@ -29,20 +31,22 @@ class BaseCollectionView(APIView):
 			accounts = request.user.blizzard_accounts
 
 		try:
-			account = accounts.get(
+			self._account = accounts.get(
 				account_hi=serializer.validated_data["account_hi"],
 				account_lo=serializer.validated_data["account_lo"],
 			)
 		except ObjectDoesNotExist:
 			raise ValidationError({"detail": "Account hi/lo not found for user."})
 
-		key = f"collections/{account.account_hi}/{account.account_lo}/collection.json"
-
-		if self.request.auth and not self.request.auth.application.livemode:
+		key = self.s3_key
+		if request.auth and not request.auth.application.livemode:
 			# For non-livemode oauth apps, return a testmode url
 			key = "sandbox/" + key
 
-		return self._get_response(account, key)
+		self.s3_params = {
+			"Bucket": S3_COLLECTIONS_BUCKET,
+			"Key": key.format(hi=self._account.account_hi, lo=self._account.account_lo),
+		}
 
 
 class CollectionURLPresigner(BaseCollectionView):
@@ -50,23 +54,23 @@ class CollectionURLPresigner(BaseCollectionView):
 		OAuth2HasScopes(read_scopes=["collection:write"], write_scopes=[]),
 	)
 
-	def _get_response(self, account, key):
-		content_type = "application/json"
-		url = self.get_presigned_url(key, content_type)
+	def get(self, request, **kwargs):
+		self._serialize_request(request)
+		expires_in = 180  # Seconds
+		self.s3_params["ContentType"] = "application/json"
+
+		presigned_url = S3.generate_presigned_url(
+			"put_object", Params=self.s3_params, HttpMethod="PUT", ExpiresIn=expires_in
+		)
+
 		return Response({
 			"method": "PUT",
-			"url": url,
-			"content_type": content_type,
-			"account_hi": account.account_hi,
-			"account_lo": account.account_lo,
+			"url": presigned_url,
+			"content_type": self.s3_params["ContentType"],
+			"expires_in": expires_in,
+			"account_hi": self._account.account_hi,
+			"account_lo": self._account.account_lo,
 		})
-
-	def get_presigned_url(self, key: str, content_type: str, expires: int=60 * 3) -> str:
-		return S3.generate_presigned_url("put_object", Params={
-			"Bucket": S3_COLLECTIONS_BUCKET,
-			"Key": key,
-			"ContentType": content_type,
-		}, ExpiresIn=expires, HttpMethod="PUT")
 
 
 class CollectionView(BaseCollectionView):
@@ -107,20 +111,19 @@ class CollectionView(BaseCollectionView):
 
 		return ret
 
-	def _get_response(self, account, key):
-		args = {
-			"Bucket": S3_COLLECTIONS_BUCKET,
-			"Key": key,
-		}
-		args.update(self._translate_s3_cache_headers(self.request.META))
+	def get(self, request, **kwargs):
+		self._serialize_request(request)
+
+		# Add cache headers to the s3 request
+		self.s3_params.update(self._translate_s3_cache_headers(self.request.META))
 
 		try:
-			obj = S3.get_object(Bucket=S3_COLLECTIONS_BUCKET, Key=key)
+			obj = S3.get_object(**self.s3_params)
 		except S3.exceptions.NoSuchKey:
 			raise NotFound()
 		except ClientError as e:
 			status_code = e.response.get("ResponseMetadata", {}).get("HTTPStatusCode", 0)
-			if status_code in (HTTP_304_NOT_MODIFIED, HTTP_412_PRECONDITION_FAILED):
+			if status_code in (status.HTTP_304_NOT_MODIFIED, status.HTTP_412_PRECONDITION_FAILED):
 				return Response(status=status_code)
 			else:
 				raise
@@ -137,3 +140,10 @@ class CollectionView(BaseCollectionView):
 					headers[header] = v
 
 		return Response(collection, headers=headers)
+
+	def delete(self, request, **kwargs):
+		self._serialize_request(request)
+
+		S3.delete_object(**self.s3_params)
+
+		return Response(status=status.HTTP_204_NO_CONTENT)
