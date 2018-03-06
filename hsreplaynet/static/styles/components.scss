@@ -293,9 +293,6 @@ table .info-icon, .sort-header .info-icon {
 			}
 
 			> button {
-				display: flex;
-				flex-direction: column;
-				align-items: flex-start;
 				background-color: transparent;
 				border: none;
 				height: 100%;
@@ -306,6 +303,14 @@ table .info-icon, .sort-header .info-icon {
 				1px -1px 0 #000,
 				-1px 1px 0 #000,
 				1px 1px 0 #000;
+				position: relative;
+
+				span {
+					position: absolute;
+					line-height: 0.5em;
+					top: 0.2em;
+					right: 0.2em;
+				}
 
 				&:active {
 					outline: none;
