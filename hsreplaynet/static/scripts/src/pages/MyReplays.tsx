@@ -117,7 +117,7 @@ export default class MyReplays extends React.Component<Props, State> {
 						this.setState({
 							count: data.count,
 							gamesPages: pages,
-							next: next,
+							next,
 							pageSize: Math.max(
 								this.state.pageSize,
 								games.length,
@@ -130,7 +130,7 @@ export default class MyReplays extends React.Component<Props, State> {
 				}
 				this.setState({
 					count: data.count,
-					next: next,
+					next,
 					working: false,
 				});
 			});
