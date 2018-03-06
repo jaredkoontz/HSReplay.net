@@ -199,6 +199,32 @@ header .navbar {
 	.popover {
 		color: black;
 	}
+
+	@media (max-width: 767px) {
+		.navbar-nav .open .dropdown-menu {
+			background-color: $lightblue1;
+
+			.dropdown-header {
+				color: #999;
+			}
+
+			.active > a {
+				&, &:focus, &:hover {
+					color: white;
+					background-color: $lightblue;
+				}
+			}
+
+			> li > a {
+				color: white;
+
+				&:focus, &:hover {
+					color: white;
+					background-color: $lightblue;
+				}
+			}
+		}
+	}
 }
 
 .open .dropdown-toggle .caret {
