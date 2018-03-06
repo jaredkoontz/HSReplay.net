@@ -1,10 +1,9 @@
 {% load socialaccount %}
 {% load web_extras %}
 
-{% setting "ENV_VAGRANT" as vagrant %}
 <div class="btn-group">
 	<a
-		href="{% if vagrant %}https://localhost:8443{% endif %}{% provider_login_url 'battlenet' next=next %}"
+		href="{% if dev %}https://localhost:8443{% endif %}{% provider_login_url 'battlenet' next=next %}"
 		class="{{ class|default:"btn promo-button hero-button" }}"
 		rel="nofollow"
 	>
@@ -23,18 +22,12 @@
 	<ul class="dropdown-menu">
 		<li class="dropdown-header">Regions</li>
 		<li>
-			<a
-					href="{% if vagrant %}https://localhost:8443{% endif %}{% provider_login_url 'battlenet' next=next %}"
-					rel="nofollow"
-			>
+			<a href="{% provider_login_url 'battlenet' next=next %}" rel="nofollow">
 				Blizzard (US/EU/SEA)&hellip;
 			</a>
 		</li>
 		<li>
-			<a
-					href="{% if vagrant %}https://localhost:8443{% endif %}{% provider_login_url 'battlenet' region='cn' next=next %}"
-					rel="nofollow"
-			>
+			<a href="{% provider_login_url 'battlenet' region='cn' next=next %}" rel="nofollow">
 				Blizzard China (CN)&hellip;
 			</a>
 		</li>

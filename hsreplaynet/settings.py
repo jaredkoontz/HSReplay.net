@@ -15,15 +15,13 @@ from django.urls import reverse_lazy
 # ENV_LIVE: True if running on *.hsreplay.net
 # ENV_LAMBDA: True if running on AWS Lambda
 # ENV_AWS: True if running on AWS (ENV_LIVE or ENV_LAMBDA)
-# ENV_DEV: True if running on dev.hsreplay.net, or not on LIVE/LAMBDA
-# ENV_VAGRANT: True if running on the Vagrant box
+# ENV_DEV: True if running in development environment
 
 HOSTNAME = platform.node()
 ENV_LIVE = HOSTNAME.endswith("hsreplay.net") or os.environ.get("HSREPLAYNET_LIVE") == "1"
 ENV_LAMBDA = bool(os.environ.get("AWS_LAMBDA_FUNCTION_NAME"))
 ENV_AWS = ENV_LIVE or ENV_LAMBDA
 ENV_DEV = bool(os.environ.get("HSREPLAYNET_DEBUG"))
-ENV_VAGRANT = bool(os.environ.get("ENV_VAGRANT"))
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -278,30 +276,14 @@ OAUTH2_PROVIDER = {
 OAUTH2_PROVIDER_APPLICATION_MODEL = "oauth2.Application"
 
 
-##
-# Django Debug Toolbar (Only on dev)
-# https://github.com/jazzband/django-debug-toolbar
-# NOTE: This won't work is DEBUG is set to True from local_settings.py
-
 if ENV_DEV:
-	try:
-		import debug_toolbar
-	except ImportError:
-		pass
-	else:
-		INSTALLED_APPS += [
-			"debug_toolbar",
-		]
-		MIDDLEWARE += [
-			"debug_toolbar.middleware.DebugToolbarMiddleware",
-		]
-
-
-# sslserver (for local development only)
-if ENV_VAGRANT:
 	INSTALLED_APPS += [
+		"debug_toolbar",
 		"sslserver",
 		"django_extensions",
+	]
+	MIDDLEWARE += [
+		"debug_toolbar.middleware.DebugToolbarMiddleware",
 	]
 
 
