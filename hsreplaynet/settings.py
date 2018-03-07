@@ -259,6 +259,7 @@ REST_FRAMEWORK = {
 
 OAUTH2_PROVIDER = {
 	"SCOPES": {
+		"fullaccess": "Full access to your HSReplay.net account",
 		"account.social:read": "Access information about your connected social accounts",
 		"collection:read": "View your Hearthstone card collection",
 		"collection:write": "Upload your Hearthstone card collection to the site",
@@ -271,6 +272,7 @@ OAUTH2_PROVIDER = {
 	},
 	"ALLOWED_REDIRECT_URI_SCHEMES": ["https", "http"],
 	"SCOPES_BACKEND_CLASS": "hearthsim.identity.oauth2.models.ApplicationScopes",
+	"FULL_ACCESS_SCOPE": "fullaccess",
 }
 
 OAUTH2_PROVIDER_APPLICATION_MODEL = "oauth2.Application"

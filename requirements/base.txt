@@ -1,15 +1,15 @@
 # Core requirements for HSReplay.net
 
 hearthstone
-hearthsim-identity==2.2.4
+hearthsim-identity==2.2.5
 https://github.com/HearthSim/hsarchetypes/archive/master.tar.gz
 https://github.com/HearthSim/hsredshift/archive/master.tar.gz
 
-Django==2.0.2
+Django==2.0.3
 django-intenumfield==1.4.0
 django-hearthstone==0.4.0
 django-oauth-toolkit==1.0.0
-django-redis==4.8.0
+django-redis==4.9.0
 django-storages==1.6.5
 djangorestframework==3.7.7
 requests==2.18.4
@@ -17,7 +17,7 @@ influxdb==5.0.0
 lxml==4.1.1
 python-dateutil==2.6.1
 python-redis-lock[django]==3.2.0
-raven==6.5.0
+raven==6.6.0
 redis==2.10.6
 redis-semaphore==0.2.2
 shortuuid==0.5.0
