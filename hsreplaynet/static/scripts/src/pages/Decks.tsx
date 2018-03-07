@@ -119,6 +119,9 @@ export default class Decks extends React.Component<Props, State> {
 			this.deckListsFragmentsRef &&
 				this.deckListsFragmentsRef.reset("page");
 		}
+		if (this.state.showBanner && this.props.collection) {
+			this.setState({ showBanner: false });
+		}
 	}
 
 	public componentWillReceiveProps(
