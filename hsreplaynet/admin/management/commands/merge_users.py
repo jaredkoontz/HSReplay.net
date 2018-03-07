@@ -22,6 +22,9 @@ def merge_users(base_user, user):
 	# Replays
 	do_queryset(user.replays)
 
+	# Packs
+	do_queryset(user.pack_set)
+
 	# Comments
 	do_queryset(user.comment_comments)
 	do_queryset(user.comment_flags)
@@ -33,6 +36,9 @@ def merge_users(base_user, user):
 	do_queryset(user.emailaddress_set)
 
 	# OAuth2
+	do_queryset(user.oauth2_application)
+	do_queryset(user.oauth2_provider_accesstoken)
+	do_queryset(user.oauth2_provider_refreshtoken)
 	do_queryset(user.oauth2_provider_grant)
 
 	# Social accounts
