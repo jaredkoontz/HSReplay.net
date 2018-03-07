@@ -872,7 +872,7 @@ export default class Decks extends React.Component<Props, State> {
 						backgroundImage:
 							"url('/static/images/feature-promotional/collection-syncing-decks.png')",
 					}}
-					className="deck-list-banner"
+					className="deck-list-banner hidden-xs"
 				>
 					<button
 						type="button"
