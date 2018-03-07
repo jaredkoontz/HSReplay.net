@@ -860,7 +860,10 @@ export default class Decks extends React.Component<Props, State> {
 
 	private dismissBanner = (event: React.MouseEvent<HTMLButtonElement>) => {
 		this.setState({ showBanner: false }, () => {
-			cookie.set("decks-collection-banner-closed", 1);
+			cookie.set("decks-collection-banner-closed", 1, {
+				path: "/",
+				expires: 365,
+			});
 		});
 	};
 
