@@ -1418,6 +1418,10 @@ table .info-icon, .sort-header .info-icon {
 			opacity: 1;
 		}
 	}
+
+	input {
+		min-width: 0;
+	}
 }
 
 .account-dropdown {
