@@ -22,7 +22,7 @@ from ..serializers.accounts import ClaimTokenSerializer, TwitchSocialAccountSeri
 class UserDetailsView(RetrieveAPIView):
 	queryset = get_user_model().objects.all()
 	serializer_class = UserSerializer
-	authentication_classes = (OAuth2Authentication, )
+	authentication_classes = (SessionAuthentication, OAuth2Authentication)
 	permission_classes = (IsAuthenticated, )
 
 	def get_object(self):
