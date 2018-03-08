@@ -26,7 +26,6 @@ import { TwitchStreamPromotionEvents } from "../metrics/GoogleAnalytics";
 import { CardData as HearthstoneJSONCardData } from "hearthstonejson-client";
 
 interface DeckTileProps extends DeckObj {
-	dustCost?: number;
 	compareWith?: CardObj[];
 	archetypeName?: string;
 	hrefTab?: string;
@@ -177,10 +176,7 @@ class DeckTile extends React.Component<Props> {
 				".png)",
 		};
 
-		const dustCost =
-			typeof this.props.dustCost === "number"
-				? this.props.dustCost
-				: null;
+		const dustCost = getDustCost(this.props.cards);
 
 		const dustCostStyle = {
 			backgroundImage: "url(/static/images/dust.png)",

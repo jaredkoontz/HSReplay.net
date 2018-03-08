@@ -149,7 +149,6 @@ export default class DeckList extends React.Component<Props, State> {
 					numGames={deck.numGames}
 					winrate={deck.winrate}
 					compareWith={this.props.compareWith}
-					dustCost={this.cache[deck.deckId].dust}
 					hasGlobalData={
 						this.props.showGlobalDataNotice && deck.hasGlobalData
 					}
