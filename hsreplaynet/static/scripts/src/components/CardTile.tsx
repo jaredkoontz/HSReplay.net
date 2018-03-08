@@ -12,6 +12,7 @@ interface Props {
 	noLink?: boolean;
 	countBoxSize?: number;
 	predicted?: boolean;
+	craftable?: boolean;
 	subtitle?: string;
 }
 
@@ -112,6 +113,9 @@ export default class CardTile extends React.Component<Props> {
 		const classNames = ["card-tile"];
 		if (this.props.predicted) {
 			classNames.push("predicted");
+		}
+		if (this.props.craftable) {
+			classNames.push("craftable");
 		}
 
 		let tile = (
