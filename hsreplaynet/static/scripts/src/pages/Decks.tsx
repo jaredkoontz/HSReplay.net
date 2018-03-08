@@ -439,6 +439,7 @@ export default class Decks extends React.Component<Props, State> {
 						decks={this.state.filteredDecks}
 						pageSize={12}
 						helpMessage={helpMessage}
+						collection={this.props.collection}
 					>
 						{this.renderBanner()}
 					</DeckList>

@@ -25,22 +25,17 @@ import SemanticAge from "./SemanticAge";
 import { TwitchStreamPromotionEvents } from "../metrics/GoogleAnalytics";
 import { CardData as HearthstoneJSONCardData } from "hearthstonejson-client";
 
-interface DeckTileProps extends DeckObj {
+interface ExternalProps extends DeckObj {
 	compareWith?: CardObj[];
 	archetypeName?: string;
 	hrefTab?: string;
 	lastPlayed?: Date;
-}
-
-interface StreamsProps {
-	streams: ApiStream[];
-}
-
-interface CollectionProps {
 	collection: HearthstoneCollection | null;
 }
 
-interface Props extends DeckTileProps, StreamsProps, CollectionProps {}
+interface Props extends ExternalProps {
+	streams: ApiStream[];
+}
 
 class DeckTile extends React.Component<Props> {
 	public getUrl(customTab?: string) {
@@ -324,7 +319,7 @@ class DeckTile extends React.Component<Props> {
 	}
 }
 
-export default class InjectedDeckTile extends React.Component<DeckTileProps> {
+export default class InjectedDeckTile extends React.Component<ExternalProps> {
 	public render(): React.ReactNode {
 		const props = _.omit(this.props, "children") as any;
 
@@ -353,42 +348,7 @@ export default class InjectedDeckTile extends React.Component<DeckTileProps> {
 				}}
 				fetchCondition={UserData.hasFeature("twitch-stream-promotion")}
 			>
-				{({ streams }) => (
-					<HearthtoneAccountConsumer>
-						{(account: Account) => (
-							<DataInjector
-								query={[
-									{
-										key: "collection",
-										params: {
-											account_hi:
-												"" + (account && account.hi),
-											account_lo:
-												"" + (account && account.lo),
-										},
-										url: "/api/v1/collection/",
-									},
-								]}
-								extract={{
-									collection: data => ({
-										collection: data || null,
-									}),
-								}}
-								fetchCondition={UserData.hasFeature(
-									"collection-syncing",
-								)}
-							>
-								{({ collection }) => (
-									<DeckTile
-										{...props}
-										streams={streams}
-										collection={collection}
-									/>
-								)}
-							</DataInjector>
-						)}
-					</HearthtoneAccountConsumer>
-				)}
+				{({ streams }) => <DeckTile {...props} streams={streams} />}
 			</DataInjector>
 		);
 	}

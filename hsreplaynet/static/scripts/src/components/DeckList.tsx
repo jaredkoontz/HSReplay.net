@@ -8,6 +8,7 @@ import {
 	CardObj,
 	DeckObj,
 	FragmentChildProps,
+	HearthstoneCollection,
 	SortDirection,
 } from "../interfaces";
 import { getDustCost, getManaCost } from "../helpers";
@@ -28,6 +29,7 @@ interface Props extends FragmentChildProps {
 	hrefTab?: string;
 	lastPlayedColumn?: boolean;
 	showGlobalDataNotice?: boolean;
+	collection?: HearthstoneCollection | null;
 }
 
 interface State {
@@ -156,6 +158,7 @@ export default class DeckList extends React.Component<Props, State> {
 					archetypeId={archetype && archetype.id}
 					hrefTab={this.props.hrefTab}
 					lastPlayed={deck.lastPlayed}
+					collection={this.props.collection}
 				/>,
 			);
 		});
