@@ -229,7 +229,10 @@ export default class Fragments extends React.Component<Props, State> {
 				value = value ? TRUE_STRING : FALSE_STRING;
 				break;
 			case "string":
-				if (this.isNullOrEmpty(value) && this.isNullOrEmpty(defaultValue)) {
+				if (
+					this.isNullOrEmpty(value) &&
+					this.isNullOrEmpty(defaultValue)
+				) {
 					return "";
 				}
 				break;
