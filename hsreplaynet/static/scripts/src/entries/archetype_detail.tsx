@@ -5,6 +5,8 @@ import ArchetypeDetail from "../pages/ArchetypeDetail";
 import UserData from "../UserData";
 import Fragments from "../components/Fragments";
 import Root from "../components/Root";
+import { Consumer as AccountConsumer } from "../components/utils/hearthstone-account";
+import DataInjector from "../components/DataInjector";
 
 const container = document.getElementById("archetype-container");
 const archetypeId = container.getAttribute("data-archetype-id");
@@ -19,23 +21,47 @@ UserData.create();
 const render = (cardData: CardData) => {
 	ReactDOM.render(
 		<Root>
-			<Fragments
-				defaults={{
-					rankRange: "LEGEND_THROUGH_TWENTY",
-					tab: "overview",
-				}}
-				immutable={!UserData.isPremium() ? ["rankRange"] : null}
-			>
-				<ArchetypeDetail
-					cardData={cardData}
-					archetypeId={+archetypeId}
-					archetypeName={archetypeName}
-					playerClass={playerClass}
-					hasStandardData={hasStandardData}
-					hasWildData={hasWildData}
-					gameType="RANKED_STANDARD"
-				/>
-			</Fragments>
+			<AccountConsumer>
+				{account => (
+					<DataInjector
+						query={{
+							key: "collection",
+							params: {
+								account_hi: "" + (account && account.hi),
+								account_lo: "" + (account && account.lo),
+							},
+							url: "/api/v1/collection/",
+						}}
+						fetchCondition={
+							UserData.hasFeature("collection-syncing") &&
+							!!account
+						}
+					>
+						{({ collection }) => (
+							<Fragments
+								defaults={{
+									rankRange: "LEGEND_THROUGH_TWENTY",
+									tab: "overview",
+								}}
+								immutable={
+									!UserData.isPremium() ? ["rankRange"] : null
+								}
+							>
+								<ArchetypeDetail
+									cardData={cardData}
+									archetypeId={+archetypeId}
+									archetypeName={archetypeName}
+									playerClass={playerClass}
+									hasStandardData={hasStandardData}
+									hasWildData={hasWildData}
+									gameType="RANKED_STANDARD"
+									collection={collection}
+								/>
+							</Fragments>
+						)}
+					</DataInjector>
+				)}
+			</AccountConsumer>
 		</Root>,
 		container,
 	);

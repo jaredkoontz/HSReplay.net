@@ -1,6 +1,7 @@
 import {
 	ApiArchetype,
 	DeckObj,
+	HearthstoneCollection,
 	LoadingStatus,
 	SortDirection,
 } from "../interfaces";
@@ -39,6 +40,7 @@ interface Props {
 	hasWildData: boolean;
 	playerClass: string;
 	cardData: CardData;
+	collection: HearthstoneCollection | null;
 	gameType?: string;
 	setGameType?: (gameType: string) => void;
 	rankRange?: string;
@@ -444,6 +446,7 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 								setPage={page =>
 									this.setState({ popularDecksPage: page })
 								}
+								collection={this.props.collection}
 							/>
 						</Tab>
 						<Tab label="Over Time" id="overtime">
@@ -784,6 +787,7 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 					sortDirection={
 						this.state.mulliganGuideSortDirection as SortDirection
 					}
+					collection={this.props.collection}
 				/>
 			</DataInjector>
 		);
