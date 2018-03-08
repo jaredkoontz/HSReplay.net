@@ -1,9 +1,7 @@
 from django.conf.urls import include, url
 from rest_framework.routers import DefaultRouter
 
-from hearthsim.identity.accounts.api import (
-	AuthTokenViewSet, CreateAccountClaimView, UserDetailsView
-)
+from hearthsim.identity.accounts.api import AuthTokenViewSet, CreateAccountClaimView
 from hsreplaynet.analytics.urls import api_urlpatterns as analytics_urlpatterns
 from hsreplaynet.decks.api import ArchetypeViewSet
 from hsreplaynet.decks.urls import api_urlpatterns as decks_urlpatterns
@@ -23,7 +21,7 @@ router.register(r"tokens", AuthTokenViewSet)
 router.register(r"webhooks", views.webhooks.WebhookViewSet)
 
 urlpatterns = [
-	url(r"^v1/account/$", UserDetailsView.as_view()),
+	url(r"^v1/account/$", views.accounts.UserDetailsView.as_view()),
 	url(r"^v1/account/claim_token/$", views.accounts.ClaimTokenAPIView.as_view()),
 	url(r"^v1/account/social/twitch/$", views.accounts.TwitchSocialAccountListView.as_view()),
 	url(r"^v1/claim_account/$", CreateAccountClaimView.as_view()),

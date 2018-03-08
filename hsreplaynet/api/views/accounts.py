@@ -1,12 +1,15 @@
 from allauth.socialaccount.models import SocialAccount
+from django.contrib.auth import get_user_model
 from django.db import transaction
 from oauth2_provider.contrib.rest_framework import OAuth2Authentication
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.exceptions import ValidationError
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from hearthsim.identity.accounts.api import UserSerializer
 from hearthsim.identity.accounts.models import AuthToken
 from hearthsim.identity.oauth2.permissions import OAuth2HasScopes
 from hsreplaynet.games.models import GameReplay
@@ -14,6 +17,16 @@ from hsreplaynet.utils import get_uuid_object_or_404
 from hsreplaynet.utils.influx import influx_metric
 
 from ..serializers.accounts import ClaimTokenSerializer, TwitchSocialAccountSerializer
+
+
+class UserDetailsView(RetrieveAPIView):
+	queryset = get_user_model().objects.all()
+	serializer_class = UserSerializer
+	authentication_classes = (OAuth2Authentication, )
+	permission_classes = (IsAuthenticated, )
+
+	def get_object(self):
+		return self.request.user
 
 
 class ClaimTokenAPIView(APIView):
