@@ -21,8 +21,9 @@ export default class extends React.Component<Props> {
 		const image = owned
 			? "dust.png"
 			: `rarity-icons/rarity-${this.props.type}.png`;
-		const tooltip =
-			"+ " + (owned ? `All your Dust (${value})` : value + " Dust");
+		const tooltip = `Spend ${
+			owned ? `all your Dust (${value})` : value + " dust"
+		}`;
 		return (
 			<Tooltip content={tooltip} simple noSrTooltip>
 				<img

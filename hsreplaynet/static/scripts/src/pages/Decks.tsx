@@ -641,6 +641,8 @@ export default class Decks extends React.Component<Props, State> {
 						<section id="max-dust-filter">
 							<InfoboxFilterGroup
 								header="My Collection"
+								infoHeader="Maximum Dust Filter"
+								infoContent="See which decks you can build right now without spending any or some dust."
 								deselectable
 								selectedValue={
 									this.props.maxDustCost < 0
