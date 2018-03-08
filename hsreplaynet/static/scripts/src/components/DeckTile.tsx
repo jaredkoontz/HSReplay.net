@@ -223,48 +223,47 @@ class DeckTile extends React.Component<Props> {
 			);
 		}
 
-		let headerData = [];
+		const headerData = [];
 		if (this.props.lastPlayed) {
-			headerData = [
+			headerData.push(
 				<span key="last-played" className="last-played">
 					<SemanticAge date={this.props.lastPlayed} />
 				</span>,
-			];
+			);
 		} else if (dustCost !== null) {
-			headerData = [
+			headerData.push(
 				<span
 					key="dust-cost"
 					className="dust-cost"
 					style={dustCostStyle}
 				>
-					{this.props.dustCost}
+					{dustCost}
 				</span>,
-			];
-			if (this.props.streams && this.props.streams.length > 0) {
-				const streamCount = this.props.streams.length;
-				headerData.push(
-					<a
-						key="live-now"
-						className="live-now text-twitch"
-						href={this.getUrl("streams")}
-						onClick={() =>
-							TwitchStreamPromotionEvents.onClickLiveNow(
-								this.props.deckId,
-								{
-									transport: "beacon",
-								},
-							)
-						}
-					>
-						<img
-							src={`${STATIC_URL}/images/socialauth/twitch.png`}
-						/>
-						&nbsp;{streamCount > 1
-							? `${streamCount} streams`
-							: "Live now"}
-					</a>,
-				);
-			}
+			);
+		}
+
+		if (this.props.streams && this.props.streams.length > 0) {
+			const streamCount = this.props.streams.length;
+			headerData.push(
+				<a
+					key="live-now"
+					className="live-now text-twitch"
+					href={this.getUrl("streams")}
+					onClick={() =>
+						TwitchStreamPromotionEvents.onClickLiveNow(
+							this.props.deckId,
+							{
+								transport: "beacon",
+							},
+						)
+					}
+				>
+					<img src={`${STATIC_URL}/images/socialauth/twitch.png`} />
+					&nbsp;{streamCount > 1
+						? `${streamCount} streams`
+						: "Live now"}
+				</a>,
+			);
 		}
 
 		return (
