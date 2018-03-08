@@ -1,7 +1,6 @@
 import {
 	cardSorting,
 	compareDecks,
-	getDustCost,
 	isCollectibleCard,
 	isWildSet,
 	sortCards,
@@ -31,6 +30,7 @@ import { Limit } from "../components/ObjectSearch";
 import Feature from "../components/Feature";
 import DustFilter from "../components/filters/DustFilter";
 import { cookie } from "cookie_js";
+import { getDustCostForCollection } from "../utils/collection";
 
 interface Props extends FragmentChildProps {
 	cardData: CardData | null;
@@ -309,29 +309,15 @@ export default class Decks extends React.Component<Props, State> {
 							this.props.collection &&
 							this.props.maxDustCost >= 0
 						) {
-							let missingdust = 0;
-							for (const ccard of cards) {
-								const coll = this.props.collection.collection[
-									"" + ccard.card.dbfId
-								] || [0, 0];
-								const count = coll[0] + coll[1];
-								if (ccard.count > count) {
-									missingdust +=
-										getDustCost(ccard.card) *
-										(ccard.count - count);
-									if (missingdust > this.props.maxDustCost) {
-										return;
-									}
-								}
+							if (
+								getDustCostForCollection(
+									this.props.collection,
+									cards,
+								) > this.props.maxDustCost
+							) {
+								return;
 							}
 						}
-
-						/*
-						if (filter selected) {
-							get list of cards we dont have
-							dust = getdust(cards)
-							if dust > filter.dust  return
-						} */
 
 						deck.player_class = key;
 						pushDeck(deck, cards);

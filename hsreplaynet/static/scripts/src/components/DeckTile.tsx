@@ -1,6 +1,5 @@
 import React from "react";
 import * as _ from "lodash";
-import { Consumer as HearthtoneAccountConsumer } from "./utils/hearthstone-account";
 import CardIcon from "./CardIcon";
 import ManaCurve from "./ManaCurve";
 import {
@@ -12,18 +11,18 @@ import {
 import {
 	cardSorting,
 	compareDecks,
-	getDustCost,
 	getFragments,
 	getHeroCardId,
 	toPrettyNumber,
 	toTitleCase,
 } from "../helpers";
-import UserData, { Account } from "../UserData";
+import UserData from "../UserData";
 import Tooltip from "./Tooltip";
 import DataInjector from "./DataInjector";
 import SemanticAge from "./SemanticAge";
 import { TwitchStreamPromotionEvents } from "../metrics/GoogleAnalytics";
 import { CardData as HearthstoneJSONCardData } from "hearthstonejson-client";
+import { getDustCostForCollection } from "../utils/collection";
 
 interface ExternalProps extends DeckObj {
 	compareWith?: CardObj[];
@@ -182,7 +181,10 @@ class DeckTile extends React.Component<Props> {
 				".png)",
 		};
 
-		const dustCost = getDustCost(this.props.cards);
+		const dustCost = getDustCostForCollection(
+			this.props.collection,
+			this.props.cards,
+		);
 
 		const dustCostStyle = {
 			backgroundImage: "url(/static/images/dust.png)",

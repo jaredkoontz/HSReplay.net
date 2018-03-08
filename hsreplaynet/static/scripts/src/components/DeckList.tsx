@@ -11,8 +11,9 @@ import {
 	HearthstoneCollection,
 	SortDirection,
 } from "../interfaces";
-import { getDustCost, getManaCost } from "../helpers";
+import { getManaCost } from "../helpers";
 import DataManager from "../DataManager";
+import { getDustCostForCollection } from "../utils/collection";
 
 interface Props extends FragmentChildProps {
 	decks: DeckObj[];
@@ -45,7 +46,7 @@ export default class DeckList extends React.Component<Props, State> {
 			archetypeData: [],
 		};
 		this.cache = {};
-		this.cacheDecks(props.decks);
+		this.cacheDecks(props.decks, props.collection);
 		this.fetchArchetypeDict();
 	}
 
@@ -62,18 +63,14 @@ export default class DeckList extends React.Component<Props, State> {
 		) {
 			this.props.setPage(1);
 		}
-		this.cacheDecks(nextProps.decks);
+		this.cacheDecks(nextProps.decks, nextProps.collection);
 	}
 
-	cacheDecks(decks: DeckObj[]) {
-		for (const i in decks) {
-			const deck = decks[i];
+	cacheDecks(decks: DeckObj[], collection: HearthstoneCollection | null) {
+		for (const deck of decks) {
 			const id = deck.deckId;
-			if (typeof this.cache[id] !== "undefined") {
-				continue;
-			}
 			this.cache[id] = {
-				dust: getDustCost(deck.cards),
+				dust: getDustCostForCollection(collection, deck.cards),
 				mana: getManaCost(deck.cards),
 			};
 		}
