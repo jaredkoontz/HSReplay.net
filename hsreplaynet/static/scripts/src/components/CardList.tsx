@@ -4,6 +4,8 @@ import { cardSorting } from "../helpers";
 import CopyDeckButton from "./CopyDeckButton";
 import CardData from "../CardData";
 import UserData from "../UserData";
+import { isMissingCardFromCollection } from "../utils/collection";
+import { HearthstoneCollection } from "../interfaces";
 
 type CardId = string | number;
 
@@ -20,6 +22,7 @@ interface Props {
 	format?: number;
 	customCounts?: { [dbfId: number]: number };
 	sortByCount?: boolean;
+	collection?: HearthstoneCollection | null;
 }
 
 export default class CardList extends React.Component<Props> {
@@ -106,6 +109,11 @@ export default class CardList extends React.Component<Props> {
 						predicted={predicted}
 						subtitle={predicted ? "Predicted Card" : null}
 						key={dbfIds ? card.dbfId : card.id}
+						craftable={isMissingCardFromCollection(
+							this.props.collection,
+							card.dbfId,
+							tileCount,
+						)}
 					/>,
 				);
 			};
