@@ -639,41 +639,66 @@ export default class Decks extends React.Component<Props, State> {
 					</section>
 					<Feature feature="collection-syncing">
 						<section id="max-dust-filter">
-							<InfoboxFilterGroup
-								header="My Collection"
-								infoHeader="Maximum Dust Filter"
-								infoContent="See which decks you can build right now without spending any or some dust."
-								deselectable
-								selectedValue={
-									this.props.maxDustCost < 0
-										? null
-										: "DUST_FILTER"
-								}
-								onClick={value =>
-									this.props.setMaxDustCost(value ? 0 : -1)
-								}
-							>
-								<InfoboxFilter value="DUST_FILTER">
-									Limit to my collection
-								</InfoboxFilter>
-							</InfoboxFilterGroup>
-							{this.props.maxDustCost < 0 ? null : this.props
-								.collection ? (
-								<DustFilter
-									dust={this.props.maxDustCost}
-									setDust={(dust: number) =>
-										this.props.setMaxDustCost(
-											dust === Infinity ? -1 : dust,
-										)
-									}
-									ownedDust={this.props.collection.dust}
+							<h2>
+								My Collection
+								<InfoIcon
+									className="pull-right"
+									header="Maximum Dust Filter"
+									content="See which decks you can build right now without spending any or some dust."
 								/>
+							</h2>
+							{this.props.collection ? (
+								<>
+									<InfoboxFilterGroup
+										deselectable
+										selectedValue={
+											this.props.maxDustCost < 0
+												? null
+												: "DUST_FILTER"
+										}
+										onClick={value =>
+											this.props.setMaxDustCost(
+												value ? 0 : -1,
+											)
+										}
+									>
+										<InfoboxFilter value="DUST_FILTER">
+											Limit to my collection
+										</InfoboxFilter>
+									</InfoboxFilterGroup>
+									{this.props.maxDustCost < 0 ? null : (
+										<DustFilter
+											dust={this.props.maxDustCost}
+											setDust={(dust: number) =>
+												this.props.setMaxDustCost(
+													dust === Infinity
+														? -1
+														: dust,
+												)
+											}
+											ownedDust={
+												this.props.collection.dust
+											}
+										/>
+									)}
+								</>
 							) : (
-								<div
-									style={{ textAlign: "center", margin: 10 }}
+								<a
+									className="infobox-banner"
+									style={{
+										backgroundImage:
+											"url('/static/images/feature-promotional/collection-syncing-sidebar.png')",
+									}}
+									href={
+										UserData.isAuthenticated()
+											? "https://articles.hsreplay.net/"
+											: "/account/login/?next=/decks/"
+									}
 								>
-									[PH] No collection found
-								</div>
+									{UserData.isAuthenticated()
+										? "Want to find decks you can build with your collection?"
+										: "Sign in to find decks for your collection"}
+								</a>
 							)}
 						</section>
 					</Feature>

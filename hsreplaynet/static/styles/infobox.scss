@@ -266,3 +266,34 @@
 		}
 	}
 }
+
+
+.infobox {
+	.infobox-banner, a.infobox-banner {
+		display: block;
+		width: 278px;
+		margin: 10px auto;
+		padding: 8px 10px 10px 10px;
+
+		border: solid 1px white;
+		background-color: gray;
+		background-position: center;
+
+		font-size: 1.2em;
+		font-weight: bold;
+
+		&, &:active, &:hover {
+			color: white;
+			text-decoration: none;
+			outline: none;
+			text-shadow: -1px -1px 0 #000,
+			1px -1px 0 #000,
+			-1px 1px 0 #000,
+			1px 1px 0 #000;
+		}
+
+		&:focus {
+			color: $lighterblue;
+		}
+	}
+}
