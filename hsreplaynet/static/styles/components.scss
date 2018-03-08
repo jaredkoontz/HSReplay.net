@@ -1414,7 +1414,11 @@ table .info-icon, .sort-header .info-icon {
 		margin-right: 10px;
 		cursor: pointer;
 
-		&.active {
+		&:hover {
+			opacity: 0.8;
+		}
+
+		&.active, &.active:hover {
 			opacity: 1;
 		}
 	}
