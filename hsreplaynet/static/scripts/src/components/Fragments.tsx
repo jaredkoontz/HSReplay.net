@@ -222,13 +222,20 @@ export default class Fragments extends React.Component<Props, State> {
 			}
 		}
 
+		const defaultValue = this.props.defaults[key];
+
 		switch (typeof this.props.defaults[key]) {
 			case "boolean":
 				value = value ? TRUE_STRING : FALSE_STRING;
 				break;
+			case "string":
+				if (this.isNullOrEmpty(value) && this.isNullOrEmpty(defaultValue)) {
+					return "";
+				}
+				break;
 		}
 
-		if (value === this.props.defaults[key]) {
+		if (value === defaultValue) {
 			return "";
 		}
 
@@ -237,6 +244,10 @@ export default class Fragments extends React.Component<Props, State> {
 
 	isArray(key: string): boolean {
 		return Array.isArray(this.props.defaults[key]);
+	}
+
+	isNullOrEmpty(value: string): boolean {
+		return value === null || value === undefined || value === "";
 	}
 
 	isDebounced(key: string): boolean {
