@@ -6,6 +6,7 @@ import UserData from "../UserData";
 import Fragments from "../components/Fragments";
 import Root from "../components/Root";
 import { Consumer as AccountConsumer } from "../components/utils/hearthstone-account";
+import DataInjector from "../components/DataInjector";
 
 const adminUrl = document
 	.getElementById("deck-info")
@@ -40,35 +41,57 @@ const render = (cardData: CardData) => {
 		<Root>
 			<AccountConsumer>
 				{account => (
-					<Fragments
-						defaults={{
-							gameType: isWild
-								? "RANKED_WILD"
-								: "RANKED_STANDARD",
-							rankRange: "ALL",
-							region: "ALL",
-							selectedClasses: [],
-							tab: "mulligan-guide",
+					<DataInjector
+						query={{
+							key: "collection",
+							params: {
+								account_hi: "" + (account && account.hi),
+								account_lo: "" + (account && account.lo),
+							},
+							url: "/api/v1/collection/",
 						}}
-						immutable={
-							!UserData.isPremium()
-								? ["selectedClasses", "rankRange", "region"]
-								: null
+						fetchCondition={
+							UserData.hasFeature("collection-syncing") &&
+							!!account
 						}
 					>
-						<DeckDetail
-							adminUrl={adminUrl}
-							archetypeId={archetypeId}
-							archetypeName={archetypeName}
-							cardData={cardData}
-							deckCards={cards}
-							deckClass={deckClass}
-							deckId={deckId}
-							deckName={deckName}
-							heroDbfId={heroDbfId}
-							account={account}
-						/>
-					</Fragments>
+						{({ collection }) => (
+							<Fragments
+								defaults={{
+									gameType: isWild
+										? "RANKED_WILD"
+										: "RANKED_STANDARD",
+									rankRange: "ALL",
+									region: "ALL",
+									selectedClasses: [],
+									tab: "mulligan-guide",
+								}}
+								immutable={
+									!UserData.isPremium()
+										? [
+												"selectedClasses",
+												"rankRange",
+												"region",
+										  ]
+										: null
+								}
+							>
+								<DeckDetail
+									adminUrl={adminUrl}
+									archetypeId={archetypeId}
+									archetypeName={archetypeName}
+									cardData={cardData}
+									deckCards={cards}
+									deckClass={deckClass}
+									deckId={deckId}
+									deckName={deckName}
+									heroDbfId={heroDbfId}
+									account={account}
+									collection={collection}
+								/>
+							</Fragments>
+						)}
+					</DataInjector>
 				)}
 			</AccountConsumer>
 		</Root>,

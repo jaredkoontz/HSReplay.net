@@ -21,7 +21,12 @@ import {
 	isWildSet,
 	toTitleCase,
 } from "../helpers";
-import { CardObj, RenderData, SortDirection } from "../interfaces";
+import {
+	CardObj,
+	HearthstoneCollection,
+	RenderData,
+	SortDirection,
+} from "../interfaces";
 import UserData, { Account } from "../UserData";
 import InfoIcon from "../components/InfoIcon";
 import ManaCurve from "../components/ManaCurve";
@@ -50,6 +55,7 @@ interface InventoryRegion {
 
 interface Props {
 	account: Account | null;
+	collection: HearthstoneCollection | null;
 	adminUrl: string;
 	archetypeId?: string;
 	archetypeName?: string;
@@ -221,6 +227,7 @@ export default class DeckDetail extends React.Component<Props, State> {
 						toTitleCase(this.props.deckClass) + " Deck"
 					}
 					heroes={[this.props.heroDbfId]}
+					collection={this.props.collection}
 				/>
 			</div>
 		);
@@ -707,6 +714,7 @@ export default class DeckDetail extends React.Component<Props, State> {
 					}}
 					sortBy={this.state.sortBy}
 					sortDirection={this.state.sortDirection as SortDirection}
+					collection={this.props.collection}
 				/>
 			</DataInjector>
 		);
@@ -776,6 +784,7 @@ export default class DeckDetail extends React.Component<Props, State> {
 							? "You need to play at least five games against this class."
 							: "You need to play at least five games with this deck."
 					}
+					collection={this.props.collection}
 				/>
 			</DataInjector>
 		);

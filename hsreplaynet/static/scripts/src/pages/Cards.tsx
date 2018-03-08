@@ -24,6 +24,7 @@ import InfoboxLastUpdated from "../components/InfoboxLastUpdated";
 import UserData, { Account } from "../UserData";
 import {
 	FragmentChildProps,
+	HearthstoneCollection,
 	LoadingStatus,
 	SortDirection,
 } from "../interfaces";
@@ -45,7 +46,8 @@ interface CardFilters {
 interface Props extends FragmentChildProps {
 	cardData: CardData;
 	personal: boolean;
-	account: Account;
+	collection: HearthstoneCollection | null;
+	account: Account | null;
 
 	text?: string;
 	setText?: (text: string, debounce?: boolean) => void;
@@ -527,6 +529,7 @@ export default class Cards extends React.Component<Props, State> {
 										the sidebar are correct!
 									</p>,
 								]}
+								collection={this.props.collection}
 							/>
 						</DataInjector>
 					</div>,
@@ -696,6 +699,7 @@ export default class Cards extends React.Component<Props, State> {
 							numCards={this.state.numCards}
 							topInfoRow={topInfoMessage}
 							bottomInfoRow={bottomInfomessage}
+							collection={this.props.collection}
 						/>
 					</DataInjector>
 				</div>,

@@ -7,6 +7,7 @@ import Fragments from "../components/Fragments";
 import GoogleAnalytics from "../metrics/GoogleAnalytics";
 import Root from "../components/Root";
 import { Consumer as AccountConsumer } from "../components/utils/hearthstone-account";
+import DataInjector from "../components/DataInjector";
 
 const container = document.getElementById("card-container");
 const personal = container.getAttribute("data-view-type") === "personal";
@@ -26,45 +27,67 @@ const render = (cardData: CardData) => {
 		<Root>
 			<AccountConsumer>
 				{account => (
-					<Fragments
-						defaults={{
-							text: "",
-							showSparse: false,
-							format: "",
-							gameType: "RANKED_STANDARD",
-							playerClass: "ALL",
-							rankRange: "ALL",
-							timeRange: personal
-								? "LAST_30_DAYS"
-								: UserData.hasFeature("current-patch-filter")
-									? "CURRENT_PATCH"
-									: UserData.hasFeature(
-											"current-expansion-filter",
-									  )
-										? "CURRENT_EXPANSION"
-										: "LAST_14_DAYS",
-
-							exclude: "",
-							cost: [],
-							rarity: [],
-							set: [],
-							type: [],
-							race: [],
-							mechanics: [],
-							sortBy: "timesPlayed",
-							sortDirection: "descending",
-							display: "statistics",
-							uncollectible: "",
+					<DataInjector
+						query={{
+							key: "collection",
+							params: {
+								account_hi: "" + (account && account.hi),
+								account_lo: "" + (account && account.lo),
+							},
+							url: "/api/v1/collection/",
 						}}
-						debounce="text"
-						immutable={UserData.isPremium() ? null : ["rankRange"]}
+						fetchCondition={
+							UserData.hasFeature("collection-syncing") &&
+							!!account
+						}
 					>
-						<Cards
-							cardData={cardData}
-							personal={personal}
-							account={account}
-						/>
-					</Fragments>
+						{({ collection }) => (
+							<Fragments
+								defaults={{
+									text: "",
+									showSparse: false,
+									format: "",
+									gameType: "RANKED_STANDARD",
+									playerClass: "ALL",
+									rankRange: "ALL",
+									timeRange: personal
+										? "LAST_30_DAYS"
+										: UserData.hasFeature(
+												"current-patch-filter",
+										  )
+											? "CURRENT_PATCH"
+											: UserData.hasFeature(
+													"current-expansion-filter",
+											  )
+												? "CURRENT_EXPANSION"
+												: "LAST_14_DAYS",
+
+									exclude: "",
+									cost: [],
+									rarity: [],
+									set: [],
+									type: [],
+									race: [],
+									mechanics: [],
+									sortBy: "timesPlayed",
+									sortDirection: "descending",
+									display: "statistics",
+									uncollectible: "",
+								}}
+								debounce="text"
+								immutable={
+									UserData.isPremium() ? null : ["rankRange"]
+								}
+							>
+								<Cards
+									cardData={cardData}
+									personal={personal}
+									account={account}
+									collection={collection}
+								/>
+							</Fragments>
+						)}
+					</DataInjector>
 				)}
 			</AccountConsumer>
 		</Root>,
