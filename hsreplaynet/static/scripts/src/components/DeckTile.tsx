@@ -78,37 +78,12 @@ class DeckTile extends React.Component<Props> {
 		cards.forEach((obj, index: number) => {
 			const card = obj.card;
 			const count = +obj.count;
-			let markText = this.getMark(card, count);
 			const markStyle = {
 				color: "#f4d442",
 				fontSize: "1em",
 				right: 0,
 				top: 0,
 			};
-
-			let itemClassName = null;
-			if (this.props.compareWith) {
-				const comparisonCard = this.props.compareWith.find(
-					c => c.card.id === card.id,
-				);
-				if (count === 0) {
-					itemClassName = "removed";
-					markText = "" + -comparisonCard.count;
-				} else {
-					if (!comparisonCard || comparisonCard.count < count) {
-						itemClassName = "added";
-						markText =
-							"+" +
-							(count -
-								(comparisonCard ? comparisonCard.count : 0));
-					} else if (comparisonCard.count > count) {
-						itemClassName = "reduced";
-						markText = "" + (count - comparisonCard.count);
-					} else {
-						itemClassName = "unchanged";
-					}
-				}
-			}
 
 			let userOwns = null;
 			if (
@@ -130,7 +105,6 @@ class DeckTile extends React.Component<Props> {
 				userOwns < count
 			) {
 				const difference = count - userOwns;
-				markText = this.getMark(card, difference);
 				toCraft = (
 					<li
 						className={"missing-card"}
@@ -138,7 +112,7 @@ class DeckTile extends React.Component<Props> {
 					>
 						<CardIcon
 							card={card}
-							mark={markText}
+							mark={this.getMark(card, difference)}
 							markStyle={markStyle}
 							tabIndex={-1}
 							craftable
@@ -148,8 +122,35 @@ class DeckTile extends React.Component<Props> {
 				remaining -= difference;
 			}
 
-			if (remaining > 0) {
-				markText = this.getMark(card, remaining);
+			if (remaining > 0 || this.props.compareWith) {
+				let itemClassName = null;
+				let markText = this.getMark(card, remaining);
+
+				if (this.props.compareWith) {
+					const comparisonCard = this.props.compareWith.find(
+						c => c.card.dbfId === card.dbfId,
+					);
+					if (count === 0) {
+						itemClassName = "removed";
+						markText = "" + -comparisonCard.count;
+					} else {
+						if (!comparisonCard || comparisonCard.count < count) {
+							itemClassName = "added";
+							markText =
+								"+" +
+								(count -
+									(comparisonCard
+										? comparisonCard.count
+										: 0));
+						} else if (comparisonCard.count > count) {
+							itemClassName = "reduced";
+							markText = "" + (count - comparisonCard.count);
+						} else {
+							itemClassName = "unchanged";
+						}
+					}
+				}
+
 				cardIcons.push(
 					<li
 						className={itemClassName}
