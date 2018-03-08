@@ -404,9 +404,10 @@ table .info-icon, .sort-header .info-icon {
 		list-style-type: none;
 		margin-right: 20px;
 
-		>li {
+		> li {
 			float: left;
 			min-width: 15px;
+			position: relative;
 
 			&.unchanged {
 				display: none;
@@ -440,17 +441,14 @@ table .info-icon, .sort-header .info-icon {
 				}
 			}
 
-			&.needs-crafting {
-				.card-icon {
-					background-blend-mode: multiply;
-					background-color: rgba(255, 0, 0, 0.6);
-				}
-			}
-
 			.card-icon {
 				float: left;
 				line-height: 50px;
 				margin: 15px 3px 0 7px;
+
+				&.craftable {
+					opacity: 0.3;
+				}
 			}
 		}
 
@@ -481,6 +479,15 @@ table .info-icon, .sort-header .info-icon {
 		.glyphicon {
 			top: 2px;
 		}
+	}
+
+	&:hover {
+		.card-list > li {
+			.card-icon.craftable {
+				opacity: 0.7;
+			}
+		}
+
 	}
 }
 

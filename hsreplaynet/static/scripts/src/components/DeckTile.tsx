@@ -70,7 +70,6 @@ class DeckTile extends React.Component<Props> {
 	public render(): React.ReactNode {
 		const cards = this.props.cards || [];
 		const cardIcons = [];
-		const toCraftCardIcons = [];
 
 		if (this.props.compareWith) {
 			const removed = this.props.compareWith.filter(c1 =>
@@ -81,7 +80,6 @@ class DeckTile extends React.Component<Props> {
 
 		cards.sort(cardSorting);
 
-		let missingDust = null;
 		cards.forEach((obj, index: number) => {
 			const card = obj.card;
 			const count = +obj.count;
@@ -126,29 +124,37 @@ class DeckTile extends React.Component<Props> {
 				const dbfId = card.dbfId;
 				const [nonGolden, golden] = collectionCards[dbfId] || [0, 0];
 				userOwns = nonGolden + golden;
-				if (userOwns < count) {
-					const difference = count - userOwns;
-					missingDust += getDustCost(card) * difference;
-					toCraftCardIcons.push(
-						<li
-							className={"needs-crafting"}
-							key={`craft_${card.id}`}
-						>
-							<CardIcon
-								card={card}
-								mark={this.getMark(card, difference)}
-								markStyle={markStyle}
-								tabIndex={-1}
-							/>
-						</li>,
-					);
-				}
 			}
 
-			if (userOwns !== null && userOwns < count) {
-				markText = this.getMark(card, userOwns);
+			let remaining = count;
+			let toCraft = null;
+
+			if (
+				!this.props.compareWith &&
+				userOwns !== null &&
+				userOwns < count
+			) {
+				const difference = count - userOwns;
+				markText = this.getMark(card, difference);
+				toCraft = (
+					<li
+						className={"missing-card"}
+						key={`${count}x ${card.id} (to craft)`}
+					>
+						<CardIcon
+							card={card}
+							mark={markText}
+							markStyle={markStyle}
+							tabIndex={-1}
+							craftable
+						/>
+					</li>
+				);
+				remaining -= difference;
 			}
-			if (this.props.compareWith || userOwns === null || userOwns > 0) {
+
+			if (remaining > 0) {
+				markText = this.getMark(card, remaining);
 				cardIcons.push(
 					<li
 						className={itemClassName}
@@ -166,6 +172,10 @@ class DeckTile extends React.Component<Props> {
 						/>
 					</li>,
 				);
+			}
+
+			if (toCraft !== null) {
+				cardIcons.push(toCraft);
 			}
 		});
 
@@ -305,16 +315,7 @@ class DeckTile extends React.Component<Props> {
 							<ManaCurve cards={this.props.cards} />
 						</div>
 						<div className="col-lg-6 col-md-7 col-sm-8 hidden-xs">
-							<ul className="card-list">
-								{toCraftCardIcons}
-								{toCraftCardIcons.length > 0 ? (
-									<li
-										key="separator"
-										className="card-list-separator"
-									/>
-								) : null}
-								{cardIcons}
-							</ul>
+							<ul className="card-list">{cardIcons}</ul>
 						</div>
 					</div>
 				</a>

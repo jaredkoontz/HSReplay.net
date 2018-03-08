@@ -8,6 +8,7 @@ interface Props {
 	mark?: string;
 	markStyle?: any;
 	tabIndex?: number;
+	craftable?: boolean;
 }
 
 interface State {
@@ -92,6 +93,10 @@ export default class CardIcon extends React.Component<Props, State> {
 				}
 			} else {
 				classNames.push("loading");
+			}
+
+			if (this.props.craftable) {
+				classNames.push("craftable");
 			}
 
 			const tooltip = (
