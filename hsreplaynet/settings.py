@@ -271,6 +271,8 @@ OAUTH2_PROVIDER = {
 		"webhooks:write": "Create and delete webhooks on your behalf",
 	},
 	"ALLOWED_REDIRECT_URI_SCHEMES": ["https", "http"],
+	"CLIENT_ID_GENERATOR_CLASS": "hsreplaynet.api.generators.ClientIdGenerator",
+	"CLIENT_SECRET_GENERATOR_CLASS": "hsreplaynet.api.generators.ClientSecretGenerator",
 	"SCOPES_BACKEND_CLASS": "hearthsim.identity.oauth2.models.ApplicationScopes",
 	"FULL_ACCESS_SCOPE": "fullaccess",
 }

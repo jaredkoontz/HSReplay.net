@@ -219,6 +219,10 @@ class ResetSecretView(ApplicationBaseView):
 	def post(self, request, **kwargs):
 		app = get_object_or_404(self.get_queryset(), pk=kwargs["pk"])
 		app.client_secret = generate_client_secret()
+		if app.livemode:
+			app.client_secret = "sk_live_" + app.client_secret
+		else:
+			app.client_secret = "sk_test_" + app.client_secret
 		app.save()
 		return redirect(app)
 
