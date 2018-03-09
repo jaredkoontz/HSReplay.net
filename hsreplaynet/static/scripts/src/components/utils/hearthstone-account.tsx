@@ -48,7 +48,7 @@ export class Provider extends React.Component<Props, State> {
 	}
 }
 
-export class Consumer extends React.Component<{}> {
+export class Consumer extends React.Component {
 	static contextTypes = {
 		hearthstoneAccount: PropTypes.string,
 	};
