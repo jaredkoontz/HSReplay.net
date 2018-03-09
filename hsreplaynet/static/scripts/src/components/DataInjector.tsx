@@ -1,7 +1,7 @@
 import React from "react";
 import { cloneComponent } from "../helpers";
 import { LoadingStatus } from "../interfaces";
-import DataManager from "../DataManager";
+import DataManager, { QueryParams } from "../DataManager";
 
 interface Data {
 	[key: string]: any;
@@ -14,7 +14,7 @@ interface Extractor {
 export interface Query {
 	key?: string;
 	url: string;
-	params: any;
+	params?: QueryParams;
 }
 
 interface Props {

@@ -1,26 +1,24 @@
+export interface QueryParams {
+	[name: string]: string | number;
+}
+
 export default class DataManager {
 	private static readonly cache = {};
 	private static readonly responses = {};
 	private static readonly running = {};
 
-	private static genCacheKey(
-		url: string,
-		params: { [param: string]: string },
-	): string {
+	private static genCacheKey(url: string, params: QueryParams): string {
 		const paramStrings = [];
 		Object.keys(params).forEach(key => {
 			const value = params[key];
 			if (value !== undefined && value !== null) {
-				paramStrings.push(key + value);
+				paramStrings.push("" + key + value);
 			}
 		});
 		return this.cleanUrl(url) + paramStrings.sort().join("");
 	}
 
-	private static fullUrl(
-		url: string,
-		params: { [param: string]: string },
-	): string {
+	private static fullUrl(url: string, params: QueryParams): string {
 		url = this.cleanUrl(url);
 		const keys = params ? Object.keys(params) : [];
 		const query = keys.reduce((prev, key, i) => {
@@ -29,7 +27,7 @@ export default class DataManager {
 				(i > 0 ? "&" : "?") +
 				encodeURIComponent(key) +
 				"=" +
-				encodeURIComponent(params[key])
+				encodeURIComponent("" + params[key])
 			);
 		}, "");
 
@@ -46,7 +44,7 @@ export default class DataManager {
 
 	static get(
 		url: string,
-		params?: { [param: string]: string },
+		params?: QueryParams,
 		noCache?: boolean,
 	): Promise<any> {
 		const cacheKey = this.genCacheKey(url, params || {});
