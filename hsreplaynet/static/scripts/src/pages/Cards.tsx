@@ -1361,7 +1361,7 @@ export default class Cards extends React.Component<Props, State> {
 			if (
 				playerClass !== "ALL" &&
 				playerClass !== card.cardClass &&
-				card.playerClass !== "NEUTRAL"
+				card.cardClass !== "NEUTRAL"
 			) {
 				return true;
 			}
