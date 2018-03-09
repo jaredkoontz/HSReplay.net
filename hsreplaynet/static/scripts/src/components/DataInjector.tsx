@@ -63,8 +63,8 @@ export default class DataInjector extends React.Component<Props, State> {
 	}
 
 	paramsChanged(current: Query, next: Query) {
-		const nextKeys = Object.keys(next.params);
-		const currentKeys = Object.keys(current.params);
+		const nextKeys = Object.keys(next.params || {});
+		const currentKeys = Object.keys(current.params || {});
 		if (nextKeys.length !== currentKeys.length) {
 			return true;
 		}
@@ -77,6 +77,7 @@ export default class DataInjector extends React.Component<Props, State> {
 
 	queryEquals(q1: Query, q2: Query): boolean {
 		return (
+			!q1 === !q2 &&
 			q1.url === q2.url &&
 			q1.key === q2.key &&
 			!this.paramsChanged(q1, q2)
