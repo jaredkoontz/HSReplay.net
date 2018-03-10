@@ -1,23 +1,28 @@
 from allauth.socialaccount.models import SocialAccount
+from django.contrib.admin.models import ADDITION, CHANGE, LogEntry
 from django.contrib.auth import get_user_model
+from django.contrib.contenttypes.models import ContentType
 from django.db import transaction
+from hearthstone.enums import BnetRegion
 from oauth2_provider.contrib.rest_framework import OAuth2Authentication
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.exceptions import ValidationError
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.status import HTTP_204_NO_CONTENT
+from rest_framework.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_204_NO_CONTENT
 from rest_framework.views import APIView
 
 from hearthsim.identity.accounts.api import UserSerializer
-from hearthsim.identity.accounts.models import AuthToken
+from hearthsim.identity.accounts.models import AuthToken, BlizzardAccount
 from hearthsim.identity.oauth2.permissions import OAuth2HasScopes
 from hsreplaynet.games.models import GameReplay
 from hsreplaynet.utils import get_uuid_object_or_404
 from hsreplaynet.utils.influx import influx_metric
 
-from ..serializers.accounts import ClaimTokenSerializer, TwitchSocialAccountSerializer
+from ..serializers.accounts import (
+	BlizzardAccountSerializer, ClaimTokenSerializer, TwitchSocialAccountSerializer
+)
 
 
 class UserDetailsView(RetrieveAPIView):
@@ -28,6 +33,92 @@ class UserDetailsView(RetrieveAPIView):
 
 	def get_object(self):
 		return self.request.user
+
+
+class UpdateBlizzardAccountView(APIView):
+	authentication_classes = (OAuth2Authentication, )  # Not available in session
+	serializer_class = BlizzardAccountSerializer
+
+	def post(self, request, hi, lo):
+		hi, lo = int(hi), int(lo)
+		blizzard_account = BlizzardAccount.objects.filter(account_hi=hi, account_lo=lo).first()
+		serializer = self.serializer_class(data=request.data)
+		serializer.is_valid(raise_exception=True)
+
+		battletag = serializer.validated_data["battletag"]
+
+		if blizzard_account:
+			changes = self.update_blizzard_account(blizzard_account, battletag)
+			action_flag = CHANGE
+			status_code = HTTP_200_OK
+		else:
+			blizzard_account, changes = self.create_blizzard_account(hi, lo, battletag)
+			action_flag = ADDITION
+			status_code = HTTP_201_CREATED
+
+		if not request.auth.application.livemode:
+			# Do nothing in test mode.
+			return Response({
+				"error": "test_mode",
+				"detail": "This API is a no-op in test mode.",
+				"extra": changes,
+			}, status=status_code)
+
+		if changes:
+			changes.append({"_oauth2_token_id": str(request.auth.pk)})
+
+			content_type = ContentType.objects.get(app_label="accounts", model="blizzardaccount")
+			with transaction.atomic():
+				# Ensure we save the model and the LogEntry at the same time.
+				# LogEntry allows us to have some way to audit the API changes.
+				blizzard_account.save()
+				LogEntry.objects.log_action(
+					user_id=self.request.user.pk,
+					content_type_id=content_type.pk,
+					object_id=blizzard_account.pk,
+					object_repr=repr(blizzard_account),
+					action_flag=action_flag,
+					change_message=changes,
+				)
+
+		return Response(status=status_code)
+
+	def create_blizzard_account(self, hi, lo, battletag):
+		blizzard_account = BlizzardAccount(
+			account_hi=hi,
+			account_lo=lo,
+			region=BnetRegion.from_account_hi(hi),
+		)
+		changes = [{"added": {}}]
+		return blizzard_account, changes
+
+	def update_blizzard_account(self, blizzard_account, battletag):
+		changes = []
+		if blizzard_account.user is None:
+			# Claim unclaimed accounts
+			changes.append({"changed": {
+				"fields": ["user_id"],
+				"before": [blizzard_account.user_id],
+				"after": [self.request.user.pk]
+			}})
+			blizzard_account.user = self.request.user
+		elif blizzard_account.user != self.request.user:
+			# We don't want to allow claiming accounts which have already been claimed.
+			raise ValidationError({
+				"error": "account_already_claimed",
+				"detail": "This Blizzard account is already owned by someone else."
+			})
+
+		if blizzard_account.battletag != battletag:
+			# Update the battletag if it doesn't match.
+			changes.append({"changed": {
+				"fields": ["battletag"],
+				"before": [blizzard_account.battletag],
+				"after": [battletag]
+			}})
+			blizzard_account.battletag = battletag
+
+		return changes
 
 
 class ClaimTokenAPIView(APIView):

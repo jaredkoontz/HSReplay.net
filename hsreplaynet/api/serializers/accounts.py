@@ -1,9 +1,13 @@
 from allauth.socialaccount.models import SocialAccount
 from rest_framework.serializers import (
-	HyperlinkedModelSerializer, Serializer, SerializerMethodField, UUIDField
+	CharField, HyperlinkedModelSerializer, Serializer, SerializerMethodField, UUIDField
 )
 
 from hearthsim.identity.accounts.api import UserSerializer
+
+
+class BlizzardAccountSerializer(Serializer):
+	battletag = CharField(max_length=64)
 
 
 class ClaimTokenSerializer(Serializer):
