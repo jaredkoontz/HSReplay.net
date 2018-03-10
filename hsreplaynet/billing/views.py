@@ -16,7 +16,6 @@ from djstripe.settings import STRIPE_LIVE_MODE
 from shortuuid import ShortUUID
 from stripe.error import CardError, InvalidRequestError
 
-from hsreplaynet.features.utils import feature_enabled_for_user
 from hsreplaynet.web.html import RequestMetaMixin
 
 from .models import CancellationRequest
@@ -434,10 +433,9 @@ class PremiumDetailView(RequestMetaMixin, TemplateView):
 		context["random_quote"] = random.choice(self.quotes)
 		user = self.request.user
 
-		if user.is_authenticated and feature_enabled_for_user("reflinks", user):
-			try:
-				context["reflink"] = ReferralLink.objects.get(user=user)
-			except ReferralLink.DoesNotExist:
+		if user.is_authenticated:
+			context["reflink"] = ReferralLink.objects.filter(user=user).first()
+			if not context["reflink"]:
 				context["reflink"] = ReferralLink.objects.create(
 					identifier=ShortUUID().uuid()[:6], user=user
 				)

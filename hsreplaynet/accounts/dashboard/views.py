@@ -13,7 +13,6 @@ from oauth2_provider.models import AccessToken, get_application_model
 from shortuuid import ShortUUID
 
 from hearthsim.identity.accounts.models import AccountDeleteRequest, User
-from hsreplaynet.features.utils import feature_enabled_for_user
 from hsreplaynet.utils import log
 from hsreplaynet.utils.influx import influx_metric
 from hsreplaynet.web.html import RequestMetaMixin
@@ -38,16 +37,15 @@ class EditAccountView(LoginRequiredMixin, RequestMetaMixin, UpdateView):
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
 
-		if feature_enabled_for_user("reflinks", self.request.user):
-			try:
-				context["reflink"] = ReferralLink.objects.get(user=self.request.user)
-				context["hits"] = ReferralHit.objects.filter(
-					referral_link=context["reflink"]
-				).exclude(confirmed=None).count()
-			except ReferralLink.DoesNotExist:
-				context["reflink"] = ReferralLink.objects.create(
-					identifier=ShortUUID().uuid()[:6], user=self.request.user
-				)
+		context["reflink"] = ReferralLink.objects.filter(user=self.request.user).first()
+		if not context["reflink"]:
+			context["reflink"] = ReferralLink.objects.create(
+				identifier=ShortUUID().uuid()[:6], user=self.request.user
+			)
+
+		context["hits"] = ReferralHit.objects.filter(
+			referral_link=context["reflink"]
+		).exclude(confirmed=None).count()
 
 		return context
 
