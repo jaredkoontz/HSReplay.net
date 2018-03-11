@@ -74,7 +74,6 @@ interface State {
 	filteredDecks: DeckObj[];
 	loading: boolean;
 	showFilters: boolean;
-	showBanner: boolean;
 }
 
 export default class Decks extends React.Component<Props, State> {
@@ -90,7 +89,6 @@ export default class Decks extends React.Component<Props, State> {
 			filteredDecks: [],
 			loading: true,
 			showFilters: false,
-			showBanner: !cookie.get("decks-collection-banner-closed", 0),
 		};
 		this.updateFilteredDecks();
 	}
@@ -118,9 +116,6 @@ export default class Decks extends React.Component<Props, State> {
 			this.updateFilteredDecks();
 			this.deckListsFragmentsRef &&
 				this.deckListsFragmentsRef.reset("page");
-		}
-		if (this.state.showBanner && this.props.collection) {
-			this.setState({ showBanner: false });
 		}
 	}
 
@@ -872,17 +867,8 @@ export default class Decks extends React.Component<Props, State> {
 		};
 	}
 
-	private dismissBanner = (event: React.MouseEvent<HTMLButtonElement>) => {
-		this.setState({ showBanner: false }, () => {
-			cookie.set("decks-collection-banner-closed", 1, {
-				path: "/",
-				expires: 365,
-			});
-		});
-	};
-
 	private renderBanner(): React.ReactNode {
-		if (!this.state.showBanner) {
+		if (this.props.collection) {
 			return null;
 		}
 		return (
@@ -894,14 +880,6 @@ export default class Decks extends React.Component<Props, State> {
 					}}
 					className="deck-list-banner hidden-xs"
 				>
-					<button
-						type="button"
-						className="pull-right"
-						onClick={this.dismissBanner}
-						aria-label="Dismiss"
-					>
-						<span aria-hidden="true">&times;</span>
-					</button>
 					{UserData.isAuthenticated() ? (
 						<a href="https://articles.hsreplay.net/">
 							<img src="/static/images/logo.png" />
