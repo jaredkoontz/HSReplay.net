@@ -7,7 +7,7 @@ import {
 	cardSorting,
 	compareDecks,
 	getFragments,
-	getHeroCardId,
+	getHeroSkinCardUrl,
 	toPrettyNumber,
 	toTitleCase,
 } from "../helpers";
@@ -269,10 +269,9 @@ class DeckTile extends React.Component<Props> {
 		return (
 			<li
 				style={{
-					backgroundImage:
-						"url(https://art.hearthstonejson.com/v1/256x/" +
-						getHeroCardId(this.props.playerClass, true) +
-						".jpg)",
+					backgroundImage: `url(${getHeroSkinCardUrl(
+						this.props.playerClass,
+					)})`,
 				}}
 				key={this.props.deckId}
 			>

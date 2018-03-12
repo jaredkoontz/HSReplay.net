@@ -17,7 +17,7 @@ import {
 	compareDecks,
 	getArchetypeUrl,
 	getDustCost,
-	getHeroCardId,
+	getHeroSkinCardUrl,
 	isWildSet,
 	toTitleCase,
 } from "../helpers";
@@ -455,11 +455,7 @@ export default class DeckDetail extends React.Component<Props, State> {
 				<aside className="infobox">
 					<img
 						className="hero-image"
-						src={
-							"https://art.hearthstonejson.com/v1/256x/" +
-							getHeroCardId(this.props.deckClass, true) +
-							".jpg"
-						}
+						src={getHeroSkinCardUrl(this.props.deckClass)}
 					/>
 					<div className="text-center copy-deck-wrapper">
 						<CopyDeckButton

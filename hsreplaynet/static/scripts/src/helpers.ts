@@ -553,42 +553,42 @@ export function cardObjSorting(
 	return (bVal - aVal) * direction;
 }
 
-export function getHeroCardId(playerClass: string, skin: boolean) {
-	// Heroes sorted by X in their cardId (HERO_0X)
-	const sorted = [
-		"WARRIOR",
-		"SHAMAN",
-		"ROGUE",
-		"PALADIN",
-		"HUNTER",
-		"DRUID",
-		"WARLOCK",
-		"MAGE",
-		"PRIEST",
-	];
+export function getHeroSkinCardUrl(cardClass: string): string {
+	return cardArt(getHeroSkinCardId(cardClass) || "HERO_01");
+}
 
-	const hasSkin = [
-		"WARRIOR",
-		"SHAMAN",
-		"ROGUE",
-		"PALADIN",
-		"HUNTER",
-		"MAGE",
-		"PRIEST",
-		"WARLOCK",
-	];
+export function getHeroSkinCardId(cardClass: string): string | null {
+	const cardId = getHeroCardId(cardClass);
+	if (!cardId || cardId === "HERO_06") {
+		// Druid has no skin as of 23576
+		return cardId;
+	}
+	return cardId + "a";
+}
 
-	const index = sorted.indexOf(playerClass.toUpperCase());
-	if (index === -1) {
-		return null;
+export function getHeroCardId(cardClass: string): string | null {
+	switch (cardClass) {
+		case "WARRIOR":
+			return "HERO_01";
+		case "SHAMAN":
+			return "HERO_02";
+		case "ROGUE":
+			return "HERO_03";
+		case "PALADIN":
+			return "HERO_04";
+		case "HUNTER":
+			return "HERO_05";
+		case "DRUID":
+			return "HERO_06";
+		case "WARLOCK":
+			return "HERO_07";
+		case "MAGE":
+			return "HERO_08";
+		case "PRIEST":
+			return "HERO_09";
 	}
 
-	let heroId = "" + (index + 1);
-	if (skin && hasSkin.indexOf(playerClass.toUpperCase()) !== -1) {
-		heroId += "a";
-	}
-
-	return "HERO_0" + heroId;
+	return null;
 }
 
 export function isWildSet(set: string) {
@@ -895,7 +895,7 @@ export function pieScaleTransform(
 }
 
 export function getHeroCard(cardData: CardData, player: GlobalGamePlayer): any {
-	const cardId = getHeroCardId(player.hero_class_name, false);
+	const cardId = getHeroCardId(player.hero_class_name);
 	if (cardId === null) {
 		return null;
 	}

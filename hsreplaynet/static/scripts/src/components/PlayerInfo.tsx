@@ -2,7 +2,7 @@ import React from "react";
 import CardList from "./CardList";
 import { GameReplay, GlobalGamePlayer } from "../interfaces";
 import CardData from "../CardData";
-import { getHeroCardId, getHeroDbfId } from "../helpers";
+import { getHeroDbfId, getHeroSkinCardUrl } from "../helpers";
 import CopyDeckButton from "./CopyDeckButton";
 import Tooltip from "./Tooltip";
 import InfoIcon from "./InfoIcon";
@@ -119,10 +119,9 @@ export default class PlayerInfo extends React.Component<Props, State> {
 						/>
 					);
 				}
-				opponentHeaderStyle["backgroundImage"] =
-					"url(https://art.hearthstonejson.com/v1/256x/" +
-					getHeroCardId(deckClass, true) +
-					".jpg)";
+				opponentHeaderStyle[
+					"backgroundImage"
+				] = `url(${getHeroSkinCardUrl(deckClass)})`;
 			}
 			if (
 				friendly_deck &&
@@ -165,10 +164,10 @@ export default class PlayerInfo extends React.Component<Props, State> {
 						/>
 					);
 				}
-				playerHeaderStyle["backgroundImage"] =
-					"url(https://art.hearthstonejson.com/v1/256x/" +
-					getHeroCardId(deckClass, true) +
-					".jpg)";
+
+				playerHeaderStyle[
+					"backgroundImage"
+				] = `url(${getHeroSkinCardUrl(deckClass)})`;
 			}
 		}
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { ApiArchetypePopularity } from "../../interfaces";
 import CardData from "../../CardData";
-import { getHeroCardId, toDynamicFixed, winrateData } from "../../helpers";
+import { getHeroSkinCardUrl, toDynamicFixed, winrateData } from "../../helpers";
 import CardIcon from "../CardIcon";
 import { Archetype } from "../../utils/api";
 
@@ -34,8 +34,9 @@ export default class ArchetypeListItem extends React.Component<Props> {
 		}
 
 		const { color } = winrateData(50, this.props.archetype.win_rate, 3);
-		const hero = getHeroCardId(archetype.player_class_name, true);
-		const backgroundImage = `url(https://art.hearthstonejson.com/v1/256x/${hero}.jpg)`;
+		const backgroundImage = `url(${getHeroSkinCardUrl(
+			archetype.player_class_name,
+		)})`;
 
 		const deckData = this.props.deckData[archetype.player_class_name];
 		if (!deckData) {

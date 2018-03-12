@@ -17,7 +17,7 @@ import ArchetypeDistributionPieChart from "../components/archetypedetail/Archety
 import PopularityLineChart from "../components/charts/PopularityLineChart";
 import InfoIcon from "../components/InfoIcon";
 import WinrateLineChart from "../components/charts/WinrateLineChart";
-import { getHeroCardId } from "../helpers";
+import { getHeroSkinCardUrl } from "../helpers";
 import ArchetypeSignature from "../components/archetypedetail/ArchetypeSignature";
 import { extractSignature } from "../extractors";
 import CardTable from "../components/tables/CardTable";
@@ -514,11 +514,7 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 					<h1>{this.props.archetypeName}</h1>
 					<img
 						className="hero-image"
-						src={
-							"https://art.hearthstonejson.com/v1/256x/" +
-							getHeroCardId(this.props.playerClass, true) +
-							".jpg"
-						}
+						src={getHeroSkinCardUrl(this.props.playerClass)}
 					/>
 					<section id="rank-range-filter">
 						<InfoboxFilterGroup
