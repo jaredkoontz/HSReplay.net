@@ -33,12 +33,9 @@
 		<div
 			style="background-image: url({% static 'images/feature-promotional/collection-syncing-frontpage.png' %});"
 			class="feature-promotion-banner hidden-xs"
-			{% if user.is_authenticated %}
-			id="collection-syncing-banner"
-			{% endif %}
 		>
 			{% if user.is_authenticated %}
-			<div href="https://articles.hsreplay.net/">
+			<div id="collection-syncing-banner">
 			{% else %}
 			<a href="{% url 'account_login' %}">
 			{% endif %}

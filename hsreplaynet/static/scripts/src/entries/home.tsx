@@ -44,6 +44,4 @@ if (banner) {
 			modalDummy,
 		);
 	});
-} else {
-	console.log("fail");
 }
