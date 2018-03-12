@@ -1,17 +1,14 @@
 import React from "react";
-import {
-	ApiArchetype,
-	ApiArchetypePopularity,
-	SortableProps,
-} from "../../interfaces";
+import { ApiArchetypePopularity, SortableProps } from "../../interfaces";
 import Table, { TableColumn } from "../tables/Table";
 import CardData from "../../CardData";
 import ArchetypeSignatureTooltip from "./ArchetypeSignatureTooltip";
 import OtherArchetype from "./OtherArchetype";
+import { Archetype } from "../../utils/api";
 
 interface Props extends SortableProps {
 	data: ApiArchetypePopularity[];
-	archetypeData: ApiArchetype[];
+	archetypeData: Archetype[];
 	gameType: string;
 	cardData: CardData;
 	playerClass: string;
@@ -89,7 +86,7 @@ export default class ArchetypeClassTable extends React.Component<Props> {
 		);
 	}
 
-	renderHeader(archetype: ApiArchetype) {
+	renderHeader(archetype: Archetype) {
 		const className =
 			"player-class " + archetype.player_class_name.toLowerCase();
 		if (archetype.id < 0) {

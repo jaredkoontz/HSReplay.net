@@ -3,11 +3,7 @@ import React from "react";
 import SortHeader from "../../SortHeader";
 import CardData from "../../../CardData";
 import { AutoSizer, Grid, ScrollSync } from "react-virtualized";
-import {
-	ApiArchetype,
-	ArchetypeData,
-	SortDirection,
-} from "../../../interfaces";
+import { ArchetypeData, SortDirection } from "../../../interfaces";
 import scrollbarSize from "dom-helpers/util/scrollbarSize";
 import ColumnHeader from "./ColumnHeader";
 import RowHeader from "./RowHeader";
@@ -15,10 +11,11 @@ import RowFooter from "./RowFooter";
 import ColumnFooter from "./ColumnFooter";
 import ArchetypeSearch from "../../ArchetypeSearch";
 import InfoIcon from "../../InfoIcon";
+import { Archetype } from "../../../utils/api";
 
 interface Props {
 	archetypes: ArchetypeData[];
-	allArchetypes: ApiArchetype[];
+	allArchetypes: Archetype[];
 	cardData: CardData;
 	customWeights: any;
 	onCustomWeightsChanged: (archetypeId: number, popularity: number) => void;

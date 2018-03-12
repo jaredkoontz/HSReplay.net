@@ -2,7 +2,7 @@ import React from "react";
 import DataInjector from "../DataInjector";
 import ClusterArchetypeSelector from "./ClusterArchetypeSelector";
 import UserData from "../../UserData";
-import { ApiArchetype } from "../../interfaces";
+import { Archetype } from "../../utils/api";
 
 interface Props {
 	active?: boolean;
@@ -45,7 +45,7 @@ export default class ClusterTabLabel extends React.Component<Props> {
 						},
 					]}
 					extract={{
-						archetypeData: (data: ApiArchetype[]) => {
+						archetypeData: (data: Archetype[]) => {
 							const archetypes = data.filter(
 								a => a.player_class_name === playerClass,
 							);

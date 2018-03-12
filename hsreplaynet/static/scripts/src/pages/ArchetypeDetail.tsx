@@ -1,5 +1,4 @@
 import {
-	ApiArchetype,
 	DeckObj,
 	HearthstoneCollection,
 	LoadingStatus,
@@ -32,6 +31,7 @@ import WinrateBox from "../components/box/WinrateBox";
 import PopularityBox from "../components/box/PopularityBox";
 import MatchupBox from "../components/box/MatchupBox";
 import DeckBox from "../components/box/DeckBox";
+import { Archetype } from "../utils/api";
 
 interface Props {
 	archetypeId: number;
@@ -618,7 +618,7 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 			if (matchups) {
 				const data = Object.keys(matchups)
 					.map(id => {
-						const opponentData: ApiArchetype = props.archetypeData.find(
+						const opponentData: Archetype = props.archetypeData.find(
 							archetype => archetype.id === +id,
 						);
 						if (opponentData) {

@@ -1,16 +1,17 @@
 import React from "react";
-import { ApiArchetype, ApiArchetypePopularity } from "../../interfaces";
+import { ApiArchetypePopularity } from "../../interfaces";
 import { withLoading } from "../loading/Loading";
 import CardData from "../../CardData";
 import ArchetypeListItem from "./ArchetypeListItem";
 import InfoIcon from "../InfoIcon";
+import { Archetype } from "../../utils/api";
 
 interface ClassArchetypeData {
 	[playerClass: string]: ApiArchetypePopularity[];
 }
 
 interface Props {
-	archetypeData?: ApiArchetype[];
+	archetypeData?: Archetype[];
 	cardData: CardData;
 	data?: ClassArchetypeData;
 	deckData?: any;

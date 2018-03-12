@@ -1,7 +1,6 @@
 import React from "react";
 import ArchetypeMatrix from "./matchups/ArchetypeMatrix";
 import {
-	ApiArchetype,
 	ApiArchetypeMatchupData,
 	ApiArchetypePopularity,
 	ArchetypeData,
@@ -13,6 +12,7 @@ import CardData from "../../CardData";
 import { withLoading } from "../loading/Loading";
 import { getOtherArchetype } from "../../helpers";
 import LowDataWarning from "./LowDataWarning";
+import { Archetype } from "../../utils/api";
 
 interface Props {
 	archetypeData?: any;
@@ -28,7 +28,7 @@ interface Props {
 }
 
 interface State {
-	apiArchetypes: ApiArchetype[];
+	apiArchetypes: Archetype[];
 	archetypeData: ArchetypeData[];
 	currentSort: number[];
 	customWeights: any;
@@ -162,12 +162,12 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 			return false;
 		});
 
-		visibleArchetypes.forEach((friendly: ApiArchetype) => {
+		visibleArchetypes.forEach((friendly: Archetype) => {
 			const matchups: MatchupData[] = [];
 			let effectiveWinrate = 0;
 			let totalGames = 0;
 
-			visibleArchetypes.forEach((opponent: ApiArchetype) => {
+			visibleArchetypes.forEach((opponent: Archetype) => {
 				const apiMatchup = this.getMatchup(
 					friendly,
 					opponent,
@@ -388,7 +388,7 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 	getAllArchetypes(
 		matchupData: any,
 		archetypeData: any,
-	): { archetypeIds: number[]; apiArchetypes: ApiArchetype[] } {
+	): { archetypeIds: number[]; apiArchetypes: Archetype[] } {
 		const archetypeIds = [];
 		Object.keys(matchupData.series.data).forEach((friendlyId: string) => {
 			if (archetypeIds.indexOf(+friendlyId) === -1) {
@@ -410,13 +410,13 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 		};
 	}
 
-	getApiArchetype(id: number, archetypeData: any): ApiArchetype {
+	getApiArchetype(id: number, archetypeData: any): Archetype {
 		return archetypeData.find(a => a.id === id) || getOtherArchetype(id);
 	}
 
 	getMatchup(
-		friendly: ApiArchetype,
-		opponent: ApiArchetype,
+		friendly: Archetype,
+		opponent: Archetype,
 		matchupData: any,
 	): ApiArchetypeMatchupData {
 		const matchups = matchupData.series.data["" + friendly.id];
@@ -424,7 +424,7 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 	}
 
 	getPopularity(
-		archetype: ApiArchetype,
+		archetype: Archetype,
 		popularityData: any,
 	): ApiArchetypePopularity {
 		const data = popularityData.series.data[archetype.player_class_name];

@@ -1,13 +1,10 @@
 import React from "react";
-import {
-	ApiArchetype,
-	ApiArchetypePopularity,
-	SortableProps,
-} from "../../interfaces";
+import { ApiArchetypePopularity, SortableProps } from "../../interfaces";
 import { withLoading } from "../loading/Loading";
 import CardData from "../../CardData";
 import LowDataWarning from "./LowDataWarning";
 import ClassArchetypesBox from "./ClassArchetypesBox";
+import { Archetype } from "../../utils/api";
 
 interface ClassArchetypeData {
 	[playerClass: string]: ApiArchetypePopularity[];
@@ -15,7 +12,7 @@ interface ClassArchetypeData {
 
 interface Props extends SortableProps {
 	data?: ClassArchetypeData;
-	archetypeData?: ApiArchetype[];
+	archetypeData?: Archetype[];
 	cardData: CardData;
 	gameType: string;
 	timestamp?: string;

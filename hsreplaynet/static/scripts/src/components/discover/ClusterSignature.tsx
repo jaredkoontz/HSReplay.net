@@ -1,12 +1,13 @@
 import React from "react";
 import CardTable from "../tables/CardTable";
-import { ApiArchetypeSignature, SortDirection } from "../../interfaces";
+import { SortDirection } from "../../interfaces";
 import CardData from "../../CardData";
 import { toDynamicFixed } from "../../helpers";
+import { ArchetypeSignature } from "../../utils/api";
 
 interface Props {
 	cardData: CardData | null;
-	signature?: ApiArchetypeSignature;
+	signature?: ArchetypeSignature;
 }
 
 interface State {

@@ -1,12 +1,12 @@
 import React from "react";
 import CardData from "../../CardData";
-import { ApiArchetypeSignature } from "../../interfaces";
 import { ClusterData, DeckData } from "./ClassAnalysis";
 import * as _ from "lodash";
 import CardList from "../CardList";
 import ClusterSignature from "./ClusterSignature";
 import { commaSeparate } from "../../helpers";
 import UserData from "../../UserData";
+import { ArchetypeSignature } from "../../utils/api";
 
 interface Props {
 	cardData: CardData | null;
@@ -17,7 +17,7 @@ interface Props {
 export default class ClusterDetail extends React.Component<Props> {
 	public render(): React.ReactNode {
 		const { cardData, clusterId, data } = this.props;
-		const signature: ApiArchetypeSignature = {
+		const signature: ArchetypeSignature = {
 			as_of: null,
 			components: data.signatures[clusterId],
 			format: null,
@@ -56,7 +56,7 @@ export default class ClusterDetail extends React.Component<Props> {
 				!_.isEmpty(data.ccp_signatures) &&
 				!_.isEmpty(data.ccp_signatures[clusterId])
 			) {
-				const cppSignature: ApiArchetypeSignature = {
+				const cppSignature: ArchetypeSignature = {
 					as_of: null,
 					components: data.ccp_signatures[clusterId],
 					format: null,

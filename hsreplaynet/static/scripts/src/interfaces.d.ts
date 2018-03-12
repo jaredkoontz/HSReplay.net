@@ -245,30 +245,6 @@ export interface MatchupData {
 	totalGames: number;
 }
 
-export interface ApiArchetype {
-	id: number;
-	name: string;
-	player_class: number;
-	player_class_name: string;
-	standard_signature?: ApiArchetypeSignature;
-	standard_ccp_signature_core?: ApiArchetypeSignatureCore;
-	wild_signature?: ApiArchetypeSignature;
-	wild_ccp_signature_core?: ApiArchetypeSignatureCore;
-	url: string;
-}
-
-export interface ApiArchetypeSignature {
-	components: [number, number][];
-	as_of: Date;
-	format: FormatType;
-}
-
-export interface ApiArchetypeSignatureCore {
-	components: number[];
-	as_of: Date;
-	format: FormatType;
-}
-
 export interface ApiArchetypeMatchupData {
 	win_rate: number;
 	total_games: number;
@@ -383,18 +359,4 @@ export interface SortableProps {
 	sortBy: string;
 	sortDirection: SortDirection;
 	onSortChanged: (sortBy: string, sortDirection: SortDirection) => void;
-}
-
-export interface ApiStream {
-	deck: number[];
-	hero: number;
-	format: number;
-	rank: number;
-	legend_rank: 0 | number;
-	game_type: BnetGameType;
-	twitch: {
-		_id: number;
-		name: string;
-		display_name: string;
-	};
 }

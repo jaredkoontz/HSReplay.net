@@ -1,7 +1,7 @@
 import React from "react";
 import { withLoading } from "./loading/Loading";
 import StreamThumbnail from "./StreamThumbnail";
-import { ApiStream } from "../interfaces";
+import { Stream as ApiStream } from "../utils/api";
 
 interface TwitchStream {
 	language: string;

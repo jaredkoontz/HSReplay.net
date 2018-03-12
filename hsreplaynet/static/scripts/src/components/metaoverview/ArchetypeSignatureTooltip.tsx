@@ -1,10 +1,10 @@
 import React from "react";
 import ArchetypeSignature from "../archetypedetail/ArchetypeSignature";
 import CardData from "../../CardData";
-import { ApiArchetypeSignature } from "../../interfaces";
 import Tooltip from "../Tooltip";
 import DataManager from "../../DataManager";
 import LoadingSpinner from "../LoadingSpinner";
+import { ArchetypeSignature as ApiArchetypeSignature } from "../../utils/api";
 
 interface Props {
 	cardData: CardData;

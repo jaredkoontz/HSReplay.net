@@ -1,6 +1,5 @@
 import React from "react";
 import {
-	ApiArchetype,
 	ApiArchetypeRankPopularity,
 	ArchetypeRankData,
 	ArchetypeRankPopularity,
@@ -10,6 +9,7 @@ import CardData from "../../CardData";
 import { withLoading } from "../loading/Loading";
 import PopularityMatrix from "./popularity/PopularityMatrix";
 import { getOtherArchetype } from "../../helpers";
+import { Archetype } from "../../utils/api";
 
 interface Props {
 	archetypeData?: any;
@@ -46,7 +46,7 @@ class ArchetypePopularity extends React.Component<Props> {
 			games[+rank] = totalGames;
 		});
 
-		archetypes.forEach((archetype: ApiArchetype) => {
+		archetypes.forEach((archetype: Archetype) => {
 			const rankData: ArchetypeRankData[] = [];
 
 			let totalPopularity = 0;
@@ -139,7 +139,7 @@ class ArchetypePopularity extends React.Component<Props> {
 		);
 	}
 
-	getAllArchetypes(): ApiArchetype[] {
+	getAllArchetypes(): Archetype[] {
 		const popularityData = this.props.popularityData.series.data;
 		const archetypeIds = [];
 		Object.keys(popularityData).forEach((rank: string) => {
@@ -156,7 +156,7 @@ class ArchetypePopularity extends React.Component<Props> {
 			.filter(x => x !== undefined);
 	}
 
-	getApiArchetype(id: number): ApiArchetype {
+	getApiArchetype(id: number): Archetype {
 		return (
 			this.props.archetypeData.find(a => a.id === id) ||
 			getOtherArchetype(id)

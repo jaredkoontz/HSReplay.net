@@ -1,7 +1,6 @@
 import React from "react";
 import { Colors } from "./Colors";
 import {
-	ApiArchetype,
 	ChartMetaData,
 	ChartScheme,
 	ChartSchemeType,
@@ -13,6 +12,7 @@ import { adventureSets } from "./contants";
 import { wildSets } from "./contants";
 import Fragments from "./components/Fragments";
 import CardData from "./CardData";
+import { Archetype } from "./utils/api";
 
 export function staticFile(file: string) {
 	return STATIC_URL + file;
@@ -913,7 +913,7 @@ export function getHeroDbfId(
 	return card ? card.dbfId : null;
 }
 
-export function getOtherArchetype(archetypeId: number): ApiArchetype {
+export function getOtherArchetype(archetypeId: number): Archetype {
 	if (archetypeId > 0) {
 		return undefined;
 	}

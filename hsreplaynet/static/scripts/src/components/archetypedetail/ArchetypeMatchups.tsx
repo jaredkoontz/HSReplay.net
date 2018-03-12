@@ -1,17 +1,14 @@
 import React from "react";
-import {
-	ApiArchetype,
-	ApiArchetypePopularity,
-	SortDirection,
-} from "../../interfaces";
+import { ApiArchetypePopularity, SortDirection } from "../../interfaces";
 import { withLoading } from "../loading/Loading";
 import ClassArchetypesBox from "../metaoverview/ClassArchetypesBox";
 import CardData from "../../CardData";
+import { Archetype } from "../../utils/api";
 
 interface Props {
 	archetypeId: number;
 	archetypeMatchupData?: any;
-	archetypeData?: any;
+	archetypeData?: Archetype[];
 	cardData?: CardData;
 	gameType?: string;
 	minGames?: number;
@@ -96,7 +93,7 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 		return <div className="class-box-container">{tiles}</div>;
 	}
 
-	getArchetype(archetypeId: number): ApiArchetype {
+	getArchetype(archetypeId: number): Archetype {
 		return this.props.archetypeData.find(x => x.id === archetypeId);
 	}
 }

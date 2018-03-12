@@ -2,19 +2,16 @@ import React from "react";
 import SortHeader from "../../SortHeader";
 import CardData from "../../../CardData";
 import { AutoSizer, Grid } from "react-virtualized";
-import {
-	ApiArchetype,
-	ArchetypeData,
-	SortDirection,
-} from "../../../interfaces";
+import { ArchetypeData, SortDirection } from "../../../interfaces";
 import RowHeader from "./RowHeader";
 import RowFooter from "./RowFooter";
 import ArchetypeSearch from "../../ArchetypeSearch";
 import PopularityCell from "./../popularity/PopularityCell";
+import { Archetype } from "../../../utils/api";
 
 interface Props {
 	archetypes: ArchetypeData[];
-	allArchetypes: ApiArchetype[];
+	allArchetypes: Archetype[];
 	cardData: CardData;
 	favorites: number[];
 	gameType: string;

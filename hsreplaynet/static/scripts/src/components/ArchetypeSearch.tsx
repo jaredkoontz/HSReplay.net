@@ -1,13 +1,13 @@
 import React from "react";
 import { cardSorting, cleanText } from "../helpers";
 import ObjectSearch, { Limit } from "./ObjectSearch";
-import { ApiArchetype } from "../interfaces";
+import { Archetype } from "../utils/api";
 
 interface Props {
-	availableArchetypes: ApiArchetype[];
-	selectedArchetypes?: ApiArchetype[];
-	onArchetypeSelected?: (archetype: ApiArchetype) => void;
-	onArchetypesChanged?: (archetypes: ApiArchetype[]) => void;
+	availableArchetypes: Archetype[];
+	selectedArchetypes?: Archetype[];
+	onArchetypeSelected?: (archetype: Archetype) => void;
+	onArchetypesChanged?: (archetypes: Archetype[]) => void;
 	id?: string;
 	label?: string;
 }
@@ -35,7 +35,7 @@ export default class ArchetypeSearch extends React.Component<Props> {
 		);
 	}
 
-	getFilteredArchetypes(query: string): ApiArchetype[] {
+	getFilteredArchetypes(query: string): Archetype[] {
 		if (!this.props.availableArchetypes) {
 			return [];
 		}
@@ -51,7 +51,7 @@ export default class ArchetypeSearch extends React.Component<Props> {
 		});
 	}
 
-	getArchetypeElement(archetype: ApiArchetype): JSX.Element {
+	getArchetypeElement(archetype: Archetype): JSX.Element {
 		return (
 			<div
 				className={`player-class ${archetype.player_class_name.toLowerCase()}`}
@@ -63,4 +63,4 @@ export default class ArchetypeSearch extends React.Component<Props> {
 }
 
 // tslint:disable-next-line:max-classes-per-file
-class ArchetypeObjectSearch extends ObjectSearch<ApiArchetype> {}
+class ArchetypeObjectSearch extends ObjectSearch<Archetype> {}

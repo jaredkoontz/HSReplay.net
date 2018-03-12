@@ -6,7 +6,7 @@ import {
 	toTitleCase,
 } from "../../helpers";
 import { VictoryLabel, VictoryLegend, VictoryPie } from "victory";
-import { ApiArchetype } from "../../interfaces";
+import { Archetype } from "../../utils/api";
 
 interface ArchetypeDistributionPieChartProps {
 	matchupData?: any;
@@ -38,11 +38,11 @@ export default class ArchetypeDistributionPieChart extends React.Component<
 		};
 	}
 
-	private getArchetype(archetypeId: string): ApiArchetype {
+	private getArchetype(archetypeId: string): Archetype {
 		return this.props.archetypeData.find(a => a.id === archetypeId);
 	}
 
-	private getArchetypeName(archetype: ApiArchetype): string {
+	private getArchetypeName(archetype: Archetype): string {
 		return archetype
 			? archetype.name
 			: `Other ${toTitleCase(this.props.playerClass)}`;

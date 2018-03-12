@@ -1,13 +1,13 @@
 import React from "react";
-import { ApiArchetype } from "../../interfaces";
 import { fetchCSRF } from "../../helpers";
+import { Archetype } from "../../utils/api";
 
 interface ClusterArchetypeSelectorState {
 	working?: boolean;
 }
 
 interface ClusterArchetypeSelectorProps {
-	archetypes?: ApiArchetype[];
+	archetypes?: Archetype[];
 	clusterId: string;
 	format: string;
 	playerClass: string;

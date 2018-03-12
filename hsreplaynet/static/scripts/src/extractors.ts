@@ -1,9 +1,9 @@
-import { ApiArchetype, ApiArchetypeSignature } from "./interfaces";
+import { Archetype, ArchetypeSignature } from "./utils/api";
 
 export function extractSignature(
-	data: ApiArchetype,
+	data: Archetype,
 	gameType: string,
-): { signature: ApiArchetypeSignature } {
+): { signature: ArchetypeSignature } {
 	const signature =
 		gameType === "RANKED_WILD"
 			? data.wild_signature

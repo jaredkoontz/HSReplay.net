@@ -2,12 +2,7 @@ import React from "react";
 import * as _ from "lodash";
 import CardIcon from "./CardIcon";
 import ManaCurve from "./ManaCurve";
-import {
-	ApiStream,
-	CardObj,
-	DeckObj,
-	HearthstoneCollection,
-} from "../interfaces";
+import { CardObj, DeckObj, HearthstoneCollection } from "../interfaces";
 import {
 	cardSorting,
 	compareDecks,
@@ -23,6 +18,7 @@ import SemanticAge from "./SemanticAge";
 import { TwitchStreamPromotionEvents } from "../metrics/GoogleAnalytics";
 import { CardData as HearthstoneJSONCardData } from "hearthstonejson-client";
 import { getDustCostForCollection } from "../utils/collection";
+import { Stream } from "../utils/api";
 
 interface ExternalProps extends DeckObj {
 	compareWith?: CardObj[];
@@ -33,7 +29,7 @@ interface ExternalProps extends DeckObj {
 }
 
 interface Props extends ExternalProps {
-	streams: ApiStream[];
+	streams: Stream[];
 }
 
 class DeckTile extends React.Component<Props> {

@@ -1,9 +1,9 @@
 import React from "react";
 import { fetchCSRF } from "../helpers";
-import { ApiArchetype } from "../interfaces";
+import { Archetype } from "../utils/api";
 
 interface Props {
-	archetypes?: ApiArchetype[];
+	archetypes?: Archetype[];
 	deckId: string;
 	defaultSelectedArchetype?: number;
 }

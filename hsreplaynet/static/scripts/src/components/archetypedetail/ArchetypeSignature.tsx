@@ -1,8 +1,8 @@
 import React from "react";
 import * as _ from "lodash";
-import { ApiArchetypeSignature } from "../../interfaces";
 import CardData from "../../CardData";
 import CardList from "../CardList";
+import { ArchetypeSignature as ApiArchetypeSignature } from "../../utils/api";
 
 interface Bucket {
 	cards: number[];

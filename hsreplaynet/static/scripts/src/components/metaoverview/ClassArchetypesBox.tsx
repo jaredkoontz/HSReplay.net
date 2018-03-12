@@ -1,16 +1,13 @@
 import React from "react";
-import {
-	ApiArchetype,
-	ApiArchetypePopularity,
-	SortableProps,
-} from "../../interfaces";
+import { ApiArchetypePopularity, SortableProps } from "../../interfaces";
 import CardData from "../../CardData";
 import { toTitleCase } from "../../helpers";
 import ArchetypeClassTable from "./ArchetypeClassTable";
+import { Archetype } from "../../utils/api";
 
 interface Props extends SortableProps {
 	data: ApiArchetypePopularity[];
-	archetypeData: ApiArchetype[];
+	archetypeData: Archetype[];
 	playerClass: string;
 	cardData: CardData;
 	gameType: string;
