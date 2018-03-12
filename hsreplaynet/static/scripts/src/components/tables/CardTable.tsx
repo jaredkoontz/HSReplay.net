@@ -1,11 +1,7 @@
 import React from "react";
 import CardTile from "../CardTile";
 import Table from "./Table";
-import {
-	CardObj,
-	HearthstoneCollection,
-	SortableProps,
-} from "../../interfaces";
+import { CardObj, SortableProps } from "../../interfaces";
 import { withLoading } from "../loading/Loading";
 import {
 	cardTableColumnData,
@@ -16,6 +12,7 @@ import {
 	generateCardTableRowData,
 } from "./cardtable/RowDataGenerator";
 import { isMissingCardFromCollection } from "../../utils/collection";
+import { Collection } from "../../utils/api";
 
 interface Props extends SortableProps {
 	baseWinrate?: number;
@@ -28,7 +25,7 @@ interface Props extends SortableProps {
 	minColumnWidth?: number;
 	headerWidth?: [number, number];
 	headerWidthRatio?: number;
-	collection?: HearthstoneCollection | null;
+	collection?: Collection | null;
 }
 
 const CELL_HEIGHT = 36;

@@ -24,12 +24,12 @@ import InfoboxLastUpdated from "../components/InfoboxLastUpdated";
 import UserData, { Account } from "../UserData";
 import {
 	FragmentChildProps,
-	HearthstoneCollection,
 	LoadingStatus,
 	SortDirection,
 } from "../interfaces";
 import CardTable from "../components/tables/CardTable";
 import Feature from "../components/Feature";
+import { Collection } from "../utils/api";
 const Fragment = React.Fragment;
 
 interface CardFilters {
@@ -46,7 +46,7 @@ interface CardFilters {
 interface Props extends FragmentChildProps {
 	cardData: CardData;
 	personal: boolean;
-	collection: HearthstoneCollection | null;
+	collection: Collection | null;
 	account: Account | null;
 
 	text?: string;

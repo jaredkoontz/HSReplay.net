@@ -21,12 +21,7 @@ import {
 	isWildSet,
 	toTitleCase,
 } from "../helpers";
-import {
-	CardObj,
-	HearthstoneCollection,
-	RenderData,
-	SortDirection,
-} from "../interfaces";
+import { CardObj, RenderData, SortDirection } from "../interfaces";
 import UserData, { Account } from "../UserData";
 import InfoIcon from "../components/InfoIcon";
 import ManaCurve from "../components/ManaCurve";
@@ -44,6 +39,7 @@ import Feature from "../components/Feature";
 import PremiumPromo from "../components/PremiumPromo";
 import ArchetypeMatchups from "../components/archetypedetail/ArchetypeMatchups";
 import StreamList from "../components/StreamList";
+import { Collection } from "../utils/api";
 
 interface InventoryGameType {
 	[gameType: string]: InventoryRegion[];
@@ -55,7 +51,7 @@ interface InventoryRegion {
 
 interface Props {
 	account: Account | null;
-	collection: HearthstoneCollection | null;
+	collection: Collection | null;
 	adminUrl: string;
 	archetypeId?: string;
 	archetypeName?: string;

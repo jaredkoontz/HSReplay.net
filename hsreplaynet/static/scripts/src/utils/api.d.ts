@@ -25,6 +25,17 @@ interface BlizzardAccount {
 }
 
 /**
+ * {@link /api/v1/collection/}
+ */
+export interface Collection {
+	cardbacks: number[];
+	collection: { [dbfId: string]: [number, number] };
+	dust: number;
+	gold: number;
+	heroes: { [dbfId: number]: [number, number] };
+}
+
+/**
  * {@link /api/v1/archetypes/:number/}
  */
 export interface Archetype {

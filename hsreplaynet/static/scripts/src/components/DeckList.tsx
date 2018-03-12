@@ -8,12 +8,12 @@ import {
 	CardObj,
 	DeckObj,
 	FragmentChildProps,
-	HearthstoneCollection,
 	SortDirection,
 } from "../interfaces";
 import { getManaCost } from "../helpers";
 import DataManager from "../DataManager";
 import { getDustCostForCollection } from "../utils/collection";
+import { Collection } from "../utils/api";
 
 interface Props extends FragmentChildProps {
 	decks: DeckObj[];
@@ -30,7 +30,7 @@ interface Props extends FragmentChildProps {
 	hrefTab?: string;
 	lastPlayedColumn?: boolean;
 	showGlobalDataNotice?: boolean;
-	collection?: HearthstoneCollection | null;
+	collection?: Collection | null;
 }
 
 interface State {
@@ -66,7 +66,7 @@ export default class DeckList extends React.Component<Props, State> {
 		this.cacheDecks(nextProps.decks, nextProps.collection);
 	}
 
-	cacheDecks(decks: DeckObj[], collection: HearthstoneCollection | null) {
+	cacheDecks(decks: DeckObj[], collection: Collection | null) {
 		for (const deck of decks) {
 			const id = deck.deckId;
 			this.cache[id] = {

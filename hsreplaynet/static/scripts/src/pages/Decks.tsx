@@ -15,11 +15,7 @@ import InfoboxFilterGroup from "../components/InfoboxFilterGroup";
 import PremiumWrapper from "../components/PremiumWrapper";
 import ResetHeader from "../components/ResetHeader";
 import * as _ from "lodash";
-import {
-	DeckObj,
-	FragmentChildProps,
-	HearthstoneCollection,
-} from "../interfaces";
+import { DeckObj, FragmentChildProps } from "../interfaces";
 import InfoboxLastUpdated from "../components/InfoboxLastUpdated";
 import UserData from "../UserData";
 import Fragments from "../components/Fragments";
@@ -31,10 +27,11 @@ import Feature from "../components/Feature";
 import DustFilter from "../components/filters/DustFilter";
 import { cookie } from "cookie_js";
 import { getDustCostForCollection } from "../utils/collection";
+import { Collection } from "../utils/api";
 
 interface Props extends FragmentChildProps {
 	cardData: CardData | null;
-	collection: HearthstoneCollection | null;
+	collection: Collection | null;
 	latestSet?: string;
 	promoteLatestSet?: boolean;
 	// fragments

@@ -1,9 +1,4 @@
-import {
-	DeckObj,
-	HearthstoneCollection,
-	LoadingStatus,
-	SortDirection,
-} from "../interfaces";
+import { DeckObj, LoadingStatus, SortDirection } from "../interfaces";
 import { AutoSizer } from "react-virtualized";
 import DataManager from "../DataManager";
 import UserData from "../UserData";
@@ -31,7 +26,7 @@ import WinrateBox from "../components/box/WinrateBox";
 import PopularityBox from "../components/box/PopularityBox";
 import MatchupBox from "../components/box/MatchupBox";
 import DeckBox from "../components/box/DeckBox";
-import { Archetype } from "../utils/api";
+import { Archetype, Collection } from "../utils/api";
 
 interface Props {
 	archetypeId: number;
@@ -40,7 +35,7 @@ interface Props {
 	hasWildData: boolean;
 	playerClass: string;
 	cardData: CardData;
-	collection: HearthstoneCollection | null;
+	collection: Collection | null;
 	gameType?: string;
 	setGameType?: (gameType: string) => void;
 	rankRange?: string;

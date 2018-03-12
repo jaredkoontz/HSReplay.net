@@ -5,7 +5,7 @@ import CopyDeckButton from "./CopyDeckButton";
 import CardData from "../CardData";
 import UserData from "../UserData";
 import { isMissingCardFromCollection } from "../utils/collection";
-import { HearthstoneCollection } from "../interfaces";
+import { Collection } from "../utils/api";
 
 type CardId = string | number;
 
@@ -22,7 +22,7 @@ interface Props {
 	format?: number;
 	customCounts?: { [dbfId: number]: number };
 	sortByCount?: boolean;
-	collection?: HearthstoneCollection | null;
+	collection?: Collection | null;
 }
 
 export default class CardList extends React.Component<Props> {

@@ -321,14 +321,6 @@ export interface FragmentChildProps {
 	reset?: (key?: string) => void;
 }
 
-export interface HearthstoneCollection {
-	cardbacks: number[];
-	collection: { [dbfId: string]: [number, number] };
-	dust: number;
-	gold: number;
-	heroes: { [dbfId: number]: [number, number] };
-}
-
 export type SortDirection = "ascending" | "descending";
 
 export interface TableHeaderProps {

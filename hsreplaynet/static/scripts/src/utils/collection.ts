@@ -1,8 +1,9 @@
-import { CardObj, HearthstoneCollection } from "../interfaces";
+import { CardObj } from "../interfaces";
 import { getDustCost } from "../helpers";
+import { Collection } from "./api";
 
 export function isMissingCardFromCollection(
-	collection: HearthstoneCollection | null,
+	collection: Collection | null,
 	dbfId: number,
 	count: number,
 ): boolean {
@@ -22,7 +23,7 @@ export function isMissingCardFromCollection(
 }
 
 export function getDustCostForCollection(
-	collection: HearthstoneCollection | null,
+	collection: Collection | null,
 	cards: CardObj[],
 ): number {
 	if (!collection || !collection.collection) {
