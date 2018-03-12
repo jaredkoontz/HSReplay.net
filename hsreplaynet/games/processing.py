@@ -82,9 +82,11 @@ def get_valid_match_start(match_start, upload_date):
 def create_hsreplay_document(parser, entity_tree, meta, global_game):
 	hsreplay_doc = HSReplayDocument.from_parser(parser, build=meta["build"])
 	game_xml = hsreplay_doc.games[0]
-	game_xml.game_type = global_game.game_type
 	game_xml.id = global_game.game_handle
-	if meta["reconnecting"]:
+	game_xml.type = meta.get("hs_game_type", 0)
+	game_xml.format = meta.get("format", 0)
+	game_xml.scenarioID = meta.get("scenario_id", 0)
+	if meta.get("reconnecting"):
 		game_xml.reconnecting = True
 
 	for player in entity_tree.players:
