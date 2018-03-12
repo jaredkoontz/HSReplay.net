@@ -901,12 +901,7 @@ export default class Cards extends React.Component<Props, State> {
 					<InfoboxFilter value="RANKED_WILD">
 						Ranked Wild
 					</InfoboxFilter>
-					<InfoboxFilter
-						disabled={this.props.rankRange === "LEGEND_THROUGH_TEN"}
-						value="ARENA"
-					>
-						Arena
-					</InfoboxFilter>
+					<InfoboxFilter value="ARENA">Arena</InfoboxFilter>
 				</InfoboxFilterGroup>
 			</section>
 		);
@@ -1419,12 +1414,17 @@ export default class Cards extends React.Component<Props, State> {
 	}
 
 	getParams(): any {
-		return {
+		const params = {
 			GameType: this.props.gameType,
-			RankRange: this.props.rankRange,
 			TimeRange: this.props.timeRange,
 			// Region: this.props.region,
 		};
+		if (this.props.gameType !== "ARENA") {
+			Object.assign(params, {
+				RankRange: this.props.rankRange,
+			});
+		}
+		return params;
 	}
 
 	getPersonalParams(): any {
