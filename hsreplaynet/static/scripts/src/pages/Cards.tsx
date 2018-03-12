@@ -1380,10 +1380,13 @@ export default class Cards extends React.Component<Props, State> {
 		let filter = false;
 
 		Object.keys(this.filters).forEach(key => {
-			if (isStatsView && key === "playerClass") {
-				return;
-			}
-			if (key === excludeFilter) {
+			if (key === "playerClass") {
+				if (isStatsView) {
+					return;
+				} else if (this.props["playerClass"] === card["cardClass"]) {
+					return true;
+				}
+			} else if (key === excludeFilter) {
 				return;
 			}
 			const values = this.props[key];
