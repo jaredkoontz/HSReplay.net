@@ -412,8 +412,10 @@ class GameReplay(models.Model):
 		else:
 			return None
 
-	def build_pretty_name(self, spoilers=True):
+	def build_pretty_name(self, spoilers=True, battletags=False):
 		players = self.global_game.players.values_list("player_id", "final_state", "name")
+		if not battletags:
+			players = list(map(lambda p: [p[0], p[1], p[2].split("#")[0]], players))
 		if len(players) != 2:
 			return "Broken game (%i players)" % (len(players))
 		if players[0][0] == self.friendly_player_id:
