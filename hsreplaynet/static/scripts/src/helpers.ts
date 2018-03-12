@@ -905,12 +905,12 @@ export function getHeroCard(cardData: CardData, player: GlobalGamePlayer): any {
 export function getHeroDbfId(
 	cardData: CardData,
 	player: GlobalGamePlayer,
-): number | null {
+): number {
 	if (player.hero_id.startsWith("HERO_")) {
 		return player.hero_dbf_id;
 	}
 	const card = getHeroCard(cardData, player);
-	return card ? card.dbfId : null;
+	return card ? card.dbfId : 0;
 }
 
 export function getOtherArchetype(archetypeId: number): Archetype {
