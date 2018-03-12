@@ -3,18 +3,20 @@ import PropTypes from "prop-types";
 import UserData from "../UserData";
 
 interface Props {
-	classNames?: string[];
-	deselectable?: string;
-	disabled?: boolean;
-	onClick?: (newValue: string, sender: string) => void;
-	selected?: boolean | ((value: string) => boolean);
 	value: string;
+	disabled?: boolean;
+	className?: string;
+	onClick?: (newValue: string, sender: string) => void;
 }
 
 export default class InfoboxFilter extends React.Component<Props> {
-	private ref;
+	private ref: HTMLElement | null = null;
 
 	static contextTypes = {
+		infoboxFilterDeselectable: PropTypes.bool,
+		infoboxFilterDisabled: PropTypes.bool,
+		infoboxFilterSelected: PropTypes.arrayOf(PropTypes.string),
+		infoboxFilterSelect: PropTypes.func,
 		requiresPremium: PropTypes.bool,
 	};
 
@@ -27,10 +29,20 @@ export default class InfoboxFilter extends React.Component<Props> {
 	}
 
 	private isSelected(): boolean {
-		if (typeof this.props.selected === "function") {
-			return this.props.selected(this.props.value);
+		if (!Array.isArray(this.context.infoboxFilterSelected)) {
+			return false;
 		}
-		return this.props.selected;
+		return (
+			this.context.infoboxFilterSelected.indexOf(this.props.value) !== -1
+		);
+	}
+
+	private isDisabled(): boolean {
+		return this.props.disabled || this.context.infoboxFilterDisabled;
+	}
+
+	private isDeselectable(): boolean {
+		return this.context.infoboxFilterDeselectable;
 	}
 
 	public render(): React.ReactNode {
@@ -38,29 +50,31 @@ export default class InfoboxFilter extends React.Component<Props> {
 			if (this.isPremiumFilter() && !UserData.isPremium()) {
 				return;
 			}
-			if (this.props.disabled) {
+			if (this.isDisabled()) {
 				return;
 			}
-			if (this.isSelected() && !this.props.deselectable) {
+			if (this.isSelected() && !this.isDeselectable()) {
 				return;
 			}
 			const newValue = this.isSelected() ? null : this.props.value;
 			if (typeof this.props.onClick === "function") {
 				this.props.onClick(newValue, this.props.value);
+			} else if (typeof this.context.infoboxFilterSelect === "function") {
+				this.context.infoboxFilterSelect(newValue, this.props.value);
 			}
 		};
 
 		const classNames = ["selectable"];
-		if (this.props.classNames) {
-			classNames.push(this.props.classNames.join(" "));
+		if (this.props.className) {
+			classNames.push(this.props.className);
 		}
 		if (this.isSelected()) {
 			classNames.push("selected");
-			if (!this.props.deselectable) {
+			if (!this.context.infoboxFilterDeselectable) {
 				classNames.push("no-deselect");
 			}
 		}
-		if (this.props.disabled) {
+		if (this.isDisabled()) {
 			classNames.push("disabled");
 		}
 
@@ -85,13 +99,13 @@ export default class InfoboxFilter extends React.Component<Props> {
 					onClick();
 				}}
 				tabIndex={
-					this.props.disabled ||
+					this.isDisabled() ||
 					(this.isPremiumFilter() && !UserData.isPremium())
 						? -1
 						: 0
 				}
-				role={this.props.deselectable ? "checkbox" : "radio"}
-				aria-disabled={this.props.disabled}
+				role={this.isDeselectable() ? "checkbox" : "radio"}
+				aria-disabled={this.isDisabled()}
 				aria-checked={this.isSelected()}
 			>
 				{this.isPremiumFilter() ? (

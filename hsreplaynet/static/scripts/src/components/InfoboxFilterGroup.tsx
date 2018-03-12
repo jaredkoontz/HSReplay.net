@@ -1,15 +1,16 @@
 import React from "react";
+import PropTypes from "prop-types";
 import InfoIcon, { InfoIconProps } from "./InfoIcon";
 
 interface Props {
-	classNames?: string[];
+	className?: string;
 	collapsed?: boolean;
 	collapsible?: boolean;
 	deselectable?: boolean;
 	header?: string;
 	infoHeader?: InfoIconProps["header"];
 	infoContent?: InfoIconProps["content"];
-	onClick: (value: string, sender: string) => void;
+	onClick: (value: string, sender: string) => any;
 	selectedValue: string | string[];
 	disabled?: boolean;
 }
@@ -26,32 +27,30 @@ export default class InfoboxFilterGroup extends React.Component<Props, State> {
 		};
 	}
 
+	static childContextTypes = {
+		infoboxFilterDeselectable: PropTypes.bool,
+		infoboxFilterDisabled: PropTypes.bool,
+		infoboxFilterSelected: PropTypes.arrayOf(PropTypes.string),
+		infoboxFilterSelect: PropTypes.func,
+	};
+
+	private getSelectedValues(): string[] {
+		if (!Array.isArray(this.props.selectedValue)) {
+			return [this.props.selectedValue];
+		}
+		return this.props.selectedValue;
+	}
+
+	getChildContext() {
+		return {
+			infoboxFilterDeselectable: this.props.deselectable,
+			infoboxFilterDisabled: this.props.disabled,
+			infoboxFilterSelected: this.getSelectedValues(),
+			infoboxFilterSelect: this.props.onClick,
+		};
+	}
+
 	public render(): React.ReactNode {
-		const selected = value => {
-			if (!this.props.selectedValue || this.props.disabled) {
-				return false;
-			}
-			if (typeof this.props.selectedValue === "string") {
-				return this.props.selectedValue === value;
-			}
-			return this.props.selectedValue.indexOf(value) !== -1;
-		};
-
-		const cloneWithProps = child => {
-			return React.cloneElement(
-				child,
-				Object.assign({}, child.props, {
-					selected: (value: string) => selected(value),
-					onClick:
-						typeof child.props.onClick !== "undefined"
-							? child.props.onClick
-							: this.props.onClick,
-					deselectable: this.props.deselectable,
-					disabled: this.props.disabled || child.props.disabled,
-				}),
-			);
-		};
-
 		let header = null;
 		if (this.props.header) {
 			let icon = null;
@@ -114,13 +113,8 @@ export default class InfoboxFilterGroup extends React.Component<Props, State> {
 		return (
 			<div className="infobox-filter-group">
 				{header}
-				<ul
-					className={
-						this.props.classNames && this.props.classNames.join(" ")
-					}
-				>
-					{!this.state.collapsed &&
-						React.Children.map(this.props.children, cloneWithProps)}
+				<ul className={this.props.className}>
+					{!this.state.collapsed && this.props.children}
 				</ul>
 			</div>
 		);

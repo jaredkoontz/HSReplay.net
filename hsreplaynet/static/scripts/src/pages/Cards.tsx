@@ -1125,7 +1125,7 @@ export default class Cards extends React.Component<Props, State> {
 				key="costs"
 				header="Cost"
 				deselectable
-				classNames={["filter-list-cost"]}
+				className="filter-list-cost"
 				selectedValue={this.props.cost}
 				onClick={(newValue, cost) => this.props.toggleCost(cost)}
 			>
@@ -1259,7 +1259,7 @@ export default class Cards extends React.Component<Props, State> {
 				<InfoboxFilter
 					value={"" + item}
 					disabled={!counts["" + item]}
-					classNames={["mana-crystal"]}
+					className="mana-crystal"
 				>
 					<img
 						src={STATIC_URL + "images/mana_crystal.png"}
