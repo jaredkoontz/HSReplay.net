@@ -793,6 +793,17 @@ def capture_played_card_stats(global_game, played_cards, is_friendly_player):
 		error_handler(e)
 
 
+def update_game_meta(parser, meta):
+	if parser.game_meta:
+		meta["build"] = int(parser.game_meta["BuildNumber"])
+		meta["scenario_id"] = int(parser.game_meta["ScenarioID"])
+		meta["hs_game_type"] = int(parser.game_meta["GameType"])
+		format_type = parser.game_meta["FormatType"]
+		is_wild = format_type == FormatType.FT_WILD
+		meta["format"] = int(format_type)
+		meta["game_type"] = int(parser.game_meta["GameType"].as_bnet(wild=is_wild))
+
+
 def do_process_upload_event(upload_event):
 	meta = json.loads(upload_event.metadata)
 
@@ -807,6 +818,9 @@ def do_process_upload_event(upload_event):
 	parser = parse_upload_event(upload_event, meta)
 	# Validate the resulting object and metadata
 	entity_tree, exporter = validate_parser(parser, meta)
+
+	# For build 23576 and up
+	update_game_meta(parser, meta)
 
 	# Create/Update the global game object and its players
 	global_game, global_game_created = find_or_create_global_game(entity_tree, meta)
