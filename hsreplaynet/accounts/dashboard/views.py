@@ -47,7 +47,26 @@ class EditAccountView(LoginRequiredMixin, RequestMetaMixin, UpdateView):
 			referral_link=context["reflink"]
 		).exclude(confirmed=None).count()
 
+		context["disable_collection"] = int(
+			self.request.COOKIES.get("disable-collection", 0)
+		) == 1
+
 		return context
+
+	def post(self, request, **kwargs):
+		request.POST = request.POST.copy()
+		disable = request.POST.get("disable_collection", 0) == "on"
+		if hasattr(request.POST, "disable_collection"):
+			delattr(request.POST, "disable_collection")
+
+		response = super(EditAccountView, self).post(request, **kwargs)
+
+		if disable:
+			response.set_cookie("disable-collection", 1)
+		else:
+			response.delete_cookie("disable-collection")
+
+		return response
 
 
 class APIAccountView(LoginRequiredMixin, RequestMetaMixin, View):

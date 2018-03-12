@@ -7,6 +7,7 @@ import Fragments from "../components/Fragments";
 import { Consumer as HearthstoneAccountConsumer } from "../components/utils/hearthstone-account";
 import DataInjector from "../components/DataInjector";
 import Root from "../components/Root";
+import { cookie } from "cookie_js";
 
 const container = document.getElementById("decks-container");
 UserData.create();
@@ -27,7 +28,8 @@ const render = (cardData: CardData) => {
 						}}
 						fetchCondition={
 							UserData.hasFeature("collection-syncing") &&
-							!!account
+							!!account &&
+							!cookie.get("disable-collection", false)
 						}
 					>
 						{({ collection }) => (

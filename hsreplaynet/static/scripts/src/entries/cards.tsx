@@ -8,6 +8,7 @@ import GoogleAnalytics from "../metrics/GoogleAnalytics";
 import Root from "../components/Root";
 import { Consumer as AccountConsumer } from "../components/utils/hearthstone-account";
 import DataInjector from "../components/DataInjector";
+import { cookie } from "cookie_js";
 
 const container = document.getElementById("card-container");
 const personal = container.getAttribute("data-view-type") === "personal";
@@ -38,7 +39,8 @@ const render = (cardData: CardData) => {
 						}}
 						fetchCondition={
 							UserData.hasFeature("collection-syncing") &&
-							!!account
+							!!account &&
+							!cookie.get("disable-collection", false)
 						}
 					>
 						{({ collection }) => (
