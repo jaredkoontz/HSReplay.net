@@ -85,6 +85,7 @@ class UploadEventSerializer(serializers.Serializer):
 
 
 class GlobalGamePlayerSerializer(serializers.ModelSerializer):
+	name = serializers.SerializerMethodField()
 	hero_name = serializers.SerializerMethodField()
 	account_hi = serializers.SerializerMethodField()
 	account_lo = serializers.SerializerMethodField()
@@ -101,6 +102,11 @@ class GlobalGamePlayerSerializer(serializers.ModelSerializer):
 
 	def get_account_lo(self, instance):
 		return instance.pegasus_account.account_lo
+
+	def get_name(self, instance):
+		if "#" in instance.name:
+			return instance.name.split("#")[0]
+		return instance.name
 
 	class Meta:
 		model = GlobalGamePlayer
