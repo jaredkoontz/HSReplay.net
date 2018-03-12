@@ -685,17 +685,21 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 			account_hi=player.account_hi, account_lo=player.account_lo,
 			defaults=defaults
 		)
-		if not created and _can_claim(blizzard_account) and "user" in defaults:
-			# Set BlizzardAccount.user if it's an available claim for the user
-			influx_metric("pegasus_account_claimed", {
-				"count": 1,
-				"account": str(blizzard_account.id),
-				"region": str(blizzard_account.region),
-				"account_lo": str(blizzard_account.account_lo),
-				"game": str(global_game.id)
-			})
-			blizzard_account.user = defaults["user"]
-			blizzard_account.save()
+		if not created:
+			if _can_claim(blizzard_account) and "user" in defaults:
+				# Set BlizzardAccount.user if it's an available claim for the user
+				influx_metric("pegasus_account_claimed", {
+					"count": 1,
+					"account": str(blizzard_account.id),
+					"region": str(blizzard_account.region),
+					"account_lo": str(blizzard_account.account_lo),
+					"game": str(global_game.id)
+				})
+				blizzard_account.user = defaults["user"]
+				blizzard_account.save()
+			elif "#" in name and "#" not in blizzard_account.battletag:
+				blizzard_account.battletag = name
+				blizzard_account.save()
 
 		log.debug("Prepared BlizzardAccount %r", blizzard_account)
 
