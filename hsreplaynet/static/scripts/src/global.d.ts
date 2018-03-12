@@ -82,6 +82,8 @@ declare module "joust" {
 
 		addPlayerName(playerName: string): Launcher;
 
+		stripBattletags(strip?: boolean): Launcher;
+
 		fromUrl(url: string, cb?: () => any): void;
 
 		readonly percentageWatched: number;

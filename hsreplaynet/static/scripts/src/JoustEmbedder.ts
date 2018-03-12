@@ -184,7 +184,10 @@ export default class JoustEmbedder {
 			launcher.startPaused(false);
 		}
 
-		// hint at player names
+		// setup player names
+		if (typeof launcher.stripBattletags === "function") {
+			launcher.stripBattletags(true);
+		}
 		if (typeof launcher.addPlayerName === "function") {
 			for (let i = 1; true; i++) {
 				const key = "data-player" + i;
