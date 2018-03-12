@@ -66,8 +66,7 @@
 
 						<li{% nav_active 'premium' css='active active-premium' %} id="navbar-link-premium">
 							<a href="{% url 'premium' %}" class="text-premium">
-								{% feature "reflinks" as ft_reflinks %}
-								{% if premium and ft_reflinks.enabled %}Refer a Friend{% else %}Premium{% endif %}
+								{% if premium %}Refer a Friend{% else %}Premium{% endif %}
 							</a>
 						</li>
 					</ul>

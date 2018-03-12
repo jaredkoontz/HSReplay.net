@@ -56,10 +56,7 @@ export default class CheckoutForm extends React.Component<Props, State> {
 	getValidPaymentMethods() {
 		const methods = [];
 
-		if (
-			UserData.hasFeature("stripe-elements") &&
-			this.props.supportStripeElements
-		) {
+		if (this.props.supportStripeElements) {
 			methods.push({
 				method: PaymentMethods.CREDITCARD,
 				label: (

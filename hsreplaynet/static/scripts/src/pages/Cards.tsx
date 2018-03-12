@@ -318,8 +318,7 @@ export default class Cards extends React.Component<Props, State> {
 		const showUncollectible =
 			display === "gallery" &&
 			uncollectible === "show" &&
-			!this.props.personal &&
-			UserData.hasFeature("cards-uncollectible");
+			!this.props.personal;
 
 		const viableUncollectibleCard = card =>
 			!card.collectible &&
@@ -1207,11 +1206,7 @@ export default class Cards extends React.Component<Props, State> {
 			</InfoboxFilterGroup>,
 		);
 
-		if (
-			UserData.hasFeature("cards-uncollectible") &&
-			this.props.display === "gallery" &&
-			!this.props.personal
-		) {
+		if (this.props.display === "gallery" && !this.props.personal) {
 			filters.push(
 				<InfoboxFilterGroup
 					key="uncollectible"

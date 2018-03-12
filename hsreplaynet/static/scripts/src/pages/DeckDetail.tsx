@@ -40,8 +40,6 @@ import PremiumPromo from "../components/PremiumPromo";
 import ArchetypeMatchups from "../components/archetypedetail/ArchetypeMatchups";
 import StreamList from "../components/StreamList";
 import { Collection } from "../utils/api";
-import Modal from "../components/Modal";
-import CollectionSetup from "../components/collection/CollectionSetup";
 import CollectionBanner from "../components/collection/CollectionBanner";
 
 interface InventoryGameType {
