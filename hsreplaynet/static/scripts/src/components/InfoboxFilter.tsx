@@ -8,7 +8,6 @@ interface Props {
 	disabled?: boolean;
 	onClick?: (newValue: string, sender: string) => void;
 	selected?: boolean | ((value: string) => boolean);
-	overridePremium?: boolean;
 	value: string;
 }
 
@@ -20,10 +19,6 @@ export default class InfoboxFilter extends React.Component<Props> {
 	};
 
 	private isPremiumFilter(): boolean {
-		const premiumOverride = this.props.overridePremium;
-		if (typeof premiumOverride !== "undefined") {
-			return !!premiumOverride;
-		}
 		const premiumFromContext = this.context.requiresPremium;
 		if (typeof premiumFromContext === "undefined") {
 			return false;
