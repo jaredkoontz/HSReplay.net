@@ -4,6 +4,7 @@ interface Props {}
 
 interface State {
 	error: Error | null;
+	errorInfo: React.ErrorInfo | null;
 	tracing: any | null;
 }
 
@@ -12,12 +13,13 @@ export default class ErrorReporter extends React.Component<Props, State> {
 		super(props, context);
 		this.state = {
 			error: null,
+			errorInfo: null,
 			tracing: null,
 		};
 	}
 
 	public componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
-		const report = { error };
+		const report = { error, errorInfo };
 		if (typeof Raven === "object") {
 			Raven.captureException(error, { extra: errorInfo });
 			Object.assign(report, { tracing: Raven.lastEventId() });
@@ -73,7 +75,10 @@ export default class ErrorReporter extends React.Component<Props, State> {
 		if (!this.state.error) {
 			return null;
 		}
-		const message = this.state.error.message;
+		let message = this.state.error.message;
+		if (this.state.errorInfo && this.state.errorInfo.componentStack) {
+			message += this.state.errorInfo.componentStack;
+		}
 		return (
 			<>
 				<p>
