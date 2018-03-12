@@ -15,7 +15,7 @@ import InfoboxFilterGroup from "../components/InfoboxFilterGroup";
 import PremiumWrapper from "../components/PremiumWrapper";
 import ResetHeader from "../components/ResetHeader";
 import * as _ from "lodash";
-import { DeckObj, FragmentChildProps } from "../interfaces";
+import { DeckObj, FragmentChildProps, User } from "../interfaces";
 import InfoboxLastUpdated from "../components/InfoboxLastUpdated";
 import UserData from "../UserData";
 import Fragments from "../components/Fragments";
@@ -28,6 +28,7 @@ import DustFilter from "../components/filters/DustFilter";
 import { getDustCostForCollection } from "../utils/collection";
 import { Collection } from "../utils/api";
 import { CollectionEvents } from "../metrics/GoogleAnalytics";
+import CollectionBanner from "../components/collection/CollectionBanner";
 
 interface Props extends FragmentChildProps {
 	cardData: CardData | null;
@@ -419,7 +420,48 @@ export default class Decks extends React.Component<Props, State> {
 						helpMessage={helpMessage}
 						collection={this.props.collection}
 					>
-						{this.renderBanner()}
+						<CollectionBanner
+							hasCollection={!!this.props.collection}
+							wrapper={body => (
+								<li
+									style={{
+										backgroundImage:
+											"url('/static/images/feature-promotional/collection-syncing-decks.png')",
+									}}
+									className="deck-list-banner hidden-xs"
+								>
+									{body}
+								</li>
+							)}
+						>
+							{authenticated => (
+								<>
+									<img src="/static/images/logo.png" />
+									{authenticated ? (
+										<>
+											<span className="hidden-lg">
+												Upload your collection!
+											</span>
+											<span className="visible-lg">
+												Upload your collection and find
+												the decks you can build!
+											</span>
+										</>
+									) : (
+										<>
+											<span className="hidden-lg">
+												Sign in to upload your
+												collection!
+											</span>
+											<span className="visible-lg">
+												Sign in to find the decks you
+												can build with your collection!
+											</span>
+										</>
+									)}
+								</>
+							)}
+						</CollectionBanner>
 					</DeckList>
 				</Fragments>
 			);
@@ -678,22 +720,34 @@ export default class Decks extends React.Component<Props, State> {
 									)}
 								</>
 							) : (
-								<a
-									className="infobox-banner"
-									style={{
-										backgroundImage:
-											"url('/static/images/feature-promotional/collection-syncing-sidebar.png')",
-									}}
-									href={
-										UserData.isAuthenticated()
-											? "https://articles.hsreplay.net/"
-											: "/account/login/?next=/decks/"
-									}
+								<CollectionBanner
+									hasCollection={!!this.props.collection}
+									wrapper={body => (
+										<div
+											className="infobox-banner"
+											style={{
+												backgroundImage:
+													"url('/static/images/feature-promotional/collection-syncing-sidebar.png')",
+											}}
+										>
+											{body}
+										</div>
+									)}
 								>
-									{UserData.isAuthenticated()
-										? "Want to find decks you can build with your collection?"
-										: "Sign in to find decks for your collection"}
-								</a>
+									{authenticated =>
+										authenticated ? (
+											<>
+												Want to find decks you can build
+												with your collection?
+											</>
+										) : (
+											<>
+												Sign in to find decks for your
+												collection
+											</>
+										)
+									}
+								</CollectionBanner>
 							)}
 						</section>
 					</Feature>
@@ -865,46 +919,5 @@ export default class Decks extends React.Component<Props, State> {
 				: "ALL",
 			TimeRange: this.props.timeRange,
 		};
-	}
-
-	private renderBanner(): React.ReactNode {
-		if (this.props.collection) {
-			return null;
-		}
-		return (
-			<Feature feature="collection-syncing">
-				<li
-					style={{
-						backgroundImage:
-							"url('/static/images/feature-promotional/collection-syncing-decks.png')",
-					}}
-					className="deck-list-banner hidden-xs"
-				>
-					{UserData.isAuthenticated() ? (
-						<a href="https://articles.hsreplay.net/">
-							<img src="/static/images/logo.png" />
-							<span className="hidden-lg">
-								Upload your collection!
-							</span>
-							<span className="visible-lg">
-								Upload your collection and find the decks you
-								can build!
-							</span>
-						</a>
-					) : (
-						<a href="/account/login/?next=/decks/">
-							<img src="/static/images/logo.png" />
-							<span className="hidden-lg">
-								Sign in to upload your collection!
-							</span>
-							<span className="visible-lg">
-								Sign in to find the decks you can build with
-								your collection!
-							</span>
-						</a>
-					)}
-				</li>
-			</Feature>
-		);
 	}
 }

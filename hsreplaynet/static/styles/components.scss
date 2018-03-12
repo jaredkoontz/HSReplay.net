@@ -258,12 +258,14 @@ table .info-icon, .sort-header .info-icon {
 			background-position: center;
 			overflow: hidden;
 
-			> a {
+			> a, > div {
 				height: 100%;
 				display: flex;
 				align-items: center;
 				background: none !important;
 				color: white;
+
+				cursor: pointer;
 
 				img {
 					height: 70%;

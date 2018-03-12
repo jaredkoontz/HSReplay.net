@@ -3,6 +3,8 @@ import ReactDOM from "react-dom";
 import CardData from "../CardData";
 import LiveData from "../components/home/LiveData";
 import { winrateData } from "../helpers";
+import Modal from "../components/Modal";
+import CollectionSetup from "../components/collection/CollectionSetup";
 
 const winrateBoxes = document.getElementsByClassName("box-content");
 Array.from(winrateBoxes).forEach(box => {
@@ -23,4 +25,25 @@ if (liveData) {
 	render(null);
 
 	new CardData().load(render);
+}
+
+const banner = document.getElementById("collection-syncing-banner");
+if (banner) {
+	const modalDummy = document.createElement("div");
+	modalDummy.setAttribute("id", "modal-dummy");
+	banner.parentNode.insertBefore(modalDummy, banner);
+	banner.addEventListener("click", () => {
+		ReactDOM.render(
+			<Modal
+				onClose={() => {
+					ReactDOM.unmountComponentAtNode(modalDummy);
+				}}
+			>
+				<CollectionSetup />
+			</Modal>,
+			modalDummy,
+		);
+	});
+} else {
+	console.log("fail");
 }

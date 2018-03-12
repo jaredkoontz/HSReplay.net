@@ -269,7 +269,7 @@
 
 
 .infobox {
-	.infobox-banner, a.infobox-banner {
+	.infobox-banner {
 		display: block;
 		width: 278px;
 		margin: 10px auto;
@@ -282,18 +282,22 @@
 		font-size: 1.2em;
 		font-weight: bold;
 
-		&, &:active, &:hover {
-			color: white;
-			text-decoration: none;
-			outline: none;
-			text-shadow: -1px -1px 0 #000,
-			1px -1px 0 #000,
-			-1px 1px 0 #000,
-			1px 1px 0 #000;
-		}
+		a {
+			cursor: pointer;
 
-		&:focus {
-			color: $lighterblue;
+			&, &:active, &:hover {
+				color: white;
+				text-decoration: none;
+				outline: none;
+				text-shadow: -1px -1px 0 #000,
+				1px -1px 0 #000,
+				-1px 1px 0 #000,
+				1px 1px 0 #000;
+			}
+
+			&:focus {
+				color: $lighterblue;
+			}
 		}
 	}
 }

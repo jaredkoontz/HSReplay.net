@@ -30,23 +30,30 @@
 	{% feature 'collection-syncing' as ft_collection %}
 	{% if ft_collection.enabled %}
 	<section id="feature-promotion">
-		{% if user.is_authenticated %}
-		<a href="https://articles.hsreplay.net/">
-		{% else %}
-		<a href="{% url 'account_login' %}">
-		{% endif %}
-			<div
-				style="background-image: url({% static 'images/feature-promotional/collection-syncing-frontpage.png' %});"
-				class="feature-promotion-banner hidden-xs"
-			>
+		<div
+			style="background-image: url({% static 'images/feature-promotional/collection-syncing-frontpage.png' %});"
+			class="feature-promotion-banner hidden-xs"
+			{% if user.is_authenticated %}
+			id="collection-syncing-banner"
+			{% endif %}
+		>
+			{% if user.is_authenticated %}
+			<div href="https://articles.hsreplay.net/">
+			{% else %}
+			<a href="{% url 'account_login' %}">
+			{% endif %}
 				<p><span>New feature:</span> <span>Collection Uploading</span></p>
 				{% if user.is_authenticated %}
 					<p><small>Find the best deck for you!</small></p>
 				{% else %}
 					<p><small>Sign in and find the best deck for you!</small></p>
 				{% endif %}
+			{% if not user.is_authenticated %}
+			</a>
+			{% else %}
 			</div>
-		</a>
+			{% endif %}
+		</div>
 	</section>
 	{% endif %}
 	<header id="promo" class="promo">

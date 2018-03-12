@@ -40,6 +40,8 @@ import PremiumPromo from "../components/PremiumPromo";
 import ArchetypeMatchups from "../components/archetypedetail/ArchetypeMatchups";
 import StreamList from "../components/StreamList";
 import { Collection } from "../utils/api";
+import Modal from "../components/Modal";
+import CollectionSetup from "../components/collection/CollectionSetup";
 
 interface InventoryGameType {
 	[gameType: string]: InventoryRegion[];
@@ -82,6 +84,7 @@ interface State {
 	showInfo: boolean;
 	sortBy: string;
 	sortDirection: SortDirection;
+	showCollectionModal: boolean;
 }
 
 export default class DeckDetail extends React.Component<Props, State> {
@@ -96,6 +99,7 @@ export default class DeckDetail extends React.Component<Props, State> {
 			showInfo: false,
 			sortBy: "card",
 			sortDirection: "ascending",
+			showCollectionModal: false,
 		};
 		this.fetchInventory();
 	}
@@ -475,6 +479,48 @@ export default class DeckDetail extends React.Component<Props, State> {
 							}
 						/>
 					</div>
+					<Feature feature="collection-syncing">
+						{!this.props.collection ? (
+							this.state.showCollectionModal ? (
+								<Modal
+									onClose={() =>
+										this.setState({
+											showCollectionModal: false,
+										})
+									}
+								>
+									<CollectionSetup />
+								</Modal>
+							) : UserData.isAuthenticated() ? (
+								<div
+									className="infobox-banner"
+									style={{
+										backgroundImage:
+											"url('/static/images/feature-promotional/collection-syncing-sidebar.png')",
+									}}
+									onClick={() =>
+										this.setState({
+											showCollectionModal: true,
+										})
+									}
+								>
+									Want to find decks you can build with your
+									collection?
+								</div>
+							) : (
+								<a
+									className="infobox-banner"
+									style={{
+										backgroundImage:
+											"url('/static/images/feature-promotional/collection-syncing-sidebar.png')",
+									}}
+									href="/account/login/?next=/decks/"
+								>
+									Sign in to find decks for your collection
+								</a>
+							)
+						) : null}
+					</Feature>
 					<h2>Deck</h2>
 					<ul>
 						<li>

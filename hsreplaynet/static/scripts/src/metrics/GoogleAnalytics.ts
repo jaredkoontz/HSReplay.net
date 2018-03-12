@@ -84,4 +84,11 @@ export class CollectionEvents extends GoogleAnalytics {
 		});
 		return this.event("Dust Filter", "enable");
 	}
+
+	public static onViewModal(): Promise<void> {
+		INFLUX_CLIENT.writePoint("hsreplaynet_collection_modal_open", {
+			count: "1i",
+		});
+		return this.event("Collection Modal", "open");
+	}
 }
