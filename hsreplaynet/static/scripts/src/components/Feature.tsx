@@ -8,17 +8,11 @@ interface Props {
 
 export default class Feature extends React.Component<Props> {
 	public render(): React.ReactNode {
-		const { feature, inverted, children, ...props } = this.props;
+		const { feature, inverted, children } = this.props;
 		const expectedState = !!inverted;
-		if (
-			!this.props.children ||
-			UserData.hasFeature(feature) === expectedState
-		) {
+		if (!children || UserData.hasFeature(feature) === expectedState) {
 			return null;
 		}
-		return React.cloneElement(
-			React.Children.only(this.props.children),
-			props,
-		);
+		return children;
 	}
 }
