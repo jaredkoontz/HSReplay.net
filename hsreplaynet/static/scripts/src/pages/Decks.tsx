@@ -27,6 +27,7 @@ import Feature from "../components/Feature";
 import DustFilter from "../components/filters/DustFilter";
 import { getDustCostForCollection } from "../utils/collection";
 import { Collection } from "../utils/api";
+import { CollectionEvents } from "../metrics/GoogleAnalytics";
 
 interface Props extends FragmentChildProps {
 	cardData: CardData | null;
@@ -647,11 +648,14 @@ export default class Decks extends React.Component<Props, State> {
 												? null
 												: "DUST_FILTER"
 										}
-										onClick={value =>
+										onClick={value => {
+											if (value) {
+												CollectionEvents.onEnableDustWidget();
+											}
 											this.props.setMaxDustCost(
 												value ? 0 : -1,
-											)
-										}
+											);
+										}}
 									>
 										<InfoboxFilter value="DUST_FILTER">
 											Limit to my collection

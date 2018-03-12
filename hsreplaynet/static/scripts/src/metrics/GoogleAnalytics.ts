@@ -10,7 +10,7 @@ export default class GoogleAnalytics {
 	public static async event(
 		category: string,
 		action: string,
-		label: string,
+		label?: string,
 		params?: UniversalAnalytics.FieldsObject,
 	): Promise<void> {
 		return new Promise<void>((resolve, reject) => {
@@ -74,5 +74,14 @@ export class TwitchStreamPromotionEvents extends GoogleAnalytics {
 export class ReferralEvents extends GoogleAnalytics {
 	public static onCopyRefLink(which: string): Promise<void> {
 		return this.event("Referrals", "copy", which);
+	}
+}
+
+export class CollectionEvents extends GoogleAnalytics {
+	public static onEnableDustWidget(): Promise<void> {
+		INFLUX_CLIENT.writePoint("hsreplaynet_enable_dust_filter", {
+			count: "1i",
+		});
+		return this.event("Dust Filter", "enable");
 	}
 }
