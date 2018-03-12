@@ -25,7 +25,6 @@ import DataManager from "../DataManager";
 import { Limit } from "../components/ObjectSearch";
 import Feature from "../components/Feature";
 import DustFilter from "../components/filters/DustFilter";
-import { cookie } from "cookie_js";
 import { getDustCostForCollection } from "../utils/collection";
 import { Collection } from "../utils/api";
 
