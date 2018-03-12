@@ -1013,8 +1013,7 @@ export default class Cards extends React.Component<Props, State> {
 									value="ARENA_EVENT"
 									disabled={this.props.gameType !== "ARENA"}
 								>
-									Wildfest
-									<span className="infobox-value">New!</span>
+									Patch 10.4 (Arena)
 								</InfoboxFilter>
 							</Feature>
 						</InfoboxFilterGroup>
