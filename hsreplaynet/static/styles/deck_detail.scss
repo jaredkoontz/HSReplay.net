@@ -124,8 +124,8 @@
 			margin: 20px auto;
 		}
 
-		.copy-deck-wrapper {
-			padding-bottom: 20px;
+		.copy-deck-wrapper + h2 {
+			margin-top: 20px;
 		}
 
 		.dropdown {

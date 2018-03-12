@@ -42,6 +42,7 @@ import StreamList from "../components/StreamList";
 import { Collection } from "../utils/api";
 import Modal from "../components/Modal";
 import CollectionSetup from "../components/collection/CollectionSetup";
+import CollectionBanner from "../components/collection/CollectionBanner";
 
 interface InventoryGameType {
 	[gameType: string]: InventoryRegion[];
@@ -481,44 +482,34 @@ export default class DeckDetail extends React.Component<Props, State> {
 					</div>
 					<Feature feature="collection-syncing">
 						{!this.props.collection ? (
-							this.state.showCollectionModal ? (
-								<Modal
-									onClose={() =>
-										this.setState({
-											showCollectionModal: false,
-										})
-									}
-								>
-									<CollectionSetup />
-								</Modal>
-							) : UserData.isAuthenticated() ? (
-								<div
-									className="infobox-banner"
-									style={{
-										backgroundImage:
-											"url('/static/images/feature-promotional/collection-syncing-sidebar.png')",
-									}}
-									onClick={() =>
-										this.setState({
-											showCollectionModal: true,
-										})
-									}
-								>
-									Want to find decks you can build with your
-									collection?
-								</div>
-							) : (
-								<a
-									className="infobox-banner"
-									style={{
-										backgroundImage:
-											"url('/static/images/feature-promotional/collection-syncing-sidebar.png')",
-									}}
-									href="/account/login/?next=/decks/"
-								>
-									Sign in to find decks for your collection
-								</a>
-							)
+							<CollectionBanner
+								hasCollection={!!this.props.collection}
+								wrapper={body => (
+									<div
+										className="infobox-banner"
+										style={{
+											backgroundImage:
+												"url('/static/images/feature-promotional/collection-syncing-sidebar.png')",
+										}}
+									>
+										{body}
+									</div>
+								)}
+							>
+								{authenticated =>
+									authenticated ? (
+										<>
+											Upload your collection to see which
+											cards you're missing!
+										</>
+									) : (
+										<>
+											Sign in to see whether you can build
+											this deck!
+										</>
+									)
+								}
+							</CollectionBanner>
 						) : null}
 					</Feature>
 					<h2>Deck</h2>

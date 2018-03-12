@@ -281,10 +281,9 @@
 
 		font-size: 1.2em;
 		font-weight: bold;
+		cursor: pointer;
 
 		a {
-			cursor: pointer;
-
 			&, &:active, &:hover {
 				color: white;
 				text-decoration: none;
