@@ -283,15 +283,16 @@
 		font-weight: bold;
 		cursor: pointer;
 
+		text-shadow: -1px -1px 0 #000,
+		1px -1px 0 #000,
+		-1px 1px 0 #000,
+		1px 1px 0 #000;
+
 		a {
 			&, &:active, &:hover {
 				color: white;
 				text-decoration: none;
 				outline: none;
-				text-shadow: -1px -1px 0 #000,
-				1px -1px 0 #000,
-				-1px 1px 0 #000,
-				1px 1px 0 #000;
 			}
 
 			&:focus {
