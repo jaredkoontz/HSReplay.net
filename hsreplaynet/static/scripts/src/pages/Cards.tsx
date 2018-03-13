@@ -1077,6 +1077,14 @@ export default class Cards extends React.Component<Props, State> {
 							<span className="infobox-value">New!</span>
 						</InfoboxFilter>
 					</Feature>
+					<Feature feature={"current-arena-event-filter"}>
+						<InfoboxFilter
+							value="ARENA_EVENT"
+							disabled={this.props.gameType !== "ARENA"}
+						>
+							Patch 10.4 (Arena)
+						</InfoboxFilter>
+					</Feature>
 				</InfoboxFilterGroup>,
 			);
 		}
