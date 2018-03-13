@@ -420,7 +420,7 @@ class PremiumDetailView(RequestMetaMixin, TemplateView):
 		"Put your faith in the stats.",
 		"The gates are open!",
 		"Are you ready for this?",
-		"Join, or die (or both)!",
+		"Join, or die… or both!",
 		"D-d-don't touch that!",
 		"Wanna blow somethin' up?",
 		"I have no time for games!",
