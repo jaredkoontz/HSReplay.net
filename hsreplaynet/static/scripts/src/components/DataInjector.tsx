@@ -105,12 +105,12 @@ export default class DataInjector extends React.Component<Props, State> {
 		queue.forEach(index => this.fetch(nextProps, index));
 	}
 
-	fetch(props: Props, index: number) {
+	fetch(props: Props, index: number, noCache?: boolean) {
 		if (props.fetchCondition === false) {
 			return;
 		}
 		const query = this.getQueryArray(props)[index];
-		DataManager.get(query.url, query.params || {}).then(
+		DataManager.get(query.url, query.params || {}, noCache).then(
 			json => {
 				const queries = this.getQueryArray(this.props);
 				if (queries.some(q => this.queryEquals(q, query))) {
@@ -159,6 +159,16 @@ export default class DataInjector extends React.Component<Props, State> {
 		);
 	}
 
+	private refresh = (key: string): void => {
+		const index = this.getQueryArray(this.props).findIndex(
+			(q: Query) => q.key === key,
+		);
+		if (index === -1) {
+			return;
+		}
+		this.fetch(this.props, index, true);
+	};
+
 	public render(): React.ReactNode {
 		const getStatus = (status: number[]): LoadingStatus => {
 			if (status.every(s => s === STATUS_SUCCESS)) {
@@ -187,7 +197,8 @@ export default class DataInjector extends React.Component<Props, State> {
 		};
 
 		const status = getStatus(this.state.status);
-		const childProps = { status };
+		const refresh = this.refresh;
+		const childProps = { status, refresh };
 		if (status === LoadingStatus.SUCCESS) {
 			this.getQueryArray(this.props).forEach(query => {
 				const key = query.key || DEFAULT_DATA_KEY;
