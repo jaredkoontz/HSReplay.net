@@ -1439,22 +1439,18 @@ table .info-icon, .sort-header .info-icon {
 	}
 }
 
-ul.list-ltr {
-	padding-left: 0;
+ul.list-ltr, ol.list-ltr {
 	display: grid;
 	grid-auto-flow: row;
 
-	> li {
-		list-style-type: none;
-	}
-
 	&.list-ltr-2 {
-		grid-template-columns: 1fr 1fr;
+		grid-template-columns: auto auto;
+		grid-column-gap: 40px;
 	}
 
 	@media(max-width: 991px) {
 		&.list-ltr-2 {
-			grid-template-columns: 1fr;
+			grid-template-columns: auto;
 		}
 	}
 }

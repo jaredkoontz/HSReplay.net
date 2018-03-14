@@ -1,6 +1,7 @@
 import { CardObj } from "../interfaces";
 import { getDustCost } from "../helpers";
-import { Collection } from "./api";
+import { BlizzardAccount, Collection } from "./api";
+import { QueryParams } from "../DataManager";
 
 export function isMissingCardFromCollection(
 	collection: Collection | null,
@@ -46,4 +47,16 @@ export function getDustCostForCollection(
 	}
 
 	return dustCost;
+}
+
+export function getCollectionParams(
+	blizzardAccount: BlizzardAccount,
+): QueryParams {
+	if (!blizzardAccount) {
+		return {};
+	}
+	return {
+		account_hi: "" + blizzardAccount.account_hi,
+		account_lo: "" + blizzardAccount.account_lo,
+	};
 }

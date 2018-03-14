@@ -15,6 +15,7 @@ export interface Account {
 	is_premium: boolean;
 	blizzard_accounts: BlizzardAccount[];
 	tokens: string[];
+	_has_connected_hdt?: boolean;
 }
 
 interface BlizzardAccount {
