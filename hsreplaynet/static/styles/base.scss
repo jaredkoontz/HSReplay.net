@@ -555,6 +555,10 @@ header .navbar {
 	height: 100%;
 	z-index: 1999;
 	pointer-events: none;
+
+	> * {
+		pointer-events: all;
+	}
 }
 
 .site-modal-scroller {
@@ -564,7 +568,6 @@ header .navbar {
 	min-width: 100%;
 	min-height: 100%;
 	overflow-y: scroll;
-	pointer-events: none;
 }
 
 .site-modal-container {
@@ -580,5 +583,4 @@ header .navbar {
 	justify-content: center;
 	align-items: center;
 	padding: 10vh 0;
-	pointer-events: all;
 }
