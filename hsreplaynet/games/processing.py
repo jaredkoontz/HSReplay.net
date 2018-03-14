@@ -165,7 +165,7 @@ def find_or_create_global_game(entity_tree, meta):
 def get_opponent_revealed_deck(entity_tree, friendly_player_id, game_type):
 	for player in entity_tree.players:
 		if player.player_id != friendly_player_id:
-			decklist = [c.initial_card_id for c in player.initial_deck if c.card_id]
+			decklist = [c.initial_card_id for c in player.initial_deck if c.initial_card_id]
 
 			deck, created = Deck.objects.get_or_create_from_id_list(
 				decklist,
@@ -511,12 +511,9 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 		player_meta = meta.get("player%i" % (player.player_id), {})
 
 		decklist_from_meta = player_meta.get("deck")
-		decklist_from_replay = [c.initial_card_id for c in player.initial_deck if c.card_id]
+		replay_decklist = [c.initial_card_id for c in player.initial_deck if c.initial_card_id]
 
-		meta_decklist_is_superset = _is_decklist_superset(
-			decklist_from_meta,
-			decklist_from_replay
-		)
+		meta_decklist_is_superset = _is_decklist_superset(decklist_from_meta, replay_decklist)
 
 		# We disregard the meta decklist if it's not matching the replay decklist
 		# We always want to use it in dungeon run though, since the initial deck is garbage
@@ -528,7 +525,7 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 			# Spectated replays never know more than is in the replay data
 			# But may have erroneous data from the spectator's client's memory
 			# Read from before they entered the spectated game
-			decklist = decklist_from_replay
+			decklist = replay_decklist
 		else:
 			decklist = decklist_from_meta
 
