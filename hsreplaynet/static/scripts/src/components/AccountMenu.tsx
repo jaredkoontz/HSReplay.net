@@ -1,5 +1,6 @@
 import React from "react";
 import { Account } from "../UserData";
+import { prettyBlizzardAccount } from "../utils/account";
 
 interface Props {
 	username: string;
@@ -91,7 +92,7 @@ export default class AccountMenu extends React.Component<Props, State> {
 						}
 					>
 						<a href="#" onClick={this.selectAccount(index)}>
-							{account.display}
+							{prettyBlizzardAccount(account as any)}
 						</a>
 					</li>
 				))}
