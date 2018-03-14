@@ -70,6 +70,7 @@ class DeckTile extends React.Component<Props> {
 
 		cards.sort(cardSorting);
 
+		let canBeBuilt = !!this.props.collection;
 		cards.forEach((obj, index: number) => {
 			const card = obj.card;
 			const count = +obj.count;
@@ -114,6 +115,7 @@ class DeckTile extends React.Component<Props> {
 						/>
 					</li>
 				);
+				canBeBuilt = false;
 				remaining -= difference;
 			}
 
@@ -177,13 +179,14 @@ class DeckTile extends React.Component<Props> {
 				".png)",
 		};
 
-		const dustCost = getDustCostForCollection(
-			this.props.collection,
-			this.props.cards,
-		);
+		const dustCost = canBeBuilt
+			? "Buildable"
+			: getDustCostForCollection(this.props.collection, this.props.cards);
 
 		const dustCostStyle = {
-			backgroundImage: "url(/static/images/dust.png)",
+			backgroundImage: canBeBuilt
+				? "url(/static/images/check.svg)"
+				: "url(/static/images/dust.png)",
 		};
 
 		let deckName = null;
@@ -234,7 +237,9 @@ class DeckTile extends React.Component<Props> {
 			headerData.push(
 				<span
 					key="dust-cost"
-					className="dust-cost"
+					className={
+						"dust-cost" + (canBeBuilt ? " deck-buildable" : "")
+					}
 					style={dustCostStyle}
 				>
 					{dustCost}
