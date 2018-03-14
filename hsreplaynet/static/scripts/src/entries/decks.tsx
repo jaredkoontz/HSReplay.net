@@ -21,7 +21,7 @@ const render = (cardData: CardData) => {
 						query={{
 							key: "collection",
 							params: {
-								account_hi: "" + (account && account.hi),
+								region: "" + (account && account.region),
 								account_lo: "" + (account && account.lo),
 							},
 							url: "/api/v1/collection/",

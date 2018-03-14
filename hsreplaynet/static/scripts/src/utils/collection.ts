@@ -56,7 +56,7 @@ export function getCollectionParams(
 		return {};
 	}
 	return {
-		account_hi: "" + blizzardAccount.account_hi,
+		region: "" + blizzardAccount.region,
 		account_lo: "" + blizzardAccount.account_lo,
 	};
 }
