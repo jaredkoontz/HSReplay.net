@@ -3,7 +3,7 @@ import { BlizzardAccount } from "../../../utils/api";
 import ModalAwait from "./ModalAwait";
 import BlizzardAccountChooser from "./BlizzardAccountChooser";
 import DownloadSection from "./DownloadSection";
-import { prettyBlizzardAccount } from "../../../utils/account";
+import { getAccountKey, prettyBlizzardAccount } from "../../../utils/account";
 
 interface Props {
 	hasConnectedHDT: boolean;
@@ -286,7 +286,9 @@ export default class CollectionSetupDialog extends React.Component<
 							<p className="text-center">
 								<span>Try it out:</span>
 								<a
-									href="/decks/"
+									href={`/decks/?hearthstone_account=${getAccountKey(
+										selectedAccount,
+									)}`}
 									className="promo-button-outline"
 								>
 									View Decks

@@ -32,6 +32,10 @@ export interface Account {
 	lo: number;
 }
 
+function getUserDataAccountKey(account: Account) {
+	return `${account.region}-${account.lo}`;
+}
+
 export default class UserData {
 	private static _instance: UserDataProps = null;
 	private static _settings = new Settings();
@@ -87,8 +91,35 @@ export default class UserData {
 		if (accounts.length === 0) {
 			return null;
 		}
+
+		let fromUrl = null;
+		if (document && document.location && document.location.search) {
+			const search = document.location.search.replace(/^\?/, "");
+			const parts = search.split("&");
+			for (const part of parts) {
+				const param = part.split("=", 2);
+				if (param.length === 2 && param[0] === "hearthstone_account") {
+					fromUrl = param[1];
+					break;
+				}
+			}
+		}
+		if (
+			accounts.findIndex(x => getUserDataAccountKey(x) === fromUrl) !== -1
+		) {
+			this.setDefaultAccount(fromUrl);
+			return fromUrl;
+		}
+
 		const fromCookie = cookie.get("default-account", null);
-		return fromCookie || accounts[0].region + "-" + accounts[0].lo;
+		if (
+			accounts.findIndex(x => getUserDataAccountKey(x) === fromCookie) !==
+			-1
+		) {
+			return fromCookie;
+		}
+
+		return getUserDataAccountKey(accounts[0]);
 	}
 
 	static setDefaultAccount(key: string): void {
