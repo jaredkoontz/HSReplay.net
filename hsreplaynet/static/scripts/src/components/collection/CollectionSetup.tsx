@@ -2,11 +2,11 @@ import React from "react";
 import DataInjector from "../DataInjector";
 import { Account, BlizzardAccount } from "../../utils/api";
 import { CollectionEvents } from "../../metrics/GoogleAnalytics";
-import CollectionSetupAssistant from "./CollectionSetupAssistant";
 import { getAccountKey } from "../../utils/account";
 import { getCollectionParams } from "../../utils/collection";
 import DataManager from "../../DataManager";
 import UserData from "../../UserData";
+import CollectionSetupDialog from "./modal/CollectionSetupDialog";
 
 interface Props {}
 
@@ -80,6 +80,12 @@ export default class CollectionSetup extends React.Component<Props, State> {
 		CollectionEvents.onViewModal();
 	}
 
+	private setBlizzardAccountKey = (account: string): void => {
+		this.setState({
+			blizzardAccountKey: account,
+		});
+	};
+
 	public render(): React.ReactNode {
 		if (this.state.hasTokens === null) {
 			return (
@@ -89,9 +95,11 @@ export default class CollectionSetup extends React.Component<Props, State> {
 			);
 		}
 
-		const blizzardAccount = this.state.blizzardAccounts[
-			this.state.blizzardAccountKey
-		];
+		const blizzardAccount =
+			this.state.blizzardAccounts !== null &&
+			this.state.blizzardAccountKey !== null
+				? this.state.blizzardAccounts[this.state.blizzardAccountKey]
+				: null;
 
 		return (
 			<DataInjector
@@ -106,52 +114,16 @@ export default class CollectionSetup extends React.Component<Props, State> {
 			>
 				{({ collection, refresh }) => {
 					return (
-						<div className="collection-setup-modal">
-							<div
-								className="modal-banner"
-								style={{
-									backgroundImage:
-										"url('/static/images/feature-promotional/collection-syncing-decks.png')",
-								}}
-							>
-								Collection Uploading
-							</div>
-							<div className="modal-body">
-								<h1>
-									Find the best decks for your collection!
-								</h1>
-								<p>
-									Upload your Hearthstone collection to enable
-									the following features:
-								</p>
-								<ul className="list-ltr list-ltr-2">
-									<li>Find decks you can build right now</li>
-									<li>See missing cards at a glance</li>
-									<li>Filter decks by dust cost</li>
-									<li>Automatic updates</li>
-								</ul>
-								<CollectionSetupAssistant
-									hasConnectedHDT={this.state.hasConnectedHDT}
-									blizzardAccounts={
-										this.state.blizzardAccounts
-									}
-									selectedAccount={
-										this.state.blizzardAccountKey
-									}
-									selectAccount={k =>
-										this.setState({
-											blizzardAccountKey: k,
-										})
-									}
-									hasCollection={!!collection}
-									hasTokens={this.state.hasTokens}
-									refreshAccount={this.getAccountData}
-									refreshCollection={() =>
-										refresh("collection")
-									}
-								/>
-							</div>
-						</div>
+						<CollectionSetupDialog
+							hasConnectedHDT={this.state.hasConnectedHDT}
+							blizzardAccounts={this.state.blizzardAccounts}
+							blizzardAccount={this.state.blizzardAccountKey}
+							setBlizzardAccount={this.setBlizzardAccountKey}
+							hasCollection={!!collection}
+							hasTokens={this.state.hasTokens}
+							refreshAccount={this.getAccountData}
+							refreshCollection={() => refresh("collection")}
+						/>
 					);
 				}}
 			</DataInjector>

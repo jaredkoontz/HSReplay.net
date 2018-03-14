@@ -1,31 +1,6 @@
 .collection-setup-modal {
 	background-color: white;
 	font-size: 1.85rem;
-
-	h1, h2, h3, h4, h5, h6 {
-		font-size: 1.45em;
-		font-weight: bold;
-		margin-top: 1em;
-		margin-bottom: 0.5em;
-
-		&:first-child {
-			margin-top: 0;
-		}
-	}
-
-	> .modal-body {
-		margin: 10px 15px;
-	}
-
-	a.btn {
-		max-width: 100%;
-		font-size: 1.1em;
-		padding: 0.4em 2em 0.45em 2em;
-	}
-
-	.text-help {
-		font-size: 0.9em;
-	}
 }
 
 .modal-banner {
@@ -53,6 +28,45 @@
 	align-items: center;
 }
 
+.modal-body {
+	margin: 10px 15px;
+
+	h1, h2, h3, h4, h5, h6 {
+		font-size: 1.45em;
+		font-weight: bold;
+		margin-top: 1em;
+		margin-bottom: 0.5em;
+	}
+
+	> {
+		section, div {
+			&:first-child > {
+				h1, h2, h3, h4, h5, h6 {
+					&:first-child {
+						margin-top: 0;
+					}
+				}
+			}
+		}
+
+		h1, h2, h3, h4, h5, h6 {
+			&:first-child {
+				margin-top: 0;
+			}
+		}
+	}
+
+	a.btn {
+		max-width: 100%;
+		font-size: 1em;
+		padding: 0.4em 2em 0.45em 2em;
+	}
+
+	.text-help, .help-block {
+		font-size: 0.9em;
+	}
+}
+
 .modal-await {
 	text-align: right;
 	margin-top: 1em;
@@ -63,6 +77,15 @@
 	}
 }
 
+#collection-setup-check-it-out {
+	margin-top: 1.75em;
+
+	span {
+		font-weight: bold;
+		font-size: 1.5em;
+		margin-right: 0.6em;
+	}
+}
 
 .glyphicon-spin {
 	animation: spin 1.5s infinite linear;
