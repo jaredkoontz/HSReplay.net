@@ -80,6 +80,19 @@ export default class CollectionSetupAssistant extends React.Component<
 		}
 	}
 
+	public componentDidUpdate(
+		prevProps: Readonly<Props>,
+		prevState: Readonly<State>,
+		prevContext: any,
+	): void {
+		if (
+			prevProps.selectedAccount !== this.props.selectedAccount &&
+			this.state.step === Step.UPLOAD_COLLECTION
+		) {
+			this.props.refreshCollection();
+		}
+	}
+
 	private refresh(): void {
 		switch (this.state.step) {
 			case Step.CONNECT_HDT:
