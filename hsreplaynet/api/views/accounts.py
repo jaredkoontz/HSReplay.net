@@ -13,7 +13,6 @@ from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_204_NO_CONTENT
 from rest_framework.views import APIView
 
-from hearthsim.identity.accounts.api import UserSerializer
 from hearthsim.identity.accounts.models import AuthToken, BlizzardAccount
 from hearthsim.identity.oauth2.permissions import OAuth2HasScopes
 from hsreplaynet.games.models import GameReplay
@@ -21,13 +20,14 @@ from hsreplaynet.utils import get_uuid_object_or_404
 from hsreplaynet.utils.influx import influx_metric
 
 from ..serializers.accounts import (
-	BlizzardAccountSerializer, ClaimTokenSerializer, TwitchSocialAccountSerializer
+	BlizzardAccountSerializer, ClaimTokenSerializer,
+	TwitchSocialAccountSerializer, UserDetailsSerializer
 )
 
 
 class UserDetailsView(RetrieveAPIView):
 	queryset = get_user_model().objects.all()
-	serializer_class = UserSerializer
+	serializer_class = UserDetailsSerializer
 	authentication_classes = (SessionAuthentication, OAuth2Authentication)
 	permission_classes = (IsAuthenticated, )
 

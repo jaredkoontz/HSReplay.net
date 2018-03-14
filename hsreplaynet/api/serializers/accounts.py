@@ -1,9 +1,22 @@
 from allauth.socialaccount.models import SocialAccount
+from oauth2_provider.models import AccessToken
 from rest_framework.serializers import (
 	CharField, HyperlinkedModelSerializer, Serializer, SerializerMethodField, UUIDField
 )
 
 from hearthsim.identity.accounts.api import UserSerializer
+
+
+class UserDetailsSerializer(UserSerializer):
+	_has_connected_hdt = SerializerMethodField("has_connected_hdt")
+
+	def has_connected_hdt(self, instance):
+		# This is a temporary field to support the oauth transition flow
+		tokens = AccessToken.objects.filter(
+			user=instance,
+			application=3
+		)
+		return len(tokens) > 0
 
 
 class BlizzardAccountSerializer(Serializer):
