@@ -73,7 +73,7 @@ export class Consumer extends React.Component {
 	public render(): React.ReactNode {
 		if (typeof this.props.children !== "function") {
 			throw new Error(
-				"hearthstone-account provider exptected render prop as children",
+				"hearthstone-account provider expected render prop as children",
 			);
 		}
 		const renderProp = this.props.children as (
