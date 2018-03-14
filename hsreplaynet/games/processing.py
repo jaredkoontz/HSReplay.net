@@ -617,39 +617,8 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 						"tie": res.tie
 					}
 
-					if settings.DETAILED_PREDICTION_METRICS:
-						fields["actual_deck"] = repr(deck)
-
-						if res.predicted_deck_id:
-							predicted_deck = Deck.objects.get(
-								id=res.predicted_deck_id
-							)
-							fields["predicted_deck"] = repr(predicted_deck)
-
 					if res.node:
 						fields["depth"] = res.node.depth
-
-						if settings.DETAILED_PREDICTION_METRICS:
-							node_labels = []
-							for path_dbf_id in res.path():
-								if path_dbf_id == "ROOT":
-									path_str = path_dbf_id
-								else:
-									path_card = Card.objects.get(dbf_id=path_dbf_id)
-									path_str = path_card.name
-								node_labels.append("[%s]" % path_str)
-							fields["node"] = "->".join(node_labels)
-
-							popularity = res.popularity_distribution.popularity(
-								res.predicted_deck_id
-							)
-							fields["predicted_deck_popularity"] = popularity
-
-							deck_count = res.popularity_distribution.size()
-							fields["distribution_deck_count"] = deck_count
-
-							observation_count = res.popularity_distribution.observations()
-							fields["distribution_observation_count"] = observation_count
 
 					tree_depth = res.node.depth if res.node else None
 					influx_metric(
