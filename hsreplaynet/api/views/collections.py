@@ -30,13 +30,18 @@ class BaseCollectionView(APIView):
 		else:
 			accounts = request.user.blizzard_accounts
 
+		params = {"account_lo": serializer.validated_data["account_lo"]}
+		# We allow specifying either `account_hi` or `region`.
+		# So we have to pass the appropriate pair of parameters to find the account.
+		# The existence of the parameters is checked in the serializer itself.
+		for key in ("account_hi", "region"):
+			if key in serializer.validated_data:
+				params[key] = serializer.validated_data[key]
+
 		try:
-			self._account = accounts.get(
-				account_hi=serializer.validated_data["account_hi"],
-				account_lo=serializer.validated_data["account_lo"],
-			)
+			self._account = accounts.get(**params)
 		except ObjectDoesNotExist:
-			raise ValidationError({"detail": "Account hi/lo not found for user."})
+			raise ValidationError({"detail": f"Could not find a matching Blizzard account."})
 
 		key = self.s3_key
 		if request.auth and not request.auth.application.livemode:
@@ -70,6 +75,7 @@ class CollectionURLPresigner(BaseCollectionView):
 			"expires_in": expires_in,
 			"account_hi": self._account.account_hi,
 			"account_lo": self._account.account_lo,
+			"region": self._account.region,
 		})
 
 
