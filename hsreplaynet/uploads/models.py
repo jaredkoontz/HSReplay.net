@@ -15,10 +15,10 @@ from django.utils import timezone
 from django_intenum import IntEnumField
 from sqlalchemy.sql import func, select
 
-from hsredshift.etl.models import create_staging_table, list_staging_eligible_tables
-from hsredshift.etl.views import (
+from hsredshift.etl.materialized_views import (
 	get_materialized_view_list, get_materialized_view_update_statement, get_view_dependencies
 )
+from hsredshift.etl.models import create_staging_table, list_staging_eligible_tables
 from hsredshift.utils.sql import is_in_flight, run_redshift_background_statement
 from hsreplaynet.utils import aws, log
 from hsreplaynet.utils.aws import redshift, streams
