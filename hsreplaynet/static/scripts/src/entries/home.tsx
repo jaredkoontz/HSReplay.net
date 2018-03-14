@@ -31,7 +31,7 @@ const banner = document.getElementById("collection-syncing-banner");
 if (banner) {
 	const modalDummy = document.createElement("div");
 	modalDummy.setAttribute("id", "modal-dummy");
-	banner.parentNode.insertBefore(modalDummy, banner);
+	banner.parentNode.appendChild(modalDummy);
 	banner.addEventListener("click", () => {
 		ReactDOM.render(
 			<Modal

@@ -273,7 +273,6 @@
 		display: block;
 		width: 278px;
 		margin: 10px auto;
-		padding: 8px 10px 10px 10px;
 
 		border: solid 1px white;
 		background-color: gray;
@@ -281,14 +280,18 @@
 
 		font-size: 1.2em;
 		font-weight: bold;
-		cursor: pointer;
 
 		text-shadow: -1px -1px 0 #000,
 		1px -1px 0 #000,
 		-1px 1px 0 #000,
 		1px 1px 0 #000;
 
-		a {
+		> a, > div {
+			cursor: pointer;
+			display: block;
+			width: 100%;
+			padding: 8px 10px 10px 10px;
+
 			&, &:active, &:hover {
 				color: white;
 				text-decoration: none;
