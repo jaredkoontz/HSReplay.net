@@ -528,7 +528,6 @@ export default class Cards extends React.Component<Props, State> {
 										the sidebar are correct!
 									</p>,
 								]}
-								collection={this.props.collection}
 							/>
 						</DataInjector>
 					</div>,
@@ -698,7 +697,11 @@ export default class Cards extends React.Component<Props, State> {
 							numCards={this.state.numCards}
 							topInfoRow={topInfoMessage}
 							bottomInfoRow={bottomInfomessage}
-							collection={this.props.collection}
+							collection={
+								this.props.display === "crafting"
+									? this.props.collection
+									: null
+							}
 						/>
 					</DataInjector>
 				</div>,
@@ -916,6 +919,9 @@ export default class Cards extends React.Component<Props, State> {
 				>
 					<InfoboxFilter value="statistics">
 						Statistics view
+					</InfoboxFilter>
+					<InfoboxFilter value="crafting">
+						Crafting view
 					</InfoboxFilter>
 					<InfoboxFilter value="gallery">Gallery view</InfoboxFilter>
 				</InfoboxFilterGroup>,
