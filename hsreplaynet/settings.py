@@ -107,6 +107,7 @@ MIDDLEWARE = [
 	"django.middleware.clickjacking.XFrameOptionsMiddleware",
 	"django.middleware.security.SecurityMiddleware",
 	"django.middleware.gzip.GZipMiddleware",
+	"django.middleware.locale.LocaleMiddleware",
 	"django_reflinks.middleware.AnonymousReferralMiddleware",
 	"django_reflinks.middleware.ReferralLinkMiddleware",
 	"hsreplaynet.web.middleware.DoNotTrackMiddleware",
@@ -146,8 +147,8 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 ##
 # Internationalization
 
-USE_I18N = False
-USE_L10N = True
+USE_I18N = True
+USE_L10N = False
 LANGUAGE_CODE = "en-us"
 
 
