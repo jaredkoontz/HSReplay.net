@@ -167,7 +167,7 @@ export default class PremiumWrapper extends React.Component<Props, State> {
 				{infoIcon}
 				<div className="premium-info">
 					<h4>
-						<span className="text-premium">Premium</span> only
+						Get <span className="text-premium">Premium</span>
 					</h4>
 					{this.state.touchCount > 0 ? (
 						<span>Tap for more details…</span>
