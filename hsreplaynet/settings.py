@@ -149,6 +149,25 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 USE_I18N = False
 USE_L10N = True
 LANGUAGE_CODE = "en-us"
+# Order matches the hearthstone Locale enum
+LANGUAGES = (
+	("en", "English"),
+	("en-gb", "British English"),
+	("fr", "French"),
+	("de", "German"),
+	("ko", "Korean"),
+	("es", "Spanish"),
+	("es-mx", "Mexican Spanish"),
+	("ru", "Russian"),
+	("zh-hant", "Traditional Chinese"),
+	("zh-hans", "Simplified Chinese"),
+	("it", "Italian"),
+	("pt-br", "Brazilian Portuguese"),
+	("pl", "Polish"),
+	("pt", "Portuguese"),
+	("ja", "Japanese"),
+	("th", "Thai"),
+)
 
 USE_TZ = True
 TIME_ZONE = "UTC"
