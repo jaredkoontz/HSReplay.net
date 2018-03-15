@@ -103,7 +103,7 @@ export default class GameModeIcon extends React.Component<Props> {
 				break;
 			case BnetGameType.BGT_FRIENDS:
 				imgPath = "mode-icons/mode_friendly.png";
-				text = "Friendly Challange";
+				text = "Friendly Challenge";
 				break;
 		}
 		if (!imgPath) {
