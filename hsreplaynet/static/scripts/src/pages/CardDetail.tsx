@@ -773,7 +773,10 @@ export default class CardDetail extends React.Component<Props, State> {
 		if (!this.props.card || !this.props.card.flavor) {
 			return null;
 		}
-		return this.props.card.flavor.replace("<i>", "").replace("</i>", "");
+		return this.props.card.flavor
+			.replace("<i>", "")
+			.replace("</i>", "")
+			.replace(new RegExp("_", "g"), "\xa0");
 	}
 
 	getParams(): any {
