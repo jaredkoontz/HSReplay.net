@@ -132,6 +132,7 @@ BLIZZARD_LANG_MAP = {
 	"th": "thTH",
 }
 
+
 @register.filter
 def blizzard_lang(lang):
 	return BLIZZARD_LANG_MAP.get(lang, "enUS")

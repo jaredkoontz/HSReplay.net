@@ -8,7 +8,8 @@ from djstripe.models import Plan
 from djstripe.settings import STRIPE_LIVE_MODE, STRIPE_PUBLIC_KEY
 
 from hsreplaynet.features.models import Feature
-from hsreplaynet.utils.templatetags.web_extras import blizzard_lang
+
+from .templatetags.web_extras import blizzard_lang
 
 
 def userdata(request):
