@@ -69,6 +69,7 @@
 		<section id="main-content-wrapper">
 			<section id="joust-container" class="hidden-xs"
 				data-replayurl="{{ replay.replay_xml.url }}"
+				data-locale="{{ lang|blizzard_lang }}"
 				{% if user.joust_autoplay is False %}data-autoplay="false"{% endif %}
 				{% for player in players %}
 					data-player{{ forloop.counter }}="{{ player }}"

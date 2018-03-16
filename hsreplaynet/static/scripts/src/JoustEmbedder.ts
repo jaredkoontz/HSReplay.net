@@ -86,17 +86,6 @@ export default class JoustEmbedder {
 		launcher.assets((asset: string) => joustAsset(asset));
 		launcher.cardArt((cardId: string) => cardArt(cardId));
 
-		// setup metadata
-		if (
-			typeof launcher.selectedLocale !== "undefined" &&
-			!launcher.selectedLocale
-		) {
-			if (!this.locale) {
-				this.locale = UserData.getLocale();
-			}
-			launcher.locale(this.locale || "enUS");
-		}
-
 		// setup influx
 		const endpoint = INFLUX_DATABASE_JOUST;
 		if (endpoint) {
@@ -200,6 +189,8 @@ export default class JoustEmbedder {
 		}
 
 		// initialize joust
+		this.locale = target.getAttribute("data-locale");
+
 		let url = target.getAttribute("data-replayurl");
 		if (!url.match(/^http(s?):\/\//) && !url.startsWith("/")) {
 			url = "/" + url;

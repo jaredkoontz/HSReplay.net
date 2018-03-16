@@ -1,8 +1,9 @@
 {% load static %}
-{% load web_extras %}
+{% load get_current_language from i18n %}
 {% load render_bundle from webpack_loader %}
+{% load joust_static blizzard_lang from web_extras %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{% get_current_language as lang %}{{ lang }}">
 <head>
 	<title>{{ replay.pretty_name_spoilerfree }}</title>
 	<link rel="stylesheet" type="text/css" href="{% joust_static 'joust.css' %}"/>
@@ -19,7 +20,7 @@
 	</style>
 </head>
 <body>
-	<div id="joust-container" data-replayurl="{{ replay.replay_xml.url }}"></div>
+	<div id="joust-container" data-replayurl="{{ replay.replay_xml.url }}" data-locale="{{ lang|blizzard_lang }}"></div>
 	<script type="text/javascript" src="{% static 'vendor/jquery.min.js' %}"></script>
 	{% render_bundle "vendor" %}
 	<script src="{% joust_static 'joust.js' %}"></script>
