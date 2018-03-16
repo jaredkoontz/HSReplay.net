@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.contrib.messages import get_messages
+from django.utils import translation
 from djpaypal.models import BillingPlan
 from djpaypal.settings import PAYPAL_CLIENT_ID, PAYPAL_LIVE_MODE
 from djstripe.enums import SubscriptionStatus
@@ -7,6 +8,7 @@ from djstripe.models import Plan
 from djstripe.settings import STRIPE_LIVE_MODE, STRIPE_PUBLIC_KEY
 
 from hsreplaynet.features.models import Feature
+from hsreplaynet.utils.templatetags.web_extras import blizzard_lang
 
 
 def userdata(request):
@@ -14,6 +16,7 @@ def userdata(request):
 	data = {
 		"is_authenticated": is_authenticated,
 		"card_art_url": settings.HEARTHSTONE_ART_URL,
+		"hearthstone_locale": blizzard_lang(translation.get_language()),
 	}
 
 	storage = get_messages(request)
@@ -26,7 +29,6 @@ def userdata(request):
 		data["username"] = request.user.username
 		data["email"] = request.user.email
 		data["battletag"] = request.user.battletag
-		data["locale"] = request.user.locale
 
 		if request.user.is_premium and not request.COOKIES.get("free-mode") == "true":
 			data["premium"] = True

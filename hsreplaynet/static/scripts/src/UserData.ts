@@ -11,7 +11,7 @@ interface UserDataProps {
 	username: string;
 	email: string;
 	staff: boolean;
-	locale: string;
+	hearthstone_locale: string;
 	ipcountry: string;
 	features: FeatureMap;
 }
@@ -75,8 +75,8 @@ export default class UserData {
 		return this._instance ? UserData._instance.email : null;
 	}
 
-	static getLocale(): string | null {
-		return this._instance ? UserData._instance.locale : null;
+	static getHearthstoneLocale(): string | null {
+		return this._instance ? UserData._instance.hearthstone_locale : null;
 	}
 
 	static getAccounts(): Account[] {
