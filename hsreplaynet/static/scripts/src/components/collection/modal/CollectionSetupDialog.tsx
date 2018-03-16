@@ -200,7 +200,7 @@ export default class CollectionSetupDialog extends React.Component<
 							<h2>Connect to Hearthstone</h2>
 							<p>
 								Launch Hearthstone while your deck tracker is
-								running.
+								running and enter your collection.
 							</p>
 						</section>
 						<ModalAwait>Hearthstone</ModalAwait>
