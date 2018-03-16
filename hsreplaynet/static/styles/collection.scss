@@ -88,6 +88,16 @@
 	}
 }
 
+#collection-setup-progress {
+	text-align: center;
+	margin: 1.25em 0;
+
+	.progress-indicator {
+		width: 200px;
+		margin: 0 auto;
+	}
+}
+
 .glyphicon-spin {
 	animation: spin 1.5s infinite linear;
 }

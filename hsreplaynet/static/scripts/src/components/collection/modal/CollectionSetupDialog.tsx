@@ -4,6 +4,7 @@ import ModalAwait from "./ModalAwait";
 import BlizzardAccountChooser from "./BlizzardAccountChooser";
 import DownloadSection from "./DownloadSection";
 import { getAccountKey, prettyBlizzardAccount } from "../../../utils/account";
+import ProgressIndicator from "./ProgressIndicator";
 
 interface Props {
 	hasConnectedHDT: boolean;
@@ -22,6 +23,8 @@ const enum Step {
 	UPLOAD_COLLECTION = 3,
 	COMPLETE = 4,
 }
+
+const LAST_STEP = Step.COMPLETE;
 
 interface State {
 	step: Step;
@@ -326,6 +329,19 @@ export default class CollectionSetupDialog extends React.Component<
 							<li>Filter decks by dust cost</li>
 							<li>Automatic updates</li>
 						</ul>
+					</section>
+					<section id="collection-setup-progress">
+						<span
+							id="collection-setup-progress-step"
+							className="sr-only"
+						>
+							Step {this.state.step} of {LAST_STEP}
+						</span>
+						<ProgressIndicator
+							progress={this.state.step}
+							total={LAST_STEP}
+							aria-labelledby="collection-setup-progress-step"
+						/>
 					</section>
 					{this.renderStep()}
 				</div>
