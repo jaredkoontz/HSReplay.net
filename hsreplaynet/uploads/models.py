@@ -107,6 +107,7 @@ class UploadEventStatus(IntEnum):
 	VALIDATING = 7
 	UNSUPPORTED_CLIENT = 8
 	PENDING = 9
+	UNSUPPORTED_BUILD = 10
 
 	@classmethod
 	def processing_statuses(cls):

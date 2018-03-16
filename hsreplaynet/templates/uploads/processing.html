@@ -42,6 +42,11 @@
 			<a href="{% url 'downloads' %}">Download the latest version here</a>.
 		</p>
 	</div>
+{% elif upload.status.name == "UNSUPPORTED_BUILD" %}
+	<strong>This replay is too old!</strong>
+	<div style="margin: 1em auto; font-size: 0.7em; max-width: 800px;">
+		<strong>We no longer support uploads from the version of Hearthstone you are using. If you are already on the latest version, please contact us.</strong>
+	</div>
 {% else %}
 	<p>Something went wrong generating this replay. We're on it.</p>
 {% endif %}
