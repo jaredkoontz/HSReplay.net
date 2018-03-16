@@ -28,6 +28,24 @@
 	justify-content: center;
 	align-items: center;
 	border: solid 1px white;
+
+	position: relative;
+
+	.modal-close {
+		position: absolute;
+		top: 0;
+		right: 0;
+		font-size: 4rem;
+		line-height: 1.5rem;
+		width: 2rem;
+		box-sizing: content-box;
+		padding: 0.2em;
+	}
+}
+
+.modal-close {
+	display: block;
+	cursor: pointer;
 }
 
 .modal-body {

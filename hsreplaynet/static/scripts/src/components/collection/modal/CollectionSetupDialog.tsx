@@ -5,6 +5,7 @@ import BlizzardAccountChooser from "./BlizzardAccountChooser";
 import DownloadSection from "./DownloadSection";
 import { getAccountKey, prettyBlizzardAccount } from "../../../utils/account";
 import ProgressIndicator from "./ProgressIndicator";
+import CloseModalButton from "../../modal/CloseModalButton";
 
 interface Props {
 	hasConnectedHDT: boolean;
@@ -314,6 +315,7 @@ export default class CollectionSetupDialog extends React.Component<
 							"url('/static/images/feature-promotional/collection-syncing-decks.png')",
 					}}
 				>
+					<CloseModalButton />
 					Collection Uploading
 				</div>
 				<div className="modal-body">

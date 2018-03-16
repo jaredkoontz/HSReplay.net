@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { Provider as ModalProvider } from "./utils/modal";
 
 interface Props {
 	onClose: () => any;
@@ -8,11 +9,15 @@ interface Props {
 export default class Modal extends React.Component<Props> {
 	private ref: HTMLDivElement;
 
+	private close = () => {
+		this.props.onClose();
+	};
+
 	private click = event => {
 		if (event.target !== this.ref) {
 			return;
 		}
-		this.props.onClose();
+		this.close();
 	};
 
 	private keydown = event => {
@@ -22,7 +27,7 @@ export default class Modal extends React.Component<Props> {
 		if (event.key !== "Escape") {
 			return;
 		}
-		this.props.onClose();
+		this.close();
 	};
 
 	public componentDidMount() {
@@ -57,7 +62,13 @@ export default class Modal extends React.Component<Props> {
 					onClick={this.click}
 					ref={ref => (this.ref = ref)}
 				>
-					{this.props.children}
+					<ModalProvider
+						value={{
+							onClose: this.close,
+						}}
+					>
+						{this.props.children}
+					</ModalProvider>
 				</div>
 			</div>,
 			portal,
