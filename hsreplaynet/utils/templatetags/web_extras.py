@@ -111,3 +111,27 @@ def last_used(time):
 	if difference > timedelta(days=7):
 		return "within the last %d weeks" % ((difference.days - 1) // 7 + 1)
 	return "within the last week"
+
+
+BLIZZARD_LANG_MAP = {
+	"en": "enUS",
+	"en-gb": "enGB",
+	"fr": "frFR",
+	"de": "deDE",
+	"ko": "koKR",
+	"es": "esES",
+	"es-mx": "esMX",
+	"ru": "ruRU",
+	"zh-hant": "zhTW",
+	"zh-hans": "zhCN",
+	"it": "itIT",
+	"pl": "plPL",
+	"pt": "ptBR",  # ptPT unused
+	"pt-br": "ptBR",
+	"ja": "jaJP",
+	"th": "thTH",
+}
+
+@register.filter
+def blizzard_lang(lang):
+	return BLIZZARD_LANG_MAP.get(lang, "enUS")
