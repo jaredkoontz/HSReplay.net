@@ -774,8 +774,7 @@ export default class CardDetail extends React.Component<Props, State> {
 			return null;
 		}
 		return this.props.card.flavor
-			.replace("<i>", "")
-			.replace("</i>", "")
+			.replace(new RegExp("</?i>", "g"), "")
 			.replace(new RegExp("_", "g"), "\xa0");
 	}
 
