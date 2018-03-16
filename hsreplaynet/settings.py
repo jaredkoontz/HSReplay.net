@@ -112,6 +112,7 @@ MIDDLEWARE = [
 	"django_reflinks.middleware.ReferralLinkMiddleware",
 	"hsreplaynet.web.middleware.DoNotTrackMiddleware",
 	"hsreplaynet.web.middleware.SetRemoteAddrFromForwardedFor",
+	"hsreplaynet.web.middleware.UserLocaleMiddleware",
 	"hsreplaynet.web.middleware.MetaTagsMiddleware",
 ]
 

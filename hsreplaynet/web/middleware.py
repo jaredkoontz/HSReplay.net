@@ -7,6 +7,7 @@ from ipaddress import ip_address
 
 from django.conf import settings
 from django.contrib.staticfiles.templatetags.staticfiles import static
+from django.utils import translation
 
 from .html import HTMLHead
 
@@ -59,6 +60,21 @@ class MetaTagsMiddleware:
 			request.head.opengraph["fb:app_id"] = facebook_app_id
 
 		response = self.get_response(request)
+		return response
+
+
+class UserLocaleMiddleware:
+	def __init__(self, get_response):
+		self.get_response = get_response
+
+	def __call__(self, request):
+		if request.user.is_authenticated:
+			if request.user.locale:
+				translation.activate(request.user.locale)
+				request.LANGUAGE_CODE = translation.get_language()
+
+		response = self.get_response(request)
+
 		return response
 
 
