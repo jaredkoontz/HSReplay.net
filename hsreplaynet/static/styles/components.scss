@@ -1464,3 +1464,29 @@ ul.list-ltr, ol.list-ltr {
 .list-group-no-margin {
 	margin: 0;
 }
+
+.progress-indicator {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+
+	.progress-indicator-step {
+		display: block;
+		height: 12px;
+		width: 12px;
+		border-radius: 50%;
+	}
+
+	.progress-indicator-join {
+		flex-grow: 1;
+		height: 4px;
+	}
+
+	> * {
+		background-color: #aaa;
+
+		&.active {
+			background-color: $red;
+		}
+	}
+}
