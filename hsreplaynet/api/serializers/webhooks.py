@@ -1,8 +1,9 @@
 from rest_framework import serializers
 
-from hearthsim.identity.accounts.api import UserSerializer
 from hsreplaynet.utils.influx import influx_metric
 from hsreplaynet.webhooks.models import WebhookEndpoint
+
+from .accounts import UserSerializer
 
 
 class WebhookSerializer(serializers.ModelSerializer):

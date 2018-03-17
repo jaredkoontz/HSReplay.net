@@ -3,7 +3,7 @@ import json
 from django.core.serializers.json import DjangoJSONEncoder
 from rest_framework import serializers
 
-from hearthsim.identity.accounts.api import UserSerializer
+from hsreplaynet.api.serializers.accounts import UserSerializer
 
 from ..decks.models import Deck
 from .models import GameReplay, GlobalGame, GlobalGamePlayer

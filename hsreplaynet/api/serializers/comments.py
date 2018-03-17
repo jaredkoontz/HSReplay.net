@@ -1,7 +1,7 @@
 from django_comments.models import Comment
 from rest_framework.serializers import HyperlinkedModelSerializer
 
-from hearthsim.identity.accounts.api import UserSerializer
+from .accounts import UserSerializer
 
 
 class CommentSerializer(HyperlinkedModelSerializer):

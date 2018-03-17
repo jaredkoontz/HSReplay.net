@@ -1,10 +1,48 @@
 from allauth.socialaccount.models import SocialAccount
 from oauth2_provider.models import AccessToken
 from rest_framework.serializers import (
-	CharField, HyperlinkedModelSerializer, Serializer, SerializerMethodField, UUIDField
+	CharField, HyperlinkedModelSerializer, IntegerField,
+	Serializer, SerializerMethodField, UUIDField
 )
 
-from hearthsim.identity.accounts.api import UserSerializer
+
+class UserSerializer(Serializer):
+	id = IntegerField(read_only=True)
+	battletag = SerializerMethodField()
+	username = SerializerMethodField()
+	is_premium = SerializerMethodField()
+	blizzard_accounts = SerializerMethodField()
+	tokens = SerializerMethodField()
+
+	def get_battletag(self, instance):
+		if "request" in self.context and self.context["request"].user == instance:
+			return instance.battletag
+
+	def get_blizzard_accounts(self, instance):
+		if "request" in self.context and self.context["request"].user == instance:
+			return [{
+				"battletag": ba.battletag,
+				"account_hi": ba.account_hi,
+				"account_lo": ba.account_lo,
+				"region": int(ba.region),
+			} for ba in instance.blizzard_accounts.all()]
+
+	def get_username(self, instance):
+		if "request" in self.context and self.context["request"].user == instance:
+			return instance.username
+
+	def get_is_premium(self, instance):
+		if "request" in self.context and self.context["request"].user == instance:
+			return instance.is_premium
+
+	def get_tokens(self, instance):
+		if "request" in self.context and self.context["request"].user == instance:
+			return [str(token.key) for token in instance.auth_tokens.all()]
+
+	def to_representation(self, instance):
+		if instance.is_fake:
+			return None
+		return super(UserSerializer, self).to_representation(instance)
 
 
 class UserDetailsSerializer(UserSerializer):
