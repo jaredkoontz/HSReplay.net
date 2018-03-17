@@ -8,6 +8,8 @@ import Modal from "../components/Modal";
 import CollectionSetup from "../components/collection/CollectionSetup";
 import { Provider as BlizzardAccountProvider } from "../components/utils/hearthstone-account";
 
+UserData.create();
+
 const navRoot = document.getElementById("dynamic-nav");
 const placeholder = document.getElementById("account-nav-item");
 if (navRoot && placeholder) {
