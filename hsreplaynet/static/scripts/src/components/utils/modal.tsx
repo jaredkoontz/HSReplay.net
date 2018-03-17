@@ -13,7 +13,7 @@ interface Value {
 
 export class Provider extends React.Component<Props> {
 	static childContextTypes = {
-		modal: PropTypes.func,
+		modal: PropTypes.object,
 	};
 
 	getChildContext() {
