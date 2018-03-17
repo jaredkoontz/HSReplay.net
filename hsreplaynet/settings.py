@@ -367,27 +367,15 @@ ARCHETYPE_TECH_CARD_WEIGHT = .5
 ARCHETYPE_FIREHOSE_STREAM_NAME = "deck-archetype-log-stream"
 
 REDSHIFT_LOADING_ENABLED = True
-REDSHIFT_STAGING_BUCKET = "hsreplaynet-redshift-staging"
 REDSHIFT_QUERY_UNLOAD_BUCKET = "hsreplaynet-analytics-results"
 
 # This controls whether we preemptively refresh queries before they go stale from the
 # refresh_stale_redshift_queries lambda
 REDSHIFT_PREEMPTIVELY_REFRESH_QUERIES = True
 
-# Range is from 60 - 900
-REDSHIFT_STAGING_BUFFER_INTERVAL_SECONDS = 120
-# Range is from 1 - 128
-REDSHIFT_STAGING_BUFFER_SIZE_MB = 10
-
 # This controls how often we transfer records from the staging tables
 # Into the production tables
 REDSHIFT_ETL_TRACK_TARGET_ACTIVE_DURATION_MINUTES = 60
-
-# This controls how long we must wait after closing a Firehose stream for new data
-# Before we transfer the records from the staging track into the prod tables
-# This must be longer than REDSHIFT_STAGING_BUFFER_INTERVAL_SECONDS
-# So that we can be sure that all straggling records sent to the stream have been flushed
-REDSHIFT_ETL_CLOSED_TRACK_MINIMUM_QUIESCENCE_SECONDS = 3 * REDSHIFT_STAGING_BUFFER_INTERVAL_SECONDS
 
 # This is floor(ACCOUNT_FIREHOSE_STREAM_LIMIT / NUM_STREAMS_PER_TRACK)
 REDSHIFT_ETL_CONCURRENT_TRACK_LIMIT = 2

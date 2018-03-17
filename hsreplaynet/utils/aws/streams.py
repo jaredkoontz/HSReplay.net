@@ -43,27 +43,12 @@ def does_stream_exist(stream_name) -> bool:
 
 
 def create_firehose_stream(stream_name, table_name):
+	configuration = settings.REDSHIFT_FIREHOSE_TEMPLATE.copy()
+	configuration["CopyCommand"]["DataTableName"] = table_name
+
 	return FIREHOSE.create_delivery_stream(
 		DeliveryStreamName=stream_name,
-		RedshiftDestinationConfiguration={
-			"RoleARN": get_firehose_role_arn(),
-			"ClusterJDBCURL": settings.REDSHIFT_DATABASE["JDBC_URL"],
-			"CopyCommand": {
-				"DataTableName": table_name,
-				"CopyOptions": "GZIP COMPUPDATE OFF STATUPDATE OFF"
-			},
-			"Username": settings.REDSHIFT_DATABASE["USER"],
-			"Password": settings.REDSHIFT_DATABASE["PASSWORD"],
-			"S3Configuration": {
-				"RoleARN": get_firehose_role_arn(),
-				"BucketARN": "arn:aws:s3:::%s" % (settings.REDSHIFT_STAGING_BUCKET),
-				"BufferingHints": {
-					"SizeInMBs": settings.REDSHIFT_STAGING_BUFFER_SIZE_MB,
-					"IntervalInSeconds": settings.REDSHIFT_STAGING_BUFFER_INTERVAL_SECONDS
-				},
-				"CompressionFormat": "GZIP"
-			}
-		}
+		RedshiftDestinationConfiguration=configuration
 	)
 
 
