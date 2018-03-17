@@ -4,9 +4,6 @@ import JoustEmbedder from "../JoustEmbedder";
 const embedder = new JoustEmbedder();
 
 const container = document.getElementById("joust-container");
-if (container.hasAttribute("data-locale")) {
-	embedder.locale = container.getAttribute("data-locale");
-}
 
 // shared url decoding
 if (location.hash) {

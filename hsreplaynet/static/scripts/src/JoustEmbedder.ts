@@ -12,7 +12,6 @@ export default class JoustEmbedder {
 	public turn: number = null;
 	public reveal: boolean = null;
 	public swap: boolean = null;
-	public locale: string = null;
 	public launcher: Launcher = null;
 	public onTurn: (turn: number) => void = null;
 	public onToggleSwap: (swap: boolean) => void = null;
@@ -83,6 +82,10 @@ export default class JoustEmbedder {
 		launcher.assets((asset: string) => joustAsset(asset));
 		launcher.cardArt((cardId: string) => cardArt(cardId));
 
+		// setup language
+		const locale = target.getAttribute("data-locale");
+		launcher.locale(locale);
+
 		// setup influx
 		const endpoint = INFLUX_DATABASE_JOUST;
 		if (endpoint) {
@@ -106,7 +109,7 @@ export default class JoustEmbedder {
 					tags = {};
 				}
 				tags["release"] = release;
-				tags["locale"] = this.locale;
+				tags["locale"] = locale;
 				if (series === "startup") {
 					startupTime = Date.now();
 				}
@@ -186,8 +189,6 @@ export default class JoustEmbedder {
 		}
 
 		// initialize joust
-		this.locale = target.getAttribute("data-locale");
-
 		let url = target.getAttribute("data-replayurl");
 		if (!url.match(/^http(s?):\/\//) && !url.startsWith("/")) {
 			url = "/" + url;
