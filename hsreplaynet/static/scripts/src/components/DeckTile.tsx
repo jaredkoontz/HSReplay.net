@@ -8,6 +8,7 @@ import {
 	compareDecks,
 	getFragments,
 	getHeroSkinCardUrl,
+	image,
 	toPrettyNumber,
 	toTitleCase,
 } from "../helpers";
@@ -263,7 +264,7 @@ class DeckTile extends React.Component<Props> {
 						)
 					}
 				>
-					<img src={`${STATIC_URL}/images/socialauth/twitch.png`} />
+					<img src={image("socialauth/twitch.png")} />
 					&nbsp;{streamCount > 1
 						? `${streamCount} streams`
 						: "Live now"}

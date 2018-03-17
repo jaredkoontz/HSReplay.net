@@ -1,6 +1,7 @@
 import React from "react";
 import { GlobalGamePlayer } from "../interfaces";
 import { BnetGameType } from "../hearthstone";
+import { image } from "../helpers";
 
 export interface Props {
 	player: GlobalGamePlayer;
@@ -25,7 +26,7 @@ export default class GameModeIcon extends React.Component<Props> {
 		if (this.props.disconnected) {
 			return (
 				<img
-					src={STATIC_URL + "images/dc.png"}
+					src={image("dc.png")}
 					className={this.props.className}
 					alt="Disconnected"
 				/>
@@ -51,8 +52,7 @@ export default class GameModeIcon extends React.Component<Props> {
 	}
 
 	private getIconInfo(gameType: BnetGameType): IconInfo {
-		const basePath =
-			STATIC_URL + "images/" + (this.props.small ? "64x/" : "");
+		const basePath = this.props.small ? "64x/" : "";
 		let imgPath = null;
 		let text = null;
 		switch (gameType) {
@@ -109,7 +109,7 @@ export default class GameModeIcon extends React.Component<Props> {
 		if (!imgPath) {
 			return null;
 		}
-		imgPath = basePath + imgPath;
+		imgPath = image(basePath + imgPath);
 		return { imgPath, text };
 	}
 }

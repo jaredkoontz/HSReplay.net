@@ -1,6 +1,7 @@
 import React from "react";
 import { ArchetypeRankData, SortDirection } from "../../../interfaces";
 import SortIndicator from "../../SortIndicator";
+import { image } from "../../../helpers";
 
 interface Props {
 	active: boolean;
@@ -39,7 +40,7 @@ export default class ColumnHeader extends React.Component<Props> {
 			>
 				<img
 					className="rank-icon"
-					src={`${STATIC_URL}images/64x/ranked-medals/${imageName}.png`}
+					src={image(`64x/ranked-medals/${imageName}.png`)}
 				/>
 				{this.props.rankData.rank
 					? "Rank " + this.props.rankData.rank

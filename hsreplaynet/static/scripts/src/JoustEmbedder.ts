@@ -2,7 +2,7 @@ import { Launcher } from "joust";
 import * as Joust from "joust";
 import Raven from "raven-js";
 import React from "react";
-import { cardArt, joustAsset } from "./helpers";
+import { cardArt, joustAsset, joustStaticFile } from "./helpers";
 import BatchingMiddleware from "./metrics/BatchingMiddleware";
 import InfluxMetricsBackend from "./metrics/InfluxMetricsBackend";
 import MetricsReporter from "./metrics/MetricsReporter";
@@ -33,15 +33,12 @@ export default class JoustEmbedder {
 
 		if (!Joust.launcher) {
 			console.error("Could not load Joust");
+			const joustUrl = joustStaticFile("joust.js");
 			target.innerHTML =
 				'<p class="alert alert-danger">' +
 				"<strong>Loading failed:</strong> " +
 				"Replay applet (Joust) could not be loaded. Please ensure you can access " +
-				'<a href="' +
-				JOUST_STATIC_URL +
-				'joust.js">' +
-				JOUST_STATIC_URL +
-				"joust.js</a>.</p>" +
+				`<a href="${joustUrl}">${joustUrl}</a>.</p>` +
 				"<p>Otherwise try clearing your cache and refreshing this page.</p>";
 			// could also offer document.location.reload(true)
 			return;

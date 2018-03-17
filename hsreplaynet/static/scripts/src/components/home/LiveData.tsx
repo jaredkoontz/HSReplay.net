@@ -4,6 +4,7 @@ import CardTile from "../CardTile";
 import CardData from "../../CardData";
 import AnimatedList, { AnimatedListObject } from "./AnimatedList";
 import DataManager from "../../DataManager";
+import { image } from "../../helpers";
 
 interface GameTypeData<T> {
 	BGT_ARENA: T;
@@ -186,7 +187,7 @@ export default class LiveData extends React.Component<Props, State> {
 					<strong>
 						<img
 							className="mode-icon"
-							src={STATIC_URL + `images/${icon}_icon.svg`}
+							src={image(`${icon}_icon.svg`)}
 						/>
 						&nbsp;{title}
 					</strong>

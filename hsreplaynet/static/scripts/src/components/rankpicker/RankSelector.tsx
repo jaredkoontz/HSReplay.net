@@ -1,4 +1,5 @@
 import React from "react";
+import { image } from "../../helpers";
 
 interface Props {
 	classNames: string[];
@@ -14,10 +15,7 @@ export default class RankSelector extends React.Component<Props> {
 		return (
 			<div className={classNames.join(" ")} onClick={this.props.onClick}>
 				<img
-					src={
-						STATIC_URL +
-						`images/64x/ranked-medals/Medal_Ranked_${rankStr}.png`
-					}
+					src={image(`64x/ranked-medals/Medal_Ranked_${rankStr}.png`)}
 				/>
 				<span>{rankStr}</span>
 			</div>

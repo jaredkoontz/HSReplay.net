@@ -2,7 +2,7 @@ import React from "react";
 import * as _ from "lodash";
 import { ArchetypeData } from "../../../interfaces";
 import Tooltip from "../../Tooltip";
-import { toTitleCase } from "../../../helpers";
+import { image, toTitleCase } from "../../../helpers";
 
 interface Props {
 	archetypeData: ArchetypeData;
@@ -57,7 +57,9 @@ export default class ColumnHeader extends React.Component<Props> {
 				<Tooltip header={tooltip} simple={true}>
 					<img
 						className="class-icon"
-						src={`${STATIC_URL}images/64x/class-icons/${archetypeData.playerClass.toLowerCase()}.png`}
+						src={image(
+							`64x/class-icons/${archetypeData.playerClass.toLowerCase()}.png`,
+						)}
 						onClick={e => {
 							this.props.onIgnoredChanged(
 								!this.props.isIgnored,

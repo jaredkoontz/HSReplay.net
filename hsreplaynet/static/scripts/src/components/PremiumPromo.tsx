@@ -1,4 +1,5 @@
 import React from "react";
+import { image } from "../helpers";
 
 interface Props {
 	imageName: string;
@@ -11,10 +12,9 @@ export default class PremiumPromo extends React.Component<Props> {
 			<div className="premium-promo">
 				<div className="premium-background">
 					<img
-						src={
-							STATIC_URL +
-							`images/premium-promotional/${this.props.imageName}`
-						}
+						src={image(
+							`premium-promotional/${this.props.imageName}`,
+						)}
 					/>
 				</div>
 				<div className="card text-center">

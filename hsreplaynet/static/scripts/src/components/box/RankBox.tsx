@@ -1,5 +1,5 @@
 import React from "react";
-import { toDynamicFixed, winrateData } from "../../helpers";
+import { image, toDynamicFixed, winrateData } from "../../helpers";
 
 interface Props {
 	href: string;
@@ -41,7 +41,7 @@ export default class RankBox extends React.Component<Props> {
 			content = [
 				<img
 					className="rank-icon"
-					src={`${STATIC_URL}images/ranked-medals/${rankMedalName}.png`}
+					src={image(`ranked-medals/${rankMedalName}.png`)}
 				/>,
 				<h2>
 					{this.props.rank ? "Rank " + this.props.rank : "Legend"}

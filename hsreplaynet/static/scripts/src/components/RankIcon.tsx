@@ -1,5 +1,6 @@
 import React from "react";
 import { BnetGameType } from "../hearthstone";
+import { image } from "../helpers";
 
 interface Props {
 	gameType?: BnetGameType;
@@ -9,7 +10,6 @@ interface Props {
 
 export default class RankIcon extends React.Component<Props> {
 	public render(): React.ReactNode {
-		const basePath = `${STATIC_URL}images/`;
 		let altText = null;
 		let imgPath = null;
 		if (
@@ -32,7 +32,7 @@ export default class RankIcon extends React.Component<Props> {
 
 		return (
 			<figure className="rank-icon-standalone">
-				<img src={basePath + imgPath} alt={altText} />
+				<img src={image(imgPath)} alt={altText} />
 				<figcaption>
 					{this.props.legendRank
 						? this.props.legendRank

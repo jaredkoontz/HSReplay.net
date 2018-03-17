@@ -1,5 +1,5 @@
 import * as React from "react";
-import { GetDustValue } from "../../helpers";
+import { GetDustValue, image } from "../../helpers";
 import Tooltip from "../Tooltip";
 
 interface Props {
@@ -17,8 +17,7 @@ export default class extends React.Component<Props> {
 		if (this.props.isActive(value)) {
 			classNames.push("active");
 		}
-		const basePath = STATIC_URL + "images/";
-		const image = owned
+		const filename = owned
 			? "dust.png"
 			: `rarity-icons/rarity-${this.props.type}.png`;
 		const tooltip = `Spend ${
@@ -28,7 +27,7 @@ export default class extends React.Component<Props> {
 			<Tooltip content={tooltip} simple noSrTooltip>
 				<img
 					className={classNames.join(" ")}
-					src={basePath + image}
+					src={image(filename)}
 					onClick={() => this.props.onClick(value)}
 				/>
 			</Tooltip>

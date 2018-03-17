@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import InfoIcon, { InfoIconProps } from "./InfoIcon";
 import { showModal } from "../Premium";
 import UserData from "../UserData";
+import { image } from "../helpers";
 
 interface Props {
 	name?: string; // used for tracking only
@@ -160,7 +161,7 @@ export default class PremiumWrapper extends React.Component<Props, State> {
 			>
 				<img
 					className="premium-icon"
-					src={STATIC_URL + "images/premium.png"}
+					src={image("premium.png")}
 					style={iconStyle}
 					role="presentation"
 				/>

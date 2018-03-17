@@ -1,6 +1,6 @@
 import React from "react";
 import Tooltip from "./Tooltip";
-import { toTitleCase } from "../helpers";
+import { image, toTitleCase } from "../helpers";
 
 export interface ClassIconProps {
 	heroClassName: string;
@@ -10,51 +10,47 @@ export interface ClassIconProps {
 
 export default class ClassIcon extends React.Component<ClassIconProps, any> {
 	private readonly classes = [
-		"druid",
-		"hunter",
-		"mage",
-		"paladin",
-		"priest",
-		"rogue",
-		"shaman",
-		"warlock",
-		"warrior",
+		"DRUID",
+		"HUNTER",
+		"MAGE",
+		"PALADIN",
+		"PRIEST",
+		"ROGUE",
+		"SHAMAN",
+		"WARLOCK",
+		"WARRIOR",
 	];
 
 	public render(): React.ReactNode {
-		const basePath =
-			STATIC_URL + "images/" + (this.props.small ? "64x/" : "");
+		const basePath = this.props.small ? "64x" : "";
 		const heroClassName = toTitleCase(this.props.heroClassName);
-		const fileName = this.props.heroClassName.toLowerCase();
-		let image = null;
-		if (this.classes.indexOf(fileName) === -1) {
-			image = (
-				<img
-					src={basePath + "mode-icons/mode_ai.png"}
-					className="class-icon"
-					alt={heroClassName}
-				/>
-			);
+		let fileName;
+
+		if (this.classes.indexOf(this.props.heroClassName) === -1) {
+			fileName = "mode-icons/mode_ai.png";
 		} else {
-			image = (
-				<img
-					src={basePath + "class-icons/" + fileName + ".png"}
-					className="class-icon"
-					alt={heroClassName}
-				/>
-			);
+			fileName = `class-icons/${this.props.heroClassName.toLowerCase()}.png`;
 		}
+
+		let img = (
+			<img
+				src={image(fileName)}
+				className="class-icon"
+				alt={heroClassName}
+			/>
+		);
+
 		if (this.props.tooltip) {
-			image = (
+			img = (
 				<Tooltip
 					content={toTitleCase(this.props.heroClassName)}
 					simple
 					noSrTooltip
 				>
-					{image}
+					{img}
 				</Tooltip>
 			);
 		}
-		return image;
+		return img;
 	}
 }

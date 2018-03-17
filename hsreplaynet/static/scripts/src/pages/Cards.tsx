@@ -13,6 +13,7 @@ import DataManager from "../DataManager";
 import {
 	cardSorting,
 	cleanText,
+	image,
 	isCollectibleCard,
 	isPlayableCard,
 	isWildSet,
@@ -105,10 +106,10 @@ interface State {
 	showFilters: boolean;
 }
 
-const PLACEHOLDER_MINION = STATIC_URL + "images/loading_minion.png";
-const PLACEHOLDER_SPELL = STATIC_URL + "images/loading_spell.png";
-const PLACEHOLDER_WEAPON = STATIC_URL + "images/loading_weapon.png";
-const PLACEHOLDER_HERO = STATIC_URL + "images/loading_hero.png";
+const PLACEHOLDER_MINION = image("loading_minion.png");
+const PLACEHOLDER_SPELL = image("loading_spell.png");
+const PLACEHOLDER_WEAPON = image("loading_weapon.png");
+const PLACEHOLDER_HERO = image("loading_hero.png");
 
 export default class Cards extends React.Component<Props, State> {
 	readonly filters = {
@@ -1270,7 +1271,7 @@ export default class Cards extends React.Component<Props, State> {
 					className="mana-crystal"
 				>
 					<img
-						src={STATIC_URL + "images/mana_crystal.png"}
+						src={image("mana_crystal.png")}
 						height={28}
 						aria-hidden="true"
 					/>

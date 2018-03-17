@@ -1,5 +1,5 @@
 import React from "react";
-import { getArchetypeUrl } from "../../../helpers";
+import { getArchetypeUrl, image } from "../../../helpers";
 import CardData from "../../../CardData";
 import { ArchetypeRankPopularity } from "../../../interfaces";
 import ArchetypeSignatureTooltip from "../ArchetypeSignatureTooltip";
@@ -20,7 +20,9 @@ export default class RowHeader extends React.Component<Props> {
 					<div className="class-icon-wrapper">
 						<img
 							className="class-icon"
-							src={`${STATIC_URL}images/64x/class-icons/${this.props.archetypeData.playerClass.toLowerCase()}.png`}
+							src={image(
+								`64x/class-icons/${this.props.archetypeData.playerClass.toLowerCase()}.png`,
+							)}
 						/>
 					</div>
 					{this.renderName()}

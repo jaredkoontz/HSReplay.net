@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import UserData from "../UserData";
+import { image } from "../helpers";
 
 interface Props {
 	value: string;
@@ -111,7 +112,7 @@ export default class InfoboxFilter extends React.Component<Props> {
 				{this.isPremiumFilter() ? (
 					<img
 						className="inline-premium-icon"
-						src={STATIC_URL + "images/premium.png"}
+						src={image("premium.png")}
 						role="presentation"
 					/>
 				) : null}
