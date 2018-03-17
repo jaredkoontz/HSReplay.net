@@ -4,10 +4,9 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin
 from rest_framework.viewsets import GenericViewSet
 
-from hearthsim.identity.accounts.api import (
+from hsreplaynet.api.legacy import (
 	AuthTokenAuthentication, LegacyAPIKeyPermission, RequireAuthToken
 )
-from hsreplaynet.api.permissions import IsOwnerOrStaff
 
 from .models import Pack, PackCard
 
@@ -50,6 +49,6 @@ class PackSerializer(serializers.HyperlinkedModelSerializer):
 
 class PackViewSet(CreateModelMixin, RetrieveModelMixin, GenericViewSet):
 	authentication_classes = (SessionAuthentication, AuthTokenAuthentication)
-	permission_classes = (IsOwnerOrStaff, RequireAuthToken, LegacyAPIKeyPermission)
+	permission_classes = (RequireAuthToken, LegacyAPIKeyPermission)
 	queryset = Pack.objects.all()
 	serializer_class = PackSerializer

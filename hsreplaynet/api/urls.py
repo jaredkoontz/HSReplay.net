@@ -1,7 +1,6 @@
 from django.conf.urls import include, url
 from rest_framework.routers import DefaultRouter
 
-from hearthsim.identity.accounts.api import AuthTokenViewSet, CreateAccountClaimView
 from hsreplaynet.analytics.urls import api_urlpatterns as analytics_urlpatterns
 from hsreplaynet.decks.api import ArchetypeViewSet
 from hsreplaynet.decks.urls import api_urlpatterns as decks_urlpatterns
@@ -10,6 +9,7 @@ from hsreplaynet.features.urls import api_urlpatterns as features_urlpatterns
 from hsreplaynet.packs.api import PackViewSet
 
 from . import views
+from .legacy import AuthTokenViewSet, CreateAccountClaimView
 
 
 router = DefaultRouter()
