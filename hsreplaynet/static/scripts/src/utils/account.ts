@@ -17,3 +17,17 @@ export function prettyBlizzardAccount(account: BlizzardAccount): string {
 	const region = REGION_NAMES[account.region] || "Unknown region";
 	return `${account.battletag} (${region})`;
 }
+
+export function addNextToUrl(url: string, next: string): string {
+	if (!next) {
+		return url;
+	}
+	const origin =
+		document && document.location && document.location.origin
+			? document.location.origin
+			: "";
+	const parsed = new URL(url, origin);
+	const param = `next=${encodeURIComponent(next)}`;
+	url += parsed.search ? `&${param}` : `?${param}`;
+	return url;
+}

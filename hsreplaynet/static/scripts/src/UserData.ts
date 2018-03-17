@@ -16,6 +16,7 @@ interface UserDataProps {
 	hearthstone_locale: string;
 	ipcountry: string;
 	features: FeatureMap;
+	login?: string[];
 }
 
 interface FeatureMap {
@@ -147,5 +148,17 @@ export default class UserData {
 
 	static getIpCountry(): string | null {
 		return this._instance ? UserData._instance.ipcountry : null;
+	}
+
+	static getLoginUrl(key?: string): string | null {
+		if (!this._instance) {
+			return null;
+		}
+		const urls = this._instance.login;
+		key = key || "default";
+		if (!urls || !urls[key]) {
+			return null;
+		}
+		return urls[key];
 	}
 }
