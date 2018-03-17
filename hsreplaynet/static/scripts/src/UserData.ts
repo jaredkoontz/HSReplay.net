@@ -1,5 +1,6 @@
 import { cookie } from "cookie_js";
 import Settings from "./Settings";
+import { BlizzardAccount } from "./utils/api";
 
 interface UserDataProps {
 	accounts: Account[];
@@ -24,12 +25,11 @@ interface Feature {
 	enabled: boolean;
 }
 
-export interface Account {
-	display: string;
-	battletag: string;
-	region: number;
-	hi: string;
+export interface Account extends BlizzardAccount {
+	/** @deprecated use {@link account_lo} instead */
 	lo: number;
+	/** @deprecated use {@link prettyBlizzardAccount} instead */
+	display: string;
 }
 
 function getUserDataAccountKey(account: Account) {
@@ -83,7 +83,13 @@ export default class UserData {
 		if (!this._instance) {
 			return [];
 		}
-		return UserData._instance.accounts || [];
+		let accounts = UserData._instance.accounts || [];
+		accounts = accounts.map(account => ({
+			account_lo: account.account_lo || account.lo,
+			lo: account.account_lo || account.lo,
+			...account,
+		}));
+		return accounts;
 	}
 
 	static getDefaultAccountKey(): string {
