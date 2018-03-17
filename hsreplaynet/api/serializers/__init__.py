@@ -1,4 +1,4 @@
-from . import accounts, comments, webhooks
+from . import accounts, webhooks
 
 
-__all__ = ["accounts", "comments", "webhooks"]
+__all__ = ["accounts", "webhooks"]

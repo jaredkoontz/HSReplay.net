@@ -29,7 +29,6 @@ urlpatterns = [
 		views.accounts.UpdateBlizzardAccountView.as_view()
 	),
 	url(r"^v1/claim_account/$", CreateAccountClaimView.as_view()),
-	url(r"^v1/comments/(?P<pk>\d+)/$", views.comments.CommentDetailView.as_view()),
 	url(r"^v1/collection/$", views.collections.CollectionView.as_view()),
 	url(
 		r"^v1/collection/upload_request/$",

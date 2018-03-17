@@ -1,24 +1,3 @@
-<script type="text/javascript">
-function deleteComment(id) {
-	var e = $("#comment-" + id);
-
-	$.ajax({
-		url: "/api/v1/comments/" + id + "/",
-		dataType: "json",
-		type: "DELETE",
-		headers: {
-			"X-CSRFToken": "{{ csrf_token }}",
-		},
-		success: function(result) {
-			e.addClass("deleted");
-		},
-		error: function(result) {
-			e.addClass("error");
-		},
-	})
-}
-</script>
-
 {% for comment in comment_list %}
 	<div class="comment" id="comment-{{ comment.id }}">
 		<div class="comment-metadata">
@@ -31,9 +10,6 @@ function deleteComment(id) {
 				<a href="#comment-{{ comment.id }}" class="comment-time">
 					<time datetime="{{ comment.submit_date|date:'c' }}">{{ comment.submit_date|date:"SHORT_DATE_FORMAT" }}</time>
 				</a>
-				{% if user == comment.user or user.is_staff %}
-					<button class="btn btn-xs comment-delete" onclick="deleteComment({{comment.id}})">Delete</button>
-				{% endif %}
 			</span>
 		</div>
 		<div class="comment-body">{{ comment.comment }}</div>
