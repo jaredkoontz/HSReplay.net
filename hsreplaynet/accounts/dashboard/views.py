@@ -51,6 +51,9 @@ class EditAccountView(LoginRequiredMixin, RequestMetaMixin, UpdateView):
 			self.request.COOKIES.get("disable-collection", 0)
 		) == 1
 
+		context["form"].fields["locale"].required = False
+		context["form"].fields["locale"].widget.choices.insert(0, ("", "System Default"))
+
 		return context
 
 	def post(self, request, **kwargs):
