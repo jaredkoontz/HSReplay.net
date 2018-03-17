@@ -5,39 +5,22 @@ from .clients import KINESIS, LAMBDA, S3
 
 
 def get_kinesis_stream_arn_from_name(name):
-	stream = KINESIS.describe_stream(
-		StreamName=name,
-	)
+	stream = KINESIS.describe_stream(StreamName=name)
 	if stream:
 		return stream["StreamDescription"]["StreamARN"]
 
 
-def publish_raw_upload_to_processing_stream(raw_upload):
-	publish_raw_upload_batch_to_processing_stream([raw_upload])
-
-
-def publish_raw_upload_batch_to_processing_stream(raw_uploads):
+def publish_raw_upload_batch_to_processing_stream(
+	raw_uploads, stream=settings.KINESIS_UPLOAD_PROCESSING_STREAM_NAME
+):
 	records = []
 	for upload in raw_uploads:
-		records.append(dict(
-			Data=upload.kinesis_data,
-			PartitionKey=upload.kinesis_partition_key
-		))
+		records.append({
+			"Data": upload.kinesis_data,
+			"PartitionKey": upload.kinesis_partition_key,
+		})
 
-	return KINESIS.put_records(
-		Records=records,
-		StreamName=settings.KINESIS_UPLOAD_PROCESSING_STREAM_NAME,
-	)
-
-
-def get_processing_stream_max_writes_per_second():
-	stream = KINESIS.describe_stream(
-		StreamName=settings.KINESIS_UPLOAD_PROCESSING_STREAM_NAME,
-	)
-	num_shards = len(stream["StreamDescription"]["Shards"])
-	best_case_throughput = (num_shards * 1000)
-	safety_limit = .9
-	return best_case_throughput * safety_limit
+	return KINESIS.put_records(Records=records, StreamName=stream)
 
 
 def is_processing_disabled():
@@ -50,7 +33,7 @@ def is_processing_disabled():
 		return False
 
 	lambda_notifications = current_configuration["LambdaFunctionConfigurations"]
-	return (len(lambda_notifications) == 0)
+	return len(lambda_notifications) == 0
 
 
 def enable_processing_raw_uploads():

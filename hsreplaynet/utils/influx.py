@@ -136,11 +136,6 @@ def influx_timer(measure, timestamp=None, cloudwatch_url=None, **kwargs):
 		influx_write_payload([payload])
 
 
-def get_avg_upload_processing_seconds():
-	ms = get_current_lambda_average_duration_millis("process_replay_upload_stream_handler")
-	return round(ms / 1000.0, 1)
-
-
 def get_current_lambda_average_duration_millis(lambda_name, lookback_hours=1):
 	metric_name = "%s_duration_ms" % (lambda_name)
 	raw_query = """

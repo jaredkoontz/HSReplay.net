@@ -75,7 +75,7 @@ def queue_upload_event_for_reprocessing(event):
 	if settings.ENV_AWS:
 		raw_upload = RawUpload.from_upload_event(event)
 		raw_upload.attempt_reprocessing = True
-		aws.publish_raw_upload_to_processing_stream(raw_upload)
+		aws.publish_raw_upload_batch_to_processing_stream([raw_upload])
 	else:
 		logger.info("Processing UploadEvent %r locally", event)
 		event.process()
