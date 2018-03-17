@@ -3,66 +3,22 @@
 const path = require("path");
 const webpack = require("webpack");
 const BundleTracker = require("webpack-bundle-tracker");
-const spawnSync = require("child_process").spawnSync;
-const url = require("url");
-const _ = require("lodash");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
-const exportSettings = [
-	"STATIC_URL",
-	"JOUST_STATIC_URL",
-	"SUNWELL_URL",
-	"HEARTHSTONE_ART_URL",
-	"JOUST_RAVEN_DSN_PUBLIC",
-	"JOUST_RAVEN_ENVIRONMENT",
-];
-const influxKey = "INFLUX_DATABASES";
-const python = process.env.PYTHON || "python";
-const settingsCmd = [path.resolve(__dirname, "hsreplaynet/settings.py")];
-let proc = spawnSync(python, settingsCmd.concat(exportSettings, [influxKey]), {
-	encoding: "utf-8",
-});
-console.log(proc.stderr);
-const exportedSettings = JSON.parse(proc.stdout);
-
-// verify exported settings are actually available
-for (let key in exportSettings) {
-	const setting = exportSettings[key];
-	const value = exportedSettings[setting];
-	if (typeof value === "undefined") {
-		throw new Error("Unknown setting " + setting);
-	}
+// TODO: unhardcode me
+const exportedSettings = {
+	STATIC_URL: "/static/",
+	JOUST_STATIC_URL: "https://joust.hearthsim.net/branches/master/",
+	SUNWELL_URL: "https://sunwell.hearthsim.net/branches/master/",
+	HEARTHSTONE_ART_URL: "https://art.hearthstonejson.com/v1/256x/",
+	JOUST_RAVEN_DSN_PUBLIC: process.env.JOUST_RAVEN_DSN_PUBLIC,
+	JOUST_RAVEN_ENVIRONMENT: process.env.NODE_ENV,
+	INFLUX_DATABASE_JOUST: process.env.INFLUX_DATABASE_JOUST,
+};
+const settings = {};
+for (const [key, val] of Object.entries(exportedSettings)) {
+	settings[key] = JSON.stringify(val);
 }
-
-const buildInfluxEndpoint = db =>
-	url.format({
-		protocol: db.SSL ? "https" : "http",
-		hostname: db.HOST,
-		port: "" + db.PORT || 8086,
-		pathname: "/write",
-		query: {
-			db: db.NAME,
-			u: db.USER,
-			p: db.PASSWORD,
-			precision: "s",
-		},
-	});
-
-const joustDb = exportedSettings[influxKey]
-	? exportedSettings[influxKey]["joust"]
-	: undefined;
-const settings = exportSettings.reduce(
-	(obj, current) => {
-		obj[current] = JSON.stringify(exportedSettings[current]);
-		return obj;
-	},
-	{
-		INFLUX_DATABASE_JOUST: joustDb
-			? JSON.stringify(buildInfluxEndpoint(joustDb))
-			: undefined,
-	},
-);
-
 const isProduction = process.env.NODE_ENV === "production";
 
 const plugins = [];
