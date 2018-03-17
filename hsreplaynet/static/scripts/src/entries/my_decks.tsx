@@ -14,7 +14,7 @@ const render = (cardData: CardData) => {
 	ReactDOM.render(
 		<Root>
 			<AccountConsumer>
-				{account => (
+				{({ account }) => (
 					<Fragments
 						defaults={{
 							excludedCards: [],

@@ -10,6 +10,11 @@ interface State {
 	account: string;
 }
 
+interface Value {
+	key: string | null;
+	account: Account | null;
+}
+
 export class Provider extends React.Component<Props, State> {
 	constructor(props: Props, context: any) {
 		super(props, context);
@@ -78,10 +83,12 @@ export class Consumer extends React.Component {
 			);
 		}
 		const renderProp = this.props.children as (
-			account: Account | null,
+			value: Value,
 		) => React.ReactNode;
-		return renderProp(
-			this.getAccount(this.context.hearthstoneAccount || null),
-		);
+		const key = this.context.hearthstoneAccount || null;
+		return renderProp({
+			key,
+			account: this.getAccount(key),
+		});
 	}
 }

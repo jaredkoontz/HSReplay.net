@@ -16,7 +16,7 @@ const render = (cardData: CardData) => {
 	ReactDOM.render(
 		<Root>
 			<HearthstoneAccountConsumer>
-				{(account: Account) => (
+				{({ account }) => (
 					<DataInjector
 						query={{
 							key: "collection",

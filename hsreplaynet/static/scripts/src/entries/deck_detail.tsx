@@ -41,7 +41,7 @@ const render = (cardData: CardData) => {
 	ReactDOM.render(
 		<Root>
 			<AccountConsumer>
-				{account => (
+				{({ account }) => (
 					<DataInjector
 						query={{
 							key: "collection",
