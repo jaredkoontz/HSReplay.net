@@ -223,7 +223,7 @@ export default class CollectionSetupDialog extends React.Component<
 						/>
 						<section id="collection-setup-upload">
 							<h2>Upload your Collection</h2>
-							{2 == 1 + 1 ? (
+							{this.state.previousStep === Step.CLAIM_ACCOUNT ? (
 								<>
 									<p>
 										You're nearly there! Enter your
