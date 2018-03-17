@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import * as $ from "jquery";
 import { cookie } from "cookie_js";
 import UserData from "../UserData";
-import AccountMenu from "../components/AccountMenu";
+import AccountMenu from "../components/account/AccountMenu";
 
 const navRoot = document.getElementById("dynamic-nav");
 const placeholder = document.getElementById("account-nav-item");

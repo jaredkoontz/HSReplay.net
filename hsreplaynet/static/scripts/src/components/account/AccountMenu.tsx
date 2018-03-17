@@ -1,6 +1,6 @@
 import React from "react";
-import { Account } from "../UserData";
-import { prettyBlizzardAccount } from "../utils/account";
+import { Account } from "../../UserData";
+import { prettyBlizzardAccount } from "../../utils/account";
 
 interface Props {
 	username: string;
