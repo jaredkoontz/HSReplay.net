@@ -29,6 +29,9 @@ export default class CollectionSetup extends React.Component<Props, State> {
 	}
 
 	private getAccountData = (): void => {
+		if (!UserData.isAuthenticated()) {
+			return;
+		}
 		DataManager.get("/api/v1/account/", {}, true).then(
 			(account: Account) => {
 				const hasConnectedHDT =
@@ -87,7 +90,9 @@ export default class CollectionSetup extends React.Component<Props, State> {
 	};
 
 	public render(): React.ReactNode {
-		if (this.state.hasTokens === null) {
+		const authenticated = UserData.isAuthenticated();
+
+		if (this.state.hasTokens === null && authenticated) {
 			return (
 				<div className="collection-setup-modal">
 					<div className="modal-body">Loading…</div>
@@ -96,6 +101,7 @@ export default class CollectionSetup extends React.Component<Props, State> {
 		}
 
 		const blizzardAccount =
+			UserData.isAuthenticated() &&
 			this.state.blizzardAccounts !== null &&
 			this.state.blizzardAccountKey !== null
 				? this.state.blizzardAccounts[this.state.blizzardAccountKey]
@@ -110,11 +116,16 @@ export default class CollectionSetup extends React.Component<Props, State> {
 						: {},
 					url: "/api/v1/collection/",
 				}}
-				fetchCondition={this.state.hasConnectedHDT && !!blizzardAccount}
+				fetchCondition={
+					authenticated &&
+					this.state.hasConnectedHDT &&
+					!!blizzardAccount
+				}
 			>
 				{({ collection, refresh }) => {
 					return (
 						<CollectionSetupDialog
+							isAuthenticated={UserData.isAuthenticated()}
 							hasConnectedHDT={this.state.hasConnectedHDT}
 							blizzardAccounts={this.state.blizzardAccounts}
 							blizzardAccount={this.state.blizzardAccountKey}

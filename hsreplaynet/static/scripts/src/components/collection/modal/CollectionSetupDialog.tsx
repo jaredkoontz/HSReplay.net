@@ -6,8 +6,10 @@ import DownloadSection from "./DownloadSection";
 import { getAccountKey, prettyBlizzardAccount } from "../../../utils/account";
 import ProgressIndicator from "./ProgressIndicator";
 import CloseModalButton from "../../modal/CloseModalButton";
+import LoginButton from "../../account/LoginButton";
 
 interface Props {
+	isAuthenticated: boolean;
 	hasConnectedHDT: boolean;
 	blizzardAccounts: { [key: string]: BlizzardAccount };
 	blizzardAccount: string;
@@ -19,10 +21,11 @@ interface Props {
 }
 
 const enum Step {
-	CONNECT_HDT = 1,
-	CLAIM_ACCOUNT = 2,
-	UPLOAD_COLLECTION = 3,
-	COMPLETE = 4,
+	SIGN_IN = 1,
+	CONNECT_HDT = 2,
+	CLAIM_ACCOUNT = 3,
+	UPLOAD_COLLECTION = 4,
+	COMPLETE = 5,
 }
 
 const LAST_STEP = Step.COMPLETE;
@@ -42,6 +45,7 @@ export default class CollectionSetupDialog extends React.Component<
 		super(props, context);
 		this.state = {
 			step: CollectionSetupDialog.getStep(
+				props.isAuthenticated,
 				props.hasConnectedHDT,
 				props.blizzardAccount,
 				props.hasCollection,
@@ -51,10 +55,14 @@ export default class CollectionSetupDialog extends React.Component<
 	}
 
 	private static getStep(
+		isAuthenticated: boolean,
 		hasConnectedHDT: boolean,
 		selectedAccount: string | null,
 		hasCollection: boolean,
 	): Step {
+		if (!isAuthenticated) {
+			return Step.SIGN_IN;
+		}
 		if (!hasConnectedHDT) {
 			return Step.CONNECT_HDT;
 		}
@@ -72,12 +80,14 @@ export default class CollectionSetupDialog extends React.Component<
 		nextContext: any,
 	): void {
 		if (
+			nextProps.isAuthenticated !== this.props.isAuthenticated ||
 			nextProps.hasConnectedHDT !== this.props.hasConnectedHDT ||
 			nextProps.blizzardAccount !== this.props.blizzardAccount ||
 			nextProps.hasCollection !== this.props.hasCollection
 		) {
 			this.setState(state => ({
 				step: CollectionSetupDialog.getStep(
+					nextProps.isAuthenticated,
 					nextProps.hasConnectedHDT,
 					nextProps.blizzardAccount,
 					nextProps.hasCollection,
@@ -148,6 +158,32 @@ export default class CollectionSetupDialog extends React.Component<
 	}
 
 	private renderStep(): React.ReactNode {
+		const { step } = this.state;
+
+		if (step === Step.SIGN_IN) {
+			return (
+				<>
+					<section
+						id="collection-setup-sign-in"
+						className="text-center"
+					>
+						<h2>Sign in to get started:</h2>
+						<LoginButton
+							next={
+								document &&
+								document.location &&
+								document.location.pathname
+									? `${
+											document.location.pathname
+									  }?modal=collection`
+									: undefined
+							}
+						/>
+					</section>
+				</>
+			);
+		}
+
 		const selectedAccount =
 			this.props.blizzardAccounts !== null &&
 			this.props.blizzardAccount !== null
@@ -157,7 +193,7 @@ export default class CollectionSetupDialog extends React.Component<
 			this.props.blizzardAccounts,
 		);
 
-		switch (this.state.step) {
+		switch (step) {
 			case Step.CONNECT_HDT:
 				return (
 					<>

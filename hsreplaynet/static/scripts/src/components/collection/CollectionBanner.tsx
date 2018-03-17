@@ -49,23 +49,9 @@ export default class CollectionBanner extends React.Component<Props, State> {
 						<CollectionSetup />
 					</Modal>
 				) : null}
-				{UserData.isAuthenticated()
-					? this.wrap(
-							<div onClick={this.showModal}>
-								{this.renderChildren()}
-							</div>,
-					  )
-					: this.wrap(
-							<a
-								href={`/account/login/${
-									next
-										? `?next=${encodeURIComponent(next)}`
-										: ""
-								}`}
-							>
-								{this.renderChildren()}
-							</a>,
-					  )}
+				{this.wrap(
+					<div onClick={this.showModal}>{this.renderChildren()}</div>,
+				)}
 			</Feature>
 		);
 	}
