@@ -20,9 +20,9 @@ from hsreplaynet.utils import get_uuid_object_or_404
 from hsreplaynet.utils.influx import influx_metric
 
 from ..serializers.accounts import (
-	BlizzardAccountSerializer, ClaimTokenSerializer,
-	TwitchSocialAccountSerializer, UserDetailsSerializer
+	BlizzardAccountSerializer, ClaimTokenSerializer, UserDetailsSerializer
 )
+from ..serializers.socialaccount import TwitchSocialAccountSerializer
 
 
 class UserDetailsView(RetrieveAPIView):
