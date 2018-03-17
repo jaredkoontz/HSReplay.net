@@ -4,6 +4,9 @@ import * as $ from "jquery";
 import { cookie } from "cookie_js";
 import UserData from "../UserData";
 import AccountMenu from "../components/account/AccountMenu";
+import Modal from "../components/Modal";
+import CollectionSetup from "../components/collection/CollectionSetup";
+import { Provider as BlizzardAccountProvider } from "../components/utils/hearthstone-account";
 
 const navRoot = document.getElementById("dynamic-nav");
 const placeholder = document.getElementById("account-nav-item");
@@ -63,6 +66,39 @@ if (navRoot && placeholder) {
 	);
 
 	renderAccount(UserData.getDefaultAccountKey());
+}
+
+if (document && document.location && document.location.search) {
+	const search = document.location.search.replace(/^\?/, "");
+	const parts = search.split("&");
+	for (const part of parts) {
+		const param = part.split("=", 2);
+		if (param.length !== 2) {
+			continue;
+		}
+		const [key, value] = param;
+		if (key === "modal") {
+			switch (value) {
+				case "collection":
+					const modalDummy = document.createElement("div");
+					modalDummy.setAttribute("id", "initial-modal-dummy");
+					ReactDOM.render(
+						<BlizzardAccountProvider>
+							<Modal
+								onClose={() => {
+									ReactDOM.unmountComponentAtNode(modalDummy);
+								}}
+							>
+								<CollectionSetup />
+							</Modal>
+							) : null}
+						</BlizzardAccountProvider>,
+						modalDummy,
+					);
+			}
+			break;
+		}
+	}
 }
 
 if (
