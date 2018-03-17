@@ -115,7 +115,7 @@ def last_used(time):
 
 BLIZZARD_LANG_MAP = {
 	"en": "enUS",
-	"en-gb": "enGB",
+	"en-gb": "enUS",
 	"fr": "frFR",
 	"de": "deDE",
 	"ko": "koKR",
