@@ -9,6 +9,7 @@ interface UserDataProps {
 	groups: string[];
 	is_authenticated: boolean;
 	premium: boolean;
+	debug: boolean;
 	username: string;
 	email: string;
 	staff: boolean;
@@ -65,6 +66,10 @@ export default class UserData {
 
 	static isStaff(): boolean {
 		return !!(this._instance && UserData._instance.staff);
+	}
+
+	static isDebug(): boolean {
+		return !!(this._instance && UserData._instance.debug);
 	}
 
 	static getUsername(): string | null {

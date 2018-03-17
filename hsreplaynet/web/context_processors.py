@@ -61,6 +61,9 @@ def userdata(request):
 	if "HTTP_CF_IPCOUNTRY" in request.META:
 		data["ipcountry"] = request.META["HTTP_CF_IPCOUNTRY"]
 
+	if settings.DEBUG:
+		data["debug"] = True
+
 	return {"userdata": data}
 
 
