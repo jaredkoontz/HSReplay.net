@@ -3,12 +3,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Account } from "../../UserData";
 
-interface Modal {
-	onClose: () => any;
+interface Props {
+	value: Value;
 }
 
-interface Props {
-	value: Modal;
+interface Value {
+	onClose: () => any;
 }
 
 export class Provider extends React.Component<Props> {
