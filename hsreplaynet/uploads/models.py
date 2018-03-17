@@ -22,6 +22,7 @@ from hsredshift.etl.models import create_staging_table, list_staging_eligible_ta
 from hsredshift.utils.sql import is_in_flight, run_redshift_background_statement
 from hsreplaynet.utils import aws, log
 from hsreplaynet.utils.aws import redshift, streams
+from hsreplaynet.utils.aws.clients import FIREHOSE
 from hsreplaynet.utils.fields import ShortUUIDField
 from hsreplaynet.utils.influx import influx_metric, influx_timer
 from hsreplaynet.utils.instrumentation import error_handler
@@ -469,7 +470,6 @@ class RedshiftETLStage(IntEnum):
 
 
 class RedshiftStagingTrackManager(models.Manager):
-
 	def do_maintenance(self):
 		log.info("Starting Redshift ETL Maintenance Cycle")
 		start_time = time.time()
@@ -1386,7 +1386,6 @@ class RedshiftStagingTrack(models.Model):
 class RedshiftStagingTrackTableManager(models.Manager):
 
 	def create_view_table_for_track(self, view, track):
-
 		# Create the record once we know the table and stream creation didn't error
 		track_table, created = RedshiftStagingTrackTable.objects.get_or_create(
 			track=track,
@@ -1418,8 +1417,8 @@ class RedshiftStagingTrackTableManager(models.Manager):
 		# Create the firehose stream
 		if not streams.does_stream_exist(staging_table_name):
 			streams.create_firehose_stream(
-				staging_table_name,
-				staging_table_name
+				stream_name=staging_table_name,
+				table_name=staging_table_name
 			)
 
 		# Create the record once we know the table and stream creation didn't error
@@ -1434,8 +1433,7 @@ class RedshiftStagingTrackTableManager(models.Manager):
 		return track_table
 
 
-class RedshiftETLTask(object):
-
+class RedshiftETLTask:
 	def __init__(self, name, callable):
 		self._name = name
 		self._callable = callable
@@ -1510,8 +1508,10 @@ class RedshiftStagingTrackTable(models.Model):
 
 	@property
 	def firehose_stream_is_active(self):
-		description = streams.get_delivery_stream_description(self.firehose_stream)
-		return description["DeliveryStreamStatus"] == "ACTIVE"
+		stream = FIREHOSE.describe_delivery_stream(
+			DeliveryStreamName=self.firehose_stream,
+		)
+		return stream["DeliveryStreamDescription"]["DeliveryStreamStatus"] == "ACTIVE"
 
 	@property
 	def pre_insert_table_name(self):
@@ -1527,12 +1527,10 @@ class RedshiftStagingTrackTable(models.Model):
 		self.save()
 		self.heartbeat_track_status_metrics()
 
-		msg = "Gathering stats for %s table for track %s with handle %s"
-		log.info(msg % (
-			self.target_table,
-			self.track.track_prefix,
-			self.gathering_stats_handle
-		))
+		log.info(
+			"Gathering stats for %s table for track %s with handle %s",
+			self.target_table, self.track.track_prefix, self.gathering_stats_handle
+		)
 
 		self.record_final_staging_table_size()
 		if self.final_staging_table_size:
@@ -1571,12 +1569,10 @@ class RedshiftStagingTrackTable(models.Model):
 		self.save()
 		self.heartbeat_track_status_metrics()
 
-		msg = "Deduplicating %s table for track %s with handle %s"
-		log.info(msg % (
-			self.target_table,
-			self.track.track_prefix,
-			self.dedupe_query_handle
-		))
+		log.info(
+			"Deduplicating %s table for track %s with handle %s",
+			self.target_table, self.track.track_prefix, self.dedupe_query_handle
+		)
 
 		table_obj = self._get_table_obj()
 
@@ -1829,7 +1825,9 @@ class RedshiftStagingTrackTable(models.Model):
 			self.heartbeat_track_status_metrics()
 
 		try:
-			streams.delete_firehose_stream(self.firehose_stream)
+			FIREHOSE.delete_delivery_stream(
+				DeliveryStreamName=self.firehose_stream
+			)
 		except Exception as e:
 			error_handler(e)
 
