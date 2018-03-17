@@ -333,7 +333,6 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 								>
 									<ArchetypeSignature
 										cardData={this.props.cardData}
-										showOccasional={true}
 									/>
 								</DataInjector>
 							</div>
