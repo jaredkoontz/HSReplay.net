@@ -78,34 +78,25 @@ def wait_for_stream_ready(stream_name, max_attempts=15):
 	raise RuntimeError(f"Timed out while waiting for {stream_name} to become active.")
 
 
-def generate_shard_list(stream_name):
-	wait_for_stream_ready(stream_name)
-	sinfo = KINESIS.describe_stream(StreamName=stream_name)
-	shards = sinfo["StreamDescription"]["Shards"]
+def list_shards(stream_name: str):
+	shard_info = KINESIS.list_shards(StreamName=stream_name)
+	shards = shard_info["Shards"]
 
-	while len(shards) > 0:
-		shard = shards.pop(0)
-		yield shard
-		if len(shards) == 0 and sinfo["StreamDescription"]["HasMoreShards"]:
-			sinfo = KINESIS.describe_stream(
-				StreamName=stream_name,
-				ExclusiveStartShardId=shard["ShardId"]
-			)
-			shards += sinfo["StreamDescription"]["Shards"]
+	while "NextToken" in shard_info:
+		shard_info = KINESIS.list_shards(NextToken=shard_info["NextToken"])
+		shards.extend(shard_info["Shards"])
+
+	return shards
 
 
-def shard_is_open(s) -> bool:
-	return "EndingSequenceNumber" not in s["SequenceNumberRange"]
-
-
-def get_open_shards(stream_name: str):
-	shards = generate_shard_list(stream_name)
-	open_shards = list(filter(shard_is_open, shards))
-	return open_shards
+def list_open_shards(stream_name: str):
+	for shard in list_shards(stream_name):
+		if "EndingSequenceNumber" not in shard["SequenceNumberRange"]:
+			yield shard
 
 
 def current_stream_size(stream_name: str) -> int:
-	return len(get_open_shards(stream_name))
+	return len(list(list_open_shards(stream_name)))
 
 
 def next_record_batch_of_size(iterable, max_batch_size: int):
@@ -159,6 +150,7 @@ def fill_stream_from_iterable(stream_name, iterable, publisher_func):
 	Invoke func on the next item from iter at the maximum throughput the stream supports.
 	"""
 
+	wait_for_stream_ready(stream_name)
 	stream_size = current_stream_size(stream_name)
 	max_transactions_per_sec = stream_size * KINESIS_WRITES_PER_SEC
 	target_writes_per_sec = ceil(max_transactions_per_sec * MAX_WRITES_SAFETY_LIMIT)
