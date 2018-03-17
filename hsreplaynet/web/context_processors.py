@@ -13,9 +13,8 @@ from .templatetags.web_extras import blizzard_lang
 
 
 def userdata(request):
-	is_authenticated = bool(request.user.is_authenticated)  # Django 1.10 hack
 	data = {
-		"is_authenticated": is_authenticated,
+		"is_authenticated": bool(request.user.is_authenticated),
 		"card_art_url": settings.HEARTHSTONE_ART_URL,
 		"hearthstone_locale": blizzard_lang(translation.get_language()),
 	}
@@ -25,7 +24,7 @@ def userdata(request):
 		"level": m.level_tag, "tags": m.extra_tags, "text": m.message
 	} for m in storage]
 
-	if is_authenticated:
+	if request.user.is_authenticated:
 		data["userid"] = request.user.pk
 		data["username"] = request.user.username
 		data["email"] = request.user.email
@@ -49,13 +48,10 @@ def userdata(request):
 
 	data["features"] = {}
 	for feature in Feature.objects.all():
-		is_enabled = bool(feature.enabled_for_user(request.user))  # Django 1.10 hack
-		if not is_enabled:
+		if not feature.enabled_for_user(request.user):
 			continue
 
-		data["features"][feature.name] = {
-			"enabled": is_enabled
-		}
+		data["features"][feature.name] = {"enabled": True}
 		if feature.read_only:
 			data["features"][feature.name]["read_only"] = True
 
