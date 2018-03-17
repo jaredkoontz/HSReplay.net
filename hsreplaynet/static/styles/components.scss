@@ -1480,13 +1480,16 @@ ul.list-ltr, ol.list-ltr {
 	.progress-indicator-join {
 		flex-grow: 1;
 		height: 4px;
+		margin: 0 -1px;
 	}
 
 	> * {
 		background-color: #aaa;
+		z-index: 0;
 
 		&.active {
 			background-color: $red;
+			z-index: 1;
 		}
 	}
 }
