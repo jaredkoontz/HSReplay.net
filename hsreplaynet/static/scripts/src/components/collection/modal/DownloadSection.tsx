@@ -1,13 +1,34 @@
 import React from "react";
+import { image } from "../../../helpers";
 
 interface Props {
 	id?: string;
 	hasLegacyClient?: boolean;
 }
 
-export default class DownloadSection extends React.Component<Props> {
+interface State {
+	showBanner: boolean;
+}
+
+export default class DownloadSection extends React.Component<Props, State> {
 	static defaultProps = {
-		id: "collection-download-client",
+		id: "collection-setup-download-client",
+	};
+
+	constructor(props: Props, context: any) {
+		super(props, context);
+		this.state = {
+			showBanner: false,
+		};
+	}
+
+	private toggle = (event: React.SyntheticEvent<HTMLElement>): void => {
+		event.preventDefault();
+		this.setState(state =>
+			Object.assign({}, state, {
+				showBanner: !state.showBanner,
+			}),
+		);
 	};
 
 	public render(): React.ReactNode {
@@ -34,9 +55,29 @@ export default class DownloadSection extends React.Component<Props> {
 						className="btn promo-button"
 						rel="noopener"
 					>
-						Download
+						Download (Windows)
 					</a>
 				</p>
+				<p className="text-center">
+					<a href="#" onClick={this.toggle}>
+						How can I tell I have the correct version?
+					</a>
+				</p>
+				{this.state.showBanner ? (
+					<>
+						<p className="text-center">
+							You're on the latest version if you see this banner
+							at the top:
+						</p>
+						<div className="text-center">
+							<img
+								src={image(
+									"feature-promotional/collection-syncing-hdt.png",
+								)}
+							/>
+						</div>
+					</>
+				) : null}
 			</section>
 		);
 	}

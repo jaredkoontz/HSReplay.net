@@ -173,8 +173,8 @@ export default class CollectionSetupDialog extends React.Component<
 										: "Download and install Hearthstone Deck Tracker"}
 								</li>
 								<li>
-									Sign in using the <code>HSReplay.net</code>{" "}
-									menu in your deck tracker
+									Sign in by clicking on the blue HSReplay.net
+									banner at the top of your deck tracker
 									{this.props.hasTokens ? (
 										<>
 											<br />
