@@ -5,6 +5,7 @@ import LiveData from "../components/home/LiveData";
 import { winrateData } from "../helpers";
 import Modal from "../components/Modal";
 import CollectionSetup from "../components/collection/CollectionSetup";
+import { Provider as BlizzardAccountProvider } from "../components/utils/hearthstone-account";
 
 const winrateBoxes = document.getElementsByClassName("box-content");
 Array.from(winrateBoxes).forEach(box => {
@@ -27,21 +28,29 @@ if (liveData) {
 	new CardData().load(render);
 }
 
+function renderBanner(target: HTMLElement, showModal?: boolean) {
+	ReactDOM.render(
+		<BlizzardAccountProvider>
+			{showModal ? (
+				<Modal
+					onClose={() => {
+						renderBanner(target, false);
+					}}
+				>
+					<CollectionSetup />
+				</Modal>
+			) : null}
+		</BlizzardAccountProvider>,
+		target,
+	);
+}
+
 const banner = document.getElementById("collection-syncing-banner");
 if (banner) {
 	const modalDummy = document.createElement("div");
 	modalDummy.setAttribute("id", "modal-dummy");
 	banner.parentNode.appendChild(modalDummy);
 	banner.addEventListener("click", () => {
-		ReactDOM.render(
-			<Modal
-				onClose={() => {
-					ReactDOM.unmountComponentAtNode(modalDummy);
-				}}
-			>
-				<CollectionSetup />
-			</Modal>,
-			modalDummy,
-		);
+		renderBanner(modalDummy, true);
 	});
 }

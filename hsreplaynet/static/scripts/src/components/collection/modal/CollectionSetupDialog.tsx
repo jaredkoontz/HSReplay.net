@@ -1,9 +1,8 @@
 import React from "react";
 import { BlizzardAccount } from "../../../utils/api";
 import ModalAwait from "./ModalAwait";
-import BlizzardAccountChooser from "./BlizzardAccountChooser";
 import DownloadSection from "./DownloadSection";
-import { getAccountKey, prettyBlizzardAccount } from "../../../utils/account";
+import { getAccountKey } from "../../../utils/account";
 import ProgressIndicator from "./ProgressIndicator";
 import CloseModalButton from "../../modal/CloseModalButton";
 import LoginButton from "../../account/LoginButton";
@@ -11,9 +10,7 @@ import LoginButton from "../../account/LoginButton";
 interface Props {
 	isAuthenticated: boolean;
 	hasConnectedHDT: boolean;
-	blizzardAccounts: { [key: string]: BlizzardAccount };
-	blizzardAccount: string;
-	setBlizzardAccount: (key: string) => any;
+	blizzardAccount: BlizzardAccount | null;
 	hasCollection: boolean;
 	hasTokens: boolean;
 	refreshAccount: () => any;
@@ -57,7 +54,7 @@ export default class CollectionSetupDialog extends React.Component<
 	private static getStep(
 		isAuthenticated: boolean,
 		hasConnectedHDT: boolean,
-		selectedAccount: string | null,
+		blizzardAccount: BlizzardAccount | null,
 		hasCollection: boolean,
 	): Step {
 		if (!isAuthenticated) {
@@ -66,7 +63,7 @@ export default class CollectionSetupDialog extends React.Component<
 		if (!hasConnectedHDT) {
 			return Step.CONNECT_HDT;
 		}
-		if (selectedAccount === null) {
+		if (blizzardAccount === null) {
 			return Step.CLAIM_ACCOUNT;
 		}
 		if (!hasCollection) {
@@ -184,15 +181,6 @@ export default class CollectionSetupDialog extends React.Component<
 			);
 		}
 
-		const selectedAccount =
-			this.props.blizzardAccounts !== null &&
-			this.props.blizzardAccount !== null
-				? this.props.blizzardAccounts[this.props.blizzardAccount]
-				: null;
-		const hasMultipleBlizzardAccounts = Object.keys(
-			this.props.blizzardAccounts,
-		);
-
 		switch (step) {
 			case Step.CONNECT_HDT:
 				return (
@@ -246,17 +234,6 @@ export default class CollectionSetupDialog extends React.Component<
 			case Step.UPLOAD_COLLECTION:
 				return (
 					<>
-						<BlizzardAccountChooser
-							accounts={this.props.blizzardAccounts}
-							account={this.props.blizzardAccount}
-							setAccount={this.props.setBlizzardAccount}
-							note={
-								<>
-									You can set up the collections from your
-									other accounts later.
-								</>
-							}
-						/>
 						<section id="collection-setup-upload">
 							<h2>Upload your Collection</h2>
 							{this.state.previousStep === Step.CLAIM_ACCOUNT ? (
@@ -287,36 +264,10 @@ export default class CollectionSetupDialog extends React.Component<
 			case Step.COMPLETE:
 				return (
 					<>
-						<BlizzardAccountChooser
-							accounts={this.props.blizzardAccounts}
-							account={this.props.blizzardAccount}
-							setAccount={this.props.setBlizzardAccount}
-							note={
-								<>
-									You can now select another account to set it
-									up.
-								</>
-							}
-						/>
 						<section id="collection-setup-done">
 							<h2 className="text-left">Collection received!</h2>
 							<p>
-								{hasMultipleBlizzardAccounts &&
-								selectedAccount ? (
-									<>
-										You have uploaded the collection for{" "}
-										<strong>
-											{prettyBlizzardAccount(
-												selectedAccount,
-											)}
-										</strong>.
-									</>
-								) : (
-									<>
-										You have uploaded your collection.
-										Hooray!
-									</>
-								)}
+								You have uploaded your collection. Hooray!
 								<br />
 								The deck tracker will now keep your collection
 								up to date.
@@ -327,7 +278,7 @@ export default class CollectionSetupDialog extends React.Component<
 								<span>Try it out:</span>
 								<a
 									href={`/decks/?hearthstone_account=${getAccountKey(
-										selectedAccount,
+										this.props.blizzardAccount,
 									)}`}
 									className="promo-button-outline"
 								>
