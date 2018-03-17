@@ -1,7 +1,7 @@
 import json
 
 from django.conf import settings
-from django.http import Http404, HttpResponseBadRequest, JsonResponse
+from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.utils.decorators import method_decorator
 from django.views.generic import DetailView, TemplateView, View
@@ -244,7 +244,7 @@ class ClusterSnapshotUpdateView(View):
 		).first()
 		return cluster
 
-	def _cluster_for_archetype_exists(
+	def _get_existing_cluster_for_archetype(
 		self,
 		player_class,
 		game_format,
@@ -261,7 +261,7 @@ class ClusterSnapshotUpdateView(View):
 		)
 		if exclude_cluster_id is not None:
 			result = result.exclude(cluster_id=int(exclude_cluster_id))
-		return result.exists()
+		return result.first()
 
 	def get(self, request, game_format, player_class, cluster_id):
 		cluster = self._get_cluster(player_class, game_format, cluster_id)
@@ -275,27 +275,43 @@ class ClusterSnapshotUpdateView(View):
 
 		payload = json.loads(request.body.decode())
 		archetype_id = payload.get("archetype_id", None)
+		class_cluster = cluster.class_cluster
 
 		if not archetype_id:
+			# We are removing an archetype assignment from a cluster
 			cluster.external_id = None
 			cluster.name = "NEW"
+			cluster._augment_data_points()
+			cluster.save()
+
 		else:
-			if self._cluster_for_archetype_exists(
+			# We are adding an archetype assignment
+			# First check whether the archetype is already assigned to a cluster
+			existing_cluster_for_archetype = self._get_existing_cluster_for_archetype(
 				player_class,
 				game_format,
 				archetype_id,
 				exclude_cluster_id=cluster.cluster_id
-			):
-				return HttpResponseBadRequest(
-					"Archetype is already assigned to another cluster"
+			)
+			if existing_cluster_for_archetype:
+				# We are merging this cluster into the one that already exists
+				class_cluster.merge_cluster_into_external_cluster(
+					existing_cluster_for_archetype,
+					cluster
 				)
-			archetype = Archetype.objects.get(id=int(archetype_id))
-			cluster.external_id = int(archetype_id)
-			cluster.name = archetype.name
-		cluster._augment_data_points()
-		cluster.save()
 
-		class_cluster = cluster.class_cluster
+				# Delete both the old clusters, a new one has been created
+				cluster.delete()
+				existing_cluster_for_archetype.delete()
+
+			else:
+				# This is the first cluster getting assigned to the archetype
+				archetype = Archetype.objects.get(id=int(archetype_id))
+				cluster.external_id = int(archetype_id)
+				cluster.name = archetype.name
+				cluster._augment_data_points()
+				cluster.save()
+
 		# Changing external_id assignments affects CCP_signatures
 		# So call update_cluster_signatures() to recalculate
 		class_cluster.update_cluster_signatures()
