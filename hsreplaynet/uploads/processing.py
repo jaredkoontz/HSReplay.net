@@ -34,12 +34,13 @@ def queue_raw_uploads_for_processing(attempt_reprocessing, limit=None):
 	fill_stream_from_iterable(stream_name, iterable, publisher_func)
 
 
-def generate_raw_uploads_for_processing(attempt_reprocessing, limit=None):
+def generate_raw_uploads_for_processing(attempt_reprocessing, limit: int=0):
+	bucket = settings.S3_RAW_LOG_UPLOAD_BUCKET
 	count = 0
-	for object in aws.list_all_objects_in(settings.S3_RAW_LOG_UPLOAD_BUCKET, prefix="raw"):
+	for object in aws.list_all_objects_in(bucket, prefix="raw"):
 		key = object["Key"]
 		if key.endswith(".log"):  # Don't queue the descriptor files, just the .logs
-			raw_upload = RawUpload(settings.S3_RAW_LOG_UPLOAD_BUCKET, key)
+			raw_upload = RawUpload(bucket, key)
 			raw_upload.attempt_reprocessing = attempt_reprocessing
 			yield raw_upload
 			count += 1
