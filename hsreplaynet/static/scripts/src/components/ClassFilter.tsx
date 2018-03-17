@@ -1,5 +1,5 @@
 import React from "react";
-import { toTitleCase } from "../helpers";
+import { getHeroClassName } from "../helpers";
 import ClassIcon from "./ClassIcon";
 import DataInjector from "./DataInjector";
 import ArchetypeFilter from "./ArchetypeFilter";
@@ -146,7 +146,7 @@ export default class ClassFilter extends React.Component<Props> {
 			}
 			label = (
 				<div className={labelClassNames.join(" ")}>
-					{toTitleCase(className)}
+					{getHeroClassName(className)}
 				</div>
 			);
 		}

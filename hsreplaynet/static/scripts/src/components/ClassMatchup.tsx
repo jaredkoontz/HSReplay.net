@@ -1,5 +1,5 @@
 import React from "react";
-import { getArchetypeUrl, toTitleCase, winrateData } from "../helpers";
+import { getArchetypeUrl, getHeroClassName, winrateData } from "../helpers";
 
 export interface ArchetypeData {
 	id: string;
@@ -37,7 +37,7 @@ export default class ClassMatchup extends React.Component<Props> {
 							this.props.playerClass.toLowerCase()
 						}
 					>
-						{toTitleCase(this.props.playerClass)}
+						{getHeroClassName(this.props.playerClass)}
 					</span>
 					<span className="pull-right">
 						{this.props.totalWinrate &&

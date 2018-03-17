@@ -1,5 +1,5 @@
 import React from "react";
-import { toTitleCase } from "../../helpers";
+import { getHeroClassName } from "../../helpers";
 import { TableData } from "../../interfaces";
 
 interface Props {
@@ -21,7 +21,7 @@ export default class DeckStatsWinrates extends React.Component<Props> {
 			const winrate = +data[key][0]["win_rate"];
 			winrates.push(
 				<li>
-					vs. {toTitleCase(data[key][0]["player_class"])}
+					vs. {getHeroClassName(data[key][0]["player_class"])}
 					<span className="infobox-value">
 						{(+winrate).toFixed(1) + "%"}
 					</span>

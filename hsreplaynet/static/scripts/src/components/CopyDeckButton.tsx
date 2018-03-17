@@ -3,7 +3,7 @@ import clipboard from "clipboard-polyfill";
 import { encode as encodeDeckstring } from "deckstrings";
 import Tooltip from "./Tooltip";
 import CardData from "../CardData";
-import { toTitleCase } from "../helpers";
+import { getHeroClassName } from "../helpers";
 import { FormatType } from "../hearthstone";
 import { CardData as HearthstoneJSONCardData } from "hearthstonejson-client";
 
@@ -150,7 +150,7 @@ export default class CopyDeckButton extends React.Component<Props, State> {
 		return [
 			`### ${this.props.name || "HSReplay.net Deck"}`,
 			...(this.props.deckClass
-				? [`# Class: ${toTitleCase(this.props.deckClass)}`]
+				? [`# Class: ${getHeroClassName(this.props.deckClass)}`]
 				: []),
 			`# Format: ${standard ? "Standard" : "Wild"}`,
 			...(standard ? ["# Year of the Mammoth"] : []),

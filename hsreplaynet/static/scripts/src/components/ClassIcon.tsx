@@ -1,6 +1,6 @@
 import React from "react";
 import Tooltip from "./Tooltip";
-import { image, toTitleCase } from "../helpers";
+import { getHeroClassName, image } from "../helpers";
 
 export interface ClassIconProps {
 	heroClassName: string;
@@ -23,7 +23,7 @@ export default class ClassIcon extends React.Component<ClassIconProps, any> {
 
 	public render(): React.ReactNode {
 		const basePath = this.props.small ? "64x" : "";
-		const heroClassName = toTitleCase(this.props.heroClassName);
+		const heroClassName = getHeroClassName(this.props.heroClassName);
 		let fileName;
 
 		if (this.classes.indexOf(this.props.heroClassName) === -1) {
@@ -43,7 +43,7 @@ export default class ClassIcon extends React.Component<ClassIconProps, any> {
 		if (this.props.tooltip) {
 			img = (
 				<Tooltip
-					content={toTitleCase(this.props.heroClassName)}
+					content={getHeroClassName(this.props.heroClassName)}
 					simple
 					noSrTooltip
 				>

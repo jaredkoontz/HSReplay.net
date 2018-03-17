@@ -1,6 +1,6 @@
 import React from "react";
 import { AutoSizer } from "react-virtualized";
-import { toDynamicFixed, toTitleCase } from "../../helpers";
+import { getHeroClassName, toDynamicFixed } from "../../helpers";
 import PopularityLineChart from "./PopularityLineChart";
 import { LoadingStatus } from "../../interfaces";
 
@@ -34,7 +34,7 @@ export default class PopularityBox extends React.Component<Props> {
 		if (this.props.popularity !== undefined) {
 			content = [
 				<h1>{toDynamicFixed(this.props.popularity, 2)}%</h1>,
-				<h3>of {toTitleCase(this.props.playerClass)} decks</h3>,
+				<h3>of {getHeroClassName(this.props.playerClass)} decks</h3>,
 			];
 		} else if (
 			this.props.status === LoadingStatus.NO_DATA ||

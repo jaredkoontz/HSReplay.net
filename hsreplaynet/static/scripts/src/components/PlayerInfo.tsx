@@ -2,7 +2,7 @@ import React from "react";
 import CardList from "./CardList";
 import { GameReplay, GlobalGamePlayer } from "../interfaces";
 import CardData from "../CardData";
-import { getHeroDbfId, getHeroSkinCardUrl } from "../helpers";
+import { getHeroClassName, getHeroDbfId, getHeroSkinCardUrl } from "../helpers";
 import CopyDeckButton from "./CopyDeckButton";
 import Tooltip from "./Tooltip";
 import InfoIcon from "./InfoIcon";
@@ -96,13 +96,7 @@ export default class PlayerInfo extends React.Component<Props, State> {
 								),
 							]}
 							format={global_game.format}
-							name={
-								this.pluralize(opposing_player.name) +
-								" " +
-								this.toTitleCase(
-									opposing_player.hero_class_name,
-								)
-							}
+							name={this.getDeckName(opposing_player)}
 							simple
 							sourceUrl={
 								window && window.location
@@ -149,13 +143,7 @@ export default class PlayerInfo extends React.Component<Props, State> {
 								),
 							]}
 							format={global_game.format}
-							name={
-								this.pluralize(friendly_player.name) +
-								" " +
-								this.toTitleCase(
-									friendly_player.hero_class_name,
-								)
-							}
+							name={this.getDeckName(friendly_player)}
 							sourceUrl={
 								window && window.location
 									? window.location.toString().split("#")[0]
@@ -250,9 +238,7 @@ export default class PlayerInfo extends React.Component<Props, State> {
 				<div className="deck-header-fade" />
 				<div className="deck-name">
 					<span>
-						{(opponentName
-							? this.pluralize(opponentName)
-							: "Opponent") + " Deck"}
+						{`${this.pluralize(opponentName || "Opponent")} Deck`}
 					</span>
 					{opponentInfoIcon}
 				</div>
@@ -297,8 +283,7 @@ export default class PlayerInfo extends React.Component<Props, State> {
 			>
 				<div className="deck-header-fade" />
 				<div className="deck-name">
-					{(playerName ? this.pluralize(playerName) : "Player") +
-						" Deck"}
+					{`${this.pluralize(playerName || "Player")} Deck`}
 				</div>
 				{playerCopyButton}
 				{this.state.game ? playerExpandButton : null}
@@ -335,10 +320,11 @@ export default class PlayerInfo extends React.Component<Props, State> {
 		return playerClass;
 	}
 
-	toTitleCase(str: string) {
+	getDeckName(player: GlobalGamePlayer) {
 		return (
-			str.substr(0, 1).toUpperCase() +
-			str.substr(1, str.length - 1).toLowerCase()
+			this.pluralize(player.name) +
+			" " +
+			getHeroClassName(player.hero_class_name)
 		);
 	}
 

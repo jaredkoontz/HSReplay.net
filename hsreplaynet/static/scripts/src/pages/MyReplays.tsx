@@ -23,7 +23,7 @@ import {
 	ImageProps,
 } from "../interfaces";
 import CardData from "../CardData";
-import { getHeroCard, toTitleCase } from "../helpers";
+import { getHeroCard } from "../helpers";
 
 type ViewType = "tiles" | "list";
 
@@ -194,7 +194,7 @@ export default class MyReplays extends React.Component<Props, State> {
 					game.friendly_player,
 				);
 				if (heroCard !== null) {
-					const hero = toTitleCase(heroCard.cardClass);
+					const hero = heroCard.cardClass;
 					heroGames[hero] = (heroGames[hero] || 0) + 1;
 					if (game.won) {
 						heroWins[hero] = (heroWins[hero] || 0) + 1;

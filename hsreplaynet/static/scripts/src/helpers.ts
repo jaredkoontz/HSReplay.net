@@ -591,6 +591,10 @@ export function getHeroCardId(cardClass: string): string | null {
 	return null;
 }
 
+export function getHeroClassName(cardClass: string): string {
+	return toTitleCase(cardClass);
+}
+
 export function isWildSet(set: string) {
 	return wildSets.indexOf(set) !== -1;
 }
@@ -925,7 +929,7 @@ export function getOtherArchetype(archetypeId: number): Archetype {
 
 	return {
 		id: archetypeId,
-		name: "Other " + toTitleCase(cardClass[classId]),
+		name: "Other " + getHeroClassName(cardClass[classId]),
 		player_class: -archetypeId,
 		player_class_name: cardClass[classId],
 		url: "",

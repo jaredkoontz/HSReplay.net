@@ -17,9 +17,9 @@ import {
 	compareDecks,
 	getArchetypeUrl,
 	getDustCost,
+	getHeroClassName,
 	getHeroSkinCardUrl,
 	isWildSet,
-	toTitleCase,
 } from "../helpers";
 import { CardObj, RenderData, SortDirection } from "../interfaces";
 import UserData, { Account } from "../UserData";
@@ -223,7 +223,7 @@ export default class DeckDetail extends React.Component<Props, State> {
 					cardList={dbfIds}
 					name={
 						this.props.deckName ||
-						toTitleCase(this.props.deckClass) + " Deck"
+						`${getHeroClassName(this.props.deckClass)} Deck`
 					}
 					heroes={[this.props.heroDbfId]}
 					collection={this.props.collection}
@@ -448,7 +448,7 @@ export default class DeckDetail extends React.Component<Props, State> {
 		const { deckName, deckClass } = this.props;
 		const copyDeckName = deckName
 			? deckName.replace(/ Deck$/, "")
-			: toTitleCase(this.props.deckClass);
+			: getHeroClassName(this.props.deckClass);
 
 		return (
 			<div className="deck-detail-container">
@@ -517,7 +517,7 @@ export default class DeckDetail extends React.Component<Props, State> {
 									this.props.deckClass
 								}
 							>
-								{toTitleCase(this.props.deckClass)}
+								{getHeroClassName(this.props.deckClass)}
 							</a>
 						</li>
 						{archetypeInfo}

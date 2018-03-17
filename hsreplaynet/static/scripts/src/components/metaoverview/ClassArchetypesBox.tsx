@@ -1,7 +1,7 @@
 import React from "react";
 import { ApiArchetypePopularity, SortableProps } from "../../interfaces";
 import CardData from "../../CardData";
-import { toTitleCase } from "../../helpers";
+import { getHeroClassName } from "../../helpers";
 import ArchetypeClassTable from "./ArchetypeClassTable";
 import { Archetype } from "../../utils/api";
 
@@ -23,7 +23,7 @@ export default class ClassArchetypesBox extends React.Component<Props> {
 					<span
 						className={`player-class ${playerClass.toLowerCase()}`}
 					>
-						{toTitleCase(playerClass)}
+						{getHeroClassName(playerClass)}
 					</span>
 				</div>
 				<div className="box-content">

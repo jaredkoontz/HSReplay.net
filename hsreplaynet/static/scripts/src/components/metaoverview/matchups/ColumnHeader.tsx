@@ -2,7 +2,7 @@ import React from "react";
 import * as _ from "lodash";
 import { ArchetypeData } from "../../../interfaces";
 import Tooltip from "../../Tooltip";
-import { image, toTitleCase } from "../../../helpers";
+import { getHeroClassName, image } from "../../../helpers";
 
 interface Props {
 	archetypeData: ArchetypeData;
@@ -40,7 +40,7 @@ export default class ColumnHeader extends React.Component<Props> {
 		}
 		const tooltip =
 			(isIgnored ? "Include " : "Ignore ") +
-			toTitleCase(archetypeData.playerClass);
+			getHeroClassName(archetypeData.playerClass);
 		return (
 			<div
 				className={classNames.join(" ")}
@@ -54,7 +54,7 @@ export default class ColumnHeader extends React.Component<Props> {
 				<span className="header-archetype-name">
 					{archetypeData.name}
 				</span>
-				<Tooltip header={tooltip} simple={true}>
+				<Tooltip simple header={tooltip}>
 					<img
 						className="class-icon"
 						src={image(

@@ -7,10 +7,10 @@ import {
 	cardSorting,
 	compareDecks,
 	getFragments,
+	getHeroClassName,
 	getHeroSkinCardUrl,
 	image,
 	toPrettyNumber,
-	toTitleCase,
 } from "../helpers";
 import UserData from "../UserData";
 import Tooltip from "./Tooltip";
@@ -173,13 +173,6 @@ class DeckTile extends React.Component<Props> {
 			}
 		});
 
-		const deckNameStyle = {
-			backgroundImage:
-				"url(/static/images/64x/class-icons/" +
-				this.props.playerClass.toLowerCase() +
-				".png)",
-		};
-
 		const dustCost = canBeBuilt
 			? "Buildable"
 			: getDustCostForCollection(this.props.collection, this.props.cards);
@@ -190,29 +183,9 @@ class DeckTile extends React.Component<Props> {
 				: "url(/static/images/dust.png)",
 		};
 
-		let deckName = null;
-		const playerClass = toTitleCase(this.props.playerClass);
-		if (this.props.archetypeName) {
-			deckName = (
-				<span
-					className="deck-name"
-					style={deckNameStyle}
-					title={playerClass}
-				>
-					{this.props.archetypeName}
-				</span>
-			);
-		} else {
-			deckName = (
-				<span
-					className="deck-name"
-					style={deckNameStyle}
-					title={playerClass}
-				>
-					{playerClass}
-				</span>
-			);
-		}
+		let deckName = this.props.archetypeName
+			? this.props.archetypeName
+			: getHeroClassName(this.props.playerClass);
 
 		let globalDataIndicator = null;
 		if (this.props.hasGlobalData) {
@@ -284,7 +257,20 @@ class DeckTile extends React.Component<Props> {
 				<a href={this.getUrl()}>
 					<div className="deck-tile">
 						<div className="col-lg-2 col-md-2 col-sm-2 col-xs-6">
-							{deckName}
+							<span
+								className="deck-name"
+								style={{
+									backgroundImage:
+										"url(" +
+										image(
+											`64x/class-icons/${this.props.playerClass.toLowerCase()}.png`,
+										) +
+										")",
+								}}
+								title={deckName}
+							>
+								{deckName}
+							</span>
 							<small>{headerData}</small>
 							{globalDataIndicator}
 						</div>

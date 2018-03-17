@@ -7,7 +7,7 @@ import Tab from "../layout/Tab";
 import TabList from "../layout/TabList";
 import { withLoading } from "../loading/Loading";
 import { AutoSizer } from "react-virtualized";
-import { toTitleCase } from "../../helpers";
+import { getHeroClassName } from "../../helpers";
 import ClusterChart from "../d3/ClusterChart";
 import TourManager from "../../TourManager";
 
@@ -211,7 +211,7 @@ class ClassAnalysis extends React.Component<Props, State> {
 		const { playerClass } = this.props;
 		return (
 			<span className={"player-class " + playerClass.toLowerCase()}>
-				{toTitleCase(playerClass)} Decks
+				{getHeroClassName(playerClass)} Decks
 			</span>
 		);
 	}

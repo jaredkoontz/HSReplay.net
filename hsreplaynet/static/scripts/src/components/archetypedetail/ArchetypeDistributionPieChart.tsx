@@ -1,9 +1,9 @@
 import React from "react";
 import {
+	getHeroClassName,
 	getHeroColor,
 	hexToHsl,
 	stringifyHsl,
-	toTitleCase,
 } from "../../helpers";
 import { VictoryLabel, VictoryLegend, VictoryPie } from "victory";
 import { Archetype } from "../../utils/api";
@@ -45,7 +45,7 @@ export default class ArchetypeDistributionPieChart extends React.Component<
 	private getArchetypeName(archetype: Archetype): string {
 		return archetype
 			? archetype.name
-			: `Other ${toTitleCase(this.props.playerClass)}`;
+			: `Other ${getHeroClassName(this.props.playerClass)}`;
 	}
 
 	private getChartData(): any {
@@ -157,7 +157,9 @@ export default class ArchetypeDistributionPieChart extends React.Component<
 					verticalAnchor="middle"
 					x={200}
 					y={20}
-					text={`${toTitleCase(this.props.playerClass)} Archetypes`}
+					text={`${getHeroClassName(
+						this.props.playerClass,
+					)} Archetypes`}
 					style={{ fontSize: 20 }}
 				/>
 			</svg>
