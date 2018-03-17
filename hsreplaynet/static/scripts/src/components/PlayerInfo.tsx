@@ -72,9 +72,6 @@ export default class PlayerInfo extends React.Component<Props, State> {
 				Array.isArray(opposing_deck.cards) &&
 				opposing_deck.cards.length > 0
 			) {
-				const deckClass = this.toTitleCase(
-					opposing_player.hero_class_name,
-				);
 				opponentCards = (
 					<CardList
 						cardData={this.props.cardData}
@@ -91,7 +88,7 @@ export default class PlayerInfo extends React.Component<Props, State> {
 						<CopyDeckButton
 							cardData={this.props.cardData}
 							cards={opposing_deck.predicted_cards}
-							deckClass={deckClass}
+							deckClass={opposing_player.hero_class_name}
 							heroes={[
 								getHeroDbfId(
 									this.props.cardData,
@@ -102,9 +99,11 @@ export default class PlayerInfo extends React.Component<Props, State> {
 							name={
 								this.pluralize(opposing_player.name) +
 								" " +
-								deckClass
+								this.toTitleCase(
+									opposing_player.hero_class_name,
+								)
 							}
-							simple={true}
+							simple
 							sourceUrl={
 								window && window.location
 									? window.location.toString().split("#")[0]
@@ -121,16 +120,15 @@ export default class PlayerInfo extends React.Component<Props, State> {
 				}
 				opponentHeaderStyle[
 					"backgroundImage"
-				] = `url(${getHeroSkinCardUrl(deckClass)})`;
+				] = `url(${getHeroSkinCardUrl(
+					opposing_player.hero_class_name,
+				)})`;
 			}
 			if (
 				friendly_deck &&
 				Array.isArray(friendly_deck.cards) &&
 				friendly_deck.cards.length > 0
 			) {
-				const deckClass = this.toTitleCase(
-					friendly_player.hero_class_name,
-				);
 				playerCards = (
 					<CardList
 						cardData={this.props.cardData}
@@ -140,9 +138,10 @@ export default class PlayerInfo extends React.Component<Props, State> {
 				if (friendly_deck.cards.length === 30) {
 					playerCopyButton = (
 						<CopyDeckButton
+							simple
 							cardData={this.props.cardData}
 							cards={friendly_deck.cards}
-							deckClass={deckClass}
+							deckClass={friendly_player.hero_class_name}
 							heroes={[
 								getHeroDbfId(
 									this.props.cardData,
@@ -153,9 +152,10 @@ export default class PlayerInfo extends React.Component<Props, State> {
 							name={
 								this.pluralize(friendly_player.name) +
 								" " +
-								deckClass
+								this.toTitleCase(
+									friendly_player.hero_class_name,
+								)
 							}
-							simple={true}
 							sourceUrl={
 								window && window.location
 									? window.location.toString().split("#")[0]
@@ -167,7 +167,9 @@ export default class PlayerInfo extends React.Component<Props, State> {
 
 				playerHeaderStyle[
 					"backgroundImage"
-				] = `url(${getHeroSkinCardUrl(deckClass)})`;
+				] = `url(${getHeroSkinCardUrl(
+					friendly_player.hero_class_name,
+				)})`;
 			}
 		}
 
@@ -219,7 +221,7 @@ export default class PlayerInfo extends React.Component<Props, State> {
 
 		const opponentExpandButton = (
 			<Tooltip
-				simple={true}
+				simple
 				content={display === "opponent" ? "Collapse" : "Expand"}
 			>
 				<span
@@ -265,7 +267,7 @@ export default class PlayerInfo extends React.Component<Props, State> {
 
 		const playerExpandButton = (
 			<Tooltip
-				simple={true}
+				simple
 				content={display === "player" ? "Collapse" : "Expand"}
 			>
 				<span
