@@ -8,7 +8,6 @@ import {
 	DataPoint,
 	GlobalGamePlayer,
 } from "./interfaces";
-import { adventureSets } from "./contants";
 import { wildSets } from "./contants";
 import Fragments from "./components/Fragments";
 import CardData from "./CardData";
@@ -599,18 +598,9 @@ export function isWildSet(set: string) {
 	return wildSets.indexOf(set) !== -1;
 }
 
-export function isAdventure(set: string) {
-	return adventureSets.indexOf(set) !== -1;
-}
-
 export function isCraftableSet(set: string) {
 	// basic cards (CORE) can never be crafted
 	if (set === "CORE") {
-		return false;
-	}
-
-	// cards from active adventures cannot be crafted
-	if (isAdventure(set) && !isWildSet(set)) {
 		return false;
 	}
 
