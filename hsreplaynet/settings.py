@@ -323,8 +323,6 @@ OAUTH2_PROVIDER_APPLICATION_MODEL = "oauth2.Application"
 if ENV_DEV:
 	INSTALLED_APPS += [
 		"debug_toolbar",
-		"sslserver",
-		"django_extensions",
 	]
 	MIDDLEWARE += [
 		"debug_toolbar.middleware.DebugToolbarMiddleware",
