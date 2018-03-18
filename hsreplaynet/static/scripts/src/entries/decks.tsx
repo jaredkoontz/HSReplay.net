@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import CardData from "../CardData";
 import Decks from "../pages/Decks";
-import UserData, { Account } from "../UserData";
+import UserData from "../UserData";
 import Fragments from "../components/Fragments";
 import { Consumer as HearthstoneAccountConsumer } from "../components/utils/hearthstone-account";
 import DataInjector from "../components/DataInjector";

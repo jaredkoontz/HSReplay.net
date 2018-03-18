@@ -183,7 +183,7 @@ class DeckTile extends React.Component<Props> {
 				: "url(/static/images/dust.png)",
 		};
 
-		let deckName = this.props.archetypeName
+		const deckName = this.props.archetypeName
 			? this.props.archetypeName
 			: getHeroClassName(this.props.playerClass);
 
