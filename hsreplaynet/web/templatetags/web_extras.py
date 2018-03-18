@@ -113,26 +113,6 @@ def last_used(time):
 	return "within the last week"
 
 
-BLIZZARD_LANG_MAP = {
-	"en": "enUS",
-	"en-gb": "enUS",
-	"fr": "frFR",
-	"de": "deDE",
-	"ko": "koKR",
-	"es": "esES",
-	"es-mx": "esMX",
-	"ru": "ruRU",
-	"zh-hant": "zhTW",
-	"zh-hans": "zhCN",
-	"it": "itIT",
-	"pl": "plPL",
-	"pt": "ptBR",  # ptPT unused
-	"pt-br": "ptBR",
-	"ja": "jaJP",
-	"th": "thTH",
-}
-
-
 @register.filter
 def blizzard_lang(lang):
-	return BLIZZARD_LANG_MAP.get(lang, "enUS")
+	return settings.LANGUAGE_MAP.get(lang, "enUS")

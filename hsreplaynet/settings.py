@@ -152,11 +152,10 @@ USE_I18N = True
 USE_L10N = False
 LANGUAGE_CODE = "en-us"
 
-
 # Order matches the hearthstone Locale enum
 LANGUAGES = (
 	("en", "English"),
-	("en-gb", "British English"),
+	# ("en-gb", "British English"),
 	("fr", "Français"),
 	("de", "Deutsch"),
 	("ko", "한국어"),
@@ -168,10 +167,28 @@ LANGUAGES = (
 	("it", "Italiano"),
 	("pt-br", "Português (Brasil)"),
 	("pl", "Polski"),
-	("pt", "Português"),
+	# ("pt", "Português"),
 	("ja", "日本語"),
 	("th", "ภาษาไทย"),
 )
+LANGUAGE_MAP = {
+	"en": "enUS",
+	# "en-gb": "enUS",
+	"fr": "frFR",
+	"de": "deDE",
+	"ko": "koKR",
+	"es": "esES",
+	"es-mx": "esMX",
+	"ru": "ruRU",
+	"zh-hant": "zhTW",
+	"zh-hans": "zhCN",
+	"it": "itIT",
+	"pl": "plPL",
+	# "pt": "ptBR",  # ptPT unused
+	"pt-br": "ptBR",
+	"ja": "jaJP",
+	"th": "thTH",
+}
 
 USE_TZ = True
 TIME_ZONE = "UTC"
