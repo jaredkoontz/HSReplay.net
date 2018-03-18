@@ -763,9 +763,11 @@ export function getArchetypeUrl(id: string | number, name: string): string {
 
 function slugify(str: string): string {
 	return str
-		.replace(/[^\w\s-]/g, "")
-		.trim()
 		.toLowerCase()
+		.trim()
+		.normalize("NFD")
+		.replace(/[\u0300-\u036f]/g, "")
+		.replace(/[^\w\s-]/g, "")
 		.replace(/[-\s]+/g, "-");
 }
 
