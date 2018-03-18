@@ -2,7 +2,7 @@ import React from "react";
 import { BlizzardAccount } from "../../../utils/api";
 import ModalAwait from "./ModalAwait";
 import DownloadSection from "./DownloadSection";
-import { getAccountKey } from "../../../utils/account";
+import { getAccountKey, prettyBlizzardAccount } from "../../../utils/account";
 import ProgressIndicator from "./ProgressIndicator";
 import CloseModalButton from "../../modal/CloseModalButton";
 import LoginButton from "../../account/LoginButton";
@@ -13,6 +13,7 @@ interface Props {
 	blizzardAccount: BlizzardAccount | null;
 	hasCollection: boolean;
 	hasTokens: boolean;
+	hasMultipleBlizzardAccounts: boolean;
 	refreshAccount: () => any;
 	refreshCollection: () => any;
 }
@@ -197,8 +198,8 @@ export default class CollectionSetupDialog extends React.Component<
 										: "Download and install Hearthstone Deck Tracker"}
 								</li>
 								<li>
-									Sign in by clicking on the blue HSReplay.net
-									banner at the top of your deck tracker
+									Click on the blue HSReplay.net banner at the
+									top of your deck tracker
 									{this.props.hasTokens ? (
 										<>
 											<br />
@@ -209,6 +210,9 @@ export default class CollectionSetupDialog extends React.Component<
 											</span>
 										</>
 									) : null}
+								</li>
+								<li>
+									Make sure you're signed in to HSReplay.net
 								</li>
 							</ol>
 						</section>
@@ -239,8 +243,16 @@ export default class CollectionSetupDialog extends React.Component<
 							{this.state.previousStep === Step.CLAIM_ACCOUNT ? (
 								<>
 									<p>
-										You're nearly there! Enter your
-										collection in Hearthstone.
+										We found your account{" "}
+										<strong>
+											{prettyBlizzardAccount(
+												this.props.blizzardAccount,
+											)}
+										</strong>.
+									</p>
+									<p>
+										Now enter your collection in Hearthstone
+										to complete the setup.
 									</p>
 									<p className="text-help">
 										Note: Make sure the deck tracker is
@@ -255,6 +267,24 @@ export default class CollectionSetupDialog extends React.Component<
 										<li>Launch Hearthstone</li>
 										<li>Enter your collection</li>
 									</ol>
+									<p className="text-help">
+										Make sure you're logged in to Battle.net
+										as{" "}
+										<strong>
+											{prettyBlizzardAccount(
+												this.props.blizzardAccount,
+											)}
+										</strong>.
+										{this.props
+											.hasMultipleBlizzardAccounts ? (
+											<>
+												<br />
+												Setup another account by
+												clicking on your account in the
+												top right.
+											</>
+										) : null}
+									</p>
 								</>
 							)}
 						</section>
@@ -265,9 +295,14 @@ export default class CollectionSetupDialog extends React.Component<
 				return (
 					<>
 						<section id="collection-setup-done">
-							<h2 className="text-left">Collection received!</h2>
-							<p>
-								You have uploaded your collection. Hooray!
+							<h2 className="text-center">Setup complete!</h2>
+							<p className="text-center">
+								You have uploaded your collection for{" "}
+								<strong>
+									{prettyBlizzardAccount(
+										this.props.blizzardAccount,
+									)}
+								</strong>. Hooray!
 								<br />
 								The deck tracker will now keep your collection
 								up to date.
@@ -275,14 +310,13 @@ export default class CollectionSetupDialog extends React.Component<
 						</section>
 						<section id="collection-setup-check-it-out">
 							<p className="text-center">
-								<span>Try it out:</span>
 								<a
 									href={`/decks/?hearthstone_account=${getAccountKey(
 										this.props.blizzardAccount,
-									)}`}
+									)}#maxDustCost=0`}
 									className="promo-button-outline"
 								>
-									View Decks
+									See the decks you can build
 								</a>
 							</p>
 						</section>

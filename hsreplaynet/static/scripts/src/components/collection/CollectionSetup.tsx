@@ -14,6 +14,7 @@ interface State {
 	hasTokens?: boolean | null;
 	hasConnectedHDT: boolean | null;
 	blizzardAccount: BlizzardAccount;
+	hasMultipleBlizzardAccounts: boolean;
 }
 
 export default class CollectionSetup extends React.Component<Props, State> {
@@ -23,6 +24,7 @@ export default class CollectionSetup extends React.Component<Props, State> {
 			hasConnectedHDT: null,
 			hasTokens: null,
 			blizzardAccount: null,
+			hasMultipleBlizzardAccounts: false,
 		};
 	}
 
@@ -42,17 +44,21 @@ export default class CollectionSetup extends React.Component<Props, State> {
 					account.tokens.length > 0;
 
 				let blizzardAccount = null;
+				let hasMultipleBlizzardAccounts = false;
 				if (
 					Array.isArray(account.blizzard_accounts) &&
 					account.blizzard_accounts.length > 0
 				) {
 					blizzardAccount = account.blizzard_accounts[0];
+					hasMultipleBlizzardAccounts =
+						account.blizzard_accounts.length > 1;
 				}
 
 				this.setState(state =>
 					Object.assign({}, state, {
 						hasConnectedHDT,
 						hasTokens,
+						hasMultipleBlizzardAccounts,
 						blizzardAccount,
 					}),
 				);
@@ -107,6 +113,10 @@ export default class CollectionSetup extends React.Component<Props, State> {
 										blizzardAccount={blizzardAccount}
 										hasCollection={!!collection}
 										hasTokens={this.state.hasTokens}
+										hasMultipleBlizzardAccounts={
+											this.state
+												.hasMultipleBlizzardAccounts
+										}
 										refreshAccount={this.getAccountData}
 										refreshCollection={() =>
 											refresh("collection")
