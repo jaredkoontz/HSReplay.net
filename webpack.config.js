@@ -20,6 +20,7 @@ for (const [key, val] of Object.entries(exportedSettings)) {
 	settings[key] = JSON.stringify(val);
 }
 const isProduction = process.env.NODE_ENV === "production";
+const cacheDir = "/tmp/webpack-cache";
 
 const plugins = [];
 if (isProduction) {
@@ -33,13 +34,7 @@ if (isProduction) {
 	const HardSourceWebpackPlugin = require("hard-source-webpack-plugin");
 	plugins.push(
 		new HardSourceWebpackPlugin({
-			cacheDirectory: path.join(
-				__dirname,
-				"build",
-				"cache",
-				"hard-source",
-				"[confighash]",
-			),
+			cacheDirectory: path.join(cacheDir, "hard-source", "[configHash]"),
 		}),
 	);
 }
@@ -156,9 +151,7 @@ module.exports = env => {
 									],
 								],
 								cacheDirectory: path.join(
-									__dirname,
-									"build",
-									"cache",
+									cacheDir,
 									"babel-loader",
 								),
 							},
