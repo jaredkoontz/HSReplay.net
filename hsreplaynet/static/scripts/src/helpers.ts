@@ -691,12 +691,6 @@ export function slangToCardId(slang: string): string | null {
 	switch (slang.toLowerCase()) {
 		case "bgh": // Big Game Hunter
 			return "EX1_005";
-		case "bok": // Blessing of Kings
-			return "CS2_092";
-		case "bom": // Blessing of Might
-			return "CS2_087e";
-		case "coh": // Circle of Healing
-			return "EX1_621";
 		case "dr6": // Mysterious Challenger
 			return "AT_079";
 		case "dr7": // Dr. Boom
@@ -717,10 +711,6 @@ export function slangToCardId(slang: string): string | null {
 			return "EX1_145";
 		case "rag": // Ragnaros the Firelord
 			return "EX1_298";
-		case "reno": // Reno Jackson
-			return "LOE_011";
-		case "shredder": // Piloted Shredder
-			return "GVG_096";
 		case "stb": // Small-Time Buccaneer
 			return "CFM_325";
 		case "swd": // Shadow: Word Death
@@ -734,8 +724,6 @@ export function slangToCardId(slang: string): string | null {
 			return "OG_024";
 		case "nzoth": // N'Zoth, the Corruptor
 			return "OG_133";
-		case "cta": // Call to Arms
-			return "LOOT_093";
 		case "tms": // To My Side!
 			return "LOOT_217";
 	}
