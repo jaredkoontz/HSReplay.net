@@ -680,7 +680,11 @@ export function winrateData(
 }
 
 export function cleanText(text: string): string {
-	return text.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+	return text
+		.normalize("NFD")
+		.replace(/[\u0300-\u036f]/g, "")
+		.replace(/[^\W]/, "")
+		.toLowerCase();
 }
 
 export function slangToCardId(slang: string): string | null {

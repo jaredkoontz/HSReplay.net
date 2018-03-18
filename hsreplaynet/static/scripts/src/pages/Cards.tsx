@@ -1316,6 +1316,7 @@ export default class Cards extends React.Component<Props, State> {
 			const slangs = cleanParts
 				.map(x => slangToCardId(x))
 				.filter(x => x !== null);
+
 			if (
 				slangs.length === 0 ||
 				slangs.every(slang => card.id !== slang)
