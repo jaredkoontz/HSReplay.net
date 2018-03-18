@@ -179,7 +179,7 @@ class DeckTile extends React.Component<Props> {
 
 		const dustCostStyle = {
 			backgroundImage: canBeBuilt
-				? "url(/static/images/check.svg)"
+				? "url(/static/images/dust-check.png)"
 				: "url(/static/images/dust.png)",
 		};
 
