@@ -93,7 +93,6 @@ if (document && document.location && document.location.search) {
 							>
 								<CollectionSetup />
 							</Modal>
-							) : null}
 						</BlizzardAccountProvider>,
 						modalDummy,
 					);
