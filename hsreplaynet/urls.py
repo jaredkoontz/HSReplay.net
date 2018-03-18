@@ -22,6 +22,7 @@ if not settings.ENV_LAMBDA:
 	from django.contrib.sitemaps.views import sitemap
 	from .billing.views import PremiumDetailView
 	from .web.sitemap import SITEMAPS
+	from .web.views import SetLocaleView
 
 	# These pages are not registered on Lambda as they are not needed there
 	urlpatterns += [
@@ -36,6 +37,7 @@ if not settings.ENV_LAMBDA:
 		url(r"^about/tos/$", flatpage, {"url": "/about/tos/"}, name="terms_of_service"),
 		url(r"^downloads/", DownloadsView.as_view(), name="downloads"),
 		url(r"^features/", include("hsreplaynet.features.urls")),
+		url(r"^i18n/setprefs/$", SetLocaleView.as_view()),
 		url(r"^live/", include("hsreplaynet.live.urls")),
 		url(r"^profile/", include("hsreplaynet.profiles.urls")),
 		url(r"^pages/", include("django.contrib.flatpages.urls")),

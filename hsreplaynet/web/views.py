@@ -2,6 +2,8 @@ import json
 
 from django.conf import settings
 from django.http import HttpResponse
+from django.shortcuts import redirect
+from django.utils.http import is_safe_url
 from django.views.generic import RedirectView, TemplateView, View
 from hearthstone.enums import BnetGameType, CardClass
 
@@ -161,3 +163,32 @@ class DownloadsView(RequestMetaMixin, TemplateView):
 class PingView(View):
 	def get(self, request):
 		return HttpResponse("OK")
+
+
+class SetLocaleView(View):
+	success_url = "/"
+
+	def get_next(self):
+		next = self.request.GET.get("next", "")
+		if next and is_safe_url(next):
+			return next
+		return self.success_url
+
+	def get(self, request):
+		locale = request.GET.get("hl", "")
+
+		response = redirect(self.get_next())
+
+		if locale and locale in settings.LANGUAGE_MAP:
+			if request.user.is_authenticated:
+				request.user.locale = locale
+				request.user.save()
+			else:
+				response.set_cookie(
+					settings.LANGUAGE_COOKIE_NAME, locale,
+					max_age=settings.LANGUAGE_COOKIE_AGE,
+					path=settings.LANGUAGE_COOKIE_PATH,
+					domain=settings.LANGUAGE_COOKIE_DOMAIN
+				)
+
+		return response
