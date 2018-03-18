@@ -5,11 +5,8 @@ export default class InfluxMetricsBackend implements MetricsBackend {
 	constructor(public url: string) {}
 
 	public writePoints(points: Point[]) {
-		if (!points.length) {
-			return;
-		}
 		const url = this.url;
-		if (!Blob) {
+		if (!points.length || !Blob || !url) {
 			return;
 		}
 		const blob = new Blob(
