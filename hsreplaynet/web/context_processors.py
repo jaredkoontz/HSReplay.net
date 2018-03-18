@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.contrib.messages import get_messages
+from django.urls import reverse
 from django.utils import translation
 from djpaypal.models import BillingPlan
 from djpaypal.settings import PAYPAL_CLIENT_ID, PAYPAL_LIVE_MODE
@@ -45,6 +46,14 @@ def userdata(request):
 				"region": acc.region,
 				"display": str(acc),
 			})
+	else:
+		data["login"] = {
+			"default": reverse("account_login"),
+			"blizzard": reverse("battlenet_login"),
+			"blizzard_cn": reverse("battlenet_login") + "?region=cn",
+		}
+		if settings.DEBUG:
+			data["login"]["password"] = data["login"]["default"] + "?with-password"
 
 	data["features"] = {}
 	for feature in Feature.objects.all():
