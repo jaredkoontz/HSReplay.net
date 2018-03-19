@@ -1,0 +1,51 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+"boto3" = "*"
+django = "*"
+django-allauth = "*"
+django-contrib-comments = "*"
+django-hearthstone = "*"
+django-intenumfield = "*"
+django-loginas = "*"
+django-oauth-toolkit = "*"
+django-redis = "*"
+django-reflinks = "*"
+djangorestframework = "*"
+django-storages = "*"
+django-webpack-loader = "*"
+dj-paypal = "*"
+hearthsim-identity = "*"
+hearthstone = "*"
+hearthstone-data = "*"
+influxdb = "*"
+lxml = "*"
+numpy = "*"
+"psycopg2" = "*"
+python-dateutil = "*"
+python-redis-lock = {extras = ["django"]}
+raven = "*"
+redis = "*"
+redis-semaphore = "*"
+requests = "*"
+scikit-learn = {extras = ["alldeps"]}
+shortuuid = "*"
+simplejson = "*"
+sqlalchemy = "*"
+sqlalchemy-redshift = "*"
+stripe = "*"
+dj-stripe = {file = "https://github.com/jleclanche/dj-stripe/archive/master.tar.gz"}
+hsredshift = {file = "https://github.com/HearthSim/hsredshift/archive/master.tar.gz"}
+hsarchetypes = {file = "https://github.com/HearthSim/hsarchetypes/archive/master.tar.gz"}
+
+[dev-packages]
+django-debug-toolbar = "*"
+django-extensions = "*"
+q = "*"
+tox = "*"
+
+[requires]
+python_version = "3.6"
