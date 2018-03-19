@@ -123,7 +123,7 @@ class UpdateBlizzardAccountView(APIView):
 
 class ClaimTokenAPIView(APIView):
 	serializer_class = ClaimTokenSerializer
-	authentication_classes = (SessionAuthentication, OAuth2Authentication)
+	authentication_classes = (OAuth2Authentication, )
 
 	def post(self, request):
 		serializer = self.serializer_class(data=request.data)
