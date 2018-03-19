@@ -137,7 +137,7 @@ class CollectionView(BaseCollectionView):
 		collection = self._parse_collection_json(obj.get("Body"), obj.get("ContentEncoding", ""))
 
 		response_headers = obj.get("ResponseMetadata", {}).get("HTTPHeaders", {})
-		headers = {"cache-control": "private"}
+		headers = {"cache-control": "private, no-cache"}
 
 		if collection:
 			for header in ("etag", "last-modified"):
