@@ -39,7 +39,6 @@ def userdata(request):
 		data["accounts"] = []
 		for acc in request.user.blizzard_accounts.all():
 			data["accounts"].append({
-				"hi": str(acc.account_hi),
 				"lo": acc.account_lo,
 				"battletag": acc.battletag,
 				"region": acc.region,
