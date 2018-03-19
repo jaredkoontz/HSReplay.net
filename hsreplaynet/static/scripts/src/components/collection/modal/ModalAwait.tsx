@@ -5,7 +5,7 @@ export default class ModalAwait extends React.Component {
 		return (
 			<p className="modal-await">
 				<span className="glyphicon glyphicon-repeat glyphicon-spin" />
-				Waiting for {this.props.children}…
+				{this.props.children}
 			</p>
 		);
 	}

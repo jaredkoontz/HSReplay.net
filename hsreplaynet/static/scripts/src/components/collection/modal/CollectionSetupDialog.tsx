@@ -216,7 +216,7 @@ export default class CollectionSetupDialog extends React.Component<
 								</li>
 							</ol>
 						</section>
-						<ModalAwait>your deck tracker</ModalAwait>
+						<ModalAwait>Waiting for your deck tracker…</ModalAwait>
 					</>
 				);
 			case Step.CLAIM_ACCOUNT:
@@ -232,7 +232,7 @@ export default class CollectionSetupDialog extends React.Component<
 								running and enter your collection.
 							</p>
 						</section>
-						<ModalAwait>Hearthstone</ModalAwait>
+						<ModalAwait>Waiting for Hearthstone…</ModalAwait>
 					</>
 				);
 			case Step.UPLOAD_COLLECTION:
@@ -288,7 +288,7 @@ export default class CollectionSetupDialog extends React.Component<
 								</>
 							)}
 						</section>
-						<ModalAwait>your collection</ModalAwait>
+						<ModalAwait>Waiting for your collection…</ModalAwait>
 					</>
 				);
 			case Step.COMPLETE:
