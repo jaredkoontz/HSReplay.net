@@ -1,4 +1,4 @@
-import { MetricsBackend, Point } from "./MetricsBackend";
+import { MetricsBackend, Point, Tags, Values } from "./MetricsBackend";
 import Blob from "blob";
 
 export default class InfluxMetricsBackend implements MetricsBackend {
@@ -17,7 +17,7 @@ export default class InfluxMetricsBackend implements MetricsBackend {
 						for (const tagKey in point.tags) {
 							let tag = point.tags[tagKey];
 							if (typeof tag === "boolean") {
-								tag = !!tag ? 1 : 0;
+								tag = !!tag ? "1" : "0";
 							}
 							if (typeof tag === "number") {
 								tag = "" + tag;
@@ -57,7 +57,7 @@ export default class InfluxMetricsBackend implements MetricsBackend {
 		}
 	}
 
-	public writePoint(series: string, values: Object, tags?: Object) {
+	public writePoint(series: string, values: Values, tags?: Tags) {
 		this.writePoints([{ series, values, tags }]);
 	}
 }

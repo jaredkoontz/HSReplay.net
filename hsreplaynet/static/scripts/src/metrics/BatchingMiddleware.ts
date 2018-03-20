@@ -1,4 +1,4 @@
-import { MetricsBackend, Point } from "./MetricsBackend";
+import { MetricsBackend, Point, Tags, Values } from "./MetricsBackend";
 
 export default class BatchingMiddleware implements MetricsBackend {
 	private backend: MetricsBackend;
@@ -38,7 +38,7 @@ export default class BatchingMiddleware implements MetricsBackend {
 		});
 	}
 
-	public writePoint(series: string, values: Object, tags?: Object) {
+	public writePoint(series: string, values: Values, tags?: Tags) {
 		const point: Point = {
 			series,
 			values,
