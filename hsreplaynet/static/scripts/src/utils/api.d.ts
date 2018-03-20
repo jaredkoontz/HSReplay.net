@@ -6,6 +6,16 @@ import {
 } from "../hearthstone";
 
 /**
+ * Model pagination
+ */
+export interface Paginated<T> {
+	count: number;
+	next: string | null;
+	previous: string | null;
+	results: T;
+}
+
+/**
  * {@link /api/v1/account/}
  */
 export interface Account {
@@ -24,6 +34,23 @@ interface BlizzardAccount {
 	account_lo: number;
 	region: BnetRegion;
 }
+
+/**
+ * {@link /api/v1/features/}
+ */
+export interface Feature {
+	name: string;
+	status:
+		| "OFF"
+		| "STAFF_ONLY"
+		| "AUTHORIZED_ONLY"
+		| "LOGGED_IN_USERS"
+		| "PUBLIC";
+	description: string;
+	enabled_for_user: boolean;
+}
+
+export interface Features extends Paginated<Feature[]> {}
 
 /**
  * {@link /api/v1/collection/}
