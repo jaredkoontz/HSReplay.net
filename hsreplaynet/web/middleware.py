@@ -10,6 +10,7 @@ from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.utils import translation
 
 from .html import HTMLHead
+from .templatetags.web_extras import lang_to_opengraph
 
 
 class DoNotTrackMiddleware:
@@ -45,7 +46,7 @@ class MetaTagsMiddleware:
 
 		request.head.opengraph["og:type"] = "website"
 		request.head.opengraph["og:site_name"] = "HSReplay.net"
-		request.head.opengraph["og:locale"] = "en_US"
+		request.head.opengraph["og:locale"] = lang_to_opengraph(translation.get_language())
 		request.head.opengraph["og:image"] = request.build_absolute_uri(thumbnail)
 		request.head.opengraph["og:image:width"] = 400
 		request.head.opengraph["og:image:height"] = 400

@@ -172,23 +172,24 @@ LANGUAGES = (
 	("th", "ภาษาไทย"),
 )
 LANGUAGE_MAP = {
-	"en": "enUS",
-	# "en-gb": "enUS",
-	"fr": "frFR",
-	"de": "deDE",
-	"ko": "koKR",
-	"es": "esES",
-	"es-mx": "esMX",
-	"ru": "ruRU",
-	"zh-hant": "zhTW",
-	"zh-hans": "zhCN",
-	"it": "itIT",
-	"pl": "plPL",
-	# "pt": "ptBR",  # ptPT unused
-	"pt-br": "ptBR",
-	"ja": "jaJP",
-	"th": "thTH",
+	"en": ("enUS", "en_US"),
+	# "en-gb": ("enGB", "en_GB"),  # unused
+	"fr": ("frFR", "fr_FR"),
+	"de": ("deDE", "de_DE"),
+	"ko": ("koKR", "ko_KR"),
+	"es": ("esES", "es_ES"),
+	"es-mx": ("esMX", "es_MX"),
+	"ru": ("ruRU", "ru_RU"),
+	"zh-hant": ("zhTW", "zh_TW"),
+	"zh-hans": ("zhCN", "zh_CN"),
+	"it": ("itIT", "it_IT"),
+	"pl": ("plPL", "pl_PL"),
+	# "pt": ("ptPT", "pt_PT"),  # unused
+	"pt-br": ("ptBR", "pt_BR"),
+	"ja": ("jaJP", "ja_JP"),
+	"th": ("thTH", "th_TH"),
 }
+LANGUAGE_MAP["en-us"] = LANGUAGE_MAP["en"]
 
 USE_TZ = True
 TIME_ZONE = "UTC"

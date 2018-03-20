@@ -10,12 +10,14 @@ from djstripe.settings import STRIPE_LIVE_MODE, STRIPE_PUBLIC_KEY
 
 from hsreplaynet.features.models import Feature
 
+from .templatetags.web_extras import lang_to_blizzard
+
 
 def userdata(request):
 	data = {
-		"is_authenticated": bool(request.user.is_authenticated),
+		"is_authenticated": request.user.is_authenticated,
 		"card_art_url": settings.HEARTHSTONE_ART_URL,
-		"hearthstone_locale": settings.LANGUAGE_MAP.get(translation.get_language(), "enUS"),
+		"hearthstone_locale": lang_to_blizzard(translation.get_language()),
 		"languages": settings.LANGUAGES,
 	}
 

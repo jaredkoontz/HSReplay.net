@@ -114,5 +114,14 @@ def last_used(time):
 
 
 @register.filter
-def blizzard_lang(lang):
-	return settings.LANGUAGE_MAP.get(lang, "enUS")
+def lang_to_blizzard(lang: str) -> str:
+	if lang not in settings.LANGUAGE_MAP:
+		lang = settings.LANGUAGE_CODE
+	return settings.LANGUAGE_MAP[lang][0]
+
+
+@register.filter
+def lang_to_opengraph(lang: str) -> str:
+	if lang not in settings.LANGUAGE_MAP:
+		lang = settings.LANGUAGE_CODE
+	return settings.LANGUAGE_MAP[lang][1]
