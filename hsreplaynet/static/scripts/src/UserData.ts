@@ -63,6 +63,9 @@ export default class UserData {
 	}
 
 	static isAuthenticated(): boolean {
+		if (!!cookie.get("logged-out-mode", false)) {
+			return false;
+		}
 		return !!(this._instance && UserData._instance.is_authenticated);
 	}
 

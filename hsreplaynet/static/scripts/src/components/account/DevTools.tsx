@@ -16,6 +16,7 @@ interface State {
 	features: Feature[] | null;
 	reload: boolean;
 	freeMode: boolean;
+	loggedOutMode: boolean;
 }
 
 export default class DevTools extends React.Component<Props, State> {
@@ -29,6 +30,7 @@ export default class DevTools extends React.Component<Props, State> {
 			features: [],
 			reload: false,
 			freeMode: cookie.get("free-mode", "") === "true",
+			loggedOutMode: cookie.get("logged-out-mode", "") === "true",
 		};
 	}
 
@@ -82,6 +84,21 @@ export default class DevTools extends React.Component<Props, State> {
 			cookie.remove("free-mode");
 		}
 		this.setState({ freeMode, reload: true });
+		if (!this.props.lazyReload) {
+			document.location.reload();
+		}
+	};
+
+	private toggleLoggedOutMode = (event: React.MouseEvent<HTMLElement>) => {
+		event.preventDefault();
+		const loggedOutMode = !this.state.loggedOutMode;
+		if (loggedOutMode) {
+			cookie.set("logged-out-mode", "true", { expires: 365 });
+		} else {
+			console.log(2);
+			cookie.remove("logged-out-mode");
+		}
+		this.setState({ loggedOutMode, reload: true });
 		if (!this.props.lazyReload) {
 			document.location.reload();
 		}
@@ -166,20 +183,22 @@ export default class DevTools extends React.Component<Props, State> {
 
 		return (
 			<>
-				{features.sort((a, b) => a.name > b.name ? 1 : -1).map(feature => (
-					<li key={feature.name}>
-						<a
-							href="#"
-							className="devtools-feature"
-							onClick={() => this.toggleFeature(feature.name)}
-						>
-							{feature.name}
-							<span className={getLabelClassName(feature)}>
-								{feature.status}
-							</span>
-						</a>
-					</li>
-				))}
+				{features
+					.sort((a, b) => (a.name > b.name ? 1 : -1))
+					.map(feature => (
+						<li key={feature.name}>
+							<a
+								href="#"
+								className="devtools-feature"
+								onClick={() => this.toggleFeature(feature.name)}
+							>
+								{feature.name}
+								<span className={getLabelClassName(feature)}>
+									{feature.status}
+								</span>
+							</a>
+						</li>
+					))}
 			</>
 		);
 	}
@@ -201,6 +220,11 @@ export default class DevTools extends React.Component<Props, State> {
 				<li className={this.state.freeMode ? "active" : ""}>
 					<a href="#" onClick={this.toggleFreemode}>
 						Free Mode
+					</a>
+				</li>
+				<li className={this.state.loggedOutMode ? "active" : ""}>
+					<a href="#" onClick={this.toggleLoggedOutMode}>
+						Logged Out Mode
 					</a>
 				</li>
 				<li role="separator" className="divider" />

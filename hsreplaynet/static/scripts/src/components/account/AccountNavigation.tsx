@@ -4,6 +4,7 @@ import { Consumer as BlizzardAccountConsumer } from "../utils/hearthstone-accoun
 import UserData from "../../UserData";
 import { getAccountKey } from "../../utils/account";
 import DevTools from "./DevTools";
+import { cookie } from "cookie_js";
 
 interface Props {
 	isAuthenticated: boolean;
@@ -42,7 +43,9 @@ export default class AccountNavigation extends React.Component<Props> {
 
 		return (
 			<>
-				{this.props.isAuthenticated && this.props.isStaff ? (
+				{(this.props.isAuthenticated ||
+					!!cookie.get("logged-out-mode", 0)) &&
+				this.props.isStaff ? (
 					<DevTools />
 				) : null}
 
