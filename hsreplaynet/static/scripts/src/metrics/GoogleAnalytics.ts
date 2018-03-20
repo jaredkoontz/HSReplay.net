@@ -101,7 +101,7 @@ export class CollectionEvents extends GoogleAnalytics {
 
 	public static onEnterModalStep(step: string): Promise<void> {
 		INFLUX_CLIENT.writePoint(
-			"hsreplaynet_collection_modal_step",
+			"collection_modal_step",
 			{
 				count: "1i",
 			},
