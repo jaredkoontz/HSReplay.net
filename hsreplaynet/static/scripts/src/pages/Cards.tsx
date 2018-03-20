@@ -332,7 +332,14 @@ export default class Cards extends React.Component<Props, State> {
 			: Promise.resolve([])
 		).then(sparseDict => {
 			this.state.cards.forEach(card => {
-				if (
+				if (card.id.startsWith("BCON_")) {
+					if (
+						this.isStatsView() &&
+						(showUncollectible || this.props.gameType !== "ARENA")
+					) {
+						return;
+					}
+				} else if (
 					(showUncollectible && !viableUncollectibleCard(card)) ||
 					(!showUncollectible && !isCollectibleCard(card))
 				) {
