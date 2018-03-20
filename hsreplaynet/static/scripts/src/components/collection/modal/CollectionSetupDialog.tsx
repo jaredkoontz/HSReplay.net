@@ -360,14 +360,10 @@ export default class CollectionSetupDialog extends React.Component<
 						<section id="collection-setup-check-it-out">
 							<p className="text-center">
 								<a
-									href={"#"}
+									href={"/account/"}
 									className="promo-button-outline text-uppercase"
-									onClick={() => {
-										cookie.remove("disable-collection");
-										document.location.reload();
-									}}
 								>
-									Enable
+									Account settings
 								</a>
 							</p>
 						</section>
