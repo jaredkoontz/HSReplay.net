@@ -680,8 +680,10 @@ export function winrateData(
 }
 
 export function cleanText(text: string): string {
+	if (typeof text.normalize === "function") {
+		text = text.normalize("NFD");
+	}
 	return text
-		.normalize("NFD")
 		.replace(/[\u0300-\u036f]/g, "")
 		.replace(/[^\W]/, "")
 		.toLowerCase();
@@ -762,10 +764,11 @@ export function getArchetypeUrl(id: string | number, name: string): string {
 }
 
 function slugify(str: string): string {
+	str = str.toLowerCase().trim();
+	if (typeof str.normalize === "function") {
+		str = str.normalize("NFD");
+	}
 	return str
-		.toLowerCase()
-		.trim()
-		.normalize("NFD")
 		.replace(/[\u0300-\u036f]/g, "")
 		.replace(/[^\w\s-]/g, "")
 		.replace(/[-\s]+/g, "-");
