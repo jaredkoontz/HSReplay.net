@@ -70,6 +70,8 @@ module.exports = env => {
 			"whatwg-fetch",
 			"react",
 			"react-dom",
+			"prop-types",
+			"lodash",
 			makeEntry("export-react"),
 			"hearthstonejson-client",
 			makeEntry("polyfills"),
