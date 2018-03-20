@@ -75,83 +75,9 @@
 
 				<ul
 					class="nav navbar-nav navbar-right"
-					id="dynamic-nav"
-					data-account-url="{% url 'account_edit' %}"
-					data-signout-url="{% url 'account_logout' %}?next={{ request.path|urlencode }}"
-				>
-					{% if user.is_authenticated %}
-						{% if premium %}
-							<li{% nav_active 'account_edit' css="active active-premium" %} id="account-nav-item">
-								<a href="{% url 'account_edit' %}" class="text-premium" id="you">
-						{% else %}
-							<li{% nav_active 'account_edit' css="active" %} id="account-nav-item">
-								<a href="{% url 'account_edit' %}" id="you">
-						{% endif %}
-								<span>{{ user.username }}</span>
-								<span class="caret"></span>
-							</a>
-						</li>
-					{% elif not hide_login %}
-						<li class="button-container">
-							<a href="{% url 'account_login' %}?next={{ request.path|urlencode }}" class="btn promo-button">
-								{% trans "Log in or create account" %}
-							</a>
-						</li>
-					{% endif %}
-				</ul>
-
-				<ul class="nav navbar-nav navbar-right">
-						{% if user.is_staff %}
-							<li>
-								<a
-									href="#" class="dropdown-toggle" data-toggle="dropdown"
-									role="button" aria-haspopup="true" aria-expanded="false"
-								>
-									Devtools
-									<span class="caret"></span>
-								</a>
-								<ul class="dropdown-menu" style="width:25em">
-									<li><a href="{% url 'admin:index' %}">Admin</a></li>
-									<li><a href="" id="free-mode">Freemode</a></li>
-									<li role="separator" class="divider"></li>
-									<li class="dropdown-header" id="devtools-features-header">My Features</li>
-									<li role="separator" class="divider"></li>
-									<li><a href="{% url 'admin:features_feature_changelist' %}">Edit Features</a></li>
-								</ul>
-							</li>
-							<script type="text/javascript">{% include "navbar_devtools.js" %}</script>
-						{% endif %}
-
-						{% feature "profiles" as ft_profiles %}{% if ft_profiles.enabled %}
-							<li{% nav_active 'profile_highlights' %}>
-								<a href="{% url 'profile_highlights' %}" id="navbar-link-my-highlights">
-									<span class="glyphicon glyphicon-star"></span>
-									<span class="hidden-sm">{% trans "My Highlights" %}</span>
-								</a>
-							</li>
-						{% endif %}
-
-						<li{% nav_active 'my_decks' css='active active-premium' %}>
-							<a href="{% url 'my_decks' %}" class="text-premium" id="navbar-link-my-decks">
-								<span class="glyphicon glyphicon-th-list"></span>
-								<span class="hidden-sm">{% trans "My Decks" %}</span>
-							</a>
-						</li>
-
-						<li{% nav_active 'my_cards' css='active active-premium' %}>
-							<a href="{% url 'my_cards' %}" class="text-premium" id="navbar-link-my-cards">
-								<span class="glyphicon glyphicon-stats"></span>
-								<span class="hidden-sm">{% trans "My Cards" %}</span>
-							</a>
-						</li>
-
-						<li{% nav_active 'my_replays' %}>
-							<a href="{% url 'my_replays' %}" id="navbar-link-my-replays">
-								<span class="glyphicon glyphicon-play"></span>
-								<span class="hidden-sm">{% trans "My Replays" %}</span>
-							</a>
-						</li>
-				</ul>
+					id="user-nav"
+					data-hide-login="{% if hide_login %}1{% else %}0{% endif %}"
+				></ul>
 			{% endwith %}
 		</nav>
 	</div>

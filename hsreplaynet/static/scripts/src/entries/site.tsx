@@ -3,71 +3,34 @@ import ReactDOM from "react-dom";
 import * as $ from "jquery";
 import { cookie } from "cookie_js";
 import UserData from "../UserData";
-import AccountMenu from "../components/account/AccountMenu";
 import Modal from "../components/Modal";
 import CollectionSetup from "../components/collection/CollectionSetup";
 import { Provider as BlizzardAccountProvider } from "../components/utils/hearthstone-account";
+import AccountNavigation from "../components/account/AccountNavigation";
 
 UserData.create();
 
-const navRoot = document.getElementById("dynamic-nav");
-const placeholder = document.getElementById("account-nav-item");
-if (navRoot && placeholder) {
-	const placeholderClassName: string = placeholder
-		? placeholder.className
-		: "";
-	const renderAccount = selectedAcount => {
-		const accounts = UserData.getAccounts();
-		let currentAccount = null;
-		if (selectedAcount) {
-			const [region, lo] = selectedAcount.split("-");
-			currentAccount = accounts.findIndex(
-				account => account.region === +region && account.lo === +lo,
-			);
-			if (currentAccount === -1) {
-				currentAccount = null;
-			}
-		}
-
+function renderNavbar() {
+	const userNav = document.getElementById("user-nav");
+	if (userNav) {
+		const hideLogin = !!+userNav.getAttribute("data-hide-login");
 		ReactDOM.render(
-			<AccountMenu
-				className={placeholderClassName}
-				username={UserData.getUsername()}
-				premium={UserData.isPremium()}
-				accounts={accounts}
-				currentAccount={currentAccount}
-				setCurrentAccount={accountIndex => {
-					const account = accounts[accountIndex];
-					const event = new CustomEvent(
-						"hsreplaynet-select-account",
-						{
-							detail: {
-								account: `${account.region}-${account.lo}`,
-							},
-						},
-					);
-					document.dispatchEvent(event);
-				}}
-				accountUrl={navRoot.getAttribute("data-account-url")}
-				signoutUrl={navRoot.getAttribute("data-signout-url")}
-			/>,
-			navRoot,
+			<BlizzardAccountProvider>
+				<AccountNavigation
+					isAuthenticated={UserData.isAuthenticated()}
+					hideLogin={hideLogin}
+					isPremium={UserData.isPremium()}
+				/>
+			</BlizzardAccountProvider>,
+			userNav,
 		);
-	};
+	}
+}
 
-	document.addEventListener(
-		"hsreplaynet-select-account",
-		(event: CustomEvent) => {
-			const account = event.detail.account;
-			if (!account) {
-				return;
-			}
-			renderAccount(account);
-			UserData.setDefaultAccount(account);
-		},
-	);
-
-	renderAccount(UserData.getDefaultAccountKey());
+if (document.readyState === "loading") {
+	document.addEventListener("DOMContentLoaded", renderNavbar);
+} else {
+	renderNavbar();
 }
 
 if (document && document.location && document.location.search) {
@@ -107,7 +70,6 @@ if (
 	window.location &&
 	window.location.pathname.match(/\/(replay|games|decks|cards)\//)
 ) {
-	UserData.create();
 	document.addEventListener("DOMContentLoaded", () => {
 		// locate the premium navbar item
 		const premiumLink = document.getElementById("navbar-link-premium");

@@ -7,9 +7,9 @@ interface Props {
 	premium: boolean;
 	accountUrl: string;
 	signoutUrl: string;
-	accounts: Account[];
-	currentAccount: number | null;
-	setCurrentAccount: (index: number) => any;
+	accounts: { [key: string]: Account };
+	currentAccount: string | null;
+	setCurrentAccount: (key: string) => any;
 	className?: string;
 }
 
@@ -66,15 +66,15 @@ export default class AccountMenu extends React.Component<Props, State> {
 		}));
 	};
 
-	private selectAccount = (accountIndex: number) => (
+	private selectAccount = (key: string) => (
 		event: React.MouseEvent<HTMLElement>,
 	) => {
 		event.preventDefault();
-		this.props.setCurrentAccount(accountIndex);
+		this.props.setCurrentAccount(key);
 	};
 
 	private renderAccounts(): React.ReactNode {
-		if (this.props.accounts.length <= 1) {
+		if (Object.keys(this.props.accounts).length <= 1) {
 			return;
 		}
 
@@ -82,17 +82,17 @@ export default class AccountMenu extends React.Component<Props, State> {
 			<>
 				<li role="separator" className="divider" />
 				<li className="dropdown-header">Hearthstone Account</li>
-				{this.props.accounts.map((account, index) => (
+				{Object.keys(this.props.accounts).map(key => (
 					<li
-						key={`${account.region}-${account.lo}`}
+						key={key}
 						className={
-							this.props.currentAccount === index
+							this.props.currentAccount === key
 								? "active"
 								: undefined
 						}
 					>
-						<a href="#" onClick={this.selectAccount(index)}>
-							{prettyBlizzardAccount(account as any)}
+						<a href="#" onClick={this.selectAccount(key)}>
+							{prettyBlizzardAccount(this.props.accounts[key])}
 						</a>
 					</li>
 				))}
