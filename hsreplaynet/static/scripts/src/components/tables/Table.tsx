@@ -97,7 +97,7 @@ export default class Table extends React.Component<Props, State> {
 						return (
 							<ScrollSync>
 								{({ onScroll, scrollLeft }) => (
-									<div className="">
+									<>
 										<div className="grid-container grid-container-top grid-container-left">
 											<div
 												className="table-column-header"
@@ -202,7 +202,7 @@ export default class Table extends React.Component<Props, State> {
 												style={{}}
 											/>
 										</div>
-									</div>
+									</>
 								)}
 							</ScrollSync>
 						);
@@ -353,7 +353,7 @@ export default class Table extends React.Component<Props, State> {
 
 		if (row.href) {
 			return (
-				<a {...props} href={row.href}>
+				<a {...props} href={row.href} key={key}>
 					{content}
 				</a>
 			);
