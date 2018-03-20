@@ -806,8 +806,7 @@ export default class Decks extends React.Component<Props, State> {
 										authenticated ? (
 											isCollectionDisabled() ? (
 												<>
-													Find the decks you can
-													build
+													Find the decks you can build
 												</>
 											) : (
 												<>

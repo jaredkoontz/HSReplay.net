@@ -16,7 +16,6 @@ import PopularityLineChart from "../components/charts/PopularityLineChart";
 import {
 	compareDecks,
 	getArchetypeUrl,
-	getDustCost,
 	getHeroClassName,
 	getHeroSkinCardUrl,
 	isWildSet,
@@ -532,7 +531,9 @@ export default class DeckDetail extends React.Component<Props, State> {
 						<li>
 							Cost
 							<span className="infobox-value">
-								{dustCost !== null ? (+dustCost) + " Dust" : "Counting…"}
+								{dustCost !== null
+									? +dustCost + " Dust"
+									: "Counting…"}
 							</span>
 						</li>
 					</ul>
