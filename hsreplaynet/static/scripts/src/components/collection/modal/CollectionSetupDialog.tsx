@@ -9,6 +9,7 @@ import LoginButton from "../../account/LoginButton";
 import { CollectionEvents } from "../../../metrics/GoogleAnalytics";
 import { isCollectionDisabled } from "../../../utils/collection";
 import { cookie } from "cookie_js";
+import Feature from "../../Feature";
 
 interface Props {
 	isAuthenticated: boolean;
@@ -345,6 +346,42 @@ export default class CollectionSetupDialog extends React.Component<
 								</a>
 							</p>
 						</section>
+						<Feature feature="delete-collection-debug">
+							<section className="text-center">
+								<p>
+									<a
+										href={`#`}
+										className="btn btn-danger"
+										onClick={() => {
+											fetch(
+												`/api/v1/collections?region=${
+													this.props.blizzardAccount
+														.region
+												}&account_lo=${
+													this.props.blizzardAccount
+														.account_lo
+												}`,
+												{
+													method: "DELETE",
+													credentials: "include",
+													headers: {
+														Accept:
+															"application/json",
+														"Content-Type":
+															"application/json",
+														"X-CSRFToken": cookie.get(
+															"csrftoken",
+														),
+													},
+												},
+											);
+										}}
+									>
+										Remove collection
+									</a>
+								</p>
+							</section>
+						</Feature>
 					</>
 				);
 			case Step.COLLECTION_DISABLED:
