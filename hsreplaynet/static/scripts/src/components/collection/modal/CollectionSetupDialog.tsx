@@ -6,6 +6,7 @@ import { getAccountKey, prettyBlizzardAccount } from "../../../utils/account";
 import ProgressIndicator from "./ProgressIndicator";
 import CloseModalButton from "../../modal/CloseModalButton";
 import LoginButton from "../../account/LoginButton";
+import { CollectionEvents } from "../../../metrics/GoogleAnalytics";
 
 interface Props {
 	isAuthenticated: boolean;
@@ -18,7 +19,7 @@ interface Props {
 	refreshCollection: () => any;
 }
 
-const enum Step {
+export const enum Step {
 	SIGN_IN = 1,
 	CONNECT_HDT = 2,
 	CLAIM_ACCOUNT = 3,
@@ -106,6 +107,22 @@ export default class CollectionSetupDialog extends React.Component<
 		) {
 			this.props.refreshCollection();
 		}
+		if (this.state.step !== prevState.step) {
+			this.trackStep(this.state.step);
+		}
+	}
+
+	private trackStep(step: Step) {
+		const steps = {
+			["" + Step.SIGN_IN]: "SIGN_IN",
+			["" + Step.CONNECT_HDT]: "CONNECT_HDT",
+			["" + Step.CLAIM_ACCOUNT]: "CLAIM_ACCOUNT",
+			["" + Step.UPLOAD_COLLECTION]: "UPLOAD_COLLECTION",
+			["" + Step.COMPLETE]: "STEP_COMPLETE",
+		};
+		CollectionEvents.onEnterModalStep(
+			steps["" + this.state.step] || "UNKNOWN",
+		);
 	}
 
 	private refresh(): void {
@@ -148,6 +165,7 @@ export default class CollectionSetupDialog extends React.Component<
 			this.visibilityChange,
 			false,
 		);
+		this.trackStep(this.state.step);
 	}
 
 	public componentWillUnmount(): void {

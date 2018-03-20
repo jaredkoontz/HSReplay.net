@@ -1,6 +1,7 @@
 import InfluxMetricsBackend from "./InfluxMetricsBackend";
 import MetricsReporter from "./MetricsReporter";
 import UserData from "../UserData";
+import { Step } from "../components/collection/modal/CollectionSetupDialog";
 
 UserData.create();
 
@@ -96,6 +97,19 @@ export class CollectionEvents extends GoogleAnalytics {
 			count: "1i",
 		});
 		return this.event("Collection Modal", "open");
+	}
+
+	public static onEnterModalStep(step: string): Promise<void> {
+		INFLUX_CLIENT.writePoint(
+			"hsreplaynet_collection_modal_step",
+			{
+				count: "1i",
+			},
+			{
+				step,
+			},
+		);
+		return this.event("Collection Modal", "step", step);
 	}
 }
 
