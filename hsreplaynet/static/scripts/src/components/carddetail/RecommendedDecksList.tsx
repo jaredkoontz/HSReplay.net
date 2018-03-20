@@ -3,11 +3,13 @@ import CardData from "../../CardData";
 import { DeckObj, TableData } from "../../interfaces";
 import DeckList from "../DeckList";
 import Fragments from "../Fragments";
+import { Collection } from "../../utils/api";
 
 interface Props {
 	card: any;
 	cardData: CardData;
 	data?: TableData;
+	collection: Collection | null;
 }
 
 export default class RecommendedDecksList extends React.Component<Props> {
@@ -58,7 +60,12 @@ export default class RecommendedDecksList extends React.Component<Props> {
 					page: 1,
 				}}
 			>
-				<DeckList decks={decks} pageSize={10} hideTopPager />
+				<DeckList
+					decks={decks}
+					pageSize={10}
+					collection={this.props.collection}
+					hideTopPager
+				/>
 			</Fragments>
 		);
 	}

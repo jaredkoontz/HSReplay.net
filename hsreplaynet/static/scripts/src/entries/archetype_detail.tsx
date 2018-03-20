@@ -7,6 +7,7 @@ import Fragments from "../components/Fragments";
 import Root from "../components/Root";
 import { Consumer as AccountConsumer } from "../components/utils/hearthstone-account";
 import DataInjector from "../components/DataInjector";
+import { isCollectionDisabled } from "../utils/collection";
 
 const container = document.getElementById("archetype-container");
 const archetypeId = container.getAttribute("data-archetype-id");
@@ -34,7 +35,8 @@ const render = (cardData: CardData) => {
 						}}
 						fetchCondition={
 							UserData.hasFeature("collection-syncing") &&
-							!!account
+							!!account &&
+							!isCollectionDisabled()
 						}
 					>
 						{({ collection }) => (

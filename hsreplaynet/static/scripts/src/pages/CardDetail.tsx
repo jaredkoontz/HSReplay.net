@@ -35,12 +35,14 @@ import Tab from "../components/layout/Tab";
 import Fragments from "../components/Fragments";
 import QuestCompletionDetail from "../components/carddetail/QuestCompletionDetail";
 import QuestContributors from "../components/carddetail/QuestContributors";
+import { Collection } from "../utils/api";
 
 interface Props {
 	card: any;
 	cardData: CardData;
 	cardId: string;
 	dbfId: number;
+	collection: Collection | null;
 	gameType?: string;
 	opponentClass?: string;
 	rankRange?: string;
@@ -368,6 +370,9 @@ export default class CardDetail extends React.Component<Props, State> {
 											<RecommendedDecksList
 												card={this.props.card}
 												cardData={this.props.cardData}
+												collection={
+													this.props.collection
+												}
 											/>
 										</TableLoading>
 									</DataInjector>
