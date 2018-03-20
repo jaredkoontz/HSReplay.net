@@ -25,7 +25,10 @@ import DataManager from "../DataManager";
 import { Limit } from "../components/ObjectSearch";
 import Feature from "../components/Feature";
 import DustFilter from "../components/filters/DustFilter";
-import { getDustCostForCollection } from "../utils/collection";
+import {
+	getDustCostForCollection,
+	isCollectionDisabled,
+} from "../utils/collection";
 import { Collection } from "../utils/api";
 import { CollectionEvents, DeckEvents } from "../metrics/GoogleAnalytics";
 import CollectionBanner from "../components/collection/CollectionBanner";
@@ -458,48 +461,52 @@ export default class Decks extends React.Component<Props, State> {
 						helpMessage={helpMessage}
 						collection={this.props.collection}
 					>
-						<CollectionBanner
-							hasCollection={!!this.props.collection}
-							wrapper={body => (
-								<li
-									style={{
-										backgroundImage:
-											"url('/static/images/feature-promotional/collection-syncing-decks.png')",
-									}}
-									className="deck-list-banner hidden-xs"
-								>
-									{body}
-								</li>
-							)}
-						>
-							{authenticated => (
-								<>
-									<img src="/static/images/logo.png" />
-									{authenticated ? (
-										<>
-											<span className="hidden-lg">
-												Upload your collection!
-											</span>
-											<span className="visible-lg">
-												Upload your collection and find
-												the decks you can build!
-											</span>
-										</>
-									) : (
-										<>
-											<span className="hidden-lg">
-												Sign in to upload your
-												collection!
-											</span>
-											<span className="visible-lg">
-												Sign in to find the decks you
-												can build with your collection!
-											</span>
-										</>
-									)}
-								</>
-							)}
-						</CollectionBanner>
+						{!isCollectionDisabled() ? (
+							<CollectionBanner
+								hasCollection={!!this.props.collection}
+								wrapper={body => (
+									<li
+										style={{
+											backgroundImage:
+												"url('/static/images/feature-promotional/collection-syncing-decks.png')",
+										}}
+										className="deck-list-banner hidden-xs"
+									>
+										{body}
+									</li>
+								)}
+							>
+								{authenticated => (
+									<>
+										<img src="/static/images/logo.png" />
+										{authenticated ? (
+											<>
+												<span className="hidden-lg">
+													Upload your collection!
+												</span>
+												<span className="visible-lg">
+													Upload your collection and
+													find the decks you can
+													build!
+												</span>
+											</>
+										) : (
+											<>
+												<span className="hidden-lg">
+													Sign in to upload your
+													collection!
+												</span>
+												<span className="visible-lg">
+													Sign in to find the decks
+													you can build with your
+													collection!
+												</span>
+											</>
+										)}
+									</>
+								)}
+							</CollectionBanner>
+						) : null}
 					</DeckList>
 				</Fragments>
 			);
@@ -774,10 +781,17 @@ export default class Decks extends React.Component<Props, State> {
 								>
 									{authenticated =>
 										authenticated ? (
-											<>
-												Want to find decks you can build
-												with your collection?
-											</>
+											isCollectionDisabled() ? (
+												<>
+													Find the decks you can
+													build&hellip;
+												</>
+											) : (
+												<>
+													Want to find decks you can
+													build with your collection?
+												</>
+											)
 										) : (
 											<>
 												Sign in to find decks for your

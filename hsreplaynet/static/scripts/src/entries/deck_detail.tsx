@@ -8,6 +8,7 @@ import Root from "../components/Root";
 import { Consumer as AccountConsumer } from "../components/utils/hearthstone-account";
 import DataInjector from "../components/DataInjector";
 import { cookie } from "cookie_js";
+import { isCollectionDisabled } from "../utils/collection";
 
 const adminUrl = document
 	.getElementById("deck-info")
@@ -54,7 +55,7 @@ const render = (cardData: CardData) => {
 						fetchCondition={
 							UserData.hasFeature("collection-syncing") &&
 							!!account &&
-							!cookie.get("disable-collection", false)
+							!isCollectionDisabled()
 						}
 					>
 						{({ collection }) => (

@@ -8,6 +8,7 @@ import { Consumer as HearthstoneAccountConsumer } from "../components/utils/hear
 import DataInjector from "../components/DataInjector";
 import Root from "../components/Root";
 import { cookie } from "cookie_js";
+import { isCollectionDisabled } from "../utils/collection";
 
 const container = document.getElementById("decks-container");
 UserData.create();
@@ -29,7 +30,7 @@ const render = (cardData: CardData) => {
 						fetchCondition={
 							UserData.hasFeature("collection-syncing") &&
 							!!account &&
-							!cookie.get("disable-collection", false)
+							!isCollectionDisabled()
 						}
 					>
 						{({ collection }) => (

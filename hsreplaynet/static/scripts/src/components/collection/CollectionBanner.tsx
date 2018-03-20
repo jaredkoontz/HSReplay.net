@@ -3,7 +3,6 @@ import UserData from "../../UserData";
 import Feature from "../Feature";
 import Modal from "../Modal";
 import CollectionSetup from "./CollectionSetup";
-import { cookie } from "cookie_js";
 
 interface Props {
 	hasCollection: boolean;
@@ -24,9 +23,6 @@ export default class CollectionBanner extends React.Component<Props, State> {
 
 	public render(): React.ReactNode {
 		if (this.props.hasCollection) {
-			return null;
-		}
-		if (CollectionBanner.isCollectionDisabled()) {
 			return null;
 		}
 		let next = "";
@@ -77,9 +73,5 @@ export default class CollectionBanner extends React.Component<Props, State> {
 		} else {
 			return this.props.children;
 		}
-	}
-
-	private static isCollectionDisabled(): boolean {
-		return !!cookie.get("disable-collection", false);
 	}
 }

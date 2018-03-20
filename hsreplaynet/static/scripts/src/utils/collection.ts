@@ -2,6 +2,7 @@ import { CardObj } from "../interfaces";
 import { getDustCost } from "../helpers";
 import { BlizzardAccount, Collection } from "./api";
 import { QueryParams } from "../DataManager";
+import { cookie } from "cookie_js";
 
 export function isMissingCardFromCollection(
 	collection: Collection | null,
@@ -59,4 +60,8 @@ export function getCollectionParams(
 		region: "" + blizzardAccount.region,
 		account_lo: "" + blizzardAccount.account_lo,
 	};
+}
+
+export function isCollectionDisabled(): boolean {
+	return !!cookie.get("disable-collection", false);
 }

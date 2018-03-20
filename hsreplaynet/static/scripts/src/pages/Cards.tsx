@@ -31,6 +31,7 @@ import {
 import CardTable from "../components/tables/CardTable";
 import Feature from "../components/Feature";
 import { Collection } from "../utils/api";
+import { isCollectionDisabled } from "../utils/collection";
 const Fragment = React.Fragment;
 
 interface CardFilters {
@@ -706,7 +707,8 @@ export default class Cards extends React.Component<Props, State> {
 							topInfoRow={topInfoMessage}
 							bottomInfoRow={bottomInfomessage}
 							collection={
-								this.props.display === "crafting"
+								this.props.display === "crafting" &&
+								!isCollectionDisabled()
 									? this.props.collection
 									: null
 							}
@@ -928,9 +930,11 @@ export default class Cards extends React.Component<Props, State> {
 					<InfoboxFilter value="statistics">
 						Statistics view
 					</InfoboxFilter>
-					<InfoboxFilter value="crafting">
-						Crafting view
-					</InfoboxFilter>
+					{!isCollectionDisabled() ? (
+						<InfoboxFilter value="crafting">
+							Crafting view
+						</InfoboxFilter>
+					) : null}
 					<InfoboxFilter value="gallery">Gallery view</InfoboxFilter>
 				</InfoboxFilterGroup>,
 			);

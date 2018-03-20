@@ -7,6 +7,8 @@ import ProgressIndicator from "./ProgressIndicator";
 import CloseModalButton from "../../modal/CloseModalButton";
 import LoginButton from "../../account/LoginButton";
 import { CollectionEvents } from "../../../metrics/GoogleAnalytics";
+import { isCollectionDisabled } from "../../../utils/collection";
+import { cookie } from "cookie_js";
 
 interface Props {
 	isAuthenticated: boolean;
@@ -25,6 +27,7 @@ export const enum Step {
 	CLAIM_ACCOUNT = 3,
 	UPLOAD_COLLECTION = 4,
 	COMPLETE = 5,
+	COLLECTION_DISABLED = 6,
 }
 
 const LAST_STEP = Step.COMPLETE;
@@ -59,6 +62,9 @@ export default class CollectionSetupDialog extends React.Component<
 		blizzardAccount: BlizzardAccount | null,
 		hasCollection: boolean,
 	): Step {
+		if (isCollectionDisabled()) {
+			return Step.COLLECTION_DISABLED;
+		}
 		if (!isAuthenticated) {
 			return Step.SIGN_IN;
 		}
@@ -119,6 +125,7 @@ export default class CollectionSetupDialog extends React.Component<
 			["" + Step.CLAIM_ACCOUNT]: "CLAIM_ACCOUNT",
 			["" + Step.UPLOAD_COLLECTION]: "UPLOAD_COLLECTION",
 			["" + Step.COMPLETE]: "STEP_COMPLETE",
+			["" + Step.COLLECTION_DISABLED]: "COLLECTION_DISABLED",
 		};
 		CollectionEvents.onEnterModalStep(
 			steps["" + this.state.step] || "UNKNOWN",
@@ -340,6 +347,32 @@ export default class CollectionSetupDialog extends React.Component<
 						</section>
 					</>
 				);
+			case Step.COLLECTION_DISABLED:
+				return (
+					<>
+						<section id="collection-setup-enable">
+							<h2 className="text-center">Collection disabled</h2>
+							<p className="text-center">
+								You have disabled this feature from your
+								HSReplay.net account settings.
+							</p>
+						</section>
+						<section id="collection-setup-check-it-out">
+							<p className="text-center">
+								<a
+									href={"#"}
+									className="promo-button-outline text-uppercase"
+									onClick={() => {
+										cookie.remove("disable-collection");
+										document.location.reload();
+									}}
+								>
+									Enable
+								</a>
+							</p>
+						</section>
+					</>
+				);
 		}
 		return null;
 	}
@@ -371,19 +404,21 @@ export default class CollectionSetupDialog extends React.Component<
 							<li>Automatic updates</li>
 						</ul>
 					</section>
-					<section id="collection-setup-progress">
-						<span
-							id="collection-setup-progress-step"
-							className="sr-only"
-						>
-							Step {this.state.step} of {LAST_STEP}
-						</span>
-						<ProgressIndicator
-							progress={this.state.step}
-							total={LAST_STEP}
-							aria-labelledby="collection-setup-progress-step"
-						/>
-					</section>
+					{this.state.step !== Step.COLLECTION_DISABLED ? (
+						<section id="collection-setup-progress">
+							<span
+								id="collection-setup-progress-step"
+								className="sr-only"
+							>
+								Step {this.state.step} of {LAST_STEP}
+							</span>
+							<ProgressIndicator
+								progress={this.state.step}
+								total={LAST_STEP}
+								aria-labelledby="collection-setup-progress-step"
+							/>
+						</section>
+					) : null}
 					{this.renderStep()}
 				</div>
 			</div>
