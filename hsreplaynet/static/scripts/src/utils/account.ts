@@ -6,11 +6,12 @@ export function getAccountKey(account: BlizzardAccount): string {
 }
 
 const REGION_NAMES = {
-	[BnetRegion.REGION_US]: "North America",
+	[BnetRegion.REGION_US]: "Americas",
 	[BnetRegion.REGION_EU]: "Europe",
-	[BnetRegion.REGION_KR]: "Korea",
+	[BnetRegion.REGION_KR]: "Asia",
 	[BnetRegion.REGION_CN]: "China",
-	[BnetRegion.REGION_TW]: "South East Asia",
+	[BnetRegion.REGION_TW]: "Taiwan (Legacy)",
+	[BnetRegion.REGION_PTR]: "Public Test Realm",
 };
 
 export function prettyBlizzardAccount(account: BlizzardAccount): string {
