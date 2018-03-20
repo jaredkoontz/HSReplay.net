@@ -65,7 +65,11 @@ class EditAccountView(LoginRequiredMixin, RequestMetaMixin, UpdateView):
 		response = super(EditAccountView, self).post(request, **kwargs)
 
 		if disable:
-			response.set_cookie("disable-collection", 1)
+			response.set_cookie(
+				"disable-collection",
+				"1",
+				max_age=60 * 60 * 24 * 365
+			)
 		else:
 			response.delete_cookie("disable-collection")
 
