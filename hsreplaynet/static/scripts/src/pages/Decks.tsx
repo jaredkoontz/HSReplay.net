@@ -140,22 +140,45 @@ export default class Decks extends React.Component<Props, State> {
 		this.hasTrackedView = true;
 	}
 
-	public componentDidMount(): void {
-		if (this.props.maxDustCost >= 0) {
-			CollectionEvents.onEnableDustWidget();
-		}
+	private onChangeAccount = (): void => {
+		this.scheduleTrackView();
+	};
+
+	private scheduleTrackView(): void {
+		this.clearTrackTimeout();
+		this.hasTrackedView = false;
 		this.trackTimeout = window.setTimeout(() => {
 			this.attemptTrackView();
 			this.trackTimeout = null;
 		}, 5000);
 	}
 
+	private clearTrackTimeout(): void {
+		if (this.trackTimeout === null) {
+			return;
+		}
+		window.clearTimeout(this.trackTimeout);
+		this.trackTimeout = null;
+	}
+
+	public componentDidMount(): void {
+		if (this.props.maxDustCost >= 0) {
+			CollectionEvents.onEnableDustWidget();
+		}
+		this.scheduleTrackView();
+		document.addEventListener(
+			"hsreplaynet-select-account",
+			this.onChangeAccount,
+		);
+	}
+
 	componentWillUnmount(): void {
 		this.attemptTrackView();
-		if (this.trackTimeout !== null) {
-			window.clearTimeout(this.trackTimeout);
-			this.trackTimeout = null;
-		}
+		this.clearTrackTimeout();
+		document.removeEventListener(
+			"hsreplaynet-select-account",
+			this.onChangeAccount,
+		);
 	}
 
 	public componentWillReceiveProps(
