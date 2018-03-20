@@ -10,6 +10,7 @@ interface UserDataProps {
 	is_authenticated: boolean;
 	premium: boolean;
 	debug: boolean;
+	userid: number;
 	username: string;
 	email: string;
 	staff: boolean;
@@ -71,6 +72,10 @@ export default class UserData {
 
 	static isDebug(): boolean {
 		return !!(this._instance && UserData._instance.debug);
+	}
+
+	static getUserId(): number | null {
+		return this._instance ? UserData._instance.userid : null;
 	}
 
 	static getUsername(): string | null {
