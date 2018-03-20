@@ -98,3 +98,24 @@ export class CollectionEvents extends GoogleAnalytics {
 		return this.event("Collection Modal", "open");
 	}
 }
+
+export class DeckEvents extends GoogleAnalytics {
+	public static onCopyDeck(
+		label: string,
+		dustCost: number,
+		hasCollection: boolean,
+	): Promise<void> {
+		INFLUX_CLIENT.writePoint(
+			"hsreplaynet_copy_deck",
+			{
+				count: "1i",
+				dust_cost: `${dustCost}i`,
+			},
+			{
+				label,
+				has_collection: "" + +hasCollection,
+			},
+		);
+		return this.event("Deck", "copy", label);
+	}
+}

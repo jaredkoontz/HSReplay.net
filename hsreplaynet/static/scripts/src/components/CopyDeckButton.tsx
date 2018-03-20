@@ -9,6 +9,7 @@ import { CardData as HearthstoneJSONCardData } from "hearthstonejson-client";
 
 interface Props {
 	cardData: CardData;
+	onCopy?: () => any;
 	name?: string;
 	deckClass?: string;
 	cards: number[] | string[];
@@ -43,6 +44,9 @@ export default class CopyDeckButton extends React.Component<Props, State> {
 					this.timeout = null;
 				}, 3000);
 			});
+		if (this.props.onCopy) {
+			this.props.onCopy();
+		}
 	};
 
 	public render(): React.ReactNode {

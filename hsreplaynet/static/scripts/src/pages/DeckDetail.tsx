@@ -41,6 +41,8 @@ import ArchetypeMatchups from "../components/archetypedetail/ArchetypeMatchups";
 import StreamList from "../components/StreamList";
 import { Collection } from "../utils/api";
 import CollectionBanner from "../components/collection/CollectionBanner";
+import { DeckEvents } from "../metrics/GoogleAnalytics";
+import { getDustCostForCollection } from "../utils/collection";
 
 interface InventoryGameType {
 	[gameType: string]: InventoryRegion[];
@@ -141,19 +143,18 @@ export default class DeckDetail extends React.Component<Props, State> {
 		const personalParams = this.getPersonalParams();
 
 		const dbfIds = this.props.deckCards.split(",").map(Number);
-		const cards = [];
+		const cards: CardObj[] = [];
 		let dustCost = null;
 		let deckCharts = null;
 		if (this.props.cardData) {
-			dustCost = 0;
 			dbfIds.forEach(id => {
 				const card = this.props.cardData.fromDbf(id);
 				const cardObj =
 					cards.find(obj => obj.card.id === card.id) ||
 					cards[cards.push({ card, count: 0 }) - 1];
 				cardObj.count++;
-				dustCost += getDustCost(card);
 			});
+			dustCost = getDustCostForCollection(this.props.collection, cards);
 
 			deckCharts = this.getChartData(cards).map(data => (
 				<div className="chart-wrapper">
@@ -471,6 +472,13 @@ export default class DeckDetail extends React.Component<Props, State> {
 								window && window.location
 									? window.location.toString().split("#")[0]
 									: undefined
+							}
+							onCopy={() =>
+								DeckEvents.onCopyDeck(
+									this.props.deckName,
+									dustCost,
+									!!this.props.collection,
+								)
 							}
 						/>
 					</div>
