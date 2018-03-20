@@ -18,6 +18,7 @@ function renderNavbar() {
 			<BlizzardAccountProvider>
 				<AccountNavigation
 					isAuthenticated={UserData.isAuthenticated()}
+					isStaff={UserData.isStaff()}
 					hideLogin={hideLogin}
 					isPremium={UserData.isPremium()}
 				/>

@@ -4,9 +4,11 @@ import { Consumer as BlizzardAccountConsumer } from "../utils/hearthstone-accoun
 import UserData from "../../UserData";
 import { getAccountKey } from "../../utils/account";
 import LoginButton from "./LoginButton";
+import DevTools from "./DevTools";
 
 interface Props {
 	isAuthenticated: boolean;
+	isStaff: boolean;
 	hideLogin: boolean;
 	isPremium: boolean;
 }
@@ -22,6 +24,10 @@ export default class AccountNavigation extends React.Component<Props> {
 
 		return (
 			<>
+				{this.props.isAuthenticated && this.props.isStaff ? (
+					<DevTools />
+				) : null}
+
 				<li>
 					<a
 						href="/decks/mine/"

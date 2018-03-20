@@ -1,0 +1,14 @@
+.devtools-feature {
+	&, .dropdown-menu > li > & {
+		font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: baseline;
+	}
+
+	.label {
+		font-family: sans-serif;
+		margin-left: 1em;
+	}
+}
