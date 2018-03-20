@@ -807,7 +807,7 @@ export default class Decks extends React.Component<Props, State> {
 											isCollectionDisabled() ? (
 												<>
 													Find the decks you can
-													build&hellip;
+													build
 												</>
 											) : (
 												<>
