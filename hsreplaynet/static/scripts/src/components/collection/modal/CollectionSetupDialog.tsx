@@ -354,7 +354,7 @@ export default class CollectionSetupDialog extends React.Component<
 										className="btn btn-danger"
 										onClick={() => {
 											fetch(
-												`/api/v1/collections?region=${
+												`/api/v1/collection/?region=${
 													this.props.blizzardAccount
 														.region
 												}&account_lo=${
