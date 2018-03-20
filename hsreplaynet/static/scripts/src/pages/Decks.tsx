@@ -117,6 +117,12 @@ export default class Decks extends React.Component<Props, State> {
 		}
 	}
 
+	public componentDidMount(): void {
+		if (this.props.maxDustCost >= 0) {
+			CollectionEvents.onEnableDustWidget();
+		}
+	}
+
 	public componentWillReceiveProps(
 		nextProps: Readonly<Props>,
 		nextContext: any,
