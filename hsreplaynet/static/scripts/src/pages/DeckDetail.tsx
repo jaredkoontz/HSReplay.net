@@ -532,7 +532,7 @@ export default class DeckDetail extends React.Component<Props, State> {
 						<li>
 							Cost
 							<span className="infobox-value">
-								{dustCost ? dustCost + " Dust" : "Counting…"}
+								{dustCost !== null ? (+dustCost) + " Dust" : "Counting…"}
 							</span>
 						</li>
 					</ul>
