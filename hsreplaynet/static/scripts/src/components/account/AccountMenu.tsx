@@ -81,7 +81,7 @@ export default class AccountMenu extends React.Component<Props, State> {
 		return (
 			<>
 				<li role="separator" className="divider" />
-				<li className="dropdown-header">Hearthstone Account</li>
+				<li className="dropdown-header">Hearthstone</li>
 				{Object.keys(this.props.accounts).map(key => (
 					<li
 						key={key}
@@ -98,6 +98,17 @@ export default class AccountMenu extends React.Component<Props, State> {
 				))}
 			</>
 		);
+	}
+
+	private getDisplayName(): string {
+		if (typeof this.props.accounts === "object") {
+			const account = this.props.accounts[this.props.currentAccount];
+			if (account) {
+				return prettyBlizzardAccount(account);
+			}
+		}
+
+		return this.props.username;
 	}
 
 	private renderDropdown(): React.ReactNode {
@@ -150,7 +161,7 @@ export default class AccountMenu extends React.Component<Props, State> {
 					onClick={e => e.preventDefault()}
 					ref={ref => (this.linkRef = ref)}
 				>
-					<span>{this.props.username}</span>{" "}
+					<span>{this.getDisplayName()}</span>{" "}
 					<span className="caret" />
 				</a>
 				{this.renderDropdown()}
