@@ -114,6 +114,26 @@ export class CollectionEvents extends GoogleAnalytics {
 }
 
 export class DeckEvents extends GoogleAnalytics {
+	public static onViewDecks(
+		isAuthenticated: boolean,
+		blizzardAccountCount: number,
+		hasCollection: boolean,
+	): Promise<void> {
+		INFLUX_CLIENT.writePoint(
+			"view_decks",
+			{
+				count: "1i",
+				blizzard_account_count: `${blizzardAccountCount}i`,
+			},
+			{
+				is_authenticated: "" + +isAuthenticated,
+				has_blizzard_account: "" + +(blizzardAccountCount > 0),
+				has_collection: "" + +hasCollection,
+			},
+		);
+		return this.event("Decks", "view");
+	}
+
 	public static onCopyDeck(
 		label: string,
 		dustCost: number,

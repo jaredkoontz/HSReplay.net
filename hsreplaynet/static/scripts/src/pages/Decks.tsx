@@ -15,7 +15,7 @@ import InfoboxFilterGroup from "../components/InfoboxFilterGroup";
 import PremiumWrapper from "../components/PremiumWrapper";
 import ResetHeader from "../components/ResetHeader";
 import * as _ from "lodash";
-import { DeckObj, FragmentChildProps } from "../interfaces";
+import { DeckObj, FragmentChildProps, User } from "../interfaces";
 import InfoboxLastUpdated from "../components/InfoboxLastUpdated";
 import UserData from "../UserData";
 import Fragments from "../components/Fragments";
@@ -27,7 +27,7 @@ import Feature from "../components/Feature";
 import DustFilter from "../components/filters/DustFilter";
 import { getDustCostForCollection } from "../utils/collection";
 import { Collection } from "../utils/api";
-import { CollectionEvents } from "../metrics/GoogleAnalytics";
+import { CollectionEvents, DeckEvents } from "../metrics/GoogleAnalytics";
 import CollectionBanner from "../components/collection/CollectionBanner";
 
 interface Props extends FragmentChildProps {
@@ -76,6 +76,8 @@ interface State {
 
 export default class Decks extends React.Component<Props, State> {
 	private deckListsFragmentsRef;
+	private trackTimeout: number | null = null;
+	private hasTrackedView: boolean;
 
 	constructor(props: Props, context: any) {
 		super(props, context);
@@ -115,11 +117,41 @@ export default class Decks extends React.Component<Props, State> {
 			this.deckListsFragmentsRef &&
 				this.deckListsFragmentsRef.reset("page");
 		}
+
+		if (this.props.collection) {
+			this.attemptTrackView();
+		}
+	}
+
+	private attemptTrackView(): void {
+		if (this.hasTrackedView) {
+			return;
+		}
+
+		DeckEvents.onViewDecks(
+			UserData.isAuthenticated(),
+			UserData.getAccounts().length,
+			!!this.props.collection,
+		);
+
+		this.hasTrackedView = true;
 	}
 
 	public componentDidMount(): void {
 		if (this.props.maxDustCost >= 0) {
 			CollectionEvents.onEnableDustWidget();
+		}
+		this.trackTimeout = window.setTimeout(() => {
+			this.attemptTrackView();
+			this.trackTimeout = null;
+		}, 5000);
+	}
+
+	componentWillUnmount(): void {
+		this.attemptTrackView();
+		if (this.trackTimeout !== null) {
+			window.clearTimeout(this.trackTimeout);
+			this.trackTimeout = null;
 		}
 	}
 
