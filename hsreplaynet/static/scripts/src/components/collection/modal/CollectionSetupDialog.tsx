@@ -434,7 +434,7 @@ export default class CollectionSetupDialog extends React.Component<
 							<li>Find decks you can build right now</li>
 							<li>See missing cards at a glance</li>
 							<li>Filter decks by dust cost</li>
-							<li>Automatic updates</li>
+							<li>Automatic uploading</li>
 						</ul>
 					</section>
 					{this.state.step !== Step.COLLECTION_DISABLED ? (
