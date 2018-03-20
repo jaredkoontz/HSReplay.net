@@ -166,7 +166,7 @@ export default class DevTools extends React.Component<Props, State> {
 
 		return (
 			<>
-				{features.map(feature => (
+				{features.sort((a, b) => a.name > b.name ? 1 : -1).map(feature => (
 					<li key={feature.name}>
 						<a
 							href="#"
