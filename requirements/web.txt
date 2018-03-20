@@ -17,4 +17,4 @@ scikit-learn[alldeps]
 
 # stripe / paypal
 https://github.com/jleclanche/dj-stripe/archive/master.tar.gz
-dj-paypal==0.7.0
+dj-paypal==0.8.0
