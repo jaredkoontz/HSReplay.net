@@ -86,14 +86,14 @@ export class ReferralEvents extends GoogleAnalytics {
 
 export class CollectionEvents extends GoogleAnalytics {
 	public static onEnableDustWidget(): Promise<void> {
-		INFLUX_CLIENT.writePoint("hsreplaynet_enable_dust_filter", {
+		INFLUX_CLIENT.writePoint("enable_dust_filter", {
 			count: "1i",
 		});
 		return this.event("Dust Filter", "enable");
 	}
 
 	public static onViewModal(): Promise<void> {
-		INFLUX_CLIENT.writePoint("hsreplaynet_collection_modal_open", {
+		INFLUX_CLIENT.writePoint("collection_modal_open", {
 			count: "1i",
 		});
 		return this.event("Collection Modal", "open");
@@ -120,7 +120,7 @@ export class DeckEvents extends GoogleAnalytics {
 		hasCollection: boolean,
 	): Promise<void> {
 		INFLUX_CLIENT.writePoint(
-			"hsreplaynet_copy_deck",
+			"copy_deck",
 			{
 				count: "1i",
 				dust_cost: `${dustCost}i`,
