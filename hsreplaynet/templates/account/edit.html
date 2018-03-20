@@ -37,10 +37,10 @@
 					You can currently choose between two privacy options:
 				</p>
 				<dl class="dl-horizontal">
-				  <dt>Public</dt>
-				  <dd>Your replays may be appear in listings such as <em>Related games</em></dd>
-				  <dt>Unlisted</dt>
-				  <dd>Your replays will not appear in such listings. Anyone you share the link to a specific replay with will still be able to view it, though.</dd>
+					<dt>Public</dt>
+					<dd>Your replays may be appear in listings such as <em>Related games</em></dd>
+					<dt>Unlisted</dt>
+					<dd>Your replays will not appear in such listings. Anyone you share the link to a specific replay with will still be able to view it, though.</dd>
 				</dl>
 				<p>
 					Changing this option will only affect newly uploaded replays.
@@ -66,11 +66,24 @@
 				<p>
 					<label>
 						<input
+							id="collection_syncing_checkbox"
 							type="checkbox"
-							name="disable_collection"
-							{% if disable_collection %}checked{% endif %}
-						/> Disable personal Hearthstone collection on HSReplay.net
+							{% if collection_syncing %}checked{% endif %}
+						/> Enable personal Hearthstone collection features on the site
 					</label>
+					<script type="text/javascript">
+					document.getElementById("collection_syncing_checkbox").onchange = function(e) {
+						if (e.target.checked) {
+							// delete cookie
+							document.cookie = "disable-collection=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/"
+						} else {
+							// set "disabled" cookie
+							var d = new Date();
+							d.setFullYear(d.getFullYear() + 1);
+							document.cookie = "disable-collection=true; expires=" + d.toUTCString() + "; path=/";
+						}
+					}
+					</script>
 				</p>
 			</div>
 		</section>

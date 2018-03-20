@@ -47,33 +47,13 @@ class EditAccountView(LoginRequiredMixin, RequestMetaMixin, UpdateView):
 			referral_link=context["reflink"]
 		).exclude(confirmed=None).count()
 
-		context["disable_collection"] = int(
-			self.request.COOKIES.get("disable-collection", 0)
-		) == 1
-
 		context["form"].fields["locale"].required = False
 		context["form"].fields["locale"].widget.choices.insert(0, ("", "System Default"))
 
+		# Collection syncing is enabled unless the cookie is set.
+		context["collection_syncing"] = self.request.COOKIES.get("disable-collection", "") != "1"
+
 		return context
-
-	def post(self, request, **kwargs):
-		request.POST = request.POST.copy()
-		disable = request.POST.get("disable_collection", 0) == "on"
-		if hasattr(request.POST, "disable_collection"):
-			delattr(request.POST, "disable_collection")
-
-		response = super(EditAccountView, self).post(request, **kwargs)
-
-		if disable:
-			response.set_cookie(
-				"disable-collection",
-				"1",
-				max_age=60 * 60 * 24 * 365
-			)
-		else:
-			response.delete_cookie("disable-collection")
-
-		return response
 
 
 class APIAccountView(LoginRequiredMixin, RequestMetaMixin, View):
