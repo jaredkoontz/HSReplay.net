@@ -146,7 +146,6 @@ export class DeckEvents extends GoogleAnalytics {
 				dust_cost: `${dustCost}i`,
 			},
 			{
-				label,
 				has_collection: "" + +hasCollection,
 			},
 		);
