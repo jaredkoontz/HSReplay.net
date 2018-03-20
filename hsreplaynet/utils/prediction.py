@@ -186,6 +186,7 @@ class DeckPredictionTree:
 		dist = RedisPopularityDistribution(
 			self.redis_primary,
 			name=node.key,
+			namespace="POPULARITY",
 			ttl=self.popularity_ttl,
 			max_items=self._max_collection_size_for_depth(node.depth),
 			bucket_size=21600  # 6 Hours

@@ -39,7 +39,7 @@ DECKS = [
 
 def test_redis_popularity_distribution():
 	r = fakeredis.FakeStrictRedis()
-	distribution = RedisPopularityDistribution(r, "DECKS")
+	distribution = RedisPopularityDistribution(r, "DECKS", namespace="test")
 
 	actuals = defaultdict(int)
 	for deck in DECKS:
@@ -66,6 +66,7 @@ def test_one_second_buckets():
 	distribution = RedisPopularityDistribution(
 		r,
 		"DECKS",
+		namespace="test",
 		ttl=3600,
 		bucket_size=bucket_size
 	)
@@ -102,6 +103,7 @@ def test_bucket_sizes_and_ttls():
 		r,
 		"DECKS",
 		ttl=5,
+		namespace="test",
 		bucket_size=1
 	)
 
@@ -144,7 +146,9 @@ def test_bucket_sizes():
 
 	# Test bucket sizes between 15 minutes and 6 hours in 15 minute increments
 	for bucket_size in range(900, 21600, 900):
-		dist = RedisPopularityDistribution(r, "DECKS", bucket_size=bucket_size)
+		dist = RedisPopularityDistribution(
+			r, "DECKS", namespace="test", bucket_size=bucket_size
+		)
 		start_token = dist._to_start_token(current_ts)
 		end_token = dist._to_end_token(current_ts)
 		next_start_token = dist._next_token(start_token)

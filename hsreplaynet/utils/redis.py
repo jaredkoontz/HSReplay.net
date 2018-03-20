@@ -30,14 +30,9 @@ class RedisPopularityDistribution:
 	"""
 
 	def __init__(
-		self,
-		redis,
-		name,
-		namespace="POPULARITY",
-		ttl=DEFAULT_TTL,
-		max_items=100,
-		bucket_size=3600  # 1 Hour
-	):
+		self, redis: StrictRedis, name: str, namespace: str,
+		ttl: int=DEFAULT_TTL, max_items: int=100, bucket_size: int=3600
+	) -> None:
 		self.redis = redis
 		self.name = name
 		self.namespace = namespace
@@ -55,11 +50,8 @@ class RedisPopularityDistribution:
 		if self.use_lua:
 			self.lua_increment = self.redis.register_script(self.INCREMENT_SCRIPT)
 
-	def __str__(self):
-		return "%s:%s" % (self.namespace, self.name)
-
 	def __repr__(self):
-		return "%s:%s" % (self.namespace, self.name)
+		return f"<{self.__class__.__name__} {self.namespace}:{self.name}>"
 
 	def increment(self, key, as_of=None):
 		if as_of and not isinstance(as_of, datetime):
