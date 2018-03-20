@@ -3,7 +3,6 @@ import AccountMenu from "./AccountMenu";
 import { Consumer as BlizzardAccountConsumer } from "../utils/hearthstone-account";
 import UserData from "../../UserData";
 import { getAccountKey } from "../../utils/account";
-import LoginButton from "./LoginButton";
 import DevTools from "./DevTools";
 
 interface Props {
@@ -14,6 +13,25 @@ interface Props {
 }
 
 export default class AccountNavigation extends React.Component<Props> {
+	private getClassName(path: string | RegExp, premium?: boolean): string {
+		if (!document || !document.location || !document.location.pathname) {
+			return "";
+		}
+		const pathname = document.location.pathname;
+		if (path instanceof RegExp) {
+			if (path.exec(pathname) === null) {
+				return "";
+			}
+		} else if (path !== pathname) {
+			return "";
+		}
+		let className = "active";
+		if (premium) {
+			className += " active-premium";
+		}
+		return className;
+	}
+
 	public render(): React.ReactNode {
 		let next = "/";
 		if (document && document.location) {
@@ -28,10 +46,10 @@ export default class AccountNavigation extends React.Component<Props> {
 					<DevTools />
 				) : null}
 
-				<li>
+				<li className={this.getClassName("/decks/mine/", true)}>
 					<a
 						href="/decks/mine/"
-						className="text-premium"
+						className={"text-premium"}
 						id="navbar-link-my-decks"
 					>
 						<span className="glyphicon glyphicon-th-list" />
@@ -39,7 +57,7 @@ export default class AccountNavigation extends React.Component<Props> {
 					</a>
 				</li>
 
-				<li>
+				<li className={this.getClassName("/cards/mine/", true)}>
 					<a
 						href="/cards/mine/"
 						className="text-premium"
@@ -50,7 +68,7 @@ export default class AccountNavigation extends React.Component<Props> {
 					</a>
 				</li>
 
-				<li>
+				<li className={this.getClassName("/games/mine/")}>
 					<a href="/games/mine/" id="navbar-link-my-replays">
 						<span className="glyphicon glyphicon-play" />
 						<span className="hidden-sm">My Replays</span>
@@ -69,9 +87,14 @@ export default class AccountNavigation extends React.Component<Props> {
 							return (
 								<AccountMenu
 									className={
-										this.props.isPremium
+										(this.props.isPremium
 											? "text-premium"
-											: ""
+											: "") +
+										" " +
+										this.getClassName(
+											/^\/account\//,
+											this.props.isPremium,
+										)
 									}
 									username={UserData.getUsername()}
 									premium={this.props.isPremium}
