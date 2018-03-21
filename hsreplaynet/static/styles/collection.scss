@@ -88,12 +88,27 @@
 }
 
 .modal-await {
-	text-align: right;
-	margin-top: 1em;
+	font-size: 1.1em;
+	text-align: center;
+	margin-top: 1.3em;
 
 	.glyphicon-spin {
 		font-size: 0.8em;
 		margin-right: 0.5em;
+	}
+
+	span:not(.glyphicon) {
+
+		@keyframes pulse {
+			from {
+				opacity: 1;
+			}
+			to {
+				opacity: 0.3;
+			}
+		}
+
+		animation: pulse 1s infinite alternate ease-in;
 	}
 }
 
