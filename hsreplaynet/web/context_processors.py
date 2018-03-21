@@ -18,7 +18,7 @@ def userdata(request):
 		"is_authenticated": request.user.is_authenticated,
 		"card_art_url": settings.HEARTHSTONE_ART_URL,
 		"hearthstone_locale": lang_to_blizzard(translation.get_language()),
-		"languages": settings.LANGUAGES,
+		"languages": dict(settings.LANGUAGES),
 	}
 
 	storage = get_messages(request)

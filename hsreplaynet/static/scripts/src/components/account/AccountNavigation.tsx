@@ -4,6 +4,7 @@ import { Consumer as BlizzardAccountConsumer } from "../utils/hearthstone-accoun
 import UserData from "../../UserData";
 import { getAccountKey } from "../../utils/account";
 import DevTools from "./DevTools";
+import LanguageSelector from "./LanguageSelector";
 import { cookie } from "cookie_js";
 
 interface Props {
@@ -77,6 +78,8 @@ export default class AccountNavigation extends React.Component<Props> {
 						<span className="hidden-sm">My Replays</span>
 					</a>
 				</li>
+
+				<LanguageSelector next={next} />
 
 				{this.props.isAuthenticated ? (
 					<BlizzardAccountConsumer>

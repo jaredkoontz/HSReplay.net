@@ -6,18 +6,19 @@ interface UserDataProps {
 	accounts: Account[];
 	battletag: string;
 	card_art_url: string;
-	groups: string[];
-	is_authenticated: boolean;
-	premium: boolean;
 	debug: boolean;
-	userid: number;
-	username: string;
 	email: string;
-	staff: boolean;
+	features: FeatureMap;
+	groups: string[];
 	hearthstone_locale: string;
 	ipcountry: string;
-	features: FeatureMap;
+	is_authenticated: boolean;
+	languages: { [key: string]: string };
 	login?: string[];
+	premium: boolean;
+	userid: number;
+	username: string;
+	staff: boolean;
 }
 
 interface FeatureMap {
@@ -75,6 +76,13 @@ export default class UserData {
 
 	static isDebug(): boolean {
 		return !!(this._instance && UserData._instance.debug);
+	}
+
+	static getLanguages(): { [key: string]: string } {
+		if (!this._instance) {
+			return { "": "System Default" };
+		}
+		return UserData._instance.languages;
 	}
 
 	static getUserId(): number | null {
