@@ -87,6 +87,9 @@ export default class LanguageSelector extends React.Component<Props, State> {
 						</a>
 					</li>
 				))}
+				<li className="dropdown-note">
+					Translations work in progress. Currently only affects cards.
+				</li>
 			</ul>
 		);
 	}
