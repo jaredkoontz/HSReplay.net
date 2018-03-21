@@ -68,18 +68,18 @@ class UpdateBlizzardAccountView(APIView):
 			changes.append({"_oauth2_token_id": str(request.auth.pk)})
 
 			content_type = ContentType.objects.get(app_label="accounts", model="blizzardaccount")
-			with transaction.atomic():
-				# Ensure we save the model and the LogEntry at the same time.
-				# LogEntry allows us to have some way to audit the API changes.
-				blizzard_account.save()
-				LogEntry.objects.log_action(
-					user_id=self.request.user.pk,
-					content_type_id=content_type.pk,
-					object_id=blizzard_account.pk,
-					object_repr=repr(blizzard_account),
-					action_flag=action_flag,
-					change_message=changes,
-				)
+
+			# Ensure we save the model and the LogEntry at the same time.
+			# LogEntry allows us to have some way to audit the API changes.
+			blizzard_account.save()
+			LogEntry.objects.log_action(
+				user_id=self.request.user.pk,
+				content_type_id=content_type.pk,
+				object_id=blizzard_account.pk,
+				object_repr=repr(blizzard_account),
+				action_flag=action_flag,
+				change_message=changes,
+			)
 
 		return Response(status=status_code)
 
