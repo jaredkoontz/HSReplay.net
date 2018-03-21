@@ -34,6 +34,13 @@ export default class GoogleAnalytics {
 			ga("send", "event", { ...defaults, ...requiredParams, ...params });
 		});
 	}
+
+	public static trackPageView(url: string): void {
+		if (typeof ga !== "function") {
+			return;
+		}
+		ga("send", "pageview", url);
+	}
 }
 
 export class SubscriptionEvents extends GoogleAnalytics {
@@ -96,7 +103,7 @@ export class CollectionEvents extends GoogleAnalytics {
 		return this.event("Collection Modal", "open");
 	}
 
-	public static onEnterModalStep(step: Step): Promise<void> {
+	public static onEnterModalStep(step: Step): void {
 		const steps = {
 			["" + Step.SIGN_IN]: "SIGN_IN",
 			["" + Step.CONNECT_HDT]: "CONNECT_HDT",
@@ -110,13 +117,15 @@ export class CollectionEvents extends GoogleAnalytics {
 			"collection_modal_step",
 			{
 				count: "1i",
+				step: stepValue,
 			},
 			{
 				step: stepValue,
 				step_number: "" + step,
 			},
 		);
-		return this.event("Collection Modal", "step", stepValue);
+		this.event("Collection Modal", "step", stepValue);
+		this.trackPageView("/virtual/collection/step/" + stepValue);
 	}
 }
 
