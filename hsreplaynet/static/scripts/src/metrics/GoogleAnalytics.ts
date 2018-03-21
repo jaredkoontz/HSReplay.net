@@ -8,9 +8,6 @@ UserData.create();
 const INFLUX_CLIENT = new MetricsReporter(
 	new InfluxMetricsBackend(INFLUX_DATABASE_JOUST),
 	(series: string): string => "hsreplaynet_" + series,
-	{
-		user_id: UserData.isAuthenticated() ? "" + UserData.getUserId() : "",
-	},
 );
 
 export default class GoogleAnalytics {
