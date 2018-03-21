@@ -125,7 +125,7 @@ export default class CollectionSetupDialog extends React.Component<
 			["" + Step.CONNECT_HDT]: "CONNECT_HDT",
 			["" + Step.CLAIM_ACCOUNT]: "CLAIM_ACCOUNT",
 			["" + Step.UPLOAD_COLLECTION]: "UPLOAD_COLLECTION",
-			["" + Step.COMPLETE]: "STEP_COMPLETE",
+			["" + Step.COMPLETE]: "COMPLETE",
 			["" + Step.COLLECTION_DISABLED]: "COLLECTION_DISABLED",
 		};
 		CollectionEvents.onEnterModalStep(
