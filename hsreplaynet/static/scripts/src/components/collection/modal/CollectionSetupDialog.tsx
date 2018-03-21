@@ -252,7 +252,7 @@ export default class CollectionSetupDialog extends React.Component<
 							hasLegacyClient={this.props.hasTokens}
 						/>
 						<section id="collection-setup-blizzard-account">
-							<h2>Connect to Hearthstone</h2>
+							<h2>Connect Hearthstone</h2>
 							<p>
 								Launch Hearthstone while your deck tracker is
 								running and enter your collection.
