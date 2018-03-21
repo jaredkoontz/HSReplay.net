@@ -19,6 +19,9 @@ export default class ProgressIndicator extends React.Component<Props> {
 			if (step <= this.props.progress) {
 				classNames.push("active");
 			}
+			if (step == this.props.progress) {
+				classNames.push("current");
+			}
 			steps[i] = <div key={step} className={classNames.join(" ")} />;
 		}
 

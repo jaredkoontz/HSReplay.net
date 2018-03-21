@@ -1471,14 +1471,14 @@ ul.list-ltr, ol.list-ltr {
 
 	.progress-indicator-step {
 		display: block;
-		height: 12px;
-		width: 12px;
+		height: 14px;
+		width: 14px;
 		border-radius: 50%;
 	}
 
 	.progress-indicator-join {
 		flex-grow: 1;
-		height: 4px;
+		height: 6px;
 		margin: 0 -1px;
 	}
 
@@ -1489,6 +1489,16 @@ ul.list-ltr, ol.list-ltr {
 		&.active {
 			background-color: $red;
 			z-index: 1;
+
+			&.current {
+				background-color: #aaa;
+				z-index: 1;
+				border: solid 3px $red;
+
+				&:last-child {
+					background-color: $red;
+				}
+			}
 		}
 	}
 }
