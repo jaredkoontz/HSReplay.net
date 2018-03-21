@@ -120,17 +120,7 @@ export default class CollectionSetupDialog extends React.Component<
 	}
 
 	private trackStep(step: Step) {
-		const steps = {
-			["" + Step.SIGN_IN]: "SIGN_IN",
-			["" + Step.CONNECT_HDT]: "CONNECT_HDT",
-			["" + Step.CLAIM_ACCOUNT]: "CLAIM_ACCOUNT",
-			["" + Step.UPLOAD_COLLECTION]: "UPLOAD_COLLECTION",
-			["" + Step.COMPLETE]: "COMPLETE",
-			["" + Step.COLLECTION_DISABLED]: "COLLECTION_DISABLED",
-		};
-		CollectionEvents.onEnterModalStep(
-			steps["" + this.state.step] || "UNKNOWN",
-		);
+		CollectionEvents.onEnterModalStep(step);
 	}
 
 	private refresh(): void {

@@ -96,17 +96,27 @@ export class CollectionEvents extends GoogleAnalytics {
 		return this.event("Collection Modal", "open");
 	}
 
-	public static onEnterModalStep(step: string): Promise<void> {
+	public static onEnterModalStep(step: Step): Promise<void> {
+		const steps = {
+			["" + Step.SIGN_IN]: "SIGN_IN",
+			["" + Step.CONNECT_HDT]: "CONNECT_HDT",
+			["" + Step.CLAIM_ACCOUNT]: "CLAIM_ACCOUNT",
+			["" + Step.UPLOAD_COLLECTION]: "UPLOAD_COLLECTION",
+			["" + Step.COMPLETE]: "COMPLETE",
+			["" + Step.COLLECTION_DISABLED]: "COLLECTION_DISABLED",
+		};
+		const stepValue = steps["" + step] || "UNKNOWN";
 		INFLUX_CLIENT.writePoint(
 			"collection_modal_step",
 			{
 				count: "1i",
 			},
 			{
-				step,
+				step: stepValue,
+				step_number: "" + step,
 			},
 		);
-		return this.event("Collection Modal", "step", step);
+		return this.event("Collection Modal", "step", stepValue);
 	}
 }
 
