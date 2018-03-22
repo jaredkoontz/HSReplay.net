@@ -658,87 +658,6 @@ export default class Decks extends React.Component<Props, State> {
 							/>
 						</PremiumWrapper>
 					</section>
-					<section id="include-cards-filter">
-						<h2 id="card-search-include-label">Included Cards</h2>
-						<Feature feature="new-card-filter">
-							<InfoboxFilterGroup
-								deselectable
-								selectedValue={this.props.includedSet}
-								onClick={value =>
-									this.props.setIncludedSet(value || "ALL")
-								}
-							>
-								<InfoboxFilter value={this.props.latestSet}>
-									Any new card
-								</InfoboxFilter>
-							</InfoboxFilterGroup>
-						</Feature>
-						<CardSearch
-							id="card-search-include"
-							label="card-search-include-label"
-							key={
-								"cardinclude" + this.state.cardSearchIncludeKey
-							}
-							availableCards={filteredCards}
-							onCardsChanged={cards =>
-								this.props.setIncludedCards(
-									cards.map(card => card.dbfId),
-								)
-							}
-							selectedCards={selectedCards("includedCards")}
-							cardLimit={Limit.DOUBLE}
-							onPaste={e => {
-								if (!this.props.cardData) {
-									return;
-								}
-								const input = e.clipboardData.getData(
-									"text/plain",
-								);
-								const lines = input
-									.trim()
-									.split("\n")
-									.filter(line => !line.startsWith("#"));
-								let result = null;
-								try {
-									result = decodeDeckstring(lines[0]);
-								} catch (e) {
-									return;
-								}
-								e.preventDefault();
-								const cards = [];
-								for (const tuple of result.cards) {
-									const [dbfId, count] = tuple;
-									for (let i = 0; i < count; i++) {
-										cards.push(
-											this.props.cardData.fromDbf(dbfId),
-										);
-									}
-								}
-								cards.sort(sortCards);
-								this.props.setIncludedCards(
-									cards.map(card => card.dbfId),
-								);
-							}}
-						/>
-					</section>
-					<section id="exclude-cards-filter">
-						<h2 id="card-search-exclude-label">Excluded Cards</h2>
-						<CardSearch
-							id="card-search-exclude"
-							label="card-search-exclude-label"
-							key={
-								"cardexclude" + this.state.cardSearchExcludeKey
-							}
-							availableCards={filteredCards}
-							onCardsChanged={cards =>
-								this.props.setExcludedCards(
-									cards.map(card => card.dbfId),
-								)
-							}
-							selectedCards={selectedCards("excludedCards")}
-							cardLimit={Limit.SINGLE}
-						/>
-					</section>
 					<Feature feature="collection-syncing">
 						<section id="max-dust-filter">
 							<h2>
@@ -825,20 +744,6 @@ export default class Decks extends React.Component<Props, State> {
 							)}
 						</section>
 					</Feature>
-					<section id="game-mode-filter">
-						<h2>Game Mode</h2>
-						<InfoboxFilterGroup
-							selectedValue={this.props.gameType}
-							onClick={value => this.props.setGameType(value)}
-						>
-							<InfoboxFilter value="RANKED_STANDARD">
-								Ranked Standard
-							</InfoboxFilter>
-							<InfoboxFilter value="RANKED_WILD">
-								Ranked Wild
-							</InfoboxFilter>
-						</InfoboxFilterGroup>
-					</section>
 					<section id="time-frame-filter">
 						<InfoboxFilterGroup
 							header="Time frame"
@@ -932,6 +837,101 @@ export default class Decks extends React.Component<Props, State> {
 							</PremiumWrapper>
 						</section>
 					</Feature>
+					<section id="game-mode-filter">
+						<h2>Game Mode</h2>
+						<InfoboxFilterGroup
+							selectedValue={this.props.gameType}
+							onClick={value => this.props.setGameType(value)}
+						>
+							<InfoboxFilter value="RANKED_STANDARD">
+								Ranked Standard
+							</InfoboxFilter>
+							<InfoboxFilter value="RANKED_WILD">
+								Ranked Wild
+							</InfoboxFilter>
+						</InfoboxFilterGroup>
+					</section>
+					<section id="include-cards-filter">
+						<h2 id="card-search-include-label">Included Cards</h2>
+						<Feature feature="new-card-filter">
+							<InfoboxFilterGroup
+								deselectable
+								selectedValue={this.props.includedSet}
+								onClick={value =>
+									this.props.setIncludedSet(value || "ALL")
+								}
+							>
+								<InfoboxFilter value={this.props.latestSet}>
+									Any new card
+								</InfoboxFilter>
+							</InfoboxFilterGroup>
+						</Feature>
+						<CardSearch
+							id="card-search-include"
+							label="card-search-include-label"
+							key={
+								"cardinclude" + this.state.cardSearchIncludeKey
+							}
+							availableCards={filteredCards}
+							onCardsChanged={cards =>
+								this.props.setIncludedCards(
+									cards.map(card => card.dbfId),
+								)
+							}
+							selectedCards={selectedCards("includedCards")}
+							cardLimit={Limit.DOUBLE}
+							onPaste={e => {
+								if (!this.props.cardData) {
+									return;
+								}
+								const input = e.clipboardData.getData(
+									"text/plain",
+								);
+								const lines = input
+									.trim()
+									.split("\n")
+									.filter(line => !line.startsWith("#"));
+								let result = null;
+								try {
+									result = decodeDeckstring(lines[0]);
+								} catch (e) {
+									return;
+								}
+								e.preventDefault();
+								const cards = [];
+								for (const tuple of result.cards) {
+									const [dbfId, count] = tuple;
+									for (let i = 0; i < count; i++) {
+										cards.push(
+											this.props.cardData.fromDbf(dbfId),
+										);
+									}
+								}
+								cards.sort(sortCards);
+								this.props.setIncludedCards(
+									cards.map(card => card.dbfId),
+								);
+							}}
+						/>
+					</section>
+					<section id="exclude-cards-filter">
+						<h2 id="card-search-exclude-label">Excluded Cards</h2>
+						<CardSearch
+							id="card-search-exclude"
+							label="card-search-exclude-label"
+							key={
+								"cardexclude" + this.state.cardSearchExcludeKey
+							}
+							availableCards={filteredCards}
+							onCardsChanged={cards =>
+								this.props.setExcludedCards(
+									cards.map(card => card.dbfId),
+								)
+							}
+							selectedCards={selectedCards("excludedCards")}
+							cardLimit={Limit.SINGLE}
+						/>
+					</section>
 					<Feature feature="twitch-stream-promotion">
 						<section id="stream-filter">
 							<InfoboxFilterGroup
