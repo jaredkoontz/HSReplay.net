@@ -314,7 +314,9 @@ class ClusterSnapshotUpdateView(View):
 
 		# Changing external_id assignments affects CCP_signatures
 		# So call update_cluster_signatures() to recalculate
-		class_cluster.update_cluster_signatures()
+		class_cluster.update_cluster_signatures(
+			use_pcp_adjustment=False
+		)
 		for cluster in class_cluster.clusters:
 			cluster.save()
 
