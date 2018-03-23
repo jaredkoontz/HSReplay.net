@@ -566,7 +566,7 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 		is_eligible_format = global_game.format in eligible_formats
 
 		deck_prediction_enabled = getattr(settings, "FULL_DECK_PREDICTION_ENABLED", True)
-		if deck_prediction_enabled and is_eligible_format and settings.ENV_AWS:
+		if deck_prediction_enabled and is_eligible_format:
 			try:
 				player_class = Deck.objects._convert_hero_id_to_player_class(player_hero_id)
 				tree = deck_prediction_tree(player_class, global_game.format)
