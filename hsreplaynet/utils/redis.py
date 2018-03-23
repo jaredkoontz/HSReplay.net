@@ -3,6 +3,8 @@ from itertools import chain
 
 from redis import StrictRedis
 
+from hsreplaynet.utils.influx import influx_metric
+
 
 SECONDS_PER_HOUR = 3600
 SECONDS_PER_DAY = 24 * SECONDS_PER_HOUR
@@ -124,6 +126,9 @@ class RedisPopularityDistribution:
 
 		if self._next_token(start_token) > end_token:
 			# We are dealing with the a single time bucket
+			influx_metric("deck_prediction_summary_dist", {
+				"count": 1, "name": self.name,
+			}, exists=True, single_bucket=True)
 			return summary_exists
 
 		includes_current_bucket = end_token > self._current_start_token
@@ -138,16 +143,23 @@ class RedisPopularityDistribution:
 					if not oldest_bucket_ttl:
 						oldest_bucket_ttl = self.redis.ttl(bucket_key)
 
-			if len(buckets):
+			influx_metric("deck_prediction_summary_dist", {
+				"count": 1, "name": self.name, "buckets": len(buckets)
+			}, exists=False, single_bucket=False)
+			if buckets:
 				self.redis.zunionstore(summary_key, buckets)
 
 				# The summary table inherits the TTL of its oldest bucket
 				self.redis.expire(summary_key, oldest_bucket_ttl)
 				return True
 			else:
+				# This is an error state
 				return False
 		else:
 			# The summary already exists and does not include the current bucket
+			influx_metric("deck_prediction_summary_dist", {
+				"count": 1, "name": self.name
+			}, exists=True, single_bucket=False)
 			return True
 
 	def _generate_bucket_tokens_between(self, start_token, end_token):
