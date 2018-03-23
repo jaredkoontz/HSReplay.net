@@ -41,7 +41,9 @@ class GameReplayDetail(RetrieveUpdateDestroyAPIView):
 
 
 class GameReplayList(ListAPIView):
-	queryset = GameReplay.objects.live().prefetch_related("user", "global_game__players")
+	queryset = GameReplay.objects.live().prefetch_related(
+		"upload_token", "global_game__players"
+	)
 	authentication_classes = (SessionAuthentication, OAuth2Authentication)
 	permission_classes = (
 		OAuth2HasScopes(read_scopes=["games:read"], write_scopes=["games:write"]),
@@ -56,11 +58,5 @@ class GameReplayList(ListAPIView):
 	def get_queryset(self):
 		queryset = super().get_queryset()
 		user = self.request.user
-		if not user.is_staff or self.request.auth:
-			# For non-staff, only own games are visible
-			queryset = queryset.filter(user=user)
-		# Allow filtering on username key
-		username = self.request.query_params.get("username", None)
-		if username:
-			queryset = queryset.filter(user__username=username)
+		queryset = queryset.filter(upload_token__user=user)
 		return queryset
