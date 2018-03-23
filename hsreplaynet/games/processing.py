@@ -562,11 +562,18 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 			is_friendly_player
 		)
 
-		eligible_formats = [FormatType.FT_STANDARD, FormatType.FT_WILD]
-		is_eligible_format = global_game.format in eligible_formats
-
 		deck_prediction_enabled = getattr(settings, "FULL_DECK_PREDICTION_ENABLED", True)
-		if deck_prediction_enabled and is_eligible_format:
+		is_eligible_format = global_game.format in [FormatType.FT_STANDARD, FormatType.FT_WILD]
+		is_eligible_gametype = global_game.game_type in [
+			BnetGameType.BGT_FRIENDS,
+			BnetGameType.BGT_RANKED_STANDARD,
+			BnetGameType.BGT_VS_AI,
+			BnetGameType.BGT_CASUAL_STANDARD_NORMAL,
+			BnetGameType.BGT_RANKED_WILD,
+			BnetGameType.BGT_CASUAL_WILD,
+		]
+
+		if deck_prediction_enabled and is_eligible_format and is_eligible_gametype:
 			try:
 				player_class = Deck.objects._convert_hero_id_to_player_class(player_hero_id)
 				tree = deck_prediction_tree(player_class, global_game.format)
