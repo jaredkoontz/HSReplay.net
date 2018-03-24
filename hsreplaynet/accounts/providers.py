@@ -1,5 +1,6 @@
 from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
 
+from hearthsim.identity.accounts.models import BlizzardAccount
 from hsreplaynet.utils import log
 from hsreplaynet.utils.influx import influx_metric
 
@@ -42,3 +43,18 @@ class BattleNetAdapter(DefaultSocialAccountAdapter):
 		ret = super().new_user(request, sociallogin)
 		ret.battletag = battletag or ""
 		return ret
+
+	def save_user(self, request, sociallogin, form=None):
+		user = super().save_user(request, sociallogin, form)
+
+		battletag = sociallogin.account.extra_data.get("battletag")
+		if battletag:
+			# Look for all BlizzardAccounts matching the battletag.
+			accounts = BlizzardAccount.objects.filter(battletag=battletag)
+			for account in accounts:
+				# Then claim them.
+				# NOTE: Don't use queryset.update() for triggers don't otherwise run
+				account.user = user
+				account.save()
+
+		return user
