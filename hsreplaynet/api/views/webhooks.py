@@ -6,15 +6,15 @@ from rest_framework.viewsets import GenericViewSet
 
 from hsreplaynet.webhooks.models import WebhookEndpoint
 
-from .. import serializers
 from ..permissions import IsOwnerOrStaff
+from ..serializers.webhooks import WebhookSerializer
 
 
 class WebhookViewSet(CreateModelMixin, ListModelMixin, RetrieveModelMixin, GenericViewSet):
 	authentication_classes = (OAuth2Authentication, )
 	permission_classes = (IsOwnerOrStaff, TokenHasResourceScope)
 	queryset = WebhookEndpoint.objects.filter(is_deleted=False)
-	serializer_class = serializers.webhooks.WebhookSerializer
+	serializer_class = WebhookSerializer
 	required_scopes = ["webhooks"]
 
 	def get_queryset(self):
