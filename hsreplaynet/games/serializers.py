@@ -3,7 +3,7 @@ import json
 from django.core.serializers.json import DjangoJSONEncoder
 from rest_framework import serializers
 
-from hsreplaynet.api.serializers.accounts import UserSerializer
+from hsreplaynet.api.serializers.accounts import SimpleUserSerializer
 
 from ..decks.models import Deck
 from .models import GameReplay, GlobalGame, GlobalGamePlayer
@@ -127,7 +127,7 @@ class GlobalGameSerializer(serializers.ModelSerializer):
 
 
 class GameReplaySerializer(serializers.ModelSerializer):
-	user = UserSerializer(read_only=True)
+	user = SimpleUserSerializer(read_only=True)
 	global_game = GlobalGameSerializer(read_only=True)
 
 	friendly_player = GlobalGamePlayerSerializer(read_only=True)
@@ -140,7 +140,7 @@ class GameReplaySerializer(serializers.ModelSerializer):
 		model = GameReplay
 		fields = (
 			"shortid", "user", "global_game", "friendly_player", "friendly_deck",
-			"opposing_player", "opposing_deck", "spectator_mode", "friendly_player_id",
+			"opposing_player", "opposing_deck", "spectator_mode",
 			"replay_xml", "build", "won", "disconnected", "reconnecting", "visibility"
 		)
 		read_only_fields = ("user", "global_game", "replay_xml")
