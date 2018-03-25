@@ -50,6 +50,7 @@ class HTMLHead:
 			"vendor/bootstrap/css/bootstrap.min.css",
 			"https://fonts.googleapis.com/css?family=Noto+Sans:400,700",
 		)
+		self.add_opensearch(href="opensearch.xml", title="HSReplay.net")
 
 	def __str__(self):
 		return "".join(str(tag) for tag in self.get_tags())
@@ -153,6 +154,9 @@ class HTMLHead:
 				attrs["href"] = static(attrs["href"])
 
 			self.add_link(**attrs)
+
+	def add_opensearch(self, href, title, type="application/opensearchdescription+xml"):
+		self.add_link(rel="search", type=type, href=static(href), title=title)
 
 	def set_canonical_url(self, url):
 		self.canonical_url = self.request.build_absolute_uri(url)

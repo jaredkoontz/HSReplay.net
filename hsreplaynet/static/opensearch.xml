@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/" xmlns:moz="http://www.mozilla.org/2006/browser/search/">
+	<ShortName>HSReplay.net</ShortName>
+	<LongName>HSReplay.net Card Search</LongName>
+	<Description>Search Hearthstone cards on HSReplay.net</Description>
+	<Tags>hearthstone</Tags>
+	<Contact>contact@hsreplay.net</Contact>
+	<Url type="text/html" template="https://hsreplay.net/cards/#text={searchTerms}&amp;showSparse=yes"/>
+	<Url type="application/opensearchdescription+xml" template="https://hsreplay.net/static/opensearch.xml"/>
+	<!-- <Image height="64" width="64" type="image/png">https://hsreplay.net/static/images/logo.png</Image> -->
+	<Image height="48" width="48" type="image/vnd.microsoft.icon">https://hsreplay.net/static/images/favicon.ico</Image>
+	<Developer>HearthSim</Developer>
+	<Language>en</Language>
+	<moz:SearchForm>https://hsreplay.net/cards/</moz:SearchForm>
+</OpenSearchDescription>
