@@ -127,8 +127,8 @@ class RedisPopularityDistribution:
 		if self._next_token(start_token) > end_token:
 			# We are dealing with the a single time bucket
 			influx_metric("deck_prediction_summary_dist", {
-				"count": 1, "name": self.name,
-			}, exists=True, single_bucket=True)
+				"count": 1, "name": self.name, "summary_key": summary_key
+			}, exists=True, single_bucket=True, namespace=self.namespace)
 			return summary_exists
 
 		includes_current_bucket = end_token > self._current_start_token
@@ -136,7 +136,8 @@ class RedisPopularityDistribution:
 			# We either need to build or refresh the summary
 			buckets = []
 			oldest_bucket_ttl = None
-			for s, e in self._generate_bucket_tokens_between(start_token, end_token):
+			tokens_between = self._generate_bucket_tokens_between(start_token, end_token)
+			for s, e in tokens_between:
 				bucket_key = self._bucket_key(s, e)
 				if self.redis.exists(bucket_key):
 					buckets.append(bucket_key)
@@ -144,13 +145,21 @@ class RedisPopularityDistribution:
 						oldest_bucket_ttl = self.redis.ttl(bucket_key)
 
 			influx_metric("deck_prediction_summary_dist", {
-				"count": 1, "name": self.name, "buckets": len(buckets)
-			}, exists=False, single_bucket=False)
+				"count": 1, "name": self.name,
+				"buckets": len(buckets), "summary_key": summary_key,
+				"includes_current_bucket": includes_current_bucket
+			}, exists=False, single_bucket=False, namespace=self.namespace)
 			if buckets:
 				self.redis.zunionstore(summary_key, buckets)
 
 				# The summary table inherits the TTL of its oldest bucket
 				self.redis.expire(summary_key, oldest_bucket_ttl)
+				influx_metric("deck_prediction_summary_expiration", {
+					"count": 1,
+					"ttl": oldest_bucket_ttl,
+					"name": self.name,
+					"summary_key": summary_key
+				}, num_buckets=len(buckets), namespace=self.namespace)
 				return True
 			else:
 				# This is an error state
@@ -158,8 +167,8 @@ class RedisPopularityDistribution:
 		else:
 			# The summary already exists and does not include the current bucket
 			influx_metric("deck_prediction_summary_dist", {
-				"count": 1, "name": self.name
-			}, exists=True, single_bucket=False)
+				"count": 1, "name": self.name, "summary_key": summary_key
+			}, exists=True, single_bucket=False, namespace=self.namespace)
 			return True
 
 	def _generate_bucket_tokens_between(self, start_token, end_token):
