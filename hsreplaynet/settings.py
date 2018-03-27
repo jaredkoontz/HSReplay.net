@@ -471,7 +471,7 @@ WEBHOOKS = {
 # Less than 2,000 unique possible decks, which is the brute force search threshold
 DECK_PREDICTION_MINIMUM_CARDS = 5
 # Set false to increase redis brute force search efficiency
-INCLUDE_CURRENT_HOUR_IN_LOOKUP = False
+INCLUDE_CURRENT_BUCKET_IN_LOOKUP = False
 
 # Used in some pages such as /downloads
 FONTAWESOME_CSS_URL = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"

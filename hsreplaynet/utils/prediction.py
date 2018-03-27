@@ -66,7 +66,8 @@ class DeckPredictionTree:
 		max_depth=4,
 		ttl=DEFAULT_POPULARITY_TTL,
 		popularity_ttl=DEFAULT_POPULARITY_TTL,
-		include_current_hour=settings.INCLUDE_CURRENT_HOUR_IN_LOOKUP
+		include_current_bucket=settings.INCLUDE_CURRENT_BUCKET_IN_LOOKUP,
+		bucket_size=21600  # 6 Hours
 	):
 		self.redis_primary = redis_primary
 		self.redis_replica = redis_replica
@@ -75,7 +76,8 @@ class DeckPredictionTree:
 		self.max_depth = max_depth
 		self.ttl = ttl
 		self.popularity_ttl = popularity_ttl
-		self.include_current_hour = include_current_hour
+		self.include_current_bucket = include_current_bucket
+		self.bucket_size = bucket_size
 		self.storage = RedisIntegerMapStorage(
 			(redis_primary, redis_replica), "DECK", ttl=self.ttl
 		)
@@ -113,10 +115,10 @@ class DeckPredictionTree:
 			node = stack.pop(0)
 			popularity_dist = self._popularity_distribution(node)
 
-			if self.include_current_hour:
+			if self.include_current_bucket:
 				end_ts = datetime.utcnow()
 			else:
-				end_ts = datetime.utcnow() - timedelta(hours=1)
+				end_ts = datetime.utcnow() - timedelta(seconds=self.bucket_size)
 
 			# Do not request more candidates than the maximum amount
 			# That our deck storage system supports brute force search over
@@ -189,7 +191,7 @@ class DeckPredictionTree:
 			namespace="POPULARITY",
 			ttl=self.popularity_ttl,
 			max_items=self._max_collection_size_for_depth(node.depth),
-			bucket_size=21600  # 6 Hours
+			bucket_size=self.bucket_size
 		)
 		return dist
 
