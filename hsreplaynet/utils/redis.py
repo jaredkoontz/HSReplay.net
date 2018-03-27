@@ -3,8 +3,6 @@ from itertools import chain
 
 from redis import StrictRedis
 
-from hsreplaynet.utils.influx import influx_metric
-
 
 SECONDS_PER_HOUR = 3600
 SECONDS_PER_DAY = 24 * SECONDS_PER_HOUR
@@ -126,9 +124,6 @@ class RedisPopularityDistribution:
 
 		if self._next_token(start_token) > end_token:
 			# We are dealing with the a single time bucket
-			influx_metric("deck_prediction_summary_dist", {
-				"count": 1, "name": self.name, "summary_key": summary_key
-			}, exists=True, single_bucket=True, namespace=self.namespace)
 			return summary_exists
 
 		includes_current_bucket = end_token > self._current_start_token
@@ -144,31 +139,17 @@ class RedisPopularityDistribution:
 					if not oldest_bucket_ttl:
 						oldest_bucket_ttl = self.redis.ttl(bucket_key)
 
-			influx_metric("deck_prediction_summary_dist", {
-				"count": 1, "name": self.name,
-				"buckets": len(buckets), "summary_key": summary_key,
-				"includes_current_bucket": includes_current_bucket
-			}, exists=False, single_bucket=False, namespace=self.namespace)
 			if buckets:
 				self.redis.zunionstore(summary_key, buckets)
 
 				# The summary table inherits the TTL of its oldest bucket
 				self.redis.expire(summary_key, oldest_bucket_ttl)
-				influx_metric("deck_prediction_summary_expiration", {
-					"count": 1,
-					"ttl": oldest_bucket_ttl,
-					"name": self.name,
-					"summary_key": summary_key
-				}, num_buckets=len(buckets), namespace=self.namespace)
 				return True
 			else:
 				# This is an error state
 				return False
 		else:
 			# The summary already exists and does not include the current bucket
-			influx_metric("deck_prediction_summary_dist", {
-				"count": 1, "name": self.name, "summary_key": summary_key
-			}, exists=True, single_bucket=False, namespace=self.namespace)
 			return True
 
 	def _generate_bucket_tokens_between(self, start_token, end_token):

@@ -82,28 +82,3 @@ def test_prediction_tree():
 		UNOBSERVED_PLAY_SEQUENCE
 	).predicted_deck_id
 	assert lookup_result_5 is None
-
-
-def test_prediction_tree_summary_key_reuse():
-	r = fakeredis.FakeStrictRedis()
-	tree = DeckPredictionTree(
-		CardClass.DRUID,
-		FormatType.FT_STANDARD,
-		r, r,
-		max_depth=6,
-		include_current_bucket=True
-	)
-	assert tree.tree_name == "DECK_PREDICTION_DRUID_FT_STANDARD"
-
-	tree.observe(1, to_dbf_map(DECK_1), PLAY_SEQUENCES[1])
-	lookup_result_1 = tree.lookup(
-		to_dbf_map(PLAY_SEQUENCES[1][:-1]),
-		PLAY_SEQUENCES[1][:-1]
-	).predicted_deck_id
-	assert lookup_result_1 == 1
-
-	lookup_result_2 = tree.lookup(
-		to_dbf_map(PLAY_SEQUENCES[1][:-1]),
-		PLAY_SEQUENCES[1][:-1]
-	).predicted_deck_id
-	assert lookup_result_2 == 1
