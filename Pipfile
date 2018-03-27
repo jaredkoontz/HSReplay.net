@@ -44,6 +44,10 @@ hsarchetypes = {file = "https://github.com/HearthSim/hsarchetypes/archive/master
 [dev-packages]
 django-debug-toolbar = "*"
 django-extensions = "*"
+pytest = "*"
+pytest-django = "*"
+pytest-mock = "*"
+fakeredis = "*"
 q = "*"
 tox = "*"
 
