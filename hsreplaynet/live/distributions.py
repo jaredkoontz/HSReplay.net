@@ -1,6 +1,6 @@
 from django.core.cache import caches
 
-from hsreplaynet.utils.redis import RedisPopularityDistribution
+from hsreplaynet.utils.redis import CappedDataFeed, RedisPopularityDistribution
 
 
 class PopularityWinrateDistribution:
@@ -52,7 +52,7 @@ def get_player_class_distribution(game_type, redis_client=None, ttl=3200):
 	if redis_client:
 		redis = redis_client
 	else:
-		redis = caches["live_stats"].client.get_client()
+		redis = get_live_stats_redis()
 
 	name = "PLAYER_CLASS_%s" % game_type
 	return PopularityWinrateDistribution(redis, name=name, ttl=ttl)
@@ -77,3 +77,13 @@ def get_played_cards_distribution(game_type, redis_client=None, ttl=600):
 
 def get_live_stats_redis():
 	return caches["live_stats"].client.get_client()
+
+
+def get_replay_feed(comparator=None):
+	return CappedDataFeed(
+		redis=get_live_stats_redis(),
+		name="REPLAY_FEED",
+		max_items=1000,
+		period=.5,
+		comparator=comparator
+	)

@@ -386,3 +386,81 @@ class RedisTree:
 
 	def __repr__(self):
 		return self.key
+
+
+class CappedDataFeed:
+	def __init__(self, redis, name, max_items, period, comparator, ttl=DEFAULT_TTL):
+		self.redis = redis
+		self.name = name
+		self.namespace = "CAPPED_DATA_FEED"
+		self.key = "%s:%s" % (self.namespace, self.name)
+		self.max_items = max_items
+		self.period = period
+		self.last_added_key = "%s:LAST_ADDED" % self.key
+		self.comparator = comparator
+		self.ttl = ttl
+
+	def __str__(self):
+		return self.key
+
+	def __repr__(self):
+		return self.key
+
+	def push(self, data):
+		if "id" not in data:
+			raise RuntimeError("Data must contain 'id' key")
+
+		def internal_push(pipe):
+			last_id = pipe.lrange(self.key, -1, -1)
+			last_data = pipe.hgetall(last_id[0]) if last_id else None
+
+			cancel = (
+				last_data and
+				self.comparator and
+				self.comparator(data, last_data) or
+				not self._period_elapsed(pipe)
+			)
+
+			pipe.multi()
+
+			if cancel:
+				return False
+
+			# add new item
+			data_key = "%s:OBJ:%s" % (self.key, data["id"])
+			pipe.hmset(data_key, data)
+			pipe.expire(data_key, self.ttl)
+			pipe.lpush(self.key, data_key)
+
+			# trim list
+			to_delete = self.redis.lrange(self.key, self.max_items - 1, -1)
+			pipe.ltrim(self.key, 0, self.max_items - 1)
+			if to_delete:
+				pipe.delete(*to_delete)
+
+			# update last added timestamp
+			pipe.set(self.last_added_key, datetime.utcnow().timestamp())
+
+			return True
+
+		return self.redis.transaction(
+			internal_push,
+			self.last_added_key,
+			value_from_callable=True
+		)
+
+	def get(self):
+		keys = self.redis.lrange(self.key, 0, self.max_items)
+		keys.reverse()
+		pipeline = self.redis.pipeline(transaction=True)
+		for key in keys:
+			pipeline.hgetall(key)
+		return pipeline.execute()
+
+	def _period_elapsed(self, pipe):
+		if not self.period:
+			return True
+		val = pipe.get(self.last_added_key)
+		if val:
+			return float(val) + self.period < datetime.utcnow().timestamp()
+		return True

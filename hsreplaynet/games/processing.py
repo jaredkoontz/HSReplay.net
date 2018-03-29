@@ -19,13 +19,14 @@ from hslog.export import EntityTreeExporter, FriendlyPlayerExporter
 from hsreplay import __version__ as hsreplay_version
 from hsreplay.document import HSReplayDocument
 
-from hearthsim.identity.accounts.models import BlizzardAccount
+from hearthsim.identity.accounts.models import BlizzardAccount, Visibility
 from hsredshift.etl.exceptions import CorruptReplayDataError, CorruptReplayPacketError
 from hsredshift.etl.exporters import RedshiftPublishingExporter
 from hsredshift.etl.firehose import flush_exporter_to_firehose
 from hsreplaynet.decks.models import Deck
 from hsreplaynet.live.distributions import (
-	get_live_stats_redis, get_played_cards_distribution, get_player_class_distribution
+	get_live_stats_redis, get_played_cards_distribution,
+	get_player_class_distribution, get_replay_feed
 )
 from hsreplaynet.uploads.models import UploadEventStatus
 from hsreplaynet.utils import guess_ladder_season, log
@@ -735,6 +736,58 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 	return players
 
 
+def update_replay_feed(replay):
+	try:
+		if replay.global_game.exclude_from_statistics:
+			return
+
+		if replay.user.default_replay_visibility != Visibility.Public:
+			return
+
+		elapsed_minutes = elapsed_seconds_from_match_end(replay.global_game) / 60.0
+		if elapsed_minutes > 5.0:
+			return
+
+		if (
+			BnetGameType(replay.global_game.game_type) != BnetGameType.BGT_RANKED_STANDARD or
+			FormatType(replay.global_game.format) != FormatType.FT_STANDARD
+		):
+			return
+
+		player1 = replay.player(1)
+		player2 = replay.player(2)
+
+		player1_archetype = player1.deck_list.archetype
+		player2_archetype = player2.deck_list.archetype
+
+		if (
+			not player1_archetype or
+			not player2_archetype or
+			not (player1.rank or player1.legend_rank) or
+			not (player2.rank or player2.legend_rank)
+		):
+			return
+
+		data = {
+			"player1_archetype": player1_archetype.id,
+			"player1_rank": player1.rank,
+			"player1_legend_rank": player1.legend_rank,
+			"player2_archetype": player2_archetype.id,
+			"player2_rank": player2.rank,
+			"player2_legend_rank": player2.legend_rank,
+			"id": replay.shortid
+		}
+
+		def comparator(d1, d2):
+			keys = [key for key in data.keys() if key != "id"]
+			return all([d1[key] == d2[key] for key in keys])
+
+		get_replay_feed(comparator).push(data)
+
+	except Exception as e:
+		error_handler(e)
+
+
 def update_player_class_distribution(replay):
 	try:
 		game_type_name = BnetGameType(replay.global_game.game_type).name
@@ -807,6 +860,8 @@ def do_process_upload_event(upload_event):
 	)
 
 	update_player_class_distribution(replay)
+	update_replay_feed(replay)
+
 	can_attempt_redshift_load = False
 
 	if global_game.loaded_into_redshift is None:
