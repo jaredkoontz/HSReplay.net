@@ -65,6 +65,8 @@ interface Props extends FragmentChildProps {
 	setTrainingData?: (trainingData: string) => void;
 	withStream?: boolean;
 	setWithStream?: (withStream: boolean) => void;
+	minGames?: number;
+	setMinGames?: (minGames: number) => void;
 }
 
 interface State {
@@ -81,6 +83,7 @@ export default class Decks extends React.Component<Props, State> {
 	private deckListsFragmentsRef;
 	private trackTimeout: number | null = null;
 	private hasTrackedView: boolean;
+	private readonly minGames: [number, number] = [1000, 400];
 
 	constructor(props: Props, context: any) {
 		super(props, context);
@@ -114,7 +117,8 @@ export default class Decks extends React.Component<Props, State> {
 			this.props.includedSet !== prevProps.includedSet ||
 			this.props.trainingData !== prevProps.trainingData ||
 			this.props.maxDustCost !== prevProps.maxDustCost ||
-			this.props.withStream !== prevProps.withStream
+			this.props.withStream !== prevProps.withStream ||
+			this.props.minGames  !== prevProps.minGames
 		) {
 			this.updateFilteredDecks();
 			this.deckListsFragmentsRef &&
@@ -318,6 +322,12 @@ export default class Decks extends React.Component<Props, State> {
 						) {
 							return;
 						}
+						const minGames = this.props.gameType === "RANKED_WILD"
+							? this.props.minGames / 2
+							: this.props.minGames;
+						if(deck.total_games < minGames) {
+							return;
+						}
 						// hotfix for unload issue 2017-09-24
 						const fixedDeckList = (deck.deck_list || "").replace(
 							/\\,/g,
@@ -467,8 +477,22 @@ export default class Decks extends React.Component<Props, State> {
 		} else {
 			const isWild = this.props.gameType === "RANKED_WILD";
 			const gameType = isWild ? "Wild" : "Standard";
-			const minGames = isWild ? 200 : 400;
-			const helpMessage = `${gameType} decks require at least 10 unique pilots and ${minGames} recorded games in the selected time frame to be listed.`;
+			const minGamesSwitch = (
+				<a
+					href="#"
+					id="min-games-switch"
+					onClick={(e) => {
+						e.preventDefault();
+						const minGames = this.minGames[+(this.props.minGames >= this.minGames[0])]
+						this.props.setMinGames(minGames);
+					}}
+				>
+					{this.getMinGames()[+(this.props.minGames < this.minGames[0])]}
+				</a>
+			);
+			const helpMessage = (
+				<span>Showing {gameType} decks with at least 10 unique pilots and {minGamesSwitch} recorded games.</span>
+			);
 			content = (
 				<Fragments
 					defaults={{
@@ -954,6 +978,20 @@ export default class Decks extends React.Component<Props, State> {
 					</Feature>
 					<section id="side-bar-data">
 						<h2>Data</h2>
+						<InfoboxFilterGroup
+							deselectable
+							selectedValue={
+								this.props.minGames >= this.minGames[0] ? "MIN_GAMES" : null
+							}
+							onClick={value => {
+								const minGames = this.minGames[+(this.props.minGames >= this.minGames[0])]
+								this.props.setMinGames(minGames);
+							}}
+						>
+							<InfoboxFilter value="MIN_GAMES">
+								At least {this.getMinGames()[0]} games
+							</InfoboxFilter>
+						</InfoboxFilterGroup>
 						<ul>
 							<InfoboxLastUpdated
 								url={this.getQueryName()}
@@ -976,6 +1014,14 @@ export default class Decks extends React.Component<Props, State> {
 				</div>
 			</div>
 		);
+	}
+
+	getMinGames(): [number, number] {
+		const isWild = this.props.gameType === "RANKED_WILD";
+		return [
+			isWild ? this.minGames[0] / 2 : this.minGames[0],
+			isWild ? this.minGames[1] / 2 : this.minGames[1]
+		];
 	}
 
 	getQueryName(): string {

@@ -26,7 +26,7 @@ interface Props extends FragmentChildProps {
 	setSortDirection?: (sortDirection: SortDirection) => void;
 	page?: number;
 	setPage?: (page: number) => void;
-	helpMessage?: string;
+	helpMessage?: any;
 	hrefTab?: string;
 	lastPlayedColumn?: boolean;
 	showGlobalDataNotice?: boolean;
