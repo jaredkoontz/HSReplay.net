@@ -14,6 +14,15 @@ jobs:
     node_js: "node"
     env: SCRIPT=lint:tslint
     script: yarn run $SCRIPT
+
+  - stage: test
+    language: node_js
+    node_js: "node"
+    env: SCRIPT=build
+    install:
+      - yarn --pure-lockfile
+      - scripts/get_vendor_static.sh
+    script: yarn run $SCRIPT
 matrix:
   allow_failures:
     - env: SCRIPT=lint:tslint
