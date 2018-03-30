@@ -118,7 +118,7 @@ export default class Decks extends React.Component<Props, State> {
 			this.props.trainingData !== prevProps.trainingData ||
 			this.props.maxDustCost !== prevProps.maxDustCost ||
 			this.props.withStream !== prevProps.withStream ||
-			this.props.minGames  !== prevProps.minGames
+			this.props.minGames !== prevProps.minGames
 		) {
 			this.updateFilteredDecks();
 			this.deckListsFragmentsRef &&
@@ -322,10 +322,11 @@ export default class Decks extends React.Component<Props, State> {
 						) {
 							return;
 						}
-						const minGames = this.props.gameType === "RANKED_WILD"
-							? this.props.minGames / 2
-							: this.props.minGames;
-						if(deck.total_games < minGames) {
+						const minGames =
+							this.props.gameType === "RANKED_WILD"
+								? this.props.minGames / 2
+								: this.props.minGames;
+						if (deck.total_games < minGames) {
 							return;
 						}
 						// hotfix for unload issue 2017-09-24
@@ -481,17 +482,26 @@ export default class Decks extends React.Component<Props, State> {
 				<a
 					href="#"
 					id="min-games-switch"
-					onClick={(e) => {
+					onClick={e => {
 						e.preventDefault();
-						const minGames = this.minGames[+(this.props.minGames >= this.minGames[0])]
+						const minGames = this.minGames[
+							+(this.props.minGames >= this.minGames[0])
+						];
 						this.props.setMinGames(minGames);
 					}}
 				>
-					{this.getMinGames()[+(this.props.minGames < this.minGames[0])]}
+					{
+						this.getMinGames()[
+							+(this.props.minGames < this.minGames[0])
+						]
+					}
 				</a>
 			);
 			const helpMessage = (
-				<span>Showing {gameType} decks with at least 10 unique pilots and {minGamesSwitch} recorded games.</span>
+				<span>
+					Showing {gameType} decks with at least 10 unique pilots and{" "}
+					{minGamesSwitch} recorded games.
+				</span>
 			);
 			content = (
 				<Fragments
@@ -981,10 +991,14 @@ export default class Decks extends React.Component<Props, State> {
 						<InfoboxFilterGroup
 							deselectable
 							selectedValue={
-								this.props.minGames >= this.minGames[0] ? "MIN_GAMES" : null
+								this.props.minGames >= this.minGames[0]
+									? "MIN_GAMES"
+									: null
 							}
 							onClick={value => {
-								const minGames = this.minGames[+(this.props.minGames >= this.minGames[0])]
+								const minGames = this.minGames[
+									+(this.props.minGames >= this.minGames[0])
+								];
 								this.props.setMinGames(minGames);
 							}}
 						>
@@ -1020,7 +1034,7 @@ export default class Decks extends React.Component<Props, State> {
 		const isWild = this.props.gameType === "RANKED_WILD";
 		return [
 			isWild ? this.minGames[0] / 2 : this.minGames[0],
-			isWild ? this.minGames[1] / 2 : this.minGames[1]
+			isWild ? this.minGames[1] / 2 : this.minGames[1],
 		];
 	}
 
