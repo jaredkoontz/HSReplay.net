@@ -274,7 +274,8 @@ def enable_all_premium_users_in_redshift():
 		users.add(subscription.customer.subscriber)
 
 	for agreement in BillingAgreement.objects.filter(state="Active"):
-		users.add(agreement.user)
+		if agreement.user:
+			users.add(agreement.user)
 
 	enable_premium_accounts_for_users_in_redshift(users)
 
