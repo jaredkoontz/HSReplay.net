@@ -1,5 +1,4 @@
 {% extends "account/base.html" %}
-{% load setting from web_extras %}
 
 {% block content %}
 	<section class="box-section">
@@ -11,12 +10,12 @@
 			<strong>Did you log in with the wrong Blizzard account?</strong><br/>
 			You can link multiple Blizzard accounts
 			<a href="{% url 'socialaccount_connections' %}#account-connections">in the Blizzard section</a>.
-			If you need to merge an account, <a href="mailto:{% setting 'DEFAULT_FROM_EMAIL' %}">contact us directly</a>.
+			If you need to merge an account, <a href="mailto:{{ site_email }}">contact us directly</a>.
 		</p>
 
 		<p>
 			Problems with the site? Something you're not happy about?
-			Maybe we can fix it. <a href="mailto:{% setting 'DEFAULT_FROM_EMAIL' %}">Shoot us an email</a>!
+			Maybe we can fix it. <a href="mailto:{{ site_email }}">Shoot us an email</a>!
 		</p>
 
 		{% if user.is_premium %}

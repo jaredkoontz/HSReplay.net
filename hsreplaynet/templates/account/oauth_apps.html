@@ -1,5 +1,4 @@
 {% extends "account/base.html" %}
-{% load setting from web_extras %}
 {% load last_used from web_extras %}
 
 {% block content %}
@@ -85,7 +84,7 @@
 		{% if not application_list.count %}
 			<p>
 				Want to use our OAuth2 API in your own app?
-				<a href="mailto:{% setting 'DEFAULT_FROM_EMAIL' %}">Contact us</a> to apply for a token.
+				<a href="mailto:{{ site_email }}">Contact us</a> to apply for a token.
 			</p>
 		{% else %}
 			<table class="table table-bordered">

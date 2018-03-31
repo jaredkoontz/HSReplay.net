@@ -1,5 +1,4 @@
 {% extends "account/base.html" %}
-{% load setting from web_extras %}
 
 {% block content %}
 <div class="content authentication-error">
@@ -8,7 +7,7 @@
 
 		<p class="alert alert-danger">
 			We could not authenticate you with {{ auth_error.provider|title }}.<br/>
-			If this persists, <a href="mailto:{% setting 'DEFAULT_FROM_EMAIL' %}">contact us</a>.
+			If this persists, <a href="mailto:{{ site_email }}">contact us</a>.
 		</p>
 	</section>
 	{% if debug %}

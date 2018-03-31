@@ -1,5 +1,5 @@
 {% extends "account/base.html" %}
-{% load htmltime setting from web_extras %}
+{% load htmltime from web_extras %}
 
 {% block content %}
 	<section id="account-api" class="box-section">
@@ -50,7 +50,7 @@
 				<strong>This feature is still in beta.</strong><br/>
 				The API objects are not final and the functionality is still being tested.
 				If you are interested in using them or have any questions,
-				<a href="mailto:{% setting 'DEFAULT_FROM_EMAIL' %}">please contact us</a> so we can help!
+				<a href="mailto:{{ site_email }}">please contact us</a> so we can help!
 			</p>
 
 			{% if not webhooks.count %}

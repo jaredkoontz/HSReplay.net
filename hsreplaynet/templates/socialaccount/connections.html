@@ -1,7 +1,6 @@
 {% extends "socialaccount/base.html" %}
 {% load i18n socialaccount staticfiles %}
 {% load feature from features %}
-{% load setting from web_extras %}
 
 {% block content %}
 
@@ -165,7 +164,7 @@
 		</p>
 		{% endif %}
 		<p class="alert alert-warning">
-			Please <a href="mailto:{% setting 'DEFAULT_FROM_EMAIL' %}">contact us</a> if any of these are incorrect.
+			Please <a href="mailto:{{ site_email }}">contact us</a> if any of these are incorrect.
 		</p>
 	</div>
 </section>

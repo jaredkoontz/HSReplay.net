@@ -1,7 +1,7 @@
 {% extends "account/base.html" %}
 {% load static from static %}
 {% load feature from features %}
-{% load currency_amount htmltime pretty_card setting from web_extras %}
+{% load currency_amount htmltime pretty_card from web_extras %}
 
 {% block content %}
 
@@ -90,7 +90,7 @@
 				<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_manage-paylist" target="_blank">Manage preapproved payments</a>.
 			</p>
 			<p>
-				For help, support and questions, don't hesitate to <a href="mailto:{% setting 'DEFAULT_FROM_EMAIL' %}">contact us directly</a>!</p>
+				For help, support and questions, don't hesitate to <a href="mailto:{{ site_email }}">contact us directly</a>!</p>
 			</p>
 
 		{% else %}
@@ -160,7 +160,7 @@
 
 		<hr/>
 		<p>
-			Don't hesitate to <a href="mailto:{% setting 'DEFAULT_FROM_EMAIL' %}">contact us</a> if you have issues or questions!
+			Don't hesitate to <a href="mailto:{{ site_email }}">contact us</a> if you have issues or questions!
 		</p>
 
 	</div>
@@ -306,7 +306,7 @@
 				</tr>
 			{% endfor %}
 		</table>
-		<p class="help-block">Open payments are periodically retried using your default payment method. <a href="mailto:{% setting 'DEFAULT_FROM_EMAIL' %}">Contact us</a> if you need any help.</p>
+		<p class="help-block">Open payments are periodically retried using your default payment method. <a href="mailto:{{ site_email }}">Contact us</a> if you need any help.</p>
 		{% else %}
 			<p>You have no recorded payments.</p>
 		{% endif %}

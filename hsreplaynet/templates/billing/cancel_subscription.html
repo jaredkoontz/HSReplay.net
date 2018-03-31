@@ -1,6 +1,5 @@
 {% extends "account/base.html" %}
 {% load feature from features %}
-{% load setting from web_extras %}
 
 {% block content %}
 
@@ -17,7 +16,7 @@
 
 		<p>
 			HearthSim Premium directly funds the development of the site. We're sorry to see you go!
-			If you are having a problem with the site, please <a href="mailto:{% setting 'DEFAULT_FROM_EMAIL' %}">email us</a>
+			If you are having a problem with the site, please <a href="mailto:{{ site_email }}">email us</a>
 			or <a href="https://discord.gg/hearthsim">reach out on Discord</a>, we'll get you sorted out!
 		</p>
 

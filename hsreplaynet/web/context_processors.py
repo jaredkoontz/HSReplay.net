@@ -104,6 +104,7 @@ def premium(request):
 		is_premium = False
 
 	return {
+		"site_email": settings.DEFAULT_FROM_EMAIL,
 		"premium": is_premium,
 		"has_subscription_past_due": has_subscription_past_due,
 		"show_premium_modal": not is_premium and "premium-modal" in request.GET,
