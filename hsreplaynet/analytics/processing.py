@@ -264,22 +264,6 @@ def enable_premium_accounts_for_users_in_redshift(users):
 	enable_premium_accounts_in_redshift(accounts)
 
 
-def enable_all_premium_users_in_redshift():
-	from djpaypal.models import BillingAgreement
-	from djstripe.models import Subscription
-
-	users = set()
-
-	for subscription in Subscription.objects.active():
-		users.add(subscription.customer.subscriber)
-
-	for agreement in BillingAgreement.objects.filter(state="Active"):
-		if agreement.user:
-			users.add(agreement.user)
-
-	enable_premium_accounts_for_users_in_redshift(users)
-
-
 @receiver(models.signals.post_save, sender=BlizzardAccount)
 def sync_blizzard_account_to_redshift(sender, instance, **kwargs):
 	if instance.user and instance.user.is_premium:
