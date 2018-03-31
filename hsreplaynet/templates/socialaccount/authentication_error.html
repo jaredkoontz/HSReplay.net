@@ -1,9 +1,10 @@
 {% extends "account/base.html" %}
+{% load trans from i18n %}
 
 {% block content %}
 <div class="content authentication-error">
 	<section>
-		<h1>Authentication error</h1>
+		<h1>{% trans "Authentication error" %}</h1>
 
 		<p class="alert alert-danger">
 			We could not authenticate you with {{ auth_error.provider|title }}.<br/>
@@ -24,7 +25,7 @@
 	</section>
 	{% endif %}
 	<section>
-		<p><a href="/">Back to the office.</a></p>
+		<p><a href="/">{% trans "Back to the office." %}</a></p>
 	</section>
 </div>
 {% endblock %}

@@ -1,12 +1,13 @@
 {% extends "account/signup.html" %}
 {% load account socialaccount %}
+{% load trans from i18n %}
 
 {% block content %}
 
 <div class="content">
-<h2>Sign up</h2>
+<h2>{% trans "Sign up" %}</h2>
 
-<p>To sign up to HSReplay.net, use your Blizzard account.</p>
+<p>{% trans "To sign up to HSReplay.net, use your Blizzard account." %}</p>
 
 <div class="account-login login-bnet">
 	{% include 'login_button.html' %}
@@ -16,7 +17,7 @@
 <hr/>
 
 <p>
-	Alternatively, sign up with an email and password.
+	{% trans "Alternatively, sign up with an email and password." %}
 </p>
 
 <form method="POST" action="" class="form-group">
@@ -27,19 +28,19 @@
 	{% endif %}
 
 	<p>
-		<label>Username <input type="text" name="username" minlength="4" maxlength="20" required id="id_username" class="form-control"/>
+		<label>{% trans "Username" %} <input type="text" name="username" minlength="4" maxlength="20" required id="id_username" class="form-control"/>
 	</p>
 	<p>
-		<label>Email address <input type="email" name="email" minlength="5" maxlength="200" id="id_email" class="form-control"/>
+		<label>{% trans "Email address" %} <input type="email" name="email" minlength="5" maxlength="200" id="id_email" class="form-control"/>
 	</p>
 	<p>
-		<label>Password <input type="password" name="password1" minlength="6" maxlength="200" required id="id_password1" class="form-control"/>
+		<label>{% trans "Password" %} <input type="password" name="password1" minlength="6" maxlength="200" required id="id_password1" class="form-control"/>
 	</p>
 	<p>
-		<label>Password (repeat) <input type="password" name="password2" minlength="6" maxlength="200" required id="id_password2" class="form-control"/>
+		<label>{% trans "Password (repeat)" %} <input type="password" name="password2" minlength="6" maxlength="200" required id="id_password2" class="form-control"/>
 	</p>
 
-	<button type="submit" class="btn btn-primary">Sign up</button>
+	<button type="submit" class="btn btn-primary">{% trans "Sign up" %}</button>
 </form>
 
 

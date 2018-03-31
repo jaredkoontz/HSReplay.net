@@ -1,11 +1,12 @@
 {% extends "account/base.html" %}
+{% load blocktrans trans from i18n %}
 
 {% block content %}
 <div class="center-block px-3">
-	<h2>Account inactive</h2>
+	<h2>{% trans "Account inactive" %}</h2>
 
 	<p>
-		This account is inactive or has been banned.
-		Please <a href="mailto:{{ site_email }}">contact us</a> if this is in error.
+		{% blocktrans %}This account is inactive or has been banned.
+		Please <a href="mailto:{{ site_email }}">contact us</a> if this is in error.{% endblocktrans %}
 	</p>
 {% endblock %}

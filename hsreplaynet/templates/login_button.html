@@ -1,5 +1,6 @@
 {% load socialaccount %}
 {% load web_extras %}
+{% load trans from i18n %}
 
 <div class="btn-group">
 	<a
@@ -17,25 +18,25 @@
 		aria-expanded="false"
 	>
 		<span class="caret"></span>
-		<span class="sr-only">Toggle Dropdown</span>
+		<span class="sr-only">{% trans "Toggle dropdown" %}</span>
 	</button>
 	<ul class="dropdown-menu">
-		<li class="dropdown-header">Regions</li>
+		<li class="dropdown-header">{% trans "Regions" %}</li>
 		<li>
 			<a href="{% provider_login_url 'battlenet' next=next %}" rel="nofollow">
-				Blizzard (US/EU/SEA)&hellip;
+				{% trans "Blizzard (US/EU/SEA)…" %}
 			</a>
 		</li>
 		<li>
 			<a href="{% provider_login_url 'battlenet' region='cn' next=next %}" rel="nofollow">
-				Blizzard China (CN)&hellip;
+				{% trans "Blizzard China (CN)…" %}
 			</a>
 		</li>
 		{% if debug %}
-		<li class="dropdown-header">Debug</li>
+		<li class="dropdown-header">{% trans "Debug" %}</li>
 		<li>
 			<a href="{% url 'account_login' %}?with-password">
-				Sign in with password&hellip;
+				{% trans "Sign in with password…" %}
 			</a>
 		</li>
 		{% endif %}

@@ -1,3 +1,4 @@
+{% load blocktrans from i18n %}
 <p class="alert alert-warning">
-	<strong>You are already logged in as <a href="{% url 'account_edit' %}">{{ user }}</a></strong>.
+	<strong>{% blocktrans %}You are already logged in as <em>{{ user }}</em>.{% endblocktrans %}</strong>
 </p>

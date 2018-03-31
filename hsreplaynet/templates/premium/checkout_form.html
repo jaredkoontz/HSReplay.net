@@ -1,6 +1,6 @@
-{% load feature from features %}
 {% load pretty_card setting from web_extras %}
 {% load static from static %}
+{% load blocktrans from i18n %}
 
 <div
 	id="{{ id }}"
@@ -22,8 +22,8 @@
 ></div>
 <noscript>
 	<p class="alert alert-danger">
-		Please enable Javascript to continue.
-		If this problem persists, please <a href="{% url 'contact_us' %}">contact us</a>.
+		{% blocktrans %}Please enable Javascript to continue.
+		If this problem persists, please <a href="mailto:{{ site_email }}">contact us</a>.{% endblocktrans %}
 	</p>
 </noscript>
 <small class="help-block text-center">

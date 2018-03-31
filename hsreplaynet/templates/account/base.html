@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load trans from i18n %}
 {% load static from static %}
 {% load feature from features %}
 
@@ -8,22 +9,22 @@
 		<nav class="navbar navbar-default">
 			<div class="container">
 				<ul class="nav navbar-nav">
-					<li><a href="{% url 'account_edit' %}">Settings</a></li>
-					<li><a href="{% url 'account_email' %}">Email</a></li>
+					<li><a href="{% url 'account_edit' %}">{% trans "Settings" %}</a></li>
+					<li><a href="{% url 'account_email' %}">{% trans "Email" %}</a></li>
 					{% if billing.enabled %}
-						<li><a href="{% url 'billing_methods' %}">Billing</a></li>
+						<li><a href="{% url 'billing_methods' %}">{% trans "Billing" %}</a></li>
 					{% endif %}
-					<li><a href="{% url 'account_api' %}">API access</a></li>
-					<li><a href="{% url 'oauth2_app_list' %}">OAuth apps</a></li>
+					<li><a href="{% url 'account_api' %}">{% trans "API Access" %}</a></li>
+					<li><a href="{% url 'oauth2_app_list' %}">{% trans "OAuth Apps" %}</a></li>
 					{% if user.is_staff %}
-						<li><a href="{% url 'account_change_password' %}">Password</a></li>
+						<li><a href="{% url 'account_change_password' %}">{% trans "Password" %}</a></li>
 					{% endif %}
-					<li><a href="{% url 'socialaccount_connections' %}">Connected accounts</a></li>
-					<li><a href="{% url 'account_delete' %}">Delete account</a></li>
+					<li><a href="{% url 'socialaccount_connections' %}">{% trans "Connected accounts" %}</a></li>
+					<li><a href="{% url 'account_delete' %}">{% trans "Delete account" %}</a></li>
 				</ul>
 				<noscript>
 					<ul class="nav navbar-nav navbar-right">
-						<li><a href="{% url 'account_logout' %}" id="sign-out">Sign out</a></li>
+						<li><a href="{% url 'account_logout' %}" id="sign-out">{% trans "Sign out" %}</a></li>
 					</ul>
 				</noscript>
 			</div>

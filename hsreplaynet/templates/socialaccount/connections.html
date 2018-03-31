@@ -1,17 +1,18 @@
 {% extends "socialaccount/base.html" %}
-{% load i18n socialaccount staticfiles %}
+{% load socialaccount staticfiles %}
 {% load feature from features %}
+{% load blocktrans trans from i18n %}
 
 {% block content %}
 
 <section class="box-section">
-<h3>Connected Accounts</h3>
+<h3>{% trans "Connected accounts" %}</h3>
 <div class="inner">
 
 {% if form.accounts %}
 	<p>
-		The following social accounts are connected to your HSReplay.net account.
-		You may log in with any connected Blizzard account.
+		{% blocktrans %}The following social accounts are connected to your HSReplay.net account.
+		You may log in with any connected Blizzard account.{% endblocktrans %}
 	</p>
 	<table id="account-connections">
 		{% for base_account in form.accounts %}
@@ -65,11 +66,11 @@
 </section>
 
 <section id="account-blizzard-link" class="box-section">
-	<h3>Connect with Blizzard</h3>
+	<h3>{% trans "Connect with Blizzard" %}</h3>
 	<div class="inner">
 		<p>
-			Here, you can connect multiple Blizzard accounts to your HSReplay account.
-			This lets you sign in with any of them.
+			{% blocktrans %}Here, you can connect multiple Blizzard accounts to your HSReplay.net account.
+			This lets you sign in with any of them.{% endblocktrans %}
 		</p>
 
 		<form method="GET" action="{% provider_login_url 'battlenet' %}">
@@ -89,30 +90,30 @@
 			</p>
 
 			<p>
-				<a href="https://battle.net/en/?logout" target="_blank" rel="noopener" class="btn btn-default">1. Sign out of Blizzard</a>
-				<button type="submit" class="btn btn-primary">2. Connect a Blizzard account</button>
+				<a href="https://battle.net/en/?logout" target="_blank" rel="noopener" class="btn btn-default">{% trans "1. Sign out of Blizzard" %}</a>
+				<button type="submit" class="btn btn-primary">{% trans "2. Connect a Blizzard account" %}</button>
 			</p>
 
 			<p class="alert alert-info">
-				Make sure to sign out of Blizzard before adding another account. This does not sign you out of HSReplay.net.
+				{% trans "Make sure to sign out of Blizzard before adding another account. This does not sign you out of HSReplay.net." %}
 			</p>
 		</form>
 	</div>
 </section>
 
 <section id="account-discord-link" class="box-section">
-	<h3>Connect with Discord</h3>
+	<h3>{% trans "Connect with Discord" %}</h3>
 	<div class="inner">
 		{% if premium %}
 		<p>
-			As a subscriber, you have access to the exclusive <strong style="color:#dc9502">Premium Supporter</strong> role on <a href="https://discord.gg/hearthsim" target="_blank">our official Discord server</a>.
-			Connect your Discord account here to do so.
+			{% blocktrans %}As a subscriber, you have access to the exclusive <strong style="color:#dc9502">Premium Supporter</strong> role on <a href="https://discord.gg/hearthsim" target="_blank">our official Discord server</a>.
+			Connect your Discord account here to do so.{% endblocktrans %}
 		</p>
 
 		<form method="GET" action="{% provider_login_url 'discord' %}">
 			<input type="hidden" name="process" value="connect"/>
 			<p>
-				<button type="submit" class="btn btn-primary">Connect a Discord account</button>
+				<button type="submit" class="btn btn-primary">{% trans "Connect a Discord account" %}</button>
 			</p>
 		</form>
 		{% else %}
@@ -127,7 +128,7 @@
 </section>
 
 <section id="account-twitch-link" class="box-section">
-	<h3>Connect with Twitch</h3>
+	<h3>{% trans "Connect with Twitch" %}</h3>
 	<div class="inner">
 
 		<p>
@@ -139,17 +140,19 @@
 		<form method="GET" action="{% provider_login_url 'twitch' %}">
 			<input type="hidden" name="process" value="connect"/>
 			<p>
-				<button type="submit" class="btn btn-primary">Connect a Twitch account</button>
+				<button type="submit" class="btn btn-primary">{% trans "Connect a Twitch account" %}</button>
 			</p>
 		</form>
 	</div>
 </section>
 
 <section id="account-blizzard-accounts" class="box-section">
-	<h3>Hearthstone accounts</h3>
+	<h3>{% trans "Hearthstone accounts" %}</h3>
 	<div class="inner">
 		<p>
-			These are the Hearthstone accounts you have uploaded replays with and can see statistics for.
+			{% blocktrans %}We have automatically detected the following Hearthstone accounts and associated them with you.
+			You can see statistics and upload your collection for any of these accounts.
+			<strong>Please <a href="mailto:{{ site_email }}">contact us</a> if any of these are incorrect.</strong>{% endblocktrans %}
 		</p>
 		{% if user.blizzard_accounts.count %}
 			<ul>
@@ -163,9 +166,6 @@
 			<a href="{% url 'downloads' %}">Download a Deck Tracker</a> and start uploading games!
 		</p>
 		{% endif %}
-		<p class="alert alert-warning">
-			Please <a href="mailto:{{ site_email }}">contact us</a> if any of these are incorrect.
-		</p>
 	</div>
 </section>
 

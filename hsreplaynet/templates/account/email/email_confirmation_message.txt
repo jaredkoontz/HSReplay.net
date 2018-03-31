@@ -1,4 +1,4 @@
-Hello {{ user }}!
+{% load blocktrans from i18n %}{% blocktrans %}Hello {{ user }}!
 
 You've added this email address to your account. We need to verify that you own it.
 
@@ -8,3 +8,4 @@ If this is correct, go to the following URL to confirm:
 
 Cheers,
 The HSReplay.net Team
+{% endblocktrans %}

@@ -1,6 +1,8 @@
+{% load blocktrans from i18n %}
 <noscript>
 	<p class="alert alert-danger">
-		It looks like you have Javascript turned off. This page will not work correctly.
-		<a href="http://enable-javascript.com/" target="_blank" rel="noopener">Here is how to enable it</a>.
+		{# translator note: Change the URL to the translated version #}
+		{% blocktrans %}It looks like you have Javascript turned off. This page will not work correctly.
+		<a href="https://enable-javascript.com/" target="_blank" rel="noopener">Here is how to enable it</a>.{% endblocktrans %}
 	</p>
 </noscript>

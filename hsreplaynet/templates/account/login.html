@@ -1,6 +1,6 @@
 {% extends "account/login.html" %}
 
-{% load i18n %}
+{% load blocktrans trans from i18n %}
 {% load account socialaccount %}
 
 {% block header %}
@@ -11,13 +11,13 @@
 <div class="account-login login-bnet">
 	{% if oauth2_client %}
 	<div class="account-login-oauth2-client">
-		<h3>Log in to continue to {{ oauth2_client }}</h3>
+		<h3>{% blocktrans %}Log in to continue to {{ oauth2_client }}{% endblocktrans %}</h3>
 	</div>
 	{% endif %}
 
 	<p>
-		We'll send you to the offical Blizzard site where you can securely log in.<br/>
-		Blizzard will redirect you back here once you're done.
+		{% blocktrans %}We'll send you to the offical Blizzard site where you can securely log in.<br/>
+		Blizzard will redirect you back here once you're done.{% endblocktrans %}
 	</p>
 
 	<form method="GET" action="{% provider_login_url 'battlenet' %}" class="form-group">
@@ -26,11 +26,11 @@
 		{% endif %}
 
 		<p>
-			<button type="submit" class="btn promo-button hero-button">Log in with Blizzard</button>
+			<button type="submit" class="btn promo-button hero-button">{% trans "Log in with Blizzard" %}</button>
 		</p>
 
 		<p>
-			<label for="id_region">Region</label>
+			<label for="id_region">{% trans "Region" %}</label>
 			<select name="region" id="id_region" class="sm">
 				<option value="us">US / EU / SEA</option>
 				<!-- <option value="eu">Europe (EU)</option>
@@ -44,7 +44,7 @@
 	</form>
 
 	<p class="help-block">
-		HSReplay.net never gains access to your Blizzard email address or password.
+		{% trans "HSReplay.net never gains access to your Blizzard email address or password." %}
 	</p>
 </div>
 
@@ -54,7 +54,7 @@
 
 <div class="account-block account-login">
 <p>
-Not using a Blizzard account? Sign in with your username and password here.
+{% trans "Not using a Blizzard account? Sign in with your username and password here." %}
 </p>
 
 <form method="POST" action="" class="form-group">
@@ -64,11 +64,11 @@ Not using a Blizzard account? Sign in with your username and password here.
 		<ul class="alert alert-danger">{% for f, error in form.errors.items %}{{ error }}{% endfor %}</ul>
 	{% endif %}
 
-	<label>Username <input type="text" name="login" maxlength="150" id="id_username" class="form-control" autofocus/></label>
-	<label>Password <input type="password" name="password" id="id_password" class="form-control"/></label>
+	<label>{% trans "Username" %}<input type="text" name="login" maxlength="150" id="id_username" class="form-control" autofocus/></label>
+	<label>{% trans "Password" %} <input type="password" name="password" id="id_password" class="form-control"/></label>
 
 	<p>
-		<button type="submit" class="btn btn-primary">Log in</button>
+		<button type="submit" class="btn btn-primary">{% trans "Log in" %}</button>
 	</p>
 </form>
 
