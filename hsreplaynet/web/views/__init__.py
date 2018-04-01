@@ -1,5 +1,6 @@
 import json
 
+from allauth.account.views import LoginView as BaseLoginView
 from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import redirect
@@ -7,9 +8,9 @@ from django.utils.http import is_safe_url
 from django.views.generic import RedirectView, TemplateView, View
 from hearthstone.enums import BnetGameType, CardClass
 
-from ..analytics.views import fetch_query_results
-from ..games.models import GameReplay
-from .html import RequestMetaMixin
+from hsreplaynet.analytics.views import fetch_query_results
+from hsreplaynet.games.models import GameReplay
+from ..html import RequestMetaMixin
 
 
 SITE_DESCRIPTION = "Watch and share Hearthstone replays directly from your web browser. \
@@ -150,6 +151,13 @@ class ArticlesRedirectView(RedirectView):
 			# Find the correct path in the redirect map, otherwise go to base_url
 			path = self.redirect_map.get(kwargs["pk"], "/")
 		return self.base_url + path
+
+
+class LoginView(BaseLoginView):
+	def get(self, request):
+		request.head.base_title = ""
+		request.head.title = "Sign in to HSReplay.net"
+		return super().get(request)
 
 
 class DownloadsView(RequestMetaMixin, TemplateView):

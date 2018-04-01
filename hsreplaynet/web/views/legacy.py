@@ -1,4 +1,3 @@
-from allauth.account.views import LoginView as BaseLoginView
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -11,13 +10,6 @@ from hearthsim.identity.accounts.models import AccountClaim
 from hsreplaynet.games.models import GameReplay
 from hsreplaynet.utils import get_uuid_object_or_404, log
 from hsreplaynet.utils.influx import influx_metric
-
-
-class LoginView(BaseLoginView):
-	def get(self, request):
-		request.head.base_title = ""
-		request.head.title = "Sign in to HSReplay.net"
-		return super().get(request)
 
 
 class ClaimAccountView(LoginRequiredMixin, View):

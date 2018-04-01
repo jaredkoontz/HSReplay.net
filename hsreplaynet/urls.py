@@ -30,7 +30,7 @@ urlpatterns = [
 	url(r"^admin/", include("hsreplaynet.admin.urls")),
 	url(r"^analytics/", include("hsreplaynet.analytics.urls")),
 	url(r"^api/", include("hsreplaynet.api.urls")),
-	url(r"^account/", include("hsreplaynet.accounts.urls")),
+	url(r"^account/", include("hsreplaynet.web.account_urls")),
 	url(r"^account/billing/", include("hsreplaynet.billing.urls")),
 	url(r"^comments/", include("django_comments.urls")),
 	url(r"^features/", include("hsreplaynet.features.urls")),
