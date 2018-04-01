@@ -1,4 +1,4 @@
-from django.conf.urls import include, url
+from django.conf.urls import include
 from django.urls import path
 
 from .views import LoginView, dashboard
@@ -36,7 +36,10 @@ urlpatterns = [
 	),
 	path("revoke/", dashboard.UserRevocationView.as_view(), name="oauth2_revoke_access"),
 
-	url(r"^claim/(?P<id>[\w-]+)/$", ClaimAccountView.as_view(), name="account_claim"),
-	url(r"^login/", LoginView.as_view(), name="account_login"),
-	url(r"^", include("allauth.urls")),
+	# Legacy
+	path("claim/<uuid:id>/", ClaimAccountView.as_view(), name="account_claim"),
+
+	# Allauth overrides
+	path("login/", LoginView.as_view(), name="account_login"),
+	path("", include("allauth.urls")),
 ]
