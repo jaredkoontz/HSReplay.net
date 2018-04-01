@@ -78,27 +78,6 @@ def influx_metric(measure, fields, timestamp=None, **kwargs):
 	influx_write_payload([payload])
 
 
-class Timer():
-	def __init__(self):
-		self._start_time = None
-		self._stop_time = None
-
-	def __enter__(self):
-		self._start_time = time.time()
-		self._stop_time = None
-
-	def __exit__(self, type, value, traceback):
-		self._stop_time = time.time()
-
-	@property
-	def duration(self):
-		if self._start_time is None:
-			return 0
-		if self._stop_time is None:
-			return time.time() - self._start_time
-		return self._stop_time - self._start_time
-
-
 @contextmanager
 def influx_timer(measure, timestamp=None, cloudwatch_url=None, **kwargs):
 	"""

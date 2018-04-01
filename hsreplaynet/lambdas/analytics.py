@@ -15,7 +15,7 @@ from hsreplaynet.utils import instrumentation
 from hsreplaynet.utils.aws.clients import SQS
 from hsreplaynet.utils.aws.redshift import get_redshift_catalogue, get_redshift_query
 from hsreplaynet.utils.aws.sqs import get_messages, get_or_create_queue
-from hsreplaynet.utils.influx import Timer, influx_metric
+from hsreplaynet.utils.influx import influx_metric
 from hsreplaynet.utils.synchronization import CountDownLatch
 
 
@@ -99,15 +99,15 @@ def finish_async_redshift_query(event, context):
 
 	if bucket == settings.S3_UNLOAD_BUCKET:
 		logger.info("Finishing query: %s" % manifest_key)
-		timer = Timer()
-		with timer:
-			parameterized_query = catalogue.refresh_cache_from_s3_manifest_key(
-				manifest_key=manifest_key
-			)
+
+		start_time = time.time()
+		parameterized_query = catalogue.refresh_cache_from_s3_manifest_key(
+			manifest_key=manifest_key
+		)
 
 		query_execute_metric_fields = {
 			"duration_seconds": parameterized_query.most_recent_duration,
-			"unload_seconds": timer.duration,
+			"unload_seconds": time.time() - start_time,
 			"query_handle": parameterized_query.most_recent_query_handle
 		}
 		query_execute_metric_fields.update(
