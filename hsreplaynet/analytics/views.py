@@ -5,9 +5,7 @@ from urllib.parse import urlparse
 
 from django.conf import settings
 from django.contrib.admin.views.decorators import staff_member_required
-from django.http import (
-	Http404, HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, JsonResponse
-)
+from django.http import Http404, HttpResponse, HttpResponseForbidden, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from django.utils.cache import get_conditional_response, patch_vary_headers
@@ -104,7 +102,10 @@ def _get_query_and_params(request, name):
 				supplied_region = supplied_params["Region"]
 				supplied_account_lo = supplied_params["account_lo"]
 				if not (supplied_region.isdigit() and supplied_account_lo.isdigit()):
-					return HttpResponseBadRequest()
+					return JsonResponse(
+						{"msg": "Both account_lo and Region should be numeric."},
+						status=400
+					)
 
 				user_owns_blizzard_account = request.user.blizzard_accounts.filter(
 					region__exact=int(supplied_region),
@@ -123,7 +124,8 @@ def _get_query_and_params(request, name):
 					raise Http404("User does not have any Blizzard Accounts.")
 			else:
 				# Supplying only either Region or account_lo is a bad request
-				return HttpResponseBadRequest()
+				msg = "Personalized queries require both region and account_lo to be present."
+				return JsonResponse({"msg": msg}, status=400)
 
 			# Map numeric region to FilterEnum
 			if supplied_params["Region"].isdigit():
@@ -136,7 +138,7 @@ def _get_query_and_params(request, name):
 			except InvalidOrMissingQueryParameterError as e:
 				# Return a 400 Bad Request response
 				log.warn(str(e))
-				return HttpResponseBadRequest()
+				return JsonResponse({"msg": str(e)}, status=400)
 
 			if not user_is_eligible_for_query(request.user, query, personal_parameterized_query):
 				return HttpResponseForbidden()
@@ -155,7 +157,7 @@ def _get_query_and_params(request, name):
 		except InvalidOrMissingQueryParameterError as e:
 			# Return a 400 Bad Request response
 			log.warn(str(e))
-			return HttpResponseBadRequest()
+			return JsonResponse({"msg": str(e)}, status=400)
 
 		if not user_is_eligible_for_query(request.user, query, parameterized_query):
 			return HttpResponseForbidden()
