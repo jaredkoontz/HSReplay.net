@@ -33,6 +33,8 @@ def merge_users(base_user, user):
 	do_queryset(user.blizzard_accounts)
 
 	# Emails
+	if base_user.emailaddress_set.filter(primary=True).count():
+		user.emailaddress_set.update(primary=False)
 	do_queryset(user.emailaddress_set)
 
 	# OAuth2
