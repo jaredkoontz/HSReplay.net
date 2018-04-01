@@ -1,6 +1,7 @@
 import React from "react";
 import { Account } from "../../UserData";
 import { prettyBlizzardAccount } from "../../utils/account";
+import { cookie } from "cookie_js";
 
 interface Props {
 	username: string;
@@ -21,6 +22,7 @@ export default class AccountMenu extends React.Component<Props, State> {
 	private ref: HTMLElement;
 	private linkRef: HTMLAnchorElement;
 	private dropdownRef: HTMLElement;
+	private form: HTMLFormElement;
 
 	constructor(props: Props, context: any) {
 		super(props, context);
@@ -64,6 +66,14 @@ export default class AccountMenu extends React.Component<Props, State> {
 			expanded: !expanded,
 			...state,
 		}));
+	};
+
+	private logout = (event: React.MouseEvent<HTMLElement>) => {
+		if (!this.form) {
+			return;
+		}
+		event.preventDefault();
+		this.form.submit();
 	};
 
 	private selectAccount = (key: string) => (
@@ -130,9 +140,24 @@ export default class AccountMenu extends React.Component<Props, State> {
 					</a>
 				</li>
 				<li>
-					<a href={this.props.signoutUrl} id="sign-out">
+					<a
+						href={this.props.signoutUrl}
+						id="sign-out"
+						onClick={this.logout}
+					>
 						Sign out
 					</a>
+					<form
+						method="post"
+						action={this.props.signoutUrl}
+						ref={ref => (this.form = ref)}
+					>
+						<input
+							type="hidden"
+							name="csrfmiddlewaretoken"
+							value={cookie.get("csrftoken")}
+						/>
+					</form>
 				</li>
 			</ul>
 		);
