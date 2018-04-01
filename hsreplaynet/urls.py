@@ -10,6 +10,7 @@ from .web.sitemap import SITEMAPS
 from .web.views import (
 	ArticlesRedirectView, DownloadsView, HomeView, PingView, SetLocaleView
 )
+from .web.views.profiles import HighlightsView, PackListView
 
 
 urlpatterns = [
@@ -38,12 +39,15 @@ urlpatterns = [
 	url(r"^live/", include("hsreplaynet.live.urls")),
 	url(r"^oauth2/", include("hearthsim.identity.oauth2.urls")),
 	url(r"^pages/", include("django.contrib.flatpages.urls")),
-	url(r"^profile/", include("hsreplaynet.profiles.urls")),
 	url(r"^ref/", include("django_reflinks.urls")),
 	url(r"^uploads/", include("hsreplaynet.uploads.urls")),
 
 	# decks and cards
 	url(r"^", include("hsreplaynet.decks.urls")),
+
+	# profiles (currently unused)
+	url(r"^profile/highlights/$", HighlightsView.as_view(), name="profile_highlights"),
+	url(r"^profile/packs/$", PackListView.as_view(), name="profile_packs"),
 
 	# redirects
 	url(r"^articles/(?P<pk>[^/]+)?", ArticlesRedirectView.as_view()),
