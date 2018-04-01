@@ -28,7 +28,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BUILD_DIR = os.path.join(BASE_DIR, "build")
 
 SITE_ID = 1
-ROOT_URLCONF = "hsreplaynet.urls"
 WSGI_APPLICATION = "wsgi.application"
 
 
@@ -88,6 +87,7 @@ INSTALLED_APPS_WEB = [
 
 INSTALLED_APPS = INSTALLED_APPS_CORE
 if not ENV_LAMBDA:
+	ROOT_URLCONF = "hsreplaynet.urls"
 	INSTALLED_APPS += INSTALLED_APPS_WEB
 
 
