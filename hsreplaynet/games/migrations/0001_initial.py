@@ -98,7 +98,6 @@ class Migration(migrations.Migration):
                 ('stars', models.PositiveSmallIntegerField(blank=True, null=True)),
                 ('wins', models.PositiveIntegerField(blank=True, help_text='Number of wins in the current game mode (eg. ladder season, arena key...)', null=True, verbose_name='Wins')),
                 ('losses', models.PositiveIntegerField(blank=True, help_text='Number of losses in the current game mode (current season)', null=True, verbose_name='Losses')),
-                ('deck_id_legacy', models.IntegerField(blank=True, null=True, verbose_name='Deck ID (OLD)')),
                 ('deck_id', models.BigIntegerField(blank=True, null=True, verbose_name='Deck ID')),
                 ('cardback_id', models.IntegerField(blank=True, null=True, verbose_name='Cardback ID')),
                 ('deck_list', models.ForeignKey(help_text="As much as is known of the player's starting deck list.", on_delete=django.db.models.deletion.PROTECT, to='decks.Deck')),
