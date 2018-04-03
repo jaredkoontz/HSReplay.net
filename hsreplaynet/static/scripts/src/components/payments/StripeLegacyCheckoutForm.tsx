@@ -63,7 +63,7 @@ export default class StripeLegacyCheckoutForm extends React.Component<
 			this.handler = StripeCheckout.configure({
 				key: this.props.apiKey,
 				image: this.props.image,
-				name: "HearthSim Premium",
+				name: "HSReplay.net Premium",
 				locale: "auto",
 				panelLabel: "Subscribe for",
 				email: UserData.getEmail(),
