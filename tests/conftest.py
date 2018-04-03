@@ -24,9 +24,8 @@ def django_db_setup(django_db_setup, django_db_blocker):
 		call_command("load_cards")
 
 
-@pytest.mark.django_db
-@pytest.yield_fixture(scope="session")
-def user():
+@pytest.yield_fixture(scope="function")
+def user(db):
 	from django.contrib.auth import get_user_model
 	user, created = get_user_model().objects.get_or_create(username="user")
 	return user
