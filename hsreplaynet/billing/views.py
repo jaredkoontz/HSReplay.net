@@ -405,9 +405,9 @@ class UpdateCardView(LoginRequiredMixin, View):
 
 class PremiumDetailView(RequestMetaMixin, TemplateView):
 	template_name = "premium/premium_detail.html"
-	title = "HearthSim Premium"
+	title = "HSReplay.net Premium"
 	description = "More filters, more features, more data: Gain access to advanced " \
-		"Hearthstone statistics backed by millions of games with HearthSim Premium " \
+		"Hearthstone statistics backed by millions of games with HSReplay.net Premium " \
 		"for HSReplay.net."
 
 	quotes = [
