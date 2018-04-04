@@ -782,7 +782,8 @@ def update_replay_feed(replay):
 			keys = [key for key in data.keys() if key != "id"]
 			return all([d1[key] == d2[key] for key in keys])
 
-		get_replay_feed(comparator).push(data)
+		success = get_replay_feed(comparator).push(data)
+		influx_metric("update_replay_feed", {"count": 1}, success=success)
 
 	except Exception as e:
 		error_handler(e)
