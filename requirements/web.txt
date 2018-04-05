@@ -8,7 +8,7 @@ django-loginas==0.3.3
 django-reflinks==0.5.0
 django-webpack-loader==0.6.0
 
-boto3==1.6.11
+boto3==1.7.0
 psycopg2==2.7.4
 uwsgi==2.0.17
 
