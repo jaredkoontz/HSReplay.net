@@ -20,6 +20,11 @@ urlpatterns = [
 		name="live_fetch_played_cards_distribution_for_gametype"
 	),
 	url(
+		r"^replay_feed/$",
+		views.fetch_replay_feed,
+		name="live_replay_feed"
+	),
+	url(
 		r"^streaming-now/$",
 		views.StreamingNowView.as_view(),
 	)

@@ -9,11 +9,13 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from hsreplaynet.live.distributions import (
-	get_live_stats_redis, get_played_cards_distribution, get_player_class_distribution
+	get_live_stats_redis, get_played_cards_distribution,
+	get_player_class_distribution, get_replay_feed
 )
 
 
 _PLAYER_CLASS_CACHE = defaultdict(dict)
+_REPLAY_FEED_CACHE = defaultdict()
 
 
 def _get_base_ts(bucket_size=5):
@@ -40,6 +42,21 @@ def _get_most_recent_tick_ts(tick=5):
 def _validate_game_type(game_type_name):
 	if not hasattr(BnetGameType, game_type_name):
 		raise Http404("Invalid GameType")
+
+
+def fetch_replay_feed(request):
+	"""Return the last 100 uploaded replays"""
+	current_ts = datetime.utcnow().timestamp()
+
+	if _REPLAY_FEED_CACHE.get("as_of", 0) + 5 < current_ts:
+		feed = get_replay_feed()
+		_REPLAY_FEED_CACHE["as_of"] = current_ts
+		_REPLAY_FEED_CACHE["payload"] = feed.get(100)
+
+	return JsonResponse(
+		{"data": _REPLAY_FEED_CACHE.get("payload", [])},
+		json_dumps_params=dict(indent=4)
+	)
 
 
 def fetch_player_class_distribution(request, game_type_name):

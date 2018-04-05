@@ -21,7 +21,7 @@ def get_data(id):
 
 
 def test_comparator():
-	redis = fakeredis.FakeStrictRedis(decode_responses=True)
+	redis = fakeredis.FakeStrictRedis()
 	redis.flushall()
 
 	data_1 = get_data("1")
@@ -46,7 +46,7 @@ def test_comparator():
 
 
 def test_period():
-	redis = fakeredis.FakeStrictRedis(decode_responses=True)
+	redis = fakeredis.FakeStrictRedis()
 	redis.flushall()
 
 	data_1 = get_data("1")
@@ -84,7 +84,7 @@ def test_period():
 
 
 def test_max_items():
-	redis = fakeredis.FakeStrictRedis(decode_responses=True)
+	redis = fakeredis.FakeStrictRedis()
 	redis.flushall()
 
 	data_1 = get_data("1")

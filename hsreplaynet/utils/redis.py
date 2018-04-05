@@ -417,7 +417,7 @@ class CappedDataFeed:
 			cancel = (
 				last_data and
 				self.comparator and
-				self.comparator(data, last_data) or
+				self.comparator(data, self._decode_item(last_data)) or
 				not self._period_elapsed(pipe)
 			)
 
@@ -449,13 +449,17 @@ class CappedDataFeed:
 			value_from_callable=True
 		)
 
-	def get(self):
-		keys = self.redis.lrange(self.key, 0, self.max_items)
+	def get(self, count=100):
+		keys = self.redis.lrange(self.key, 0, min(count, self.max_items))
 		keys.reverse()
 		pipeline = self.redis.pipeline(transaction=True)
 		for key in keys:
 			pipeline.hgetall(key)
-		return pipeline.execute()
+		items = pipeline.execute()
+		return [self._decode_item(item) for item in items]
+
+	def _decode_item(self, data):
+		return {k.decode("utf8"): v.decode("utf8") for k, v in data.items()}
 
 	def _period_elapsed(self, pipe):
 		if not self.period:
