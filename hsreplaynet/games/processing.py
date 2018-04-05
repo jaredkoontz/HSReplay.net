@@ -760,6 +760,9 @@ def update_replay_feed(replay):
 		player1_archetype = player1.deck_list.archetype
 		player2_archetype = player2.deck_list.archetype
 
+		player1_won = (replay.friendly_player_id == 1) == replay.won
+		player2_won = (replay.friendly_player_id == 2) == replay.won
+
 		if (
 			not player1_archetype or
 			not player2_archetype or
@@ -772,9 +775,11 @@ def update_replay_feed(replay):
 			"player1_archetype": player1_archetype.id,
 			"player1_rank": player1.rank,
 			"player1_legend_rank": player1.legend_rank,
+			"player1_won": player1_won,
 			"player2_archetype": player2_archetype.id,
 			"player2_rank": player2.rank,
 			"player2_legend_rank": player2.legend_rank,
+			"player2_won": player2_won,
 			"id": replay.shortid
 		}
 
