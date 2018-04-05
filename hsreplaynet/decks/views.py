@@ -3,13 +3,15 @@ import json
 from django.conf import settings
 from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404, render
+from django.utils import translation
 from django.utils.decorators import method_decorator
 from django.views.generic import DetailView, TemplateView, View
 from django_hearthstone.cards.models import Card
-from hearthstone.enums import CardClass, CardSet, CardType, FormatType, Rarity
+from hearthstone.enums import CardClass, CardSet, CardType, FormatType, Locale, Rarity
 
 from hsreplaynet.features.decorators import view_requires_feature_access
 from hsreplaynet.web.html import RequestMetaMixin
+from hsreplaynet.web.templatetags.web_extras import lang_to_blizzard
 
 from .models import Archetype, ClusterSnapshot, Deck
 
@@ -20,8 +22,10 @@ from .models import Archetype, ClusterSnapshot, Deck
 class MetaOverviewView(RequestMetaMixin, TemplateView):
 	template_name = "meta_overview/meta_overview.html"
 	title = "Hearthstone Meta"
-	description = "Explore the Hearthstone meta game and find out " \
+	description = (
+		"Explore the Hearthstone meta game and find out "
 		"how the archetypes match up."
+	)
 
 
 ##
@@ -30,8 +34,10 @@ class MetaOverviewView(RequestMetaMixin, TemplateView):
 class DiscoverView(RequestMetaMixin, TemplateView):
 	template_name = "decks/discover.html"
 	title = "Discover"
-	description = "Engage with the up-and-coming Hearthstone meta game " \
+	description = (
+		"Engage with the up-and-coming Hearthstone meta game "
 		"to discover the newest archetypes and what's next."
+	)
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
@@ -69,8 +75,10 @@ class ArchetypeDetailView(RequestMetaMixin, View):
 class CardsView(RequestMetaMixin, TemplateView):
 	template_name = "cards/cards.html"
 	title = "Hearthstone Card Statistics"
-	description = "Compare statistics about all collectible Hearthstone cards. "\
+	description = (
+		"Compare statistics about all collectible Hearthstone cards. "
 		"Find the cards that are played the most or have the highest winrate."
+	)
 
 
 class MyCardsView(RequestMetaMixin, TemplateView):
@@ -149,16 +157,17 @@ class CardDetailView(DetailView):
 		except queryset.model.DoesNotExist:
 			raise Http404("No card found matching the query.")
 
+		locale = Locale[lang_to_blizzard(translation.get_language())]
+		name = obj.localized_name(locale=locale)
+
 		self.request.head.set_canonical_url(obj.get_absolute_url())
-		self.request.head.title = "%s - Hearthstone Card Statistics" % (obj.name)
+		self.request.head.title = f"{name} - Hearthstone Card Statistics"
 		self.request.head.opengraph["og:image"] = obj.get_card_art_url()
 		self.request.head.opengraph["og:image:width"] = 256
 		self.request.head.opengraph["og:image:height"] = 256
 
 		card_desc = self.get_card_snippet(obj)
-		description = "{card} - {card_desc} - Statistics and decks!".format(
-			card=obj.name, card_desc=card_desc
-		)
+		description = f"{name} - {card_desc} - Statistics and decks!"
 		self.request.head.add_meta(
 			{"name": "description", "content": description},
 			{"property": "og:description", "content": description},
@@ -227,8 +236,10 @@ class MyDecksView(RequestMetaMixin, TemplateView):
 class TrendingDecksView(RequestMetaMixin, TemplateView):
 	template_name = "decks/trending.html"
 	title = "Trending Hearthstone Decks"
-	description = "Find the up-and-coming decks with rising popularity in Hearthstone " \
+	description = (
+		"Find the up-and-coming decks with rising popularity in Hearthstone "
 		"for each class updated every single day."
+	)
 
 
 class ClusterSnapshotUpdateView(View):
