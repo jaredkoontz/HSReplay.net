@@ -160,7 +160,7 @@ class CardDetailView(DetailView):
 		locale = Locale[lang_to_blizzard(translation.get_language())]
 		name = obj.localized_name(locale=locale)
 
-		self.request.head.set_canonical_url(obj.get_absolute_url())
+		self.request.head.set_canonical_url(obj.get_absolute_url() + "/")
 		self.request.head.title = f"{name} - Hearthstone Card Statistics"
 		self.request.head.opengraph["og:image"] = obj.get_card_art_url()
 		self.request.head.opengraph["og:image:width"] = 256
