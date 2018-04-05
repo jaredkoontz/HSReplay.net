@@ -43,6 +43,31 @@ class DeckManager(models.Manager):
 	):
 		deck, created = self._get_or_create_deck_from_db(id_list)
 
+		if deck.size is None:
+			deck.size = len(deck.card_id_list())
+			deck.save()
+
+		if deck.archetype_id and not Archetype.objects.filter(id=deck.archetype_id).exists():
+			influx_metric(
+				"deleted_archetype_cleanup",
+				{
+					"count": 1,
+				},
+			)
+			deck.update_archetype(None)
+
+		if deck.size < 30 and deck.archetype_id is not None:
+			# Earlier implementations of archetype assignment classified partial decks
+			# This creates an online cleanup of those archetype assignments
+			# This block can be removed once the cleanup metric is near enough to zero
+			influx_metric(
+				"partial_deck_archetype_cleanup",
+				{
+					"count": 1,
+				},
+			)
+			deck.update_archetype(None)
+
 		archetypes_enabled = settings.ARCHETYPE_CLASSIFICATION_ENABLED
 		archetype_missing = deck.archetype_id is None
 		full_deck = deck.size == 30
