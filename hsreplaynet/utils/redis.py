@@ -476,8 +476,8 @@ class CappedDataFeed(RedisNamespace):
 		return True
 
 
-class RedisCounter(RedisNamespace):
-	def __init__(self, redis, name, bucket_size, ttl):
+class RedisBucket(RedisNamespace):
+	def __init__(self, redis, name, namespace, bucket_size, ttl):
 		if bucket_size <= 0:
 			raise RuntimeError("Bucket size must be larger than 0")
 		if ttl <= 0:
@@ -495,8 +495,31 @@ class RedisCounter(RedisNamespace):
 		elif bucket_size < SECONDS_PER_MINUTE:
 			if SECONDS_PER_MINUTE % bucket_size != 0:
 				raise RuntimeError("Bucket size must fit into 60 seconds without remainder")
-		super().__init__(redis, name, "COUNTER", ttl)
+		super().__init__(redis, name, namespace, ttl)
 		self.bucket_size = bucket_size
+
+	def _get_start_token(self, bucket_index):
+		current_time = datetime.utcnow()
+		hours = current_time.hour % 24 if self.bucket_size > SECONDS_PER_HOUR else 0
+		minutes = current_time.minute % 60 if self.bucket_size > SECONDS_PER_MINUTE else 0
+		seconds = current_time.second % 60
+		current_bucket = current_time - timedelta(
+			hours=hours,
+			minutes=minutes,
+			seconds=seconds,
+			microseconds=current_time.microsecond
+		)
+		return int(current_bucket.timestamp()) - bucket_index * self.bucket_size
+
+	def _bucket_key(self, index):
+		start_token = self._get_start_token(index)
+		end_token = start_token + self.bucket_size
+		return "%s:%s:%s" % (self.key, start_token, end_token)
+
+
+class RedisCounter(RedisBucket):
+	def __init__(self, redis, name, bucket_size, ttl):
+		super().__init__(redis, name, "COUNTER", bucket_size, ttl)
 
 	def increment(self):
 		key = self._bucket_key(0)
@@ -516,21 +539,3 @@ class RedisCounter(RedisNamespace):
 		raw_values = pipe.execute()
 		values = [int(value) for value in raw_values if value]
 		return sum(values)
-
-	def _get_start_token(self, bucket_index):
-		current_time = datetime.utcnow()
-		hours = current_time.hour % 24 if self.bucket_size > SECONDS_PER_HOUR else 0
-		minutes = current_time.minute % 60 if self.bucket_size > SECONDS_PER_MINUTE else 0
-		seconds = current_time.second % 60
-		current_bucket = current_time - timedelta(
-			hours=hours,
-			minutes=minutes,
-			seconds=seconds,
-			microseconds=current_time.microsecond
-		)
-		return int(current_bucket.timestamp()) - bucket_index * self.bucket_size
-
-	def _bucket_key(self, index):
-		start_token = self._get_start_token(index)
-		end_token = start_token + self.bucket_size
-		return "%s:%s:%s" % (self.key, start_token, end_token)
