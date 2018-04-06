@@ -245,6 +245,12 @@ class GlobalGamePlayer(models.Model):
 		return player
 
 	@property
+	def anonymous_name(self):
+		if "#" in self.name:
+			return self.name.split("#")[0]
+		return self.name
+
+	@property
 	def hero_class_name(self):
 		return self.hero.card_class.name
 
@@ -442,8 +448,8 @@ class GameReplay(models.Model):
 			return ""
 		player1, player2 = players[0], players[1]
 		return tpl % (
-			player1, player1.hero.card_class.name.capitalize(),
-			player2, player2.hero.card_class.name.capitalize()
+			player1.anonymous_name, player1.hero.card_class.name.capitalize(),
+			player2.anonymous_name, player2.hero.card_class.name.capitalize()
 		)
 
 	def player(self, number):
