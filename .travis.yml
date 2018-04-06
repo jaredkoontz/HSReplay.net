@@ -3,33 +3,33 @@ stages:
   - name: test
 jobs:
   include:
-  - stage: test
-    language: node_js
-    node_js: "node"
-    env: SCRIPT=lint:prettier
-    script: yarn run $SCRIPT
+    - stage: test
+      language: node_js
+      node_js: "node"
+      env: SCRIPT=lint:prettier
+      script: yarn run $SCRIPT
 
-  - stage: test
-    language: node_js
-    node_js: "node"
-    env: SCRIPT=lint:tslint
-    script: yarn run $SCRIPT
+    - stage: test
+      language: node_js
+      node_js: "node"
+      env: SCRIPT=lint:tslint
+      script: yarn run $SCRIPT
 
-  - stage: test
-    language: node_js
-    node_js: "node"
-    env: SCRIPT=build
-    install:
-      - yarn --pure-lockfile
-      - scripts/get_vendor_static.sh
-    script: yarn run $SCRIPT
+    - stage: test
+      language: node_js
+      node_js: "node"
+      env: SCRIPT=build
+      install:
+        - yarn --pure-lockfile
+        - scripts/get_vendor_static.sh
+      script: yarn run $SCRIPT
 
-  - stage: test
-    language: python
-    python: "3.6"
-    env: TOXENV=flake8
-    install: pip install tox
-    script: tox
+    - stage: test
+      language: python
+      python: "3.6"
+      env: TOXENV=flake8
+      install: pip install tox
+      script: tox
 matrix:
   allow_failures:
     - env: SCRIPT=lint:tslint
