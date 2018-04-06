@@ -25,8 +25,8 @@ from hsredshift.etl.exporters import RedshiftPublishingExporter
 from hsredshift.etl.firehose import flush_exporter_to_firehose
 from hsreplaynet.decks.models import Deck
 from hsreplaynet.live.distributions import (
-	get_daily_game_counter, get_live_stats_redis, get_played_cards_distribution,
-	get_player_class_distribution, get_replay_feed
+	get_daily_contributor_set, get_daily_game_counter, get_live_stats_redis,
+	get_played_cards_distribution, get_player_class_distribution, get_replay_feed
 )
 from hsreplaynet.uploads.models import UploadEventStatus
 from hsreplaynet.utils import guess_ladder_season, log
@@ -797,6 +797,9 @@ def update_replay_feed(replay):
 def update_game_counter(replay):
 	try:
 		get_daily_game_counter().increment()
+		friendly_account = replay.player(replay.friendly_player_id).pegasus_account
+		player_id = "%s_%s" % (int(friendly_account.region), friendly_account.account_lo)
+		get_daily_contributor_set().add(player_id)
 	except Exception as e:
 		error_handler(e)
 

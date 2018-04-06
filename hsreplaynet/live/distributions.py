@@ -3,7 +3,7 @@ from datetime import timedelta
 from django.core.cache import caches
 
 from hsreplaynet.utils.redis import (
-	CappedDataFeed, RedisCounter, RedisPopularityDistribution
+	CappedDataFeed, RedisCounter, RedisPopularityDistribution, RedisSet
 )
 
 
@@ -97,6 +97,15 @@ def get_daily_game_counter():
 	return RedisCounter(
 		redis=get_live_stats_redis(),
 		name="DAILY_GAME_COUNTER",
+		bucket_size=int(timedelta(days=1).total_seconds()),
+		ttl=int(timedelta(days=14).total_seconds())
+	)
+
+
+def get_daily_contributor_set():
+	return RedisSet(
+		redis=get_live_stats_redis(),
+		name="DAILY_CONTRIBUTORS",
 		bucket_size=int(timedelta(days=1).total_seconds()),
 		ttl=int(timedelta(days=14).total_seconds())
 	)

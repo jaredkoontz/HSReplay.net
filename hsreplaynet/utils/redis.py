@@ -511,9 +511,9 @@ class RedisBucket(RedisNamespace):
 		)
 		return int(current_bucket.timestamp()) - bucket_index * self.bucket_size
 
-	def _bucket_key(self, index):
-		start_token = self._get_start_token(index)
-		end_token = start_token + self.bucket_size
+	def _bucket_key(self, start_index, count=1):
+		start_token = self._get_start_token(start_index)
+		end_token = start_token + self.bucket_size * count
 		return "%s:%s:%s" % (self.key, start_token, end_token)
 
 
@@ -539,3 +539,39 @@ class RedisCounter(RedisBucket):
 		raw_values = pipe.execute()
 		values = [int(value) for value in raw_values if value]
 		return sum(values)
+
+
+class RedisSet(RedisBucket):
+	def __init__(self, redis, name, bucket_size, ttl):
+		super().__init__(redis, name, "SET", bucket_size, ttl)
+
+	def add(self, value):
+		key = self._bucket_key(0)
+		pipe = self.redis.pipeline()
+		pipe.multi()
+		pipe.sadd(key, value)
+		pipe.expire(key, self.ttl)
+		pipe.execute()
+
+	def get_count(self, start_bucket, end_bucket):
+		if start_bucket == end_bucket:
+			key = self._bucket_key(start_bucket)
+			return self.redis.scard(key)
+
+		keys = [self._bucket_key(bucket) for bucket in range(start_bucket, end_bucket + 1)]
+		temp_key = "%s:TEMP" % self._bucket_key(start_bucket, end_bucket - start_bucket + 1)
+
+		if start_bucket == 0:
+			def internal_get(pipe):
+				pipe.multi()
+				pipe.sunionstore(temp_key, keys)
+				pipe.delete(temp_key)
+			return self.redis.transaction(internal_get, temp_key)[0]
+		elif self.redis.exists(temp_key):
+			return self.redis.scard(temp_key)
+		else:
+			pipe = self.redis.pipeline()
+			pipe.multi()
+			pipe.sunionstore(temp_key, keys)
+			pipe.expire(temp_key, self.ttl)
+			return pipe.execute()[0]

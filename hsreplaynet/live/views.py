@@ -9,8 +9,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from hsreplaynet.live.distributions import (
-	get_daily_game_counter, get_live_stats_redis, get_played_cards_distribution,
-	get_player_class_distribution, get_replay_feed
+	get_daily_contributor_set, get_daily_game_counter, get_live_stats_redis,
+	get_played_cards_distribution, get_player_class_distribution, get_replay_feed
 )
 
 
@@ -66,10 +66,13 @@ def fetch_weekly_games_count(request):
 
 	if _WEEKLY_GAMES_COUNT.get("as_of", 0) + 5 < current_ts:
 		counter = get_daily_game_counter()
+		contributors = get_daily_contributor_set()
 		_WEEKLY_GAMES_COUNT["as_of"] = current_ts
 		_WEEKLY_GAMES_COUNT["payload"] = {
-			"today": counter.get_count(0, 0),
-			"weekly": counter.get_count(1, 7)
+			"games_today": counter.get_count(0, 0),
+			"games_weekly": counter.get_count(1, 7),
+			"contributors_today": contributors.get_count(0, 0),
+			"contributors_weekly": contributors.get_count(1, 7)
 		}
 
 	return JsonResponse(
