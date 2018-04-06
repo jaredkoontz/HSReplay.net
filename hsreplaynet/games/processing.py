@@ -25,7 +25,7 @@ from hsredshift.etl.exporters import RedshiftPublishingExporter
 from hsredshift.etl.firehose import flush_exporter_to_firehose
 from hsreplaynet.decks.models import Deck
 from hsreplaynet.live.distributions import (
-	get_live_stats_redis, get_played_cards_distribution,
+	get_daily_game_counter, get_live_stats_redis, get_played_cards_distribution,
 	get_player_class_distribution, get_replay_feed
 )
 from hsreplaynet.uploads.models import UploadEventStatus
@@ -794,6 +794,13 @@ def update_replay_feed(replay):
 		error_handler(e)
 
 
+def update_game_counter(replay):
+	try:
+		get_daily_game_counter().increment()
+	except Exception as e:
+		error_handler(e)
+
+
 def update_player_class_distribution(replay):
 	try:
 		game_type_name = BnetGameType(replay.global_game.game_type).name
@@ -867,6 +874,7 @@ def do_process_upload_event(upload_event):
 
 	update_player_class_distribution(replay)
 	update_replay_feed(replay)
+	update_game_counter(replay)
 
 	can_attempt_redshift_load = False
 

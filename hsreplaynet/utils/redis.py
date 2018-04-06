@@ -4,9 +4,25 @@ from itertools import chain
 from redis import StrictRedis
 
 
-SECONDS_PER_HOUR = 3600
+SECONDS_PER_MINUTE = 60
+SECONDS_PER_HOUR = 60 * SECONDS_PER_MINUTE
 SECONDS_PER_DAY = 24 * SECONDS_PER_HOUR
 DEFAULT_TTL = 15 * SECONDS_PER_DAY  # 15 Days
+
+
+class RedisNamespace:
+	def __init__(self, redis, name, namespace, ttl=DEFAULT_TTL):
+		self.redis = redis
+		self.name = name
+		self.namespace = namespace
+		self.key = "%s:%s" % (self.namespace, self.name)
+		self.ttl = ttl
+
+	def __str__(self):
+		return self.key
+
+	def __repr__(self):
+		return self.key
 
 
 class RedisPopularityDistribution:
@@ -388,23 +404,13 @@ class RedisTree:
 		return self.key
 
 
-class CappedDataFeed:
-	def __init__(self, redis, name, max_items, period, comparator, ttl=DEFAULT_TTL):
-		self.redis = redis
-		self.name = name
-		self.namespace = "CAPPED_DATA_FEED"
-		self.key = "%s:%s" % (self.namespace, self.name)
+class CappedDataFeed(RedisNamespace):
+	def __init__(self, redis, name, max_items, period, comparator):
+		super().__init__(redis, name, "CAPPED_DATA_FEED")
 		self.max_items = max_items
 		self.period = period
 		self.last_added_key = "%s:LAST_ADDED" % self.key
 		self.comparator = comparator
-		self.ttl = ttl
-
-	def __str__(self):
-		return self.key
-
-	def __repr__(self):
-		return self.key
 
 	def push(self, data):
 		if "id" not in data:
@@ -468,3 +474,63 @@ class CappedDataFeed:
 		if val:
 			return float(val) + self.period < datetime.utcnow().timestamp()
 		return True
+
+
+class RedisCounter(RedisNamespace):
+	def __init__(self, redis, name, bucket_size, ttl):
+		if bucket_size <= 0:
+			raise RuntimeError("Bucket size must be larger than 0")
+		if ttl <= 0:
+			raise RuntimeError("TTL must be longer than 0")
+		if ttl < bucket_size:
+			raise RuntimeError("TTL must be longer than the bucket size")
+		if bucket_size > SECONDS_PER_DAY:
+			raise RuntimeError("Buckets larger than one day are not yet supported")
+		if bucket_size > SECONDS_PER_HOUR:
+			if SECONDS_PER_DAY % bucket_size != 0:
+				raise RuntimeError("Bucket size must fit into 24 hours without remainder")
+		elif bucket_size > SECONDS_PER_MINUTE:
+			if SECONDS_PER_HOUR % bucket_size != 0:
+				raise RuntimeError("Bucket size must fit into 60 minutes without remainder")
+		elif bucket_size < SECONDS_PER_MINUTE:
+			if SECONDS_PER_MINUTE % bucket_size != 0:
+				raise RuntimeError("Bucket size must fit into 60 seconds without remainder")
+		super().__init__(redis, name, "COUNTER", ttl)
+		self.bucket_size = bucket_size
+
+	def increment(self):
+		key = self._bucket_key(0)
+
+		def internal_increment(pipe):
+			value = pipe.get(key) or 0
+			pipe.multi()
+			pipe.set(key, int(value) + 1)
+			pipe.expire(key, self.ttl)
+		self.redis.transaction(internal_increment, key)
+
+	def get_count(self, start_bucket, end_bucket):
+		pipe = self.redis.pipeline()
+		for bucket in range(start_bucket, end_bucket + 1):
+			key = self._bucket_key(bucket)
+			pipe.get(key)
+		raw_values = pipe.execute()
+		values = [int(value) for value in raw_values if value]
+		return sum(values)
+
+	def _get_start_token(self, bucket_index):
+		current_time = datetime.utcnow()
+		hours = current_time.hour % 24 if self.bucket_size > SECONDS_PER_HOUR else 0
+		minutes = current_time.minute % 60 if self.bucket_size > SECONDS_PER_MINUTE else 0
+		seconds = current_time.second % 60
+		current_bucket = current_time - timedelta(
+			hours=hours,
+			minutes=minutes,
+			seconds=seconds,
+			microseconds=current_time.microsecond
+		)
+		return int(current_bucket.timestamp()) - bucket_index * self.bucket_size
+
+	def _bucket_key(self, index):
+		start_token = self._get_start_token(index)
+		end_token = start_token + self.bucket_size
+		return "%s:%s:%s" % (self.key, start_token, end_token)

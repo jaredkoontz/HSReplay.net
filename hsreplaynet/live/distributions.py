@@ -1,6 +1,10 @@
+from datetime import timedelta
+
 from django.core.cache import caches
 
-from hsreplaynet.utils.redis import CappedDataFeed, RedisPopularityDistribution
+from hsreplaynet.utils.redis import (
+	CappedDataFeed, RedisCounter, RedisPopularityDistribution
+)
 
 
 class PopularityWinrateDistribution:
@@ -86,4 +90,13 @@ def get_replay_feed(comparator=None):
 		max_items=1000,
 		period=.5,
 		comparator=comparator
+	)
+
+
+def get_daily_game_counter():
+	return RedisCounter(
+		redis=get_live_stats_redis(),
+		name="DAILY_GAME_COUNTER",
+		bucket_size=int(timedelta(days=1).total_seconds()),
+		ttl=int(timedelta(days=14).total_seconds())
 	)

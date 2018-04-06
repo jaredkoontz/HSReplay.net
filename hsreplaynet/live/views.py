@@ -9,13 +9,14 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from hsreplaynet.live.distributions import (
-	get_live_stats_redis, get_played_cards_distribution,
+	get_daily_game_counter, get_live_stats_redis, get_played_cards_distribution,
 	get_player_class_distribution, get_replay_feed
 )
 
 
 _PLAYER_CLASS_CACHE = defaultdict(dict)
 _REPLAY_FEED_CACHE = defaultdict()
+_WEEKLY_GAMES_COUNT = defaultdict()
 
 
 def _get_base_ts(bucket_size=5):
@@ -55,6 +56,24 @@ def fetch_replay_feed(request):
 
 	return JsonResponse(
 		{"data": _REPLAY_FEED_CACHE.get("payload", [])},
+		json_dumps_params=dict(indent=4)
+	)
+
+
+def fetch_weekly_games_count(request):
+	"""Return the games counts for the last 7 days"""
+	current_ts = datetime.utcnow().timestamp()
+
+	if _WEEKLY_GAMES_COUNT.get("as_of", 0) + 5 < current_ts:
+		counter = get_daily_game_counter()
+		_WEEKLY_GAMES_COUNT["as_of"] = current_ts
+		_WEEKLY_GAMES_COUNT["payload"] = {
+			"today": counter.get_count(0, 0),
+			"weekly": counter.get_count(1, 7)
+		}
+
+	return JsonResponse(
+		{"data": _WEEKLY_GAMES_COUNT.get("payload", {})},
 		json_dumps_params=dict(indent=4)
 	)
 
