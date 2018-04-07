@@ -435,7 +435,8 @@ REDSHIFT_USE_MATCH_START_AS_GAME_DATE = False
 
 # Prescheduling Redshift Queries For Refresh Will Not Occur More Frequently Than This.
 #  20 Minutes = 1200
-MINIMUM_QUERY_REFRESH_INTERVAL = 1200
+#  1 Hour = 3600
+MINIMUM_QUERY_REFRESH_INTERVAL = 3600
 
 ARCHETYPE_QUERIES_FOR_IMMEDIATE_REFRESH = [
 	"head_to_head_archetype_matchups",
