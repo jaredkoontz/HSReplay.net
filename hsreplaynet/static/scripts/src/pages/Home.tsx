@@ -29,22 +29,34 @@ export default class Home extends React.Component<Props, State> {
 
 	render(): React.ReactNode {
 		const bannerStyle = {
-			backgroundImage: `url(${STATIC_URL}images/banner_art.jpg)`,
+			backgroundImage: `url(${STATIC_URL}images/banner.jpg)`,
 		};
 		const archetypeDataQuery = {
 			url: "/api/v1/archetypes",
 			key: "archetypeData",
 		};
+		const ranks = Array.from(Array(9).keys()).map(n => {
+			const rank = n === 0 ? "Legend" : n;
+			return (
+				<img
+					key={n}
+					src={`${STATIC_URL}images/ranked-medals/Medal_Ranked_${rank}.png`}
+				/>
+			);
+		});
+		ranks.reverse();
 		return (
 			<div className="container-fluid">
 				<div className="row" id="banner" style={bannerStyle}>
-					<div id="banner-content">
-						<span>Unleash your potential!</span>
+					<div id="banner-wrapper">
+						<div id="banner-text">
+							<h1>Unleash your potential</h1>
+							<h2 className="hidden-xs">
+								Discover your path to victory
+							</h2>
+						</div>
+						<div id="banner-ranks">{ranks}</div>
 					</div>
-					<img
-						id="banner-icon"
-						src={`${STATIC_URL}images/premium.png`}
-					/>
 				</div>
 				<div className="row features">
 					<div className="col-lg-4 col-md-6 col-sm-6 col-xs-12">
