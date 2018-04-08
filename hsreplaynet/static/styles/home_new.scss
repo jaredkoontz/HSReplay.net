@@ -133,10 +133,11 @@
 
 		.feature-content {
 			border: 1px solid $blue;
-			border-radius: 8px;
+			border-radius: 3px;
 			height: 100%;
 			padding-top: calc(1.2em + 28px);
 			background: #2c2f33;
+			overflow: hidden;
 
 			&.no-title {
 				padding-top: 0;
@@ -198,7 +199,6 @@
 
 			.premium-banner {
 				background: rgba(44, 47, 51, 0.7);
-				border-radius: 0 0 6px 6px;
 				color: white;
 				display: flex;
 				height: 50%;
