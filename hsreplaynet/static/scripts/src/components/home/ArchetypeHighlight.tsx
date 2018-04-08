@@ -61,7 +61,7 @@ class ArchetypeHighlight extends React.Component<Props, State> {
 		const data = this.props.data[this.state.index];
 		const archetype = this.props.archetypeData.find(a => a.id === data.id);
 		const components = archetype.standard_ccp_signature_core.components;
-		const cards = components.slice(0, 3).map(dbfId => {
+		const cards = components.slice(0, 2).map(dbfId => {
 			const card = this.props.cardData.fromDbf(dbfId);
 			const style = {
 				backgroundImage: `url(https://art.hearthstonejson.com/v1/512x/${

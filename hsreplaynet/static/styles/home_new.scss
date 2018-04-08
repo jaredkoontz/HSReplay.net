@@ -294,40 +294,34 @@
 	color: white;
 
 	.card-panel {
-		height: 240px;
+		height: 270px;
 		position: relative;
 		overflow: hidden;
-		margin-top: 90px;
+		margin-top: 80px;
 		opacity: 0.7;
 
 		.card-art {
 			flex: 1 1 0;
-			height: 256px;
-			width: 256px;
+			height: 512px;
+			width: 100%;
 			background-position-x: center;
-			background-position-y: -85px;
+			background-position-y: -70px;
 			position: absolute;
 
 			&:nth-of-type(1) {
-				left: -50px;
+				left: -25%;
 			}
 
 			&:nth-of-type(2) {
-				right: -50px;
-			}
-
-			&:nth-of-type(3) {
-				left: calc(50% - 128px);
+				right: -25%;
 				-webkit-mask-image: -webkit-gradient(
 					linear,
 					left top,
 					right top,
-					color-stop(0%, rgba(0, 0, 0, 0)),
+					color-stop(0, rgba(0, 0, 0, 0)),
 					color-stop(15%, rgba(0, 0, 0, 0)),
-					color-stop(25%, rgba(0, 0, 0, 1)),
-					color-stop(75%, rgba(0, 0, 0, 1)),
-					color-stop(85%, rgba(0, 0, 0, 0)),
-					color-stop(100%, rgba(0, 0, 0, 0))
+					color-stop(35%, rgba(0, 0, 0, 1)),
+					color-stop(100%, rgba(0, 0, 0, 1))
 				);
 			}
 		}
