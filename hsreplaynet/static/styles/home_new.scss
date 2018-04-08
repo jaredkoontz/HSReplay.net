@@ -70,7 +70,7 @@
 }
 
 .features {
-	max-width: 1600px;
+	max-width: 1530px;
 
 	&:first-of-type {
 		padding-top: 15px;
@@ -78,9 +78,9 @@
 
 	.feature {
 		height: 500px;
-		margin: 0 auto;
+		margin: 10px auto;
 		max-width: 500px;
-		padding: 15px;
+		padding: 5px;
 		position: relative;
 
 		> * {
@@ -92,11 +92,11 @@
 			background: $blue;
 			padding: 0 7px;
 			position: absolute;
-			width: calc(100% - 28px);
-			left: 14px;
+			width: calc(100% - 8px);
+			left: 4px;
 			color: white;
 			font-weight: bold;
-			font-size: 1.2em;
+			font-size: 1.3em;
 			border-radius: 1px;
 			line-height: 48px;
 			display: flex;
@@ -235,7 +235,7 @@
 	}
 
 	.feature-small {
-		height: 250px;
+		height: 230px;
 
 		.feature-content {
 			background-position-x: center;
