@@ -141,7 +141,11 @@ class ReplayFeed extends React.Component<Props, State> {
 						this.props.gamesCountData.contributors_today,
 					)}
 				</span>
-				<a className="btn promo-button blue-style" href="#">
+				<a
+					className="btn promo-button blue-style"
+					href="https://hsdecktracker.net/"
+					target="_blank"
+				>
 					Become a Contributor
 				</a>
 			</div>
