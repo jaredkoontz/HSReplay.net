@@ -146,21 +146,6 @@
 			}
 		}
 
-		#collection-feature {
-			background-image: url("https://art.hearthstonejson.com/v1/512x/KAR_062.jpg");
-			background-position-x: center;
-			background-position-y: 36%;
-			background-size: 150%;
-			border: 1px solid $blue;
-		}
-
-		#stats-feature {
-			background-image: url("https://art.hearthstonejson.com/v1/512x/LOOT_104.jpg");
-			background-position-x: center;
-			background-position-y: 30%;
-			border: 1px solid $blue;
-		}
-
 		.feature-banner {
 			background: rgba(29, 54, 87, 0.9);
 			color: white;
@@ -255,6 +240,14 @@
 		.feature-content {
 			background-position-x: center;
 			background-position-y: center;
+			border: 1px solid $blue;
+			display: block;
+			text-decoration: none;
+		}
+
+		a.feature-content:hover {
+			background-color: rgb(20, 20, 20);
+			background-blend-mode: screen;
 		}
 	}
 

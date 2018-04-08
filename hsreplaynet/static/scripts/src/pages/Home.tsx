@@ -7,6 +7,7 @@ import ArchetypeHighlight from "../components/home/ArchetypeHighlight";
 import LiveData from "../components/home/LiveData";
 import { BnetGameType } from "../hearthstone";
 import { showModal } from "../Premium";
+import FeaturePanel from "../components/home/FeaturePanel";
 
 interface Props {
 	cardData: CardData | null;
@@ -89,17 +90,12 @@ export default class Home extends React.Component<Props, State> {
 								</DataInjector>
 							</div>
 						</div>
-						<div className="feature feature-small">
-							<div
-								className="feature-content no-title"
-								id="stats-feature"
-							>
-								<div className="feature-banner">
-									<h1>Check your stats</h1>
-									<h2>Replays and matchups</h2>
-								</div>
-							</div>
-						</div>
+						<FeaturePanel
+							title="Check your stats"
+							subtitle="Replays and matchups"
+							backgroundCardId="KARA_00_04"
+							href="/games/mine/"
+						/>
 					</div>
 					<div className="col-lg-4 col-md-6 col-sm-6 col-xs-12">
 						<div
@@ -256,17 +252,15 @@ export default class Home extends React.Component<Props, State> {
 								</DataInjector>
 							</div>
 						</div>
-						<div className="feature feature-small">
-							<div
-								className="feature-content no-title"
-								id="collection-feature"
-							>
-								<div className="feature-banner">
-									<h1>Collection Uploading</h1>
-									<h2>Find the best decks for you</h2>
-								</div>
-							</div>
-						</div>
+						<FeaturePanel
+							title="Collection Uploading"
+							subtitle="Find the best decks for you"
+							backgroundCardId="KAR_062"
+							backgroundStyle={{
+								backgroundPositionY: "36%",
+								backgroundSize: "150%",
+							}}
+						/>
 					</div>
 				</div>
 				<div className="row" id="live-data">
