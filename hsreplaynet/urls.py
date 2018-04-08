@@ -8,13 +8,14 @@ from .billing.views import PremiumDetailView
 from .games.views import ReplayDetailView, ReplayEmbedView
 from .web.sitemap import SITEMAPS
 from .web.views import (
-	ArticlesRedirectView, DownloadsView, HomeView, PingView, SetLocaleView
+	ArticlesRedirectView, DownloadsView, HomeNewView, HomeView, PingView, SetLocaleView
 )
 from .web.views.profiles import HighlightsView, PackListView
 
 
 urlpatterns = [
 	url(r"^$", HomeView.as_view(), name="home"),
+	url(r"^new/$", HomeNewView.as_view(), name="home_new"),
 
 	# Single pages
 	url(r"^about/privacy/$", flatpage, {"url": "/about/privacy/"}, name="privacy_policy"),

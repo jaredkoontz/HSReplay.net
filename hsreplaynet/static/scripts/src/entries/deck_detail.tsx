@@ -7,7 +7,6 @@ import Fragments from "../components/Fragments";
 import Root from "../components/Root";
 import { Consumer as AccountConsumer } from "../components/utils/hearthstone-account";
 import DataInjector from "../components/DataInjector";
-import { cookie } from "cookie_js";
 import { isCollectionDisabled } from "../utils/collection";
 
 const adminUrl = document

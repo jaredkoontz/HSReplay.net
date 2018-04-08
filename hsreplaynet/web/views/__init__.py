@@ -4,11 +4,13 @@ from allauth.account.views import LoginView as BaseLoginView
 from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import redirect
+from django.utils.decorators import method_decorator
 from django.utils.http import is_safe_url
 from django.views.generic import RedirectView, TemplateView, View
 from hearthstone.enums import BnetGameType, CardClass
 
 from hsreplaynet.analytics.views import fetch_query_results
+from hsreplaynet.features.decorators import view_requires_feature_access
 from hsreplaynet.games.models import GameReplay
 from ..html import RequestMetaMixin
 
@@ -29,6 +31,11 @@ HERO_IDS = {
 	CardClass.WARLOCK: "HERO_07a",
 	CardClass.WARRIOR: "HERO_01a",
 }
+
+
+@method_decorator(view_requires_feature_access("new-frontpage"), name="dispatch")
+class HomeNewView(TemplateView):
+	template_name = "home_new.html"
 
 
 class HomeView(TemplateView):

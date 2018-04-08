@@ -1,7 +1,4 @@
 import React from "react";
-import { Account, default as UserData } from "../../UserData";
-import { prettyBlizzardAccount } from "../../utils/account";
-import DataInjector from "../DataInjector";
 import { Feature, Features } from "../../utils/api";
 import DataManager from "../../DataManager";
 import { cookie } from "cookie_js";

@@ -1,0 +1,10 @@
+
+{% extends "base.html" %}
+{% load render_bundle from webpack_loader %}
+
+{% block fullcontent %}
+	<div id="home-container">
+	</div>
+	{% render_bundle "stats" %}
+	{% render_bundle "home_new" %}
+{% endblock %}

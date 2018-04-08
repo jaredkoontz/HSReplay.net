@@ -77,6 +77,7 @@ module.exports = env => {
 			makeEntry("polyfills"),
 		],
 		site: makeEntry("site"),
+		home_new: makeEntry("home_new"),
 	};
 
 	// flatten the entry points for config

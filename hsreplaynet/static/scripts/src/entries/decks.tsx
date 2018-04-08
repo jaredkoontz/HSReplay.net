@@ -7,7 +7,6 @@ import Fragments from "../components/Fragments";
 import { Consumer as HearthstoneAccountConsumer } from "../components/utils/hearthstone-account";
 import DataInjector from "../components/DataInjector";
 import Root from "../components/Root";
-import { cookie } from "cookie_js";
 import { isCollectionDisabled } from "../utils/collection";
 
 const container = document.getElementById("decks-container");
