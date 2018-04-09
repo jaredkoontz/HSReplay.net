@@ -53,7 +53,6 @@ export default class SlotMachine extends React.Component<Props, State> {
 			return;
 		}
 		const { height } = this.ref.getBoundingClientRect();
-		console.log(height);
 		this.setState({ height });
 	}
 }
