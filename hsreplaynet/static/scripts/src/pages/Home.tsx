@@ -63,6 +63,56 @@ export default class Home extends React.Component<Props, State> {
 		);
 	}
 
+	renderPremiumPanel(): React.ReactNode {
+		if (UserData.isPremium()) {
+			return (
+				<FeaturePanel
+					title="My Decks"
+					subtitle="Check out statistics about your decks"
+					backgroundCardId="KARA_00_07"
+					backgroundStyle={{
+						backgroundPositionY: "30%",
+					}}
+					href="/decks/mine/"
+				/>
+			);
+		}
+		return (
+			<div className="feature feature-small">
+				<div className="feature-content no-title" id="premium-feature">
+					<div className="header-wrapper">
+						<h1>HSReplay.net Premium</h1>
+					</div>
+					<div className="premium-banner">
+						<ul className="hidden-xs">
+							<li>Analyze live statistics</li>
+							<li>Climb the ranked ladder</li>
+							<li>Counter the meta</li>
+						</ul>
+						<div className="btn-wrapper">
+							<a
+								className="btn promo-button blue-style"
+								href="/premium"
+							>
+								Learn more
+							</a>
+							<a
+								className="btn promo-button"
+								href="#"
+								onClick={e => {
+									e.preventDefault();
+									showModal();
+								}}
+							>
+								Subscribe
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		);
+	}
+
 	render(): React.ReactNode {
 		const bannerStyle = {
 			backgroundImage: `url(${STATIC_URL}images/banner.jpg)`,
@@ -170,41 +220,7 @@ export default class Home extends React.Component<Props, State> {
 								</DataInjector>
 							</div>
 						</div>
-						<div className="feature feature-small">
-							<div
-								className="feature-content no-title"
-								id="premium-feature"
-							>
-								<div className="header-wrapper">
-									<h1>HSReplay.net Premium</h1>
-								</div>
-								<div className="premium-banner">
-									<ul className="hidden-xs">
-										<li>Analyze live statistics</li>
-										<li>Climb the ranked ladder</li>
-										<li>Counter the meta</li>
-									</ul>
-									<div className="btn-wrapper">
-										<a
-											className="btn promo-button blue-style"
-											href="/premium"
-										>
-											Learn more
-										</a>
-										<a
-											className="btn promo-button"
-											href="#"
-											onClick={e => {
-												e.preventDefault();
-												showModal();
-											}}
-										>
-											Subscribe
-										</a>
-									</div>
-								</div>
-							</div>
-						</div>
+						{this.renderPremiumPanel()}
 					</div>
 					<div className="col-lg-4 col-xs-12">
 						<div className="feature" id="feature-class-ranking">
