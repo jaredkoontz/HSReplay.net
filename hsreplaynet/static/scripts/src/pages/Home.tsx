@@ -101,9 +101,9 @@ export default class Home extends React.Component<Props, State> {
 							</div>
 						</div>
 						<FeaturePanel
-							title="Check your stats"
-							subtitle="Replays and matchups"
-							backgroundCardId="KARA_00_04"
+							title="Replays"
+							subtitle="Watch and share your games"
+							backgroundCardId="PART_002"
 							href="/games/mine/"
 						/>
 					</div>
