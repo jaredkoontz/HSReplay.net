@@ -120,12 +120,15 @@ class ReplayFeed extends React.Component<Props, State> {
 		const items = this.state.data.map(replay => {
 			return { id: replay.id, data: replay };
 		});
-		const weeklyGames = 23153932;
+		const weeklyGames = this.props.gamesCountData.games_weekly;
 		const gamesPerSecond = weeklyGames / (60 * 60 * 24 * 7);
 		return (
 			<div id="replay-feed">
 				<h1>Games Last Week: {commaSeparate(weeklyGames)}</h1>
-				<h4>Games Today: {commaSeparate(this.state.gamesToday)}</h4>
+				<h4>
+					Games Today:{" "}
+					{commaSeparate(this.props.gamesCountData.games_today)}
+				</h4>
 				<ScrollingFeed
 					direction="up"
 					items={items}
