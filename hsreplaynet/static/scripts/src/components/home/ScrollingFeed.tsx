@@ -34,8 +34,8 @@ export default class ScrollingFeed extends React.Component<Props, State> {
 			index: 0,
 			pause: false,
 		};
-		document.addEventListener("blur", this.onBlur);
-		document.addEventListener("focus", this.onFocus);
+		window.addEventListener("blur", this.onBlur);
+		window.addEventListener("focus", this.onFocus);
 	}
 
 	componentWillUnmount() {
@@ -43,15 +43,13 @@ export default class ScrollingFeed extends React.Component<Props, State> {
 		window.removeEventListener("focus", this.onFocus);
 	}
 
-	onBlur() {
+	onBlur = () => {
 		this.setState({ pause: true });
-		console.log("pausing");
-	}
+	};
 
-	onFocus() {
+	onFocus = () => {
 		this.setState({ pause: false });
-		console.log("unpausing");
-	}
+	};
 
 	componentDidMount() {
 		this.update();
