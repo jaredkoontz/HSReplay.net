@@ -6,6 +6,7 @@
 {% load render_bundle from webpack_loader %}
 
 {% block javascript %}
+{% include "premium/plan_data.html" %}
 <script type="text/javascript" src="{% static 'vendor/jquery.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
 {% block error_reporting %}
@@ -33,12 +34,6 @@
 {% endblock %}
 
 {% block body %}
-
-	{% block premium_modal %}
-		{% include "premium/plan_data.html" %}
-		{% render_bundle "premium_modal" %}
-		{% include "premium/premium_modal.html" %}
-	{% endblock %}
 
 	<header>
 		{% block header %}

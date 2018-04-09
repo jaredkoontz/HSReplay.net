@@ -7,8 +7,9 @@ import BtnGroup from "../BtnGroup";
 import UserData from "../../UserData";
 import StripeLegacyCheckoutForm from "./StripeLegacyCheckoutForm";
 import { Elements, StripeProvider } from "react-stripe-elements";
+import Stripe from "stripe";
 
-export const enum PaymentMethods {
+export const enum PaymentMethod {
 	STRIPECHECKOUT = "stripe-checkout",
 	CREDITCARD = "creditcard",
 	PAYPAL = "paypal",
@@ -21,7 +22,7 @@ export interface CheckoutFormInstanceProps {
 }
 
 interface Props {
-	defaultPaymentMethod?: PaymentMethods;
+	defaultPaymentMethod?: PaymentMethod;
 	stripeApiKey: string;
 	stripeDefaultSource?: string;
 	stripeCoupon?: string;
@@ -37,18 +38,41 @@ interface Props {
 
 interface State {
 	disabled: boolean;
-	paymentMethod: PaymentMethods;
+	paymentMethod: PaymentMethod;
+	stripe: Stripe | null;
 }
 
 export default class CheckoutForm extends React.Component<Props, State> {
+	static defaultProps = {
+		supportStripeElements: true,
+	};
+
 	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
 			disabled: false,
 			paymentMethod: props.defaultPaymentMethod
 				? props.defaultPaymentMethod
-				: this.getValidPaymentMethods()[0].method,
+				: null,
+			stripe: (window as any).Stripe
+				? (window as any).Stripe(props.stripeApiKey)
+				: null,
 		};
+	}
+
+	public componentDidMount(): void {
+		if (document.getElementById("stripe-js")) {
+			return;
+		}
+		const script = document.createElement("script");
+		script.id = "stripe-js";
+		script.src = "https://js.stripe.com/v3/";
+		script.async = true;
+		script.onload = () =>
+			this.setState({
+				stripe: (window as any).Stripe(this.props.stripeApiKey),
+			});
+		document.head.appendChild(script);
 	}
 
 	getValidPaymentMethods() {
@@ -56,7 +80,7 @@ export default class CheckoutForm extends React.Component<Props, State> {
 
 		if (this.props.supportStripeElements) {
 			methods.push({
-				method: PaymentMethods.CREDITCARD,
+				method: PaymentMethod.CREDITCARD,
 				label: (
 					<strong>
 						<span className="glyphicon glyphicon-credit-card" />&nbsp;Credit
@@ -66,7 +90,7 @@ export default class CheckoutForm extends React.Component<Props, State> {
 			});
 		} else {
 			methods.push({
-				method: PaymentMethods.STRIPECHECKOUT,
+				method: PaymentMethod.STRIPECHECKOUT,
 				label: (
 					<strong>
 						<span className="glyphicon glyphicon-credit-card" />&nbsp;Credit
@@ -78,7 +102,7 @@ export default class CheckoutForm extends React.Component<Props, State> {
 
 		if (UserData.hasFeature("paypal")) {
 			methods.push({
-				method: PaymentMethods.PAYPAL,
+				method: PaymentMethod.PAYPAL,
 				label: (
 					<strong>
 						<span className="glyphicon glyphicon-lock" />&nbsp;PayPal
@@ -120,7 +144,7 @@ export default class CheckoutForm extends React.Component<Props, State> {
 
 	renderCheckout() {
 		switch (this.state.paymentMethod) {
-			case PaymentMethods.STRIPECHECKOUT:
+			case PaymentMethod.STRIPECHECKOUT:
 				return (
 					<StripeLegacyCheckoutForm
 						plans={this.props.stripePlans}
@@ -135,9 +159,9 @@ export default class CheckoutForm extends React.Component<Props, State> {
 						onSubscribe={this.props.onSubscribe}
 					/>
 				);
-			case PaymentMethods.CREDITCARD:
+			case PaymentMethod.CREDITCARD:
 				return (
-					<StripeProvider apiKey={this.props.stripeApiKey}>
+					<StripeProvider stripe={this.state.stripe}>
 						<Elements>
 							<StripeElementsCheckoutForm
 								plans={this.props.stripePlans}
@@ -152,7 +176,7 @@ export default class CheckoutForm extends React.Component<Props, State> {
 						</Elements>
 					</StripeProvider>
 				);
-			case PaymentMethods.PAYPAL:
+			case PaymentMethod.PAYPAL:
 				return (
 					<PaypalCheckoutForm
 						plans={this.props.paypalPlans}
@@ -169,9 +193,34 @@ export default class CheckoutForm extends React.Component<Props, State> {
 
 	public render(): React.ReactNode {
 		return (
-			<div style={{ width: "100%", maxWidth: "500px", margin: "0 auto" }}>
-				{this.renderPaymentMethods()}
-				{this.renderCheckout()}
+			<div className="checkout-form">
+				<main
+					className={
+						this.state.paymentMethod === null
+							? "checkout-form-main-collaped"
+							: "checkout-form-main-expanded"
+					}
+				>
+					{this.renderPaymentMethods()}
+					{this.renderCheckout()}
+				</main>
+				<footer>
+					<small className="help-block text-center">
+						By signing up you agree to our{" "}
+						<a href="/about/tos/" target="_blank">
+							Terms of Service
+						</a>.<br />
+						Subscriptions renew automatically and can be cancelled
+						any time from the{" "}
+						<a
+							href="https://hsreplay.net/account/billing/"
+							target="_blank"
+						>
+							billing settings
+						</a>{" "}
+						page.
+					</small>
+				</footer>
 			</div>
 		);
 	}

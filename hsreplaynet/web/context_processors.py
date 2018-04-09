@@ -107,7 +107,6 @@ def premium(request):
 		"site_email": settings.DEFAULT_FROM_EMAIL,
 		"premium": is_premium,
 		"has_subscription_past_due": has_subscription_past_due,
-		"show_premium_modal": not is_premium and "premium-modal" in request.GET,
 		"stripe_monthly_plan": stripe_plans.filter(stripe_id=settings.MONTHLY_PLAN_ID).first(),
 		"stripe_semiannual_plan": stripe_plans.filter(
 			stripe_id=settings.SEMIANNUAL_PLAN_ID

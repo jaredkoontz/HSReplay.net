@@ -4,14 +4,15 @@ import UserData from "../UserData";
 import ReferralsPromo from "../pages/ReferralsPromo";
 import { ReferralEvents } from "../metrics/GoogleAnalytics";
 import Root from "../components/Root";
+import PremiumCheckout from "../components/premium/PremiumCheckout";
 
 UserData.create();
 
 window.onload = () => {
-	const root = document.getElementById("referrals");
-	const reflink = root.getAttribute("data-reflink");
-	const discount = root.getAttribute("data-discount");
-	if (root) {
+	const referralRoot = document.getElementById("referrals");
+	const reflink = referralRoot.getAttribute("data-reflink");
+	const discount = referralRoot.getAttribute("data-discount");
+	if (referralRoot) {
 		ReactDOM.render(
 			<Root>
 				<ReferralsPromo
@@ -20,7 +21,15 @@ window.onload = () => {
 					onCopy={() => ReferralEvents.onCopyRefLink("Premium Page")}
 				/>
 			</Root>,
-			root,
+			referralRoot,
+		);
+	}
+
+	const checkoutRoot = document.getElementById("premium-detail-checkout");
+	if (checkoutRoot) {
+		ReactDOM.render(
+			<PremiumCheckout analyticsLabel={"Premium Detail"} preselect />,
+			checkoutRoot,
 		);
 	}
 };

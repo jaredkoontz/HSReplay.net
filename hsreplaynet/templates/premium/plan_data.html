@@ -1,32 +1,54 @@
-<script type="application/json" id="premium-plan-data">
+{% load pretty_card setting from web_extras %}
+
+<script type="application/json" id="payment-details-data">
 	{
-		"stripe": [
-			{
-				"stripeId": "{{ stripe_monthly_plan.stripe_id }}",
-				"description": "{{ stripe_monthly_plan.human_readable_price }}",
-				"amount": {{ stripe_monthly_plan.amount_in_cents|default:"null" }},
-				"currency": "{{ stripe_monthly_plan.currency }}"
-			},
-			{
-				"stripeId": "{{ stripe_semiannual_plan.stripe_id }}",
-				"description": "{{ stripe_semiannual_plan.human_readable_price }}",
-				"amount": {{ stripe_semiannual_plan.amount_in_cents|default:"null" }},
-				"currency": "{{ stripe_semiannual_plan.currency }}"
-			}
-		],
-		"paypal": [
-			{
-				"paypalId": "{{ paypal_monthly_plan.id }}",
-				"description": "{{ paypal_monthly_plan.human_readable_price|default:"Monthly plan" }}",
-				"amount": "{{ paypal_monthly_plan.regular_payment_definition.amount.value }}",
-				"currency": "{{ paypal_monthly_plan.regular_payment_definition.amount.currency }}"
-			},
-			{
-				"paypalId": "{{ paypal_semiannual_plan.id }}",
-				"description": "{{ paypal_semiannual_plan.human_readable_price|default:"Semiannual plan" }}",
-				"amount": "{{ paypal_semiannual_plan.regular_payment_definition.amount.value }}",
-				"currency": "{{ paypal_semiannual_plan.regular_payment_definition.amount.currency }}"
-			}
-		]
+		"stripe": {
+			"apiKey": "{% setting 'STRIPE_PUBLIC_KEY' %}",
+			"target": "{% url 'premium_subscribe' %}?next={{ request.path|urlencode }}",
+			{% if user.is_authenticated %}
+			{% with user.stripe_customer as customer %}
+			{% if customer.default_source %}
+			"defaultSource": "{{ customer.default_source|pretty_card }}",
+			{% endif %}
+			{% if customer.coupon %}
+			"coupon": "{{ customer.coupon.human_readable }}",
+			{% endif %}
+			{% endwith %}
+			{% if has_subscription_past_due %}
+			"has_subscription_past_due": true,
+			{% endif %}
+			{% endif %}
+			"plans": [
+				{
+					"stripeId": "{{ stripe_monthly_plan.stripe_id }}",
+					"description": "{{ stripe_monthly_plan.human_readable_price }}",
+					"amount": {{ stripe_monthly_plan.amount_in_cents|default:"null" }},
+					"currency": "{{ stripe_monthly_plan.currency }}"
+				},
+				{
+					"stripeId": "{{ stripe_semiannual_plan.stripe_id }}",
+					"description": "{{ stripe_semiannual_plan.human_readable_price }}",
+					"amount": {{ stripe_semiannual_plan.amount_in_cents|default:"null" }},
+					"currency": "{{ stripe_semiannual_plan.currency }}"
+				}
+			]
+		},
+		"paypal": {
+			"target": "{% url 'pp_subscribe' %}?next={{ request.path|urlencode }}",
+			"plans": [
+				{
+					"paypalId": "{{ paypal_monthly_plan.id }}",
+					"description": "{{ paypal_monthly_plan.human_readable_price|default:"Monthly plan" }}",
+					"amount": "{{ paypal_monthly_plan.regular_payment_definition.amount.value }}",
+					"currency": "{{ paypal_monthly_plan.regular_payment_definition.amount.currency }}"
+				},
+				{
+					"paypalId": "{{ paypal_semiannual_plan.id }}",
+					"description": "{{ paypal_semiannual_plan.human_readable_price|default:"Semiannual plan" }}",
+					"amount": "{{ paypal_semiannual_plan.regular_payment_definition.amount.value }}",
+					"currency": "{{ paypal_semiannual_plan.regular_payment_definition.amount.currency }}"
+				}
+			]
+		}
 	}
 </script>

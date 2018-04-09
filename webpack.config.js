@@ -64,7 +64,6 @@ module.exports = env => {
 		premium_detail: makeEntry("premium_detail"),
 		discover: makeEntry("discover"),
 		card_editor: makeEntry("card_editor"),
-		premium_modal: makeEntry("premium_modal"),
 		home: makeEntry("home"),
 		vendor: [
 			"babel-polyfill",

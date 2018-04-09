@@ -7,12 +7,12 @@ import ArchetypeHighlight from "../components/home/ArchetypeHighlight";
 import LiveData from "../components/home/LiveData";
 import FAQ from "../components/home/FAQ";
 import { BnetGameType } from "../hearthstone";
-import { showModal } from "../Premium";
 import FeaturePanel from "../components/home/FeaturePanel";
 import Modal from "../components/Modal";
 import CollectionSetup from "../components/collection/CollectionSetup";
 import UserData from "../UserData";
 import ModeSvg from "../components/ModeSvg";
+import PremiumModal from "../components/premium/PremiumModal";
 
 interface Props {
 	cardData: CardData | null;
@@ -21,6 +21,7 @@ interface Props {
 interface State {
 	gameType: BnetGameType;
 	fullReplaySpeed: boolean;
+	showPremiumModal: boolean;
 	showCollectionModal: boolean;
 }
 
@@ -31,88 +32,11 @@ export default class Home extends React.Component<Props, State> {
 			gameType: BnetGameType.BGT_RANKED_STANDARD,
 			fullReplaySpeed: false,
 			showCollectionModal: false,
+			showPremiumModal: false,
 		};
 	}
 
-	renderCollectionModal(): React.ReactNode {
-		const onClose = () => this.setState({ showCollectionModal: false });
-		return (
-			<Modal visible={this.state.showCollectionModal} onClose={onClose}>
-				<CollectionSetup />
-			</Modal>
-		);
-	}
-
-	renderPremiumFeatureButton(): React.ReactNode {
-		if (UserData.isPremium()) {
-			return null;
-		}
-		return (
-			<a
-				href="#"
-				className="btn feature-btn"
-				onClick={e => {
-					e.preventDefault();
-					showModal();
-				}}
-			>
-				<span className="hidden-xs">Subscribe for full access</span>
-				<span className="visible-xs">Subscribe</span>
-			</a>
-		);
-	}
-
-	renderPremiumPanel(): React.ReactNode {
-		if (UserData.isPremium()) {
-			return (
-				<FeaturePanel
-					title="My Decks"
-					subtitle="Check out statistics about your decks"
-					backgroundCardId="KARA_00_07"
-					backgroundStyle={{
-						backgroundPositionY: "30%",
-					}}
-					href="/decks/mine/"
-				/>
-			);
-		}
-		return (
-			<div className="feature feature-small">
-				<div className="feature-content no-title" id="premium-feature">
-					<div className="header-wrapper">
-						<h1>HSReplay.net Premium</h1>
-					</div>
-					<div className="premium-banner">
-						<ul className="hidden-xs">
-							<li>Climb the ranked ladder</li>
-							<li>Analyze live statistics</li>
-							<li>Counter the meta</li>
-						</ul>
-						<div className="btn-wrapper">
-							<a
-								className="btn promo-button blue-style"
-								href="/premium"
-							>
-								Learn more
-							</a>
-							<a
-								className="btn promo-button"
-								href="#"
-								onClick={e => {
-									e.preventDefault();
-									showModal();
-								}}
-							>
-								Subscribe
-							</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		);
-	}
-
-	render(): React.ReactNode {
+	public render(): React.ReactNode {
 		const bannerStyle = {
 			backgroundImage: `url(${STATIC_URL}images/banner.jpg)`,
 		};
@@ -305,16 +229,7 @@ export default class Home extends React.Component<Props, State> {
 								</DataInjector>
 							</div>
 						</div>
-						{this.renderCollectionModal()}
-						<FeaturePanel
-							title="Collection Uploading"
-							subtitle="Find the best decks for your collection"
-							backgroundCardId="LOOTA_814"
-							onClick={e => {
-								e.preventDefault();
-								this.setState({ showCollectionModal: true });
-							}}
-						/>
+						{this.renderCollectionPanel()}
 					</div>
 				</div>
 				<div className="row" id="live-data">
@@ -324,6 +239,123 @@ export default class Home extends React.Component<Props, State> {
 					<FAQ />
 				</div>
 			</div>
+		);
+	}
+
+	private showCollectionModal = (
+		event?: React.MouseEvent<HTMLElement>,
+	): void => {
+		if (event) {
+			event.preventDefault();
+		}
+		this.setState({ showCollectionModal: true });
+	};
+
+	private closeCollectionModal = (): void =>
+		this.setState({ showCollectionModal: false });
+
+	private renderCollectionPanel(): React.ReactNode {
+		return (
+			<>
+				<Modal
+					visible={this.state.showCollectionModal}
+					onClose={this.closeCollectionModal}
+				>
+					<CollectionSetup />
+				</Modal>
+				<FeaturePanel
+					title="Collection Uploading"
+					subtitle="Find the best decks for your collection"
+					backgroundCardId="LOOTA_814"
+					onClick={this.showCollectionModal}
+				/>
+			</>
+		);
+	}
+
+	private showPremiumModal = (
+		event?: React.MouseEvent<HTMLElement>,
+	): void => {
+		if (event) {
+			event.preventDefault();
+		}
+		this.setState({ showPremiumModal: true });
+	};
+
+	private closePremiumModal = (): void =>
+		this.setState({ showPremiumModal: false });
+
+	private renderPremiumFeatureButton(): React.ReactNode {
+		if (UserData.isPremium()) {
+			return null;
+		}
+		return (
+			<a
+				href="#"
+				className="btn feature-btn"
+				onClick={this.showPremiumModal}
+			>
+				<span className="hidden-xs">Subscribe for full access</span>
+				<span className="visible-xs">Subscribe</span>
+			</a>
+		);
+	}
+
+	private renderPremiumPanel(): React.ReactNode {
+		if (UserData.isPremium()) {
+			return (
+				<FeaturePanel
+					title="My Decks"
+					subtitle="Check out statistics about your decks"
+					backgroundCardId="KARA_00_07"
+					backgroundStyle={{
+						backgroundPositionY: "30%",
+					}}
+					href="/decks/mine/"
+				/>
+			);
+		}
+		return (
+			<>
+				<Modal
+					visible={this.state.showPremiumModal}
+					onClose={this.closePremiumModal}
+				>
+					<PremiumModal />
+				</Modal>
+				<div className="feature feature-small">
+					<div
+						className="feature-content no-title"
+						id="premium-feature"
+					>
+						<div className="header-wrapper">
+							<h1>HSReplay.net Premium</h1>
+						</div>
+						<div className="premium-banner">
+							<ul className="hidden-xs">
+								<li>Climb the ranked ladder</li>
+								<li>Analyze live statistics</li>
+								<li>Counter the meta</li>
+							</ul>
+							<div className="btn-wrapper">
+								<a
+									className="btn promo-button blue-style"
+									href="/premium"
+								>
+									Learn more
+								</a>
+								<a
+									className="btn promo-button"
+									href="#"
+									onClick={this.showPremiumModal}
+								>
+									Subscribe
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</>
 		);
 	}
 }

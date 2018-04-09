@@ -7,6 +7,7 @@ import Modal from "../components/Modal";
 import CollectionSetup from "../components/collection/CollectionSetup";
 import { Provider as BlizzardAccountProvider } from "../components/utils/hearthstone-account";
 import AccountNavigation from "../components/account/AccountNavigation";
+import PremiumModal from "../components/premium/PremiumModal";
 
 UserData.create();
 
@@ -38,16 +39,20 @@ if (document && document.location && document.location.search) {
 	const search = document.location.search.replace(/^\?/, "");
 	const parts = search.split("&");
 	for (const part of parts) {
-		const param = part.split("=", 2);
+		let param = part.split("=", 2);
+		if (param[0] === "premium-modal") {
+			// url compat
+			param = ["modal", "premium"];
+		}
 		if (param.length !== 2) {
 			continue;
 		}
 		const [key, value] = param;
 		if (key === "modal") {
+			const modalDummy = document.createElement("div");
+			modalDummy.setAttribute("id", "initial-modal-dummy");
 			switch (value) {
 				case "collection":
-					const modalDummy = document.createElement("div");
-					modalDummy.setAttribute("id", "initial-modal-dummy");
 					ReactDOM.render(
 						<BlizzardAccountProvider>
 							<Modal
@@ -59,6 +64,18 @@ if (document && document.location && document.location.search) {
 								<CollectionSetup />
 							</Modal>
 						</BlizzardAccountProvider>,
+						modalDummy,
+					);
+				case "premium":
+					ReactDOM.render(
+						<Modal
+							visible
+							onClose={() => {
+								ReactDOM.unmountComponentAtNode(modalDummy);
+							}}
+						>
+							<PremiumModal />
+						</Modal>,
 						modalDummy,
 					);
 			}

@@ -1,32 +1,10 @@
-{% load pretty_card setting from web_extras %}
 {% load static from static %}
 {% load blocktrans from i18n %}
 
-<div
-	id="{{ id }}"
-	data-api-key="{% setting 'STRIPE_PUBLIC_KEY' %}"
-	data-stripe-checkout-image="{% static 'images/hsreplay-thumbnail.png' %}"
-	data-stripe-checkout-submit-url="{% url 'premium_subscribe' %}?next={{ request.path|urlencode }}"
-	data-stripe-elements-submit-url="{% url 'premium_subscribe' %}?next={{ request.path|urlencode }}"
-	{% with user.stripe_customer as customer %}
-	{% if customer.default_source %}
-		data-stripe-default-source="{{ customer.default_source|pretty_card }}"
-	{% endif %}
-	{% if customer.coupon %}
-		data-stripe-coupon="{{ customer.coupon.human_readable }}"
-	{% endif %}
-	{% endwith %}
-	data-paypal-submit-url="{% url 'pp_subscribe' %}?next={{ request.path|urlencode }}"
-	data-csrf-token="{% csrf_token %}"
-	data-support-stripe-elements="{{ support_stripe_elements|default:"0" }}"
-></div>
+<div id="{{ id }}"></div>
 <noscript>
 	<p class="alert alert-danger">
 		{% blocktrans %}Please enable Javascript to continue.
 		If this problem persists, please <a href="mailto:{{ site_email }}">contact us</a>.{% endblocktrans %}
 	</p>
 </noscript>
-<small class="help-block text-center">
-	By signing up you agree to our <a href="{% url 'terms_of_service' %}" target="_blank">Terms of Service</a>.<br/>
-	Subscriptions renew automatically and can be cancelled any time from the <a href="{% url 'billing_methods' %}" target="_blank">billing settings</a> page.
-</small>
