@@ -50,7 +50,7 @@ export default class Home extends React.Component<Props, State> {
 						<div id="banner-text">
 							<h1>Unleash your potential</h1>
 							<h2 className="hidden-xs">
-								Discover your path to victory
+								Find the best deck for your rank and region
 							</h2>
 						</div>
 						<div id="banner-ranks">{ranks}</div>
