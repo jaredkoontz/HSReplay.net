@@ -128,6 +128,13 @@ export default class Decks extends React.Component<Props, State> {
 		if (this.props.collection) {
 			this.attemptTrackView();
 		}
+
+		if (
+			this.state.filteredDecks.length === 0 &&
+			this.props.minGames > this.minGames[1]
+		) {
+			this.props.setMinGames(this.minGames[1]);
+		}
 	}
 
 	private attemptTrackView(): void {
