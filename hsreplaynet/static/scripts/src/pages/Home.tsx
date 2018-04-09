@@ -265,11 +265,8 @@ export default class Home extends React.Component<Props, State> {
 						<FeaturePanel
 							title="Collection Uploading"
 							subtitle="Find the best decks for you"
-							backgroundCardId="KAR_062"
-							backgroundStyle={{
-								backgroundPositionY: "36%",
-								backgroundSize: "150%",
-							}}
+							backgroundCardId="KARA_062"
+							onClick={e => e.preventDefault()}
 						/>
 					</div>
 				</div>

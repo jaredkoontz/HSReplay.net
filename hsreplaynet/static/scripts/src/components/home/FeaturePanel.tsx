@@ -28,7 +28,6 @@ export default class FeaturePanel extends React.Component<Props> {
 					style={style}
 					href={this.props.href || "#"}
 					onClick={e => {
-						e.preventDefault();
 						this.props.onClick && this.props.onClick(e);
 					}}
 				>
