@@ -64,8 +64,9 @@
 #banner-text {
 	color: white;
 	margin-left: 24px;
-	z-index: 1;
+	max-width: 66%;
 	text-transform: uppercase;
+	z-index: 1;
 	text-shadow: -1px -1px 0 rgba(0, 0, 0, 1), -1px 1px 0 rgba(0, 0, 0, 1),
 		1px 1px 0 rgba(0, 0, 0, 1), 1px -1px 0 rgba(0, 0, 0, 1);
 
