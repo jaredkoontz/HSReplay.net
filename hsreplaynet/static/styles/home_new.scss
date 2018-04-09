@@ -215,7 +215,7 @@
 			border-radius: 3px;
 			height: 100%;
 			padding-top: calc(1.2em + 28px);
-			background: #2c2f33;
+			background: $spacegray;
 			overflow: hidden;
 
 			&.no-title {
@@ -260,7 +260,7 @@
 				display: flex;
 				height: 50%;
 				justify-content: center;
-				background: rgba(44, 47, 51, 0.2);
+				background: rgba(35, 39, 42, 0.2);
 			}
 
 			h1 {
@@ -277,7 +277,7 @@
 			}
 
 			.premium-banner {
-				background: rgba(44, 47, 51, 0.7);
+				background: rgba(35, 39, 42, 0.8);
 				color: white;
 				display: flex;
 				height: 50%;
@@ -356,14 +356,18 @@
 			top: 0;
 			background: linear-gradient(
 				to bottom,
-				#2c2f33 0%,
+				$spacegray 0%,
 				transparent 100%
 			);
 		}
 
 		&.fade-bottom {
 			bottom: 0;
-			background: linear-gradient(to top, #2c2f33 0%, transparent 100%);
+			background: linear-gradient(
+				to top,
+				$spacegray 0%,
+				transparent 100%
+			);
 		}
 	}
 }
@@ -608,15 +612,15 @@
 	.class-item {
 		background-position-x: center;
 		background-position-y: 25%;
-		border-bottom: 1px solid #2c2f33;
+		border-bottom: 1px solid $spacegray;
 		flex: 1 1 0;
 
 		.class-item-content {
 			align-items: center;
 			background: linear-gradient(
 				to right,
-				#2c2f33 0,
-				#2c2f33 10%,
+				$spacegray 0,
+				$spacegray 10%,
 				rgba(0, 0, 0, 0.3) 40%
 			);
 			color: white;
@@ -629,8 +633,8 @@
 			&:hover {
 				background: linear-gradient(
 					to right,
-					#2c2f33 0,
-					#2c2f33 10%,
+					$spacegray 0,
+					$spacegray 10%,
 					rgba(0, 0, 0, 0.1) 40%,
 					rgba(0, 0, 0, 0.3) 75%
 				);
