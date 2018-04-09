@@ -138,19 +138,21 @@ class ReplayFeed extends React.Component<Props, State> {
 					lowItemCount={10}
 					itemsPerSecond={this.props.fullSpeed ? gamesPerSecond : 1.2}
 				/>
-				<span id="replay-contributors">
+				<div id="replay-contributors">
 					Contributors:{" "}
 					{commaSeparate(
 						this.props.gamesCountData.contributors_today,
 					)}
-				</span>
-				<a
-					className="btn promo-button blue-style"
-					href="https://hsdecktracker.net/"
-					target="_blank"
-				>
-					Become a Contributor
-				</a>
+				</div>
+				<div id="contributor-button-wrapper">
+					<a
+						className="btn promo-button blue-style"
+						href="https://hsdecktracker.net/"
+						target="_blank"
+					>
+						Become a Contributor
+					</a>
+				</div>
 			</div>
 		);
 	}
