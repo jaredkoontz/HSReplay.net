@@ -63,19 +63,6 @@ class ArchetypeHighlight extends React.Component<Props, State> {
 		return Object.keys(this.getRegions()).indexOf(region);
 	}
 
-	private getRegionName(region: Region): string {
-		switch (region) {
-			case "REGION_US":
-				return "Americas";
-			case "REGION_EU":
-				return "Europe";
-			case "REGION_KR":
-				return "Asia";
-			case "REGION_CN":
-				return "China";
-		}
-	}
-
 	private getRankList(): string[] {
 		const ranks = [];
 		ranks.push("Legend");
