@@ -36,13 +36,11 @@ export default class Home extends React.Component<Props, State> {
 			key: "archetypeData",
 		};
 		const ranks = Array.from(Array(9).keys()).map(n => {
-			const rank = n === 0 ? "Legend" : n;
-			return (
-				<img
-					key={n}
-					src={`${STATIC_URL}images/ranked-medals/Medal_Ranked_${rank}.png`}
-				/>
-			);
+			const image =
+				n === 0
+					? "banner-legend.png"
+					: `ranked-medals/Medal_Ranked_${n}.png`;
+			return <img key={n} src={`${STATIC_URL}images/${image}`} />;
 		});
 		ranks.reverse();
 		return (
