@@ -321,7 +321,7 @@ export default class DeckDetail extends React.Component<Props, State> {
 						{infoBoxFilter("rankRange", "ALL", "Legend–25")}
 					</InfoboxFilterGroup>
 				</div>,
-				<Feature feature="deck-region-filter">
+				<Feature feature="deck-detail-region-filter">
 					<PremiumWrapper
 						name="Single Deck Region"
 						infoHeader="Deck breakdown region"

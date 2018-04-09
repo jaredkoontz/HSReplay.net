@@ -40,7 +40,7 @@ class DeckTile extends React.Component<Props> {
 			? { tab: customTab }
 			: hrefTab && { tab: hrefTab };
 		const fragments = ["gameType", "rankRange"];
-		if (UserData.hasFeature("deck-region-filter")) {
+		if (UserData.hasFeature("deck-detail-region-filter")) {
 			fragments.push("region");
 		}
 		return `/decks/${this.props.deckId}/` + getFragments(fragments, tab);
