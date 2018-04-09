@@ -1,5 +1,5 @@
 import React from "react";
-import { image } from "../helpers";
+import { image } from "../../helpers";
 
 interface Props {
 	imageName: string;

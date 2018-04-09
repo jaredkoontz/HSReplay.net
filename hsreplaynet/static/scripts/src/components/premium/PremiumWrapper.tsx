@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import InfoIcon, { InfoIconProps } from "./InfoIcon";
-import { showModal } from "../Premium";
-import UserData from "../UserData";
-import { image } from "../helpers";
+import InfoIcon, { InfoIconProps } from "../InfoIcon";
+import { showModal } from "../../Premium";
+import UserData from "../../UserData";
+import { image } from "../../helpers";
 
 interface Props {
 	name?: string; // used for tracking only

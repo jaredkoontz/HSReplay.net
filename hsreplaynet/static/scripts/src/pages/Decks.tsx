@@ -12,7 +12,7 @@ import ClassFilter, { FilterOption } from "../components/ClassFilter";
 import DeckList from "../components/DeckList";
 import InfoboxFilter from "../components/InfoboxFilter";
 import InfoboxFilterGroup from "../components/InfoboxFilterGroup";
-import PremiumWrapper from "../components/PremiumWrapper";
+import PremiumWrapper from "../components/premium/PremiumWrapper";
 import ResetHeader from "../components/ResetHeader";
 import * as _ from "lodash";
 import { DeckObj, FragmentChildProps } from "../interfaces";

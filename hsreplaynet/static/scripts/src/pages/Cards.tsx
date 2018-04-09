@@ -7,7 +7,7 @@ import DataInjector from "../components/DataInjector";
 import InfoboxFilter from "../components/InfoboxFilter";
 import * as _ from "lodash";
 import TableLoading from "../components/loading/TableLoading";
-import PremiumWrapper from "../components/PremiumWrapper";
+import PremiumWrapper from "../components/premium/PremiumWrapper";
 import ResetHeader from "../components/ResetHeader";
 import DataManager from "../DataManager";
 import {

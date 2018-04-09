@@ -15,7 +15,7 @@ import InfoboxFilterGroup from "../components/InfoboxFilterGroup";
 import ChartLoading from "../components/loading/ChartLoading";
 import HideLoading from "../components/loading/HideLoading";
 import TableLoading from "../components/loading/TableLoading";
-import PremiumWrapper from "../components/PremiumWrapper";
+import PremiumWrapper from "../components/premium/PremiumWrapper";
 import {
 	getChartScheme,
 	getDustCost,

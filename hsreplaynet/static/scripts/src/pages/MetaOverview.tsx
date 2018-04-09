@@ -1,4 +1,4 @@
-import PremiumWrapper from "../components/PremiumWrapper";
+import PremiumWrapper from "../components/premium/PremiumWrapper";
 import InfoboxFilter from "../components/InfoboxFilter";
 import InfoboxFilterGroup from "../components/InfoboxFilterGroup";
 import React from "react";
@@ -18,7 +18,7 @@ import InfoboxItem from "../components/InfoboxItem";
 import { commaSeparate } from "../helpers";
 import RankPicker from "../components/rankpicker/RankPicker";
 import InfoIcon from "../components/InfoIcon";
-import PremiumPromo from "../components/PremiumPromo";
+import PremiumPromo from "../components/premium/PremiumPromo";
 
 interface Props {
 	cardData: CardData;

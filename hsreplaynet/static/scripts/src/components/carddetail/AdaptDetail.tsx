@@ -2,7 +2,7 @@ import React from "react";
 import { SortDirection, TableData, TableHeaderProps } from "../../interfaces";
 import ClassFilter, { FilterOption } from "../ClassFilter";
 import UserData from "../../UserData";
-import PremiumWrapper from "../PremiumWrapper";
+import PremiumWrapper from "../premium/PremiumWrapper";
 import CardData from "../../CardData";
 import CardTile from "../CardTile";
 import { winrateData } from "../../helpers";

@@ -1,5 +1,5 @@
 import DataManager from "../DataManager";
-import PremiumWrapper from "../components/PremiumWrapper";
+import PremiumWrapper from "../components/premium/PremiumWrapper";
 import WinrateLineChart from "../components/charts/WinrateLineChart";
 import ClassFilter, { FilterOption } from "../components/ClassFilter";
 import DataInjector from "../components/DataInjector";
@@ -35,7 +35,7 @@ import DeckCountersList from "../components/deckdetail/DeckCountersList";
 import CardTable from "../components/tables/CardTable";
 import * as _ from "lodash";
 import Feature from "../components/Feature";
-import PremiumPromo from "../components/PremiumPromo";
+import PremiumPromo from "../components/premium/PremiumPromo";
 import ArchetypeMatchups from "../components/archetypedetail/ArchetypeMatchups";
 import StreamList from "../components/StreamList";
 import { Collection } from "../utils/api";
