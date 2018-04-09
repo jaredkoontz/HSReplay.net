@@ -1502,3 +1502,22 @@ ul.list-ltr, ol.list-ltr {
 		}
 	}
 }
+
+.slot-machine {
+	display: block;
+	overflow: hidden;
+	height: 1.45em;
+
+	> ul {
+		position: relative;
+		padding-left: 0;
+		margin-bottom: 0;
+		transition: top ease-in-out 0.8s;
+		height: 100%;
+
+		> li {
+			list-style-type: none;
+			height: 100%;
+		}
+	}
+}

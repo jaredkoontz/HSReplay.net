@@ -4,6 +4,7 @@ import { withLoading } from "../loading/Loading";
 import CardData from "../../CardData";
 import { Region } from "../../interfaces";
 import { toDynamicFixed } from "../../helpers";
+import SlotMachine from "./SlotMachine";
 
 interface ArchetypeHighlightData {
 	id: number;
@@ -41,10 +42,28 @@ class ArchetypeHighlight extends React.Component<Props, State> {
 				index >= this.props.data.length - 1 ? 0 : index + 1;
 			this.setState({ index: nextIndex });
 			this.update();
-		}, 5000);
+		}, 2000);
 	}
 
-	getRegionName(region: Region): string {
+	private getRegions(): { [region: string]: string } {
+		return {
+			REGION_US: "Americas",
+			REGION_EU: "Europe",
+			REGION_KR: "Asia",
+			REGION_CN: "China",
+		};
+	}
+
+	private getRegionList(): string[] {
+		const regions = this.getRegions();
+		return Object.keys(regions).map(k => regions[k]);
+	}
+
+	private getRegionIndex(region: Region): number {
+		return Object.keys(this.getRegions()).indexOf(region);
+	}
+
+	private getRegionName(region: Region): string {
 		switch (region) {
 			case "REGION_US":
 				return "Americas";
@@ -55,6 +74,19 @@ class ArchetypeHighlight extends React.Component<Props, State> {
 			case "REGION_CN":
 				return "China";
 		}
+	}
+
+	private getRankList(): string[] {
+		const ranks = [];
+		ranks.push("Legend");
+		for (let i = 1; i <= 25; i++) {
+			ranks.push(`Rank ${i}`);
+		}
+		return ranks;
+	}
+
+	private getRankIndex(rank: number): number {
+		return rank;
 	}
 
 	render(): React.ReactNode {
@@ -83,9 +115,19 @@ class ArchetypeHighlight extends React.Component<Props, State> {
 				<div className="archetype-highlight-content">
 					<div className="best-deck-title">
 						<h1>The best deck in</h1>
-						<div className="deck-data">
-							<span>{this.getRegionName(data.region)}</span>
-							<span>Rank {data.rank}</span>
+						<div className="deck-data text-center">
+							<span>
+								<SlotMachine
+									slots={this.getRegionList()}
+									index={this.getRegionIndex(data.region)}
+								/>
+							</span>
+							<span>
+								<SlotMachine
+									slots={this.getRankList()}
+									index={this.getRankIndex(data.rank)}
+								/>
+							</span>
 						</div>
 					</div>
 					<div className="archetype-data">
