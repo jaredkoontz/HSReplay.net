@@ -42,7 +42,7 @@ class ArchetypeHighlight extends React.Component<Props, State> {
 				index >= this.props.data.length - 1 ? 0 : index + 1;
 			this.setState({ index: nextIndex });
 			this.update();
-		}, 2000);
+		}, 5000);
 	}
 
 	private getRegions(): { [region: string]: string } {
