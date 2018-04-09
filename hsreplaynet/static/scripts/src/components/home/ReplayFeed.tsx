@@ -172,7 +172,10 @@ class ReplayFeed extends React.Component<Props, State> {
 				href={`/replay/${data.id}`}
 				target="_blank"
 			>
-				<span className={p1IconName.join(" ")}>👑</span>
+				<img
+					className={p1IconName.join(" ")}
+					src={`${STATIC_URL}images/crown.png`}
+				/>
 				<div className="replay-feed-player player-left">
 					<RankIcon
 						gameType={BnetGameType.BGT_RANKED_STANDARD}
@@ -190,7 +193,10 @@ class ReplayFeed extends React.Component<Props, State> {
 					/>
 					<span>{p2Archetype && p2Archetype.name}</span>
 				</div>
-				<span className={p2IconName.join(" ")}>👑</span>
+				<img
+					className={p2IconName.join(" ")}
+					src={`${STATIC_URL}images/crown.png`}
+				/>
 			</a>
 		);
 	}
