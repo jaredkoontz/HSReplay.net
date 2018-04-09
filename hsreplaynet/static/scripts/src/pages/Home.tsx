@@ -10,6 +10,7 @@ import { showModal } from "../Premium";
 import FeaturePanel from "../components/home/FeaturePanel";
 import Modal from "../components/Modal";
 import CollectionSetup from "../components/collection/CollectionSetup";
+import UserData from "../UserData";
 
 interface Props {
 	cardData: CardData | null;
@@ -40,6 +41,25 @@ export default class Home extends React.Component<Props, State> {
 			<Modal onClose={onClose}>
 				<CollectionSetup />
 			</Modal>
+		);
+	}
+
+	renderPremiumFeatureButton(): React.ReactNode {
+		if (UserData.isPremium()) {
+			return null;
+		}
+		return (
+			<a
+				href="#"
+				className="btn feature-btn"
+				onClick={e => {
+					e.preventDefault();
+					showModal();
+				}}
+			>
+				<span className="hidden-xs">Subscribe for full access</span>
+				<span className="visible-xs">Subscribe</span>
+			</a>
 		);
 	}
 
@@ -130,21 +150,7 @@ export default class Home extends React.Component<Props, State> {
 						>
 							<div className="feature-title">
 								<span>Premium Feature</span>
-								<a
-									href="#"
-									className="btn feature-btn"
-									onClick={e => {
-										e.preventDefault();
-										showModal();
-									}}
-								>
-									<span className="hidden-xs">
-										Subscribe for full access
-									</span>
-									<span className="visible-xs">
-										Subscribe
-									</span>
-								</a>
+								{this.renderPremiumFeatureButton()}
 							</div>
 							<div className="feature-content">
 								<DataInjector query={archetypeDataQuery}>
