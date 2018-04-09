@@ -482,6 +482,10 @@
 }
 
 #replay-feed {
+	background-image: url("/static/images/live-data-background.jpg");
+	background-position-x: center;
+	background-position-y: center;
+	background-repeat: no-repeat;
 	width: 100%;
 	height: 100%;
 	color: white;

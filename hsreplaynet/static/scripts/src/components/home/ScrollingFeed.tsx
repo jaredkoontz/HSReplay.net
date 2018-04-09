@@ -136,7 +136,6 @@ export default class ScrollingFeed extends React.Component<Props, State> {
 			};
 			if (this.props.itemsPerSecond > 5) {
 				style["transition"] = "none";
-				// style["transition"] = `top ${Math.floor(1000 / this.props.itemsPerSecond * 1.3)}ms ease-out`;
 			}
 
 			return (
@@ -160,8 +159,6 @@ export default class ScrollingFeed extends React.Component<Props, State> {
 				}}
 			>
 				{items}
-				<div className="fade fade-top" />
-				<div className="fade fade-bottom" />
 			</div>
 		);
 	}
