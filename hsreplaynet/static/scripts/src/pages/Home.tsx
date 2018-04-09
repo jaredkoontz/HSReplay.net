@@ -8,6 +8,8 @@ import LiveData from "../components/home/LiveData";
 import { BnetGameType } from "../hearthstone";
 import { showModal } from "../Premium";
 import FeaturePanel from "../components/home/FeaturePanel";
+import Modal from "../components/Modal";
+import CollectionSetup from "../components/collection/CollectionSetup";
 
 interface Props {
 	cardData: CardData | null;
@@ -16,6 +18,7 @@ interface Props {
 interface State {
 	gameType: BnetGameType;
 	fullReplaySpeed: boolean;
+	showCollectionModal: boolean;
 }
 
 export default class Home extends React.Component<Props, State> {
@@ -24,7 +27,20 @@ export default class Home extends React.Component<Props, State> {
 		this.state = {
 			gameType: BnetGameType.BGT_RANKED_STANDARD,
 			fullReplaySpeed: false,
+			showCollectionModal: false,
 		};
+	}
+
+	renderCollectionModal(): React.ReactNode {
+		if (!this.state.showCollectionModal) {
+			return null;
+		}
+		const onClose = () => this.setState({ showCollectionModal: false });
+		return (
+			<Modal onClose={onClose}>
+				<CollectionSetup />
+			</Modal>
+		);
 	}
 
 	render(): React.ReactNode {
@@ -262,11 +278,15 @@ export default class Home extends React.Component<Props, State> {
 								</DataInjector>
 							</div>
 						</div>
+						{this.renderCollectionModal()}
 						<FeaturePanel
 							title="Collection Uploading"
 							subtitle="Find the best decks for you"
-							backgroundCardId="KARA_062"
-							onClick={e => e.preventDefault()}
+							backgroundCardId="LOOTA_814"
+							onClick={e => {
+								e.preventDefault();
+								this.setState({ showCollectionModal: true });
+							}}
 						/>
 					</div>
 				</div>
