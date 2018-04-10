@@ -1,5 +1,5 @@
 import InfoboxFilterGroup from "../components/InfoboxFilterGroup";
-import React from "react";
+import React, { Fragment } from "react";
 import CardData from "../CardData";
 import CardImage from "../components/CardImage";
 import ClassFilter, { FilterOption } from "../components/ClassFilter";
@@ -32,7 +32,6 @@ import CardTable from "../components/tables/CardTable";
 import Feature from "../components/Feature";
 import { Collection } from "../utils/api";
 import { isCollectionDisabled } from "../utils/collection";
-const Fragment = React.Fragment;
 
 interface CardFilters {
 	cost: any;
