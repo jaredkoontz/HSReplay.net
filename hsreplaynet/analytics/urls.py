@@ -57,6 +57,11 @@ urlpatterns = [
 		views.latest_clustering_data,
 		name="analytics_latest_clustering_data"
 	),
+	url(
+		r"^meta/preview/$",
+		views.meta_preview,
+		name="analytics_meta_preview"
+	),
 ]
 
 api_urlpatterns = [

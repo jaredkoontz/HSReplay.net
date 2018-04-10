@@ -1,5 +1,6 @@
 import json
 from calendar import timegm
+from collections import defaultdict
 from datetime import datetime, timedelta
 from urllib.parse import urlparse
 
@@ -19,6 +20,7 @@ from hearthstone.enums import FormatType
 from hsredshift.analytics.filters import Region
 from hsredshift.analytics.library.base import InvalidOrMissingQueryParameterError
 from hsredshift.analytics.scheduling import QueryRefreshPriority
+from hsreplaynet.analytics.processing import get_meta_preview
 from hsreplaynet.decks.models import Archetype, ClusterSetSnapshot, ClusterSnapshot, Deck
 from hsreplaynet.features.decorators import view_requires_feature_access
 from hsreplaynet.utils import influx, log
@@ -28,6 +30,9 @@ from .processing import (
 	attempt_request_triggered_query_execution, evict_locks_cache,
 	get_concurrent_redshift_query_queue_semaphore
 )
+
+
+META_PREVIEW_CACHE = defaultdict()
 
 
 @staff_member_required
@@ -483,3 +488,17 @@ class SingleClusterUpdateView(View):
 			cluster.save()
 
 		return JsonResponse({"msg": "OKAY"}, status=200)
+
+
+def meta_preview(request):
+	current_ts = datetime.utcnow().timestamp()
+
+	if META_PREVIEW_CACHE.get("as_of", 0) + 5 < current_ts:
+		data = get_meta_preview()
+		META_PREVIEW_CACHE["as_of"] = current_ts
+		META_PREVIEW_CACHE["payload"] = data
+
+	return JsonResponse(
+		{"data": META_PREVIEW_CACHE.get("payload", [])},
+		json_dumps_params=dict(indent=4)
+	)
