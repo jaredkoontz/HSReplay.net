@@ -322,8 +322,10 @@ export default class DeckDetail extends React.Component<Props, State> {
 					</InfoboxFilterGroup>
 				</div>,
 				<Feature feature="deck-detail-region-filter">
-					<PremiumWrapper
-						name="Single Deck Region"
+					<InfoboxFilterGroup
+						header="Region"
+						selectedValue={this.getRegion()}
+						onClick={region => this.props.setRegion(region)}
 						infoHeader="Deck breakdown region"
 						infoContent={
 							<>
@@ -339,17 +341,25 @@ export default class DeckDetail extends React.Component<Props, State> {
 							</>
 						}
 					>
-						<InfoboxFilterGroup
-							header="Region"
-							selectedValue={this.getRegion()}
-							onClick={region => this.props.setRegion(region)}
+						<PremiumWrapper
+							name="Single Deck Region"
+							iconStyle={{ display: "none" }}
 						>
 							{infoBoxFilter("region", "REGION_US", "America")}
 							{infoBoxFilter("region", "REGION_EU", "Europe")}
 							{infoBoxFilter("region", "REGION_KR", "Asia")}
-							{infoBoxFilter("region", "ALL", "All Regions")}
-						</InfoboxFilterGroup>
-					</PremiumWrapper>
+							<Feature feature="region-filter-china">
+								<InfoboxFilter value="REGION_CN">
+									{infoBoxFilter(
+										"region",
+										"REGION_CN",
+										"China",
+									)}
+								</InfoboxFilter>
+							</Feature>
+						</PremiumWrapper>
+						{infoBoxFilter("region", "ALL", "All Regions")}
+					</InfoboxFilterGroup>
 				</Feature>,
 			);
 

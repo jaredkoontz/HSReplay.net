@@ -850,17 +850,16 @@ export default class Decks extends React.Component<Props, State> {
 					</section>
 					<Feature feature="deck-region-filter">
 						<section id="region-filter">
-							<PremiumWrapper
-								name="Deck List Region"
+							<InfoboxFilterGroup
+								header="Region"
+								selectedValue={this.props.region}
+								onClick={region => this.props.setRegion(region)}
 								infoHeader="Region"
 								infoContent="Want to get more specific? Take a look at the decks played in your region!"
 							>
-								<InfoboxFilterGroup
-									header="Region"
-									selectedValue={this.props.region}
-									onClick={region =>
-										this.props.setRegion(region)
-									}
+								<PremiumWrapper
+									name="Deck List Region"
+									iconStyle={{ display: "none" }}
 								>
 									<InfoboxFilter value="REGION_US">
 										America
@@ -871,11 +870,16 @@ export default class Decks extends React.Component<Props, State> {
 									<InfoboxFilter value="REGION_KR">
 										Asia
 									</InfoboxFilter>
-									<InfoboxFilter value="ALL">
-										All Regions
-									</InfoboxFilter>
-								</InfoboxFilterGroup>
-							</PremiumWrapper>
+									<Feature feature="region-filter-china">
+										<InfoboxFilter value="REGION_CN">
+											China
+										</InfoboxFilter>
+									</Feature>
+								</PremiumWrapper>
+								<InfoboxFilter value="ALL">
+									All Regions
+								</InfoboxFilter>
+							</InfoboxFilterGroup>
 						</section>
 					</Feature>
 					<section id="game-mode-filter">

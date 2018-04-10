@@ -90,20 +90,6 @@ export default class MetaOverview extends React.Component<Props, State> {
 		const params = this.getParams();
 		const popularityParams = this.getPopularityParams();
 
-		const regionFilters = [
-			<InfoboxFilter value="REGION_US">America</InfoboxFilter>,
-			<InfoboxFilter value="REGION_EU">Europe</InfoboxFilter>,
-			<InfoboxFilter value="REGION_KR">Asia</InfoboxFilter>,
-		];
-		if (UserData.hasFeature("region-filter-china")) {
-			regionFilters.push(
-				<InfoboxFilter value="REGION_CN">China</InfoboxFilter>,
-			);
-		}
-		regionFilters.push(
-			<InfoboxFilter value="ALL">All Regions</InfoboxFilter>,
-		);
-
 		let rankRangeFilter = null;
 		if (
 			["tierlist", "archetypes", "matchups"].indexOf(this.props.tab) !==
@@ -190,22 +176,39 @@ export default class MetaOverview extends React.Component<Props, State> {
 					</Feature>
 					<Feature feature="meta-region-filter">
 						<section id="region-filter">
-							<PremiumWrapper>
-								<h2>Region</h2>
-								<InfoIcon
-									className="pull-right"
-									header="Region Filter"
-									content="Replay volume from the Chinese region is too low for reliable statistics."
-								/>
-								<InfoboxFilterGroup
-									selectedValue={this.props.region}
-									onClick={region =>
-										this.props.setRegion(region)
-									}
+							<h2>Region</h2>
+							<InfoIcon
+								className="pull-right"
+								header="Region Filter"
+								content="Replay volume from the Chinese region is too low for reliable statistics."
+							/>
+							<InfoboxFilterGroup
+								selectedValue={this.props.region}
+								onClick={region => this.props.setRegion(region)}
+							>
+								<PremiumWrapper
+									name="Meta Overview Region"
+									iconStyle={{ display: "none" }}
 								>
-									{regionFilters}
-								</InfoboxFilterGroup>
-							</PremiumWrapper>
+									<InfoboxFilter value="REGION_US">
+										America
+									</InfoboxFilter>
+									<InfoboxFilter value="REGION_EU">
+										Europe
+									</InfoboxFilter>
+									<InfoboxFilter value="REGION_KR">
+										Asia
+									</InfoboxFilter>
+									<Feature feature="region-filter-china">
+										<InfoboxFilter value="REGION_CN">
+											China
+										</InfoboxFilter>
+									</Feature>
+								</PremiumWrapper>
+								<InfoboxFilter value="ALL">
+									All Regions
+								</InfoboxFilter>
+							</InfoboxFilterGroup>
 						</section>
 					</Feature>
 					<section id="info">
