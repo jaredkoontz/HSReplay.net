@@ -130,6 +130,7 @@ export default class Decks extends React.Component<Props, State> {
 		}
 
 		if (
+			!this.state.loading &&
 			this.state.filteredDecks.length === 0 &&
 			this.props.minGames > this.minGames[1]
 		) {
