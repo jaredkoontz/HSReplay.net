@@ -97,6 +97,11 @@ class ClassRanking extends React.Component<Props, State> {
 					onMouseEnter={() => this.setState({ hovering: index })}
 					onMouseLeave={() => this.setState({ hovering: 0 })}
 				>
+					<div
+						className={
+							"color-overlay " + datum.playerClass.toLowerCase()
+						}
+					/>
 					<a href={url} className="class-item-content">
 						{/* <span className="class-index">
 							#{index + 1}
