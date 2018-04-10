@@ -499,6 +499,7 @@ def meta_preview(request):
 		META_PREVIEW_CACHE["payload"] = data
 
 	return JsonResponse(
-		{"data": META_PREVIEW_CACHE.get("payload", [])},
+		META_PREVIEW_CACHE.get("payload", []),
+		safe=False,
 		json_dumps_params=dict(indent=4)
 	)

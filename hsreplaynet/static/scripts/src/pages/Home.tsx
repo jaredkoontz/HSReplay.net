@@ -203,19 +203,22 @@ export default class Home extends React.Component<Props, State> {
 								{this.renderPremiumFeatureButton()}
 							</div>
 							<div className="feature-content">
-								<DataInjector query={archetypeDataQuery}>
+								<DataInjector
+									query={[
+										archetypeDataQuery,
+										{
+											url: "/analytics/meta/preview/",
+											key: "previewData",
+										},
+									]}
+									extract={{
+										previewData: data => ({
+											data,
+										}),
+									}}
+								>
 									<ArchetypeHighlight
 										cardData={this.props.cardData}
-										data={[
-											// {id: 1, rank: 2, region: "REGION_EU", winrate: 54.33},
-											{
-												id: 161,
-												rank: 14,
-												region: "REGION_US",
-												winrate: 57.41,
-											},
-											// {id: 159, rank: 3, region: "REGION_KR", winrate: 54.64},
-										]}
 									/>
 								</DataInjector>
 							</div>

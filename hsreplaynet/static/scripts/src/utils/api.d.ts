@@ -4,6 +4,7 @@ import {
 	CardClass,
 	FormatType,
 } from "../hearthstone";
+import { Region } from "../interfaces";
 
 /**
  * Model pagination
@@ -104,5 +105,20 @@ export interface Stream {
 		_id: number;
 		name: string;
 		display_name: string;
+	};
+}
+
+/**
+ * {@link /analytics/meta/preview/}
+ */
+export interface MetaPreview {
+	rank: number;
+	region: Region;
+	data: {
+		archetype_id: number;
+		pct_of_class: number;
+		pct_of_total: number;
+		total_games: number;
+		win_rate: number;
 	};
 }

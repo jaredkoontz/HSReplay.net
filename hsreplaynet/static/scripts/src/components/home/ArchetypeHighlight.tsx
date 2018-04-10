@@ -1,17 +1,10 @@
 import * as React from "react";
-import { Archetype } from "../../utils/api";
+import { Archetype, MetaPreview } from "../../utils/api";
 import { withLoading } from "../loading/Loading";
 import CardData from "../../CardData";
 import { Region } from "../../interfaces";
 import { toDynamicFixed } from "../../helpers";
 import SlotMachine from "./SlotMachine";
-
-interface ArchetypeHighlightData {
-	id: number;
-	rank: number;
-	region: Region;
-	winrate: number;
-}
 
 interface State {
 	index: number;
@@ -19,7 +12,7 @@ interface State {
 
 interface Props {
 	archetypeData?: Archetype[];
-	data?: ArchetypeHighlightData[];
+	data?: MetaPreview[];
 	cardData: CardData;
 }
 
@@ -77,7 +70,10 @@ class ArchetypeHighlight extends React.Component<Props, State> {
 
 	render(): React.ReactNode {
 		const data = this.props.data[this.state.index];
-		const archetype = this.props.archetypeData.find(a => a.id === data.id);
+		const result = data.data;
+		const archetype = this.props.archetypeData.find(
+			a => a.id === result.archetype_id,
+		);
 		const components = archetype.standard_ccp_signature_core.components;
 		const cards = components.slice(0, 2).map(dbfId => {
 			const card = this.props.cardData.fromDbf(dbfId);
@@ -118,7 +114,7 @@ class ArchetypeHighlight extends React.Component<Props, State> {
 					</div>
 					<div className="archetype-data">
 						<h1>{archetype.name}</h1>
-						<h2>Winrate {toDynamicFixed(data.winrate, 1)}%</h2>
+						<h2>Winrate {toDynamicFixed(result.win_rate, 1)}%</h2>
 					</div>
 					<a className="btn promo-button blue-style" href="/meta/">
 						View Meta Tier List
