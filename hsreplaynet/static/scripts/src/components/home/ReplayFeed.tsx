@@ -141,7 +141,7 @@ class ReplayFeed extends React.Component<Props, State> {
 				<div id="replay-contributors">
 					Contributors:{" "}
 					{commaSeparate(
-						this.props.gamesCountData.contributors_today,
+						this.props.gamesCountData.contributors_weekly,
 					)}
 				</div>
 				<div id="contributor-button-wrapper">
