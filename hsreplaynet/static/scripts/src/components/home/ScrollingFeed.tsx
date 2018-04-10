@@ -34,21 +34,15 @@ export default class ScrollingFeed extends React.Component<Props, State> {
 			index: 0,
 			pause: false,
 		};
-		window.addEventListener("blur", this.onBlur);
-		window.addEventListener("focus", this.onFocus);
+		window.addEventListener("visibilitychange", this.onVisibilityChange);
 	}
 
 	componentWillUnmount() {
-		window.removeEventListener("blur", this.onBlur);
-		window.removeEventListener("focus", this.onFocus);
+		window.removeEventListener("visibilitychange", this.onVisibilityChange);
 	}
 
-	onBlur = () => {
-		this.setState({ pause: true });
-	};
-
-	onFocus = () => {
-		this.setState({ pause: false });
+	onVisibilityChange = () => {
+		this.setState({ pause: document.visibilityState !== "visible" });
 	};
 
 	componentDidMount() {
