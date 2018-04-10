@@ -13,6 +13,7 @@ import { withLoading } from "../loading/Loading";
 import { getOtherArchetype } from "../../helpers";
 import LowDataWarning from "./LowDataWarning";
 import { Archetype } from "../../utils/api";
+import MatchupCell from "./matchups/MatchupCell";
 
 interface Props {
 	archetypeData?: any;
@@ -99,11 +100,7 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 			<div>
 				<LowDataWarning
 					date={new Date(popularityData.as_of)}
-					numArchetypes={Object.keys(popularityData.series.data)
-						.map(key => {
-							return popularityData.series.data[key].length;
-						})
-						.reduce((a, b) => a + b)}
+					numArchetypes={this.state.archetypeData.length}
 				/>
 				<ArchetypeMatrix
 					customWeights={this.state.customWeights}
@@ -149,17 +146,36 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 		const useCustomWeights = this.state.useCustomWeights;
 
 		const visibleArchetypes = apiArchetypes.filter(archetype => {
+			const { series } = props.matchupData;
+			const archetypeMatchup: { [key: string]: { total_games: number } } =
+				series.data && series.data[archetype.id];
+			if (archetypeMatchup) {
+				const eligibleMatchups = Object.entries(
+					archetypeMatchup,
+				).filter(
+					([id, matchup]) =>
+						+id > 0 &&
+						MatchupCell.isEligibleMatchup(matchup.total_games),
+				);
+				console.log(archetype.id, "has", eligibleMatchups);
+				if (!eligibleMatchups.length) {
+					return false;
+				}
+			}
+			if (this.isFavorite(archetype.id)) {
+				return true;
+			}
 			const popularity = this.getPopularity(
 				archetype,
 				props.popularityData,
 			);
-			if (popularity) {
-				return (
-					popularity.pct_of_total >= POPULARITY_CUTOFF_PERCENTAGE ||
-					this.isFavorite(archetype.id)
-				);
+			if (
+				popularity &&
+				popularity.pct_of_total < POPULARITY_CUTOFF_PERCENTAGE
+			) {
+				return false;
 			}
-			return false;
+			return true;
 		});
 
 		visibleArchetypes.forEach((friendly: Archetype) => {

@@ -19,6 +19,10 @@ interface Props {
 }
 
 export default class MatchupCell extends React.Component<Props> {
+	public static isEligibleMatchup(games: number): boolean {
+		return games >= 30;
+	}
+
 	public shouldComponentUpdate(
 		nextProps: Readonly<Props>,
 		nextState: Readonly<{}>,
@@ -63,7 +67,7 @@ export default class MatchupCell extends React.Component<Props> {
 				</Tooltip>
 			);
 			backgroundColor = "rgb(200,200,200)";
-		} else if (matchupData.totalGames >= 30) {
+		} else if (MatchupCell.isEligibleMatchup(matchupData.totalGames)) {
 			// actual matchup
 			backgroundColor = getColorString(
 				Colors.REDORANGEGREEN,
