@@ -37,7 +37,6 @@ interface Props extends FragmentChildProps {
 	cardData: CardData | null;
 	collection: Collection | null;
 	latestSet?: string;
-	promoteLatestSet?: boolean;
 	// fragments
 	excludedCards?: string[];
 	setExcludedCards?: (excludedCards: string[]) => void;

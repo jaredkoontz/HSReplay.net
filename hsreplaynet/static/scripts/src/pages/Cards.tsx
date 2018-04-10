@@ -116,7 +116,6 @@ export default class Cards extends React.Component<Props, State> {
 		cost: [0, 1, 2, 3, 4, 5, 6, 7],
 		format: ["standard"],
 		mechanics: [
-			"ENRAGED",
 			"DEATHRATTLE",
 			"TAUNT",
 			"BATTLECRY",
@@ -138,6 +137,8 @@ export default class Cards extends React.Component<Props, State> {
 			"QUEST",
 			"LIFESTEAL",
 			"SECRET",
+			"ECHO",
+			"RUSH",
 		],
 		playerClass: [
 			"DRUID",
@@ -165,6 +166,7 @@ export default class Cards extends React.Component<Props, State> {
 		set: [
 			"CORE",
 			"EXPERT1",
+			"GILNEAS",
 			"LOOTAPALOOZA",
 			"ICECROWN",
 			"UNGORO",
@@ -1252,12 +1254,10 @@ export default class Cards extends React.Component<Props, State> {
 			if (key === "set") {
 				return setNames[item.toLowerCase()];
 			} else if (key === "mechanics") {
-				return item === "ENRAGED"
-					? "Enrage"
-					: item
-							.split("_")
-							.map(x => toTitleCase(x))
-							.join(" ");
+				return item
+					.split("_")
+					.map(x => toTitleCase(x))
+					.join(" ");
 			} else {
 				return toTitleCase(item);
 			}

@@ -266,6 +266,7 @@ export const setNames = {
 	ungoro: "Journey to Un'Goro",
 	icecrown: "Knights of the Frozen Throne",
 	lootapalooza: "Kobolds and Catacombs",
+	gilneas: "The Witchwood",
 };
 
 export function isCollectibleCard(card: any) {

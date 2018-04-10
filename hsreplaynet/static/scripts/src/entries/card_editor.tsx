@@ -201,6 +201,7 @@ const CardSetOptions = [
 	[CardSet.UNGORO, "Journey to Un'Goro"],
 	[CardSet.ICECROWN, "Knigts of the Frozen Throne"],
 	[CardSet.LOOTAPALOOZA, "Kobolds and Catacombs"],
+	[CardSet.GILNEAS, "The Witchwood"],
 ];
 
 const CardTypeOptions = [

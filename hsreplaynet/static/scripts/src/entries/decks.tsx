@@ -73,10 +73,7 @@ const render = (cardData: CardData) => {
 								<Decks
 									cardData={cardData}
 									collection={collection}
-									latestSet="LOOTAPALOOZA"
-									promoteLatestSet={UserData.hasFeature(
-										"current-expansion-filter",
-									)}
+									latestSet="GILNEAS"
 								/>
 							</Fragments>
 						)}
