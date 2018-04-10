@@ -37,10 +37,9 @@ class ArchetypeHighlight extends React.Component<Props, State> {
 
 	update() {
 		setTimeout(() => {
-			const { index } = this.state;
-			const nextIndex =
-				index >= this.props.data.length - 1 ? 0 : index + 1;
-			this.setState({ index: nextIndex });
+			this.setState(state => ({
+				index: (state.index + 1) % this.props.data.length,
+			}));
 			this.update();
 		}, 5000);
 	}
