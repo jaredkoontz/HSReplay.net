@@ -1,56 +1,22 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import CardData from "../CardData";
-import LiveData from "../components/home/LiveData";
-import { winrateData } from "../helpers";
-import Modal from "../components/Modal";
-import CollectionSetup from "../components/collection/CollectionSetup";
-import { Provider as BlizzardAccountProvider } from "../components/utils/hearthstone-account";
+import Root from "../components/Root";
+import Home from "../pages/Home";
+import UserData from "../UserData";
 
-const winrateBoxes = document.getElementsByClassName("box-content");
-Array.from(winrateBoxes).forEach(box => {
-	const winrate = +box.getAttribute("data-winrate");
-	const color = winrateData(50, winrate, 2).color;
-	box.setAttribute("style", "color:" + color + ";fill:" + color);
-});
+const container = document.getElementById("home-container");
+UserData.create();
 
-const liveData = document.getElementById("live-data");
-if (liveData) {
-	const render = (cardData: CardData) => {
-		ReactDOM.render(
-			<LiveData cardData={cardData} numCards={12} />,
-			document.getElementById("live-data"),
-		);
-	};
-
-	render(null);
-
-	new CardData().load(render);
-}
-
-function renderBanner(target: HTMLElement, showModal?: boolean) {
+const render = (cardData: CardData) => {
 	ReactDOM.render(
-		<BlizzardAccountProvider>
-			{showModal ? (
-				<Modal
-					onClose={() => {
-						renderBanner(target, false);
-					}}
-				>
-					<CollectionSetup />
-				</Modal>
-			) : null}
-		</BlizzardAccountProvider>,
-		target,
+		<Root>
+			<Home cardData={cardData} />
+		</Root>,
+		container,
 	);
-}
+};
 
-const banner = document.getElementById("collection-syncing-banner");
-if (banner) {
-	const modalDummy = document.createElement("div");
-	modalDummy.setAttribute("id", "modal-dummy");
-	banner.parentNode.appendChild(modalDummy);
-	banner.addEventListener("click", () => {
-		renderBanner(modalDummy, true);
-	});
-}
+render(null);
+
+new CardData().load(render);
