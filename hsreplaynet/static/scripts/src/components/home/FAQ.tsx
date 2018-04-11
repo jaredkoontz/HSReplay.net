@@ -59,11 +59,11 @@ export default class FAQ extends React.Component<null, null> {
 						</dt>
 						<dd>
 							You can find us on{" "}
-							<a href="https://discord.gg/hearthsim">Discord</a>,
+							<a href="https://discord.gg/hearthsim">Discord</a>,{" "}
 							follow us{" "}
 							<a href="https://twitter.com/HSReplayNet">
 								@HSReplayNet
-							</a>
+							</a>{" "}
 							and like our{" "}
 							<a href="https://facebook.com/HSReplayNet">
 								Facebook page
@@ -80,7 +80,7 @@ export default class FAQ extends React.Component<null, null> {
 							<a href="https://twitter.com/HSReplayNet">
 								Twitter
 							</a>{" "}
-							or
+							or{" "}
 							<a href="https://facebook.com/HSReplay.net">
 								Facebook
 							</a>.
