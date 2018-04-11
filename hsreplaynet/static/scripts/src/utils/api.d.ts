@@ -121,4 +121,5 @@ export interface MetaPreview {
 		total_games: number;
 		win_rate: number;
 	};
+	as_of: string;
 }

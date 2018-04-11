@@ -5,6 +5,7 @@ import CardData from "../../CardData";
 import { Region } from "../../interfaces";
 import { toDynamicFixed } from "../../helpers";
 import SlotMachine from "./SlotMachine";
+import SemanticAge from "../SemanticAge";
 
 interface State {
 	index: number;
@@ -86,40 +87,47 @@ class ArchetypeHighlight extends React.Component<Props, State> {
 		});
 
 		return (
-			<div id="archetype-highlight">
-				<div className="archetype-highlight-background">
-					<div className="card-panel">
-						{cards}
-						<div className="fade fade-top" />
-						<div className="fade fade-bottom" />
-					</div>
-				</div>
-				<div className="archetype-highlight-content">
-					<div className="best-deck-title">
-						<h1>The best deck in</h1>
-						<div className="deck-data text-center">
-							<span>
-								<SlotMachine
-									slots={this.getRegionList()}
-									index={this.getRegionIndex(data.region)}
-								/>
-							</span>
-							<span>
-								<SlotMachine
-									slots={this.getRankList()}
-									index={this.getRankIndex(data.rank)}
-								/>
-							</span>
+			<div className="archetype-highlight">
+				<div className="archetype-highlight-input">
+					<h1>The best deck in</h1>
+					<div className="archetype-highlight-input-query">
+						<div>
+							<SlotMachine
+								slots={this.getRegionList()}
+								index={this.getRegionIndex(data.region)}
+							/>
+						</div>
+						<div>
+							<SlotMachine
+								slots={this.getRankList()}
+								index={this.getRankIndex(data.rank)}
+							/>
 						</div>
 					</div>
-					<div className="archetype-data">
-						<h1>{archetype.name}</h1>
-						<h2>Winrate {toDynamicFixed(result.win_rate, 1)}%</h2>
-					</div>
-					<a className="btn promo-button blue-style" href="/meta/">
-						View Meta Tier List
-					</a>
 				</div>
+				<div className="archetype-highlight-output">
+					<div className="archetype-highlight-output-background">
+						<div>
+							{cards}
+							<div className="fade fade-top" />
+							<div className="fade fade-bottom" />
+						</div>
+					</div>
+					<div className="archetype-highlight-output-content">
+						<h2>{archetype.name}</h2>
+						<p>
+							<span>
+								Winrate: {toDynamicFixed(result.win_rate, 1)}%
+							</span>
+							<small>
+								Updated <SemanticAge date={data.as_of} />
+							</small>
+						</p>
+					</div>
+				</div>
+				<a className="btn promo-button blue-style" href="/meta/">
+					View Meta Tier List
+				</a>
 			</div>
 		);
 	}
