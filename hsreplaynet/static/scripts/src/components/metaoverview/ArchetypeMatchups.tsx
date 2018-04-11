@@ -157,7 +157,6 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 						+id > 0 &&
 						MatchupCell.isEligibleMatchup(matchup.total_games),
 				);
-				console.log(archetype.id, "has", eligibleMatchups);
 				if (!eligibleMatchups.length) {
 					return false;
 				}
