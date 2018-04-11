@@ -12,6 +12,7 @@ import FeaturePanel from "../components/home/FeaturePanel";
 import Modal from "../components/Modal";
 import CollectionSetup from "../components/collection/CollectionSetup";
 import UserData from "../UserData";
+import ModeSvg from "../components/ModeSvg";
 
 interface Props {
 	cardData: CardData | null;
@@ -232,7 +233,7 @@ export default class Home extends React.Component<Props, State> {
 								<span className="hidden-xs">
 									Class Winrates
 								</span>
-								<span className="visible-xs">Classes</span>
+								<span className="visible-xs">Winrates</span>
 								<a
 									className={
 										"btn feature-btn " +
@@ -249,6 +250,7 @@ export default class Home extends React.Component<Props, State> {
 										});
 									}}
 								>
+									<ModeSvg type="standard" />
 									Standard
 								</a>
 								<a
@@ -267,6 +269,7 @@ export default class Home extends React.Component<Props, State> {
 										});
 									}}
 								>
+									<ModeSvg type="wild" />
 									Wild
 								</a>
 								<a
@@ -284,6 +287,7 @@ export default class Home extends React.Component<Props, State> {
 										});
 									}}
 								>
+									<ModeSvg type="arena" />
 									Arena
 								</a>
 							</div>
