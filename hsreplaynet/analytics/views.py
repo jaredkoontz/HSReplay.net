@@ -455,7 +455,7 @@ class SingleClusterUpdateView(View):
 def meta_preview(request):
 	current_ts = datetime.utcnow().timestamp()
 
-	if META_PREVIEW_CACHE.get("as_of", 0) + 5 < current_ts:
+	if META_PREVIEW_CACHE.get("as_of", 0) + 300 < current_ts:
 		data = get_meta_preview()
 		META_PREVIEW_CACHE["as_of"] = current_ts
 		META_PREVIEW_CACHE["payload"] = data
