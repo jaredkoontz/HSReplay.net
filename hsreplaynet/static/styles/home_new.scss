@@ -195,7 +195,7 @@
 			left: 4px;
 			color: white;
 			font-weight: bold;
-			font-size: 1.3em;
+			font-size: 1.5em;
 			border-radius: 1px;
 			line-height: 48px;
 			display: flex;
@@ -214,6 +214,7 @@
 				background: rgba(255, 255, 255, 0.3);
 				color: white;
 				margin: 7px 0;
+				font-weight: bold;
 
 				&.active {
 					background: rgba(255, 255, 255, 0.4);
