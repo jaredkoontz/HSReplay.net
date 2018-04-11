@@ -46,13 +46,13 @@ def _validate_game_type(game_type_name):
 
 
 def fetch_replay_feed(request):
-	"""Return the last 100 uploaded replays"""
+	"""Return the last n uploaded replays"""
 	current_ts = datetime.utcnow().timestamp()
 
 	if _REPLAY_FEED_CACHE.get("as_of", 0) + 5 < current_ts:
 		feed = get_replay_feed()
 		_REPLAY_FEED_CACHE["as_of"] = current_ts
-		_REPLAY_FEED_CACHE["payload"] = feed.get(100)
+		_REPLAY_FEED_CACHE["payload"] = feed.get(200)
 
 	return JsonResponse(
 		{"data": _REPLAY_FEED_CACHE.get("payload", [])},
