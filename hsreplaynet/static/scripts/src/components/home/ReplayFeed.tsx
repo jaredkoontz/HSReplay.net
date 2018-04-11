@@ -32,6 +32,7 @@ interface State {
 	doUpdate: boolean;
 	fetching: boolean;
 	lastFetch: Date;
+	startTime: number;
 }
 
 interface Props {
@@ -48,7 +49,17 @@ class ReplayFeed extends React.Component<Props, State> {
 			fetching: false,
 			doUpdate: true,
 			lastFetch: new Date(0),
+			startTime: this.getMillisecondsOfDay() || 1,
 		};
+	}
+
+	componentWillReceiveProps(nextProps: Props) {
+		if (
+			nextProps.gamesCountData.games_today !==
+			this.props.gamesCountData.games_today
+		) {
+			this.setState({ startTime: this.getMillisecondsOfDay() || 1 });
+		}
 	}
 
 	componentDidMount() {
@@ -67,13 +78,12 @@ class ReplayFeed extends React.Component<Props, State> {
 
 	updateGamesToday() {
 		const element = document.getElementById("games-count");
-		const startTime = this.getMillisecondsOfDay() || 1;
 
 		const update = () => {
 			setTimeout(() => {
 				if (element) {
 					const now = this.getMillisecondsOfDay();
-					const factor = now / startTime;
+					const factor = now / this.state.startTime;
 					const games = Math.floor(
 						this.props.gamesCountData.games_today * factor,
 					);
@@ -134,11 +144,16 @@ class ReplayFeed extends React.Component<Props, State> {
 		const items = this.state.data.map(replay => {
 			return { id: replay.id, data: replay };
 		});
-		const weeklyGames = this.props.gamesCountData.games_weekly;
-		const gamesPerSecond = weeklyGames / (60 * 60 * 24 * 7);
+		const gamesPerSecond =
+			this.props.gamesCountData.games_today /
+			(this.state.startTime / 1000);
+		console.log(gamesPerSecond);
 		return (
 			<div id="replay-feed">
-				<h1>Games Last Week: {commaSeparate(weeklyGames)}</h1>
+				<h1>
+					Games Last Week:{" "}
+					{commaSeparate(this.props.gamesCountData.games_weekly)}
+				</h1>
 				<h4>
 					Games Today:{" "}
 					<span id="games-count">
