@@ -3,6 +3,8 @@ import React from "react";
 interface Props {
 	from: React.ReactNode;
 	to: React.ReactNode;
+	onHoverStart?: () => any;
+	onHoverEnd?: () => any;
 }
 
 interface State {
@@ -53,7 +55,19 @@ export default class Carousel extends React.Component<Props, State> {
 
 	render(): React.ReactNode {
 		return (
-			<div className="carousel">
+			<div
+				className="carousel"
+				onMouseOver={
+					this.props.onHoverStart
+						? () => this.props.onHoverStart()
+						: undefined
+				}
+				onMouseOut={
+					this.props.onHoverEnd
+						? () => this.props.onHoverEnd()
+						: undefined
+				}
+			>
 				<div
 					className="carousel-window"
 					style={{ left: this.state.shift ? "-100%" : "0%" }}

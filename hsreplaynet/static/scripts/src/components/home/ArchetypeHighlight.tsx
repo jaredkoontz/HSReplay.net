@@ -30,21 +30,32 @@ class ArchetypeHighlight extends React.Component<Props, State> {
 		};
 	}
 
-	componentDidMount() {
-		this.interval = window.setInterval(() => {
-			this.setState(state => ({
-				index: (state.index + 1) % this.props.data.length,
-				lastIndex: state.index,
-			}));
-		}, 4000);
+	public componentDidMount() {
+		this.startRotation();
 	}
 
-	componentWillUnmount() {
+	public componentWillUnmount() {
+		this.stopRotation();
+	}
+
+	private rotate = () => {
+		this.setState(state => ({
+			index: (state.index + 1) % this.props.data.length,
+			lastIndex: state.index,
+		}));
+	};
+
+	private stopRotation = () => {
 		if (this.interval !== null) {
 			window.clearInterval(this.interval);
 		}
 		this.interval = null;
-	}
+	};
+
+	private startRotation = () => {
+		this.stopRotation();
+		this.interval = window.setInterval(this.rotate, 4000);
+	};
 
 	private getRegions(): { [region: string]: string } {
 		return {
@@ -150,6 +161,8 @@ class ArchetypeHighlight extends React.Component<Props, State> {
 				<Carousel
 					from={previous ? this.renderOutput(previous) : null}
 					to={this.renderOutput(current)}
+					onHoverStart={this.stopRotation}
+					onHoverEnd={this.startRotation}
 				/>
 				<a className="btn promo-button blue-style" href="/meta/">
 					View Meta Tier List
