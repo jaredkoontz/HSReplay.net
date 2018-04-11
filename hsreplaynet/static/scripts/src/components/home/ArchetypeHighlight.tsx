@@ -7,6 +7,7 @@ import { getArchetypeUrl, toDynamicFixed } from "../../helpers";
 import SlotMachine from "./SlotMachine";
 import SemanticAge from "../SemanticAge";
 import Carousel from "./Carousel";
+import _ from "lodash";
 
 interface State {
 	index: number;
@@ -36,6 +37,16 @@ class ArchetypeHighlight extends React.Component<Props, State> {
 
 	public componentWillUnmount() {
 		this.stopRotation();
+	}
+
+	shouldComponentUpdate(nextProps: Props, nextState: State) {
+		return (
+			!_.isEqual(this.props.archetypeData, nextProps.archetypeData) ||
+			!_.isEqual(this.props.data, nextProps.data) ||
+			!_.isEqual(this.props.cardData, nextProps.cardData) ||
+			this.state.index !== nextState.index ||
+			this.state.lastIndex !== nextState.lastIndex
+		);
 	}
 
 	private rotate = () => {
