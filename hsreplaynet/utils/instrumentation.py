@@ -79,11 +79,17 @@ def lambda_handler(
 	def inner_lambda_handler(func):
 		global _lambda_descriptors
 
+		lambda_name = name if name else func.__name__
+
+		for descriptor in _lambda_descriptors:
+			if descriptor["name"] == lambda_name:
+				raise RuntimeError("Duplicate lambads defined with name \"%s\"" % lambda_name)
+
 		_lambda_descriptors.append({
 			"runtime": runtime,
 			"memory": memory,
 			"cpu_seconds": cpu_seconds,
-			"name": name if name else func.__name__,
+			"name": lambda_name,
 			"handler": handler if handler else "handlers.%s" % func.__name__,
 			"stream_name": stream_name if stream_name else None,
 			"stream_batch_size": stream_batch_size,
