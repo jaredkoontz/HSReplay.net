@@ -8,7 +8,7 @@ from django.conf import settings
 from redis_semaphore import NotAvailable
 
 from hsreplaynet.analytics.processing import (
-	_do_execute_query, get_concurrent_redshift_query_queue_semaphore
+	_do_execute_query, get_concurrent_redshift_query_queue_semaphore, refresh_meta_preview
 )
 from hsreplaynet.settings import REDSHIFT_PREEMPTIVELY_REFRESH_QUERIES
 from hsreplaynet.utils import instrumentation
@@ -265,3 +265,12 @@ def do_execute_redshift_query(query_name, supplied_params, queue_name):
 			**parameterized_query.supplied_filters_dict
 		)
 		return False
+
+
+@instrumentation.lambda_handler(
+	cpu_seconds=15,
+	requires_vpc_access=True,
+	memory=512,
+)
+def do_refresh_meta_preview(event, context):
+	refresh_meta_preview()

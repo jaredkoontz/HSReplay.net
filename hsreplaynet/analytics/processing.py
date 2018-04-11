@@ -16,7 +16,7 @@ from sqlalchemy.sql import and_
 
 from hearthsim.identity.accounts.models import BlizzardAccount
 from hsreplaynet.analytics.utils import (
-	attempt_request_triggered_query_execution, execute_query
+	attempt_request_triggered_query_execution, execute_query, trigger_if_stale
 )
 from hsreplaynet.utils import log
 from hsreplaynet.utils.aws import redshift
@@ -404,8 +404,32 @@ RANK_MAP = [
 ]
 
 
-def get_meta_preview(num_items=10):
+def refresh_meta_preview():
 	from hsreplaynet.utils.aws.redshift import get_redshift_query
+	query = get_redshift_query("archetype_popularity_distribution_stats")
+
+	ranks = [x for x in range(0, 21)]
+	regions = ["REGION_EU", "REGION_US", "REGION_KR", "REGION_CN"]
+
+	for rank in ranks:
+		for region in regions:
+			parameterized_query = query.build_full_params(dict(
+				TimeRange="LAST_1_DAY",
+				GameType="RANKED_STANDARD",
+				RankRange=RANK_MAP[rank],
+				Region=region
+			))
+			trigger_if_stale(parameterized_query)
+
+
+def get_meta_preview(num_items=10):
+	from hsreplaynet.utils.aws.clients import LAMBDA
+	from hsreplaynet.utils.aws.redshift import get_redshift_query
+
+	LAMBDA.invoke(
+		FunctionName="do_refresh_meta_preview",
+		InvocationType="Event"
+	)
 
 	query = get_redshift_query("archetype_popularity_distribution_stats")
 
