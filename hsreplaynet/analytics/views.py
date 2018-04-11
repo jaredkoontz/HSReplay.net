@@ -21,6 +21,7 @@ from hsredshift.analytics.filters import Region
 from hsredshift.analytics.library.base import InvalidOrMissingQueryParameterError
 from hsredshift.analytics.scheduling import QueryRefreshPriority
 from hsreplaynet.analytics.processing import get_meta_preview
+from hsreplaynet.analytics.utils import trigger_if_stale
 from hsreplaynet.decks.models import Archetype, ClusterSetSnapshot, ClusterSnapshot, Deck
 from hsreplaynet.features.decorators import view_requires_feature_access
 from hsreplaynet.utils import influx, log
@@ -197,7 +198,7 @@ def fetch_query_results(request, name):
 
 		is_cache_hit = parameterized_query.result_available
 		if is_cache_hit:
-			_trigger_if_stale(parameterized_query)
+			trigger_if_stale(parameterized_query)
 			# Try to return a minimal response
 			response = get_conditional_response(request, last_modified=last_modified)
 
@@ -252,7 +253,7 @@ def _fetch_query_results(parameterized_query, run_local=False, user=None, priori
 	triggered_refresh = False
 
 	if is_cache_hit:
-		triggered_refresh = _trigger_if_stale(parameterized_query, run_local, priority)
+		triggered_refresh = trigger_if_stale(parameterized_query, run_local, priority)
 
 		response = HttpResponse(
 			content=parameterized_query.response_payload_data,
@@ -305,45 +306,6 @@ def _fetch_query_results(parameterized_query, run_local=False, user=None, priori
 	)
 
 	return response
-
-
-def _trigger_if_stale(parameterized_query, run_local=False, priority=None):
-	did_preschedule = False
-	result = False
-
-	as_of = parameterized_query.result_as_of
-	if as_of is not None:
-		staleness = int((datetime.utcnow() - as_of).total_seconds())
-	else:
-		staleness = None
-
-	if parameterized_query.result_is_stale or run_local:
-		attempt_request_triggered_query_execution(parameterized_query, run_local, priority)
-		result = True
-	elif staleness and staleness > settings.MINIMUM_QUERY_REFRESH_INTERVAL:
-		did_preschedule = True
-		parameterized_query.preschedule_refresh()
-
-	query_fetch_metric_fields = {
-		"count": 1,
-	}
-
-	if staleness:
-		query_fetch_metric_fields["staleness"] = staleness
-
-	query_fetch_metric_fields.update(
-		parameterized_query.supplied_non_filters_dict
-	)
-
-	influx.influx_metric(
-		"redshift_response_payload_staleness",
-		query_fetch_metric_fields,
-		query_name=parameterized_query.query_name,
-		did_preschedule=did_preschedule,
-		**parameterized_query.supplied_filters_dict
-	)
-
-	return result
 
 
 def live_clustering_data(request, game_format):

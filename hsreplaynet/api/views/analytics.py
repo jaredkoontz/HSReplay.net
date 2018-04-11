@@ -13,9 +13,8 @@ from hearthsim.identity.accounts.models import BlizzardAccount
 from hearthsim.identity.oauth2.permissions import OAuth2HasScopes
 from hsredshift.analytics.filters import Region
 from hsredshift.analytics.library.base import InvalidOrMissingQueryParameterError
-from hsreplaynet.analytics.views import (
-	_fetch_query_results, _trigger_if_stale, get_conditional_response
-)
+from hsreplaynet.analytics.utils import trigger_if_stale
+from hsreplaynet.analytics.views import _fetch_query_results, get_conditional_response
 from hsreplaynet.decks.models import Deck
 from hsreplaynet.utils.aws.redshift import get_redshift_query
 
@@ -108,7 +107,7 @@ class AnalyticsQueryView(APIView):
 
 		is_cache_hit = parameterized_query.result_available
 		if is_cache_hit:
-			_trigger_if_stale(parameterized_query)
+			trigger_if_stale(parameterized_query)
 			# Try to return a minimal response
 			response = get_conditional_response(request, last_modified=last_modified)
 
