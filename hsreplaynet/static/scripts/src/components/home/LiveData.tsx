@@ -154,10 +154,10 @@ export default class LiveData extends React.Component<Props, State> {
 		return (
 			<div className="container">
 				<header>
-					<h4>
+					<h3>
 						<strong>Cards played</strong> by game mode over the last{" "}
 						<strong>5 minutes</strong>:
-					</h4>
+					</h3>
 				</header>
 				<div className="row">
 					{this.renderCardList(

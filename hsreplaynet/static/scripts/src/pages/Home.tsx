@@ -5,6 +5,7 @@ import DataInjector from "../components/DataInjector";
 import ClassRanking from "../components/home/ClassRanking";
 import ArchetypeHighlight from "../components/home/ArchetypeHighlight";
 import LiveData from "../components/home/LiveData";
+import FAQ from "../components/home/FAQ";
 import { BnetGameType } from "../hearthstone";
 import { showModal } from "../Premium";
 import FeaturePanel from "../components/home/FeaturePanel";
@@ -317,6 +318,9 @@ export default class Home extends React.Component<Props, State> {
 				</div>
 				<div className="row" id="live-data">
 					<LiveData cardData={this.props.cardData} numCards={12} />
+				</div>
+				<div className="row" id="faq">
+					<FAQ />
 				</div>
 			</div>
 		);
