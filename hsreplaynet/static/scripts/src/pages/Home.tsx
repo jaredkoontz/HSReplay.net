@@ -311,7 +311,7 @@ export default class Home extends React.Component<Props, State> {
 						{this.renderCollectionModal()}
 						<FeaturePanel
 							title="Collection Uploading"
-							subtitle="Find the best decks for you"
+							subtitle="Find the best decks for your collection"
 							backgroundCardId="LOOTA_814"
 							onClick={e => {
 								e.preventDefault();
