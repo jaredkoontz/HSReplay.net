@@ -417,7 +417,7 @@ class CappedDataFeed(RedisNamespace):
 			raise RuntimeError("Data must contain 'id' key")
 
 		def internal_push(pipe):
-			last_id = pipe.lrange(self.key, -1, -1)
+			last_id = pipe.lrange(self.key, 0, 0)
 			last_data = pipe.hgetall(last_id[0]) if last_id else None
 
 			cancel = (
