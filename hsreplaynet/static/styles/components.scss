@@ -1522,3 +1522,24 @@ ul.list-ltr, ol.list-ltr {
 		}
 	}
 }
+
+.carousel {
+	width: 100%;
+	overflow: hidden;
+
+	.carousel-window {
+		position: relative;
+		white-space: nowrap;
+		height: 100%;
+		width: 100%;
+		transition: left ease-in-out 0.5s 0.3s;
+	}
+
+	.carousel-panel {
+		display: inline-block;
+		white-space: normal;
+		position: relative;
+		height: 100%;
+		width: 100%;
+	}
+}

@@ -435,10 +435,13 @@
 		}
 	}
 
-	.archetype-highlight-output {
+	> .archetype-highlight-output, > .carousel {
 		position: relative;
 		flex-grow: 1;
+		height: 100%;
+	}
 
+	.archetype-highlight-output {
 		.archetype-highlight-output-content, .archetype-highlight-output-background {
 			position: absolute;
 			top: 0;

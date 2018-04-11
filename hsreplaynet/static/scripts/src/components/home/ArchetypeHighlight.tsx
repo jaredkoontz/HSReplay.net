@@ -6,9 +6,11 @@ import { Region } from "../../interfaces";
 import { toDynamicFixed } from "../../helpers";
 import SlotMachine from "./SlotMachine";
 import SemanticAge from "../SemanticAge";
+import Carousel from "./Carousel";
 
 interface State {
 	index: number;
+	lastIndex: number | null;
 }
 
 interface Props {
@@ -18,24 +20,30 @@ interface Props {
 }
 
 class ArchetypeHighlight extends React.Component<Props, State> {
+	private interval: number | null;
+
 	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
 			index: 0,
+			lastIndex: null,
 		};
 	}
 
 	componentDidMount() {
-		this.update();
-	}
-
-	update() {
-		setTimeout(() => {
+		this.interval = window.setInterval(() => {
 			this.setState(state => ({
 				index: (state.index + 1) % this.props.data.length,
+				lastIndex: state.index,
 			}));
-			this.update();
 		}, 4000);
+	}
+
+	componentWillUnmount() {
+		if (this.interval !== null) {
+			window.clearInterval(this.interval);
+		}
+		this.interval = null;
 	}
 
 	private getRegions(): { [region: string]: string } {
@@ -69,13 +77,13 @@ class ArchetypeHighlight extends React.Component<Props, State> {
 		return rank;
 	}
 
-	render(): React.ReactNode {
-		const data = this.props.data[this.state.index];
+	public renderOutput(data: MetaPreview): React.ReactNode {
 		const result = data.data;
 		const archetype = this.props.archetypeData.find(
 			a => a.id === result.archetype_id,
 		);
 		const components = archetype.standard_ccp_signature_core.components;
+
 		const cards = components.slice(0, 2).map(dbfId => {
 			const card = this.props.cardData.fromDbf(dbfId);
 			const style = {
@@ -87,6 +95,37 @@ class ArchetypeHighlight extends React.Component<Props, State> {
 		});
 
 		return (
+			<div className="archetype-highlight-output">
+				<div className="archetype-highlight-output-background">
+					<div>
+						{cards}
+						<div className="fade fade-top" />
+						<div className="fade fade-bottom" />
+					</div>
+				</div>
+				<div className="archetype-highlight-output-content">
+					<h2>{archetype.name}</h2>
+					<p>
+						<span>
+							Winrate: {toDynamicFixed(result.win_rate, 1)}%
+						</span>
+						<small>
+							Updated <SemanticAge date={data.as_of} />
+						</small>
+					</p>
+				</div>
+			</div>
+		);
+	}
+
+	public render(): React.ReactNode {
+		const current = this.props.data[this.state.index];
+		const previous =
+			this.state.lastIndex !== null
+				? this.props.data[this.state.lastIndex]
+				: null;
+
+		return (
 			<div className="archetype-highlight">
 				<div className="archetype-highlight-input">
 					<h1>The best deck in</h1>
@@ -94,37 +133,21 @@ class ArchetypeHighlight extends React.Component<Props, State> {
 						<div>
 							<SlotMachine
 								slots={this.getRegionList()}
-								index={this.getRegionIndex(data.region)}
+								index={this.getRegionIndex(current.region)}
 							/>
 						</div>
 						<div>
 							<SlotMachine
 								slots={this.getRankList()}
-								index={this.getRankIndex(data.rank)}
+								index={this.getRankIndex(current.rank)}
 							/>
 						</div>
 					</div>
 				</div>
-				<div className="archetype-highlight-output">
-					<div className="archetype-highlight-output-background">
-						<div>
-							{cards}
-							<div className="fade fade-top" />
-							<div className="fade fade-bottom" />
-						</div>
-					</div>
-					<div className="archetype-highlight-output-content">
-						<h2>{archetype.name}</h2>
-						<p>
-							<span>
-								Winrate: {toDynamicFixed(result.win_rate, 1)}%
-							</span>
-							<small>
-								Updated <SemanticAge date={data.as_of} />
-							</small>
-						</p>
-					</div>
-				</div>
+				<Carousel
+					from={previous ? this.renderOutput(previous) : null}
+					to={this.renderOutput(current)}
+				/>
 				<a className="btn promo-button blue-style" href="/meta/">
 					View Meta Tier List
 				</a>
