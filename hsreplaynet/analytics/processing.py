@@ -432,53 +432,89 @@ def get_cluster_set_data(
 	return parameterized_query.response_payload
 
 
-def get_meta_preview():
+RANK_MAP = [
+	"LEGEND_ONLY",
+	"ONE",
+	"TWO",
+	"THREE",
+	"FOUR",
+	"FIVE",
+	"SIX",
+	"SEVEN",
+	"EIGHT",
+	"NINE",
+	"TEN",
+	"ELEVEN",
+	"TWELVE",
+	"THIRTEEN",
+	"FOURTEEN",
+	"FIFTEEN",
+	"SIXTEEN",
+	"SEVENTEEN",
+	"EIGHTEEN",
+	"NINETEEN",
+	"TWENTY"
+]
+
+
+def get_meta_preview(num_items=10):
 	from hsreplaynet.utils.aws.redshift import get_redshift_query
 
 	query = get_redshift_query("archetype_popularity_distribution_stats")
 
+	unique_archetypes = set()
+	data = []
+
+	ranks = [x for x in range(0, 21)]
+
+	for rank in ranks:
+		regions = ["REGION_EU", "REGION_US", "REGION_KR"]
+		for region in regions:
+			parameterized_query = query.build_full_params(dict(
+				TimeRange="LAST_1_DAY",
+				GameType="RANKED_STANDARD",
+				RankRange=RANK_MAP[rank],
+				Region=region
+			))
+
+			if not parameterized_query.result_available:
+				continue
+
+			response = parameterized_query.response_payload
+
+			archetypes = []
+			for class_values in response["series"]["data"].values():
+				for value in class_values:
+					if value["archetype_id"] > 0 and value["pct_of_total"] > 0.5:
+						archetypes.append(value)
+			if not len(archetypes):
+				continue
+
+			archetype = list(sorted(archetypes, key=lambda a: a["win_rate"], reverse=True))[0]
+			unique_archetypes.add(archetype["archetype_id"])
+			data.append({
+				"rank": rank,
+				"region": region,
+				"data": archetype,
+				"as_of": response["as_of"]
+			})
+
 	results = []
+	for archetype_id in unique_archetypes:
+		for datum in data:
+			if datum["data"]["archetype_id"] == archetype_id:
+				results.append(datum)
+				break
+		data.remove(datum)
 
 	hour = datetime.utcnow().replace(minute=0, second=0, microsecond=0)
 	random = seed(int(hour.timestamp()))
 
-	ranks = [x for x in range(1, 20)]
-	shuffle(ranks, random=random)
+	if len(results) < num_items:
+		shuffle(data, random=random)
+		for i in range(0, num_items - len(results)):
+			results.append(data[i])
 
-	for rank in ranks:
-		regions = ["REGION_EU", "REGION_US", "REGION_KR"]
-		shuffle(regions, random=random)
-		for region in regions:
-			parameterized_query = query.build_full_params(dict(
-				TimeRange="LAST_3_DAYS",
-				GameType="RANKED_STANDARD",
-				minRank=rank,
-				maxRank=rank,
-				Region=region
-			))
+	shuffle(results, random=random)
 
-			if parameterized_query.result_available:
-				response = parameterized_query.response_payload
-				archetypes = []
-
-				for class_values in response["series"]["data"].values():
-					for value in class_values:
-						if value["archetype_id"] > 0 and value["pct_of_total"] > 0.5:
-							archetypes.append(value)
-
-				if len(archetypes):
-					archetype = list(sorted(archetypes, key=lambda a: a["win_rate"], reverse=True))[0]
-					if (
-						not len(results) or
-						archetype["archetype_id"] != results[-1]["data"]["archetype_id"]
-					):
-						results.append({
-							"rank": rank,
-							"region": region,
-							"data": archetype,
-							"as_of": response["as_of"]
-						})
-			if len(results) >= 10:
-				return results
-
-	return results
+	return results[:num_items]
