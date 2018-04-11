@@ -16,7 +16,7 @@ from sqlalchemy.sql import and_
 
 from hearthsim.identity.accounts.models import BlizzardAccount
 from hsreplaynet.analytics.utils import (
-	attempt_request_triggered_query_execution, execute_query, trigger_if_stale
+	attempt_request_triggered_query_execution, execute_query
 )
 from hsreplaynet.utils import log
 from hsreplaynet.utils.aws import redshift
@@ -423,8 +423,6 @@ def get_meta_preview(num_items=10):
 				RankRange=RANK_MAP[rank],
 				Region=region
 			))
-
-			trigger_if_stale(parameterized_query)
 
 			if not parameterized_query.result_available:
 				continue
