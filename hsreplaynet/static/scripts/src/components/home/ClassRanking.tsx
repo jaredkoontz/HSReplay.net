@@ -103,15 +103,8 @@ class ClassRanking extends React.Component<Props, State> {
 						}
 					/>
 					<a href={url} className="class-item-content">
-						{/* <span className="class-index">
-							#{index + 1}
-						</span> */}
-						<span
-							className="class-name"
-							style={{
-								backgroundImage: `url(${STATIC_URL}images/64x/class-icons/${datum.playerClass.toLowerCase()}.png`,
-							}}
-						>
+						<span className="class-index">#{index + 1}</span>
+						<span className="class-name">
 							{getHeroClassName(datum.playerClass)}
 						</span>
 						<div className="winrate-wrapper">

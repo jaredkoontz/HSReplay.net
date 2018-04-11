@@ -667,25 +667,24 @@
 
 			.class-index {
 				font-size: 2.2em;
-				font-weight: bold;
 				padding: 0 10px;
+
+				&::first-letter {
+					font-weight: bold;
+				}
 			}
 
 			.class-name {
 				flex: 1 1 0;
 				font-size: 1.7em;
 				text-align: left;
-				background-size: contain;
-				background-repeat: no-repeat;
-				padding: 2px 0 2px 43px;
-				margin-left: 10px;
 				font-variant: small-caps;
 				font-weight: bold;
 			}
 
 			.winrate-wrapper {
 				height: 100%;
-				background: rgba(0, 0, 0, 0.5);
+				background: rgba(0, 0, 0, 0.4);
 				display: flex;
 				align-items: center;
 			}
