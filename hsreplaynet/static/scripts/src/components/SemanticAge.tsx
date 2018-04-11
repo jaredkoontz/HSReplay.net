@@ -2,7 +2,7 @@ import React from "react";
 import { distanceInWordsStrict, distanceInWordsToNow } from "date-fns";
 
 interface Props {
-	date?: Date;
+	date?: Date | string;
 	noSuffix?: boolean;
 	strict?: boolean;
 }
@@ -35,10 +35,15 @@ export default class SemanticAge extends React.Component<Props, State> {
 	}
 
 	public render(): React.ReactNode {
-		const { date, noSuffix, strict } = this.props;
+		let { date } = this.props;
+		const { noSuffix, strict } = this.props;
 
-		if (!date || !(date instanceof Date)) {
+		if (!date) {
 			return null;
+		}
+
+		if (typeof date === "string") {
+			date = new Date(date);
 		}
 
 		const machineReadable = date.toISOString();
