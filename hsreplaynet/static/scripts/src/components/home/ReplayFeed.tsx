@@ -150,7 +150,7 @@ class ReplayFeed extends React.Component<Props, State> {
 		return (
 			<div id="replay-feed">
 				<h1>
-					Games Last Week:{" "}
+					Games Last 7 Days:{" "}
 					{commaSeparate(this.props.gamesCountData.games_weekly)}
 				</h1>
 				<h4>
