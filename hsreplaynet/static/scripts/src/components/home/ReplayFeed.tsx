@@ -31,7 +31,6 @@ interface State {
 	data: ReplayData[];
 	doUpdate: boolean;
 	fetching: boolean;
-	gamesToday: number;
 	lastFetch: Date;
 }
 
@@ -48,27 +47,43 @@ class ReplayFeed extends React.Component<Props, State> {
 			data: [],
 			fetching: false,
 			doUpdate: true,
-			gamesToday: 0,
 			lastFetch: new Date(0),
 		};
+	}
 
+	componentDidMount() {
 		this.updateGamesToday();
 	}
 
-	updateGamesToday() {
-		const weeklyGames = 23153932;
+	getMillisecondsOfDay(): number {
 		const now = new Date();
-		const seconds =
-			now.getMilliseconds() +
-			1000 * now.getSeconds() +
-			1000 * 60 * now.getMinutes() +
-			1000 * 60 * 60 * now.getHours();
-		const secondsInDay = 1000 * 60 * 60 * 24;
-		const gamesToday = Math.floor(
-			weeklyGames / 7 * (seconds / secondsInDay),
+		return (
+			now.getUTCMilliseconds() +
+			1000 * now.getUTCSeconds() +
+			1000 * 60 * now.getUTCMinutes() +
+			1000 * 60 * 60 * now.getUTCHours()
 		);
-		this.setState({ gamesToday });
-		// setTimeout(() => this.updateGamesToday(), 30);
+	}
+
+	updateGamesToday() {
+		const element = document.getElementById("games-count");
+		const startTime = this.getMillisecondsOfDay() || 1;
+
+		const update = () => {
+			setTimeout(() => {
+				if (element) {
+					const now = this.getMillisecondsOfDay();
+					const factor = now / startTime;
+					const games = Math.floor(
+						this.props.gamesCountData.games_today * factor,
+					);
+					element.innerHTML = commaSeparate(games);
+				}
+				update();
+			}, 100);
+		};
+
+		update();
 	}
 
 	fetchData() {
@@ -108,7 +123,6 @@ class ReplayFeed extends React.Component<Props, State> {
 			this.props.fullSpeed !== nextProps.fullSpeed ||
 			!_.isEqual(this.state.data, nextState.data) ||
 			this.state.doUpdate !== nextState.doUpdate ||
-			this.state.gamesToday !== nextState.gamesToday ||
 			this.state.fetching !== nextState.fetching
 		);
 	}
@@ -127,7 +141,9 @@ class ReplayFeed extends React.Component<Props, State> {
 				<h1>Games Last Week: {commaSeparate(weeklyGames)}</h1>
 				<h4>
 					Games Today:{" "}
-					{commaSeparate(this.props.gamesCountData.games_today)}
+					<span id="games-count">
+						{commaSeparate(this.props.gamesCountData.games_today)}
+					</span>
 				</h4>
 				<ScrollingFeed
 					direction="up"
