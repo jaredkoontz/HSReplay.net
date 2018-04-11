@@ -562,6 +562,9 @@ export function getHeroSkinCardId(cardClass: string): string | null {
 	if (!cardId) {
 		return cardId;
 	}
+	if (cardId === "HERO_04") {
+		return cardId + "b";
+	}
 	return cardId + "a";
 }
 
