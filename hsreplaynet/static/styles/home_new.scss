@@ -443,6 +443,11 @@
 	}
 
 	.archetype-highlight-output {
+		&, &:active, &:hover {
+			color: white;
+			text-decoration: none;
+		}
+
 		.archetype-highlight-output-content, .archetype-highlight-output-background {
 			position: absolute;
 			top: 0;

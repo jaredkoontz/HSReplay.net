@@ -3,7 +3,7 @@ import { Archetype, MetaPreview } from "../../utils/api";
 import { withLoading } from "../loading/Loading";
 import CardData from "../../CardData";
 import { Region } from "../../interfaces";
-import { toDynamicFixed } from "../../helpers";
+import { getArchetypeUrl, toDynamicFixed } from "../../helpers";
 import SlotMachine from "./SlotMachine";
 import SemanticAge from "../SemanticAge";
 import Carousel from "./Carousel";
@@ -95,7 +95,10 @@ class ArchetypeHighlight extends React.Component<Props, State> {
 		});
 
 		return (
-			<div className="archetype-highlight-output">
+			<a
+				href={getArchetypeUrl(archetype.id, archetype.name)}
+				className="archetype-highlight-output"
+			>
 				<div className="archetype-highlight-output-background">
 					<div>
 						{cards}
@@ -114,7 +117,7 @@ class ArchetypeHighlight extends React.Component<Props, State> {
 						</small>
 					</p>
 				</div>
-			</div>
+			</a>
 		);
 	}
 
