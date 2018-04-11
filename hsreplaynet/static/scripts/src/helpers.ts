@@ -559,8 +559,7 @@ export function getHeroSkinCardUrl(cardClass: string): string {
 
 export function getHeroSkinCardId(cardClass: string): string | null {
 	const cardId = getHeroCardId(cardClass);
-	if (!cardId || cardId === "HERO_06") {
-		// Druid has no skin as of 23576
+	if (!cardId) {
 		return cardId;
 	}
 	return cardId + "a";
