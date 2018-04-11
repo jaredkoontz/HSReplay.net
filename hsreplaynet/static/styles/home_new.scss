@@ -436,19 +436,23 @@
 		}
 	}
 
-	> .archetype-highlight-output, > .carousel {
+	> .archetype-highlight-output,
+	> .carousel {
 		position: relative;
 		flex-grow: 1;
 		height: 100%;
 	}
 
 	.archetype-highlight-output {
-		&, &:active, &:hover {
+		&,
+		&:active,
+		&:hover {
 			color: white;
 			text-decoration: none;
 		}
 
-		.archetype-highlight-output-content, .archetype-highlight-output-background {
+		.archetype-highlight-output-content,
+		.archetype-highlight-output-background {
 			position: absolute;
 			top: 0;
 			left: 0;
@@ -483,13 +487,13 @@
 				&:nth-of-type(2) {
 					right: -25%;
 					-webkit-mask-image: -webkit-gradient(
-							linear,
-							left top,
-							right top,
-							color-stop(0, rgba(0, 0, 0, 0)),
-							color-stop(15%, rgba(0, 0, 0, 0)),
-							color-stop(35%, rgba(0, 0, 0, 1)),
-							color-stop(100%, rgba(0, 0, 0, 1))
+						linear,
+						left top,
+						right top,
+						color-stop(0, rgba(0, 0, 0, 0)),
+						color-stop(15%, rgba(0, 0, 0, 0)),
+						color-stop(35%, rgba(0, 0, 0, 1)),
+						color-stop(100%, rgba(0, 0, 0, 1))
 					);
 				}
 			}
