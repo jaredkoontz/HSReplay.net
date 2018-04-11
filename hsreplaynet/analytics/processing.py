@@ -468,7 +468,7 @@ def get_meta_preview(num_items=10):
 	ranks = [x for x in range(0, 21)]
 
 	for rank in ranks:
-		regions = ["REGION_EU", "REGION_US", "REGION_KR"]
+		regions = ["REGION_EU", "REGION_US", "REGION_KR", "REGION_CN"]
 		for region in regions:
 			parameterized_query = query.build_full_params(dict(
 				TimeRange="LAST_1_DAY",
