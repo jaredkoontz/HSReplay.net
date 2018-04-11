@@ -87,8 +87,8 @@ export default class Home extends React.Component<Props, State> {
 					</div>
 					<div className="premium-banner">
 						<ul className="hidden-xs">
-							<li>Analyze live statistics</li>
 							<li>Climb the ranked ladder</li>
+							<li>Analyze live statistics</li>
 							<li>Counter the meta</li>
 						</ul>
 						<div className="btn-wrapper">
