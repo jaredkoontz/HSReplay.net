@@ -147,7 +147,6 @@ class ReplayFeed extends React.Component<Props, State> {
 		const gamesPerSecond =
 			this.props.gamesCountData.games_today /
 			(this.state.startTime / 1000);
-		console.log(gamesPerSecond);
 		return (
 			<div id="replay-feed">
 				<h1>
