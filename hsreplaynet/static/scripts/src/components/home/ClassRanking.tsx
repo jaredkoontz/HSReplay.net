@@ -86,7 +86,8 @@ class ClassRanking extends React.Component<Props, State> {
 					this.getImagePosition(datum.playerClass)}%`,
 			};
 			const type = isArena ? "cards" : "decks";
-			const url = `/${type}/#playerClasses=${datum.playerClass.toUpperCase()}&gameType=${this.gameTypeName(
+			const classParam = isArena ? "playerClass" : "playerClasses";
+			const url = `/${type}/#${classParam}=${datum.playerClass.toUpperCase()}&gameType=${this.gameTypeName(
 				gameType,
 			)}`;
 			classes.push(
