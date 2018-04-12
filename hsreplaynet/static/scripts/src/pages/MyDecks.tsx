@@ -601,7 +601,7 @@ export default class MyDecks extends React.Component<Props, State> {
 							</InfoboxFilter>
 							<Feature feature={"current-expansion-filter"}>
 								<InfoboxFilter value="CURRENT_EXPANSION">
-									Kobolds and Catacombs
+									The Witchwood
 									<span className="infobox-value">New!</span>
 								</InfoboxFilter>
 							</Feature>
