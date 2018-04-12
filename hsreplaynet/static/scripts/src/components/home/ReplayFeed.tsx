@@ -66,13 +66,21 @@ class ReplayFeed extends React.Component<Props, State> {
 		this.updateGamesToday();
 	}
 
-	getMillisecondsOfDay(): number {
+	getMillisecondsOfDay(asUtc: boolean = true): number {
 		const now = new Date();
+		const utc = asUtc ? "UTC" : "";
 		return (
-			now.getUTCMilliseconds() +
-			1000 * now.getUTCSeconds() +
-			1000 * 60 * now.getUTCMinutes() +
-			1000 * 60 * 60 * now.getUTCHours()
+			now[`get${utc}Milliseconds`]() +
+			1000 * now[`get${utc}Seconds`]() +
+			1000 * 60 * now[`get${utc}Minutes`]() +
+			1000 * 60 * 60 * now[`get${utc}Hours`]()
+		);
+	}
+
+	getAdjustedGamesToday(): number {
+		return (
+			this.props.gamesCountData.games_today *
+			(this.getMillisecondsOfDay(false) / this.getMillisecondsOfDay(true))
 		);
 	}
 
@@ -85,7 +93,7 @@ class ReplayFeed extends React.Component<Props, State> {
 					const now = this.getMillisecondsOfDay();
 					const factor = now / this.state.startTime;
 					const games = Math.floor(
-						this.props.gamesCountData.games_today * factor,
+						this.getAdjustedGamesToday() * factor,
 					);
 					element.innerHTML = commaSeparate(games);
 				}
@@ -156,7 +164,9 @@ class ReplayFeed extends React.Component<Props, State> {
 				<h4>
 					Games Today:{" "}
 					<span id="games-count">
-						{commaSeparate(this.props.gamesCountData.games_today)}
+						{commaSeparate(
+							Math.floor(this.getAdjustedGamesToday()),
+						)}
 					</span>
 				</h4>
 				<ScrollingFeed
