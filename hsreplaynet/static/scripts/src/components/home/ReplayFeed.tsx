@@ -188,13 +188,12 @@ class ReplayFeed extends React.Component<Props, State> {
 	}
 
 	itemConverter(data: ReplayData): React.ReactNode {
-		const p1IconName = ["player-icon"];
-		const p2IconName = ["player-icon"];
-		if (data.player1_won === "True") {
-			p1IconName.push("winner");
-		} else {
-			p2IconName.push("winner");
-		}
+		const winnerIcon = (
+			<img
+				className={"winner-icon"}
+				src={`${STATIC_URL}images/crown.png`}
+			/>
+		);
 		const p1Archetype = this.props.archetypeData.find(a => {
 			return a.id === +data.player1_archetype;
 		});
@@ -207,11 +206,8 @@ class ReplayFeed extends React.Component<Props, State> {
 				href={`/replay/${data.id}`}
 				target="_blank"
 			>
-				<img
-					className={p1IconName.join(" ")}
-					src={`${STATIC_URL}images/crown.png`}
-				/>
 				<div className="replay-feed-player player-left">
+					{data.player1_won === "True" ? winnerIcon : null}
 					<RankIcon
 						gameType={BnetGameType.BGT_RANKED_STANDARD}
 						rank={+data.player1_rank}
@@ -221,6 +217,7 @@ class ReplayFeed extends React.Component<Props, State> {
 				</div>
 				<img className="vs-icon" src={`${STATIC_URL}images/vs.png`} />
 				<div className="replay-feed-player player-right">
+					{data.player2_won === "True" ? winnerIcon : null}
 					<RankIcon
 						gameType={BnetGameType.BGT_RANKED_STANDARD}
 						rank={+data.player2_rank}
@@ -228,10 +225,6 @@ class ReplayFeed extends React.Component<Props, State> {
 					/>
 					<span>{p2Archetype && p2Archetype.name}</span>
 				</div>
-				<img
-					className={p2IconName.join(" ")}
-					src={`${STATIC_URL}images/crown.png`}
-				/>
 			</a>
 		);
 	}

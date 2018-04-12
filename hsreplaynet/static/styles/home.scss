@@ -608,6 +608,7 @@
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
+			position: relative;
 
 			> span {
 				flex: 1 1 0;
@@ -615,14 +616,33 @@
 				text-overflow: ellipsis;
 			}
 
+			.winner-icon {
+				height: 14px;
+				position: absolute;
+				z-index: 1;
+				top: 1px;
+			}
+
 			&.player-left {
 				flex-direction: row-reverse;
 				text-align: right;
+
+				.winner-icon {
+					right: 10px;
+				}
 			}
 
 			&.player-right {
 				flex-direction: row;
 				text-align: left;
+
+				.winner-icon {
+					left: 10px;
+				}
+			}
+
+			.rank-icon-standalone figcaption {
+				z-index: 2;
 			}
 		}
 
@@ -642,20 +662,6 @@
 			width: 20px;
 			vertical-align: top;
 			margin-top: 12px;
-		}
-
-		.player-icon {
-			color: goldenrod;
-			font-weight: bold;
-			padding: 0 5px;
-			opacity: 0;
-			font-size: 1.5em;
-			height: 16px;
-			margin-top: 14px;
-
-			&.winner {
-				opacity: 1;
-			}
 		}
 
 		&:hover {
