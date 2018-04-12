@@ -456,7 +456,10 @@ def get_meta_preview(num_items=10):
 			archetypes = []
 			for class_values in response["series"]["data"].values():
 				for value in class_values:
-					if value["archetype_id"] > 0 and value["pct_of_total"] > 0.5:
+					if (
+						value["archetype_id"] > 0 and value["pct_of_total"] > 0.5 and
+						value["total_games"] > 30 and value["win_rate"] > 51
+					):
 						archetypes.append(value)
 			if not len(archetypes):
 				continue
