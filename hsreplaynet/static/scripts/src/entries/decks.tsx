@@ -42,7 +42,7 @@ const render = (cardData: CardData) => {
 									includedCards: [],
 									includedSet: "ALL",
 									maxDustCost: -1,
-									minGames: 1000,
+									minGames: 400,
 									opponentClasses: [],
 									playerClasses: [],
 									rankRange: "ALL",
