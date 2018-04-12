@@ -393,7 +393,9 @@ def update_deck_archetype(sender, instance, **kwargs):
 class Include(models.Model):
 	id = models.BigAutoField(primary_key=True)
 	deck = models.ForeignKey(Deck, on_delete=models.CASCADE, related_name="includes")
-	card = models.ForeignKey(Card, on_delete=models.PROTECT, related_name="included_in")
+	card = models.ForeignKey(
+		Card, to_field="card_id", on_delete=models.PROTECT, related_name="included_in"
+	)
 	count = models.IntegerField(default=1)
 
 	class Meta:

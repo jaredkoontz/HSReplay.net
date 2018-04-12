@@ -4,7 +4,6 @@ from django.conf import settings
 from django.db import models
 from django.dispatch.dispatcher import receiver
 from django.urls import reverse
-from django_hearthstone.cards.models import Card
 from django_intenum import IntEnumField
 from hearthstone.enums import BnetGameType, FormatType, PlayState
 
@@ -188,7 +187,7 @@ class GlobalGamePlayer(models.Model):
 		help_text="Whether the player is the first player",
 	)
 
-	hero = models.ForeignKey(Card, on_delete=models.PROTECT)
+	hero = models.ForeignKey("cards.Card", to_field="card_id", on_delete=models.PROTECT)
 	hero_premium = models.BooleanField(
 		"Hero Premium", default=False,
 		help_text="Whether the player's initial hero is golden."
