@@ -10,7 +10,9 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_204_NO_CONTENT
+from rest_framework.status import (
+	HTTP_200_OK, HTTP_201_CREATED, HTTP_204_NO_CONTENT, HTTP_400_BAD_REQUEST
+)
 from rest_framework.views import APIView
 
 from hearthsim.identity.accounts.models import AuthToken, BlizzardAccount
@@ -20,7 +22,8 @@ from hsreplaynet.utils import get_uuid_object_or_404
 from hsreplaynet.utils.influx import influx_metric
 
 from ..serializers.accounts import (
-	BlizzardAccountSerializer, ClaimTokenSerializer, UserDetailsSerializer
+	AccountHiLoSerializer, BlizzardAccountSerializer,
+	ClaimTokenSerializer, UserDetailsSerializer
 )
 from ..serializers.socialaccount import TwitchSocialAccountSerializer
 
@@ -33,6 +36,65 @@ class UserDetailsView(RetrieveAPIView):
 
 	def get_object(self):
 		return self.request.user
+
+
+class UnlinkBlizzardAccountView(APIView):
+	authentication_classes = (SessionAuthentication, OAuth2Authentication)
+	permission_classes = (IsAuthenticated, )
+	serializer_class = AccountHiLoSerializer
+
+	def delete(self, request):
+		serializer = self.serializer_class(data={
+			"account_hi": request.GET.get("account_hi"),
+			"account_lo": request.GET.get("account_lo")
+		})
+		serializer.is_valid(raise_exception=True)
+
+		blizzard_account = BlizzardAccount.objects.filter(
+			account_hi=serializer.validated_data["account_hi"],
+			account_lo=serializer.validated_data["account_lo"],
+			user=request.user,
+		).first()
+
+		if not blizzard_account:
+			return Response({
+				"error": "account_not_found",
+				"detail": "Could not find a matching Blizzard Account owned by this user.",
+			}, status=HTTP_400_BAD_REQUEST)
+
+		changes = [{"changed": {
+			"fields": ["user_id"],
+			"before": [blizzard_account.user_id],
+			"after": [None],
+		}}]
+
+		if hasattr(request.auth, "application") and not request.auth.application.livemode:
+			# Do nothing in test mode.
+			return Response({
+				"error": "test_mode",
+				"detail": "This API is a no-op in test mode.",
+				"extra": changes,
+			}, status=HTTP_200_OK)
+
+		with transaction.atomic():
+			blizzard_account.user = None
+			blizzard_account.save()
+
+			content_type = ContentType.objects.get(app_label="accounts", model="blizzardaccount")
+			with transaction.atomic():
+				# Ensure we save the model and the LogEntry at the same time.
+				# LogEntry allows us to have some way to audit the API changes.
+				blizzard_account.save()
+				LogEntry.objects.log_action(
+					user_id=self.request.user.pk,
+					content_type_id=content_type.pk,
+					object_id=blizzard_account.pk,
+					object_repr=repr(blizzard_account),
+					action_flag=CHANGE,
+					change_message=changes,
+				)
+
+		return Response(status=HTTP_200_OK)
 
 
 class UpdateBlizzardAccountView(APIView):
