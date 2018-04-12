@@ -157,7 +157,7 @@ export default class CopyDeckButton extends React.Component<Props, State> {
 				? [`# Class: ${getHeroClassName(this.props.deckClass)}`]
 				: []),
 			`# Format: ${standard ? "Standard" : "Wild"}`,
-			...(standard ? ["# Year of the Mammoth"] : []),
+			...(standard ? ["# Year of the Raven"] : []),
 			...(prettyDeckList
 				? ["#", ...prettyDeckList.map(line => "# " + line)]
 				: []),
