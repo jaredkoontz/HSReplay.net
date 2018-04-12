@@ -30,6 +30,13 @@ export default class InfluxMetricsBackend implements MetricsBackend {
 							if (typeof value === "boolean") {
 								value = value ? "t" : "f";
 							}
+							if (
+								typeof value === "string" &&
+								!/^\d+i$/.exec(value) &&
+								!/^".*"$/.exec(value)
+							) {
+								value = `"${value}"`;
+							}
 							values.push(valueKey + "=" + value);
 						}
 						const line =
