@@ -114,7 +114,7 @@ export class CollectionEvents extends GoogleAnalytics {
 		};
 		const stepValue = steps["" + step] || "UNKNOWN";
 		INFLUX_CLIENT.writePoint(
-			"collection_modal_step",
+			"collection_modal_current_step",
 			{
 				count: "1i",
 				step: stepValue,
