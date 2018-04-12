@@ -16,6 +16,7 @@ const render = (cardData: CardData) => {
 				defaults={{
 					dataset: "live",
 					excludedCards: [],
+					includedSet: "ALL",
 					format: "FT_STANDARD",
 					includedCards: [],
 					playerClass: "DRUID",
@@ -27,7 +28,7 @@ const render = (cardData: CardData) => {
 						: null
 				}
 			>
-				<Discover cardData={cardData} />
+				<Discover cardData={cardData} latestSet="GILNEAS" />
 			</Fragments>
 		</Root>,
 		container,

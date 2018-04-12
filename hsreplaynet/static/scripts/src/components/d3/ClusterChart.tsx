@@ -3,6 +3,7 @@ import * as _ from "lodash";
 import * as d3 from "d3";
 import { ClusterMetaData, DeckData } from "../discover/ClassAnalysis";
 import { hexToHsl, stringifyHsl } from "../../helpers";
+import CardData from "../../CardData";
 
 interface Props {
 	clusterIds: string[];
@@ -10,11 +11,13 @@ interface Props {
 	data: DeckData[];
 	height: number;
 	includedCards: number[];
+	includedSet: string;
 	excludedCards: number[];
 	maxGames: number;
 	onPointClicked: (data) => void;
 	playerClass: string;
 	width: number;
+	cardData: CardData;
 }
 
 interface State {
@@ -91,7 +94,8 @@ export default class ClusterChart extends React.Component<Props, State> {
 		}
 		if (
 			!_.isEqual(prevProps.includedCards, this.props.includedCards) ||
-			!_.isEqual(prevProps.excludedCards, this.props.excludedCards)
+			!_.isEqual(prevProps.excludedCards, this.props.excludedCards) ||
+			prevProps.includedSet !== this.props.includedSet
 		) {
 			this.updateFilteredCards();
 		}
@@ -393,6 +397,7 @@ export default class ClusterChart extends React.Component<Props, State> {
 			nextProps.height !== this.props.height ||
 			!_.isEqual(nextProps.includedCards, this.props.includedCards) ||
 			!_.isEqual(nextProps.excludedCards, this.props.excludedCards) ||
+			nextProps.includedSet !== this.props.includedSet ||
 			nextState.scaling !== this.state.scaling
 		);
 	}
@@ -401,7 +406,11 @@ export default class ClusterChart extends React.Component<Props, State> {
 		if (!metadata || !metadata.deck_list) {
 			return true;
 		}
-		const { excludedCards: excluded, includedCards: included } = this.props;
+		const {
+			excludedCards: excluded,
+			includedCards: included,
+			includedSet: set,
+		} = this.props;
 		const cards = this.state.decks[metadata.shortid];
 		return (
 			!cards ||
@@ -410,7 +419,13 @@ export default class ClusterChart extends React.Component<Props, State> {
 				included.every(dbfId => cards.indexOf(dbfId) !== -1)) &&
 				(!excluded ||
 					!excluded.length ||
-					excluded.every(dbfId => cards.indexOf(dbfId) === -1)))
+					excluded.every(dbfId => cards.indexOf(dbfId) === -1)) &&
+				(!set ||
+					set === "ALL" ||
+					!this.props.cardData ||
+					cards.some(
+						dbfId => this.props.cardData.fromDbf(dbfId).set === set,
+					)))
 		);
 	}
 

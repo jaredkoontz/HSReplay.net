@@ -15,10 +15,14 @@ import { cardSorting, isCollectibleCard, isWildSet } from "../helpers";
 
 interface Props {
 	cardData: CardData | null;
+	latestSet: string;
+	// fragments
 	dataset?: string;
 	format?: string;
 	includedCards?: string[];
 	setIncludedCards?: (includedCards: string[]) => void;
+	includedSet?: string;
+	setIncludedSet?: (includedSet: string) => void;
 	excludedCards?: string[];
 	setExcludedCards?: (excludedCards: string[]) => void;
 	playerClass?: string;
@@ -67,6 +71,7 @@ export default class Discover extends React.Component<Props, State> {
 			format,
 			excludedCards,
 			includedCards,
+			includedSet,
 			playerClass,
 			setTab,
 		} = this.props;
@@ -134,6 +139,17 @@ export default class Discover extends React.Component<Props, State> {
 					/>
 					<section id="include-cards-filter">
 						<h2 id="card-search-include-label">Included Cards</h2>
+						<InfoboxFilterGroup
+							deselectable
+							selectedValue={this.props.includedSet}
+							onClick={value =>
+								this.props.setIncludedSet(value || "ALL")
+							}
+						>
+							<InfoboxFilter value={this.props.latestSet}>
+								Any new card
+							</InfoboxFilter>
+						</InfoboxFilterGroup>
 						<CardSearch
 							id="card-search-include"
 							label="card-search-include-label"
@@ -213,6 +229,7 @@ export default class Discover extends React.Component<Props, State> {
 							setClusterTab={setTab}
 							format={format}
 							includedCards={includedCards.map(Number)}
+							includedSet={includedSet}
 							excludedCards={excludedCards.map(Number)}
 							onSelectedDeckChanged={deck =>
 								this.setState({ deck })

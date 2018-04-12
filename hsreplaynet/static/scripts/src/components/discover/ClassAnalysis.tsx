@@ -43,6 +43,7 @@ interface Props {
 	data?: ClusterData;
 	format: string;
 	includedCards: number[];
+	includedSet: string;
 	excludedCards: number[];
 	maxGames?: number;
 	onSelectedDeckChanged?: (data: ClusterMetaData) => void;
@@ -178,9 +179,11 @@ class ClassAnalysis extends React.Component<Props, State> {
 											includedCards={
 												this.props.includedCards
 											}
+											includedSet={this.props.includedSet}
 											excludedCards={
 												this.props.excludedCards
 											}
+											cardData={this.props.cardData}
 										/>
 									);
 								}}
