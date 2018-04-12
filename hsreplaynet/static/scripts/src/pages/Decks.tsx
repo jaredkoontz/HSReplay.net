@@ -349,6 +349,11 @@ export default class Decks extends React.Component<Props, State> {
 						) {
 							return;
 						}
+						if (this.props.gameType === "RANKED_STANDARD") {
+							if (cards.some(card => isWildSet(card.card.set))) {
+								return;
+							}
+						}
 						if (
 							this.props.includedSet !== "ALL" &&
 							cards.every(
