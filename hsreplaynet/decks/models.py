@@ -872,7 +872,8 @@ class ClusterManager(models.Manager):
 	LIVE_SIGNATURES_QUERY = """
 		SELECT
 			c.external_id,
-			c.ccp_signature
+			c.ccp_signature,
+			c.rules
 		FROM decks_clustersetsnapshot cs
 		JOIN decks_classclustersnapshot ccs ON ccs.cluster_set_id = cs.id
 		JOIN decks_clustersnapshot c ON c.class_cluster_id = ccs.id
@@ -890,10 +891,14 @@ class ClusterManager(models.Manager):
 			result = {}
 			for record in dictfetchall(cursor):
 				if len(record["ccp_signature"]):
-					if record["external_id"] not in result and record["external_id"]:
-						result[record["external_id"]] = {}
+					external_id = record["external_id"]
+					if external_id not in result and external_id:
+						result[external_id] = {
+							"signature_weights": {},
+							"rules": record["rules"] if record["rules"] else []
+						}
 					for dbf_id, weight in record["ccp_signature"].items():
-						result[record["external_id"]][int(dbf_id)] = weight
+						result[external_id]["signature_weights"][int(dbf_id)] = weight
 
 			return result
 
