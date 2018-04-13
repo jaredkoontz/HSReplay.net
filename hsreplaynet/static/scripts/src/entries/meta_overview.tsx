@@ -21,7 +21,11 @@ const render = (cardData: CardData) => {
 					sortBy: "popularity",
 					sortDirection: "descending",
 					tab: "tierlist",
-					timeFrame: "LAST_7_DAYS",
+					timeFrame: UserData.hasFeature(
+						"current-expansion-filter-meta",
+					)
+						? "CURRENT_EXPANSION"
+						: "LAST_7_DAYS",
 				}}
 				immutable={
 					!UserData.isPremium()

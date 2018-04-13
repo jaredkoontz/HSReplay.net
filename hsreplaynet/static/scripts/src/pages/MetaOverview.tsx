@@ -153,6 +153,12 @@ export default class MetaOverview extends React.Component<Props, State> {
 							<InfoboxFilter value="LAST_7_DAYS">
 								Last 7 days
 							</InfoboxFilter>
+							<Feature feature="current-expansion-filter-meta">
+								<InfoboxFilter value="CURRENT_EXPANSION">
+									The Witchwood
+									<span className="infobox-value">New!</span>
+								</InfoboxFilter>
+							</Feature>
 						</InfoboxFilterGroup>
 					</section>
 					{rankRangeFilter}
