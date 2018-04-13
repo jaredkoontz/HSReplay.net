@@ -353,8 +353,7 @@ def get_cluster_set_data(
 		time_range_val += "S"
 
 	parameterized_query = query.build_full_params(dict(
-		start_date="2018-04-12",
-		end_date="2018-04-12",
+		TimeRange=time_range_val,
 		min_games=min_observations,
 		min_pilots=min_pilots,
 		GameType=gt,
