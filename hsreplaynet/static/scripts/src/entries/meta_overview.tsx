@@ -9,6 +9,13 @@ import Root from "../components/Root";
 UserData.create();
 
 const render = (cardData: CardData) => {
+	const immutable = [];
+	if (!UserData.isPremium()) {
+		immutable.push("rankRange", "region");
+		if (!UserData.hasFeature("current-expansion-filter-meta")) {
+			immutable.push("timeFrame");
+		}
+	}
 	ReactDOM.render(
 		<Root>
 			<Fragments
@@ -27,11 +34,7 @@ const render = (cardData: CardData) => {
 						? "CURRENT_EXPANSION"
 						: "LAST_7_DAYS",
 				}}
-				immutable={
-					!UserData.isPremium()
-						? ["rankRange", "region", "timeFrame"]
-						: null
-				}
+				immutable={immutable}
 			>
 				<MetaOverview cardData={cardData} region="ALL" />
 			</Fragments>
