@@ -193,9 +193,15 @@ class Command(BaseCommand):
 		total_db_updates = sum(len(ids) for ids in self.db_archetypes_to_update.values())
 		self.stdout.write("Writing %i updates to the DB" % total_db_updates)
 		for archetype_id, ids in self.db_archetypes_to_update.items():
+			affected = Deck.objects.filter(id__in=ids).update(archetype_id=archetype_id)
 			archetype_name = self.get_archetype_name(archetype_id)
-			self.stdout.write("Updating %i decks to archetype %s" % (len(ids), archetype_name))
-			Deck.objects.filter(id__in=ids).update(archetype_id=archetype_id)
+			self.stdout.write(
+				"Updated %i/%i decks => %s" % (
+					len(ids),
+					affected,
+					archetype_name
+				)
+			)
 		self.db_archetypes_to_update = {}
 
 	def flush_firehose_buffer(self):
