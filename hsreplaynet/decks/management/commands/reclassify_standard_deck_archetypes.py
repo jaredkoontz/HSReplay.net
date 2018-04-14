@@ -25,6 +25,7 @@ REDSHIFT_QUERY = text("""
 				) AS times_played_rank
 			FROM player p
 			WHERE p.game_date BETWEEN :start_date AND :end_date
+			AND p.game_type = 2
 			GROUP BY p.proxy_deck_id, p.player_class
 		) t
 		WHERE t.times_played_rank = 1
