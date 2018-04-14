@@ -195,6 +195,7 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 								]}
 								extract={{
 									matchupData: this.extractMatchupData,
+									chartData: this.trimChartData("chartData"),
 								}}
 							>
 								<WinrateBox
@@ -220,6 +221,7 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 								]}
 								extract={{
 									popularityData: this.extractPopularityData,
+									chartData: this.trimChartData("chartData"),
 								}}
 							>
 								<PopularityBox
@@ -461,6 +463,11 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 														"single_archetype_stats_over_time",
 													params: chartParams,
 												}}
+												extract={{
+													data: this.trimChartData(
+														"data",
+													),
+												}}
 											>
 												<ChartLoading>
 													<PopularityLineChart
@@ -488,6 +495,11 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 													url:
 														"single_archetype_stats_over_time",
 													params: chartParams,
+												}}
+												extract={{
+													data: this.trimChartData(
+														"data",
+													),
 												}}
 											>
 												<ChartLoading>
@@ -584,6 +596,34 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 			return "RANKED_WILD";
 		}
 		return "RANKED_STANDARD";
+	}
+
+	// Trim chart data points to latest set rotation
+	trimChartData(key: string) {
+		const trim = series => {
+			if (!series) {
+				return;
+			}
+			series.data = series.data.filter(d => {
+				return new Date(d.x) >= new Date(2018, 3, 12);
+			});
+		};
+
+		return chartData => {
+			if (this.props.gameType === "RANKED_STANDARD") {
+				trim(
+					chartData.series.find(
+						x => x.name === "popularity_over_time",
+					),
+				);
+				trim(
+					chartData.series.find(x => x.name === "winrates_over_time"),
+				);
+			}
+			const obj = {};
+			obj[key] = chartData;
+			return obj;
+		};
 	}
 
 	extractMatchupData = matchupData => {
