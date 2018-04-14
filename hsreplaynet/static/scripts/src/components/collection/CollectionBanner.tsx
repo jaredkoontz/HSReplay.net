@@ -34,17 +34,16 @@ export default class CollectionBanner extends React.Component<Props, State> {
 		}
 		return (
 			<Feature feature="collection-syncing">
-				{this.state.showModal ? (
-					<Modal
-						onClose={() =>
-							this.setState({
-								showModal: false,
-							})
-						}
-					>
-						<CollectionSetup />
-					</Modal>
-				) : null}
+				<Modal
+					visible={this.state.showModal}
+					onClose={() =>
+						this.setState({
+							showModal: false,
+						})
+					}
+				>
+					<CollectionSetup />
+				</Modal>
 				{this.wrap(
 					<div onClick={this.showModal}>{this.renderChildren()}</div>,
 				)}

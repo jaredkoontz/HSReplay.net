@@ -51,6 +51,7 @@ if (document && document.location && document.location.search) {
 					ReactDOM.render(
 						<BlizzardAccountProvider>
 							<Modal
+								visible
 								onClose={() => {
 									ReactDOM.unmountComponentAtNode(modalDummy);
 								}}

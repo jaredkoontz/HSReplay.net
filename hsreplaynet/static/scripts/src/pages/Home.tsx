@@ -35,12 +35,9 @@ export default class Home extends React.Component<Props, State> {
 	}
 
 	renderCollectionModal(): React.ReactNode {
-		if (!this.state.showCollectionModal) {
-			return null;
-		}
 		const onClose = () => this.setState({ showCollectionModal: false });
 		return (
-			<Modal onClose={onClose}>
+			<Modal visible={this.state.showCollectionModal} onClose={onClose}>
 				<CollectionSetup />
 			</Modal>
 		);
