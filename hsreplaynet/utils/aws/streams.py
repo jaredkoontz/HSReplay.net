@@ -148,3 +148,71 @@ def fill_stream_from_iterable(stream_name, iterable, publisher_func):
 		iterable, publisher_func, target_writes_per_sec,
 		publish_batch_size=KINESIS_MAX_BATCH_WRITE_SIZE
 	)
+
+
+def to_data_blobs(records, max_blob_size=1000):
+	result = []
+	current_blob_size = 0
+	current_blob_components = []
+
+	for rec in records:
+		rec_data = rec
+		if current_blob_size + len(rec_data) >= max_blob_size:
+			result.append({
+				"Data": "".join(current_blob_components).encode("utf-8")
+			})
+			current_blob_size = 0
+			current_blob_components = []
+
+		current_blob_components.append(rec_data)
+		current_blob_size += len(rec_data)
+
+	if current_blob_size > 0:
+		# At the end flush the remaining blob if its > 0
+		result.append({
+			"Data": "".join(current_blob_components).encode("utf-8")
+		})
+
+	return result
+
+
+def publish_batch_to_firehose(stream_name, batch):
+	remainder = batch
+	failure_report_records = None
+	attempt_count = 0
+	while len(remainder) and attempt_count <= 3:
+		remainder, failure_report_records = _attempt_publish_batch_to_firehose(
+			stream_name,
+			remainder
+		)
+		if len(remainder):
+			msg = "Firehose attempt %i had %i publish failures"
+			logger.warning(msg % (attempt_count, len(remainder)))
+
+	if len(failure_report_records):
+		msg = "Firehose had %i publish failures remaining after last attempt"
+		logger.warning(msg % len(failure_report_records))
+
+
+def _attempt_publish_batch_to_firehose(stream_name, batch):
+	result = FIREHOSE.put_record_batch(
+		DeliveryStreamName=stream_name,
+		Records=batch
+	)
+
+	failed_put_count = result["FailedPutCount"]
+
+	failure_report_records = []
+	failed_records = []
+	for record, result in zip(batch, result["RequestResponses"]):
+		if "ErrorCode" in result:
+			failure_report_records.append(dict(
+				record=record,
+				stream_name=stream_name,
+				error_code=result["ErrorCode"],
+				error_message=result["ErrorMessage"]
+			))
+			failed_records.append(record)
+
+	assert failed_put_count == len(failed_records)
+	return failed_records, failure_report_records

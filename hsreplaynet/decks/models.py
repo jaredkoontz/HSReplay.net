@@ -26,6 +26,9 @@ from hsreplaynet.utils import card_db, log
 from hsreplaynet.utils.aws import s3_object_exists
 from hsreplaynet.utils.aws.clients import FIREHOSE, LAMBDA, S3
 from hsreplaynet.utils.aws.redshift import get_redshift_query
+from hsreplaynet.utils.aws.streams import (
+	publish_batch_to_firehose, publish_from_iterable_at_fixed_speed, to_data_blobs
+)
 from hsreplaynet.utils.db import dictfetchall
 from hsreplaynet.utils.influx import influx_metric, influx_timer
 
@@ -108,38 +111,28 @@ class DeckManager(models.Manager):
 			archetype_id = archetype
 
 		timestamp = now().replace(tzinfo=None)
-		record_batch = []
-		id_batch = []
+
+		records = []
 		for deck_id in deck_ids:
-			record = "{deck_id}|{archetype_id}|{as_of}\n".format(
+			records.append("{deck_id}|{archetype_id}|{as_of}\n".format(
 				deck_id=str(deck_id),
 				archetype_id=str(archetype_id or ""),
 				as_of=timestamp.isoformat(sep=" "),
-			)
-			record_batch.append(record)
-			id_batch.append(deck_id)
+			))
 
-			if len(record_batch) >= 100:
-				full_record = "".join(record_batch)
-				FIREHOSE.put_record(
-					DeliveryStreamName=settings.ARCHETYPE_FIREHOSE_STREAM_NAME,
-					Record={
-						"Data": full_record.encode("utf-8"),
-					}
-				)
-				Deck.objects.filter(id__in=id_batch).update(archetype_id=archetype_id)
-				record_batch = []
-				id_batch = []
-
-		if len(record_batch):
-			full_record = "".join(record_batch)
-			FIREHOSE.put_record(
-				DeliveryStreamName=settings.ARCHETYPE_FIREHOSE_STREAM_NAME,
-				Record={
-					"Data": full_record.encode("utf-8"),
-				}
+		bulk_records = to_data_blobs(records)
+		if len(bulk_records):
+			publish_from_iterable_at_fixed_speed(
+				iter(deck_ids),
+				self._publish_archetypes_to_firehose,
+				max_records_per_second=5000,
+				publish_batch_size=500
 			)
-			Deck.objects.filter(id__in=id_batch).update(archetype_id=archetype_id)
+
+		Deck.objects.filter(id__in=deck_ids).update(archetype_id=archetype_id)
+
+	def _publish_archetypes_to_firehose(self, batch):
+		publish_batch_to_firehose(settings.ARCHETYPE_FIREHOSE_STREAM_NAME, batch)
 
 	def get_digest_from_shortid(self, shortid):
 		try:
