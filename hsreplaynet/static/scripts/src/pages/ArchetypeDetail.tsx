@@ -17,7 +17,7 @@ import ArchetypeDistributionPieChart from "../components/archetypedetail/Archety
 import PopularityLineChart from "../components/charts/PopularityLineChart";
 import InfoIcon from "../components/InfoIcon";
 import WinrateLineChart from "../components/charts/WinrateLineChart";
-import { getHeroSkinCardUrl } from "../helpers";
+import { getHeroSkinCardUrl, isWildSet } from "../helpers";
 import ArchetypeSignature from "../components/archetypedetail/ArchetypeSignature";
 import { extractSignature } from "../extractors";
 import CardTable from "../components/tables/CardTable";
@@ -123,13 +123,20 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 			return;
 		}
 
-		const decks: DeckObj[] = archetypeDecks.map(d => {
+		const decks: DeckObj[] = [];
+		archetypeDecks.forEach(d => {
 			const deck = Object.assign({}, d);
 			deck.playerClass = playerClass;
 			const cards = JSON.parse(deck["deck_list"]).map(c => {
 				return { card: cardData.fromDbf(c[0]), count: c[1] };
 			});
-			return {
+			if (
+				this.props.gameType === "RANKED_STANDARD" &&
+				cards.some(c => isWildSet(c.card.set))
+			) {
+				return;
+			}
+			decks.push({
 				archetypeId: deck.archetype_id,
 				cards,
 				deckId: deck["deck_id"],
@@ -137,7 +144,7 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 				numGames: +deck["total_games"],
 				playerClass: deck["playerClass"],
 				winrate: +deck["win_rate"],
-			};
+			});
 		});
 		this.setState({ popularDecks: decks });
 	}
