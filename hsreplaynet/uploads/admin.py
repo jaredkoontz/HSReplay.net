@@ -18,8 +18,8 @@ queue_for_reprocessing.short_description = "Queue for reprocessing"
 class UploadEventAdmin(admin.ModelAdmin):
 	actions = (queue_for_reprocessing, )
 	list_display = (
-		"__str__", "status", "tainted", urlify("token"),
-		urlify("game"), "upload_ip", "created", "file", "user_agent"
+		"__str__", "status", "tainted", urlify("game"),
+		"upload_ip", "created", "file", "user_agent",
 	)
 	list_filter = ("status", )
 	readonly_fields = ("created", "processing_logs")
