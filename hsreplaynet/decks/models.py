@@ -123,7 +123,7 @@ class DeckManager(models.Manager):
 		bulk_records = to_data_blobs(records)
 		if len(bulk_records):
 			publish_from_iterable_at_fixed_speed(
-				iter(deck_ids),
+				iter(bulk_records),
 				self._publish_archetypes_to_firehose,
 				max_records_per_second=5000,
 				publish_batch_size=500
