@@ -347,40 +347,6 @@ class UploadEvent(models.Model):
 		return timezone.make_aware(raw_upload.timestamp)
 
 	@property
-	def token(self):
-		if not hasattr(self, "_token"):
-			from hearthsim.identity.accounts.models import AuthToken
-			if self.token_uuid:
-				self._token = AuthToken.objects.get(key=self.token_uuid)
-			else:
-				self._token = None
-
-		return self._token
-
-	@token.setter
-	def token(self, auth_token):
-		if auth_token:
-			self._token = auth_token
-			self.token_uuid = auth_token.key
-
-	@property
-	def api_key(self):
-		if not hasattr(self, "_api_key"):
-			from hearthsim.identity.api.models import APIKey as LegacyAPIKey
-			if self.api_key_id:
-				self._api_key = LegacyAPIKey.objects.get(id=self.api_key_id)
-			else:
-				self._api_key = None
-
-		return self._api_key
-
-	@api_key.setter
-	def api_key(self, key):
-		if key:
-			self._api_key = key
-			self.api_key_id = key.id
-
-	@property
 	def game(self):
 		if not hasattr(self, "_game"):
 			from hsreplaynet.games.models import GameReplay

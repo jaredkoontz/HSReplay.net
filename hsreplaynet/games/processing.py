@@ -19,7 +19,7 @@ from hslog.export import EntityTreeExporter, FriendlyPlayerExporter
 from hsreplay import __version__ as hsreplay_version
 from hsreplay.document import HSReplayDocument
 
-from hearthsim.identity.accounts.models import BlizzardAccount, Visibility
+from hearthsim.identity.accounts.models import AuthToken, BlizzardAccount, Visibility
 from hsredshift.etl.exceptions import CorruptReplayDataError, CorruptReplayPacketError
 from hsredshift.etl.exporters import RedshiftPublishingExporter
 from hsredshift.etl.firehose import flush_exporter_to_firehose
@@ -186,7 +186,9 @@ def find_or_create_replay(parser, entity_tree, meta, upload_event, global_game, 
 	log.debug("Will save replay %r to %r", shortid, replay_xml_path)
 
 	# The user that owns the replay
-	user = upload_event.token.user if upload_event.token else None
+	auth_token = AuthToken.objects.filter(key=upload_event.token_uuid).first()
+	user = auth_token.user if auth_token else None
+
 	friendly_player = players[meta["friendly_player"]]
 	opponent_revealed_deck = get_opponent_revealed_deck(
 		entity_tree,
@@ -208,7 +210,7 @@ def find_or_create_replay(parser, entity_tree, meta, upload_event, global_game, 
 		"spectator_password": meta.get("spectator_password", ""),
 		"resumable": meta.get("resumable"),
 		"build": meta["build"],
-		"upload_token": upload_event.token,
+		"upload_token": auth_token,
 		"won": friendly_player.won,
 		"replay_xml": replay_xml_path,
 		"hsreplay_version": hsreplay_version,
@@ -652,10 +654,12 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 		}
 
 		if not is_spectated_replay and not player.is_ai and is_friendly_player:
-			user = upload_event.token.user if upload_event.token else None
-			if user and not user.is_fake:
-				# and user.battletag and user.battletag.startswith(player.name):
-				defaults["user"] = user
+			if upload_event.token_uuid:
+				auth_token = AuthToken.objects.get(key=upload_event.token_uuid)
+				user = auth_token.user
+				if user and not user.is_fake:
+					# and user.battletag and user.battletag.startswith(player.name):
+					defaults["user"] = user
 
 		blizzard_account, created = BlizzardAccount.objects.get_or_create(
 			account_hi=player.account_hi, account_lo=player.account_lo,

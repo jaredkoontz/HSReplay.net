@@ -210,12 +210,15 @@ def process_raw_upload(raw_upload, reprocess=False, log_group_name="", log_strea
 			msg = "Malformed or Invalid Authorization Header: %r" % (header)
 			logger.error(msg)
 			raise ValidationError(msg)
-		obj.token = token
+		obj.token_uuid = token.key
+
+		if token.test_data:
+			obj.test_data = True
 
 		api_key = headers.get("x-api-key", "")
 		if not api_key:
 			raise ValidationError("Missing X-Api-Key header. Please contact us for an API key.")
-		obj.api_key = LegacyAPIKey.objects.get(api_key=api_key)
+		obj.api_key_id = LegacyAPIKey.objects.get(api_key=api_key).id
 	except (ValidationError, LegacyAPIKey.DoesNotExist) as e:
 		logger.error("Exception: %r", e)
 		obj.status = UploadEventStatus.VALIDATION_ERROR
@@ -230,11 +233,7 @@ def process_raw_upload(raw_upload, reprocess=False, log_group_name="", log_strea
 		logger.info("Validation Error will be raised and we will not proceed to processing")
 		raise
 	else:
-		if "test_data" in upload_metadata or obj.token.test_data:
-			logger.debug("Upload Event Is TEST DATA")
-
-		if obj.token.test_data:
-			# When token.test_data = True, then all UploadEvents are test_data = True
+		if "test_data" in upload_metadata:
 			obj.test_data = True
 
 		# Only old clients released during beta do not include a user agent
@@ -245,7 +244,6 @@ def process_raw_upload(raw_upload, reprocess=False, log_group_name="", log_strea
 			influx_metric("upload_from_unsupported_client", {
 				"count": 1,
 				"shortid": raw_upload.shortid,
-				"api_key": obj.api_key.full_name
 			})
 			obj.status = UploadEventStatus.UNSUPPORTED_CLIENT
 
