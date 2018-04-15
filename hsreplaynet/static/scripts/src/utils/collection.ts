@@ -7,17 +7,17 @@ import { cookie } from "cookie_js";
 export function getCollectionCardCount(
 	collection: Collection | null,
 	dbfId: number,
-): number {
+): number | null {
 	if (!collection) {
-		return 0;
+		return null;
 	}
 	const cards = collection.collection;
 	if (!cards) {
-		return 0;
+		return null;
 	}
 	const inCollection = cards[dbfId];
 	if (!Array.isArray(inCollection)) {
-		return 0;
+		return null;
 	}
 	return +inCollection.reduce((a, b) => a + b, 0);
 }
@@ -27,7 +27,11 @@ export function isMissingCardFromCollection(
 	dbfId: number,
 	count: number,
 ): boolean {
-	return getCollectionCardCount(collection, dbfId) < count;
+	const collectionCount = getCollectionCardCount(collection, dbfId);
+	if (collectionCount === null) {
+		return false;
+	}
+	return collectionCount < count;
 }
 
 export function getDustCostForCollection(

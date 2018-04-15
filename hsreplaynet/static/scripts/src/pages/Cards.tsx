@@ -691,6 +691,9 @@ export default class Cards extends React.Component<Props, State> {
 											this.props.collection,
 											card.dbfId,
 										);
+										if (count === null) {
+											count = 0;
+										}
 									}
 									return { card, count };
 								},
