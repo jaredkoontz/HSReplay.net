@@ -152,15 +152,15 @@ export default class StripeLegacyCheckoutForm extends React.Component<
 		);
 	}
 
-	public componentWillUpdate(
-		nextProps: Readonly<Props>,
-		nextState: Readonly<State>,
-		nextContext: any,
+	public componentDidUpdate(
+		prevProps: Readonly<Props>,
+		prevState: Readonly<State>,
+		prevContext: any,
 	): void {
-		if (nextState.step !== this.state.step) {
+		if (this.state.step !== prevState.step) {
 			this.props.onDisable(
-				nextState.step !== CheckoutStep.READY_TO_CHECKOUT &&
-					nextState.step !== CheckoutStep.LOADING_STRIPE,
+				this.state.step !== CheckoutStep.READY_TO_CHECKOUT &&
+					this.state.step !== CheckoutStep.LOADING_STRIPE,
 			);
 		}
 	}

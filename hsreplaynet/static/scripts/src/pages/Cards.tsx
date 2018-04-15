@@ -253,6 +253,9 @@ export default class Cards extends React.Component<Props, State> {
 	public componentDidMount(): void {
 		this.scrollCb = () => this.onSearchScroll();
 		document.addEventListener("scroll", this.scrollCb);
+		if (this.props.display === "gallery") {
+			this.loadPlaceholders();
+		}
 	}
 
 	public componentWillUnmount(): void {
@@ -264,6 +267,12 @@ export default class Cards extends React.Component<Props, State> {
 		prevState: Readonly<State>,
 		prevContext: any,
 	): void {
+		if (!this.props.personal && prevProps.display !== this.props.display) {
+			if (this.props.display === "gallery") {
+				this.loadPlaceholders();
+			}
+		}
+
 		// omit functions (not supported) and unused custom* props to prevent multiple update calls
 		const ignore = Object.keys(this.props)
 			.filter(key => {
@@ -434,25 +443,6 @@ export default class Cards extends React.Component<Props, State> {
 			});
 			cards.sort(cardSorting);
 			this.setState({ cards });
-		}
-	}
-
-	public componentWillUpdate(
-		nextProps: Readonly<Props>,
-		nextState: Readonly<State>,
-		nextContext: any,
-	): void {
-		if (!this.props.personal && this.props.display !== nextProps.display) {
-			if (nextProps.display === "gallery") {
-				const minion = new Image();
-				minion.src = PLACEHOLDER_MINION;
-				const spell = new Image();
-				spell.src = PLACEHOLDER_SPELL;
-				const weapon = new Image();
-				weapon.src = PLACEHOLDER_WEAPON;
-				const hero = new Image();
-				hero.src = PLACEHOLDER_HERO;
-			}
 		}
 	}
 
@@ -1472,5 +1462,16 @@ export default class Cards extends React.Component<Props, State> {
 
 	isStatsView(): boolean {
 		return !this.props.personal && this.props.display !== "gallery";
+	}
+
+	private loadPlaceholders(): void {
+		const minion = new Image();
+		minion.src = PLACEHOLDER_MINION;
+		const spell = new Image();
+		spell.src = PLACEHOLDER_SPELL;
+		const weapon = new Image();
+		weapon.src = PLACEHOLDER_WEAPON;
+		const hero = new Image();
+		hero.src = PLACEHOLDER_HERO;
 	}
 }

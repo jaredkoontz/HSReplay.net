@@ -79,17 +79,17 @@ export default class PremiumWrapper extends React.Component<Props, State> {
 		);
 	}
 
-	public componentWillUpdate(
-		nextProps: Readonly<Props>,
-		nextState: Readonly<State>,
-		nextContext: any,
+	public componentDidUpdate(
+		prevProps: Readonly<Props>,
+		prevState: Readonly<State>,
+		prevContext: any,
 	): void {
-		if (nextState.hovering === this.state.hovering) {
+		if (prevState.hovering === this.state.hovering) {
 			return;
 		}
 		// hover is starting or ending
 		window[key].forEach((wrapper: PremiumWrapper) => {
-			if (nextState.hovering) {
+			if (this.state.hovering) {
 				wrapper.trigger(this);
 			} else {
 				wrapper.release(this);

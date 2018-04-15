@@ -253,14 +253,14 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 		);
 	}
 
-	public componentWillUpdate(
-		nextProps: Readonly<Props>,
-		nextState: Readonly<State>,
-		nextContext: any,
+	public componentDidUpdate(
+		prevProps: Readonly<Props>,
+		prevState: Readonly<State>,
+		prevContext: any,
 	): void {
-		if (nextState.step !== this.state.step) {
+		if (this.state.step !== prevState.step) {
 			this.props.onDisable(
-				nextState.step !== StripeCheckoutStep.READY_TO_PAY,
+				this.state.step !== StripeCheckoutStep.READY_TO_PAY,
 			);
 		}
 	}
