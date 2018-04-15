@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
+from hearthsim.identity.accounts.models import BlizzardAccount
 from hsreplaynet.packs.models import Pack, PackCard
 
 
@@ -32,6 +33,16 @@ class PackSerializer(serializers.HyperlinkedModelSerializer):
 		cards = validated_data.pop("cards")
 		if len(cards) != CARDS_PER_PACK:
 			raise ValidationError(f"Packs must contain exactly {CARDS_PER_PACK} cards")
+
+		account_hi = validated_data.pop("account_hi")
+		account_lo = validated_data.pop("account_lo")
+		blizzard_account = BlizzardAccount.objects.filter(
+			account_hi=account_hi, account_lo=account_lo
+		).first()
+		if not blizzard_account:
+			raise ValidationError(f"No known Blizzard account {account_hi}-{account_lo}")
+		validated_data["blizzard_account_id"] = blizzard_account.pk
+
 		pack = Pack.objects.create(**validated_data)
 
 		for card in cards:
