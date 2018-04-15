@@ -32,3 +32,9 @@ class PackCard(models.Model):
 	pack = models.ForeignKey(Pack, on_delete=models.CASCADE)
 	card = models.ForeignKey(Card, on_delete=models.PROTECT)
 	premium = models.BooleanField()
+
+	def __str__(self):
+		if self.premium:
+			return f"{str(self.card)} (Golden)"
+		else:
+			return str(self.card)
