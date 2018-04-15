@@ -1,6 +1,6 @@
 import React from "react";
 import CardTile from "../CardTile";
-import Table from "./Table";
+import Table, { AnnotatedNumber } from "./Table";
 import { CardObj, SortableProps } from "../../interfaces";
 import { withLoading } from "../loading/Loading";
 import {
@@ -58,7 +58,10 @@ class CardTable extends React.Component<Props> {
 			rowData = rowData.slice(0, numCards);
 		}
 		const tableRowData = rowData.map(({ card, values }) => {
-			const row: Array<number | JSX.Element> = values.slice();
+			const row: Array<
+				number | AnnotatedNumber | JSX.Element
+			> = values.slice();
+
 			row.unshift(
 				<CardTile
 					card={card.card}

@@ -38,6 +38,9 @@ export const cardTableColumnData: {
 		infoHeader: "Mulligan winrate",
 		infoText:
 			"Average winrate of games when the card ended up in the opening hand.",
+		lowDataKey: "times_in_opening_hand",
+		lowDataValue: 100,
+		lowDataWarning: "Low data. Winrate might be inaccurate.",
 		sortKey: "mulliganWinrate",
 		text: "Mulligan WR",
 		winrateData: true,

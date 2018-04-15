@@ -5,6 +5,7 @@ import { SortableProps, SortDirection } from "../../interfaces";
 import scrollbarSize from "dom-helpers/util/scrollbarSize";
 import SortHeader from "../SortHeader";
 import { toDynamicFixed, toPrettyNumber, winrateData } from "../../helpers";
+import Tooltip from "../Tooltip";
 
 export interface TableColumn {
 	dataKey: string;
@@ -13,13 +14,26 @@ export interface TableColumn {
 	infoText?: string;
 	percent?: boolean;
 	prettify?: boolean;
+	lowDataKey?: string;
+	lowDataValue?: number;
+	lowDataWarning?: string;
 	sortKey?: string;
 	text: string;
 	winrateData?: boolean;
 }
 
+interface Annotation {
+	type: "warning";
+	tooltip: string;
+}
+
+export interface AnnotatedNumber {
+	value: number;
+	annotation: Annotation;
+}
+
 interface RowData {
-	data: Array<number | string | JSX.Element>;
+	data: Array<number | AnnotatedNumber | string | JSX.Element>;
 	href?: string;
 }
 
@@ -307,6 +321,11 @@ export default class Table extends React.Component<Props, State> {
 			content = column.winrateData ? "-" : 0;
 		}
 
+		const annotatedNumber = content as AnnotatedNumber;
+		if (annotatedNumber && annotatedNumber.annotation) {
+			content = annotatedNumber.value;
+		}
+
 		let color = null;
 		if (content !== "-") {
 			if (column.winrateData) {
@@ -351,15 +370,40 @@ export default class Table extends React.Component<Props, State> {
 			...this.rowHighlighting(rowIndex),
 		};
 
+		let annotation = null;
+		if (annotatedNumber && annotatedNumber.annotation) {
+			if (annotatedNumber.annotation.type === "warning") {
+				annotation = (
+					<span className="glyphicon glyphicon-warning-sign" />
+				);
+			}
+			if (annotatedNumber.annotation.tooltip) {
+				annotation = (
+					<Tooltip simple header={annotatedNumber.annotation.tooltip}>
+						{annotation}
+					</Tooltip>
+				);
+			}
+			annotation = (
+				<div className="table-cell-annotation">{annotation}</div>
+			);
+		}
+
 		if (row.href) {
 			return (
 				<a {...props} href={row.href} key={key}>
 					{content}
+					{annotation}
 				</a>
 			);
 		}
 
-		return <div {...props}>{content}</div>;
+		return (
+			<div {...props}>
+				{content}
+				{annotation}
+			</div>
+		);
 	};
 
 	rowHighlighting(rowIndex: number): { onMouseEnter; onMouseLeave } {

@@ -1,6 +1,6 @@
 import { CardObj, SortDirection } from "../../../interfaces";
 import { cardSorting } from "../../../helpers";
-import { TableColumn } from "../Table";
+import { AnnotatedNumber, TableColumn } from "../Table";
 
 export interface CardData {
 	card: CardObj;
@@ -9,7 +9,7 @@ export interface CardData {
 
 interface RowData {
 	card: CardObj;
-	values: number[];
+	values: Array<number | AnnotatedNumber>;
 }
 
 export interface ApiCardStatsData {
@@ -84,7 +84,25 @@ function generateRowData(
 	return cardData.map(({ card, data }) => {
 		return {
 			card: { card: card.card, count: card.count },
-			values: columns.map(x => (data ? data[x.dataKey] : null)),
+			values: columns.map(x => {
+				if (!data) {
+					return null;
+				}
+				if (
+					x.lowDataKey &&
+					x.lowDataValue &&
+					data[x.lowDataKey] <= x.lowDataValue
+				) {
+					return {
+						value: data[x.dataKey],
+						annotation: {
+							type: "warning",
+							tooltip: x.lowDataWarning,
+						},
+					};
+				}
+				return data[x.dataKey];
+			}),
 		};
 	});
 }

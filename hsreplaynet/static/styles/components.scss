@@ -1117,6 +1117,11 @@ table .info-icon, .sort-header .info-icon {
 		text-align: center;
 	}
 
+	.table-cell-annotation {
+		margin-left: 5px;
+		display: inline;
+	}
+
 	.table-column-header {
 		border-bottom: 1px solid gray;
 	}
