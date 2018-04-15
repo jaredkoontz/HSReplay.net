@@ -51,7 +51,8 @@ class EditAccountView(LoginRequiredMixin, RequestMetaMixin, UpdateView):
 		context["form"].fields["locale"].widget.choices.insert(0, ("", "System Default"))
 
 		# Collection syncing is enabled unless the cookie is set.
-		context["collection_syncing"] = self.request.COOKIES.get("disable-collection", "") != "1"
+		context["collection_syncing"] = \
+			self.request.COOKIES.get("disable-collection", "") != "true"
 
 		return context
 
