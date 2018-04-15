@@ -23,7 +23,7 @@ def merge_users(base_user, user):
 	do_queryset(user.replays)
 
 	# Packs
-	do_queryset(user.pack_set)
+	do_queryset(user.packs)
 
 	# Comments
 	do_queryset(user.comment_comments)
