@@ -60,6 +60,7 @@ module.exports = env => {
 			trending: makeEntry("trending"),
 			archetype_detail: makeEntry("archetype_detail"),
 		},
+		my_packs: makeEntry("my_packs"),
 		premium_detail: makeEntry("premium_detail"),
 		discover: makeEntry("discover"),
 		card_editor: makeEntry("card_editor"),

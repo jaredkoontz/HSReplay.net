@@ -2,28 +2,6 @@
 {% load render_bundle from webpack_loader %}
 
 {% block fullcontent %}
-	<div id="my-packs-container">
-		<table id="my-packs-table">
-		{% for pack in packs %}
-			<tr>
-			{% for card in pack.cards.all %}
-				<td>
-					<a href="{{ card.get_absolute_url }}">
-						<div class="card-tile{% if card.premium %} premium{% endif %}" style="height: 34px; line-height: 34px;">
-							<div class="card-gem" style="width: 34px;">
-								<span class="card-cost" style="font-size: 1.25em;">{{ card.cost }}</span>
-							</div>
-							<div class="card-frame">
-								<img class="card-asset" src="{{ card.get_tile_url }}" style="width: 134px; right: 0px;">
-								<span class="card-fade-no-countbox"></span>
-								<span class="card-name" style="font-size: 0.9em; width: calc(100% - 4px);">{{ card.name }}</span>
-							</div>
-						</div>
-					</a>
-				</td>
-			{% endfor %}
-			</tr>
-		{% endfor %}
-		</table>
-	</div>
+	<div id="my-packs-container"></div>
+	{% render_bundle "my_packs" %}
 {% endblock %}
