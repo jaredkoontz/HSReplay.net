@@ -4,24 +4,30 @@ import { BlizzardAccount, Collection } from "./api";
 import { QueryParams } from "../DataManager";
 import { cookie } from "cookie_js";
 
+export function getCollectionCardCount(
+	collection: Collection | null,
+	dbfId: number,
+): number {
+	if (!collection) {
+		return 0;
+	}
+	const cards = collection.collection;
+	if (!cards) {
+		return 0;
+	}
+	const inCollection = cards[dbfId];
+	if (!Array.isArray(inCollection)) {
+		return 0;
+	}
+	return +inCollection.reduce((a, b) => a + b, 0);
+}
+
 export function isMissingCardFromCollection(
 	collection: Collection | null,
 	dbfId: number,
 	count: number,
 ): boolean {
-	if (!collection) {
-		return false;
-	}
-	const cards = collection.collection;
-	if (!cards) {
-		return false;
-	}
-	const inCollection = cards[dbfId];
-	if (!Array.isArray(inCollection)) {
-		return false;
-	}
-	const available = inCollection.reduce((a, b) => a + b, 0);
-	return available < count;
+	return getCollectionCardCount(collection, dbfId) < count;
 }
 
 export function getDustCostForCollection(

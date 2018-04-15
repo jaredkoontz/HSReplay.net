@@ -26,6 +26,8 @@ interface Props extends SortableProps {
 	headerWidth?: [number, number];
 	headerWidthRatio?: number;
 	collection?: Collection | null;
+	showEmptyCollection?: boolean;
+	forceCardCounts?: boolean | ((count: number) => boolean);
 }
 
 const CELL_HEIGHT = 36;
@@ -67,11 +69,20 @@ class CardTable extends React.Component<Props> {
 					card={card.card}
 					count={card.count}
 					height={CELL_HEIGHT - 2}
-					craftable={isMissingCardFromCollection(
-						this.props.collection,
-						card.card.dbfId,
-						card.count || 1,
-					)}
+					forceCountBox={
+						typeof this.props.forceCardCounts === "function"
+							? this.props.forceCardCounts(card.count)
+							: this.props.forceCardCounts
+					}
+					craftable={
+						!this.props.collection
+							? this.props.showEmptyCollection
+							: isMissingCardFromCollection(
+									this.props.collection,
+									card.card.dbfId,
+									card.count || 1,
+							  )
+					}
 				/>,
 			);
 			return { data: row };

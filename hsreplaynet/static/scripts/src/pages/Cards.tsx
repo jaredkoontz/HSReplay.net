@@ -31,7 +31,10 @@ import {
 import CardTable from "../components/tables/CardTable";
 import Feature from "../components/Feature";
 import { Collection } from "../utils/api";
-import { isCollectionDisabled } from "../utils/collection";
+import {
+	getCollectionCardCount,
+	isCollectionDisabled,
+} from "../utils/collection";
 
 interface CardFilters {
 	cost: any;
@@ -681,7 +684,16 @@ export default class Cards extends React.Component<Props, State> {
 					>
 						<CardTable
 							cards={(this.state.filteredCards || []).map(
-								card => ({ card, count: 1 }),
+								card => {
+									let count = 1;
+									if (this.props.display === "crafting") {
+										count = getCollectionCardCount(
+											this.props.collection,
+											card.dbfId,
+										);
+									}
+									return { card, count };
+								},
 							)}
 							columns={[
 								"includedPopularity",
@@ -702,6 +714,14 @@ export default class Cards extends React.Component<Props, State> {
 								!isCollectionDisabled()
 									? this.props.collection
 									: null
+							}
+							showEmptyCollection={
+								this.props.display === "crafting"
+							}
+							forceCardCounts={
+								this.props.display === "crafting"
+									? i => +i > 0
+									: false
 							}
 						/>
 					</DataInjector>

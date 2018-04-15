@@ -11,6 +11,7 @@ interface Props {
 	hideGem?: boolean;
 	noLink?: boolean;
 	countBoxSize?: number;
+	forceCountBox?: boolean;
 	predicted?: boolean;
 	craftable?: boolean;
 	subtitle?: string;
@@ -23,7 +24,9 @@ export default class CardTile extends React.Component<Props> {
 		const baseImageWidth = 134 + this.props.countBoxSize - 24;
 
 		const showCountBox =
-			this.props.count > 1 || this.props.card.rarity === "LEGENDARY";
+			this.props.forceCountBox ||
+			this.props.count > 1 ||
+			this.props.card.rarity === "LEGENDARY";
 		const countWidth = this.props.height / baseHeight * baseCountWidth;
 
 		const tileStyle = {
@@ -49,8 +52,7 @@ export default class CardTile extends React.Component<Props> {
 		let countBox = null;
 		if (showCountBox) {
 			const singleLegendary =
-				this.props.card.rarity === "LEGENDARY" &&
-				this.props.count === 1;
+				this.props.card.rarity === "LEGENDARY" && this.props.count <= 1;
 			const countboxStyle = { width: countWidth + "px" };
 			const countStyle = {
 				fontSize: this.props.height / baseHeight * 1.15 + "em",
