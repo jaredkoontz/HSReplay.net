@@ -1,3 +1,4 @@
+from oauth2_provider.contrib.rest_framework import OAuth2Authentication
 from rest_framework import serializers
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.exceptions import ValidationError
@@ -47,7 +48,9 @@ class PackSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class PackViewSet(CreateModelMixin, RetrieveModelMixin, GenericViewSet):
-	authentication_classes = (SessionAuthentication, AuthTokenAuthentication)
+	authentication_classes = (
+		SessionAuthentication, OAuth2Authentication, AuthTokenAuthentication
+	)
 	permission_classes = (IsAuthenticated, )
 	queryset = Pack.objects.all()
 	serializer_class = PackSerializer
