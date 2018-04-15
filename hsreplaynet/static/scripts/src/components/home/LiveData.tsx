@@ -56,9 +56,6 @@ export default class LiveData extends React.Component<Props, State> {
 			fetching: false,
 			renderedGameTypes: [entranceAnimationOrder[0]],
 		};
-
-		this.fetchData();
-		this.updateCursor();
 	}
 
 	fetchData() {
@@ -147,6 +144,11 @@ export default class LiveData extends React.Component<Props, State> {
 		}
 	}
 
+	public componentDidMount(): void {
+		this.fetchData();
+		this.updateCursor();
+	}
+
 	public render(): React.ReactNode {
 		if (!this.state.doUpdate) {
 			return null;
@@ -180,7 +182,7 @@ export default class LiveData extends React.Component<Props, State> {
 		gameType: GameType,
 		icon: string,
 		title: string,
-	): JSX.Element {
+	): React.ReactNode {
 		return (
 			<div className="col-sm-12 col-md-4">
 				<h4>
@@ -215,20 +217,22 @@ export default class LiveData extends React.Component<Props, State> {
 				dataList.slice(0, numCards).forEach(({ dbfId, games }) => {
 					const card = cardData.fromDbf(dbfId);
 					items.push({
-						item: [
+						item: (
 							<CardTile
 								card={card}
 								height={34}
 								count={games}
 								countBoxSize={40}
-							/>,
-						],
+							/>
+						),
 						key: "" + dbfId,
 					});
 				});
 				return items;
 			}
 		}
-		return Array.apply(null, { length: numCards }).map(() => <div />);
+		return Array.apply(null, { length: numCards }).map(
+			(x: any, index: number) => ({ item: <div />, key: "ph_" + index }),
+		);
 	}
 }

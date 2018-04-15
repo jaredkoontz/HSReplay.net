@@ -15,7 +15,7 @@ interface Indices {
 
 export interface AnimatedListObject {
 	key: string;
-	item: JSX.Element;
+	item: React.ReactNode;
 }
 
 interface Props {

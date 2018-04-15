@@ -121,7 +121,7 @@ export default class ScrollingFeed extends React.Component<Props, State> {
 		return index * this.props.itemHeight - this.state.offset;
 	}
 
-	render(): JSX.Element {
+	render(): React.ReactNode {
 		const items = this.state.visibleItems.map((item, index) => {
 			const style = {
 				top: this.getTop(index),
