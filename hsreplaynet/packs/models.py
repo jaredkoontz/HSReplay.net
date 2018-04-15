@@ -23,6 +23,6 @@ class Pack(models.Model):
 
 class PackCard(models.Model):
 	id = models.BigAutoField(primary_key=True)
-	pack = models.ForeignKey(Pack, on_delete=models.PROTECT)
+	pack = models.ForeignKey(Pack, on_delete=models.CASCADE)
 	card = models.ForeignKey(Card, on_delete=models.PROTECT)
 	premium = models.BooleanField()
