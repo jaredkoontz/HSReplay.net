@@ -54,4 +54,7 @@ class PackSerializer(serializers.HyperlinkedModelSerializer):
 		data = super().to_representation(instance)
 		data["account_hi"] = instance.blizzard_account.account_hi
 		data["account_lo"] = instance.blizzard_account.account_hi
+
+		cards = PackCard.objects.filter(pack_id=instance.id)
+		data["cards"] = PackCardSerializer(cards, many=True).to_representation(cards)
 		return data
