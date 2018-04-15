@@ -1,10 +1,6 @@
 import React from "react";
 import CardData from "../CardData";
 import CardIcon from "../components/CardIcon";
-import DataInjector from "../components/DataInjector";
-import DataManager from "../DataManager";
-import { Booster } from "../hearthstone";
-import UserData from "../UserData";
 
 interface PackCard {
 	card: string;
