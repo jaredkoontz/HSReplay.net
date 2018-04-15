@@ -76,7 +76,7 @@ export default class DevTools extends React.Component<Props, State> {
 		event.preventDefault();
 		const freeMode = !this.state.freeMode;
 		if (freeMode) {
-			cookie.set("free-mode", "true", { expires: 365 });
+			cookie.set("free-mode", "true", { path: "/", expires: 365 });
 		} else {
 			cookie.remove("free-mode");
 		}
@@ -90,9 +90,8 @@ export default class DevTools extends React.Component<Props, State> {
 		event.preventDefault();
 		const loggedOutMode = !this.state.loggedOutMode;
 		if (loggedOutMode) {
-			cookie.set("logged-out-mode", "true", { expires: 365 });
+			cookie.set("logged-out-mode", "true", { path: "/", expires: 365 });
 		} else {
-			console.log(2);
 			cookie.remove("logged-out-mode");
 		}
 		this.setState({ loggedOutMode, reload: true });
