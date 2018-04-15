@@ -573,14 +573,14 @@ export default class Cards extends React.Component<Props, State> {
 			];
 			if (!this.props.showSparse) {
 				const warning = (
-					<div className="info-row text-center text-help">
+					<div className="info-row text-center">
 						<span className="hidden-xs hidden-sm">
 							Some cards were hidden due to a low amount of
-							data.&nbsp;
+							data.&nbsp;&nbsp;
 						</span>
 						<a
 							href="#"
-							className="btn btn-default"
+							className="btn btn-primary"
 							onClick={event => {
 								event.preventDefault();
 								this.props.setShowSparse(true);
