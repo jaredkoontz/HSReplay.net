@@ -23,8 +23,6 @@ class Migration(migrations.Migration):
 				("id", models.BigAutoField(primary_key=True, serialize=False)),
 				("booster_type", django_intenum.IntEnumField(enum=hearthstone.enums.Booster)),
 				("date", models.DateTimeField()),
-				("account_hi", models.BigIntegerField()),
-				("account_lo", models.BigIntegerField()),
 			],
 		),
 		migrations.CreateModel(

@@ -17,8 +17,6 @@ class Pack(models.Model):
 	blizzard_account = models.ForeignKey(
 		"accounts.BlizzardAccount", on_delete=models.CASCADE, related_name="packs"
 	)
-	account_hi = models.BigIntegerField()
-	account_lo = models.BigIntegerField()
 
 	def __str__(self):
 		cards = self.cards.all()

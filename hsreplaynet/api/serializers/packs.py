@@ -18,8 +18,8 @@ class PackCardSerializer(serializers.ModelSerializer):
 
 class PackSerializer(serializers.HyperlinkedModelSerializer):
 	id = serializers.IntegerField(read_only=True)
-	account_hi = serializers.IntegerField(min_value=1)
-	account_lo = serializers.IntegerField(min_value=1)
+	account_hi = serializers.IntegerField(min_value=1, write_only=True)
+	account_lo = serializers.IntegerField(min_value=1, write_only=True)
 	cards = PackCardSerializer(many=True, write_only=True)
 
 	class Meta:
@@ -49,3 +49,9 @@ class PackSerializer(serializers.HyperlinkedModelSerializer):
 			PackCard.objects.create(pack=pack, card=card["card"], premium=card["premium"])
 
 		return pack
+
+	def to_representation(self, instance):
+		data = super().to_representation(instance)
+		data["account_hi"] = instance.blizzard_account.account_hi
+		data["account_lo"] = instance.blizzard_account.account_hi
+		return data
