@@ -49,23 +49,29 @@ class ArchetypeHighlight extends React.Component<Props, State> {
 		);
 	}
 
-	private rotate = () => {
-		this.setState(state => ({
-			index: (state.index + 1) % this.props.data.length,
-			lastIndex: state.index,
-		}));
+	private rotate = (callback: () => any) => {
+		this.setState(
+			state => ({
+				index: (state.index + 1) % this.props.data.length,
+				lastIndex: state.index,
+			}),
+			callback,
+		);
 	};
 
 	private stopRotation = () => {
 		if (this.interval !== null) {
-			window.clearInterval(this.interval);
+			window.clearTimeout(this.interval);
 		}
 		this.interval = null;
 	};
 
 	private startRotation = () => {
 		this.stopRotation();
-		this.interval = window.setInterval(this.rotate, 4000);
+		this.interval = window.setTimeout(
+			() => this.rotate(this.startRotation),
+			4000,
+		);
 	};
 
 	private getRegions(): { [region: string]: string } {
