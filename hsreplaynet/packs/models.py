@@ -10,7 +10,13 @@ class Pack(models.Model):
 	booster_type = IntEnumField(enum=Booster)
 	date = models.DateTimeField()
 	cards = models.ManyToManyField(Card, through="packs.PackCard")
-	user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL)
+	user = models.ForeignKey(
+		settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
+		related_name="packs"
+	)
+	blizzard_account = models.ForeignKey(
+		"accounts.BlizzardAccount", on_delete=models.CASCADE, related_name="packs"
+	)
 	account_hi = models.BigIntegerField()
 	account_lo = models.BigIntegerField()
 

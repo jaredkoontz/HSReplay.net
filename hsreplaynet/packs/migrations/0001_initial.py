@@ -44,6 +44,17 @@ class Migration(migrations.Migration):
 		migrations.AddField(
 			model_name="pack",
 			name="user",
-			field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL),
+			field=models.ForeignKey(
+				null=True, blank=True, on_delete=django.db.models.deletion.SET_NULL,
+				to=settings.AUTH_USER_MODEL, related_name="packs"
+			),
+		),
+		migrations.AddField(
+			model_name="pack",
+			name="blizzard_account",
+			field=models.ForeignKey(
+				on_delete=django.db.models.deletion.CASCADE, to="accounts.BlizzardAccount",
+				related_name="packs"
+			),
 		),
 	]
