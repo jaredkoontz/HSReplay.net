@@ -20,8 +20,8 @@ interface Props extends SortableProps {
 	columns: CardTableColumnKey[];
 	data?: ApiCardStatsData[];
 	numCards?: number;
-	topInfoRow?: JSX.Element;
-	bottomInfoRow?: JSX.Element;
+	topInfoRow?: React.ReactNode;
+	bottomInfoRow?: React.ReactNode;
 	minColumnWidth?: number;
 	headerWidth?: [number, number];
 	headerWidthRatio?: number;

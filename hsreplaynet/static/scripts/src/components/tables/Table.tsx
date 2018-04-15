@@ -33,7 +33,7 @@ export interface AnnotatedNumber {
 }
 
 interface RowData {
-	data: Array<number | AnnotatedNumber | string | JSX.Element>;
+	data: Array<number | AnnotatedNumber | string | React.ReactNode>;
 	href?: string;
 }
 
@@ -41,8 +41,8 @@ export interface BaseTableProps extends SortableProps {
 	baseWinrate?: number;
 	columns: TableColumn[];
 	rowData: RowData[];
-	topInfoRow?: JSX.Element;
-	bottomInfoRow?: JSX.Element;
+	topInfoRow?: React.ReactNode;
+	bottomInfoRow?: React.ReactNode;
 	headerWidthRatio?: number;
 }
 
@@ -247,7 +247,7 @@ export default class Table extends React.Component<Props, State> {
 	}
 
 	renderInfoRow(
-		infoRow: JSX.Element,
+		infoRow: React.ReactNode,
 		width: number,
 		top: number,
 	): JSX.Element {
