@@ -42,6 +42,7 @@ const render = (cardData: CardData) => {
 									gameType: "RANKED_STANDARD",
 									opponentClass: "ALL",
 									rankRange: "ALL",
+									tab: "recommended-decks",
 								}}
 								immutable={
 									!UserData.isPremium()
