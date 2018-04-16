@@ -359,12 +359,18 @@ def get_cluster_set_data(
 		GameType=gt,
 	))
 
-	if not parameterized_query.result_available or parameterized_query.result_is_stale:
+	def result_available():
+		return (
+			parameterized_query.result_available and not
+			parameterized_query.result_is_stale
+		)
+
+	if not result_available():
 		if block:
 			attempt_request_triggered_query_execution(parameterized_query, run_local=True)
 			sleep_counter = 0
 			MAX_SLEEP = 120
-			while not parameterized_query.result_available:
+			while not result_available():
 				if sleep_counter >= MAX_SLEEP:
 					raise RuntimeError(
 						"Waited %i seconds, clustering data not available" % MAX_SLEEP
