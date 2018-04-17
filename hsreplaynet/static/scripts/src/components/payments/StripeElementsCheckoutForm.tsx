@@ -3,6 +3,7 @@ import { CardElement, injectStripe } from "react-stripe-elements";
 import BtnGroup from "../BtnGroup";
 import { CheckoutFormInstanceProps } from "./CheckoutForm";
 import UserData from "../../UserData";
+import CSRFElement from "../CSRFElement";
 
 const enum StripeCheckoutStep {
 	READY_TO_PAY,
@@ -422,7 +423,7 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 					name="stripeEmail"
 					value={this.state.email}
 				/>
-				<div dangerouslySetInnerHTML={this.props.csrfElement} />
+				<CSRFElement />
 			</form>
 		);
 	}

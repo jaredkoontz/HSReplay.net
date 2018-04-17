@@ -2,6 +2,7 @@ import React from "react";
 import BtnGroup from "../BtnGroup";
 import { CheckoutFormInstanceProps } from "./CheckoutForm";
 import UserData from "../../UserData";
+import CSRFElement from "../CSRFElement";
 
 export interface PaypalPlan {
 	paypalId: string;
@@ -157,7 +158,7 @@ export default class PaypalCheckoutForm extends React.Component<Props, State> {
 						{!working ? "Pay with PayPal" : "Waiting for PayPal"}
 					</button>
 				</p>
-				<div dangerouslySetInnerHTML={this.props.csrfElement} />
+				<CSRFElement />
 			</form>
 		);
 	}

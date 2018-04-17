@@ -16,7 +16,6 @@ export const enum PaymentMethods {
 
 export interface CheckoutFormInstanceProps {
 	submitUrl: string;
-	csrfElement: { __html: string };
 	onDisable: (disabled: boolean) => any;
 	onSubscribe: (value: number) => any;
 }
@@ -33,7 +32,6 @@ interface Props {
 	paypalPlans: PaypalPlan[];
 	paypalSubmitUrl: string;
 	supportStripeElements?: boolean;
-	csrfElement: { __html: string };
 	onSubscribe: (value: number) => any;
 }
 
@@ -131,7 +129,6 @@ export default class CheckoutForm extends React.Component<Props, State> {
 						defaultSource={this.props.stripeDefaultSource}
 						submitUrl={this.props.stripeCheckoutSubmitUrl}
 						image={this.props.stripeCheckoutImageUrl}
-						csrfElement={this.props.csrfElement}
 						onDisable={(disabled: boolean) =>
 							this.setState({ disabled })
 						}
@@ -147,7 +144,6 @@ export default class CheckoutForm extends React.Component<Props, State> {
 								defaultSource={this.props.stripeDefaultSource}
 								coupon={this.props.stripeCoupon}
 								submitUrl={this.props.stripeElementsSubmitUrl}
-								csrfElement={this.props.csrfElement}
 								onDisable={(disabled: boolean) =>
 									this.setState({ disabled })
 								}
@@ -162,7 +158,6 @@ export default class CheckoutForm extends React.Component<Props, State> {
 						plans={this.props.paypalPlans}
 						submitUrl={this.props.paypalSubmitUrl}
 						showCouponWarning={!!this.props.stripeCoupon}
-						csrfElement={this.props.csrfElement}
 						onDisable={(disabled: boolean) =>
 							this.setState({ disabled })
 						}

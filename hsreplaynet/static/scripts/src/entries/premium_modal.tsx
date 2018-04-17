@@ -183,7 +183,6 @@ window.hsreplaynet_load_hscheckout = (
 	const paypalSubmitUrl = targetElement.getAttribute(
 		"data-paypal-submit-url",
 	);
-	const csrfToken = targetElement.getAttribute("data-csrf-token");
 	const defaultSource = targetElement.getAttribute(
 		"data-stripe-default-source",
 	);
@@ -196,7 +195,6 @@ window.hsreplaynet_load_hscheckout = (
 	stripe.onload = () => {
 		ReactDOM.render(
 			<CheckoutForm
-				csrfElement={{ __html: csrfToken }}
 				stripeDefaultSource={defaultSource}
 				stripeApiKey={apiKey}
 				stripeCoupon={stripeCoupon}

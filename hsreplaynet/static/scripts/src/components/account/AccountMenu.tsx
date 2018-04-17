@@ -1,7 +1,7 @@
 import React from "react";
 import { Account } from "../../UserData";
 import { prettyBlizzardAccount } from "../../utils/account";
-import { cookie } from "cookie_js";
+import CSRFElement from "../CSRFElement";
 
 interface Props {
 	username: string;
@@ -152,11 +152,7 @@ export default class AccountMenu extends React.Component<Props, State> {
 						action={this.props.signoutUrl}
 						ref={ref => (this.form = ref)}
 					>
-						<input
-							type="hidden"
-							name="csrfmiddlewaretoken"
-							value={cookie.get("csrftoken")}
-						/>
+						<CSRFElement />
 					</form>
 				</li>
 			</ul>

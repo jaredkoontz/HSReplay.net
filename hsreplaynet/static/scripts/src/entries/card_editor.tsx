@@ -8,6 +8,7 @@ import {
 	Rarity,
 } from "../hearthstone";
 import Sunwell from "sunwell";
+import CSRFElement from "../components/CSRFElement";
 
 class Fieldset extends React.Component<any> {
 	public render(): React.ReactNode {
@@ -387,11 +388,7 @@ class CardEditorForm extends React.Component<any, CardEditorFormState> {
 		const updateTexture = this.updateTexture.bind(this);
 		return (
 			<form method="POST" action="" id={this.props.id}>
-				<input
-					type="hidden"
-					name="csrfmiddlewaretoken"
-					value={this.props.csrfToken}
-				/>
+				<CSRFElement />
 				<Fieldset name="texts" legend="Text">
 					<p>
 						{this.createInput(LabeledInput, {

@@ -4,6 +4,7 @@ import { CheckoutFormInstanceProps } from "./CheckoutForm";
 import { StripePlan } from "./StripeElementsCheckoutForm";
 import CheckoutProcess from "../../checkout/CheckoutProcess";
 import UserData from "../../UserData";
+import CSRFElement from "../CSRFElement";
 
 const enum CheckoutStep {
 	LOADING_STRIPE,
@@ -254,7 +255,7 @@ export default class StripeLegacyCheckoutForm extends React.Component<
 							/>,
 					  ]
 					: null}
-				<div dangerouslySetInnerHTML={this.props.csrfElement} />
+				<CSRFElement />
 			</form>
 		);
 	}
