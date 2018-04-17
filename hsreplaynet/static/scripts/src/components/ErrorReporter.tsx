@@ -20,7 +20,17 @@ export default class ErrorReporter extends React.Component<Props, State> {
 
 	public componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
 		const report = { error, errorInfo };
-		if (typeof Raven === "object") {
+		let reportToSentry = true;
+		if (
+			error &&
+			error.message &&
+			error.message.startsWith("Maximum update depth exceeded.")
+		) {
+			if (Math.random() > 0.1) {
+				reportToSentry = false;
+			}
+		}
+		if (typeof Raven === "object" && reportToSentry) {
 			Raven.captureException(error, { extra: errorInfo });
 			Object.assign(report, { tracing: Raven.lastEventId() });
 		}
