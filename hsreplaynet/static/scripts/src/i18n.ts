@@ -2,8 +2,6 @@ import i18n from "i18next";
 
 i18n
 	.init({
-		lng: "de",
-
 		// keys as strings
 		nsSeparator: false,
 		keySeparator: false,

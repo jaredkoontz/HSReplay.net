@@ -13,6 +13,7 @@ interface UserDataProps {
 	hearthstone_locale: string;
 	ipcountry: string;
 	is_authenticated: boolean;
+	locale: string;
 	languages: { [key: string]: string };
 	login?: string[];
 	premium: boolean;
@@ -76,6 +77,10 @@ export default class UserData {
 
 	static isDebug(): boolean {
 		return !!(this._instance && UserData._instance.debug);
+	}
+
+	static getLocale(): string {
+		return this._instance && UserData._instance.locale;
 	}
 
 	static getLanguages(): { [key: string]: string } {
