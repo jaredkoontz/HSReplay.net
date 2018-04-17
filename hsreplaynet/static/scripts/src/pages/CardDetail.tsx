@@ -36,8 +36,9 @@ import Fragments from "../components/Fragments";
 import QuestCompletionDetail from "../components/carddetail/QuestCompletionDetail";
 import QuestContributors from "../components/carddetail/QuestContributors";
 import { Collection } from "../utils/api";
+import { InjectedTranslateProps, translate } from "react-i18next";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	card: any;
 	cardData: CardData;
 	cardId: string;
@@ -57,7 +58,7 @@ interface State {
 	showInfo?: boolean;
 }
 
-export default class CardDetail extends React.Component<Props, State> {
+class CardDetail extends React.Component<Props, State> {
 	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
@@ -139,6 +140,8 @@ export default class CardDetail extends React.Component<Props, State> {
 	}
 
 	public render(): React.ReactNode {
+		const { t } = this.props;
+
 		const isPremium = UserData.isPremium();
 		let content = null;
 		if (this.props.card) {
@@ -606,7 +609,7 @@ export default class CardDetail extends React.Component<Props, State> {
 					</h1>
 					<p>{this.getCleanFlavorText()}</p>
 					<InfoboxFilterGroup
-						header="Game Mode"
+						header={t("Game Mode")}
 						selectedValue={this.props.gameType}
 						onClick={value => this.props.setGameType(value)}
 					>
@@ -617,10 +620,10 @@ export default class CardDetail extends React.Component<Props, State> {
 							}
 							value="RANKED_STANDARD"
 						>
-							Ranked Standard
+							{t("Ranked Standard")}
 						</InfoboxFilter>
 						<InfoboxFilter value="RANKED_WILD">
-							Ranked Wild
+							{t("Ranked Wild")}
 						</InfoboxFilter>
 						<InfoboxFilter
 							disabled={
@@ -630,7 +633,7 @@ export default class CardDetail extends React.Component<Props, State> {
 							}
 							value="ARENA"
 						>
-							Arena
+							{t("Arena")}
 						</InfoboxFilter>
 					</InfoboxFilterGroup>
 					<InfoboxFilterGroup
@@ -794,3 +797,5 @@ export default class CardDetail extends React.Component<Props, State> {
 		return params;
 	}
 }
+
+export default translate()(CardDetail);
