@@ -1033,6 +1033,7 @@ def get_game_info(global_game, replay):
 		"scenario_id": global_game.scenario_id,
 		"ladder_season": global_game.ladder_season,
 		"brawl_season": global_game.brawl_season,
+		"match_start": global_game.match_start,
 		"game_date": game_date,
 		"players": {
 			"1": {
