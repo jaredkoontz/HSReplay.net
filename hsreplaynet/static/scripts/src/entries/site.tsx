@@ -74,7 +74,7 @@ if (document && document.location && document.location.search) {
 								ReactDOM.unmountComponentAtNode(modalDummy);
 							}}
 						>
-							<PremiumModal />
+							<PremiumModal analyticsLabel={"URL Parameter"} />
 						</Modal>,
 						modalDummy,
 					);
