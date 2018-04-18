@@ -76,7 +76,7 @@ class Command(BaseCommand):
 			event = UploadEvent(
 				upload_ip="127.0.0.1",
 				metadata=json.dumps(metadata),
-				token=token,
+				token_uuid=token.key,
 			)
 
 			event.file = file
