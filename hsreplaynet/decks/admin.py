@@ -3,7 +3,8 @@ from django.contrib import admin
 from hearthsim.identity.utils import EstimatedCountPaginator, admin_urlify
 
 from .models import (
-	Archetype, ClassClusterSnapshot, ClusterSetSnapshot, ClusterSnapshot, Deck, Include
+	Archetype, ArchetypeName, ArchetypeSuggestion, ClassClusterSnapshot,
+	ClusterSetSnapshot, ClusterSnapshot, Deck, Include
 )
 
 
@@ -115,3 +116,23 @@ class ArchetypeAdmin(admin.ModelAdmin):
 	actions = (
 		set_deleted,
 	)
+
+
+@admin.register(ArchetypeSuggestion)
+class ArchetypeSuggestionAdmin(admin.ModelAdmin):
+	list_display = (
+		"__str__",
+		"deck",
+		"as_of",
+	)
+	list_filter = ()
+
+
+@admin.register(ArchetypeName)
+class ArchetypeNameAdmin(admin.ModelAdmin):
+	list_display = (
+		"__str__",
+		"player_class",
+		"created",
+	)
+	list_filter = ("player_class",)

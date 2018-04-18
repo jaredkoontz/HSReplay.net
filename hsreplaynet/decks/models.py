@@ -1191,3 +1191,51 @@ class ClusterSetSnapshot(models.Model, ClusterSet):
 					Key=self.cluster_set_key_prefix + "summary.txt",
 					Body=summary
 				)
+
+
+class ArchetypeSuggestion(models.Model):
+	id = models.BigAutoField(primary_key=True)
+	suggested_name = models.ForeignKey(
+		"decks.ArchetypeName",
+		on_delete=models.CASCADE
+	)
+	deck = models.ForeignKey(
+		"decks.Deck",
+		on_delete=models.CASCADE
+	)
+	user = models.ForeignKey(
+		settings.AUTH_USER_MODEL,
+		# Cascading, because otherwise we get problems with unique_together and user = NULL
+		on_delete=models.CASCADE,
+	)
+	as_of = models.DateTimeField(default=timezone.now)
+
+	class Meta:
+		unique_together = ("deck", "user")
+
+	def __str__(self):
+		return self.suggested_name.name
+
+
+class ArchetypeName(models.Model):
+	id = models.BigAutoField(primary_key=True)
+	name = models.CharField(
+		max_length=250,
+		blank=False
+	)
+	contributing_user = models.ForeignKey(
+		settings.AUTH_USER_MODEL,
+		on_delete=models.SET_NULL,
+		blank=True,
+		null=True
+	)
+	created = models.DateTimeField(default=timezone.now)
+	player_class = IntEnumField(enum=enums.CardClass, default=enums.CardClass.INVALID)
+
+	class Meta:
+		# If only name had unique=True, users could submit wrong feedback (e.g. Zoolock on a
+		# Warrior Deck) and the "Zoolock" name would be marked as WARRIOR for ever.
+		unique_together = ("name", "player_class")
+
+	def __str__(self):
+		return self.name
