@@ -211,11 +211,17 @@ class Deck(models.Model):
 
 	@cached_property
 	def deck_class(self):
+		has_seen_neutral = False
 		for val in self.includes.values("card__card_class"):
 			card_class = val["card__card_class"]
 			if card_class not in (enums.CardClass.INVALID, enums.CardClass.NEUTRAL):
 				return card_class
-		return enums.CardClass.INVALID
+			if card_class == enums.CardClass.NEUTRAL:
+				has_seen_neutral = True
+		if has_seen_neutral:
+			return enums.CardClass.NEUTRAL
+		else:
+			return enums.CardClass.INVALID
 
 	@cached_property
 	def card_dbf_id_packed_list(self):
