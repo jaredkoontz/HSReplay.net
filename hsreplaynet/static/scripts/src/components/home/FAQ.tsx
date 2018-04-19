@@ -25,7 +25,7 @@ export default class FAQ extends React.Component<null, null> {
 						<dt>Do I need to sign in to upload replays?</dt>
 						<dd>
 							Not at all! Just{" "}
-							<a href="{% url 'downloads' %}">
+							<a href="/downloads/">
 								download Hearthstone Deck Tracker
 							</a>{" "}
 							and use it to upload and share your replays. You may
