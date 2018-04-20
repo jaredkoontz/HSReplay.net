@@ -158,6 +158,9 @@ class GetOrCreateDeckView(APIView):
 			return Response(serializer.data, status=status)
 		return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
+	def get_view_name(self):
+		return "Deck List"
+
 
 class DeckDetailView(RetrieveUpdateAPIView):
 	authentication_classes = (SessionAuthentication, )
