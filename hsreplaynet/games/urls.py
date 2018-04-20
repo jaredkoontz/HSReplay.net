@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from django.views.generic import RedirectView
 
-from .views import MyReplaysView, ReplayDetailView
+from .views import MyReplaysView
 
 
 urlpatterns = [

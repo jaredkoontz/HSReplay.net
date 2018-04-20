@@ -1,10 +1,10 @@
 import json
 
 from django.core.files import File
-from django.core.management.base import BaseCommand
+from django.core.management.base import BaseCommand, CommandError
 from django.utils.timezone import now
 
-from hearthsim.identity.accounts.models import AuthToken, User
+from hearthsim.identity.accounts.models import User
 from hsreplaynet.uploads.models import UploadEvent
 
 
@@ -13,61 +13,20 @@ class Command(BaseCommand):
 		parser.add_argument("file", nargs="+")
 		group = parser.add_mutually_exclusive_group(required=False)
 		group.add_argument(
-			"--token", type=str, metavar="AUTH_TOKEN",
-			help=" ".join((
-				"Auth token for the upload event.",
-				"Will attach replays to owning user and fire webhooks.",
-			))
-		)
-		group.add_argument(
-			"--pick-token", type=str, metavar="USERNAME",
-			help="User to pick an auth token from. Will attach token like --token."
-		)
-		group.add_argument(
 			"--force-attach", type=str, metavar="USERNAME",
-			help=" ".join((
-				"User to attach the resulting replays to.",
-				"Will only attach after processing, so webhooks will not fire.",
-				"Use --pick-token instead.",
-			))
+			help="User to attach the resulting replays to."
 		)
 
 	def handle(self, *args, **options):
-		raw_token = options["token"]
-		pick_token_username = options["pick_token"]
-		force_attach_username = options["force_attach"]
-		if raw_token:
-			user = None
-			token = AuthToken.objects.get(key=raw_token)
-			if not token:
-				raise Exception("Auth token not found")
-		elif pick_token_username:
-			user = User.objects.get(username=pick_token_username)
-			# pick the user's first token
-			token = user.auth_tokens.first()
-			if token:
-				self.stdout.write(
-					"Picked auth token %s (owned by %s)" % (token, token.user)
-				)
-			else:
-				raise Exception("No auth token found")
-			# should already be attached by token
-			user = None
-		elif force_attach_username:
-			user = User.objects.get(username=force_attach_username)
+		if options["force_attach"]:
+			user = User.objects.get(username=options["force_attach"])
 			if not user:
-				raise Exception("User not found")
-			self.stdout.write(" ".join((
-				"Warning: Will only attach to user after processing and not fire webhooks.",
-				"Use --pick-token instead.",
-			)))
-			token = None
+				raise CommandError(f"User {repr(options['force_attach'])} not found")
 		else:
 			user = None
-			token = None
 
 		for file in options["file"]:
-			print("Uploading %r" % (file))
+			self.stdout.write(f"Uploading {repr(file)}")
 			metadata = {
 				"build": 0,
 				"match_start": now().isoformat(),
@@ -76,7 +35,6 @@ class Command(BaseCommand):
 			event = UploadEvent(
 				upload_ip="127.0.0.1",
 				metadata=json.dumps(metadata),
-				token_uuid=token.key,
 			)
 
 			event.file = file

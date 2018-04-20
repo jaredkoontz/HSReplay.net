@@ -25,7 +25,10 @@ urlpatterns = [
 	url(r"^ping/$", PingView.as_view()),
 	url(r"^premium/$", PremiumDetailView.as_view(), name="premium"),
 	url(r"^replay/(?P<id>\w+)$", ReplayDetailView.as_view(), name="games_replay_view"),
-	url(r"^replay/(?P<shortid>\w+)/annotated_xml$", AnnotatedReplayView.as_view(), name="annotated_replay"),
+	url(
+		r"^replay/(?P<shortid>\w+)/annotated_xml$",
+		AnnotatedReplayView.as_view(), name="annotated_replay"
+	),
 	url(r"^replay/(?P<id>\w+)/embed$", ReplayEmbedView.as_view(), name="games_replay_embed"),
 
 	# Includes
