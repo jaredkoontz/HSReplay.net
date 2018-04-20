@@ -144,22 +144,12 @@ class RedisPopularityDistribution:
 
 		includes_current_bucket = end_token > self._current_start_token
 		if not summary_exists or includes_current_bucket:
-			# We either need to build or refresh the summary
-			buckets = []
-			oldest_bucket_ttl = None
 			tokens_between = self._generate_bucket_tokens_between(start_token, end_token)
-			for s, e in tokens_between:
-				bucket_key = self._bucket_key(s, e)
-				if self.redis.exists(bucket_key):
-					buckets.append(bucket_key)
-					if not oldest_bucket_ttl:
-						oldest_bucket_ttl = self.redis.ttl(bucket_key)
+			buckets = [self._bucket_key(s, e) for s, e in tokens_between]
 
 			if buckets:
 				self.redis.zunionstore(summary_key, buckets)
-
-				# The summary table inherits the TTL of its oldest bucket
-				self.redis.expire(summary_key, oldest_bucket_ttl)
+				self.redis.expire(summary_key, self.ttl)
 				return True
 			else:
 				# This is an error state
