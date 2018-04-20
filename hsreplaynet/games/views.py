@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.staticfiles.templatetags.staticfiles import static
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.views.decorators.clickjacking import xframe_options_exempt
@@ -28,7 +28,6 @@ class ReplayDetailView(View):
 		if not replay or replay.is_deleted:
 			raise Http404("Replay not found.")
 
-		# TODO: IP caching in redis
 		replay.views += 1
 		replay.save()
 
@@ -79,3 +78,21 @@ class ReplayEmbedView(View):
 		if not replay or replay.is_deleted:
 			raise Http404("Replay not found.")
 		return render(request, self.template_name, {"replay": replay})
+
+
+class AnnotatedReplayView(View):
+	def get(self, request, shortid):
+		from hsreplay.utils import annotate_replay
+		from io import BytesIO
+
+		replay = GameReplay.objects.find_by_short_id(shortid)
+		if not replay or replay.is_deleted:
+			raise Http404("Replay not found.")
+
+		replay_xml = replay.replay_xml.open()
+		annotated_replay = BytesIO()
+		annotate_replay(replay_xml, annotated_replay)
+
+		response = HttpResponse(annotated_replay.getvalue())
+		response["Content-Type"] = "application/xml"
+		return response

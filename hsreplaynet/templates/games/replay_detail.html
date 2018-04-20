@@ -52,6 +52,7 @@
 				{% if replay.friendly_deck %}
 					<li>Player Deck Details <span class="infobox-value"><a href="{% url 'deck_detail' id=replay.friendly_deck.id %}">Link</a></span></li>
 				{% endif %}
+				<li><a href="{% url 'annotated_replay' shortid=replay.shortid %}" download="{{ replay.shortid }}-annotated.hsreplay.xml">Download annotated replay</a></li>
 			{% endif %}
 			<!-- TODO: move this to Joust itself, in the extra menu -->
 			<li><a href="{{ replay.replay_xml.url }}" download="{{ replay.shortid }}.hsreplay.xml">Download XML</a></li>
@@ -59,7 +60,7 @@
 
 		{% if not premium %}
 			<a href="{% url "decks" %}" id="banner-link">
-				<img src="{% static "images/banner-statistics-cards.png" %}" class="statistics-banner" alt="HSReplay.net Statistics are now available!"/>
+				<img src="{% static 'images/banner-statistics-cards.png' %}" class="statistics-banner" alt="HSReplay.net Statistics are now available!"/>
 			</a>
 		{% endif %}
 	</aside>

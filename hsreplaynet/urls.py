@@ -5,7 +5,7 @@ from django.contrib.sitemaps.views import sitemap
 from django.views.generic import RedirectView
 
 from .billing.views import PremiumDetailView
-from .games.views import ReplayDetailView, ReplayEmbedView
+from .games.views import AnnotatedReplayView, ReplayDetailView, ReplayEmbedView
 from .web.sitemap import SITEMAPS
 from .web.views import (
 	ArticlesRedirectView, DownloadsView, HomeView, PingView, SetLocaleView
@@ -25,6 +25,7 @@ urlpatterns = [
 	url(r"^ping/$", PingView.as_view()),
 	url(r"^premium/$", PremiumDetailView.as_view(), name="premium"),
 	url(r"^replay/(?P<id>\w+)$", ReplayDetailView.as_view(), name="games_replay_view"),
+	url(r"^replay/(?P<shortid>\w+)/annotated_xml$", AnnotatedReplayView.as_view(), name="annotated_replay"),
 	url(r"^replay/(?P<id>\w+)/embed$", ReplayEmbedView.as_view(), name="games_replay_embed"),
 
 	# Includes
