@@ -1,17 +1,27 @@
 import React from "react";
+import { InjectedTranslateProps, translate } from "react-i18next";
 import CardData from "../CardData";
-import RecommendedDecksList from "../components/carddetail/RecommendedDecksList";
+import UserData from "../UserData";
 import CardRankingTable from "../components/CardRankingTable";
+import ClassFilter, { FilterOption } from "../components/ClassFilter";
+import DataInjector from "../components/DataInjector";
+import DataText from "../components/DataText";
+import Fragments from "../components/Fragments";
+import InfoIcon from "../components/InfoIcon";
+import InfoboxFilter from "../components/InfoboxFilter";
+import InfoboxFilterGroup from "../components/InfoboxFilterGroup";
+import InfoboxLastUpdated from "../components/InfoboxLastUpdated";
+import AdaptDetail from "../components/carddetail/AdaptDetail";
+import QuestCompletionDetail from "../components/carddetail/QuestCompletionDetail";
+import QuestContributors from "../components/carddetail/QuestContributors";
+import RecommendedDecksList from "../components/carddetail/RecommendedDecksList";
 import CardDetailPieChart from "../components/charts/CardDetailPieChart";
 import PopularityLineChart from "../components/charts/PopularityLineChart";
 import TurnPlayedBarChart from "../components/charts/TurnPlayedBarChart";
 import WinrateByTurnLineChart from "../components/charts/WinrateByTurnLineChart";
 import WinrateLineChart from "../components/charts/WinrateLineChart";
-import ClassFilter, { FilterOption } from "../components/ClassFilter";
-import DataInjector from "../components/DataInjector";
-import DataText from "../components/DataText";
-import InfoboxFilter from "../components/InfoboxFilter";
-import InfoboxFilterGroup from "../components/InfoboxFilterGroup";
+import Tab from "../components/layout/Tab";
+import TabList from "../components/layout/TabList";
 import ChartLoading from "../components/loading/ChartLoading";
 import HideLoading from "../components/loading/HideLoading";
 import TableLoading from "../components/loading/TableLoading";
@@ -26,17 +36,7 @@ import {
 	toTitleCase,
 } from "../helpers";
 import { RenderData, TableData } from "../interfaces";
-import InfoboxLastUpdated from "../components/InfoboxLastUpdated";
-import InfoIcon from "../components/InfoIcon";
-import UserData from "../UserData";
-import AdaptDetail from "../components/carddetail/AdaptDetail";
-import TabList from "../components/layout/TabList";
-import Tab from "../components/layout/Tab";
-import Fragments from "../components/Fragments";
-import QuestCompletionDetail from "../components/carddetail/QuestCompletionDetail";
-import QuestContributors from "../components/carddetail/QuestContributors";
 import { Collection } from "../utils/api";
-import { InjectedTranslateProps, translate } from "react-i18next";
 
 interface Props extends InjectedTranslateProps {
 	card: any;
@@ -67,7 +67,7 @@ class CardDetail extends React.Component<Props, State> {
 	}
 
 	cardHasTargetReqs(): boolean {
-		const target_requirements = [
+		const targetRequirements = [
 			"REQ_TARGET_TO_PLAY",
 			"REQ_TARGET_FOR_COMBO",
 			"REQ_TARGET_IF_AVAILABLE",
@@ -76,11 +76,11 @@ class CardDetail extends React.Component<Props, State> {
 			"REQ_TARGET_IF_AVAILABLE_AND_MINIMUM_FRIENDLY_MINIONS",
 		];
 		if (this.props.card && this.props.card.playRequirements) {
-			const card_requirements = Object.keys(
+			const cardRequirements = Object.keys(
 				this.props.card.playRequirements,
 			);
-			for (let i = 0; i < target_requirements.length; i++) {
-				if (card_requirements.indexOf(target_requirements[i]) !== -1) {
+			for (const targetReq of targetRequirements) {
+				if (cardRequirements.indexOf(targetReq) !== -1) {
 					return true;
 				}
 			}
@@ -165,9 +165,7 @@ class CardDetail extends React.Component<Props, State> {
 					const colWidth = 12 / utilization.length;
 					utilization = utilization.map(obj => (
 						<div
-							className={
-								"col-lg-" + colWidth + " col-md-" + colWidth
-							}
+							className={`col-lg-${colWidth} col-md-${colWidth}`}
 						>
 							{obj}
 						</div>
@@ -337,19 +335,16 @@ class CardDetail extends React.Component<Props, State> {
 				);
 
 				content = [
-					<section id="content-header">
-						<h1>
-							{this.props.card && this.props.card.name} -
-							Statistics
-						</h1>
+					<section id="content-header" key="content-header">
+						<h1>{t(`${this.props.card.name} - Statistics`)}</h1>
 						{headerContent}
 					</section>,
-					<section id="page-content">
+					<section id="page-content" key="page-content">
 						<Fragments
 							defaults={{
 								tab: "",
 							}}
-							keepDefaults={true}
+							keepDefaults
 						>
 							<TabList
 								tab={this.props.tab}
@@ -521,11 +516,7 @@ class CardDetail extends React.Component<Props, State> {
 									label="Quest Contributors"
 									id="quest-contributors"
 									hidden={
-										!UserData.hasFeature(
-											"card-quest-data",
-										) ||
-										!this.cardIsQuest() ||
-										this.isArena()
+										!this.cardIsQuest() || this.isArena()
 									}
 								>
 									<DataInjector
@@ -543,11 +534,7 @@ class CardDetail extends React.Component<Props, State> {
 									label="Quest Completion"
 									id="quest-completion"
 									hidden={
-										!UserData.hasFeature(
-											"card-quest-data",
-										) ||
-										!this.cardIsQuest() ||
-										this.isArena()
+										!this.cardIsQuest() || this.isArena()
 									}
 								>
 									<QuestCompletionDetail
@@ -586,7 +573,7 @@ class CardDetail extends React.Component<Props, State> {
 				{this.props.card ? (
 					<span className="infobox-value">
 						{dustCostValue > 0
-							? dustCostValue + " Dust"
+							? `${dustCostValue} Dust`
 							: "Not craftable"}
 					</span>
 				) : null}
@@ -599,12 +586,10 @@ class CardDetail extends React.Component<Props, State> {
 					<h1 className="art">
 						<img
 							className="card-image"
-							src={
-								"https://art.hearthstonejson.com/v1/render/latest/enUS/256x/" +
-								this.props.cardId +
-								".png"
-							}
-							alt={this.props.card ? this.props.card.name : null}
+							src={`https://art.hearthstonejson.com/v1/render/latest/enUS/256x/${
+								this.props.cardId
+							}.png`}
+							alt={this.props.card && this.props.card.name || ""}
 						/>
 					</h1>
 					<p>{this.getCleanFlavorText()}</p>
