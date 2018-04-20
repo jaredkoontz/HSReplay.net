@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 
 from allauth.socialaccount.models import SocialAccount
 from django.core.cache import caches
-from django.http import Http404, HttpResponse, JsonResponse
+from django.http import Http404, JsonResponse
 from hearthstone.enums import BnetGameType
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -126,8 +126,6 @@ _PLAYED_CARDS_CACHE = defaultdict(dict)
 
 
 def fetch_played_cards_distribution(request):
-	return HttpResponse(status=204)
-
 	# base_ts ensures we generate the result at most once per bucket_size seconds
 	base_ts = _get_base_ts(bucket_size=5)
 
@@ -167,7 +165,6 @@ def fetch_played_cards_distribution(request):
 
 def fetch_played_cards_distribution_for_gametype(request, game_type_name):
 	"""Return the last 60 seconds of played cards data using a 5 minute sliding window"""
-	return HttpResponse(status=204)
 
 	_validate_game_type(game_type_name)
 
