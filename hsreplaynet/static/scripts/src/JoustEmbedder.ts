@@ -1,5 +1,8 @@
-import { Launcher } from "joust";
-import * as Joust from "joust";
+import {
+	Launcher,
+	launcher as launchJoust,
+	release as joustRelease,
+} from "joust";
 import Raven from "raven-js";
 import React from "react";
 import { cardArt, joustAsset, joustStaticFile } from "./helpers";
@@ -16,7 +19,6 @@ export default class JoustEmbedder {
 	public onTurn: (turn: number) => void = null;
 	public onToggleSwap: (swap: boolean) => void = null;
 	public onToggleReveal: (reveal: boolean) => void = null;
-	private target: HTMLElement = null;
 	private url: string = null;
 
 	public embed(target: HTMLElement) {
@@ -30,7 +32,7 @@ export default class JoustEmbedder {
 			throw new Error("No target specified");
 		}
 
-		if (!Joust.launcher) {
+		if (!launchJoust) {
 			console.error("Could not load Joust");
 			const joustUrl = joustStaticFile("joust.js");
 			target.innerHTML =
@@ -43,9 +45,9 @@ export default class JoustEmbedder {
 			return;
 		}
 
-		const launcher: Launcher = Joust.launcher(target);
+		const launcher: Launcher = launchJoust(target);
 		this.launcher = launcher;
-		const release = Joust.release();
+		const release = joustRelease();
 
 		UserData.create();
 
