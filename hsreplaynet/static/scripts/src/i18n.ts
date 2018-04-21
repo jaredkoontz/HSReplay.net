@@ -11,15 +11,6 @@ i18n
 		interpolation: {
 			escapeValue: false,
 		},
-
-		// debug messages
-		debug: true,
-	})
-	.addResourceBundle("de", "translation", {
-		"Game Mode": "Spielmodus",
-		"Ranked Standard": "Standard (gewertet)",
-		"Ranked Wild": "Wild (gewertet)",
-		Arena: "Arena",
 	});
 
 export default i18n;
