@@ -25,10 +25,10 @@ export default class ErrorReporter extends React.Component<Props, State> {
 			error &&
 			error.message &&
 			error.message.startsWith(
-				"Invariant Violation: Maximum update depth exceeded",
+				"Invariant Violation: Minified React error #185",
 			)
 		) {
-			if (Math.random() > 0.1) {
+			if (Math.random() > 0.01) {
 				reportToSentry = false;
 			}
 		}
