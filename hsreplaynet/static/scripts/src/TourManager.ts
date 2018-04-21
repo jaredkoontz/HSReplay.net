@@ -1,5 +1,5 @@
 import { cookie } from "cookie_js";
-import * as Shepherd from "tether-shepherd";
+import Shepherd from "tether-shepherd";
 
 export interface StepDefinition {
 	id: string;

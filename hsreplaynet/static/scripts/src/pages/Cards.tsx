@@ -5,7 +5,7 @@ import CardImage from "../components/CardImage";
 import ClassFilter, { FilterOption } from "../components/ClassFilter";
 import DataInjector from "../components/DataInjector";
 import InfoboxFilter from "../components/InfoboxFilter";
-import * as _ from "lodash";
+import _ from "lodash";
 import TableLoading from "../components/loading/TableLoading";
 import PremiumWrapper from "../components/premium/PremiumWrapper";
 import ResetHeader from "../components/ResetHeader";

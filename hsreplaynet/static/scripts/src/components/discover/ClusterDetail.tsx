@@ -1,7 +1,7 @@
 import React from "react";
 import CardData from "../../CardData";
 import { ClusterData, DeckData } from "./ClassAnalysis";
-import * as _ from "lodash";
+import _ from "lodash";
 import CardList from "../CardList";
 import ClusterSignature from "./ClusterSignature";
 import { commaSeparate } from "../../helpers";

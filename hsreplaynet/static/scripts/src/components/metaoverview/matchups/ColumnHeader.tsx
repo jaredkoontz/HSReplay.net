@@ -1,5 +1,5 @@
 import React from "react";
-import * as _ from "lodash";
+import _ from "lodash";
 import { ArchetypeData } from "../../../interfaces";
 import Tooltip from "../../Tooltip";
 import { getHeroClassName, image } from "../../../helpers";

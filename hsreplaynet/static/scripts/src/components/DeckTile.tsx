@@ -1,5 +1,5 @@
 import React from "react";
-import * as _ from "lodash";
+import _ from "lodash";
 import CardIcon from "./CardIcon";
 import ManaCurve from "./ManaCurve";
 import { CardObj, DeckObj } from "../interfaces";

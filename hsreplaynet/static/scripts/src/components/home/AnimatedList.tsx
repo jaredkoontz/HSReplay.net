@@ -1,6 +1,6 @@
 import React from "react";
 import AnimatedListItem from "./AnimatedListItem";
-import * as _ from "lodash";
+import _ from "lodash";
 
 const enum Step {
 	WAITING,

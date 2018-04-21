@@ -1,5 +1,5 @@
 import React from "react";
-import * as _ from "lodash";
+import _ from "lodash";
 
 export default class PropMultiplexer extends React.Component {
 	public render(): React.ReactNode {

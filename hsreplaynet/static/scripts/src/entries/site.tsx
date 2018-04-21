@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import * as $ from "jquery";
+import $ from "jquery";
 import { cookie } from "cookie_js";
 import UserData from "../UserData";
 import Modal from "../components/Modal";

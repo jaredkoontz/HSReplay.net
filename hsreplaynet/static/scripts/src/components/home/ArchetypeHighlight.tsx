@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { Archetype, MetaPreview } from "../../utils/api";
 import { withLoading } from "../loading/Loading";
 import CardData from "../../CardData";

@@ -1,4 +1,4 @@
-import * as _ from "lodash";
+import _ from "lodash";
 import { addDays, format } from "date-fns";
 import React from "react";
 import { VictoryArea, VictoryAxis, VictoryChart, VictoryLabel } from "victory";

@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { GetDustValue, image } from "../../helpers";
 import Tooltip from "../Tooltip";
 

@@ -1,5 +1,5 @@
 import React from "react";
-import * as _ from "lodash";
+import _ from "lodash";
 import CardData from "../../CardData";
 import CardList from "../CardList";
 import { ArchetypeSignature as ApiArchetypeSignature } from "../../utils/api";

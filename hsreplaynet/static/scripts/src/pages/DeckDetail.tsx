@@ -33,7 +33,7 @@ import CardList from "../components/CardList";
 import CardDetailPieChart from "../components/charts/CardDetailPieChart";
 import DeckCountersList from "../components/deckdetail/DeckCountersList";
 import CardTable from "../components/tables/CardTable";
-import * as _ from "lodash";
+import _ from "lodash";
 import Feature from "../components/Feature";
 import PremiumPromo from "../components/premium/PremiumPromo";
 import ArchetypeMatchups from "../components/archetypedetail/ArchetypeMatchups";

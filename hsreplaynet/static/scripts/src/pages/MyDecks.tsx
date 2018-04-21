@@ -1,5 +1,5 @@
 import React from "react";
-import * as _ from "lodash";
+import _ from "lodash";
 import CardData from "../CardData";
 import CardSearch from "../components/CardSearch";
 import ClassFilter, { FilterOption } from "../components/ClassFilter";

@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 
 export default class FAQ extends React.Component<null, null> {
 	render(): React.ReactNode {

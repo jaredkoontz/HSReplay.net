@@ -1,5 +1,5 @@
 import React from "react";
-import * as _ from "lodash";
+import _ from "lodash";
 import CardTile from "../CardTile";
 import CardData from "../../CardData";
 import AnimatedList, { AnimatedListObject } from "./AnimatedList";

@@ -1,5 +1,5 @@
 import React from "react";
-import * as _ from "lodash";
+import _ from "lodash";
 import DeckTile from "./DeckTile";
 import InfoIcon from "./InfoIcon";
 import Pager from "./Pager";

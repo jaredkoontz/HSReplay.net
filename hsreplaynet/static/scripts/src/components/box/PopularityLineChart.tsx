@@ -1,4 +1,4 @@
-import * as _ from "lodash";
+import _ from "lodash";
 import React from "react";
 import { VictoryArea, VictoryAxis, VictoryChart } from "victory";
 import { getChartMetaData, toTimeSeries } from "../../helpers";

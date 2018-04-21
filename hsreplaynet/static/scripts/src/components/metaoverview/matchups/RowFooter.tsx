@@ -1,5 +1,5 @@
 import React from "react";
-import * as _ from "lodash";
+import _ from "lodash";
 import { ArchetypeData } from "../../../interfaces";
 import { getColorString } from "../../../helpers";
 import { Colors } from "../../../Colors";

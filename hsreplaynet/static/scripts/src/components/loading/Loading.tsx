@@ -1,6 +1,6 @@
 import React from "react";
 import { LoadingStatus } from "../../interfaces";
-import * as _ from "lodash";
+import _ from "lodash";
 
 type StringOrJSX = string | JSX.Element | JSX.Element[];
 
