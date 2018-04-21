@@ -827,8 +827,8 @@ export default class DeckDetail extends React.Component<Props, State> {
 					}
 					customNoDataMessage={
 						hasSelectedClass
-							? "You need to play at least five games against this class."
-							: "You need to play at least five games with this deck."
+							? "You need to play at least ten games against this class."
+							: "You need to play at least ten games with this deck."
 					}
 					collection={this.props.collection}
 				/>
