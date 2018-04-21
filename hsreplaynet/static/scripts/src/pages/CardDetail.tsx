@@ -149,11 +149,12 @@ class CardDetail extends React.Component<Props, State> {
 				content = (
 					<div className="message-wrapper">
 						<h3>
-							Sorry, we currently don't have statistics for
-							non-collectible cards.
+							{t(
+								"Sorry, we currently don't have statistics for non-collectible cards.",
+							)}
 						</h3>
 						<a href="/cards/" className="promo-button">
-							Show available cards
+							{t("Show available cards")}
 						</a>
 					</div>
 				);
@@ -172,12 +173,12 @@ class CardDetail extends React.Component<Props, State> {
 					));
 				} else if (cardStatsLoading) {
 					utilization.push(
-						<h3 className="message-wrapper">Loading…</h3>,
+						<h3 className="message-wrapper">{t("Loading…")}</h3>,
 					);
 				} else {
 					utilization.push(
 						<h3 className="message-wrapper">
-							No utilization data for this card available
+							{t("No utilization data for this card available")}
 						</h3>,
 					);
 				}
@@ -199,8 +200,10 @@ class CardDetail extends React.Component<Props, State> {
 								</ChartLoading>
 							</DataInjector>
 							<InfoIcon
-								header="Popularity over time"
-								content="Percentage of decks that include at least one copy of this card."
+								header={t("Popularity over time")}
+								content={t(
+									"Percentage of decks that include at least one copy of this card.",
+								)}
 							/>
 						</div>
 					</div>,
@@ -215,13 +218,15 @@ class CardDetail extends React.Component<Props, State> {
 								<ChartLoading>
 									<WinrateLineChart
 										widthRatio={2}
-										axisLabelY="Deck Winrate"
+										axisLabelY={t("Deck Winrate")}
 									/>
 								</ChartLoading>
 							</DataInjector>
 							<InfoIcon
-								header="Winrate over time"
-								content="Winrate of decks that include at least one copy of this card."
+								header={t("Winrate over time")}
+								content={t(
+									"Winrate of decks that include at least one copy of this card.",
+								)}
 							/>
 						</div>
 					</div>,
@@ -271,7 +276,7 @@ class CardDetail extends React.Component<Props, State> {
 					<div className="container-fluid">
 						<div className="row">
 							<div className="opponent-filter-wrapper">
-								<h3>Opponent class</h3>
+								<h3>{t("Opponent class")}</h3>
 								<ClassFilter
 									filters="All"
 									hideAll
@@ -304,8 +309,10 @@ class CardDetail extends React.Component<Props, State> {
 										turnPlayedChart
 									)}
 									<InfoIcon
-										header="Popularity by turn"
-										content="Percentage of the time this card is played on a given turn."
+										header={t("Popularity by turn")}
+										content={t(
+											"Percentage of the time this card is played on a given turn.",
+										)}
 									/>
 								</div>
 							</div>
@@ -325,8 +332,10 @@ class CardDetail extends React.Component<Props, State> {
 										winrateByTurnChart
 									)}
 									<InfoIcon
-										header="Winrate by turn"
-										content="Percentage of games won when this card is played on a given turn."
+										header={t("Winrate by turn")}
+										content={t(
+											"Percentage of games won when this card is played on a given turn.",
+										)}
 									/>
 								</div>
 							</div>
@@ -351,7 +360,7 @@ class CardDetail extends React.Component<Props, State> {
 								setTab={this.props.setTab}
 							>
 								<Tab
-									label="Recommended Decks"
+									label={t("Recommended Decks")}
 									id="recommended-decks"
 									disabled={this.isArena()}
 								>
@@ -378,28 +387,32 @@ class CardDetail extends React.Component<Props, State> {
 								<Tab
 									label={
 										<span className="text-premium">
-											Turn Details&nbsp;
+											{t("Turn Details")}
 											<InfoIcon
-												header="Popularity and Winrate by Turn"
-												content="Learn when this card is usually played in the different matchups and how that affects the winrate."
+												header={t(
+													"Popularity and Winrate by turn",
+												)}
+												content={t(
+													"Learn when this card is usually played in the different matchups and how that affects the winrate.",
+												)}
 											/>
 										</span>
 									}
 									id="turn-statistics"
 								>
 									<PremiumWrapper
-										name="Single Card Turn Statistics"
+										name={t("Single Card Turn Statistics")}
 										iconStyle={{ display: "none" }}
 									>
 										{turnCharts}
 									</PremiumWrapper>
 								</Tab>
 								<Tab
-									label="Class Distribution"
+									label={t("Class Distribution")}
 									id="class-distribution"
 									hidden={!this.cardIsNeutral()}
 								>
-									<h3>Class Distribution</h3>
+									<h3>{t("Class Distribution")}</h3>
 									<div id="class-chart">
 										<DataInjector
 											query={{
@@ -423,12 +436,12 @@ class CardDetail extends React.Component<Props, State> {
 									</div>
 								</Tab>
 								<Tab
-									label="Targets"
+									label={t("Targets")}
 									id="targets"
 									hidden={!this.cardHasTargetReqs()}
 								>
 									<div className="card-tables">
-										<h3>Most popular targets</h3>
+										<h3>{t("Most popular targets")}</h3>
 										<DataInjector
 											query={{
 												url:
@@ -452,12 +465,14 @@ class CardDetail extends React.Component<Props, State> {
 									</div>
 								</Tab>
 								<Tab
-									label="Discover"
+									label={t("Discover")}
 									id="discover"
 									hidden={!this.cardHasDiscover()}
 								>
 									<div className="card-tables">
-										<h3>Most popular Discover choices</h3>
+										<h3>
+											{t("Most popular Discover choices")}
+										</h3>
 										<DataInjector
 											query={{
 												url:
@@ -475,8 +490,12 @@ class CardDetail extends React.Component<Props, State> {
 													tooltips={{
 														popularity: (
 															<InfoIcon
-																header="Popularity for Discover"
-																content="A card's percentage represents how often the card was picked over others if it was available for choice."
+																header={t(
+																	"Popularity for Discover",
+																)}
+																content={t(
+																	"A card's percentage represents how often the card was picked over others if it was available for choice.",
+																)}
 															/>
 														),
 													}}
@@ -486,7 +505,7 @@ class CardDetail extends React.Component<Props, State> {
 									</div>
 								</Tab>
 								<Tab
-									label="Adapt"
+									label={t("Adapt")}
 									id="adapt"
 									hidden={!this.cardHasAdapt()}
 								>
@@ -513,7 +532,7 @@ class CardDetail extends React.Component<Props, State> {
 									</DataInjector>
 								</Tab>
 								<Tab
-									label="Quest Contributors"
+									label={t("Quest Contributors")}
 									id="quest-contributors"
 									hidden={
 										!this.cardIsQuest() || this.isArena()
@@ -531,7 +550,7 @@ class CardDetail extends React.Component<Props, State> {
 									</DataInjector>
 								</Tab>
 								<Tab
-									label="Quest Completion"
+									label={t("Quest Completion")}
 									id="quest-completion"
 									hidden={
 										!this.cardIsQuest() || this.isArena()
@@ -551,7 +570,7 @@ class CardDetail extends React.Component<Props, State> {
 				];
 			}
 		} else {
-			content = <h3 className="message-wrapper">Loading…</h3>;
+			content = <h3 className="message-wrapper">{t("Loading…")}</h3>;
 		}
 
 		let race = null;
@@ -573,8 +592,8 @@ class CardDetail extends React.Component<Props, State> {
 				{this.props.card ? (
 					<span className="infobox-value">
 						{dustCostValue > 0
-							? `${dustCostValue} Dust`
-							: "Not craftable"}
+							? t(`${dustCostValue} Dust`)
+							: t("Not craftable")}
 					</span>
 				) : null}
 			</li>
@@ -589,7 +608,9 @@ class CardDetail extends React.Component<Props, State> {
 							src={`https://art.hearthstonejson.com/v1/render/latest/enUS/256x/${
 								this.props.cardId
 							}.png`}
-							alt={this.props.card && this.props.card.name || ""}
+							alt={
+								(this.props.card && this.props.card.name) || ""
+							}
 						/>
 					</h1>
 					<p>{this.getCleanFlavorText()}</p>
@@ -622,33 +643,37 @@ class CardDetail extends React.Component<Props, State> {
 						</InfoboxFilter>
 					</InfoboxFilterGroup>
 					<InfoboxFilterGroup
-						header="Rank Range"
-						infoHeader="Rank Range"
-						infoContent="Check out how this card performs at higher ranks!"
+						header={t("Rank Range")}
+						infoHeader={t("Rank Range")}
+						infoContent={t(
+							"Check out how this card performs at higher ranks!",
+						)}
 						selectedValue={!this.isArena() && this.props.rankRange}
 						onClick={value => this.props.setRankRange(value)}
 						disabled={this.isArena()}
 					>
 						<PremiumWrapper
-							name="Single Card Rank Range"
+							name={t("Single Card Rank Range")}
 							iconStyle={{ display: "none" }}
 						>
 							<InfoboxFilter value="LEGEND_ONLY">
-								Legend only
+								{t("Legend only")}
 							</InfoboxFilter>
 							<InfoboxFilter value="LEGEND_THROUGH_FIVE">
-								Legend–5
+								{t("Legend–5")}
 							</InfoboxFilter>
 							<InfoboxFilter value="LEGEND_THROUGH_TEN">
-								Legend–10
+								{t("Legend–10")}
 							</InfoboxFilter>
 						</PremiumWrapper>
-						<InfoboxFilter value="ALL">Legend–25</InfoboxFilter>
+						<InfoboxFilter value="ALL">
+							{t("Legend–25")}
+						</InfoboxFilter>
 					</InfoboxFilterGroup>
-					<h2>Data</h2>
+					<h2>{t("Data")}</h2>
 					<ul>
 						<li>
-							Sample size
+							{t("Sample size")}
 							<span className="infobox-value">
 								<DataInjector
 									fetchCondition={
@@ -681,8 +706,10 @@ class CardDetail extends React.Component<Props, State> {
 							</span>
 						</li>
 						<li>
-							Time frame
-							<span className="infobox-value">Last 30 days</span>
+							{t("Time frame")}
+							<span className="infobox-value">
+								{t("Last 30 days")}
+							</span>
 						</li>
 						<InfoboxLastUpdated
 							fetchCondition={
@@ -696,28 +723,28 @@ class CardDetail extends React.Component<Props, State> {
 					<h2>Card</h2>
 					<ul>
 						<li>
-							Class
+							{t("Class")}
 							<span className="infobox-value">
 								{this.props.card &&
 									toTitleCase(this.props.card.cardClass)}
 							</span>
 						</li>
 						<li>
-							Type
+							{t("Type")}
 							<span className="infobox-value">
 								{this.props.card &&
 									toTitleCase(this.props.card.type)}
 							</span>
 						</li>
 						<li>
-							Rarity
+							{t("Rarity")}
 							<span className="infobox-value">
 								{this.props.card &&
 									toTitleCase(this.props.card.rarity)}
 							</span>
 						</li>
 						<li>
-							Set
+							{t("Set")}
 							<span className="infobox-value">
 								{this.props.card &&
 									this.props.card.set &&
@@ -727,7 +754,7 @@ class CardDetail extends React.Component<Props, State> {
 						{race}
 						{craftingCost}
 						<li>
-							Artist
+							{t("Artist")}
 							<span className="infobox-value">
 								{this.props.card && this.props.card.artist}
 							</span>

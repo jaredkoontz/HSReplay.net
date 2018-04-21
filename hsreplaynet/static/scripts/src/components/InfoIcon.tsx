@@ -18,6 +18,7 @@ export default class InfoIcon extends React.Component<InfoIconProps> {
 				header={this.props.header}
 				content={this.props.content}
 			>
+				&nbsp;
 				<span
 					className="glyphicon glyphicon-question-sign"
 					aria-hidden="true"
