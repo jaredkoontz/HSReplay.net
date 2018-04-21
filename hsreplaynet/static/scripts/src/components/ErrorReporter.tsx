@@ -24,7 +24,9 @@ export default class ErrorReporter extends React.Component<Props, State> {
 		if (
 			error &&
 			error.message &&
-			error.message.startsWith("Maximum update depth exceeded.")
+			error.message.startsWith(
+				"Invariant Violation: Maximum update depth exceeded",
+			)
 		) {
 			if (Math.random() > 0.1) {
 				reportToSentry = false;
