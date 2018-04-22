@@ -1008,7 +1008,7 @@ export default class Cards extends React.Component<Props, State> {
 							onClick={value => this.props.setTimeRange(value)}
 						>
 							<PremiumWrapper
-								name="Card List Time Frame"
+								analyticsLabel="Card List Time Frame"
 								iconStyle={{ display: "none" }}
 							>
 								<InfoboxFilter value="LAST_1_DAY">
@@ -1057,7 +1057,7 @@ export default class Cards extends React.Component<Props, State> {
 						disabled={this.props.gameType === "ARENA"}
 					>
 						<PremiumWrapper
-							name="Card List Rank Range"
+							analyticsLabel="Card List Rank Range"
 							iconStyle={{ display: "none" }}
 						>
 							<InfoboxFilter value="LEGEND_ONLY">

@@ -232,7 +232,7 @@ export default class DeckDetail extends React.Component<Props, State> {
 		);
 
 		const filters = [
-			<PremiumWrapper name="Single Deck Opponent Selection">
+			<PremiumWrapper analyticsLabel="Single Deck Opponent Selection">
 				<h2>
 					Select your opponent
 					<InfoIcon
@@ -299,7 +299,7 @@ export default class DeckDetail extends React.Component<Props, State> {
 						}
 					>
 						<PremiumWrapper
-							name="Single Deck Rank Range"
+							analyticsLabel="Single Deck Rank Range"
 							iconStyle={{ display: "none" }}
 						>
 							{infoBoxFilter(
@@ -342,7 +342,7 @@ export default class DeckDetail extends React.Component<Props, State> {
 						}
 					>
 						<PremiumWrapper
-							name="Single Deck Region"
+							analyticsLabel="Single Deck Region"
 							iconStyle={{ display: "none" }}
 						>
 							{infoBoxFilter("region", "REGION_US", "America")}

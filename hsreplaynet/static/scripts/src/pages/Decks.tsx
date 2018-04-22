@@ -681,7 +681,7 @@ export default class Decks extends React.Component<Props, State> {
 					</section>
 					<section id="opponent-class-filter">
 						<PremiumWrapper
-							name="Deck List Opponent Selection"
+							analyticsLabel="Deck List Opponent Selection"
 							infoHeader="Winrate by Opponent"
 							infoContent={
 								<p>
@@ -799,7 +799,7 @@ export default class Decks extends React.Component<Props, State> {
 							onClick={value => this.props.setTimeRange(value)}
 						>
 							<PremiumWrapper
-								name="Deck List Time Frame"
+								analyticsLabel="Deck List Time Frame"
 								iconStyle={{ display: "none" }}
 							>
 								<InfoboxFilter value="CURRENT_SEASON">
@@ -837,7 +837,7 @@ export default class Decks extends React.Component<Props, State> {
 							onClick={value => this.props.setRankRange(value)}
 						>
 							<PremiumWrapper
-								name="Deck List Rank Range"
+								analyticsLabel="Deck List Rank Range"
 								iconStyle={{ display: "none" }}
 							>
 								<InfoboxFilter value="LEGEND_ONLY">
@@ -863,7 +863,7 @@ export default class Decks extends React.Component<Props, State> {
 								infoContent="Want to get more specific? Take a look at the decks played in your region!"
 							>
 								<PremiumWrapper
-									name="Deck List Region"
+									analyticsLabel="Deck List Region"
 									iconStyle={{ display: "none" }}
 								>
 									<InfoboxFilter value="REGION_US">

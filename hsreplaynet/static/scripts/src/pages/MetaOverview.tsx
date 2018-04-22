@@ -97,7 +97,7 @@ export default class MetaOverview extends React.Component<Props, State> {
 		) {
 			rankRangeFilter = (
 				<section id="rank-range-filter">
-					<PremiumWrapper name="Meta Overview Rank Range">
+					<PremiumWrapper analyticsLabel="Meta Overview Rank Range">
 						<h2>Rank Range</h2>
 						<RankPicker
 							selected={this.props.rankRange}
@@ -140,7 +140,7 @@ export default class MetaOverview extends React.Component<Props, State> {
 							onClick={value => this.props.setTimeFrame(value)}
 						>
 							<PremiumWrapper
-								name="Meta Overview Time Frame"
+								analyticsLabel="Meta Overview Time Frame"
 								iconStyle={{ display: "none" }}
 							>
 								<InfoboxFilter value="LAST_1_DAY">
@@ -193,7 +193,7 @@ export default class MetaOverview extends React.Component<Props, State> {
 								onClick={region => this.props.setRegion(region)}
 							>
 								<PremiumWrapper
-									name="Meta Overview Region"
+									analyticsLabel="Meta Overview Region"
 									iconStyle={{ display: "none" }}
 								>
 									<InfoboxFilter value="REGION_US">

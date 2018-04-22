@@ -557,7 +557,7 @@ class ArchetypeDetail extends React.Component<Props, State> {
 							onClick={value => this.props.setRankRange(value)}
 						>
 							<PremiumWrapper
-								name={t("Archetype Detail Rank Range")}
+								analyticsLabel="Archetype Detail Rank Range"
 								iconStyle={{ display: "none" }}
 							>
 								<InfoboxFilter value="LEGEND_ONLY">

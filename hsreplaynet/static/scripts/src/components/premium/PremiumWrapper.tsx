@@ -7,7 +7,7 @@ import Modal from "../Modal";
 import PremiumModal from "./PremiumModal";
 
 interface Props {
-	name?: string; // used for tracking only
+	analyticsLabel: string;
 	iconStyle?: any;
 	infoHeader?: InfoIconProps["header"];
 	infoContent?: InfoIconProps["content"];
@@ -102,7 +102,7 @@ export default class PremiumWrapper extends React.Component<Props, State> {
 
 	public render(): React.ReactNode {
 		const {
-			name,
+			analyticsLabel,
 			iconStyle,
 			infoHeader,
 			infoContent,
@@ -129,7 +129,7 @@ export default class PremiumWrapper extends React.Component<Props, State> {
 					visible={this.state.showModal}
 					onClose={() => this.setState({ showModal: false })}
 				>
-					<PremiumModal analyticsLabel={this.props.name} />
+					<PremiumModal analyticsLabel={analyticsLabel} />
 				</Modal>
 				<div
 					className={classNames.join(" ")}

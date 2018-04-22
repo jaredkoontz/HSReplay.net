@@ -401,7 +401,7 @@ class CardDetail extends React.Component<Props, State> {
 									id="turn-statistics"
 								>
 									<PremiumWrapper
-										name={t("Single Card Turn Statistics")}
+										analyticsLabel="Single Card Turn Statistics"
 										iconStyle={{ display: "none" }}
 									>
 										{turnCharts}
@@ -653,7 +653,7 @@ class CardDetail extends React.Component<Props, State> {
 						disabled={this.isArena()}
 					>
 						<PremiumWrapper
-							name={t("Single Card Rank Range")}
+							analyticsLabel="Single Card Rank Range"
 							iconStyle={{ display: "none" }}
 						>
 							<InfoboxFilter value="LEGEND_ONLY">

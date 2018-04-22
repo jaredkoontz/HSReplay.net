@@ -137,7 +137,7 @@ export default class AdaptDetail extends React.Component<Props, State> {
 			<div className="container-fluid">
 				<div className="row">
 					<div className="opponent-filter-wrapper">
-						<PremiumWrapper name="Single Card Adapt Opponent Selection">
+						<PremiumWrapper analyticsLabel="Single Card Adapt Opponent Selection">
 							<h3>Opponent class</h3>
 							<ClassFilter
 								filters="All"
