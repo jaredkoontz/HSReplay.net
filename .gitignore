@@ -1,16 +1,15 @@
-hsreplaynet/local_settings.py
-node_modules/
-build/
+/hsreplaynet/local_settings.py
+/node_modules/
+/build/
 __pycache__/
-.vagrant/
 .venv/
 .tox/
 
-hsreplaynet/static/fonts/
-hsreplaynet/static/bundles/
-hsreplaynet/static/scripts/src/hearthstone.d.ts
-hsreplaynet/static/styles/main.css*
-hsreplaynet/static/vendor/
+/hsreplaynet/static/fonts/
+/hsreplaynet/static/bundles/
+/hsreplaynet/static/scripts/src/hearthstone.d.ts
+/hsreplaynet/static/styles/main.css*
+/hsreplaynet/static/vendor/
 
 npm-debug.log*
 yarn-debug.log*
@@ -18,5 +17,5 @@ yarn-error.log*
 
 .cache/
 
-locale/
-tests/logdata/
+/locale/
+/tests/logdata/
