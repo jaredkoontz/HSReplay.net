@@ -1,31 +1,31 @@
-import { DeckObj, LoadingStatus, SortDirection } from "../interfaces";
+import React from "react";
 import { AutoSizer } from "react-virtualized";
+import CardData from "../CardData";
 import DataManager from "../DataManager";
 import UserData from "../UserData";
-import TabList from "../components/layout/TabList";
-import Tab from "../components/layout/Tab";
 import DataInjector from "../components/DataInjector";
-import ChartLoading from "../components/loading/ChartLoading";
-import InfoboxFilterGroup from "../components/InfoboxFilterGroup";
-import InfoboxFilter from "../components/InfoboxFilter";
-import PremiumWrapper from "../components/premium/PremiumWrapper";
 import DeckList from "../components/DeckList";
-import CardData from "../CardData";
-import React from "react";
-import ArchetypeMatchups from "../components/archetypedetail/ArchetypeMatchups";
-import ArchetypeDistributionPieChart from "../components/archetypedetail/ArchetypeDistributionPieChart";
-import PopularityLineChart from "../components/charts/PopularityLineChart";
 import InfoIcon from "../components/InfoIcon";
-import WinrateLineChart from "../components/charts/WinrateLineChart";
-import { getHeroSkinCardUrl, isWildSet } from "../helpers";
+import InfoboxFilter from "../components/InfoboxFilter";
+import InfoboxFilterGroup from "../components/InfoboxFilterGroup";
+import ArchetypeDistributionPieChart from "../components/archetypedetail/ArchetypeDistributionPieChart";
+import ArchetypeMatchups from "../components/archetypedetail/ArchetypeMatchups";
 import ArchetypeSignature from "../components/archetypedetail/ArchetypeSignature";
-import { extractSignature } from "../extractors";
-import CardTable from "../components/tables/CardTable";
-import PremiumPromo from "../components/premium/PremiumPromo";
-import WinrateBox from "../components/box/WinrateBox";
-import PopularityBox from "../components/box/PopularityBox";
-import MatchupBox from "../components/box/MatchupBox";
 import DeckBox from "../components/box/DeckBox";
+import MatchupBox from "../components/box/MatchupBox";
+import PopularityBox from "../components/box/PopularityBox";
+import WinrateBox from "../components/box/WinrateBox";
+import PopularityLineChart from "../components/charts/PopularityLineChart";
+import WinrateLineChart from "../components/charts/WinrateLineChart";
+import Tab from "../components/layout/Tab";
+import TabList from "../components/layout/TabList";
+import ChartLoading from "../components/loading/ChartLoading";
+import PremiumPromo from "../components/premium/PremiumPromo";
+import PremiumWrapper from "../components/premium/PremiumWrapper";
+import CardTable from "../components/tables/CardTable";
+import { extractSignature } from "../extractors";
+import { getHeroSkinCardUrl, isWildSet } from "../helpers";
+import { DeckObj, LoadingStatus, SortDirection } from "../interfaces";
 import { Archetype, Collection } from "../utils/api";
 
 interface Props {
@@ -59,12 +59,12 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 		super(props, context);
 		this.state = {
 			deckData: null,
+			mulliganGuideSortBy: "card",
+			mulliganGuideSortDirection: "ascending",
 			popularDecks: [],
 			popularDecksPage: 1,
 			popularDecksSortBy: "popularity",
 			popularDecksSortDirection: "descending",
-			mulliganGuideSortBy: "card",
-			mulliganGuideSortDirection: "ascending",
 		};
 
 		this.fixGameTypeFragments();
@@ -177,7 +177,7 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 		let content = null;
 		if (this.hasData()) {
 			content = [
-				<section id="content-header">
+				<section id="content-header" key="content-header">
 					<div className="container-fluid">
 						<div className="row">
 							<DataInjector
@@ -284,9 +284,9 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 									{
 										key: "archetypeData",
 										params: {},
-										url:
-											"/api/v1/archetypes/" +
-											this.props.archetypeId,
+										url: `/api/v1/archetypes/${
+											this.props.archetypeId
+										}/`,
 									},
 								]}
 								extract={{
@@ -307,9 +307,9 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 									{
 										key: "archetypeData",
 										params: {},
-										url:
-											"/api/v1/archetypes/" +
-											this.props.archetypeId,
+										url: `/api/v1/archetypes/${
+											this.props.archetypeId
+										}/`,
 									},
 								]}
 								extract={{
@@ -323,7 +323,7 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 						</div>
 					</div>
 				</section>,
-				<section id="page-content">
+				<section id="page-content" key="page-content">
 					<TabList tab={this.props.tab} setTab={this.props.setTab}>
 						<Tab label="Overview" id="overview">
 							<div className="col-lg-8 col-md-6 col-sm-12 col-xs-12">
@@ -331,9 +331,9 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 									query={{
 										key: "data",
 										params: {},
-										url:
-											"/api/v1/archetypes/" +
-											this.props.archetypeId,
+										url: `/api/v1/archetypes/${
+											this.props.archetypeId
+										}/`,
 									}}
 									extract={{
 										data: data =>
