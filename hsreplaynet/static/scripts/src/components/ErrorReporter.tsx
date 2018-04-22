@@ -24,13 +24,9 @@ export default class ErrorReporter extends React.Component<Props, State> {
 		if (
 			error &&
 			error.message &&
-			error.message.startsWith(
-				"Invariant Violation: Minified React error #185",
-			)
+			error.message.match(/Minified React error #185/) !== null
 		) {
-			if (Math.random() > 0.01) {
-				reportToSentry = false;
-			}
+			reportToSentry = Math.random() <= 0.01;
 		}
 		if (typeof Raven === "object" && reportToSentry) {
 			Raven.captureException(error, { extra: errorInfo });
