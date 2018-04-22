@@ -93,7 +93,7 @@ class ArchetypeDetail extends React.Component<Props, State> {
 			RankRange: props.rankRange,
 		};
 		const setDeckData = data => {
-			this.setState({ deckData: data.series.data }, () =>
+			this.setState({ deckData: data ? data.series.data : null }, () =>
 				this.updateData(this.props.cardData),
 			);
 		};
