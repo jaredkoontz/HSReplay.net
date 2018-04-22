@@ -1,37 +1,38 @@
+import _ from "lodash";
+import React from "react";
+import { decode as decodeDeckstring } from "deckstrings";
+import CardData from "../CardData";
+import DataManager from "../DataManager";
+import UserData from "../UserData";
+import CardSearch from "../components/CardSearch";
+import ClassFilter, { FilterOption } from "../components/ClassFilter";
+import DeckList from "../components/DeckList";
+import Feature from "../components/Feature";
+import Fragments from "../components/Fragments";
+import InfoIcon from "../components/InfoIcon";
+import InfoboxFilter from "../components/InfoboxFilter";
+import InfoboxFilterGroup from "../components/InfoboxFilterGroup";
+import InfoboxLastUpdated from "../components/InfoboxLastUpdated";
+import { Limit } from "../components/ObjectSearch";
+import ResetHeader from "../components/ResetHeader";
+import CollectionBanner from "../components/collection/CollectionBanner";
+import DustFilter from "../components/filters/DustFilter";
+import PremiumWrapper from "../components/premium/PremiumWrapper";
 import {
 	cardSorting,
 	compareDecks,
+	image,
 	isCollectibleCard,
 	isWildSet,
 	sortCards,
 } from "../helpers";
-import React from "react";
-import CardData from "../CardData";
-import CardSearch from "../components/CardSearch";
-import ClassFilter, { FilterOption } from "../components/ClassFilter";
-import DeckList from "../components/DeckList";
-import InfoboxFilter from "../components/InfoboxFilter";
-import InfoboxFilterGroup from "../components/InfoboxFilterGroup";
-import PremiumWrapper from "../components/premium/PremiumWrapper";
-import ResetHeader from "../components/ResetHeader";
-import _ from "lodash";
 import { DeckObj, FragmentChildProps } from "../interfaces";
-import InfoboxLastUpdated from "../components/InfoboxLastUpdated";
-import UserData from "../UserData";
-import Fragments from "../components/Fragments";
-import InfoIcon from "../components/InfoIcon";
-import { decode as decodeDeckstring } from "deckstrings";
-import DataManager from "../DataManager";
-import { Limit } from "../components/ObjectSearch";
-import Feature from "../components/Feature";
-import DustFilter from "../components/filters/DustFilter";
+import { CollectionEvents, DeckEvents } from "../metrics/GoogleAnalytics";
+import { Collection } from "../utils/api";
 import {
 	getDustCostForCollection,
 	isCollectionDisabled,
 } from "../utils/collection";
-import { Collection } from "../utils/api";
-import { CollectionEvents, DeckEvents } from "../metrics/GoogleAnalytics";
-import CollectionBanner from "../components/collection/CollectionBanner";
 
 interface Props extends FragmentChildProps {
 	cardData: CardData | null;
@@ -373,8 +374,7 @@ export default class Decks extends React.Component<Props, State> {
 								}
 							}
 							let matchesAtLeastOne = false;
-							for (let i = 0; i < streams.length; i++) {
-								const stream = streams[i];
+							for (const stream of streams) {
 								if (compareDecks(stream.deck, flatList)) {
 									matchesAtLeastOne = true;
 									break;
@@ -423,7 +423,7 @@ export default class Decks extends React.Component<Props, State> {
 						numGames = opponents.reduce(
 							(x: number, playerClass: FilterOption) => {
 								return (
-									x + deck["total_games_vs_" + playerClass]
+									x + deck[`total_games_vs_${playerClass}`]
 								);
 							},
 							0,
@@ -434,9 +434,9 @@ export default class Decks extends React.Component<Props, State> {
 									playerClass =>
 										[
 											deck[
-												"total_games_vs_" + playerClass
+												`total_games_vs_${playerClass}`
 											],
-											deck["win_rate_vs_" + playerClass],
+											deck[`win_rate_vs_${playerClass}`],
 										],
 								)
 								.reduce((a: number, b) => a + b[0] * b[1], 0) /
@@ -536,8 +536,9 @@ export default class Decks extends React.Component<Props, State> {
 								wrapper={body => (
 									<li
 										style={{
-											backgroundImage:
-												"url('/static/images/feature-promotional/collection-syncing-decks.png')",
+											backgroundImage: `url('${image(
+												"feature-promotional/collection-syncing-decks.png",
+											)}')`,
 										}}
 										className="deck-list-banner hidden-xs"
 									>
@@ -547,7 +548,7 @@ export default class Decks extends React.Component<Props, State> {
 							>
 								{authenticated => (
 									<>
-										<img src="/static/images/logo.png" />
+										<img src={image("logo.png")} />
 										{authenticated ? (
 											<>
 												<span className="hidden-lg">
