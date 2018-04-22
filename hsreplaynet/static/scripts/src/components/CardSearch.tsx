@@ -10,7 +10,7 @@ interface Props {
 	selectedCards: any[];
 	label?: string;
 	cardLimit?: Limit;
-	onPaste?: (e: any) => any;
+	onPaste?: (e: React.ClipboardEvent<EventTarget>) => void;
 }
 
 export default class CardSearch extends React.Component<Props> {
