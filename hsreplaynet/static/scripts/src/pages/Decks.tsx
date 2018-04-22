@@ -1,5 +1,6 @@
 import _ from "lodash";
 import React from "react";
+import { InjectedTranslateProps, Trans, translate } from "react-i18next";
 import { decode as decodeDeckstring } from "deckstrings";
 import CardData from "../CardData";
 import DataManager from "../DataManager";
@@ -34,7 +35,7 @@ import {
 	isCollectionDisabled,
 } from "../utils/collection";
 
-interface Props extends FragmentChildProps {
+interface Props extends InjectedTranslateProps, FragmentChildProps {
 	cardData: CardData | null;
 	collection: Collection | null;
 	latestSet?: string;
@@ -79,7 +80,7 @@ interface State {
 	showFilters: boolean;
 }
 
-export default class Decks extends React.Component<Props, State> {
+class Decks extends React.Component<Props, State> {
 	private deckListsFragmentsRef;
 	private trackTimeout: number | null = null;
 	private hasTrackedView: boolean;
@@ -467,53 +468,55 @@ export default class Decks extends React.Component<Props, State> {
 	}
 
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		let content = null;
 		if (this.state.loading) {
 			content = (
 				<h3 className="message-wrapper" aria-busy="true">
-					Loading…
+					{t("Loading…")}
 				</h3>
 			);
 		} else if (this.state.filteredDecks.length === 0) {
 			content = (
 				<div className="content-message">
-					<h2>No decks found</h2>
+					<h2>{t("No decks found")}</h2>
 					<button
 						className="btn btn-default"
 						type="button"
 						onClick={() => this.props.reset()}
 					>
-						Reset filters
+						{t("Reset filters")}
 					</button>
 				</div>
 			);
 		} else {
-			const isWild = this.props.gameType === "RANKED_WILD";
-			const gameType = isWild ? "Wild" : "Standard";
-			const minGamesSwitch = (
-				<a
-					href="#"
-					id="min-games-switch"
-					onClick={e => {
-						e.preventDefault();
-						const minGames = this.minGames[
-							+(this.props.minGames >= this.minGames[0])
-						];
-						this.props.setMinGames(minGames);
-					}}
-				>
-					{
-						this.getMinGames()[
-							+(this.props.minGames < this.minGames[0])
-						]
-					}
-				</a>
-			);
+			const curMinGames = this.getMinGames()[
+				+(this.props.minGames < this.minGames[0])
+			];
+			const deckTypes =
+				this.props.gameType === "RANKED_WILD"
+					? t("Wild decks")
+					: t("Standard decks");
 			const helpMessage = (
-				<span>
-					Showing {gameType} decks with at least 10 unique pilots and{" "}
-					{minGamesSwitch} recorded games.
-				</span>
+				<Trans>
+					{"Showing "}
+					{{ deckTypes }}
+					{" with at least 10 unique pilots and "}
+					<a
+						href="#"
+						id="min-games-switch"
+						onClick={e => {
+							e.preventDefault();
+							const minGames = this.minGames[
+								+(this.props.minGames >= this.minGames[0])
+							];
+							this.props.setMinGames(minGames);
+						}}
+					>
+						{{ curMinGames }}
+					</a>
+					{" recorded games."}
+				</Trans>
 			);
 			content = (
 				<Fragments
@@ -552,24 +555,27 @@ export default class Decks extends React.Component<Props, State> {
 										{authenticated ? (
 											<>
 												<span className="hidden-lg">
-													Upload your collection!
+													{t(
+														"Upload your collection!",
+													)}
 												</span>
 												<span className="visible-lg">
-													Upload your collection and
-													find the decks you can
-													build!
+													{t(
+														"Upload your collection and find the decks you can build!",
+													)}
 												</span>
 											</>
 										) : (
 											<>
 												<span className="hidden-lg">
-													Sign in to upload your
-													collection!
+													{t(
+														"Sign in to upload your collection!",
+													)}
 												</span>
 												<span className="visible-lg">
-													Sign in to find the decks
-													you can build with your
-													collection!
+													{t(
+														"Sign in to find the decks you can build with your collection!",
+													)}
 												</span>
 											</>
 										)}
@@ -596,7 +602,7 @@ export default class Decks extends React.Component<Props, State> {
 				type="button"
 				onClick={() => this.setState({ showFilters: false })}
 			>
-				Back to deck list
+				{t("Back to deck list")}
 			</button>
 		);
 
@@ -644,23 +650,27 @@ export default class Decks extends React.Component<Props, State> {
 					</ResetHeader>
 					<section id="player-class-filter">
 						<h2>
-							Player Class
+							{t("Player Class")}
 							<InfoIcon
 								className="pull-right"
-								header="Player Class Restriction"
+								header={t("Player class restriction")}
 								content={{
 									click: (
 										<p>
-											Only show decks for specific
-											classes.&nbsp;
+											{t(
+												"Only show decks for specific classes.",
+											)}
+											&nbsp;
 											<span>
-												Hold <kbd>Ctrl</kbd> to select
-												multiple classes.
+												{t(
+													"Hold CTRL to select multiple classes.",
+												)}
 											</span>
 										</p>
 									),
-									touch:
+									touch: t(
 										"Only show decks for specific classes.",
+									),
 								}}
 							/>
 						</h2>
@@ -683,15 +693,16 @@ export default class Decks extends React.Component<Props, State> {
 					<section id="opponent-class-filter">
 						<PremiumWrapper
 							analyticsLabel="Deck List Opponent Selection"
-							infoHeader="Winrate by Opponent"
+							infoHeader={t("Winrate by opponent")}
 							infoContent={
 								<p>
-									See how various decks perform against a
-									specific class at a glance!
+									{t(
+										"See how various decks perform against a specific class at a glance!",
+									)}
 								</p>
 							}
 						>
-							<h2>Opponent class</h2>
+							<h2>{t("Opponent class")}</h2>
 							<ClassFilter
 								filters="All"
 								hideAll
@@ -708,11 +719,13 @@ export default class Decks extends React.Component<Props, State> {
 					<Feature feature="collection-syncing">
 						<section id="max-dust-filter">
 							<h2>
-								My Collection
+								{t("My Collection")}
 								<InfoIcon
 									className="pull-right"
-									header="Maximum Dust Filter"
-									content="See which decks you can build right now without spending any or some dust."
+									header={t("Maximum Dust Filter")}
+									content={t(
+										"See which decks you can build right now without spending any or some dust.",
+									)}
 								/>
 							</h2>
 							{this.props.collection ? (
@@ -734,7 +747,7 @@ export default class Decks extends React.Component<Props, State> {
 										}}
 									>
 										<InfoboxFilter value="DUST_FILTER">
-											Limit to my collection
+											{t("Limit to my collection")}
 										</InfoboxFilter>
 									</InfoboxFilterGroup>
 									{this.props.maxDustCost < 0 ? null : (
@@ -760,8 +773,9 @@ export default class Decks extends React.Component<Props, State> {
 										<div
 											className="infobox-banner"
 											style={{
-												backgroundImage:
-													"url('/static/images/feature-promotional/collection-syncing-sidebar.png')",
+												backgroundImage: `url('${image(
+													"feature-promotional/collection-syncing-sidebar.png",
+												)}')`,
 											}}
 										>
 											{body}
@@ -772,18 +786,22 @@ export default class Decks extends React.Component<Props, State> {
 										authenticated ? (
 											isCollectionDisabled() ? (
 												<>
-													Find the decks you can build
+													{t(
+														"Find the decks you can build",
+													)}
 												</>
 											) : (
 												<>
-													Want to find decks you can
-													build with your collection?
+													{t(
+														"Want to find decks you can build with your collection?",
+													)}
 												</>
 											)
 										) : (
 											<>
-												Sign in to find decks for your
-												collection
+												{t(
+													"Sign in to find decks for your collection",
+												)}
 											</>
 										)
 									}
@@ -793,9 +811,11 @@ export default class Decks extends React.Component<Props, State> {
 					</Feature>
 					<section id="time-frame-filter">
 						<InfoboxFilterGroup
-							header="Time frame"
-							infoHeader="Time Frame"
-							infoContent="Want to see which decks are hot right now? Look at data from a time frame of your choosing!"
+							header={t("Time frame")}
+							infoHeader={t("Time frame")}
+							infoContent={t(
+								"Want to see which decks are hot right now? Look at data from a time frame of your choosing!",
+							)}
 							selectedValue={this.props.timeRange}
 							onClick={value => this.props.setTimeRange(value)}
 						>
@@ -804,36 +824,40 @@ export default class Decks extends React.Component<Props, State> {
 								iconStyle={{ display: "none" }}
 							>
 								<InfoboxFilter value="CURRENT_SEASON">
-									Current Season
+									{t("Current Season")}
 								</InfoboxFilter>
 								<InfoboxFilter value="LAST_3_DAYS">
-									Last 3 days
+									{t("Last {{n}} days", { n: 3 })}
 								</InfoboxFilter>
 								<InfoboxFilter value="LAST_7_DAYS">
-									Last 7 days
+									{t("Last {{n}} days", { n: 7 })}
 								</InfoboxFilter>
 							</PremiumWrapper>
 							<InfoboxFilter value="LAST_30_DAYS">
-								Last 30 days
+								{t("Last {{n}} days", { n: 30 })}
 							</InfoboxFilter>
 							<Feature feature={"current-expansion-filter"}>
 								<InfoboxFilter value="CURRENT_EXPANSION">
-									The Witchwood
-									<span className="infobox-value">New!</span>
+									{t("The Witchwood")}
+									<span className="infobox-value">
+										{t("New!")}
+									</span>
 								</InfoboxFilter>
 							</Feature>
 							<Feature feature={"current-patch-filter"}>
 								<InfoboxFilter value="CURRENT_PATCH">
-									Patch 10.2
+									{t("Patch 10.2")}
 								</InfoboxFilter>
 							</Feature>
 						</InfoboxFilterGroup>
 					</section>
 					<section id="rank-range-filter">
 						<InfoboxFilterGroup
-							header="Rank range"
-							infoHeader="Rank Range"
-							infoContent="Ready to climb the ladder? Check out how decks perform at certain rank ranges!"
+							header={t("Rank range")}
+							infoHeader={t("Rank range")}
+							infoContent={t(
+								"Ready to climb the ladder? Check out how decks perform at certain rank ranges!",
+							)}
 							selectedValue={this.props.rankRange}
 							onClick={value => this.props.setRankRange(value)}
 						>
@@ -842,68 +866,74 @@ export default class Decks extends React.Component<Props, State> {
 								iconStyle={{ display: "none" }}
 							>
 								<InfoboxFilter value="LEGEND_ONLY">
-									Legend only
+									{t("Legend only")}
 								</InfoboxFilter>
 								<InfoboxFilter value="LEGEND_THROUGH_FIVE">
-									Legend–5
+									{t("Legend–5")}
 								</InfoboxFilter>
 								<InfoboxFilter value="LEGEND_THROUGH_TEN">
-									Legend–10
+									{t("Legend–10")}
 								</InfoboxFilter>
 							</PremiumWrapper>
-							<InfoboxFilter value="ALL">Legend–25</InfoboxFilter>
+							<InfoboxFilter value="ALL">
+								{t("Legend–25")}
+							</InfoboxFilter>
 						</InfoboxFilterGroup>
 					</section>
 					<Feature feature="deck-region-filter">
 						<section id="region-filter">
 							<InfoboxFilterGroup
-								header="Region"
+								header={t("Region")}
 								selectedValue={this.props.region}
 								onClick={region => this.props.setRegion(region)}
-								infoHeader="Region"
-								infoContent="Want to get more specific? Take a look at the decks played in your region!"
+								infoHeader={t("Region")}
+								infoContent={t(
+									"Want to get more specific? Take a look at the decks played in your region!",
+								)}
 							>
 								<PremiumWrapper
 									analyticsLabel="Deck List Region"
 									iconStyle={{ display: "none" }}
 								>
 									<InfoboxFilter value="REGION_US">
-										America
+										{t("Americas")}
 									</InfoboxFilter>
 									<InfoboxFilter value="REGION_EU">
-										Europe
+										{t("Europe")}
 									</InfoboxFilter>
 									<InfoboxFilter value="REGION_KR">
-										Asia
+										{t("Asia")}
 									</InfoboxFilter>
 									<Feature feature="region-filter-china">
 										<InfoboxFilter value="REGION_CN">
-											China
+											{t("China")}
 										</InfoboxFilter>
 									</Feature>
 								</PremiumWrapper>
 								<InfoboxFilter value="ALL">
-									All Regions
+									{t("All Regions")}
 								</InfoboxFilter>
 							</InfoboxFilterGroup>
 						</section>
 					</Feature>
 					<section id="game-mode-filter">
-						<h2>Game Mode</h2>
+						<h2>{t("Game mode")}</h2>
 						<InfoboxFilterGroup
 							selectedValue={this.props.gameType}
 							onClick={value => this.props.setGameType(value)}
 						>
 							<InfoboxFilter value="RANKED_STANDARD">
-								Ranked Standard
+								{t("Ranked Standard")}
 							</InfoboxFilter>
 							<InfoboxFilter value="RANKED_WILD">
-								Ranked Wild
+								{t("Ranked Wild")}
 							</InfoboxFilter>
 						</InfoboxFilterGroup>
 					</section>
 					<section id="include-cards-filter">
-						<h2 id="card-search-include-label">Included Cards</h2>
+						<h2 id="card-search-include-label">
+							{t("Included Cards")}
+						</h2>
 						<Feature feature="new-card-filter">
 							<InfoboxFilterGroup
 								deselectable
@@ -913,7 +943,7 @@ export default class Decks extends React.Component<Props, State> {
 								}
 							>
 								<InfoboxFilter value={this.props.latestSet}>
-									Any new card
+									{t("Any new card")}
 								</InfoboxFilter>
 							</InfoboxFilterGroup>
 						</Feature>
@@ -966,7 +996,9 @@ export default class Decks extends React.Component<Props, State> {
 						/>
 					</section>
 					<section id="exclude-cards-filter">
-						<h2 id="card-search-exclude-label">Excluded Cards</h2>
+						<h2 id="card-search-exclude-label">
+							{t("Excluded Cards")}
+						</h2>
 						<CardSearch
 							id="card-search-exclude"
 							label="card-search-exclude-label"
@@ -998,13 +1030,13 @@ export default class Decks extends React.Component<Props, State> {
 								}
 							>
 								<InfoboxFilter value="WITH_STREAM">
-									Stream available
+									{t("Stream available")}
 								</InfoboxFilter>
 							</InfoboxFilterGroup>
 						</section>
 					</Feature>
 					<section id="side-bar-data">
-						<h2>Data</h2>
+						<h2>{t("Data")}</h2>
 						<InfoboxFilterGroup
 							deselectable
 							selectedValue={
@@ -1020,7 +1052,9 @@ export default class Decks extends React.Component<Props, State> {
 							}}
 						>
 							<InfoboxFilter value="MIN_GAMES">
-								At least {this.getMinGames()[0]} games
+								{t("At least {{minGames}} games", {
+									minGames: this.getMinGames()[0],
+								})}
 							</InfoboxFilter>
 						</InfoboxFilterGroup>
 						<ul>
@@ -1039,7 +1073,7 @@ export default class Decks extends React.Component<Props, State> {
 						onClick={() => this.setState({ showFilters: true })}
 					>
 						<span className="glyphicon glyphicon-filter" />
-						Filters
+						{t("Filters")}
 					</button>
 					{content}
 				</div>
@@ -1072,3 +1106,4 @@ export default class Decks extends React.Component<Props, State> {
 		};
 	}
 }
+export default translate()(Decks);
