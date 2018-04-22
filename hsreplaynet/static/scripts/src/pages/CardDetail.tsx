@@ -615,7 +615,7 @@ class CardDetail extends React.Component<Props, State> {
 					</h1>
 					<p>{this.getCleanFlavorText()}</p>
 					<InfoboxFilterGroup
-						header={t("Game Mode")}
+						header={t("Game mode")}
 						selectedValue={this.props.gameType}
 						onClick={value => this.props.setGameType(value)}
 					>
@@ -708,7 +708,7 @@ class CardDetail extends React.Component<Props, State> {
 						<li>
 							{t("Time frame")}
 							<span className="infobox-value">
-								{t("Last 30 days")}
+								{t("Last {{n}} days", { n: 30 })}
 							</span>
 						</li>
 						<InfoboxLastUpdated

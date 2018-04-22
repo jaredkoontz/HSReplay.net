@@ -1,4 +1,5 @@
 import React from "react";
+import { InjectedTranslateProps, translate } from "react-i18next";
 import { AutoSizer } from "react-virtualized";
 import CardData from "../CardData";
 import DataManager from "../DataManager";
@@ -28,7 +29,7 @@ import { getHeroSkinCardUrl, isWildSet } from "../helpers";
 import { DeckObj, LoadingStatus, SortDirection } from "../interfaces";
 import { Archetype, Collection } from "../utils/api";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	archetypeId: number;
 	archetypeName: string;
 	hasStandardData: boolean;
@@ -54,7 +55,7 @@ interface State {
 	mulliganGuideSortDirection: string;
 }
 
-export default class ArchetypeDetail extends React.Component<Props, State> {
+class ArchetypeDetail extends React.Component<Props, State> {
 	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
@@ -165,6 +166,7 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 	}
 
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		const gameType = this.getGameType();
 		const { GameType, RankRange, archetype_id } = {
 			GameType: gameType,
@@ -251,7 +253,7 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 									),
 								}}
 							>
-								<MatchupBox title="Best Matchup" />
+								<MatchupBox title={t("Best Matchup")} />
 							</DataInjector>
 							<DataInjector
 								query={[
@@ -272,7 +274,7 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 									),
 								}}
 							>
-								<MatchupBox title="Worst Matchup" />
+								<MatchupBox title={t("Worst Matchup")} />
 							</DataInjector>
 							<DataInjector
 								query={[
@@ -295,7 +297,7 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 									),
 								}}
 							>
-								<DeckBox title="Most popular deck" />
+								<DeckBox title={t("Most popular deck")} />
 							</DataInjector>
 							<DataInjector
 								query={[
@@ -318,14 +320,14 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 									),
 								}}
 							>
-								<DeckBox title="Best performing deck" />
+								<DeckBox title={t("Best performing deck")} />
 							</DataInjector>
 						</div>
 					</div>
 				</section>,
 				<section id="page-content" key="page-content">
 					<TabList tab={this.props.tab} setTab={this.props.setTab}>
-						<Tab label="Overview" id="overview">
+						<Tab label={t("Overview")} id="overview">
 							<div className="col-lg-8 col-md-6 col-sm-12 col-xs-12">
 								<DataInjector
 									query={{
@@ -385,10 +387,12 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 						<Tab
 							label={
 								<span className="text-premium">
-									Mulligan Guide&nbsp;
+									{t("Mulligan Guide")}
 									<InfoIcon
-										header="Archetype Mulligan Guide"
-										content="See how the various cards perform in this archetype."
+										header={t("Archetype Mulligan Guide")}
+										content={t(
+											"See how the various cards perform in this archetype.",
+										)}
 									/>
 								</span>
 							}
@@ -396,7 +400,7 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 						>
 							{this.renderMulliganGuide(params)}
 						</Tab>
-						<Tab label="Matchups" id="matchups">
+						<Tab label={t("Matchups")} id="matchups">
 							<DataInjector
 								query={[
 									{
@@ -426,7 +430,7 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 								/>
 							</DataInjector>
 						</Tab>
-						<Tab label="Popular Decks" id="similar">
+						<Tab label={t("Popular Decks")} id="similar">
 							<DeckList
 								decks={this.state.popularDecks}
 								pageSize={10}
@@ -452,7 +456,7 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 								collection={this.props.collection}
 							/>
 						</Tab>
-						<Tab label="Over Time" id="overtime">
+						<Tab label={t("Over Time")} id="overtime">
 							<div className="over-time-chart">
 								<AutoSizer>
 									{({ width }) => (
@@ -479,8 +483,12 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 												</ChartLoading>
 											</DataInjector>
 											<InfoIcon
-												header="Popularity over time"
-												content="Percentage of all decks that are classified as this archetype."
+												header={t(
+													"Popularity over time",
+												)}
+												content={t(
+													"Percentage of all decks that are classified as this archetype.",
+												)}
 											/>
 										</div>
 									)}
@@ -511,8 +519,10 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 												</ChartLoading>
 											</DataInjector>
 											<InfoIcon
-												header="Winrate over time"
-												content="Percentage of games won with this archetype."
+												header={t("Winrate over time")}
+												content={t(
+													"Percentage of games won with this archetype.",
+												)}
 											/>
 										</div>
 									)}
@@ -523,7 +533,9 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 				</section>,
 			];
 		} else {
-			content = <h3 className="message-wrapper">No data available</h3>;
+			content = (
+				<h3 className="message-wrapper">{t("No data available")}</h3>
+			);
 		}
 
 		return (
@@ -536,44 +548,46 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 					/>
 					<section id="rank-range-filter">
 						<InfoboxFilterGroup
-							header="Rank Range"
-							infoHeader="Archetype by rank"
-							infoContent="Check out how this archetype performs at various rank ranges!"
+							header={t("Rank Range")}
+							infoHeader={t("Archetype by rank")}
+							infoContent={t(
+								"Check out how this archetype performs at various rank ranges!",
+							)}
 							selectedValue={this.props.rankRange}
 							onClick={value => this.props.setRankRange(value)}
 						>
 							<PremiumWrapper
-								name="Archetype Detail Rank Range"
+								name={t("Archetype Detail Rank Range")}
 								iconStyle={{ display: "none" }}
 							>
 								<InfoboxFilter value="LEGEND_ONLY">
-									Legend only
+									{t("Legend only")}
 								</InfoboxFilter>
 								<InfoboxFilter value="LEGEND_THROUGH_FIVE">
-									Legend–5
+									{t("Legend–5")}
 								</InfoboxFilter>
 								<InfoboxFilter value="LEGEND_THROUGH_TEN">
-									Legend–10
+									{t("Legend–10")}
 								</InfoboxFilter>
 							</PremiumWrapper>
 							<InfoboxFilter value="LEGEND_THROUGH_TWENTY">
-								Legend–20
+								{t("Legend–20")}
 							</InfoboxFilter>
 						</InfoboxFilterGroup>
 					</section>
 					<section id="info">
-						<h2>Data</h2>
+						<h2>{t("Data")}</h2>
 						<ul>
 							<li>
-								Game Type
+								{t("Game mode")}
 								<span className="infobox-value">
-									Ranked Standard
+									{t("Ranked Standard")}
 								</span>
 							</li>
 							<li>
-								Time Frame
+								{t("Time frame")}
 								<span className="infobox-value">
-									Last 7 days
+									{t("Last {{n}} days", { n: 7 })}
 								</span>
 							</li>
 						</ul>
@@ -755,9 +769,9 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 			return (
 				<PremiumPromo
 					imageName="archetype_mulligan_guide.png"
-					text={
-						"View the combined Mulligan Guide using data from all decks for this archetype."
-					}
+					text={this.props.t(
+						"View the combined Mulligan Guide using data from all decks for this archetype.",
+					)}
 				/>
 			);
 		}
@@ -830,3 +844,4 @@ export default class ArchetypeDetail extends React.Component<Props, State> {
 		);
 	}
 }
+export default translate()(ArchetypeDetail);
