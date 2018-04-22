@@ -638,6 +638,7 @@ export default class DeckDetail extends React.Component<Props, State> {
 											playerClass={this.props.deckClass}
 											rawCardList={this.props.deckCards}
 											wildDeck={this.isWildDeck()}
+											collection={this.props.collection}
 										/>
 									</TableLoading>
 								</DataInjector>

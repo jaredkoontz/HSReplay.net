@@ -3,6 +3,7 @@ import CardData from "../../CardData";
 import { CardObj, DeckObj, TableData } from "../../interfaces";
 import DeckList from "../DeckList";
 import Fragments from "../Fragments";
+import { Collection } from "../../utils/api";
 
 interface Props {
 	cardData?: CardData;
@@ -10,6 +11,7 @@ interface Props {
 	playerClass: string;
 	rawCardList: string;
 	wildDeck: boolean;
+	collection?: Collection | null;
 }
 
 export default class SimilarDecksList extends React.Component<Props> {
@@ -94,6 +96,7 @@ export default class SimilarDecksList extends React.Component<Props> {
 					pageSize={10}
 					hideTopPager
 					compareWith={cards}
+					collection={this.props.collection}
 				/>
 			</Fragments>
 		);
