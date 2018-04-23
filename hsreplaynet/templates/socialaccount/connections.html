@@ -177,6 +177,9 @@
 						var btn = btns[i];
 						var url = btn.getAttribute("data-target-url");
 						btn.onclick = function () {
+							if (!confirm("By removing this account, you will no longer be able to access it's statistics. To recover it, upload some replays with that account!")) {
+								return;
+							}
 							btn.setAttribute("disabled", "disabled");
 							fetch(url, {
 								method: "DELETE",
