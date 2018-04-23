@@ -151,15 +151,54 @@
 	<div class="inner">
 		<p>
 			{% blocktrans %}We have automatically detected the following Hearthstone accounts and associated them with you.
-			You can see statistics and upload your collection for any of these accounts.
-			<strong>Please <a href="mailto:{{ site_email }}">contact us</a> if any of these are incorrect.</strong>{% endblocktrans %}
+			You can see statistics and upload your collection for any of these accounts.{% endblocktrans %}
 		</p>
 		{% if user.blizzard_accounts.count %}
-			<ul>
+			<ul class="list-group list-group-no-margin">
 			{% for blizzard_account in user.blizzard_accounts.all %}
-				<li>{{ blizzard_account }}</li>
+				<li class="list-group-item">
+					<button
+						data-target-url="/api/v1/account/unlink/?account_hi={{ blizzard_account.account_hi }}&account_lo={{ blizzard_account.account_lo }}"
+						type="submit"
+						class="btn btn-danger pull-right remove-blizzard-account-button"
+					>
+						Remove
+					</button>
+					<strong>{{ blizzard_account }}</strong>
+					<div class="clearfix"></div>
+				</li>
 			{% endfor %}
 			</ul>
+			<script>
+				(function () {
+					var token = ("; " + document.cookie).split("; csrftoken=").pop().split(";").shift();
+					var btns = document.querySelectorAll(".remove-blizzard-account-button");
+					for (var i = 0; i < btns.length; i++) {
+						var btn = btns[i];
+						var url = btn.getAttribute("data-target-url");
+						btn.onclick = function () {
+							btn.setAttribute("disabled", "disabled");
+							fetch(url, {
+								method: "DELETE",
+								credentials: "include",
+								headers: {
+									"X-CSRFToken": token,
+								}
+							}).then(function (response) {
+								if (response.status !== 200) {
+									throw new Error("Invalid response code");
+								}
+							}).then(function () {
+								btn.parentNode.remove();
+							})
+							.catch(function (error) {
+								btn.removeAttribute("disabled");
+								console.error(error);
+							});
+						};
+					}
+				})();
+			</script>
 		{% else %}
 		<p>
 			You do not have any connected Hearthstone account.
