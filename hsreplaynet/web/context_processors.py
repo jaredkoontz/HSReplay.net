@@ -16,7 +16,6 @@ from .templatetags.web_extras import lang_to_blizzard
 def userdata(request):
 	data = {
 		"is_authenticated": request.user.is_authenticated,
-		"card_art_url": settings.HEARTHSTONE_ART_URL,
 		"locale": translation.get_language(),
 		"hearthstone_locale": lang_to_blizzard(translation.get_language()),
 		"languages": dict(settings.LANGUAGES),

@@ -1,4 +1,6 @@
 import React from "react";
+import UserData from "../UserData";
+import { image } from "../helpers";
 
 interface Props {
 	id: string;
@@ -39,10 +41,10 @@ export default class Card extends React.Component<Props, State> {
 			imageStyle["right"] = window.innerWidth - this.props.x + "px";
 		}
 
-		const artUrl =
-			"https://art.hearthstonejson.com/v1/render/latest/enUS/256x/" +
-			this.props.id +
-			".png";
+		const hearthstoneLang = UserData.getHearthstoneLocale();
+		const artUrl = `${HEARTHSTONE_ART_URL}/render/latest/${hearthstoneLang}/256x/${
+			this.props.id
+		}.png`;
 
 		return (
 			<div>
@@ -59,9 +61,7 @@ export default class Card extends React.Component<Props, State> {
 					className="card-image"
 					height={350}
 					src={
-						this.state.loaded
-							? artUrl
-							: "https://hsreplay.net/static/images/loading_minion.png"
+						this.state.loaded ? artUrl : image("loading_minion.png")
 					}
 					style={imageStyle}
 				/>

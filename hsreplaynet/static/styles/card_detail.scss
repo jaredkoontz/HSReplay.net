@@ -71,6 +71,10 @@
 	}
 
 	>aside {
+		.card-image {
+			width: 256px;
+		}
+
 		>p {
 			font-style: italic;
 			margin: 0 10px 10px 10px;

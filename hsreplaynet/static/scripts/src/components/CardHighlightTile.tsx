@@ -16,10 +16,9 @@ export default class CardHighlightTile extends React.Component<Props> {
 					className="card-highlight-tile"
 					href={this.props.href}
 					style={{
-						backgroundImage:
-							"url(https://art.hearthstonejson.com/v1/512x/" +
-							this.props.card.id +
-							".jpg",
+						backgroundImage: `url("${HEARTHSTONE_ART_URL}/512x/${
+							this.props.card.id
+						}.jpg")`,
 					}}
 				>
 					<div className="card-info-container">

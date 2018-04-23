@@ -30,7 +30,7 @@ export function joustAsset(asset: string) {
 }
 
 export function cardArt(filename: string) {
-	return HEARTHSTONE_ART_URL + filename + ".jpg";
+	return `${HEARTHSTONE_ART_URL}/256x/${filename}.jpg`;
 }
 
 export function capitalize(str: string) {

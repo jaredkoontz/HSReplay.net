@@ -115,7 +115,7 @@ class ArchetypeHighlight extends React.Component<Props, State> {
 		const cards = components.slice(0, 2).map(dbfId => {
 			const card = this.props.cardData.fromDbf(dbfId);
 			const style = {
-				backgroundImage: `url(https://art.hearthstonejson.com/v1/512x/${
+				backgroundImage: `url(${HEARTHSTONE_ART_URL}/512x/${
 					card.id
 				}.jpg)`,
 			};

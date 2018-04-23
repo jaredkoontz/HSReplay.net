@@ -1,4 +1,5 @@
 import React from "react";
+import UserData from "../UserData";
 import { getCardUrl } from "../helpers";
 
 interface Props {
@@ -20,26 +21,24 @@ export default class CardImage extends React.Component<Props, State> {
 	}
 
 	fetchImage() {
-		const url =
-			"https://art.hearthstonejson.com/v1/render/latest/enUS/256x/" +
-			this.props.card.id +
-			".png";
+		const hearthstoneLang = UserData.getHearthstoneLocale();
+		const url = `${HEARTHSTONE_ART_URL}/render/latest/${hearthstoneLang}/256x/${
+			this.props.card.id
+		}.png`;
 		const image = new Image();
 		image.onload = () => this.setState({ url });
 		image.src = url;
 	}
 
 	public render(): React.ReactNode {
-		const img = (
-			<img src={this.state.url} height={350} alt={this.props.card.name} />
+		return (
+			<a className="card-image" href={getCardUrl(this.props.card)}>
+				<img
+					src={this.state.url}
+					height={350}
+					alt={this.props.card.name}
+				/>
+			</a>
 		);
-		if (this.props.card.collectible) {
-			return (
-				<a className="card-image" href={getCardUrl(this.props.card)}>
-					{img}
-				</a>
-			);
-		}
-		return <div className="card-image">{img}</div>;
 	}
 }

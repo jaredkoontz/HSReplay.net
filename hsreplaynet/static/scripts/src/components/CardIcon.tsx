@@ -1,4 +1,5 @@
 import React from "react";
+import UserData from "../UserData";
 import { getCardUrl, getFragments } from "../helpers";
 import Tooltip from "./Tooltip";
 
@@ -44,11 +45,7 @@ export default class CardIcon extends React.Component<Props, State> {
 	}
 
 	buildBackgroundImageUrl(): string {
-		return (
-			"https://art.hearthstonejson.com/v1/tiles/" +
-			this.props.card.id +
-			".jpg"
-		);
+		return `${HEARTHSTONE_ART_URL}/v1/tiles/${this.props.card.id}.jpg`;
 	}
 
 	loadBackgroundImage() {
@@ -99,14 +96,13 @@ export default class CardIcon extends React.Component<Props, State> {
 				classNames.push("craftable");
 			}
 
+			const hearthstoneLang = UserData.getHearthstoneLocale();
 			const tooltip = (
 				<img
 					className="card-image"
-					src={
-						"https://art.hearthstonejson.com/v1/render/latest/enUS/256x/" +
-						this.props.card.id +
-						".png"
-					}
+					src={`${HEARTHSTONE_ART_URL}/render/latest/${hearthstoneLang}/256x/${
+						this.props.card.id
+					}.png`}
 					alt={this.props.card ? this.props.card.name : null}
 				/>
 			);

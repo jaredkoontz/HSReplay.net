@@ -16,9 +16,7 @@ export default class FeaturePanel extends React.Component<Props> {
 
 	render(): React.ReactNode {
 		const style = Object.assign({}, this.props.backgroundStyle);
-		style[
-			"backgroundImage"
-		] = `url(https://art.hearthstonejson.com/v1/512x/${
+		style["backgroundImage"] = `url(${HEARTHSTONE_ART_URL}/512x/${
 			this.props.backgroundCardId
 		}.jpg)`;
 		return (

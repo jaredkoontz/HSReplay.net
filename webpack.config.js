@@ -10,7 +10,7 @@ const exportedSettings = {
 	STATIC_URL: "/static/",
 	JOUST_STATIC_URL: "https://joust.hearthsim.net/branches/master/",
 	SUNWELL_URL: "https://sunwell.hearthsim.net/branches/master/",
-	HEARTHSTONE_ART_URL: "https://art.hearthstonejson.com/v1/256x/",
+	HEARTHSTONE_ART_URL: "https://art.hearthstonejson.com/v1",
 	JOUST_RAVEN_DSN_PUBLIC: process.env.JOUST_RAVEN_DSN_PUBLIC,
 	JOUST_RAVEN_ENVIRONMENT: process.env.NODE_ENV,
 	INFLUX_DATABASE_JOUST: process.env.INFLUX_DATABASE_JOUST,

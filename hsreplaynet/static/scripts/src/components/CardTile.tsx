@@ -1,4 +1,5 @@
 import React from "react";
+import UserData from "../UserData";
 import { getCardUrl, getFragments } from "../helpers";
 import Tooltip from "./Tooltip";
 
@@ -88,14 +89,13 @@ export default class CardTile extends React.Component<Props> {
 
 		let tooltip = null;
 		if (!this.props.disableTooltip) {
+			const hearthstoneLang = UserData.getHearthstoneLocale();
 			tooltip = (
 				<img
 					className="card-image"
-					src={
-						"https://art.hearthstonejson.com/v1/render/latest/enUS/256x/" +
-						this.props.card.id +
-						".png"
-					}
+					src={`${HEARTHSTONE_ART_URL}/render/latest/${hearthstoneLang}/256x/${
+						this.props.card.id
+					}.png`}
 				/>
 			);
 			if (this.props.subtitle) {
@@ -136,11 +136,9 @@ export default class CardTile extends React.Component<Props> {
 					<div className="card-frame">
 						<img
 							className="card-asset"
-							src={
-								"https://art.hearthstonejson.com/v1/tiles/" +
-								this.props.card.id +
-								".jpg"
-							}
+							src={`${HEARTHSTONE_ART_URL}/tiles/${
+								this.props.card.id
+							}.png`}
 							alt={label}
 							style={imageStyle}
 						/>

@@ -598,6 +598,7 @@ class CardDetail extends React.Component<Props, State> {
 				) : null}
 			</li>
 		);
+		const hearthstoneLang = UserData.getHearthstoneLocale();
 
 		return (
 			<div className="card-detail-container">
@@ -605,7 +606,7 @@ class CardDetail extends React.Component<Props, State> {
 					<h1 className="art">
 						<img
 							className="card-image"
-							src={`https://art.hearthstonejson.com/v1/render/latest/enUS/256x/${
+							src={`${HEARTHSTONE_ART_URL}/render/latest/${hearthstoneLang}/512x/${
 								this.props.cardId
 							}.png`}
 							alt={
