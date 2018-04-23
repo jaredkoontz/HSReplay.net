@@ -45,7 +45,7 @@ export default class CardIcon extends React.Component<Props, State> {
 	}
 
 	buildBackgroundImageUrl(): string {
-		return `${HEARTHSTONE_ART_URL}/v1/tiles/${this.props.card.id}.jpg`;
+		return `${HEARTHSTONE_ART_URL}/tiles/${this.props.card.id}.jpg`;
 	}
 
 	loadBackgroundImage() {
