@@ -180,6 +180,7 @@ class DeckDetailView(RetrieveUpdateAPIView):
 class DeckFeedbackSerializer(serializers.Serializer):
 	name = serializers.CharField(allow_blank=False, trim_whitespace=True)
 	as_of = serializers.DateTimeField(read_only=True)
+	suggestions = serializers.SerializerMethodField()
 
 	def create(self, validated_data):
 		deck = validated_data["deck"]
@@ -210,6 +211,23 @@ class DeckFeedbackSerializer(serializers.Serializer):
 		instance.save()
 		return instance
 
+	def get_suggestions(self, obj):
+		return self.context.get("suggestions", [])
+
+	def get_initial(self):
+		return {
+			"name": None,
+			"as_of": None,
+			"suggestions": self.get_suggestions(None)
+		}
+
+	def to_representation(self, instance):
+		return {
+			"name": instance.suggested_name.name,
+			"as_of": instance.as_of,
+			"suggestions": self.get_suggestions(instance)
+		}
+
 
 class DeckFeedbackView(APIView):
 	authentication_classes = (SessionAuthentication, )
@@ -222,6 +240,10 @@ class DeckFeedbackView(APIView):
 		except Deck.DoesNotExist:
 			raise NotFound(detail="Deck does not exist.")
 
+	def _get_suggestions(self, deck):
+		suggestions = ArchetypeName.objects.get_suggestions_for_deck(deck)
+		return [name.name for name in suggestions]
+
 	def get(self, request, format=None, *args, **kwargs):
 		deck = self._get_deck(kwargs["shortid"])
 
@@ -231,7 +253,9 @@ class DeckFeedbackView(APIView):
 		except ArchetypeSuggestion.DoesNotExist:
 			pass
 
-		serializer = self.serializer_class(instance=suggestion)
+		serializer = self.serializer_class(instance=suggestion, context={
+			"suggestions": self._get_suggestions(deck)
+		})
 		return Response(serializer.data, status=HTTP_200_OK)
 
 	def post(self, request, format=None, *args, **kwargs):
@@ -247,6 +271,7 @@ class DeckFeedbackView(APIView):
 
 		if serializer.is_valid():
 			serializer.save(user=request.user, deck=deck)
+			serializer.context["suggestions"] = self._get_suggestions(deck)
 			status = HTTP_200_OK if suggestion is not None else HTTP_201_CREATED
 			return Response(serializer.data, status=status)
 		return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
@@ -260,7 +285,9 @@ class DeckFeedbackView(APIView):
 		except ArchetypeSuggestion.DoesNotExist:
 			pass
 
-		serializer = self.serializer_class()
+		serializer = self.serializer_class(context={
+			"suggestions": self._get_suggestions(deck)
+		})
 		return Response(serializer.data, status=HTTP_200_OK)
 
 

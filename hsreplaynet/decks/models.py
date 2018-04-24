@@ -1217,8 +1217,16 @@ class ArchetypeSuggestion(models.Model):
 		return self.suggested_name.name
 
 
+class ArchetypeNameManager(models.Manager):
+	def get_suggestions_for_deck(self, deck):
+		player_class = deck.deck_class
+		suggestions = ArchetypeName.objects.all().filter(player_class=player_class)
+		return suggestions
+
+
 class ArchetypeName(models.Model):
 	id = models.BigAutoField(primary_key=True)
+	objects = ArchetypeNameManager()
 	name = models.CharField(
 		max_length=250,
 		blank=False
