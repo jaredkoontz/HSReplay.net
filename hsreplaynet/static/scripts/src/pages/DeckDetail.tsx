@@ -171,15 +171,27 @@ export default class DeckDetail extends React.Component<Props, State> {
 			archetypeInfo = (
 				<li>
 					Archetype
-					<a
-						className="infobox-value"
-						href={getArchetypeUrl(
-							this.props.archetypeId,
-							this.props.archetypeName,
-						)}
-					>
-						{this.props.archetypeName}
-					</a>
+					<span className="infobox-value">
+						<a
+							href={getArchetypeUrl(
+								this.props.archetypeId,
+								this.props.archetypeName,
+							)}
+						>
+							{this.props.archetypeName}
+						</a>
+						<Feature feature="archetype-naming">
+							{" "}
+							<a
+								href={`/api/v1/decks/${
+									this.props.deckId
+								}/feedback/`}
+								title="Feedback"
+							>
+								<span className="glyphicon glyphicon-pencil" />
+							</a>
+						</Feature>
+					</span>
 				</li>
 			);
 		}
