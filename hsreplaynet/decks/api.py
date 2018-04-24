@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 from statistics import mean
 
 from django.db import connection
@@ -21,9 +22,10 @@ from rest_framework.viewsets import GenericViewSet
 from hearthsim.identity.accounts.models import BlizzardAccount
 from hsredshift.analytics import filters
 from hsreplaynet.api.permissions import UserHasFeature
+from hsreplaynet.decks.models import ArchetypeSuggestion
 
 from ..utils.db import dictfetchall
-from .models import Archetype, Deck
+from .models import Archetype, ArchetypeName, Deck
 
 
 class ArchetypeSerializer(serializers.ModelSerializer):
@@ -173,6 +175,93 @@ class DeckDetailView(RetrieveUpdateAPIView):
 			return self.queryset.model.objects.get_by_shortid(self.kwargs["shortid"])
 		except Deck.DoesNotExist:
 			raise NotFound()
+
+
+class DeckFeedbackSerializer(serializers.Serializer):
+	name = serializers.CharField(allow_blank=False, trim_whitespace=True)
+	as_of = serializers.DateTimeField(read_only=True)
+
+	def create(self, validated_data):
+		deck = validated_data["deck"]
+		user = validated_data["user"]
+		name, created = ArchetypeName.objects.get_or_create(
+			name=validated_data["name"],
+			player_class=validated_data["deck"].deck_class,
+			defaults={
+				"contributing_user": user
+			}
+		)
+		return ArchetypeSuggestion.objects.create(
+			suggested_name=name,
+			user=user,
+			deck=deck
+		)
+
+	def update(self, instance, validated_data):
+		name, created = ArchetypeName.objects.get_or_create(
+			name=validated_data["name"],
+			player_class=validated_data["deck"].deck_class,
+			defaults={
+				"contributing_user": validated_data["user"]
+			}
+		)
+		instance.suggested_name = name
+		instance.as_of = datetime.now()
+		instance.save()
+		return instance
+
+
+class DeckFeedbackView(APIView):
+	authentication_classes = (SessionAuthentication, )
+	permission_classes = (IsAuthenticated, UserHasFeature("archetype-naming"))
+	serializer_class = DeckFeedbackSerializer
+
+	def _get_deck(self, shortid):
+		try:
+			return Deck.objects.get_by_shortid(shortid=shortid)
+		except Deck.DoesNotExist:
+			raise NotFound(detail="Deck does not exist.")
+
+	def get(self, request, format=None, *args, **kwargs):
+		deck = self._get_deck(kwargs["shortid"])
+
+		suggestion = None
+		try:
+			suggestion = ArchetypeSuggestion.objects.get(deck=deck, user=request.user)
+		except ArchetypeSuggestion.DoesNotExist:
+			pass
+
+		serializer = self.serializer_class(instance=suggestion)
+		return Response(serializer.data, status=HTTP_200_OK)
+
+	def post(self, request, format=None, *args, **kwargs):
+		deck = self._get_deck(kwargs["shortid"])
+
+		suggestion = None
+		try:
+			suggestion = ArchetypeSuggestion.objects.get(deck=deck, user=request.user)
+		except ArchetypeSuggestion.DoesNotExist:
+			pass
+
+		serializer = self.serializer_class(instance=suggestion, data=request.data)
+
+		if serializer.is_valid():
+			serializer.save(user=request.user, deck=deck)
+			status = HTTP_200_OK if suggestion is not None else HTTP_201_CREATED
+			return Response(serializer.data, status=status)
+		return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+
+	def delete(self, request, format=None, *args, **kwargs):
+		deck = self._get_deck(kwargs["shortid"])
+
+		try:
+			suggestion = ArchetypeSuggestion.objects.get(deck=deck, user=request.user)
+			suggestion.delete()
+		except ArchetypeSuggestion.DoesNotExist:
+			pass
+
+		serializer = self.serializer_class()
+		return Response(serializer.data, status=HTTP_200_OK)
 
 
 class ArchetypeViewSet(
