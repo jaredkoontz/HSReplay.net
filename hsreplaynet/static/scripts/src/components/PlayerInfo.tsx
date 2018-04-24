@@ -80,7 +80,6 @@ export default class PlayerInfo extends React.Component<Props, State> {
 					/>
 				);
 				if (
-					UserData.hasFeature("replay-predicted-cards") &&
 					opposing_deck.predicted_cards &&
 					opposing_deck.predicted_cards.length
 				) {

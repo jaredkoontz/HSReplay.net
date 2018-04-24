@@ -45,10 +45,7 @@ export default class CardList extends React.Component<Props> {
 
 		const { cardData, cardList, customCounts, sortByCount } = this.props;
 
-		let predictedCardList = null;
-		if (UserData.hasFeature("replay-predicted-cards")) {
-			predictedCardList = this.props.predictedCardList;
-		}
+		const predictedCardList = this.props.predictedCardList;
 
 		const counts = this.cardCounts(cardList);
 		const predictedCounts = this.cardCounts(predictedCardList);
