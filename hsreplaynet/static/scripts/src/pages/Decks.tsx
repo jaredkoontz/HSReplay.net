@@ -716,99 +716,93 @@ class Decks extends React.Component<Props, State> {
 							/>
 						</PremiumWrapper>
 					</section>
-					<Feature feature="collection-syncing">
-						<section id="max-dust-filter">
-							<h2>
-								{t("My Collection")}
-								<InfoIcon
-									className="pull-right"
-									header={t("Maximum Dust Filter")}
-									content={t(
-										"See which decks you can build right now without spending any or some dust.",
-									)}
-								/>
-							</h2>
-							{this.props.collection ? (
-								<>
-									<InfoboxFilterGroup
-										deselectable
-										selectedValue={
-											this.props.maxDustCost < 0
-												? null
-												: "DUST_FILTER"
+					<section id="max-dust-filter">
+						<h2>
+							{t("My Collection")}
+							<InfoIcon
+								className="pull-right"
+								header={t("Maximum Dust Filter")}
+								content={t(
+									"See which decks you can build right now without spending any or some dust.",
+								)}
+							/>
+						</h2>
+						{this.props.collection ? (
+							<>
+								<InfoboxFilterGroup
+									deselectable
+									selectedValue={
+										this.props.maxDustCost < 0
+											? null
+											: "DUST_FILTER"
+									}
+									onClick={value => {
+										if (value) {
+											CollectionEvents.onEnableDustWidget();
 										}
-										onClick={value => {
-											if (value) {
-												CollectionEvents.onEnableDustWidget();
-											}
+										this.props.setMaxDustCost(
+											value ? 0 : -1,
+										);
+									}}
+								>
+									<InfoboxFilter value="DUST_FILTER">
+										{t("Limit to my collection")}
+									</InfoboxFilter>
+								</InfoboxFilterGroup>
+								{this.props.maxDustCost < 0 ? null : (
+									<DustFilter
+										dust={this.props.maxDustCost}
+										setDust={(dust: number) =>
 											this.props.setMaxDustCost(
-												value ? 0 : -1,
-											);
+												dust === Infinity ? -1 : dust,
+											)
+										}
+										ownedDust={this.props.collection.dust}
+									/>
+								)}
+							</>
+						) : (
+							<CollectionBanner
+								hasCollection={!!this.props.collection}
+								wrapper={body => (
+									<div
+										className="infobox-banner"
+										style={{
+											backgroundImage: `url('${image(
+												"feature-promotional/collection-syncing-sidebar.png",
+											)}')`,
 										}}
 									>
-										<InfoboxFilter value="DUST_FILTER">
-											{t("Limit to my collection")}
-										</InfoboxFilter>
-									</InfoboxFilterGroup>
-									{this.props.maxDustCost < 0 ? null : (
-										<DustFilter
-											dust={this.props.maxDustCost}
-											setDust={(dust: number) =>
-												this.props.setMaxDustCost(
-													dust === Infinity
-														? -1
-														: dust,
-												)
-											}
-											ownedDust={
-												this.props.collection.dust
-											}
-										/>
-									)}
-								</>
-							) : (
-								<CollectionBanner
-									hasCollection={!!this.props.collection}
-									wrapper={body => (
-										<div
-											className="infobox-banner"
-											style={{
-												backgroundImage: `url('${image(
-													"feature-promotional/collection-syncing-sidebar.png",
-												)}')`,
-											}}
-										>
-											{body}
-										</div>
-									)}
-								>
-									{authenticated =>
-										authenticated ? (
-											isCollectionDisabled() ? (
-												<>
-													{t(
-														"Find the decks you can build",
-													)}
-												</>
-											) : (
-												<>
-													{t(
-														"Want to find decks you can build with your collection?",
-													)}
-												</>
-											)
+										{body}
+									</div>
+								)}
+							>
+								{authenticated =>
+									authenticated ? (
+										isCollectionDisabled() ? (
+											<>
+												{t(
+													"Find the decks you can build",
+												)}
+											</>
 										) : (
 											<>
 												{t(
-													"Sign in to find decks for your collection",
+													"Want to find decks you can build with your collection?",
 												)}
 											</>
 										)
-									}
-								</CollectionBanner>
-							)}
-						</section>
-					</Feature>
+									) : (
+										<>
+											{t(
+												"Sign in to find decks for your collection",
+											)}
+										</>
+									)
+								}
+							</CollectionBanner>
+						)}
+					</section>
 					<section id="time-frame-filter">
 						<InfoboxFilterGroup
 							header={t("Time frame")}

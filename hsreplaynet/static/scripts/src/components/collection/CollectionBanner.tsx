@@ -33,7 +33,7 @@ export default class CollectionBanner extends React.Component<Props, State> {
 			}
 		}
 		return (
-			<Feature feature="collection-syncing">
+			<>
 				<Modal
 					visible={this.state.showModal}
 					onClose={() =>
@@ -47,7 +47,7 @@ export default class CollectionBanner extends React.Component<Props, State> {
 				{this.wrap(
 					<div onClick={this.showModal}>{this.renderChildren()}</div>,
 				)}
-			</Feature>
+			</>
 		);
 	}
 

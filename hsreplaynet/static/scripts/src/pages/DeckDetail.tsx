@@ -491,38 +491,36 @@ export default class DeckDetail extends React.Component<Props, State> {
 							}
 						/>
 					</div>
-					<Feature feature="collection-syncing">
-						{!this.props.collection ? (
-							<CollectionBanner
-								hasCollection={!!this.props.collection}
-								wrapper={body => (
-									<div
-										className="infobox-banner"
-										style={{
-											backgroundImage:
-												"url('/static/images/feature-promotional/collection-syncing-sidebar.png')",
-										}}
-									>
-										{body}
-									</div>
-								)}
-							>
-								{authenticated =>
-									authenticated ? (
-										<>
-											Upload your collection to see which
-											cards you're missing!
-										</>
-									) : (
-										<>
-											Sign in to see whether you can build
-											this deck!
-										</>
-									)
-								}
-							</CollectionBanner>
-						) : null}
-					</Feature>
+					{!this.props.collection ? (
+						<CollectionBanner
+							hasCollection={!!this.props.collection}
+							wrapper={body => (
+								<div
+									className="infobox-banner"
+									style={{
+										backgroundImage:
+											"url('/static/images/feature-promotional/collection-syncing-sidebar.png')",
+									}}
+								>
+									{body}
+								</div>
+							)}
+						>
+							{authenticated =>
+								authenticated ? (
+									<>
+										Upload your collection to see which
+										cards you're missing!
+									</>
+								) : (
+									<>
+										Sign in to see whether you can build
+										this deck!
+									</>
+								)
+							}
+						</CollectionBanner>
+					) : null}
 					<h2>Deck</h2>
 					<ul>
 						<li>

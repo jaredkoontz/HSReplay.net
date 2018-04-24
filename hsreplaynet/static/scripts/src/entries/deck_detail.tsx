@@ -51,11 +51,7 @@ const render = (cardData: CardData) => {
 							},
 							url: "/api/v1/collection/",
 						}}
-						fetchCondition={
-							UserData.hasFeature("collection-syncing") &&
-							!!account &&
-							!isCollectionDisabled()
-						}
+						fetchCondition={!!account && !isCollectionDisabled()}
 					>
 						{({ collection }) => (
 							<Fragments
