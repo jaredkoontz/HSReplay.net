@@ -336,7 +336,6 @@ export default class InjectedDeckTile extends React.Component<ExternalProps> {
 						};
 					},
 				}}
-				fetchCondition={UserData.hasFeature("twitch-stream-promotion")}
 			>
 				{({ streams }) => <DeckTile {...props} streams={streams} />}
 			</DataInjector>

@@ -680,15 +680,7 @@ export default class DeckDetail extends React.Component<Props, State> {
 									</TableLoading>
 								</DataInjector>
 							</Tab>
-							<Tab
-								label="Streams"
-								hidden={
-									!UserData.hasFeature(
-										"twitch-stream-promotion",
-									) && this.props.tab !== "streams"
-								}
-								id="streams"
-							>
+							<Tab label="Streams" id="streams">
 								<h3 className="text-center">Live on Twitch</h3>
 								{this.renderStreams()}
 							</Tab>

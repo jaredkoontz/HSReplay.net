@@ -1009,26 +1009,22 @@ class Decks extends React.Component<Props, State> {
 							cardLimit={Limit.SINGLE}
 						/>
 					</section>
-					<Feature feature="twitch-stream-promotion">
-						<section id="stream-filter">
-							<InfoboxFilterGroup
-								header="Community"
-								deselectable
-								selectedValue={
-									this.props.withStream ? "WITH_STREAM" : null
-								}
-								onClick={value =>
-									this.props.setWithStream(
-										!this.props.withStream,
-									)
-								}
-							>
-								<InfoboxFilter value="WITH_STREAM">
-									{t("Stream available")}
-								</InfoboxFilter>
-							</InfoboxFilterGroup>
-						</section>
-					</Feature>
+					<section id="stream-filter">
+						<InfoboxFilterGroup
+							header="Community"
+							deselectable
+							selectedValue={
+								this.props.withStream ? "WITH_STREAM" : null
+							}
+							onClick={value =>
+								this.props.setWithStream(!this.props.withStream)
+							}
+						>
+							<InfoboxFilter value="WITH_STREAM">
+								{t("Stream available")}
+							</InfoboxFilter>
+						</InfoboxFilterGroup>
+					</section>
 					<section id="side-bar-data">
 						<h2>{t("Data")}</h2>
 						<InfoboxFilterGroup
