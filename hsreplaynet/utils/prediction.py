@@ -210,4 +210,4 @@ class DeckPredictionTree:
 		# 9+ = min_size
 		# from math import ceil, floor, pow
 		# return int(min_size * ceil(16.0 / pow(2.0, floor(depth / 2.0))))
-		return 2000
+		return 3000
