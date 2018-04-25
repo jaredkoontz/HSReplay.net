@@ -182,6 +182,8 @@ export default class Cards extends React.Component<Props, State> {
 			"GVG",
 			"NAXX",
 			"HOF",
+			"SLUSH",
+			"CHEAT",
 		],
 		type: ["HERO", "MINION", "SPELL", "WEAPON"],
 	};
@@ -1276,12 +1278,17 @@ export default class Cards extends React.Component<Props, State> {
 			}
 		};
 
-		return this.filters[key].map(item => (
-			<InfoboxFilter value={item} disabled={!counts[item]}>
-				{getText("" + item)}
-				<span className="infobox-value">{counts[item] || 0}</span>
-			</InfoboxFilter>
-		));
+		return this.filters[key].map(
+			item =>
+				getText("" + item) ? (
+					<InfoboxFilter value={item} disabled={!counts[item]}>
+						{getText("" + item)}
+						<span className="infobox-value">
+							{counts[item] || 0}
+						</span>
+					</InfoboxFilter>
+				) : null,
+		);
 	}
 
 	buildCostFilters(counts: any): JSX.Element[] {
