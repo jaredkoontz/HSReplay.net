@@ -601,6 +601,21 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 				has_enough_observed_cards = deck_size >= min_observed_cards
 				has_enough_played_cards = len(played_card_dbfs) >= min_played_cards
 
+				is_eligible = has_enough_observed_cards and has_enough_played_cards
+				influx_metric(
+					"deck_prediction_eligibility",
+					{
+						"deck_id": deck.id,
+						"is_eligible": 1 if is_eligible else 0
+					},
+					has_enough_observed_cards=has_enough_observed_cards,
+					has_enough_played_cards=has_enough_played_cards,
+					player_class=CardClass(int(player_class)).name,
+					format=FormatType(int(global_game.format)).name,
+					num_observed_cards=deck_size,
+					num_played_cards=len(played_card_dbfs)
+				)
+
 				if deck_size == 30:
 					if deck.archetype_id:
 						# Only perform cross validation when we know the archetype
@@ -647,7 +662,7 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 					deck.guessed_full_deck = deck
 					deck.save()
 
-				elif has_enough_observed_cards and has_enough_played_cards:
+				elif is_eligible:
 					res = tree.lookup(
 						deck.dbf_map(),
 						played_card_dbfs,
