@@ -1,27 +1,31 @@
 import React from "react";
+import { InjectedTranslateProps, translate } from "react-i18next";
 import CardData from "../CardData";
 import DataInjector from "../components/DataInjector";
+import SemanticAge from "../components/SemanticAge";
+import Tooltip from "../components/Tooltip";
+import HideLoading from "../components/loading/HideLoading";
 import TableLoading from "../components/loading/TableLoading";
 import TrendingDecksList from "../components/trending/TrendingDecksList";
-import HideLoading from "../components/loading/HideLoading";
-import Tooltip from "../components/Tooltip";
 import PropRemapper from "../components/utils/PropRemapper";
-import SemanticAge from "../components/SemanticAge";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	cardData: CardData;
 }
 
-export default class DeckSpotlight extends React.Component<Props> {
+class DeckSpotlight extends React.Component<Props> {
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		return (
 			<div id="deck-spotlight">
 				<span className="pull-right">
 					<Tooltip
-						header="Automatic updates"
-						content="This page is periodically updated as new data becomes available."
+						header={t("Automatic updates")}
+						content={t(
+							"This page is periodically updated as new data becomes available.",
+						)}
 					>
-						Last updated&nbsp;
+						{t("Last updated")}&nbsp;
 						<DataInjector
 							query={{
 								url: "trending_decks_by_popularity",
@@ -39,10 +43,11 @@ export default class DeckSpotlight extends React.Component<Props> {
 						</DataInjector>
 					</Tooltip>
 				</span>
-				<h1>Trending Decks</h1>
+				<h1>{t("Trending Decks")}</h1>
 				<h3>
-					Here's a selection of decks which have been rising in
-					popularity over the last 48 hours.
+					{t(
+						"Here's a selection of decks which have been rising in popularity over the last 48 hours.",
+					)}
 				</h3>
 				<DataInjector
 					query={{ url: "trending_decks_by_popularity", params: {} }}
@@ -52,12 +57,14 @@ export default class DeckSpotlight extends React.Component<Props> {
 					</TableLoading>
 				</DataInjector>
 				<section id="deck-db-link">
-					<h2>Can't find what you are looking for?</h2>
+					<h2>{t("Can't find what you are looking for?")}</h2>
 					<a href="/decks/" className="promo-button">
-						Check out all the decks!
+						{t("Check out all the decks!")}
 					</a>
 				</section>
 			</div>
 		);
 	}
 }
+
+export default translate()(DeckSpotlight);
