@@ -590,8 +590,9 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 				# To know about in the deck list before we attempt to guess the full deck
 				min_observed_cards = settings.DECK_PREDICTION_MINIMUM_CARDS
 
-				played_card_dbfs = [c.dbf_id for c in played_cards_for_player][:min_played_cards]
-				played_card_names = [c.name for c in played_cards_for_player][:min_played_cards]
+				sorted_played_cards = sorted(played_cards_for_player, key=lambda c: c.cost)
+				played_card_dbfs = [c.dbf_id for c in sorted_played_cards][:min_played_cards]
+				played_card_names = [c.name for c in sorted_played_cards][:min_played_cards]
 
 				if deck.size is not None:
 					deck_size = deck.size
