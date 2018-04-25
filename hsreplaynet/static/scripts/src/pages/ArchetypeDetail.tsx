@@ -91,6 +91,9 @@ class ArchetypeDetail extends React.Component<Props, State> {
 		const params = {
 			GameType: this.getGameType(props),
 			RankRange: props.rankRange,
+			TimeRange: UserData.hasFeature("current-expansion-filter")
+				? "CURRENT_EXPANSION"
+				: "LAST_30_DAYS",
 		};
 		const setDeckData = data => {
 			this.setState({ deckData: data ? data.series.data : null }, () =>
@@ -174,7 +177,20 @@ class ArchetypeDetail extends React.Component<Props, State> {
 			archetype_id: this.props.archetypeId,
 		};
 		const chartParams = { GameType, RankRange, archetype_id };
-		const params = { GameType, RankRange };
+		const params = {
+			GameType,
+			RankRange,
+			TimeRange: UserData.hasFeature("current-expansion-filter")
+				? "CURRENT_EXPANSION"
+				: "LAST_7_DAYS",
+		};
+		const listDecksParams = {
+			GameType,
+			RankRange,
+			TimeRange: UserData.hasFeature("current-expansion-filter")
+				? "CURRENT_EXPANSION"
+				: "LAST_30_DAYS",
+		};
 
 		let content = null;
 		if (this.hasData()) {
@@ -280,7 +296,7 @@ class ArchetypeDetail extends React.Component<Props, State> {
 								query={[
 									{
 										key: "deckData",
-										params,
+										params: listDecksParams,
 										url: "list_decks_by_win_rate",
 									},
 									{
@@ -303,7 +319,7 @@ class ArchetypeDetail extends React.Component<Props, State> {
 								query={[
 									{
 										key: "deckData",
-										params,
+										params: listDecksParams,
 										url: "list_decks_by_win_rate",
 									},
 									{
