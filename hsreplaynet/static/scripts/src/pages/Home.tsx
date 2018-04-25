@@ -1,18 +1,19 @@
 import React from "react";
 import CardData from "../CardData";
-import ReplayFeed from "../components/home/ReplayFeed";
-import DataInjector from "../components/DataInjector";
-import ClassRanking from "../components/home/ClassRanking";
-import ArchetypeHighlight from "../components/home/ArchetypeHighlight";
-import LiveData from "../components/home/LiveData";
-import FAQ from "../components/home/FAQ";
-import { BnetGameType } from "../hearthstone";
-import FeaturePanel from "../components/home/FeaturePanel";
-import Modal from "../components/Modal";
-import CollectionSetup from "../components/collection/CollectionSetup";
 import UserData from "../UserData";
+import DataInjector from "../components/DataInjector";
+import Modal from "../components/Modal";
 import ModeSvg from "../components/ModeSvg";
+import CollectionSetup from "../components/collection/CollectionSetup";
+import ArchetypeHighlight from "../components/home/ArchetypeHighlight";
+import ClassRanking from "../components/home/ClassRanking";
+import FAQ from "../components/home/FAQ";
+import FeaturePanel from "../components/home/FeaturePanel";
+import LiveData from "../components/home/LiveData";
+import ReplayFeed from "../components/home/ReplayFeed";
 import PremiumModal from "../components/premium/PremiumModal";
+import { BnetGameType } from "../hearthstone";
+import { image } from "../helpers";
 
 interface Props {
 	cardData: CardData | null;
@@ -38,18 +39,19 @@ export default class Home extends React.Component<Props, State> {
 
 	public render(): React.ReactNode {
 		const bannerStyle = {
-			backgroundImage: `url(${STATIC_URL}images/banner.jpg)`,
+			backgroundImage: `url("${image("banner.jpg")}")`,
 		};
 		const archetypeDataQuery = {
 			url: "/api/v1/archetypes",
 			key: "archetypeData",
 		};
 		const ranks = Array.from(Array(9).keys()).map(n => {
-			const image =
+			const path =
 				n === 0
-					? "banner-legend.png"
-					: `ranked-medals/Medal_Ranked_${n}.png`;
-			return <img key={n} src={`${STATIC_URL}images/${image}`} />;
+					? image("banner-legend.png")
+					: image(`ranked-medals/Medal_Ranked_${n}.png`);
+
+			return <img key={n} src={path} />;
 		});
 		ranks.reverse();
 		return (

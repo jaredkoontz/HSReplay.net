@@ -1,5 +1,5 @@
-import React from "react";
 import clipboard from "clipboard-polyfill";
+import React from "react";
 
 interface Props {
 	url: string;
@@ -55,10 +55,10 @@ export default class ShareGameDialog extends React.Component<Props, State> {
 				this.state.preservePerspective) ||
 			this.props.alwaysPreservePerspective
 		) {
-			if (typeof this.props.reveal == "boolean" || this.props.reveal) {
+			if (typeof this.props.reveal === "boolean" || this.props.reveal) {
 				parts.push("reveal=" + (this.props.reveal ? 1 : 0));
 			}
-			if (typeof this.props.swap == "boolean" || this.props.swap) {
+			if (typeof this.props.swap === "boolean" || this.props.swap) {
 				parts.push("swap=" + (this.props.swap ? 1 : 0));
 			}
 		}
@@ -163,18 +163,6 @@ export default class ShareGameDialog extends React.Component<Props, State> {
 					>
 						Twitter
 					</a>{" "}
-					&nbsp;
-					<a
-						href={
-							"https://www.facebook.com/sharer/sharer.php?u=" +
-							encodeURIComponent(url)
-						}
-						data-network="facebook"
-						className="btn btn-default btn-xs"
-						onClick={e => this.onExternalShare(e)}
-					>
-						Facebook
-					</a>
 				</fieldset>
 				<fieldset>
 					{this.props.showLinkToTurn ? (
