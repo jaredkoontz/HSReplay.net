@@ -10,7 +10,7 @@ from .web.sitemap import SITEMAPS
 from .web.views import (
 	ArticlesRedirectView, DownloadsView, HomeView, PingView, SetLocaleView
 )
-from .web.views.profiles import HighlightsView, PackListView
+from .web.views.profiles import PackListView
 
 
 urlpatterns = [
@@ -50,7 +50,6 @@ urlpatterns = [
 	url(r"^", include("hsreplaynet.decks.urls")),
 
 	# profiles (currently unused)
-	url(r"^profile/highlights/$", HighlightsView.as_view(), name="profile_highlights"),
 	url(r"^profile/packs/$", PackListView.as_view(), name="profile_packs"),
 
 	# redirects
