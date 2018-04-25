@@ -602,6 +602,42 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 				has_enough_played_cards = len(played_card_dbfs) >= min_played_cards
 
 				if deck_size == 30:
+					if deck.archetype_id:
+						# Only perform cross validation when we know the archetype
+						cross_val_dbf_map = {}
+						for c in played_cards_for_player:
+							if c.dbf_id not in cross_val_dbf_map:
+								cross_val_dbf_map[c.dbf_id] = 1
+							else:
+								cross_val_dbf_map[c.dbf_id] += 1
+
+						cross_val_result = tree.lookup(
+							cross_val_dbf_map,
+							played_card_dbfs,
+						)
+
+						if cross_val_result.predicted_deck_id:
+							cross_val_deck = Deck.objects.get(
+								id=cross_val_result.predicted_deck_id
+							)
+
+							perfect_deck_match = deck.id == cross_val_deck.id
+							archetype_match = deck.archetype_id == cross_val_deck.archetype_id
+							prediction_has_archetype = cross_val_deck.archetype_id is not None
+
+							influx_metric(
+								"deck_prediction_validation",
+								{
+									"actual_deck_id": deck.id,
+									"predicted_deck_id": cross_val_deck.id
+								},
+								perfect_deck_match=perfect_deck_match,
+								archetype_match=archetype_match,
+								player_class=CardClass(int(player_class)).name,
+								format=FormatType(int(global_game.format)).name,
+								prediction_has_archetype=prediction_has_archetype
+							)
+
 					tree.observe(
 						deck.id,
 						deck.dbf_map(),
@@ -610,6 +646,7 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 					# deck_id == proxy_deck_id for complete decks
 					deck.guessed_full_deck = deck
 					deck.save()
+
 				elif has_enough_observed_cards and has_enough_played_cards:
 					res = tree.lookup(
 						deck.dbf_map(),
