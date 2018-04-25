@@ -2,6 +2,7 @@ import _ from "lodash";
 import React, { Fragment } from "react";
 import CardData from "../CardData";
 import DataManager from "../DataManager";
+import { InjectedTranslateProps, translate } from "react-i18next";
 import UserData, { Account } from "../UserData";
 import CardImage from "../components/CardImage";
 import ClassFilter, { FilterOption } from "../components/ClassFilter";
@@ -47,7 +48,7 @@ interface CardFilters {
 	type: any;
 }
 
-interface Props extends FragmentChildProps {
+interface Props extends FragmentChildProps, InjectedTranslateProps {
 	cardData: CardData;
 	personal: boolean;
 	collection: Collection | null;
@@ -114,7 +115,7 @@ const PLACEHOLDER_SPELL = image("loading_spell.png");
 const PLACEHOLDER_WEAPON = image("loading_weapon.png");
 const PLACEHOLDER_HERO = image("loading_hero.png");
 
-export default class Cards extends React.Component<Props, State> {
+class Cards extends React.Component<Props, State> {
 	readonly filters = {
 		cost: [0, 1, 2, 3, 4, 5, 6, 7],
 		format: ["standard"],
@@ -452,6 +453,7 @@ export default class Cards extends React.Component<Props, State> {
 	}
 
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		const isStatsView = this.isStatsView();
 		const content = [];
 
@@ -512,7 +514,7 @@ export default class Cards extends React.Component<Props, State> {
 								}
 								numCards={this.state.numCards}
 								customNoDataMessage={[
-									<h2>All set!</h2>,
+									<h2>{t("All set!")}</h2>,
 									<p>
 										We've successfully linked your
 										Hearthstone account{" "}
@@ -522,15 +524,14 @@ export default class Cards extends React.Component<Props, State> {
 										and will analyze incoming replays.
 									</p>,
 									<p>
-										After you've played some games you'll
-										find statistics for all the cards you
-										play right here.
+										{t(
+											"After you've played some games you'll find statistics for all the cards you play right here.",
+										)}
 									</p>,
 									<p className="text-muted">
-										Note: It may take a few hours for new
-										data to appear on this page. If you are
-										missing data, make sure the filters in
-										the sidebar are correct!
+										{t(
+											"Note: It may take a few hours for new data to appear on this page. If you are missing data, make sure the filters in the sidebar are correct!",
+										)}
 									</p>,
 								]}
 							/>
@@ -543,7 +544,7 @@ export default class Cards extends React.Component<Props, State> {
 			} else {
 				content.push(
 					<div className="message-wrapper">
-						<h2>Link your Hearthstone account</h2>
+						<h2>{t("Link your Hearthstone account")}</h2>
 						<p>
 							Play a game and{" "}
 							<a href="/games/mine/">upload the replay</a> for
@@ -577,8 +578,9 @@ export default class Cards extends React.Component<Props, State> {
 				const warning = (
 					<div className="info-row text-center">
 						<span className="hidden-xs hidden-sm">
-							Some cards were hidden due to a low amount of
-							data.&nbsp;&nbsp;
+							{t(
+								"Some cards were hidden due to a low amount of data.",
+							)}&nbsp;&nbsp;
 						</span>
 						<a
 							href="#"
@@ -588,7 +590,7 @@ export default class Cards extends React.Component<Props, State> {
 								this.props.setShowSparse(true);
 							}}
 						>
-							Show sparse data
+							{t("Show sparse data")}
 						</a>
 					</div>
 				);
@@ -783,7 +785,9 @@ export default class Cards extends React.Component<Props, State> {
 					<div className="form-group has-feedback">
 						<input
 							autoFocus
-							placeholder="Search: Fireball, lance, valet, ..."
+							placeholder={t(
+								"Search: Fireball, lance, valet, ...",
+							)}
 							type="search"
 							className="form-control"
 							value={this.props.text}
@@ -806,7 +810,7 @@ export default class Cards extends React.Component<Props, State> {
 				type="button"
 				onClick={() => this.setState({ showFilters: false })}
 			>
-				Back to card list
+				{t("Back to card list")}
 			</button>
 		);
 
@@ -832,7 +836,7 @@ export default class Cards extends React.Component<Props, State> {
 						}
 					>
 						<span className="glyphicon glyphicon-filter" />
-						Filters
+						{t("Filters")}
 					</button>
 					{search}
 					{content}
@@ -904,6 +908,7 @@ export default class Cards extends React.Component<Props, State> {
 	buildFilters(): JSX.Element[] {
 		const showReset = this.props.canBeReset;
 		const isStatsView = this.isStatsView();
+		const { t } = this.props;
 
 		const filters = [
 			<ResetHeader
@@ -912,25 +917,25 @@ export default class Cards extends React.Component<Props, State> {
 				showReset={showReset}
 			>
 				{this.props.personal
-					? "My Cards"
-					: isStatsView ? "Cards" : "Gallery"}
+					? t("My Cards")
+					: isStatsView ? t("Cards") : t("Gallery")}
 			</ResetHeader>,
 		];
 
 		const modeFilter = (
 			<section id="mode-filter" key="mode-filter">
 				<InfoboxFilterGroup
-					header="Game Mode"
+					header={t("Game Mode")}
 					selectedValue={this.props.gameType}
 					onClick={value => this.props.setGameType(value)}
 				>
 					<InfoboxFilter value="RANKED_STANDARD">
-						Ranked Standard
+						{t("Ranked Standard")}
 					</InfoboxFilter>
 					<InfoboxFilter value="RANKED_WILD">
-						Ranked Wild
+						{t("Ranked Wild")}
 					</InfoboxFilter>
-					<InfoboxFilter value="ARENA">Arena</InfoboxFilter>
+					<InfoboxFilter value="ARENA">{t("Arena")}</InfoboxFilter>
 				</InfoboxFilterGroup>
 			</section>
 		);
@@ -938,20 +943,22 @@ export default class Cards extends React.Component<Props, State> {
 		if (!this.props.personal) {
 			filters.push(
 				<InfoboxFilterGroup
-					header="Display"
+					header={t("Display")}
 					selectedValue={this.props.display}
 					onClick={value => this.props.setDisplay(value)}
 					key="display"
 				>
 					<InfoboxFilter value="statistics">
-						Statistics view
+						{t("Statistics view")}
 					</InfoboxFilter>
 					{!isCollectionDisabled() ? (
 						<InfoboxFilter value="crafting">
-							Crafting view
+							{t("Crafting view")}
 						</InfoboxFilter>
 					) : null}
-					<InfoboxFilter value="gallery">Gallery view</InfoboxFilter>
+					<InfoboxFilter value="gallery">
+						{t("Gallery view")}
+					</InfoboxFilter>
 				</InfoboxFilterGroup>,
 			);
 		}
@@ -959,7 +966,7 @@ export default class Cards extends React.Component<Props, State> {
 		if (this.props.personal || !isStatsView) {
 			filters.push(
 				<Fragment key="class">
-					<h2>Class</h2>
+					<h2>{t("Class")}</h2>
 					<ClassFilter
 						filters="AllNeutral"
 						hideAll
@@ -994,18 +1001,20 @@ export default class Cards extends React.Component<Props, State> {
 						onClick={value => this.props.setExclude(value)}
 					>
 						<InfoboxFilter value="neutral">
-							Class cards only
+							{t("Class cards only")}
 						</InfoboxFilter>
 						<InfoboxFilter value="class">
-							Neutral cards only
+							{t("Neutral cards only")}
 						</InfoboxFilter>
 					</InfoboxFilterGroup>
 					{modeFilter}
 					<section>
 						<InfoboxFilterGroup
-							header="Time Frame"
-							infoHeader="Time Framge"
-							infoContent="Get the most recent data on which cards are hot right now!"
+							header={t("Time frame")}
+							infoHeader={t("Time frame")}
+							infoContent={t(
+								"Get the most recent data on which cards are hot right now!",
+							)}
 							selectedValue={this.props.timeRange}
 							onClick={value => this.props.setTimeRange(value)}
 						>
@@ -1014,43 +1023,39 @@ export default class Cards extends React.Component<Props, State> {
 								iconStyle={{ display: "none" }}
 							>
 								<InfoboxFilter value="LAST_1_DAY">
-									Last 1 day
+									{t("Last 1 day")}
 								</InfoboxFilter>
 								<InfoboxFilter value="LAST_3_DAYS">
-									Last 3 days
+									{t("Last {{n}} days", { n: 3 })}
 								</InfoboxFilter>
 								<InfoboxFilter value="LAST_7_DAYS">
-									Last 7 days
+									{t("Last {{n}} days", { n: 7 })}
 								</InfoboxFilter>
 							</PremiumWrapper>
 							<InfoboxFilter value="LAST_14_DAYS">
-								Last 14 days
+								{t("Last {{n}} days", { n: 14 })}
 							</InfoboxFilter>
 							<Feature feature={"current-expansion-filter"}>
 								<InfoboxFilter value="CURRENT_EXPANSION">
-									The Witchwood
-									<span className="infobox-value">New!</span>
+									{t("The Witchwood")}
+									<span className="infobox-value">
+										{t("New!")}
+									</span>
 								</InfoboxFilter>
 							</Feature>
 							<Feature feature={"current-patch-filter"}>
 								<InfoboxFilter value="CURRENT_PATCH">
-									Patch 10.2
-								</InfoboxFilter>
-							</Feature>
-							<Feature feature={"current-arena-event-filter"}>
-								<InfoboxFilter
-									value="ARENA_EVENT"
-									disabled={this.props.gameType !== "ARENA"}
-								>
-									Patch 10.4 (Arena)
+									{t("Latest patch")}
 								</InfoboxFilter>
 							</Feature>
 						</InfoboxFilterGroup>
 					</section>
 					<InfoboxFilterGroup
-						header="Rank Range"
-						infoHeader="Rank Range"
-						infoContent="Check out which cards are played at certain rank ranges on the ranked ladder!"
+						header={t("Rank range")}
+						infoHeader={t("Rank range")}
+						infoContent={t(
+							"Check out which cards are played at certain rank ranges on the ranked ladder!",
+						)}
 						onClick={value => this.props.setRankRange(value)}
 						selectedValue={
 							this.props.gameType !== "ARENA" &&
@@ -1063,16 +1068,18 @@ export default class Cards extends React.Component<Props, State> {
 							iconStyle={{ display: "none" }}
 						>
 							<InfoboxFilter value="LEGEND_ONLY">
-								Legend only
+								{t("Legend only")}
 							</InfoboxFilter>
 							<InfoboxFilter value="LEGEND_THROUGH_FIVE">
-								Legend–5
+								{t("Legend–5")}
 							</InfoboxFilter>
 							<InfoboxFilter value="LEGEND_THROUGH_TEN">
-								Legend–10
+								{t("Legend–10")}
 							</InfoboxFilter>
 						</PremiumWrapper>
-						<InfoboxFilter value="ALL">Legend–25</InfoboxFilter>
+						<InfoboxFilter value="ALL">
+							{t("Legend–25")}
+						</InfoboxFilter>
 					</InfoboxFilterGroup>
 				</Fragment>,
 			);
@@ -1082,22 +1089,22 @@ export default class Cards extends React.Component<Props, State> {
 			filters.push(modeFilter);
 			filters.push(
 				<InfoboxFilterGroup
-					header="Time Frame"
+					header={t("Time frame")}
 					selectedValue={this.props.timeRange}
 					onClick={value => this.props.setTimeRange(value)}
 					key="timeframe"
 				>
 					<InfoboxFilter value="LAST_3_DAYS">
-						Last 3 days
+						{t("Last {{n}} days", { n: 3 })}
 					</InfoboxFilter>
 					<InfoboxFilter value="LAST_7_DAYS">
-						Last 7 days
+						{t("Last {{n}} days", { n: 7 })}
 					</InfoboxFilter>
 					<InfoboxFilter value="LAST_30_DAYS">
-						Last 30 days
+						{t("Last {{n}} days", { n: 30 })}
 					</InfoboxFilter>
 					<InfoboxFilter value="CURRENT_SEASON">
-						Current Season
+						{t("Current season")}
 					</InfoboxFilter>
 					<Feature feature={"current-expansion-filter"}>
 						<InfoboxFilter value="CURRENT_EXPANSION">
@@ -1107,16 +1114,8 @@ export default class Cards extends React.Component<Props, State> {
 					</Feature>
 					<Feature feature={"current-patch-filter"}>
 						<InfoboxFilter value="CURRENT_PATCH">
-							Patch 10.2
-							<span className="infobox-value">New!</span>
-						</InfoboxFilter>
-					</Feature>
-					<Feature feature={"current-arena-event-filter"}>
-						<InfoboxFilter
-							value="ARENA_EVENT"
-							disabled={this.props.gameType !== "ARENA"}
-						>
-							Patch 10.4 (Arena)
+							{t("Latest patch")}
+							<span className="infobox-value">{t("New!")}</span>
 						</InfoboxFilter>
 					</Feature>
 				</InfoboxFilterGroup>,
@@ -1132,7 +1131,7 @@ export default class Cards extends React.Component<Props, State> {
 				: this.getPersonalParams();
 			filters.push(
 				<Fragment key="data">
-					<h2>Data</h2>
+					<h2>{t("Data")}</h2>
 					<ul>
 						<InfoboxLastUpdated
 							url={lastUpdatedUrl}
@@ -1149,7 +1148,7 @@ export default class Cards extends React.Component<Props, State> {
 						}
 					>
 						<InfoboxFilter value="show">
-							Show sparse data
+							{t("Show sparse data")}
 						</InfoboxFilter>
 					</InfoboxFilterGroup>
 				</Fragment>,
@@ -1307,7 +1306,7 @@ export default class Cards extends React.Component<Props, State> {
 					/>
 					<div>
 						{+item < 7 ? item : "7+"}
-						<span className="sr-only">Mana</span>
+						<span className="sr-only">{this.props.t("Mana")}</span>
 					</div>
 				</InfoboxFilter>
 			))
@@ -1331,7 +1330,7 @@ export default class Cards extends React.Component<Props, State> {
 					count && this.props.setFormat(selected ? null : "standard")
 				}
 			>
-				Standard only
+				{this.props.t("Standard only")}
 				<span className="infobox-value">{count || 0}</span>
 			</li>
 		);
@@ -1505,3 +1504,5 @@ export default class Cards extends React.Component<Props, State> {
 		hero.src = PLACEHOLDER_HERO;
 	}
 }
+
+export default translate()(Cards);
