@@ -1,12 +1,12 @@
+import _ from "lodash";
 import React from "react";
+import DataManager from "../../DataManager";
+import { BnetGameType } from "../../hearthstone";
+import { commaSeparate, image } from "../../helpers";
 import { Archetype } from "../../utils/api";
+import RankIcon from "../RankIcon";
 import { withLoading } from "../loading/Loading";
 import ScrollingFeed from "./ScrollingFeed";
-import RankIcon from "../RankIcon";
-import { BnetGameType } from "../../hearthstone";
-import DataManager from "../../DataManager";
-import _ from "lodash";
-import { commaSeparate } from "../../helpers";
 
 interface ReplayData {
 	player1_rank: string;
@@ -199,10 +199,7 @@ class ReplayFeed extends React.Component<Props, State> {
 
 	itemConverter(data: ReplayData): React.ReactNode {
 		const winnerIcon = (
-			<img
-				className={"winner-icon"}
-				src={`${STATIC_URL}images/crown.png`}
-			/>
+			<img className={"winner-icon"} src={image("crown.png")} />
 		);
 		const p1Archetype = this.props.archetypeData.find(a => {
 			return a.id === +data.player1_archetype;
@@ -225,7 +222,7 @@ class ReplayFeed extends React.Component<Props, State> {
 					/>
 					<span>{p1Archetype && p1Archetype.name}</span>
 				</div>
-				<img className="vs-icon" src={`${STATIC_URL}images/vs.png`} />
+				<img className="vs-icon" src={image("vs.png")} />
 				<div className="replay-feed-player player-right">
 					{data.player2_won === "True" ? winnerIcon : null}
 					<RankIcon

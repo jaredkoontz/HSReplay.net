@@ -430,10 +430,9 @@ export default class MyDecks extends React.Component<Props, State> {
 		const playerClasses = this.props.playerClasses;
 		if (playerClasses.length) {
 			filteredCards = filteredCards.filter(card => {
-				const cardClass = card.cardClass;
 				return (
-					cardClass === "NEUTRAL" ||
-					playerClasses.indexOf(cardClass) !== -1
+					card.cardClass === "NEUTRAL" ||
+					playerClasses.indexOf(card.cardClass) !== -1
 				);
 			});
 		}

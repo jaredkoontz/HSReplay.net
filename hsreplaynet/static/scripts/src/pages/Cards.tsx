@@ -1,15 +1,19 @@
-import InfoboxFilterGroup from "../components/InfoboxFilterGroup";
+import _ from "lodash";
 import React, { Fragment } from "react";
 import CardData from "../CardData";
+import DataManager from "../DataManager";
+import UserData, { Account } from "../UserData";
 import CardImage from "../components/CardImage";
 import ClassFilter, { FilterOption } from "../components/ClassFilter";
 import DataInjector from "../components/DataInjector";
+import Feature from "../components/Feature";
 import InfoboxFilter from "../components/InfoboxFilter";
-import _ from "lodash";
+import InfoboxFilterGroup from "../components/InfoboxFilterGroup";
+import InfoboxLastUpdated from "../components/InfoboxLastUpdated";
+import ResetHeader from "../components/ResetHeader";
 import TableLoading from "../components/loading/TableLoading";
 import PremiumWrapper from "../components/premium/PremiumWrapper";
-import ResetHeader from "../components/ResetHeader";
-import DataManager from "../DataManager";
+import CardTable from "../components/tables/CardTable";
 import {
 	cardSorting,
 	cleanText,
@@ -21,15 +25,11 @@ import {
 	slangToCardId,
 	toTitleCase,
 } from "../helpers";
-import InfoboxLastUpdated from "../components/InfoboxLastUpdated";
-import UserData, { Account } from "../UserData";
 import {
 	FragmentChildProps,
 	LoadingStatus,
 	SortDirection,
 } from "../interfaces";
-import CardTable from "../components/tables/CardTable";
-import Feature from "../components/Feature";
 import { Collection } from "../utils/api";
 import {
 	getCollectionCardCount,
