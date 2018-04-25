@@ -12,7 +12,7 @@ const render = (cardData: CardData) => {
 	const immutable = [];
 	if (!UserData.isPremium()) {
 		immutable.push("rankRange", "region");
-		if (!UserData.hasFeature("current-expansion-filter-meta")) {
+		if (!UserData.hasFeature("current-expansion-filter")) {
 			immutable.push("timeFrame");
 		}
 	}
@@ -28,9 +28,7 @@ const render = (cardData: CardData) => {
 					sortBy: "popularity",
 					sortDirection: "descending",
 					tab: "tierlist",
-					timeFrame: UserData.hasFeature(
-						"current-expansion-filter-meta",
-					)
+					timeFrame: UserData.hasFeature("current-expansion-filter")
 						? "CURRENT_EXPANSION"
 						: "LAST_7_DAYS",
 				}}
