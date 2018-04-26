@@ -20,6 +20,7 @@ export default class CardIcon extends React.Component<Props, State> {
 	readonly baseSize = 34;
 	readonly baseBackgroundWidth = 126;
 	readonly baseOffset = -70;
+	private image: HTMLImageElement | null = null;
 
 	constructor(props: Props, context: any) {
 		super(props, context);
@@ -44,6 +45,12 @@ export default class CardIcon extends React.Component<Props, State> {
 		}
 	}
 
+	public componentWillUnmount(): void {
+		this.image.onload = null;
+		this.image.src = null;
+		this.image = null;
+	}
+
 	buildBackgroundImageUrl(): string {
 		return `${HEARTHSTONE_ART_URL}/tiles/${this.props.card.id}.jpg`;
 	}
@@ -52,11 +59,11 @@ export default class CardIcon extends React.Component<Props, State> {
 		if (!this.props.card) {
 			return;
 		}
-		const image = new Image();
-		image.onload = () => {
+		this.image = new Image();
+		this.image.onload = () => {
 			this.setState({ backgroundLoaded: true });
 		};
-		image.src = this.buildBackgroundImageUrl();
+		this.image.src = this.buildBackgroundImageUrl();
 	}
 
 	public render(): React.ReactNode {
