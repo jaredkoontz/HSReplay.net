@@ -288,6 +288,12 @@ export default class MetaOverview extends React.Component<Props, State> {
 										key: "deckData",
 										params: {
 											GameType: this.getGameType(),
+											TimeRange:
+												this.props.timeFrame ===
+												"CURRENT_EXPANSION"
+													? "CURRENT_EXPANSION"
+													: "LAST_30_DAYS",
+											Region: this.props.region,
 										},
 										url: "list_decks_by_win_rate",
 									},
