@@ -28,7 +28,7 @@ export default class ArchetypeFilter extends React.Component<Props> {
 		if (archetypes) {
 			const addFilter = (archetypeId, playerClass, name) => {
 				filters.push(
-					<InfoboxFilter value={"" + archetypeId}>
+					<InfoboxFilter value={"" + archetypeId} key={archetypeId}>
 						<span
 							className={`player-class ${playerClass.toLowerCase()}`}
 						>
