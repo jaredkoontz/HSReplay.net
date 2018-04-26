@@ -1,6 +1,6 @@
 # Core requirements for HSReplay.net
 
-hearthstone==4.3.3
+hearthstone==4.3.4
 hearthstone_data
 hearthsim-identity==2.5.0
 https://github.com/HearthSim/hsarchetypes/archive/master.tar.gz

@@ -1,6 +1,6 @@
 -r base.txt
 
 aniso8601==2.0.1
-hslog==1.3.3
+hslog==1.4.1
 hsreplay==1.7.1
 psycopg2-binary==2.7.4
