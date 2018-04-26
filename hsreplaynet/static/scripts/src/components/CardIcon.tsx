@@ -46,9 +46,11 @@ export default class CardIcon extends React.Component<Props, State> {
 	}
 
 	public componentWillUnmount(): void {
-		this.image.onload = null;
-		this.image.src = null;
-		this.image = null;
+		if (this.image !== null) {
+			this.image.onload = null;
+			this.image.src = "";
+			this.image = null;
+		}
 	}
 
 	buildBackgroundImageUrl(): string {
@@ -62,6 +64,7 @@ export default class CardIcon extends React.Component<Props, State> {
 		this.image = new Image();
 		this.image.onload = () => {
 			this.setState({ backgroundLoaded: true });
+			this.image = null;
 		};
 		this.image.src = this.buildBackgroundImageUrl();
 	}
