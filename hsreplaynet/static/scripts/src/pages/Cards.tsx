@@ -1,8 +1,8 @@
 import _ from "lodash";
 import React, { Fragment } from "react";
+import { InjectedTranslateProps, translate } from "react-i18next";
 import CardData from "../CardData";
 import DataManager from "../DataManager";
-import { InjectedTranslateProps, translate } from "react-i18next";
 import UserData, { Account } from "../UserData";
 import CardImage from "../components/CardImage";
 import ClassFilter, { FilterOption } from "../components/ClassFilter";

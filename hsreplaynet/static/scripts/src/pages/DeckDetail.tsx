@@ -1,46 +1,48 @@
+import _ from "lodash";
+import React from "react";
+import { InjectedTranslateProps, translate } from "react-i18next";
+import CardData from "../CardData";
 import DataManager from "../DataManager";
-import PremiumWrapper from "../components/premium/PremiumWrapper";
-import WinrateLineChart from "../components/charts/WinrateLineChart";
+import UserData, { Account } from "../UserData";
+import CardList from "../components/CardList";
 import ClassFilter, { FilterOption } from "../components/ClassFilter";
+import CopyDeckButton from "../components/CopyDeckButton";
 import DataInjector from "../components/DataInjector";
-import DeckStats from "../components/deckdetail/DeckStats";
-import SimilarDecksList from "../components/deckdetail/SimilarDecksList";
+import Feature from "../components/Feature";
+import InfoIcon from "../components/InfoIcon";
 import InfoboxFilter from "../components/InfoboxFilter";
 import InfoboxFilterGroup from "../components/InfoboxFilterGroup";
+import ManaCurve from "../components/ManaCurve";
+import StreamList from "../components/StreamList";
+import Tooltip from "../components/Tooltip";
+import ArchetypeMatchups from "../components/archetypedetail/ArchetypeMatchups";
+import CardDetailPieChart from "../components/charts/CardDetailPieChart";
+import PopularityLineChart from "../components/charts/PopularityLineChart";
+import WinrateLineChart from "../components/charts/WinrateLineChart";
+import CollectionBanner from "../components/collection/CollectionBanner";
+import DeckCountersList from "../components/deckdetail/DeckCountersList";
+import DeckOverviewTable from "../components/deckdetail/DeckOverviewTable";
+import DeckStats from "../components/deckdetail/DeckStats";
+import SimilarDecksList from "../components/deckdetail/SimilarDecksList";
+import Tab from "../components/layout/Tab";
+import TabList from "../components/layout/TabList";
 import ChartLoading from "../components/loading/ChartLoading";
 import HideLoading from "../components/loading/HideLoading";
-import CardData from "../CardData";
-import React from "react";
 import TableLoading from "../components/loading/TableLoading";
-import PopularityLineChart from "../components/charts/PopularityLineChart";
+import PremiumPromo from "../components/premium/PremiumPromo";
+import PremiumWrapper from "../components/premium/PremiumWrapper";
+import CardTable from "../components/tables/CardTable";
 import {
 	compareDecks,
 	getArchetypeUrl,
 	getHeroClassName,
 	getHeroSkinCardUrl,
+	image,
 	isWildSet,
 } from "../helpers";
 import { CardObj, RenderData, SortDirection } from "../interfaces";
-import UserData, { Account } from "../UserData";
-import InfoIcon from "../components/InfoIcon";
-import ManaCurve from "../components/ManaCurve";
-import TabList from "../components/layout/TabList";
-import Tab from "../components/layout/Tab";
-import Tooltip from "../components/Tooltip";
-import DeckOverviewTable from "../components/deckdetail/DeckOverviewTable";
-import CopyDeckButton from "../components/CopyDeckButton";
-import CardList from "../components/CardList";
-import CardDetailPieChart from "../components/charts/CardDetailPieChart";
-import DeckCountersList from "../components/deckdetail/DeckCountersList";
-import CardTable from "../components/tables/CardTable";
-import _ from "lodash";
-import Feature from "../components/Feature";
-import PremiumPromo from "../components/premium/PremiumPromo";
-import ArchetypeMatchups from "../components/archetypedetail/ArchetypeMatchups";
-import StreamList from "../components/StreamList";
-import { Collection } from "../utils/api";
-import CollectionBanner from "../components/collection/CollectionBanner";
 import { DeckEvents } from "../metrics/GoogleAnalytics";
+import { Collection } from "../utils/api";
 import { getDustCostForCollection } from "../utils/collection";
 
 interface InventoryGameType {
@@ -51,7 +53,7 @@ interface InventoryRegion {
 	[region: string]: string[];
 }
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	account: Account | null;
 	collection: Collection | null;
 	adminUrl: string;
@@ -87,7 +89,7 @@ interface State {
 	showCollectionModal: boolean;
 }
 
-export default class DeckDetail extends React.Component<Props, State> {
+class DeckDetail extends React.Component<Props, State> {
 	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
@@ -137,6 +139,7 @@ export default class DeckDetail extends React.Component<Props, State> {
 	}
 
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		const deckParams = this.getParams();
 		const globalParams = _.omit(deckParams, "deck_id");
 		const personalParams = this.getPersonalParams();
@@ -170,7 +173,7 @@ export default class DeckDetail extends React.Component<Props, State> {
 		if (this.props.archetypeName) {
 			archetypeInfo = (
 				<li>
-					Archetype
+					{t("Archetype")}
 					<span className="infobox-value">
 						<a
 							href={getArchetypeUrl(
@@ -186,7 +189,7 @@ export default class DeckDetail extends React.Component<Props, State> {
 								href={`/api/v1/decks/${
 									this.props.deckId
 								}/feedback/`}
-								title="Feedback"
+								title={t("Feedback")}
 							>
 								<span className="glyphicon glyphicon-pencil" />
 							</a>
@@ -212,8 +215,11 @@ export default class DeckDetail extends React.Component<Props, State> {
 			if (this.state.hasData && !hasFilter) {
 				content = (
 					<Tooltip
-						header="Not enough data"
-						content={`This deck does not have enough data at ${text}.`}
+						header={t("Not enough data")}
+						content={t(
+							"This deck does not have enough data at {{text}}.",
+							{ text },
+						)}
 					>
 						{text}
 					</Tooltip>
@@ -235,7 +241,11 @@ export default class DeckDetail extends React.Component<Props, State> {
 					cardList={dbfIds}
 					name={
 						this.props.deckName ||
-						`${getHeroClassName(this.props.deckClass)} Deck`
+						t("{{deckClassName}} Deck", {
+							deckClassName: getHeroClassName(
+								this.props.deckClass,
+							),
+						})
 					}
 					heroes={[this.props.heroDbfId]}
 					collection={this.props.collection}
@@ -246,11 +256,13 @@ export default class DeckDetail extends React.Component<Props, State> {
 		const filters = [
 			<PremiumWrapper analyticsLabel="Single Deck Opponent Selection">
 				<h2>
-					Select your opponent
+					{t("Select your opponent")}
 					<InfoIcon
 						className="pull-right"
-						header="Mulligan Guide Opponent"
-						content="Show Mulligan Guide data specific to your chosen opponent!"
+						header={t("Opponent mulligan guide")}
+						content={t(
+							"Show Mulligan Guide data specific to your chosen opponent!",
+						)}
 					/>
 				</h2>
 				<ClassFilter
@@ -273,7 +285,9 @@ export default class DeckDetail extends React.Component<Props, State> {
 		if (this.state.hasData === false) {
 			header = (
 				<h4 className="message-wrapper" id="message-no-data">
-					This deck does not have enough data for global statistics.
+					{t(
+						"This deck does not have enough data for global statistics.",
+					)}
 				</h4>
 			);
 
@@ -291,17 +305,19 @@ export default class DeckDetail extends React.Component<Props, State> {
 			filters.push(
 				<div>
 					<InfoboxFilterGroup
-						header="Rank Range"
-						infoHeader="Rank Range"
+						header={t("Rank range")}
+						infoHeader={t("Rank range")}
 						infoContent={
 							<>
 								<p>
-									Check out how this deck performs at higher
-									ranks!
+									{t(
+										"Check out how this deck performs at higher ranks!",
+									)}
 								</p>
 								<p>
-									Greyed out filters indicate an insufficient
-									amount of data for that rank range.
+									{t(
+										"Greyed out filters indicate an insufficient amount of data for that rank range.",
+									)}
 								</p>
 							</>
 						}
@@ -335,20 +351,22 @@ export default class DeckDetail extends React.Component<Props, State> {
 				</div>,
 				<Feature feature="deck-detail-region-filter">
 					<InfoboxFilterGroup
-						header="Region"
+						header={t("Region")}
 						selectedValue={this.getRegion()}
 						onClick={region => this.props.setRegion(region)}
-						infoHeader="Deck breakdown region"
+						infoHeader={t("Deck breakdown region")}
 						infoContent={
 							<>
 								<p>
-									Take a look at how this deck performs in
-									your region!
+									{t(
+										"Take a look at how this deck performs in your region!",
+									)}
 								</p>
 								<br />
 								<p>
-									Greyed out filters indicate an insufficient
-									amount of data for that region.
+									{t(
+										"Greyed out filters indicate an insufficient amount of data for that region.",
+									)}
 								</p>
 							</>
 						}
@@ -357,7 +375,7 @@ export default class DeckDetail extends React.Component<Props, State> {
 							analyticsLabel="Single Deck Region"
 							iconStyle={{ display: "none" }}
 						>
-							{infoBoxFilter("region", "REGION_US", "America")}
+							{infoBoxFilter("region", "REGION_US", "Americas")}
 							{infoBoxFilter("region", "REGION_EU", "Europe")}
 							{infoBoxFilter("region", "REGION_KR", "Asia")}
 							<Feature feature="region-filter-china">
@@ -396,8 +414,10 @@ export default class DeckDetail extends React.Component<Props, State> {
 							</ChartLoading>
 						</DataInjector>
 						<InfoIcon
-							header="Popularity over time"
-							content="Percentage of games played with this deck."
+							header={t("Popularity over time")}
+							content={t(
+								"Percentage of games played with this deck.",
+							)}
 						/>
 					</div>
 				</div>,
@@ -418,8 +438,10 @@ export default class DeckDetail extends React.Component<Props, State> {
 							</ChartLoading>
 						</DataInjector>
 						<InfoIcon
-							header="Winrate over time"
-							content="Percentage of games won with this deck."
+							header={t("Winrate over time")}
+							content={t(
+								"Percentage of games won with this deck.",
+							)}
 						/>
 					</div>
 				</div>,
@@ -468,6 +490,8 @@ export default class DeckDetail extends React.Component<Props, State> {
 		}
 
 		const { deckName, deckClass } = this.props;
+
+		// FIXME: i18n
 		const copyDeckName = deckName
 			? deckName.replace(/ Deck$/, "")
 			: getHeroClassName(this.props.deckClass);
@@ -510,8 +534,9 @@ export default class DeckDetail extends React.Component<Props, State> {
 								<div
 									className="infobox-banner"
 									style={{
-										backgroundImage:
-											"url('/static/images/feature-promotional/collection-syncing-sidebar.png')",
+										backgroundImage: `url("${image(
+											"feature-promotional/collection-syncing-sidebar.png",
+										)}")`,
 									}}
 								>
 									{body}
@@ -521,22 +546,24 @@ export default class DeckDetail extends React.Component<Props, State> {
 							{authenticated =>
 								authenticated ? (
 									<>
-										Upload your collection to see which
-										cards you're missing!
+										{t(
+											"Upload your collection to see which cards you're missing!",
+										)}
 									</>
 								) : (
 									<>
-										Sign in to see whether you can build
-										this deck!
+										{t(
+											"Sign in to see whether you can build this deck!",
+										)}
 									</>
 								)
 							}
 						</CollectionBanner>
 					) : null}
-					<h2>Deck</h2>
+					<h2>{t("Deck")}</h2>
 					<ul>
 						<li>
-							Class
+							{t("Class")}
 							<a
 								className="infobox-value"
 								href={
@@ -549,11 +576,11 @@ export default class DeckDetail extends React.Component<Props, State> {
 						</li>
 						{archetypeInfo}
 						<li>
-							Cost
+							{t("Cost")}
 							<span className="infobox-value">
 								{dustCost !== null
-									? +dustCost + " Dust"
-									: "Counting…"}
+									? t("{{dustCost}} Dust", { dustCost })
+									: t("Counting…")}
 							</span>
 						</li>
 					</ul>
@@ -602,10 +629,12 @@ export default class DeckDetail extends React.Component<Props, State> {
 							<Tab
 								label={
 									<span className="text-premium">
-										My Statistics&nbsp;
+										{t("My Statistics")}
 										<InfoIcon
-											header="Personal statistics"
-											content="See detailed statistics about your own performance of each card in this deck."
+											header={t("Personal statistics")}
+											content={t(
+												"See detailed statistics about your own performance of each card in this deck.",
+											)}
 										/>
 									</span>
 								}
@@ -616,7 +645,7 @@ export default class DeckDetail extends React.Component<Props, State> {
 							<Tab
 								label={
 									<span className="text-premium">
-										Matchups&nbsp;
+										{t("Matchups")}
 										<InfoIcon
 											header="Archetype Matchups"
 											content="See how this deck performs against specific archetypes."
@@ -656,10 +685,12 @@ export default class DeckDetail extends React.Component<Props, State> {
 							<Tab
 								label={
 									<span className="text-premium">
-										Deck Counters&nbsp;
+										{t("Deck counters")}
 										<InfoIcon
-											header="Deck Counters"
-											content="A list of archetypes and decks that this deck has trouble against."
+											header={t("Deck counters")}
+											content={t(
+												"A list of archetypes and decks that this deck has trouble against.",
+											)}
 										/>
 									</span>
 								}
@@ -692,8 +723,10 @@ export default class DeckDetail extends React.Component<Props, State> {
 									</TableLoading>
 								</DataInjector>
 							</Tab>
-							<Tab label="Streams" id="streams">
-								<h3 className="text-center">Live on Twitch</h3>
+							<Tab label={t("Streams")} id="streams">
+								<h3 className="text-center">
+									{t("Live on Twitch")}
+								</h3>
 								{this.renderStreams()}
 							</Tab>
 						</TabList>
@@ -770,11 +803,14 @@ export default class DeckDetail extends React.Component<Props, State> {
 	}
 
 	getMyStats(): JSX.Element {
+		const { t } = this.props;
 		if (!UserData.isAuthenticated() || !UserData.isPremium()) {
 			return (
 				<PremiumPromo
 					imageName="mystatistics_full.png"
-					text="You play this deck? View your personal Mulligan Guide and card statistics right here."
+					text={t(
+						"You play this deck? View your personal Mulligan Guide and card statistics right here.",
+					)}
 				/>
 			);
 		}
@@ -830,8 +866,12 @@ export default class DeckDetail extends React.Component<Props, State> {
 					}
 					customNoDataMessage={
 						hasSelectedClass
-							? "You need to play at least ten games against this class."
-							: "You need to play at least ten games with this deck."
+							? t(
+									"You need to play at least ten games against this class.",
+							  )
+							: t(
+									"You need to play at least ten games with this deck.",
+							  )
 					}
 					collection={this.props.collection}
 				/>
@@ -864,11 +904,14 @@ export default class DeckDetail extends React.Component<Props, State> {
 	}
 
 	renderMatchups(deckParams: any): JSX.Element {
+		const { t } = this.props;
 		if (!UserData.isAuthenticated() || !UserData.isPremium()) {
 			return (
 				<PremiumPromo
 					imageName="deck_matchups_full.png"
-					text="View more details on how this decks performs against specific archetypes."
+					text={t(
+						"View more details on how this decks performs against specific archetypes.",
+					)}
 				/>
 			);
 		}
@@ -1066,9 +1109,11 @@ export default class DeckDetail extends React.Component<Props, State> {
 		if (UserData.isStaff() && this.props.adminUrl) {
 			items.push(
 				<li>
-					<span>View in Admin</span>
+					<span>{this.props.t("View in Admin")}</span>
 					<span className="infobox-value">
-						<a href={this.props.adminUrl}>Admin link</a>
+						<a href={this.props.adminUrl}>
+							{this.props.t("Admin link")}
+						</a>
 					</span>
 				</li>,
 			);
@@ -1080,9 +1125,11 @@ export default class DeckDetail extends React.Component<Props, State> {
 
 		return (
 			<div>
-				<h2>Admin</h2>
+				<h2>{this.props.t("Admin")}</h2>
 				<ul>{items}</ul>
 			</div>
 		);
 	}
 }
+
+export default translate()(DeckDetail);
