@@ -261,7 +261,7 @@ class RedisIntegerMapStorage:
 		return final_result
 	"""
 
-	def __init__(self, caches, namespace, ttl=DEFAULT_TTL, max_match_size=3000):
+	def __init__(self, caches, namespace, ttl=DEFAULT_TTL, max_match_size=5000):
 		self.redis_primary, self.redis_replica = caches
 		self.namespace = namespace
 		self.ttl = ttl
