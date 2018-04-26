@@ -48,6 +48,7 @@ class ArchetypeTierList extends React.Component<Props> {
 			);
 			tiers[index].push(
 				<ArchetypeListItem
+					key={archetype.archetype_id}
 					archetype={archetype}
 					archetypeData={this.props.archetypeData}
 					cardData={this.props.cardData}

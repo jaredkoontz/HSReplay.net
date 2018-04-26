@@ -26,7 +26,7 @@ export default class ArchetypeListItem extends React.Component<Props> {
 		if (signature) {
 			signature.components.forEach(dbfId => {
 				coreCards.push(
-					<li>
+					<li key={dbfId}>
 						<CardIcon card={cardData.fromDbf(dbfId)} />
 					</li>,
 				);

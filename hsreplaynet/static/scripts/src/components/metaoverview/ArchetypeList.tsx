@@ -25,6 +25,7 @@ class ArchetypeList extends React.Component<Props> {
 			.sort()
 			.map(key => (
 				<ClassArchetypesBox
+					key={key}
 					archetypeData={this.props.archetypeData}
 					cardData={this.props.cardData}
 					data={data[key]}

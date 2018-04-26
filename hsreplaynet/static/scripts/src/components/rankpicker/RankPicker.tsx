@@ -107,6 +107,7 @@ export default class RankPicker extends React.Component<Props, State> {
 				);
 				items.push(
 					<RowSelector
+						key={`${rank}-row`}
 						classNames={rowClasses}
 						onClick={mode => this.onRanksChanged(rank, mode)}
 						mode={
@@ -119,6 +120,7 @@ export default class RankPicker extends React.Component<Props, State> {
 			}
 			items.push(
 				<RankSelector
+					key={rank}
 					classNames={rankClasses}
 					onClick={() =>
 						this.props.onSelectionChanged(
