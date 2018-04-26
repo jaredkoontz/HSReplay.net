@@ -570,7 +570,6 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 		is_eligible_gametype = global_game.game_type in [
 			BnetGameType.BGT_FRIENDS,
 			BnetGameType.BGT_RANKED_STANDARD,
-			BnetGameType.BGT_VS_AI,
 			BnetGameType.BGT_CASUAL_STANDARD_NORMAL,
 			BnetGameType.BGT_RANKED_WILD,
 			BnetGameType.BGT_CASUAL_WILD,
