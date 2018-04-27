@@ -1,6 +1,6 @@
 # Core requirements for HSReplay.net
 
-hearthstone==4.3.4
+hearthstone==4.3.5
 hearthstone_data
 hearthsim-identity==2.5.0
 https://github.com/HearthSim/hsarchetypes/archive/master.tar.gz
@@ -18,7 +18,7 @@ influxdb==5.0.0
 lxml==4.2.0
 python-dateutil==2.6.1
 python-redis-lock[django]==3.2.0
-raven==6.6.0
+raven==6.7.0
 redis==2.10.6
 redis-semaphore==0.2.2
 shortuuid==0.5.0
