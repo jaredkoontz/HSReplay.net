@@ -748,7 +748,7 @@ class CardDetail extends React.Component<Props, State> {
 							{t("Set")}
 							<span className="infobox-value">
 								{this.props.card &&
-									this.props.card.set &&
+									typeof this.props.card.set === "string" &&
 									setNames[this.props.card.set.toLowerCase()]}
 							</span>
 						</li>
