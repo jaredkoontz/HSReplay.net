@@ -14,7 +14,7 @@ urlpatterns = [
 	),
 	path(
 		"distributions/played_cards/<game_type_name>/",
-		views.GameTypePlayedCardsDistributionView.as_view()
+		views.PlayedCardsDistributionView.as_view()
 	),
 	path("games_count/weekly/", views.WeeklyGamesCountView.as_view()),
 	path("replay_feed/", views.LiveReplayFeedView.as_view()),

@@ -20,14 +20,6 @@ _WEEKLY_GAMES_COUNT = defaultdict()
 _PLAYED_CARDS_CACHE = defaultdict(dict)
 
 
-def _get_base_ts(bucket_size=5):
-	current_ts = datetime.utcnow()
-	td = timedelta(seconds=60, microseconds=current_ts.microsecond)
-	base_ts = current_ts - td
-	base_ts = base_ts - timedelta(seconds=(base_ts.second % bucket_size))
-	return base_ts
-
-
 def _get_most_recent_tick_ts(tick=5):
 	redis = get_live_stats_redis()
 	seconds_since_epoch, microseconds_into_current_second = redis.time()
@@ -92,7 +84,6 @@ class PlayerClassDistributionView(APIView):
 
 		player_class_popularity = get_player_class_distribution(game_type_name)
 
-		# base_ts ensures we generate the result at most once per bucket_size seconds
 		most_recent_tick_ts = _get_most_recent_tick_ts(tick=tick)
 		start_ts = most_recent_tick_ts - timedelta(seconds=lookback)
 		end_ts = start_ts + timedelta(seconds=window)
@@ -125,63 +116,68 @@ class PlayedCardsDistributionView(APIView):
 		BnetGameType.BGT_ARENA
 	]
 
-	def get(self, request):
-		# base_ts ensures we generate the result at most once per bucket_size seconds
-		base_ts = _get_base_ts(bucket_size=5)
+	def _get_base_ts(self, bucket_size=5):
+		current_ts = datetime.utcnow()
+		td = timedelta(seconds=60, microseconds=current_ts.microsecond)
+		base_ts = current_ts - td
+		base_ts = base_ts - timedelta(seconds=(base_ts.second % bucket_size))
+		return base_ts
 
-		if _PLAYER_CLASS_CACHE["ALL"].get("as_of", None) != base_ts:
-			payload = {}
-			for game_type in self.eligible_game_types:
-				played_cards_popularity = get_played_cards_distribution(game_type.name)
-				result = []
-				for i in range(0, 61, 5):
-					end_ts = base_ts + timedelta(seconds=i)
-					start_ts = end_ts - timedelta(seconds=300)
-					data = played_cards_popularity.distribution(
-						start_ts=start_ts,
-						end_ts=end_ts,
-						limit=20
-					)
-					result.append({
-						"ts": int(end_ts.timestamp()),
-						"data": data
-					})
-				payload[game_type.name] = result
+	def _get_result(self, game_type_name: str, base_ts, limit: int):
+		played_cards_popularity = get_played_cards_distribution(game_type_name)
+		ret = []
+		for i in range(0, 61, 5):
+			end_ts = base_ts + timedelta(seconds=i)
+			start_ts = end_ts - timedelta(seconds=300)
+			data = played_cards_popularity.distribution(
+				start_ts=start_ts, end_ts=end_ts, limit=limit
+			)
+			ret.append({
+				"ts": int(end_ts.timestamp()),
+				"data": data,
+			})
 
-			_PLAYER_CLASS_CACHE["ALL"]["as_of"] = base_ts
-			_PLAYER_CLASS_CACHE["ALL"]["payload"] = payload
+		return ret
 
-		data = _PLAYER_CLASS_CACHE["ALL"].get("payload", {})
-		return Response(data=data)
-
-
-class GameTypePlayedCardsDistributionView(APIView):
-	def get(self, request, game_type_name: str) -> Response:
+	def _get_data_for_gametype(self, limit: int, game_type_name: str, base_ts) -> dict:
 		_validate_game_type(game_type_name)
 
-		played_cards_popularity = get_played_cards_distribution(game_type_name)
+		result = self._get_result(game_type_name, base_ts, limit)
+		_PLAYED_CARDS_CACHE[game_type_name]["as_of"] = base_ts
+		_PLAYED_CARDS_CACHE[game_type_name]["payload"] = result
 
-		# base_ts ensures we generate the result at most once per bucket_size seconds
-		base_ts = _get_base_ts(bucket_size=5)
+		return {"data": _PLAYED_CARDS_CACHE[game_type_name].get("payload", [])}
 
-		if _PLAYED_CARDS_CACHE[game_type_name].get("as_of") != base_ts:
-			result = []
-			for i in range(0, 61, 5):
-				end_ts = base_ts + timedelta(seconds=i)
-				start_ts = end_ts - timedelta(seconds=300)
-				data = played_cards_popularity.distribution(
-					start_ts=start_ts,
-					end_ts=end_ts,
-					limit=10
+	def _get_data_for_all(self, limit: int, base_ts) -> dict:
+		if _PLAYED_CARDS_CACHE["ALL"].get("as_of") != base_ts:
+			payload = {}
+			for game_type in self.eligible_game_types:
+				payload[game_type.name] = self._get_result(
+					game_type.name, base_ts, limit
 				)
-				result.append({
-					"ts": int(end_ts.timestamp()),
-					"data": data
-				})
-			_PLAYED_CARDS_CACHE[game_type_name]["as_of"] = base_ts
-			_PLAYED_CARDS_CACHE[game_type_name]["payload"] = result
 
-		data = {"data": _PLAYED_CARDS_CACHE[game_type_name].get("payload", [])}
+			_PLAYED_CARDS_CACHE["ALL"]["as_of"] = base_ts
+			_PLAYED_CARDS_CACHE["ALL"]["payload"] = payload
+
+		return _PLAYED_CARDS_CACHE["ALL"].get("payload", {})
+
+	def _get_data(self, game_type_name: str) -> dict:
+		# base_ts ensures we generate the result at most once per bucket_size seconds
+		base_ts = self._get_base_ts(bucket_size=5)
+
+		if game_type_name == "ALL":
+			data = self._get_data_for_all(limit=20, base_ts=base_ts)
+		else:
+			data = self._get_data_for_gametype(
+				limit=10, game_type_name=game_type_name, base_ts=base_ts
+			)
+
+		return data
+
+	def get(self, request, game_type_name: str=""):
+		if not game_type_name:
+			game_type_name = "ALL"
+		data = self._get_data(game_type_name=game_type_name)
 		return Response(data=data)
 
 
