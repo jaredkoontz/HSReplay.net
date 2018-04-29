@@ -617,7 +617,7 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 				)
 
 				if deck_size == 30:
-					if deck.archetype_id:
+					if deck.archetype_id and is_eligible:
 						# Only perform cross validation when we know the archetype
 						cross_val_dbf_map = {}
 						for c in played_cards_for_player:
