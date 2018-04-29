@@ -9,34 +9,36 @@ import SemanticAge from "../SemanticAge";
 import Carousel from "./Carousel";
 import _ from "lodash";
 
-interface State {
-	index: number;
-	lastIndex: number | null;
-}
-
 interface Props {
 	archetypeData?: Archetype[];
 	data?: MetaPreview[];
 	cardData: CardData;
 }
 
+interface State {
+	index: number;
+	lastIndex: number | null;
+	rotate: boolean;
+}
+
 class ArchetypeHighlight extends React.Component<Props, State> {
-	private interval: number | null;
+	private timeout: number | null;
 
 	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
 			index: 0,
 			lastIndex: null,
+			rotate: true,
 		};
 	}
 
 	public componentDidMount() {
-		this.startRotation();
+		this.schedule();
 	}
 
 	public componentWillUnmount() {
-		this.stopRotation();
+		this.unschedule();
 	}
 
 	shouldComponentUpdate(nextProps: Props, nextState: State) {
@@ -49,29 +51,39 @@ class ArchetypeHighlight extends React.Component<Props, State> {
 		);
 	}
 
+	private schedule = () => {
+		this.timeout = window.setTimeout(
+			() => this.rotate(this.schedule),
+			4000,
+		);
+	};
+
+	private unschedule = () => {
+		if (this.timeout !== null) {
+			window.clearTimeout(this.timeout);
+		}
+	};
+
 	private rotate = (callback: () => any) => {
 		this.setState(
-			state => ({
-				index: (state.index + 1) % this.props.data.length,
-				lastIndex: state.index,
-			}),
+			state =>
+				state.rotate
+					? {
+							...state,
+							index: (state.index + 1) % this.props.data.length,
+							lastIndex: state.index,
+					  }
+					: state,
 			callback,
 		);
 	};
 
 	private stopRotation = () => {
-		if (this.interval !== null) {
-			window.clearTimeout(this.interval);
-		}
-		this.interval = null;
+		this.setState({ rotate: false });
 	};
 
 	private startRotation = () => {
-		this.stopRotation();
-		this.interval = window.setTimeout(
-			() => this.rotate(this.startRotation),
-			4000,
-		);
+		this.setState({ rotate: true });
 	};
 
 	private getRegions(): { [region: string]: string } {
