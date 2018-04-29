@@ -7,31 +7,25 @@ interface Props {
 	strict?: boolean;
 }
 
-interface State {
-	counter: number;
-}
+export default class SemanticAge extends React.Component<Props> {
+	private timeout: number;
 
-export default class SemanticAge extends React.Component<Props, State> {
-	private interval: number;
+	private startUpdates(): void {
+		this.timeout = window.setTimeout(() => {
+			this.forceUpdate(() => this.startUpdates());
+		}, 10000);
+	}
 
-	constructor(props: Props, context: any) {
-		super(props, context);
-		this.state = {
-			counter: 0,
-		};
+	private stopUpdates(): void {
+		window.clearTimeout(this.timeout);
 	}
 
 	public componentDidMount(): void {
-		this.interval = window.setInterval(() => {
-			// update state to refresh the timestamp
-			this.setState(state => ({
-				counter: state.counter + 1 % 100,
-			}));
-		}, 5000);
+		this.startUpdates();
 	}
 
 	public componentWillUnmount(): void {
-		window.clearInterval(this.interval);
+		this.stopUpdates();
 	}
 
 	public render(): React.ReactNode {
