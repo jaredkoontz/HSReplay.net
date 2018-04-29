@@ -19,16 +19,11 @@ export default class ErrorReporter extends React.Component<Props, State> {
 	}
 
 	public componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
-		const report = { error, errorInfo };
-		let reportToSentry = true;
-		if (
-			error &&
-			error.message &&
-			error.message.match(/Minified React error #185/) !== null
-		) {
-			reportToSentry = Math.random() <= 0.01;
+		if (this.state.error !== null) {
+			return;
 		}
-		if (typeof Raven === "object" && reportToSentry) {
+		const report = { error, errorInfo };
+		if (typeof Raven === "object") {
 			Raven.captureException(error, { extra: errorInfo });
 			Object.assign(report, { tracing: Raven.lastEventId() });
 		}
