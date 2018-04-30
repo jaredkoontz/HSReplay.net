@@ -160,8 +160,6 @@ export default class DeckList extends React.Component<Props, State> {
 			);
 		});
 
-		const min = pageOffset + 1;
-		const max = Math.min(pageOffset + this.props.pageSize, deckCount);
 		const pager = top => {
 			if (
 				this.props.decks.length <= this.props.pageSize ||

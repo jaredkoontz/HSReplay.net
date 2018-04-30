@@ -2,22 +2,19 @@ import React from "react";
 import { GlobalGamePlayer } from "../interfaces";
 import { BnetGameType } from "../hearthstone";
 
-export interface GameModeTextProps {
+interface Props {
 	player: GlobalGamePlayer;
 	gameType: BnetGameType;
 	scenarioId: number;
 	className?: string;
 }
 
-export default class GameModeText extends React.Component<
-	GameModeTextProps,
-	any
-> {
-	isHeroicTavernBrawl(): boolean {
-		return this.props.scenarioId == 2109;
+export default class GameModeText extends React.Component<Props> {
+	private isHeroicTavernBrawl(): boolean {
+		return +this.props.scenarioId === 2109;
 	}
 
-	getIconInfo(): string {
+	private getIconInfo(): string {
 		if (!this.props.player) {
 			return null;
 		}

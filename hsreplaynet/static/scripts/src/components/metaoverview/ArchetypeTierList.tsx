@@ -27,7 +27,6 @@ class ArchetypeTierList extends React.Component<Props> {
 			.filter(d => d.archetype_id > 0 && d.pct_of_total > 0.5)
 			.sort((a, b) => b.win_rate - a.win_rate);
 		const values = archetypes.map(d => d.win_rate);
-		const avg = this.average(values);
 		const stdDevWinning = this.standardDeviation(
 			values.filter(x => x >= 50),
 		);

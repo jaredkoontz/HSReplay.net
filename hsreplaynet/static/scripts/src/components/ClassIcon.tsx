@@ -22,7 +22,6 @@ export default class ClassIcon extends React.Component<ClassIconProps, any> {
 	];
 
 	public render(): React.ReactNode {
-		const basePath = this.props.small ? "64x" : "";
 		const heroClassName = getHeroClassName(this.props.heroClassName);
 		let fileName;
 

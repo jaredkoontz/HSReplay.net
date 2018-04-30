@@ -162,13 +162,6 @@ export default class DevTools extends React.Component<Props, State> {
 				</li>
 			);
 		}
-		const labels = {
-			OFF: "label-default",
-			LOGGED_IN_USERS: "label-info",
-			AUTHORIZED_ONLY: "label-warning",
-			STAFF_ONLY: "label-primary",
-			PUBLIC: "label-success",
-		};
 
 		const getLabelClassName = (feature: Feature): string => {
 			if (feature.enabled_for_user) {

@@ -14,7 +14,6 @@ const container = document.getElementById("card-container");
 const personal = container.getAttribute("data-view-type") === "personal";
 
 UserData.create();
-const availableAccounts = UserData.getAccounts();
 const defaultAccount = UserData.getDefaultAccountKey();
 
 if (personal && !defaultAccount) {

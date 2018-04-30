@@ -61,7 +61,7 @@ export default class CopyDeckButton extends React.Component<Props, State> {
 			return (
 				<Tooltip
 					content={this.state.copied ? "Copied!" : "Copy Deck Code"}
-					simple={true}
+					simple
 				>
 					<span
 						className={classNames.join(" ")}

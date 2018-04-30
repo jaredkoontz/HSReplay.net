@@ -13,7 +13,7 @@ interface Props extends TableHeaderProps {
 export default class SortHeader extends React.Component<Props> {
 	public render(): React.ReactNode {
 		let info = null;
-		let { text, element } = this.props;
+		let { element } = this.props;
 
 		if (!element) {
 			element = <th />;
@@ -70,7 +70,9 @@ export default class SortHeader extends React.Component<Props> {
 			"aria-sort": this.props.active ? this.props.direction : "none",
 		};
 
-		const title = <span aria-hidden={!!this.props.infoHeader}>{text}</span>;
+		const title = (
+			<span aria-hidden={!!this.props.infoHeader}>{this.props.text}</span>
+		);
 
 		return React.cloneElement(element, props, title, sort, info);
 	}

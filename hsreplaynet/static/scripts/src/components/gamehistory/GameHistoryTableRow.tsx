@@ -3,9 +3,9 @@ import { CardArtProps, GlobalGamePlayer, ImageProps } from "../../interfaces";
 import ClassIcon from "../ClassIcon";
 import GameModeIcon from "../GameModeIcon";
 import GameModeText from "../GameModeText";
-import { BnetGameType } from "../../hearthstone";
 import { getDuration } from "../../PrettyTime";
 import SemanticAge from "../SemanticAge";
+import { toTitleCase } from "../../helpers";
 
 interface Props extends ImageProps, CardArtProps {
 	shortid: string;
@@ -34,7 +34,7 @@ export default class GameHistoryTableRow extends React.Component<Props> {
 						heroClassName={
 							this.props.friendlyPlayer.hero_class_name
 						}
-						small={true}
+						small
 					/>
 				</div>
 				<div className="match-table-cell auto-size hide-below-768 player-name">
@@ -46,7 +46,7 @@ export default class GameHistoryTableRow extends React.Component<Props> {
 						heroClassName={
 							this.props.opposingPlayer.hero_class_name
 						}
-						small={true}
+						small
 					/>
 				</div>
 				<div className="match-table-cell auto-size hide-below-768 opponent-name">
@@ -69,7 +69,7 @@ export default class GameHistoryTableRow extends React.Component<Props> {
 							gameType={this.props.gameType}
 							disconnected={this.props.disconnected}
 							scenarioId={this.props.scenarioId}
-							small={true}
+							small
 						/>
 						<GameModeText
 							className="hsreplay-type-sm"
@@ -92,40 +92,10 @@ export default class GameHistoryTableRow extends React.Component<Props> {
 		);
 	}
 
-	private getModeText(): string {
-		switch (this.props.gameType) {
-			case BnetGameType.BGT_ARENA:
-				return "Arena";
-			case BnetGameType.BGT_RANKED_STANDARD:
-			case BnetGameType.BGT_CASUAL_STANDARD:
-				return "Standard";
-			case BnetGameType.BGT_RANKED_WILD:
-			case BnetGameType.BGT_CASUAL_WILD:
-				return "Wild";
-			case BnetGameType.BGT_TAVERNBRAWL_1P_VERSUS_AI:
-			case BnetGameType.BGT_TAVERNBRAWL_2P_COOP:
-			case BnetGameType.BGT_TAVERNBRAWL_PVP:
-				return "Brawl";
-			case BnetGameType.BGT_VS_AI:
-				return "Adventure";
-			case BnetGameType.BGT_FRIENDS:
-				return "Friendly";
-			default:
-				return null;
-		}
-	}
-
 	private getHeroName(player: GlobalGamePlayer): string {
-		if (player.hero_class_name == "NEUTRAL") {
+		if (player.hero_class_name === "NEUTRAL") {
 			return player.hero_name;
 		}
-		return this.toTitleCase(player.hero_class_name);
-	}
-
-	private toTitleCase(str: string) {
-		return (
-			str.substr(0, 1).toUpperCase() +
-			str.substr(1, str.length - 1).toLowerCase()
-		);
+		return toTitleCase(player.hero_class_name);
 	}
 }

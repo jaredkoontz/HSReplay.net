@@ -2,7 +2,7 @@ import React from "react";
 import _ from "lodash";
 import { SelectableProps } from "../interfaces";
 
-interface DistributionProps extends SelectableProps {
+interface Props extends SelectableProps {
 	distributions: NumberDistribution;
 	title?: string;
 	value?: string;
@@ -12,12 +12,7 @@ interface NumberDistribution {
 	[key: string]: number;
 }
 
-interface DistributionState {}
-
-export default class Distribution extends React.Component<
-	DistributionProps,
-	DistributionState
-> {
+export default class Distribution extends React.Component<Props> {
 	public render(): React.ReactNode {
 		let count = 0;
 

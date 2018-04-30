@@ -50,10 +50,6 @@ export default class AccountMenu extends React.Component<Props, State> {
 		document.removeEventListener("mousedown", this.clickAnywhere);
 	}
 
-	private closeDropdown() {
-		this.setState({ expanded: false });
-	}
-
 	private toggleDropdown = (event: React.MouseEvent<HTMLElement>) => {
 		if (
 			this.dropdownRef &&

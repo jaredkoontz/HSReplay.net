@@ -3,7 +3,6 @@ import CardTile from "./CardTile";
 import { cardSorting } from "../helpers";
 import CopyDeckButton from "./CopyDeckButton";
 import CardData from "../CardData";
-import UserData from "../UserData";
 import { isMissingCardFromCollection } from "../utils/collection";
 import { Collection } from "../utils/api";
 

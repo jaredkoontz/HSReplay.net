@@ -12,7 +12,7 @@ export default class InfluxMetricsBackend implements MetricsBackend {
 		const blob = new Blob(
 			[
 				points
-					.map(function(point) {
+					.map((point: Point) => {
 						const tags = [];
 						for (const tagKey in point.tags) {
 							let tag = point.tags[tagKey];

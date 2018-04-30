@@ -1,6 +1,5 @@
 import React from "react";
 import UserData from "../../UserData";
-import Feature from "../Feature";
 import Modal from "../Modal";
 import CollectionSetup from "./CollectionSetup";
 
@@ -24,13 +23,6 @@ export default class CollectionBanner extends React.Component<Props, State> {
 	public render(): React.ReactNode {
 		if (this.props.hasCollection) {
 			return null;
-		}
-		let next = "";
-		if (document.location) {
-			next += document.location.pathname;
-			if (document.location.hash) {
-				next += `${document.location.hash}`;
-			}
 		}
 		return (
 			<>

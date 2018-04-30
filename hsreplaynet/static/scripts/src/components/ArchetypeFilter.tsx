@@ -71,7 +71,7 @@ export default class ArchetypeFilter extends React.Component<Props> {
 		return (
 			<div className="archetype-filter-wrapper">
 				<InfoboxFilterGroup
-					deselectable={true}
+					deselectable
 					selectedValue={selectedArchetypes.map(String)}
 					onClick={(value, sender) => {
 						if (

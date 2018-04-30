@@ -89,7 +89,6 @@ export default class TourManager {
 			step = Object.assign({}, { buttons }, step);
 
 			// callback for attachTo
-			const attachCallback = null;
 			if (typeof step.attachTo === "function") {
 				callbacks.push(instance => {
 					const result = step.attachTo();

@@ -56,7 +56,7 @@ function renderShareDialog() {
 			url={document
 				.getElementById("share-game-dialog")
 				.getAttribute("data-url")}
-			showLinkToTurn={true}
+			showLinkToTurn
 			showPreservePerspective={false}
 			turn={embedder.turn}
 			reveal={embedder.reveal}
@@ -153,7 +153,6 @@ renderPlayerInfo(
 
 // fullscreen button for mobile
 let wasPlaying = !startPaused;
-let first = true;
 const toggleButton = document.getElementById("replay-toggle-container");
 
 ReactDOM.render(
@@ -163,7 +162,6 @@ ReactDOM.render(
 			type="button"
 			onClick={() => {
 				if (embedder.launcher.fullscreenSupported) {
-					first = false;
 					container.classList.remove("hidden-xs");
 					embedder.launcher.fullscreen(true);
 				} else {

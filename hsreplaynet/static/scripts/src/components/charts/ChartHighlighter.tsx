@@ -29,7 +29,7 @@ export default class ChartHighlighter extends React.Component<Props> {
 					stroke: "white",
 					strokeWidth: 0,
 				}}
-				activateData={true}
+				activateData
 				labelComponent={<VictoryLabel dy={8} />}
 				flyoutComponent={<Flyout dy={-8} />}
 			/>,

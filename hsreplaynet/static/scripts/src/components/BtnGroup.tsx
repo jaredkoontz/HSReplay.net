@@ -67,6 +67,7 @@ export default class BtnGroup extends React.Component<Props> {
 			return (
 				<label
 					id={btn.id}
+					key={i}
 					className={btn.className + classNames.join(" ")}
 					onClick={onClick(btn)}
 					onKeyDown={

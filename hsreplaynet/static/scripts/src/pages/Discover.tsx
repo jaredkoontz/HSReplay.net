@@ -83,8 +83,8 @@ export default class Discover extends React.Component<Props, State> {
 					header="Format"
 					selectedValue={format}
 					onClick={value => this.props.setFormat(value)}
-					collapsible={true}
-					collapsed={true}
+					collapsible
+					collapsed
 				>
 					<InfoboxFilter value="FT_STANDARD">Standard</InfoboxFilter>
 					<InfoboxFilter value="FT_WILD">Wild</InfoboxFilter>
@@ -128,7 +128,7 @@ export default class Discover extends React.Component<Props, State> {
 					<h1>Discover</h1>
 					<h2>Class</h2>
 					<ClassFilter
-						minimal={true}
+						minimal
 						filters="ClassesOnly"
 						selectedClasses={[playerClass as FilterOption]}
 						selectionChanged={playerClasses => {

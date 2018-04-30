@@ -81,7 +81,7 @@ export default class ArchetypeClassTable extends React.Component<Props> {
 				onSortChanged={this.props.onSortChanged}
 				columns={columns}
 				rowData={rowData}
-				rowHighlighting={true}
+				rowHighlighting
 			/>
 		);
 	}

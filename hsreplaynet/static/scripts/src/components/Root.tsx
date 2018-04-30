@@ -7,9 +7,7 @@ import UserData from "../UserData";
 
 UserData.create();
 
-interface Props {}
-
-export default class Root extends React.Component<Props> {
+export default class Root extends React.Component {
 	public render(): React.ReactNode {
 		return (
 			<I18nextProvider i18n={i18n} initialLanguage={UserData.getLocale()}>

@@ -136,11 +136,7 @@ class ClassAnalysis extends React.Component<Props, State> {
 				setTab={this.props.setClusterTab}
 				tab={this.props.clusterTab}
 			>
-				<Tab
-					id="decks"
-					label={this.renderChartTabLabel()}
-					highlight={true}
-				>
+				<Tab id="decks" label={this.renderChartTabLabel()} highlight>
 					<div className="class-tab-content">
 						<div
 							className="cluster-chart-container"
