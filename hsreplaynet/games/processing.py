@@ -617,41 +617,51 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 				)
 
 				if deck_size == 30:
-					if deck.archetype_id and is_eligible:
-						# Only perform cross validation when we know the archetype
-						cross_val_dbf_map = {}
-						for c in played_cards_for_player:
-							if c.dbf_id not in cross_val_dbf_map:
-								cross_val_dbf_map[c.dbf_id] = 1
-							else:
-								cross_val_dbf_map[c.dbf_id] += 1
 
-						cross_val_result = tree.lookup(
-							cross_val_dbf_map,
-							played_card_dbfs,
+					cross_val_dbf_map = {}
+					for c in played_cards_for_player:
+						if c.dbf_id not in cross_val_dbf_map:
+							cross_val_dbf_map[c.dbf_id] = 1
+						else:
+							cross_val_dbf_map[c.dbf_id] += 1
+
+					cross_val_result = tree.lookup(
+						cross_val_dbf_map,
+						played_card_dbfs,
+					)
+
+					if cross_val_result.predicted_deck_id:
+						cross_val_deck = Deck.objects.get(
+							id=cross_val_result.predicted_deck_id
 						)
 
-						if cross_val_result.predicted_deck_id:
-							cross_val_deck = Deck.objects.get(
-								id=cross_val_result.predicted_deck_id
-							)
+						perfect_deck_match = deck.id == cross_val_deck.id
+						archetype_match = deck.archetype_id == cross_val_deck.archetype_id
+						prediction_has_archetype = cross_val_deck.archetype_id is not None
+						predicted_deck_id = cross_val_deck.id
+					else:
+						perfect_deck_match = False
+						archetype_match = False
+						prediction_has_archetype = False
+						predicted_deck_id = None
 
-							perfect_deck_match = deck.id == cross_val_deck.id
-							archetype_match = deck.archetype_id == cross_val_deck.archetype_id
-							prediction_has_archetype = cross_val_deck.archetype_id is not None
+					actual_has_archetype = deck.archetype_id is not None
 
-							influx_metric(
-								"deck_prediction_validation",
-								{
-									"actual_deck_id": deck.id,
-									"predicted_deck_id": cross_val_deck.id
-								},
-								perfect_deck_match=perfect_deck_match,
-								archetype_match=archetype_match,
-								player_class=CardClass(int(player_class)).name,
-								format=FormatType(int(global_game.format)).name,
-								prediction_has_archetype=prediction_has_archetype
-							)
+					influx_metric(
+						"deck_prediction_validation",
+						{
+							"actual_deck_id": deck.id,
+							"predicted_deck_id": predicted_deck_id
+						},
+						perfect_deck_match=perfect_deck_match,
+						archetype_match=archetype_match,
+						player_class=CardClass(int(player_class)).name,
+						format=FormatType(int(global_game.format)).name,
+						prediction_has_archetype=prediction_has_archetype,
+						actual_has_archetype=actual_has_archetype,
+						is_friendly_player=is_friendly_player,
+						num_played_cards=len(played_cards_for_player)
+					)
 
 					tree.observe(
 						deck.id,
@@ -662,12 +672,54 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 					deck.guessed_full_deck = deck
 					deck.save()
 
+					influx_metric(
+						"deck_prediction_funnel",
+						{
+							"actual_deck_id": deck.id,
+						},
+						is_friendly_player=is_friendly_player,
+						player_class=CardClass(int(player_class)).name,
+						format=FormatType(int(global_game.format)).name,
+						is_complete_deck=True,
+						deck_size=deck_size,
+						is_eligible=is_eligible,
+						is_prediction_success=None,
+						deck_has_archetype=deck.archetype_id is not None,
+						num_played_cards=len(played_cards_for_player)
+					)
+
 				elif is_eligible:
 					res = tree.lookup(
 						deck.dbf_map(),
 						played_card_dbfs,
 					)
 					predicted_deck_id = res.predicted_deck_id
+
+					if predicted_deck_id:
+						guessed_full_deck = Deck.objects.get(id=predicted_deck_id)
+						guessed_archetype = guessed_full_deck.archetype_id
+						deck.guessed_full_deck = guessed_full_deck
+						deck.save()
+					else:
+						guessed_archetype = None
+
+					influx_metric(
+						"deck_prediction_funnel",
+						{
+							"actual_deck_id": deck.id,
+							"predicted_deck_id": predicted_deck_id
+						},
+						is_friendly_player=is_friendly_player,
+						player_class=CardClass(int(player_class)).name,
+						format=FormatType(int(global_game.format)).name,
+						is_complete_deck=False,
+						deck_size=deck_size,
+						is_eligible=True,
+						is_prediction_success=(predicted_deck_id is not None),
+						deck_has_archetype=deck.archetype_id is not None,
+						prediction_has_archetype=(guessed_archetype is not None),
+						num_played_cards=len(played_cards_for_player)
+					)
 
 					fields = {
 						"actual_deck_id": deck.id,
@@ -693,9 +745,24 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 						made_prediction=predicted_deck_id is not None
 					)
 
-					if predicted_deck_id:
-						deck.guessed_full_deck = Deck.objects.get(id=predicted_deck_id)
-						deck.save()
+				else:
+					influx_metric(
+						"deck_prediction_funnel",
+						{
+							"actual_deck_id": deck.id,
+						},
+						is_friendly_player=is_friendly_player,
+						player_class=CardClass(int(player_class)).name,
+						format=FormatType(int(global_game.format)).name,
+						is_complete_deck=False,
+						deck_size=deck_size,
+						is_eligible=False,
+						is_prediction_success=None,
+						deck_has_archetype=deck.archetype_id is not None,
+						prediction_has_archetype=None,
+						num_played_cards=len(played_cards_for_player)
+					)
+
 			except Exception as e:
 				error_handler(e)
 

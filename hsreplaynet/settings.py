@@ -469,8 +469,9 @@ WEBHOOKS = {
 
 # Analysis shows that over a 14 day period
 # A sequence of 5 played cards uniquely identifies a group of
-# Less than 2,000 unique possible decks, which is the brute force search threshold
-DECK_PREDICTION_MINIMUM_CARDS = 5
+# Less than 2,000 unique possible decks, which can be safely brute force searched
+DECK_PREDICTION_MINIMUM_CARDS = 3
+
 # Set false to increase redis brute force search efficiency
 INCLUDE_CURRENT_BUCKET_IN_LOOKUP = False
 
