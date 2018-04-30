@@ -281,6 +281,18 @@ class RedisIntegerMapStorage:
 		data = self.redis_replica.hgetall(self.namespaced_key(key))
 		return {int(k): int(v) for k, v in data.items()}
 
+	def _attempt_lua_match(self, keys, full_args, retries=3):
+		remaining = 1 + retries
+		while remaining > 0:
+			try:
+				return self.lua_match(keys=keys, args=full_args)
+			except TimeoutError as e:
+				if remaining > 0:
+					remaining -= 1
+				else:
+					raise e
+		return []
+
 	def match(self, subset, *keys):
 		"""Return the first member of *keys that contains the subset argument or -1."""
 		if not keys:
@@ -293,7 +305,8 @@ class RedisIntegerMapStorage:
 		if self.use_lua:
 			full_args = [self.namespace]
 			full_args.extend(chain.from_iterable(subset.items()))
-			return [k.decode("utf8") for k in self.lua_match(keys=keys, args=full_args)]
+			lua_match_results = self._attempt_lua_match(keys=keys, full_args=full_args)
+			return [k.decode("utf8") for k in lua_match_results]
 		else:
 			final_result = []
 			for key in keys:
