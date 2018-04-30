@@ -13,7 +13,7 @@ interface State {
 }
 
 export default class Card extends React.Component<Props, State> {
-	constructor(props: Props, context: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
 			loaded: false,

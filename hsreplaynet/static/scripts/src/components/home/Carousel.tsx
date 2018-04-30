@@ -15,7 +15,7 @@ interface State {
 export default class Carousel extends React.Component<Props, State> {
 	private timeout: number | null;
 
-	constructor(props: Props, context: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
 			shift: true,

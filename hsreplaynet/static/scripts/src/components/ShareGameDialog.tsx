@@ -23,7 +23,7 @@ export default class ShareGameDialog extends React.Component<Props, State> {
 	private input: HTMLInputElement;
 	private timeout: number = null;
 
-	constructor(props: Props, context: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
 			linkToTurn: false,

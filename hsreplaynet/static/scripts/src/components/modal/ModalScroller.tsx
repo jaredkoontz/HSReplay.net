@@ -38,7 +38,7 @@ export default class ModalScroller extends React.Component<Props> {
 		document.addEventListener("keydown", this.keydown);
 	}
 
-	public componentWillUnmount() {
+	public componentWillUnmount(): void {
 		Object.assign(document.body.style, {
 			overflow: "",
 			"margin-right": "",

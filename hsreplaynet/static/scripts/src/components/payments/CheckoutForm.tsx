@@ -47,7 +47,7 @@ export default class CheckoutForm extends React.Component<Props, State> {
 		supportStripeElements: true,
 	};
 
-	constructor(props: Props, context: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
 			disabled: false,

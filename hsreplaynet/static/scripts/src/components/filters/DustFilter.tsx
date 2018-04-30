@@ -18,7 +18,7 @@ export default class DustFilter extends React.Component<Props, State> {
 		maxDust: 50000,
 	};
 
-	constructor(props: Props, context: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
 			input: this.props.dust !== null ? "" + this.props.dust : "0",

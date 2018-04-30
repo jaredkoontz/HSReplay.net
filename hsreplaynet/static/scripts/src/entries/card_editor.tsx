@@ -71,8 +71,8 @@ interface RadioInputGroupState {
 }
 
 class RadioInputGroup extends React.Component<any, RadioInputGroupState> {
-	constructor(props: any, state: RadioInputGroupState) {
-		super(props, state);
+	constructor(props: any, context?: any) {
+		super(props, context);
 		this.state = { value: props.defaultValue };
 	}
 
@@ -246,8 +246,8 @@ const SunwellNameMap = new Map<string, string>([
 ]);
 
 class CardEditorForm extends React.Component<any, CardEditorFormState> {
-	constructor(props: any, state: CardEditorFormState) {
-		super(props, state);
+	constructor(props: any, context?: any) {
+		super(props, context);
 		this.state = {
 			name: "Sayer of Doom",
 			text: "<b>Battlecry</b>: Create an awesome card.",

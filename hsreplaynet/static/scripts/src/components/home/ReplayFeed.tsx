@@ -42,7 +42,7 @@ interface Props {
 }
 
 class ReplayFeed extends React.Component<Props, State> {
-	constructor(props: Props, context: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
 			data: [],
@@ -53,7 +53,10 @@ class ReplayFeed extends React.Component<Props, State> {
 		};
 	}
 
-	componentWillReceiveProps(nextProps: Props) {
+	public componentWillReceiveProps(
+		nextProps: Readonly<Props>,
+		nextContext: any,
+	): void {
 		if (
 			nextProps.gamesCountData.games_today !==
 			this.props.gamesCountData.games_today
@@ -62,7 +65,7 @@ class ReplayFeed extends React.Component<Props, State> {
 		}
 	}
 
-	componentDidMount() {
+	public componentDidMount(): void {
 		this.updateGamesToday();
 	}
 

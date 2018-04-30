@@ -33,7 +33,7 @@ interface State {
 const ROW_PADDING = 2;
 
 export default class AnimatedList extends React.Component<Props, State> {
-	constructor(props: Props, context: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 		const { items } = this.props;
 		this.state = {

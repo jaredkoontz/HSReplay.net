@@ -17,11 +17,8 @@ export default class ClusterArchetypeSelector extends React.Component<
 	ClusterArchetypeSelectorProps,
 	ClusterArchetypeSelectorState
 > {
-	constructor(
-		props: ClusterArchetypeSelectorProps,
-		state: ClusterArchetypeSelectorState,
-	) {
-		super(props, state);
+	constructor(props: ClusterArchetypeSelectorProps, context?: any) {
+		super(props, context);
 		this.state = {
 			working: false,
 		};

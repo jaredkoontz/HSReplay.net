@@ -16,7 +16,7 @@ interface Value {
 }
 
 export class Provider extends React.Component<Props, State> {
-	constructor(props: Props, context: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
 			account: UserData.getDefaultAccountKey(),

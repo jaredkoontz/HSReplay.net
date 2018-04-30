@@ -23,7 +23,7 @@ interface State {
 const key = "hsreplaynet_premium_wrappers";
 
 export default class PremiumWrapper extends React.Component<Props, State> {
-	constructor(props: Props, context: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
 			hovering: false,

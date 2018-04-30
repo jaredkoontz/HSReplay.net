@@ -34,7 +34,7 @@ export default class Fragments extends React.Component<Props, State> {
 	private listener: any | null;
 	private timeout: any | null;
 
-	constructor(props: Props, context: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
 			childProps: this.getParts(), // populate with initial url parts

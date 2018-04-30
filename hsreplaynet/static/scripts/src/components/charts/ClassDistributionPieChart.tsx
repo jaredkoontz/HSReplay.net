@@ -16,7 +16,7 @@ export default class ClassDistributionPieChart extends React.Component<
 	Props,
 	State
 > {
-	constructor(props: Props, context: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
 			hoveringSlice: null,

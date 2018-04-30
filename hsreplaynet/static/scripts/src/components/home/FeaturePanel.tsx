@@ -10,7 +10,7 @@ interface Props {
 }
 
 export default class FeaturePanel extends React.Component<Props> {
-	constructor(props: Props, context: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 	}
 

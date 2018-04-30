@@ -37,7 +37,7 @@ export default class ObjectSearch<T> extends React.Component<Props<T>, State> {
 	private input: HTMLInputElement;
 	private objectList: HTMLUListElement;
 
-	constructor(props: Props<T>, context: any) {
+	constructor(props: Props<T>, context?: any) {
 		super(props, context);
 		this.state = {
 			searchCount: this.defaultCount,

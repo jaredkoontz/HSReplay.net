@@ -63,7 +63,7 @@ const INFO_ROW_HEIGHT = 50;
 export default class Table extends React.Component<Props, State> {
 	referenceId: string;
 
-	constructor(props: Props, context: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
 			hoveringRow: -1,

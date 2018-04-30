@@ -6,7 +6,7 @@ interface Props {
 }
 
 export default class ModeSvg extends React.Component<Props> {
-	constructor(props: Props, context: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 	}
 

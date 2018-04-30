@@ -16,7 +16,7 @@ interface State {
 }
 
 export default class ClusterSignature extends React.Component<Props, State> {
-	constructor(props: Props, context: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
 			sortBy: "prevalence",

@@ -40,7 +40,7 @@ export default class ClusterChart extends React.Component<Props, State> {
 	private voronoi: SVGGElement;
 	private svg: SVGSVGElement;
 
-	constructor(props: Props, context: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
 			decks: {},

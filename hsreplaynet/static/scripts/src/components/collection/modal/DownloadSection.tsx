@@ -15,7 +15,7 @@ export default class DownloadSection extends React.Component<Props, State> {
 		id: "collection-setup-download-client",
 	};
 
-	constructor(props: Props, context: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
 			showBanner: false,

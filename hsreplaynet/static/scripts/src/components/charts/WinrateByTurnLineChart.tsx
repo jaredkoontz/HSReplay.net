@@ -21,7 +21,7 @@ interface Props {
 }
 
 export default class WinrateByTurnLineChart extends React.Component<Props> {
-	constructor(props: Props, context: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
 			cursorPos: null,

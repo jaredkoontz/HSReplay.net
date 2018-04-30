@@ -23,7 +23,7 @@ interface Props {
 export default class BtnGroup extends React.Component<Props> {
 	btnRefs: { [value: string]: HTMLElement };
 
-	constructor(props: Props, context: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.btnRefs = {};
 	}

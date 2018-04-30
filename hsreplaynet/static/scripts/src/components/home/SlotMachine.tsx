@@ -12,7 +12,7 @@ interface State {
 export default class SlotMachine extends React.Component<Props, State> {
 	private ref: HTMLElement | null = null;
 
-	constructor(props: Props, context: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
 			height: 0,

@@ -15,7 +15,7 @@ interface State {
 export default class LoginButton extends React.Component<Props, State> {
 	private ref: HTMLElement;
 
-	constructor(props: Props, context: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
 			expanded: false,

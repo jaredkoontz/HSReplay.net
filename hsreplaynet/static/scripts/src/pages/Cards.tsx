@@ -210,7 +210,7 @@ class Cards extends React.Component<Props, State> {
 
 	showMoreButton: HTMLDivElement;
 
-	constructor(props: Props, context: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
 			cards: null,

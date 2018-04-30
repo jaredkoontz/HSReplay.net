@@ -19,7 +19,7 @@ export default class WinrateBreakdownTable extends React.Component<
 	Props,
 	State
 > {
-	constructor(props: Props, context: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
 			sortBy: "opponent",

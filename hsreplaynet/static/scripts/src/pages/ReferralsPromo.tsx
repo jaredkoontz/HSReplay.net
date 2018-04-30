@@ -17,7 +17,7 @@ export default class ReferralsPromo extends React.Component<Props, State> {
 	private timeout: number | null;
 	private urlBox: HTMLInputElement;
 
-	constructor(props: Props, context: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
 			expanded: UserData.isPremium(),

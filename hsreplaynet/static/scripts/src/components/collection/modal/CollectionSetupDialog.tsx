@@ -44,7 +44,7 @@ export default class CollectionSetupDialog extends React.Component<
 > {
 	private interval: number | null = null;
 
-	constructor(props: Props, context: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
 			step: CollectionSetupDialog.getStep(

@@ -24,7 +24,7 @@ export default class AccountMenu extends React.Component<Props, State> {
 	private dropdownRef: HTMLElement;
 	private form: HTMLFormElement;
 
-	constructor(props: Props, context: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
 			expanded: false,

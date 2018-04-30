@@ -24,7 +24,7 @@ interface State {
 }
 
 export default class PlayerInfo extends React.Component<Props, State> {
-	constructor(props: Props, context: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
 			display: props.playerExpandDirection === "up" ? "both" : "none",

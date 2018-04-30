@@ -21,7 +21,7 @@ interface State {
 }
 
 class StreamList extends React.Component<Props, State> {
-	constructor(props: Props, context: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
 			metadata: null,

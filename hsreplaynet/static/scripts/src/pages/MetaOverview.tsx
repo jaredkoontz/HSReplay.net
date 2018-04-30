@@ -52,7 +52,7 @@ interface State {
 const MOBILE_WIDTH = 530;
 
 export default class MetaOverview extends React.Component<Props, State> {
-	constructor(props: Props, context: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
 			archetypeListSortBy: "archetype",

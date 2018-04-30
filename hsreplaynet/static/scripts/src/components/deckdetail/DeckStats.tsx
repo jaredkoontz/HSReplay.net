@@ -16,7 +16,7 @@ interface State {
 }
 
 export default class DeckStats extends React.Component<Props, State> {
-	constructor(props: Props, context: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
 			expandWinrate: false,

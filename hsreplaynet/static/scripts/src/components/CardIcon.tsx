@@ -22,7 +22,7 @@ export default class CardIcon extends React.Component<Props, State> {
 	readonly baseOffset = -70;
 	private image: HTMLImageElement | null = null;
 
-	constructor(props: Props, context: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
 			backgroundLoaded: false,

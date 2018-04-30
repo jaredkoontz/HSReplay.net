@@ -24,7 +24,7 @@ interface State {
 export default class PaypalCheckoutForm extends React.Component<Props, State> {
 	form: HTMLFormElement;
 
-	constructor(props: Props, context: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
 			submit: false,

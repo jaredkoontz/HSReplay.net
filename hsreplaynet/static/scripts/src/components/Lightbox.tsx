@@ -14,7 +14,7 @@ export default class Lightbox extends React.Component<Props> {
 	private ref: HTMLDivElement;
 	private onkeydown: (event) => void;
 
-	constructor(props: Props, context: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.onkeydown = event => this.onKeyDown(event);
 	}

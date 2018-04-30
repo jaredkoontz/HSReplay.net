@@ -28,11 +28,8 @@ export default class ArchetypeDistributionPieChart extends React.Component<
 	private readonly pieSize = 400;
 	private readonly piePadding = { top: 10, bottom: 10, left: 80, right: 80 };
 
-	constructor(
-		props: ArchetypeDistributionPieChartProps,
-		state: ArchetypeDistributionPieChartState,
-	) {
-		super(props, state);
+	constructor(props: ArchetypeDistributionPieChartProps, context?: any) {
+		super(props, context);
 		this.state = {
 			hovering: null,
 		};

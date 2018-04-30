@@ -24,7 +24,7 @@ interface State {
 class ArchetypeHighlight extends React.Component<Props, State> {
 	private timeout: number | null;
 
-	constructor(props: Props, context: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
 			index: 0,
@@ -33,21 +33,26 @@ class ArchetypeHighlight extends React.Component<Props, State> {
 		};
 	}
 
-	public componentDidMount() {
+	public componentDidMount(): void {
 		this.schedule();
 	}
 
-	public componentWillUnmount() {
+	public componentWillUnmount(): void {
 		this.unschedule();
 	}
 
-	shouldComponentUpdate(nextProps: Props, nextState: State) {
+	public shouldComponentUpdate(
+		nextProps: Readonly<Props>,
+		nextState: Readonly<State>,
+		nextContext: any,
+	): boolean {
 		return (
 			!_.isEqual(this.props.archetypeData, nextProps.archetypeData) ||
 			!_.isEqual(this.props.data, nextProps.data) ||
 			!_.isEqual(this.props.cardData, nextProps.cardData) ||
 			this.state.index !== nextState.index ||
-			this.state.lastIndex !== nextState.lastIndex
+			this.state.lastIndex !== nextState.lastIndex ||
+			this.state.rotate !== nextState.rotate
 		);
 	}
 

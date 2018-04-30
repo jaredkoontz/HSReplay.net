@@ -54,7 +54,7 @@ interface State {
 export default class MyDecks extends React.Component<Props, State> {
 	private deckListsFragmentsRef;
 
-	constructor(props: Props, context: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
 			cardSearchExcludeKey: 0,

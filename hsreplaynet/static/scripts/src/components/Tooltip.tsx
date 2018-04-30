@@ -34,7 +34,7 @@ export default class Tooltip extends React.Component<Props, State> {
 	tooltip: HTMLDivElement;
 	tooltipContainer: Element;
 
-	constructor(props: Props, context: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
 			clientX: 0,

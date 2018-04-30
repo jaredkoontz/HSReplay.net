@@ -63,7 +63,7 @@ interface State {
 export default class MyReplays extends React.Component<Props, State> {
 	readonly viewCookie: string = "myreplays_viewtype";
 
-	constructor(props: Props, context: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 		const viewType = cookie.get(this.viewCookie, "tiles") as ViewType;
 		this.state = {

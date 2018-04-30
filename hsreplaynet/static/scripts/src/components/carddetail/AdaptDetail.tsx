@@ -25,7 +25,7 @@ interface State {
 export default class AdaptDetail extends React.Component<Props, State> {
 	private readonly numRows = 10;
 
-	constructor(props: Props, context: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
 			page: 1,

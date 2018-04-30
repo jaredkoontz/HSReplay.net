@@ -47,7 +47,7 @@ const entranceAnimationOrder: GameType[] = [
 ];
 
 export default class LiveData extends React.Component<Props, State> {
-	constructor(props: Props, context: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
 			cursor: 0,

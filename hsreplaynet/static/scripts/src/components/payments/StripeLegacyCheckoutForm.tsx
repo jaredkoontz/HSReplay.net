@@ -35,7 +35,7 @@ export default class StripeLegacyCheckoutForm extends React.Component<
 	private form: HTMLFormElement;
 	private handler: StripeCheckoutHandler;
 
-	constructor(props: Props, context: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
 			selectedPlan: props.plans[0].stripeId,

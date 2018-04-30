@@ -20,7 +20,7 @@ interface State {
 }
 
 export default class Selection extends React.Component<Props, State> {
-	constructor(props: Props, context: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
 			selected: this.props.default || this.props.visible[0].key,

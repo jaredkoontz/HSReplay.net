@@ -86,7 +86,7 @@ class Decks extends React.Component<Props, State> {
 	private hasTrackedView: boolean;
 	private readonly minGames: [number, number] = [1000, 400];
 
-	constructor(props: Props, context: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
 			availableArchetypes: [],
@@ -185,7 +185,7 @@ class Decks extends React.Component<Props, State> {
 		);
 	}
 
-	componentWillUnmount(): void {
+	public componentWillUnmount(): void {
 		this.attemptTrackView();
 		this.clearTrackTimeout();
 		document.removeEventListener(

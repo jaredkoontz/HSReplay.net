@@ -15,7 +15,7 @@ export default class LanguageSelector extends React.Component<Props, State> {
 	private ref: HTMLElement;
 	private dropdownRef: HTMLElement;
 
-	constructor(props: Props, context: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
 			expanded: false,

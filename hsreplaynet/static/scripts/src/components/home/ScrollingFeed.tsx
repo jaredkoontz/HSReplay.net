@@ -25,8 +25,8 @@ interface Props {
 }
 
 export default class ScrollingFeed extends React.Component<Props, State> {
-	constructor(props: Props, state: State) {
-		super(props, state);
+	constructor(props: Props, context?: any) {
+		super(props, context);
 		this.state = {
 			offset: 0,
 			visibleItems: [],
@@ -37,7 +37,11 @@ export default class ScrollingFeed extends React.Component<Props, State> {
 		window.addEventListener("visibilitychange", this.onVisibilityChange);
 	}
 
-	componentWillUnmount() {
+	public componentDidMount(): void {
+		this.update();
+	}
+
+	public componentWillUnmount(): void {
 		window.removeEventListener("visibilitychange", this.onVisibilityChange);
 	}
 
@@ -45,13 +49,10 @@ export default class ScrollingFeed extends React.Component<Props, State> {
 		this.setState({ pause: document.visibilityState !== "visible" });
 	};
 
-	componentDidMount() {
-		this.update();
-	}
-
-	shouldComponentUpdate(
+	public shouldComponentUpdate(
 		nextProps: Readonly<Props>,
 		nextState: Readonly<State>,
+		nextContext: any,
 	): boolean {
 		return (
 			!_.isEqual(this.props.items, nextProps.items) ||
@@ -67,7 +68,10 @@ export default class ScrollingFeed extends React.Component<Props, State> {
 		);
 	}
 
-	componentWillReceiveProps(nextProps: Readonly<Props>) {
+	public componentWillReceiveProps(
+		nextProps: Readonly<Props>,
+		nextContext: any,
+	): void {
 		if (!_.isEqual(this.props.items, nextProps.items)) {
 			let remainingItems = this.state.remainingItems.concat(
 				nextProps.items,

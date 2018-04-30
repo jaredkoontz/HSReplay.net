@@ -40,7 +40,7 @@ interface State {
 export default class DeckList extends React.Component<Props, State> {
 	private cache: any;
 
-	constructor(props: Props, context: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
 			archetypeData: [],

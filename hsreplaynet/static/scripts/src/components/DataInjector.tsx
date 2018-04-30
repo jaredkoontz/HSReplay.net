@@ -40,7 +40,7 @@ const STATUS_PROCESSING = 202;
 const STATUS_NO_DATA = 204;
 
 export default class DataInjector extends React.Component<Props, State> {
-	constructor(props: Props, context: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
 			data: [],

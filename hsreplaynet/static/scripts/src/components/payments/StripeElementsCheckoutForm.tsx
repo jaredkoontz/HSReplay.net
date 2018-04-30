@@ -41,7 +41,7 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 	private formRef: HTMLFormElement;
 	private cardElement: any; // CardElement
 
-	constructor(props: Props, context: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
 			step: StripeCheckoutStep.READY_TO_PAY,
