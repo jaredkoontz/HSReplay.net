@@ -2,5 +2,5 @@
 
 aniso8601==2.0.1
 hslog==1.4.1
-hsreplay==1.7.1
+hsreplay==1.7.2
 psycopg2-binary==2.7.4

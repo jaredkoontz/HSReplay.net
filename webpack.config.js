@@ -146,6 +146,10 @@ module.exports = env => {
 										},
 									],
 								],
+								plugins: [
+									"syntax-dynamic-import",
+									"transform-object-rest-spread",
+								],
 								cacheDirectory: true,
 							},
 						},
