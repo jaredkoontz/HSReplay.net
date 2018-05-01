@@ -211,3 +211,31 @@ class DeckPredictionTree:
 		# from math import ceil, floor, pow
 		# return int(min_size * ceil(16.0 / pow(2.0, floor(depth / 2.0))))
 		return 20000
+
+	def display(self, out):
+		from hsreplaynet.utils import card_db
+		db = card_db()
+		out.write("\n** %s - %s **" % (self.player_class.name, self.format.name))
+
+		discovered = set()
+		stack = [self.tree.root]
+		while len(stack):
+			v = stack.pop(0)
+			if str(v) not in discovered:
+				discovered.add(str(v))
+				if v.label == "ROOT":
+					card_name = "ROOT"
+				else:
+					card_name = db[int(v.label)].name
+
+				dist = self._popularity_distribution(v).distribution()
+				size = len(dist)
+				if size:
+					observations = sum(dist.values())
+					vals = ("\t" * v.depth, v.depth, card_name, size, observations)
+					out.write(
+						"%s(%i) %s (%i Decks, %i Observations):" % vals
+					)
+
+				for child in v.children():
+					stack.insert(0, child)

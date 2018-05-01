@@ -351,7 +351,7 @@ class RedisTreeNode:
 				self.redis,
 				self.tree,
 				self,
-				member,
+				member.decode("utf8"),
 				self.depth + 1,
 				self.namespace,
 				self.ttl
