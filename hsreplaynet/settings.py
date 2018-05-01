@@ -190,6 +190,9 @@ LANGUAGE_MAP = {
 	"th": ("thTH", "th_TH"),
 }
 LANGUAGE_MAP["en-us"] = LANGUAGE_MAP["en"]
+LOCALE_PATHS = [
+	os.path.join(BASE_DIR, "locale"),
+]
 
 USE_TZ = True
 TIME_ZONE = "UTC"
