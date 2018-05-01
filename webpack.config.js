@@ -109,14 +109,16 @@ module.exports = env => {
 		context: __dirname,
 		entry: entriesFlat,
 		output: {
-			path: path.join(__dirname, "build", "generated", "webpack"),
 			filename: "[name].js",
+			path: path.join(__dirname, "build", "generated", "webpack"),
+			publicPath: exportedSettings.STATIC_URL + "webpack/",
 		},
 		resolve: {
 			extensions: [".ts", ".tsx", ".js", ".json"],
 			alias: {
 				// we need to this to get the fully bundled d3, instead of the independent module
 				d3: "d3/build/d3.js",
+				i18n: path.resolve(__dirname, "locale"),
 			},
 		},
 		module: {
