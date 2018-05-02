@@ -1,9 +1,10 @@
 import React from "react";
+import { InjectedTranslateProps, translate } from "react-i18next";
 import { Account } from "../../UserData";
 import { prettyBlizzardAccount } from "../../utils/account";
 import CSRFElement from "../CSRFElement";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	username: string;
 	premium: boolean;
 	accountUrl: string;
@@ -18,7 +19,7 @@ interface State {
 	expanded: boolean;
 }
 
-export default class AccountMenu extends React.Component<Props, State> {
+class AccountMenu extends React.Component<Props, State> {
 	private ref: HTMLElement;
 	private linkRef: HTMLAnchorElement;
 	private dropdownRef: HTMLElement;
@@ -118,6 +119,7 @@ export default class AccountMenu extends React.Component<Props, State> {
 	}
 
 	private renderDropdown(): React.ReactNode {
+		const { t } = this.props;
 		if (!this.state.expanded) {
 			return;
 		}
@@ -132,7 +134,7 @@ export default class AccountMenu extends React.Component<Props, State> {
 				<li role="separator" className="divider" />
 				<li>
 					<a href={this.props.accountUrl} id="account-settings">
-						Settings
+						{t("Settings")}
 					</a>
 				</li>
 				<li>
@@ -141,7 +143,7 @@ export default class AccountMenu extends React.Component<Props, State> {
 						id="sign-out"
 						onClick={this.logout}
 					>
-						Sign out
+						{t("Sign out")}
 					</a>
 					<form
 						method="post"
@@ -186,3 +188,5 @@ export default class AccountMenu extends React.Component<Props, State> {
 		);
 	}
 }
+
+export default translate()(AccountMenu);

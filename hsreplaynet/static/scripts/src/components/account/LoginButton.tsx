@@ -1,8 +1,9 @@
 import React from "react";
+import { InjectedTranslateProps, translate } from "react-i18next";
 import UserData from "../../UserData";
 import { addNextToUrl } from "../../utils/account";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	label?: string;
 	className?: string;
 	next?: string;
@@ -12,7 +13,7 @@ interface State {
 	expanded: boolean;
 }
 
-export default class LoginButton extends React.Component<Props, State> {
+class LoginButton extends React.Component<Props, State> {
 	private ref: HTMLElement;
 
 	constructor(props: Props, context?: any) {
@@ -50,7 +51,7 @@ export default class LoginButton extends React.Component<Props, State> {
 	}
 
 	public render(): React.ReactNode {
-		const { next, label } = this.props;
+		const { next, label, t } = this.props;
 		const login = UserData.getLoginUrl("default");
 		const blizzard = UserData.getLoginUrl("blizzard");
 		const china = UserData.getLoginUrl("blizzard_cn");
@@ -66,7 +67,7 @@ export default class LoginButton extends React.Component<Props, State> {
 					className="btn promo-button hero-button"
 					rel="nofollow"
 				>
-					{label || "Log in with Blizzard"}
+					{label || t("Log in with Blizzard")}
 				</a>
 				{blizzard || china || password ? (
 					<>
@@ -79,12 +80,14 @@ export default class LoginButton extends React.Component<Props, State> {
 							onClick={this.toggle}
 						>
 							<span className="caret" />
-							<span className="sr-only">Toggle Dropdown</span>
+							<span className="sr-only">{t("Toggle Dropdown")}</span>
 						</button>
 						<ul className={"dropdown-menu"}>
 							{blizzard || china ? (
 								<>
-									<li className="dropdown-header">Regions</li>
+									<li className="dropdown-header">
+										{t("Regions")}
+									</li>
 									{blizzard ? (
 										<li>
 											<a
@@ -94,7 +97,7 @@ export default class LoginButton extends React.Component<Props, State> {
 												)}
 												rel="nofollow"
 											>
-												Blizzard (US/EU/SEA)&hellip;
+												{t("Blizzard (US/EU/SEA)…")}
 											</a>
 										</li>
 									) : null}
@@ -104,7 +107,7 @@ export default class LoginButton extends React.Component<Props, State> {
 												href={addNextToUrl(china, next)}
 												rel="nofollow"
 											>
-												Blizzard China (CN)&hellip;
+												{t("Blizzard China (CN)…")}
 											</a>
 										</li>
 									) : null}
@@ -112,10 +115,12 @@ export default class LoginButton extends React.Component<Props, State> {
 							) : null}
 							{password ? (
 								<>
-									<li className="dropdown-header">Debug</li>
+									<li className="dropdown-header">
+										{t("Debug")}
+									</li>
 									<li>
 										<a href={addNextToUrl(password, next)}>
-											Sign in with password&hellip;
+											{t("Sign in with password…")}
 										</a>
 									</li>
 								</>
@@ -127,3 +132,5 @@ export default class LoginButton extends React.Component<Props, State> {
 		);
 	}
 }
+
+export default translate()(LoginButton);

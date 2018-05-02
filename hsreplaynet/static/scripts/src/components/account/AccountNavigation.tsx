@@ -1,20 +1,21 @@
+import { cookie } from "cookie_js";
 import React from "react";
-import AccountMenu from "./AccountMenu";
+import { InjectedTranslateProps, translate } from "react-i18next";
 import { Consumer as BlizzardAccountConsumer } from "../utils/hearthstone-account";
 import UserData from "../../UserData";
 import { getAccountKey } from "../../utils/account";
+import AccountMenu from "./AccountMenu";
 import DevTools from "./DevTools";
 import LanguageSelector from "./LanguageSelector";
-import { cookie } from "cookie_js";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	isAuthenticated: boolean;
 	isStaff: boolean;
 	hideLogin: boolean;
 	isPremium: boolean;
 }
 
-export default class AccountNavigation extends React.Component<Props> {
+class AccountNavigation extends React.Component<Props> {
 	private getClassName(path: string | RegExp, premium?: boolean): string {
 		if (!document || !document.location || !document.location.pathname) {
 			return "";
@@ -35,6 +36,7 @@ export default class AccountNavigation extends React.Component<Props> {
 	}
 
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		let next = "/";
 		if (document && document.location) {
 			next = document.location.pathname;
@@ -57,7 +59,7 @@ export default class AccountNavigation extends React.Component<Props> {
 						id="navbar-link-my-decks"
 					>
 						<span className="glyphicon glyphicon-th-list" />
-						<span className="hidden-sm">My Decks</span>
+						<span className="hidden-sm">{t("My Decks")}</span>
 					</a>
 				</li>
 
@@ -68,14 +70,14 @@ export default class AccountNavigation extends React.Component<Props> {
 						id="navbar-link-my-cards"
 					>
 						<span className="glyphicon glyphicon-stats" />
-						<span className="hidden-sm">My Cards</span>
+						<span className="hidden-sm">{t("My Cards")}</span>
 					</a>
 				</li>
 
 				<li className={this.getClassName("/games/mine/")}>
 					<a href="/games/mine/" id="navbar-link-my-replays">
 						<span className="glyphicon glyphicon-play" />
-						<span className="hidden-sm">My Replays</span>
+						<span className="hidden-sm">{t("My Replays")}</span>
 					</a>
 				</li>
 
@@ -131,7 +133,7 @@ export default class AccountNavigation extends React.Component<Props> {
 								href={`/account/login/?next=${next}`}
 								className="btn promo-button"
 							>
-								Log in or create account
+								{t("Log in or create account")}
 							</a>
 						</li>
 					)
@@ -140,3 +142,5 @@ export default class AccountNavigation extends React.Component<Props> {
 		);
 	}
 }
+
+export default translate()(AccountNavigation);
