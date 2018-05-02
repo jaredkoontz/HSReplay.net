@@ -1,5 +1,6 @@
 import { cookie } from "cookie_js";
 import React from "react";
+import { InjectedTranslateProps, translate } from "react-i18next";
 import ClassDistributionPieChart from "../components/charts/ClassDistributionPieChart";
 import ClassFilter, { FilterOption } from "../components/ClassFilter";
 import GameHistoryList from "../components/gamehistory/GameHistoryList";
@@ -31,7 +32,11 @@ interface GamesPage {
 	[index: number]: GameReplay[];
 }
 
-interface Props extends ImageProps, CardArtProps, FragmentChildProps {
+interface Props
+	extends ImageProps,
+		CardArtProps,
+		FragmentChildProps,
+		InjectedTranslateProps {
 	cardData: CardData;
 	username: string;
 	name?: string;
@@ -60,7 +65,7 @@ interface State {
 	working: boolean;
 }
 
-export default class MyReplays extends React.Component<Props, State> {
+class MyReplays extends React.Component<Props, State> {
 	readonly viewCookie: string = "myreplays_viewtype";
 
 	constructor(props: Props, context?: any) {
@@ -215,7 +220,8 @@ export default class MyReplays extends React.Component<Props, State> {
 	}
 
 	public render(): React.ReactNode {
-		let games = [];
+		const { t } = this.props;
+		let games: GameReplay[] = [];
 		const hasFilters = this.props.canBeReset;
 
 		let page = 0;
@@ -272,11 +278,11 @@ export default class MyReplays extends React.Component<Props, State> {
 		} else {
 			let message = null;
 			if (this.state.working) {
-				message = <p>Loading replays…</p>;
+				message = <p>{t("Loading replays…")}</p>;
 			} else {
 				message = (
 					<div>
-						<h2>No replay found</h2>
+						<h2>{t("No replay found")}</h2>
 						{this.props.canBeReset ? (
 							<p>
 								<a
@@ -286,7 +292,7 @@ export default class MyReplays extends React.Component<Props, State> {
 										this.props.reset();
 									}}
 								>
-									Reset search
+									{t("Reset filters")}
 								</a>
 							</p>
 						) : null}
@@ -310,15 +316,15 @@ export default class MyReplays extends React.Component<Props, State> {
 				type="button"
 				onClick={() => this.setState({ showFilters: false })}
 			>
-				Back to replays
+				{t("Back to replays")}
 			</button>
 		);
 
 		const pager = (
 			<Pager
 				currentPage={this.state.currentLocalPage + 1}
-				setCurrentPage={(page: number) =>
-					this.setState({ currentLocalPage: page - 1 })
+				setCurrentPage={(p: number) =>
+					this.setState({ currentLocalPage: p - 1 })
 				}
 				pageCount={
 					this.state.next
@@ -340,9 +346,9 @@ export default class MyReplays extends React.Component<Props, State> {
 						onReset={() => this.props.reset()}
 						showReset={this.props.canBeReset}
 					>
-						My Replays
+						{t("My Replays")}
 					</ResetHeader>
-					<h2>Classes Played</h2>
+					<h2>{t("Classes played")}</h2>
 					<ClassDistributionPieChart
 						data={this.buildChartData(games)}
 						loading={this.state.working}
@@ -358,7 +364,7 @@ export default class MyReplays extends React.Component<Props, State> {
 						<InfoboxFilter value="list">List view</InfoboxFilter>
 						<InfoboxFilter value="tiles">Tile view</InfoboxFilter>
 					</InfoboxFilterGroup>
-					<h2>Player class</h2>
+					<h2>{t("Player class")}</h2>
 					<ClassFilter
 						filters="All"
 						hideAll
@@ -377,7 +383,7 @@ export default class MyReplays extends React.Component<Props, State> {
 							});
 						}}
 					/>
-					<h2>Opponent class</h2>
+					<h2>{t("Opponent class")}</h2>
 					<ClassFilter
 						filters="All"
 						hideAll
@@ -396,43 +402,55 @@ export default class MyReplays extends React.Component<Props, State> {
 							});
 						}}
 					/>
-					<h2>Find players</h2>
+					<h2>{t("Find players")}</h2>
 					<GameHistorySearch
 						query={this.props.name}
 						setQuery={(name: string) => this.props.setName(name)}
 					/>
-					<h2>Mode</h2>
+					<h2>{t("Game mode")}</h2>
 					<InfoboxFilterGroup
 						deselectable
 						selectedValue={this.props.mode}
 						onClick={mode => this.props.setMode(mode)}
 					>
-						<InfoboxFilter value="arena">Arena</InfoboxFilter>
-						<InfoboxFilter value="ranked">Ranked</InfoboxFilter>
-						<InfoboxFilter value="casual">Casual</InfoboxFilter>
-						<InfoboxFilter value="brawl">Brawl</InfoboxFilter>
-						<InfoboxFilter value="friendly">Friendly</InfoboxFilter>
+						<InfoboxFilter value="arena">
+							{t("Arena")}
+						</InfoboxFilter>
+						<InfoboxFilter value="ranked">
+							{t("Ranked")}
+						</InfoboxFilter>
+						<InfoboxFilter value="casual">
+							{t("Casual")}
+						</InfoboxFilter>
+						<InfoboxFilter value="brawl">
+							{t("Tavern Brawl")}
+						</InfoboxFilter>
+						<InfoboxFilter value="friendly">
+							{t("Friendly")}
+						</InfoboxFilter>
 						<InfoboxFilter value="adventure">
-							Adventure
+							{t("Adventure")}
 						</InfoboxFilter>
 					</InfoboxFilterGroup>
-					<h2>Format</h2>
+					<h2>{t("Game format")}</h2>
 					<InfoboxFilterGroup
 						deselectable
 						selectedValue={this.props.format}
 						onClick={format => this.props.setFormat(format)}
 					>
-						<InfoboxFilter value="standard">Standard</InfoboxFilter>
-						<InfoboxFilter value="wild">Wild</InfoboxFilter>
+						<InfoboxFilter value="standard">
+							{t("Standard")}
+						</InfoboxFilter>
+						<InfoboxFilter value="wild">{t("Wild")}</InfoboxFilter>
 					</InfoboxFilterGroup>
-					<h2>Result</h2>
+					<h2>{t("Result")}</h2>
 					<InfoboxFilterGroup
 						deselectable
 						selectedValue={this.props.result}
 						onClick={result => this.props.setResult(result)}
 					>
-						<InfoboxFilter value="won">Won</InfoboxFilter>
-						<InfoboxFilter value="lost">Lost</InfoboxFilter>
+						<InfoboxFilter value="won">{t("Won")}</InfoboxFilter>
+						<InfoboxFilter value="lost">{t("Lost")}</InfoboxFilter>
 					</InfoboxFilterGroup>
 					{backButton}
 				</div>
@@ -444,7 +462,7 @@ export default class MyReplays extends React.Component<Props, State> {
 							onClick={() => this.setState({ showFilters: true })}
 						>
 							<span className="glyphicon glyphicon-filter" />
-							Filters
+							{t("Filters")}
 						</button>
 						<div className="pull-right">{pager}</div>
 						<div className="clearfix" />
@@ -470,3 +488,5 @@ export default class MyReplays extends React.Component<Props, State> {
 		});
 	}
 }
+
+export default translate()(MyReplays);
