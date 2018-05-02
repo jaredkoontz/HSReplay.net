@@ -1,19 +1,20 @@
 import React from "react";
+import { InjectedTranslateProps, translate } from "react-i18next";
 import CardData from "../CardData";
+import UserData from "../UserData";
+import CardSearch from "../components/CardSearch";
 import ClassFilter, { FilterOption } from "../components/ClassFilter";
-import ClassAnalysis, {
-	ClusterMetaData,
-} from "../components/discover/ClassAnalysis";
 import DataInjector from "../components/DataInjector";
 import InfoboxFilter from "../components/InfoboxFilter";
 import InfoboxFilterGroup from "../components/InfoboxFilterGroup";
-import UserData from "../UserData";
 import InfoboxLastUpdated from "../components/InfoboxLastUpdated";
-import CardSearch from "../components/CardSearch";
 import { Limit } from "../components/ObjectSearch";
+import ClassAnalysis, {
+	ClusterMetaData,
+} from "../components/discover/ClassAnalysis";
 import { cardSorting, isCollectibleCard, isWildSet } from "../helpers";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	cardData: CardData | null;
 	latestSet: string;
 	// fragments
@@ -38,7 +39,7 @@ interface State {
 	deck: ClusterMetaData;
 }
 
-export default class Discover extends React.Component<Props, State> {
+class Discover extends React.Component<Props, State> {
 	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
@@ -66,14 +67,15 @@ export default class Discover extends React.Component<Props, State> {
 	public render(): React.ReactNode {
 		const {
 			cardData,
-			tab,
 			dataset,
-			format,
 			excludedCards,
+			format,
 			includedCards,
 			includedSet,
 			playerClass,
 			setTab,
+			tab,
+			t,
 		} = this.props;
 		const adminControls = [];
 		if (UserData.hasFeature("archetypes-gamemode-filter")) {
@@ -86,8 +88,10 @@ export default class Discover extends React.Component<Props, State> {
 					collapsible
 					collapsed
 				>
-					<InfoboxFilter value="FT_STANDARD">Standard</InfoboxFilter>
-					<InfoboxFilter value="FT_WILD">Wild</InfoboxFilter>
+					<InfoboxFilter value="FT_STANDARD">
+						{t("Standard")}
+					</InfoboxFilter>
+					<InfoboxFilter value="FT_WILD">{t("Wild")}</InfoboxFilter>
 				</InfoboxFilterGroup>,
 			);
 		}
@@ -99,8 +103,8 @@ export default class Discover extends React.Component<Props, State> {
 					selectedValue={dataset}
 					onClick={value => this.props.setDataset(value)}
 				>
-					<InfoboxFilter value="live">Live</InfoboxFilter>
-					<InfoboxFilter value="latest">Latest</InfoboxFilter>
+					<InfoboxFilter value="live">{t("Live")}</InfoboxFilter>
+					<InfoboxFilter value="latest">{t("Latest")}</InfoboxFilter>
 				</InfoboxFilterGroup>,
 			);
 		}
@@ -118,15 +122,15 @@ export default class Discover extends React.Component<Props, State> {
 			return cardClass === "NEUTRAL" || playerClass === cardClass;
 		});
 
-		const getCards = cards =>
+		const getCards = (cards: string[]) =>
 			cardData &&
 			cards.map(dbfId => cardData.fromDbf(dbfId)).filter(c => !!c);
 
 		return (
 			<div className="discover-container">
 				<aside className="infobox">
-					<h1>Discover</h1>
-					<h2>Class</h2>
+					<h1>{t("Discover")}</h1>
+					<h2>{t("Class")}</h2>
 					<ClassFilter
 						minimal
 						filters="ClassesOnly"
@@ -138,7 +142,9 @@ export default class Discover extends React.Component<Props, State> {
 						}}
 					/>
 					<section id="include-cards-filter">
-						<h2 id="card-search-include-label">Included Cards</h2>
+						<h2 id="card-search-include-label">
+							{t("Included cards")}
+						</h2>
 						<InfoboxFilterGroup
 							deselectable
 							selectedValue={this.props.includedSet}
@@ -147,7 +153,7 @@ export default class Discover extends React.Component<Props, State> {
 							}
 						>
 							<InfoboxFilter value={this.props.latestSet}>
-								Any new card
+								{t("Any new card")}
 							</InfoboxFilter>
 						</InfoboxFilterGroup>
 						<CardSearch
@@ -183,7 +189,7 @@ export default class Discover extends React.Component<Props, State> {
 						/>
 					</section>
 					{adminControls}
-					<h2>Data</h2>
+					<h2>{t("Data")}</h2>
 					<ul>
 						<InfoboxLastUpdated
 							url={dataUrl}
@@ -243,3 +249,5 @@ export default class Discover extends React.Component<Props, State> {
 		);
 	}
 }
+
+export default translate()(Discover);
