@@ -1,14 +1,22 @@
-import React from "react";
 import _ from "lodash";
+import React from "react";
+import { decode as decodeDeckstring } from "deckstrings";
+import { InjectedTranslateProps, translate } from "react-i18next";
 import CardData from "../CardData";
+import DataManager from "../DataManager";
+import UserData, { Account } from "../UserData";
 import CardSearch from "../components/CardSearch";
 import ClassFilter, { FilterOption } from "../components/ClassFilter";
 import DeckList from "../components/DeckList";
+import Feature from "../components/Feature";
+import Fragments from "../components/Fragments";
+import InfoIcon from "../components/InfoIcon";
 import InfoboxFilter from "../components/InfoboxFilter";
 import InfoboxFilterGroup from "../components/InfoboxFilterGroup";
+import InfoboxLastUpdated from "../components/InfoboxLastUpdated";
 import NoDecksMessage from "../components/NoDecksMessage";
+import { Limit } from "../components/ObjectSearch";
 import ResetHeader from "../components/ResetHeader";
-import DataManager from "../DataManager";
 import {
 	cardClass,
 	cardSorting,
@@ -17,15 +25,8 @@ import {
 	sortCards,
 } from "../helpers";
 import { DeckObj, FragmentChildProps, TableData } from "../interfaces";
-import InfoboxLastUpdated from "../components/InfoboxLastUpdated";
-import UserData, { Account } from "../UserData";
-import Fragments from "../components/Fragments";
-import InfoIcon from "../components/InfoIcon";
-import { decode as decodeDeckstring } from "deckstrings";
-import { Limit } from "../components/ObjectSearch";
-import Feature from "../components/Feature";
 
-interface Props extends FragmentChildProps {
+interface Props extends FragmentChildProps, InjectedTranslateProps {
 	account: Account | null;
 	cardData: CardData;
 	excludedCards?: string[];
@@ -51,7 +52,7 @@ interface State {
 	showFilters: boolean;
 }
 
-export default class MyDecks extends React.Component<Props, State> {
+class MyDecks extends React.Component<Props, State> {
 	private deckListsFragmentsRef;
 
 	constructor(props: Props, context?: any) {
@@ -307,13 +308,14 @@ export default class MyDecks extends React.Component<Props, State> {
 	}
 
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		let content = null;
 		const userAccounts = UserData.getAccounts();
 
 		if (!userAccounts.length) {
 			content = (
 				<div className="message-wrapper">
-					<h2>Link your Hearthstone account</h2>
+					<h2>{t("Link your Hearthstone account")}</h2>
 					<p>
 						Play a game and{" "}
 						<a href="/games/mine/">upload the replay</a> for your
@@ -329,7 +331,7 @@ export default class MyDecks extends React.Component<Props, State> {
 				</div>
 			);
 		} else if (this.state.loading) {
-			content = <h3 className="message-wrapper">Loading…</h3>;
+			content = <h3 className="message-wrapper">{t("Loading…")}</h3>;
 		} else if (this.state.filteredDecks.length === 0) {
 			let resetButton = null;
 			if (this.props.canBeReset) {
@@ -339,14 +341,14 @@ export default class MyDecks extends React.Component<Props, State> {
 						type="button"
 						onClick={() => this.props.reset()}
 					>
-						Reset filters
+						{t("Reset filters")}
 					</button>
 				);
 				content = <NoDecksMessage>{resetButton}</NoDecksMessage>;
 			} else {
 				content = (
 					<div className="message-wrapper">
-						<h2>All set!</h2>
+						<h2>{t("All set!")}</h2>
 						<p>
 							We've successfully linked your Hearthstone account{" "}
 							<strong>
@@ -360,9 +362,9 @@ export default class MyDecks extends React.Component<Props, State> {
 							statistics for all the decks you play right here.
 						</p>
 						<p className="text-muted">
-							Note: It may take a few hours for new data to appear
-							on this page. If you are missing data, make sure the
-							filters in the sidebar are correct!
+							{t(
+								"Note: It may take a few hours for new data to appear on this page. If you are missing data, make sure the filters in the sidebar are correct!",
+							)}
 						</p>
 					</div>
 				);
@@ -445,14 +447,14 @@ export default class MyDecks extends React.Component<Props, State> {
 						onReset={() => this.props.reset()}
 						showReset={this.props.canBeReset}
 					>
-						My Decks
+						{t("My Decks")}
 					</ResetHeader>
 					<section id="player-class-filter">
 						<h2>
-							Player Class
+							{t("Player class")}
 							<InfoIcon
 								className="pull-right"
-								header="Player Class Restriction"
+								header={t("Player class restriction")}
 								content={{
 									click: (
 										<p>
@@ -464,8 +466,9 @@ export default class MyDecks extends React.Component<Props, State> {
 											</span>
 										</p>
 									),
-									touch:
+									touch: t(
 										"Only show decks for specific classes.",
+									),
 								}}
 							/>
 						</h2>
@@ -481,7 +484,9 @@ export default class MyDecks extends React.Component<Props, State> {
 						/>
 					</section>
 					<section id="include-cards-filter">
-						<h2 id="card-search-include-label">Included Cards</h2>
+						<h2 id="card-search-include-label">
+							{t("Included cards")}
+						</h2>
 						<InfoboxFilterGroup
 							deselectable
 							selectedValue={this.props.includedSet}
@@ -490,7 +495,7 @@ export default class MyDecks extends React.Component<Props, State> {
 							}
 						>
 							<InfoboxFilter value="UNGORO">
-								Latest Expansion
+								{t("Latest expansion")}
 							</InfoboxFilter>
 						</InfoboxFilterGroup>
 						<CardSearch
@@ -539,7 +544,9 @@ export default class MyDecks extends React.Component<Props, State> {
 						/>
 					</section>
 					<section id="exclude-cards-filter">
-						<h2 id="card-search-exclude-label">Excluded Cards</h2>
+						<h2 id="card-search-exclude-label">
+							{t("Excluded cards")}
+						</h2>
 						<CardSearch
 							id="card-search-exclude"
 							label="card-search-exclude-label"
@@ -563,24 +570,24 @@ export default class MyDecks extends React.Component<Props, State> {
 							onClick={value => this.props.setGameType(value)}
 						>
 							<InfoboxFilter value="RANKED_STANDARD">
-								Ranked Standard
+								{t("Ranked Standard")}
 							</InfoboxFilter>
 							<InfoboxFilter value="RANKED_WILD">
-								Ranked Wild
+								{t("Ranked Wild")}
 							</InfoboxFilter>
 						</InfoboxFilterGroup>
 					</section>
 					<section id="time-frame-filter">
 						<h2>
-							Time Frame
+							{t("Time frame")}
 							<InfoIcon
 								className="pull-right"
-								header="Premium Deck Tracking"
+								header={t("Premium deck tracking")}
 								content={
 									<p>
-										Personalized statistics are available
-										for all decks you play after joining
-										Premium.
+										{t(
+											"Personalized statistics are available for all decks you play after subscribing to HSReplay.net Premium.",
+										)}
 									</p>
 								}
 							/>
@@ -590,30 +597,34 @@ export default class MyDecks extends React.Component<Props, State> {
 							onClick={value => this.props.setTimeRange(value)}
 						>
 							<InfoboxFilter value="PREVIOUS_SEASON">
-								Previous Season
+								{t("Previous season")}
 							</InfoboxFilter>
 							<InfoboxFilter value="CURRENT_SEASON">
-								Current Season
+								{t("Current season")}
 							</InfoboxFilter>
 							<InfoboxFilter value="LAST_30_DAYS">
-								Last 30 days
+								{t("Last {{n}} days", { n: 30 })}
 							</InfoboxFilter>
 							<Feature feature={"current-expansion-filter"}>
 								<InfoboxFilter value="CURRENT_EXPANSION">
-									The Witchwood
-									<span className="infobox-value">New!</span>
+									{t("The Witchwood")}
+									<span className="infobox-value">
+										{t("New!")}
+									</span>
 								</InfoboxFilter>
 							</Feature>
 							<Feature feature={"current-patch-filter"}>
 								<InfoboxFilter value="CURRENT_PATCH">
-									Patch 10.2
-									<span className="infobox-value">New!</span>
+									{t("Latest patch")}
+									<span className="infobox-value">
+										{t("New!")}
+									</span>
 								</InfoboxFilter>
 							</Feature>
 						</InfoboxFilterGroup>
 					</section>
 					<section id="side-bar-data">
-						<h2>Data</h2>
+						<h2>{t("Data")}</h2>
 						<ul>
 							<InfoboxLastUpdated
 								url={this.getDataUrl()}
@@ -630,7 +641,7 @@ export default class MyDecks extends React.Component<Props, State> {
 						onClick={() => this.setState({ showFilters: true })}
 					>
 						<span className="glyphicon glyphicon-filter" />
-						Filters
+						{t("Filters")}
 					</button>
 					{content}
 				</div>
@@ -657,3 +668,5 @@ export default class MyDecks extends React.Component<Props, State> {
 			: "single_account_lo_decks_summary";
 	}
 }
+
+export default translate()(MyDecks);
