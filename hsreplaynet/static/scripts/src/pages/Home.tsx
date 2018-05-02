@@ -1,4 +1,5 @@
 import React from "react";
+import { InjectedTranslateProps, translate } from "react-i18next";
 import CardData from "../CardData";
 import UserData from "../UserData";
 import DataInjector from "../components/DataInjector";
@@ -15,7 +16,7 @@ import PremiumModal from "../components/premium/PremiumModal";
 import { BnetGameType } from "../hearthstone";
 import { image } from "../helpers";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	cardData: CardData | null;
 }
 
@@ -26,7 +27,7 @@ interface State {
 	showCollectionModal: boolean;
 }
 
-export default class Home extends React.Component<Props, State> {
+class Home extends React.Component<Props, State> {
 	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
@@ -38,6 +39,7 @@ export default class Home extends React.Component<Props, State> {
 	}
 
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		const bannerStyle = {
 			backgroundImage: `url("${image("banner.jpg")}")`,
 		};
@@ -59,9 +61,11 @@ export default class Home extends React.Component<Props, State> {
 				<div className="row" id="banner" style={bannerStyle}>
 					<div id="banner-wrapper">
 						<div id="banner-text">
-							<h1>Unleash your potential</h1>
+							<h1>{t("Unleash your potential")}</h1>
 							<h2 className="hidden-xs">
-								Find the best deck for your rank and region
+								{t(
+									"Find the best deck for your rank and region",
+								)}
 							</h2>
 						</div>
 						<div id="banner-ranks">{ranks}</div>
@@ -71,7 +75,7 @@ export default class Home extends React.Component<Props, State> {
 					<div className="col-lg-4 col-md-6 col-sm-6 col-xs-12">
 						<div className="feature" id="feature-live-data">
 							<div className="feature-title">
-								<span>Live Data</span>
+								<span>{t("Live Data")}</span>
 								<a
 									href="#"
 									className={
@@ -87,7 +91,7 @@ export default class Home extends React.Component<Props, State> {
 										});
 									}}
 								>
-									<span>Full speed</span>
+									<span>{t("Full speed")}</span>
 								</a>
 							</div>
 							<div className="feature-content">
@@ -112,8 +116,8 @@ export default class Home extends React.Component<Props, State> {
 							</div>
 						</div>
 						<FeaturePanel
-							title="Replays"
-							subtitle="Watch and share your games"
+							title={t("Replays")}
+							subtitle={t("Watch and share your games")}
 							backgroundCardId="PART_002"
 							href="/games/mine/"
 						/>
@@ -124,7 +128,7 @@ export default class Home extends React.Component<Props, State> {
 							id="feature-best-deck"
 						>
 							<div className="feature-title">
-								<span>Premium Feature</span>
+								<span>{t("Premium Feature")}</span>
 								{this.renderPremiumFeatureButton()}
 							</div>
 							<div className="feature-content">
@@ -154,9 +158,11 @@ export default class Home extends React.Component<Props, State> {
 						<div className="feature" id="feature-class-ranking">
 							<div className="feature-title">
 								<span className="hidden-xs">
-									Class Winrates
+									{t("Class Winrates")}
 								</span>
-								<span className="visible-xs">Winrates</span>
+								<span className="visible-xs">
+									{t("Winrates")}
+								</span>
 								<a
 									className={
 										"btn feature-btn " +
@@ -174,7 +180,7 @@ export default class Home extends React.Component<Props, State> {
 									}}
 								>
 									<ModeSvg type="standard" />
-									Standard
+									{t("Standard")}
 								</a>
 								<a
 									className={
@@ -193,7 +199,7 @@ export default class Home extends React.Component<Props, State> {
 									}}
 								>
 									<ModeSvg type="wild" />
-									Wild
+									{t("Wild")}
 								</a>
 								<a
 									className={
@@ -211,7 +217,7 @@ export default class Home extends React.Component<Props, State> {
 									}}
 								>
 									<ModeSvg type="arena" />
-									Arena
+									{t("Arena")}
 								</a>
 							</div>
 							<div className="feature-content">
@@ -231,7 +237,21 @@ export default class Home extends React.Component<Props, State> {
 								</DataInjector>
 							</div>
 						</div>
-						{this.renderCollectionPanel()}
+
+						<Modal
+							visible={this.state.showCollectionModal}
+							onClose={this.closeCollectionModal}
+						>
+							<CollectionSetup />
+						</Modal>
+						<FeaturePanel
+							title={t("Collection Uploading")}
+							subtitle={t(
+								"Find the best decks for your collection",
+							)}
+							backgroundCardId="LOOTA_814"
+							onClick={this.showCollectionModal}
+						/>
 					</div>
 				</div>
 				<div className="row" id="live-data">
@@ -256,25 +276,6 @@ export default class Home extends React.Component<Props, State> {
 	private closeCollectionModal = (): void =>
 		this.setState({ showCollectionModal: false });
 
-	private renderCollectionPanel(): React.ReactNode {
-		return (
-			<>
-				<Modal
-					visible={this.state.showCollectionModal}
-					onClose={this.closeCollectionModal}
-				>
-					<CollectionSetup />
-				</Modal>
-				<FeaturePanel
-					title="Collection Uploading"
-					subtitle="Find the best decks for your collection"
-					backgroundCardId="LOOTA_814"
-					onClick={this.showCollectionModal}
-				/>
-			</>
-		);
-	}
-
 	private showPremiumModal = (
 		event?: React.MouseEvent<HTMLElement>,
 	): void => {
@@ -288,6 +289,7 @@ export default class Home extends React.Component<Props, State> {
 		this.setState({ showPremiumModal: false });
 
 	private renderPremiumFeatureButton(): React.ReactNode {
+		const { t } = this.props;
 		if (UserData.isPremium()) {
 			return null;
 		}
@@ -297,18 +299,21 @@ export default class Home extends React.Component<Props, State> {
 				className="btn feature-btn"
 				onClick={this.showPremiumModal}
 			>
-				<span className="hidden-xs">Subscribe for full access</span>
-				<span className="visible-xs">Subscribe</span>
+				<span className="hidden-xs">
+					{t("Subscribe for full access")}
+				</span>
+				<span className="visible-xs">{t("Subscribe")}</span>
 			</a>
 		);
 	}
 
 	private renderPremiumPanel(): React.ReactNode {
+		const { t } = this.props;
 		if (UserData.isPremium()) {
 			return (
 				<FeaturePanel
-					title="My Decks"
-					subtitle="Check out statistics about your decks"
+					title={t("My Decks")}
+					subtitle={t("Check out statistics about your decks")}
 					backgroundCardId="KARA_00_07"
 					backgroundStyle={{
 						backgroundPositionY: "30%",
@@ -331,13 +336,13 @@ export default class Home extends React.Component<Props, State> {
 						id="premium-feature"
 					>
 						<div className="header-wrapper">
-							<h1>HSReplay.net Premium</h1>
+							<h1>{t("HSReplay.net Premium")}</h1>
 						</div>
 						<div className="premium-banner">
 							<ul className="hidden-xs">
-								<li>Climb the ranked ladder</li>
-								<li>Analyze live statistics</li>
-								<li>Counter the meta</li>
+								<li>{t("Climb the ranked ladder")}</li>
+								<li>{t("Analyze live statistics")}</li>
+								<li>{t("Counter the meta")}</li>
 							</ul>
 							<div className="btn-wrapper">
 								<a
@@ -351,7 +356,7 @@ export default class Home extends React.Component<Props, State> {
 									href="#"
 									onClick={this.showPremiumModal}
 								>
-									Subscribe
+									{t("Subscribe")}
 								</a>
 							</div>
 						</div>
@@ -361,3 +366,5 @@ export default class Home extends React.Component<Props, State> {
 		);
 	}
 }
+
+export default translate()(Home);
