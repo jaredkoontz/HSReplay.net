@@ -1,4 +1,5 @@
 import React from "react";
+import { InjectedTranslateProps, translate } from "react-i18next";
 import CardData from "../CardData";
 import UserData from "../UserData";
 import DataInjector from "../components/DataInjector";
@@ -20,7 +21,7 @@ import RankPicker from "../components/rankpicker/RankPicker";
 import { commaSeparate } from "../helpers";
 import { SortDirection } from "../interfaces";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	cardData: CardData;
 	popularitySortBy?: string;
 	setPopularitySortBy?: (popularitySortBy: string) => void;
@@ -51,7 +52,7 @@ interface State {
 
 const MOBILE_WIDTH = 530;
 
-export default class MetaOverview extends React.Component<Props, State> {
+class MetaOverview extends React.Component<Props, State> {
 	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
@@ -87,6 +88,7 @@ export default class MetaOverview extends React.Component<Props, State> {
 	}
 
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		const params = this.getParams();
 		const popularityParams = this.getPopularityParams();
 
@@ -98,7 +100,7 @@ export default class MetaOverview extends React.Component<Props, State> {
 			rankRangeFilter = (
 				<section id="rank-range-filter">
 					<PremiumWrapper analyticsLabel="Meta Overview Rank Range">
-						<h2>Rank Range</h2>
+						<h2>{t("Rank range")}</h2>
 						<RankPicker
 							selected={this.props.rankRange}
 							onSelectionChanged={rankRange =>
@@ -124,7 +126,7 @@ export default class MetaOverview extends React.Component<Props, State> {
 				type="button"
 				onClick={() => this.setState({ showFilters: false })}
 			>
-				Back
+				{t("Back")}
 			</button>
 		);
 
@@ -132,10 +134,10 @@ export default class MetaOverview extends React.Component<Props, State> {
 			<div className="meta-overview-container">
 				<aside className={infoboxClassNames.join(" ")}>
 					{backButton}
-					<h1>Meta Overview</h1>
+					<h1>{t("Meta overview")}</h1>
 					<section id="time-frame-filter">
 						<InfoboxFilterGroup
-							header="Time Frame"
+							header={t("Time frame")}
 							selectedValue={this.props.timeFrame}
 							onClick={value => this.props.setTimeFrame(value)}
 						>
@@ -144,19 +146,21 @@ export default class MetaOverview extends React.Component<Props, State> {
 								iconStyle={{ display: "none" }}
 							>
 								<InfoboxFilter value="LAST_1_DAY">
-									Last 1 day
+									{t("Last 1 day")}
 								</InfoboxFilter>
 								<InfoboxFilter value="LAST_3_DAYS">
-									Last 3 days
+									{t("Last {{n}} days", { n: 3 })}
 								</InfoboxFilter>
 							</PremiumWrapper>
 							<InfoboxFilter value="LAST_7_DAYS">
-								Last 7 days
+								{t("Last {{n}} days", { n: 7 })}
 							</InfoboxFilter>
 							<Feature feature="current-expansion-filter">
 								<InfoboxFilter value="CURRENT_EXPANSION">
-									The Witchwood
-									<span className="infobox-value">New!</span>
+									{t("The Witchwood")}
+									<span className="infobox-value">
+										{t("New!")}
+									</span>
 								</InfoboxFilter>
 							</Feature>
 						</InfoboxFilterGroup>
@@ -165,28 +169,30 @@ export default class MetaOverview extends React.Component<Props, State> {
 					<Feature feature="archetypes-gamemode-filter">
 						<section id="gamemode-filter">
 							<InfoboxFilterGroup
-								header="Game Mode"
+								header={t("Game mode")}
 								selectedValue={this.props.gameType}
 								onClick={gameType =>
 									this.props.setGameType(gameType)
 								}
 							>
 								<InfoboxFilter value="RANKED_STANDARD">
-									Ranked Standard
+									{t("Ranked Standard")}
 								</InfoboxFilter>
 								<InfoboxFilter value="RANKED_WILD">
-									Ranked Wild
+									{t("Ranked Wild")}
 								</InfoboxFilter>
 							</InfoboxFilterGroup>
 						</section>
 					</Feature>
 					<Feature feature="meta-region-filter">
 						<section id="region-filter">
-							<h2>Region</h2>
+							<h2>{t("Region")}</h2>
 							<InfoIcon
 								className="pull-right"
-								header="Region Filter"
-								content="Replay volume from the Chinese region is too low for reliable statistics."
+								header={t("Region filter")}
+								content={t(
+									"Replay volume from the Chinese region is too low for reliable statistics.",
+								)}
 							/>
 							<InfoboxFilterGroup
 								selectedValue={this.props.region}
@@ -197,7 +203,7 @@ export default class MetaOverview extends React.Component<Props, State> {
 									iconStyle={{ display: "none" }}
 								>
 									<InfoboxFilter value="REGION_US">
-										America
+										Americas
 									</InfoboxFilter>
 									<InfoboxFilter value="REGION_EU">
 										Europe
@@ -212,18 +218,18 @@ export default class MetaOverview extends React.Component<Props, State> {
 									</Feature>
 								</PremiumWrapper>
 								<InfoboxFilter value="ALL">
-									All Regions
+									{t("All regions")}
 								</InfoboxFilter>
 							</InfoboxFilterGroup>
 						</section>
 					</Feature>
 					<section id="info">
-						<h2>Data</h2>
+						<h2>{t("Data")}</h2>
 						<ul>
 							<li>
-								Game Mode
+								{t("Game mode")}
 								<span className="infobox-value">
-									Ranked Standard
+									{t("Ranked Standard")}
 								</span>
 							</li>
 							<InfoboxLastUpdated {...this.getLastUpdated()} />
@@ -257,7 +263,7 @@ export default class MetaOverview extends React.Component<Props, State> {
 									}),
 								}}
 							>
-								<InfoboxItem header="Games" />
+								<InfoboxItem header={t("Games")} />
 							</DataInjector>
 						</ul>
 					</section>
@@ -270,13 +276,13 @@ export default class MetaOverview extends React.Component<Props, State> {
 						onClick={() => this.setState({ showFilters: true })}
 					>
 						<span className="glyphicon glyphicon-filter" />
-						Filters
+						{t("Filters")}
 					</button>
 					<TabList
 						tab={this.props.tab}
 						setTab={tab => this.props.setTab(tab)}
 					>
-						<Tab id="tierlist" label="Tier List">
+						<Tab id="tierlist" label={t("Tier list")}>
 							<DataInjector
 								query={[
 									{
@@ -316,7 +322,7 @@ export default class MetaOverview extends React.Component<Props, State> {
 								/>
 							</DataInjector>
 						</Tab>
-						<Tab id="archetypes" label="By Class">
+						<Tab id="archetypes" label={t("By class")}>
 							<DataInjector
 								query={[
 									{
@@ -358,7 +364,7 @@ export default class MetaOverview extends React.Component<Props, State> {
 						</Tab>
 						<Tab
 							id="matchups"
-							label="Matchups"
+							label={t("Matchups")}
 							hidden={this.state.mobileView}
 						>
 							<DataInjector
@@ -397,10 +403,12 @@ export default class MetaOverview extends React.Component<Props, State> {
 						<Tab
 							label={
 								<span className="text-premium">
-									Popularity&nbsp;
+									{t("Popularity")}
 									<InfoIcon
-										header="Popularity"
-										content="Archetype popularity broken down by rank."
+										header={t("Popularity")}
+										content={t(
+											"Archetype popularity broken down by rank.",
+										)}
 									/>
 								</span>
 							}
@@ -416,11 +424,14 @@ export default class MetaOverview extends React.Component<Props, State> {
 	}
 
 	renderPopularity(popularityParams: any): JSX.Element {
+		const { t } = this.props;
 		if (!UserData.isAuthenticated() || !UserData.isPremium()) {
 			return (
 				<PremiumPromo
 					imageName="metaoverview_popularity_full.png"
-					text="Want a deeper insight into the meta? Find archetype popularities broken down by rank here."
+					text={t(
+						"Want a deeper insight into the meta? Find archetype popularities broken down by rank here.",
+					)}
 				/>
 			);
 		}
@@ -486,3 +497,4 @@ export default class MetaOverview extends React.Component<Props, State> {
 		}
 	};
 }
+export default translate()(MetaOverview);
