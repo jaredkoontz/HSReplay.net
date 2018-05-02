@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import CardData from "../CardData";
-import Packs from "../pages/Packs";
+import MyPacks from "../pages/MyPacks";
 import { Consumer as AccountConsumer } from "../components/utils/hearthstone-account";
 import DataInjector from "../components/DataInjector";
 
@@ -29,7 +29,7 @@ const render = (cardData: CardData) => {
 						}
 					>
 						{({ packs }) => (
-							<Packs packs={packs} cardData={cardData} />
+							<MyPacks packs={packs} cardData={cardData} />
 						)}
 					</DataInjector>
 				)}

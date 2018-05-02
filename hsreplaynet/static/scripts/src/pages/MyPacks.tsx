@@ -25,7 +25,7 @@ interface State {
 	packs: any;
 }
 
-class Packs extends React.Component<Props, State> {
+class MyPacks extends React.Component<Props, State> {
 	public render(): React.ReactNode {
 		const mypacks = [];
 		const { t } = this.props;
@@ -80,4 +80,4 @@ class Packs extends React.Component<Props, State> {
 	}
 }
 
-export default translate()(Packs);
+export default translate()(MyPacks);
