@@ -1,4 +1,5 @@
 import React from "react";
+import { InjectedTranslateProps, translate } from "react-i18next";
 import CardData from "../CardData";
 import CardIcon from "../components/CardIcon";
 
@@ -16,7 +17,7 @@ interface Pack {
 	cards: PackCard[];
 }
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	packs: Pack[];
 	cardData: CardData;
 }
@@ -24,9 +25,10 @@ interface State {
 	packs: any;
 }
 
-export default class Packs extends React.Component<Props, State> {
+class Packs extends React.Component<Props, State> {
 	public render(): React.ReactNode {
 		const mypacks = [];
+		const { t } = this.props;
 
 		if (this.props.packs) {
 			for (const pack of this.props.packs) {
@@ -65,13 +67,17 @@ export default class Packs extends React.Component<Props, State> {
 
 		return (
 			<div>
-				<h1>My packs</h1>
+				<h1>{t("My Packs")}</h1>
 
 				<div className="alert alert-info">
-					These are the packs you uploaded. This section is a WIP.
+					{t(
+						"These are the packs you uploaded. This section is a work in progress.",
+					)}
 				</div>
 				{mypacks}
 			</div>
 		);
 	}
 }
+
+export default translate()(Packs);
