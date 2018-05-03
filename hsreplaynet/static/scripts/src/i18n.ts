@@ -1,13 +1,10 @@
-import i18n from "i18next";
-import UserData from "./UserData";
+import i18n, { InitOptions } from "i18next";
+import CustomCallbackBackend from "i18next-callback-backend";
 
 export const I18N_NAMESPACE_FRONTEND = "frontend";
 export const I18N_NAMESPACE_HEARTHSTONE = "hearthstone";
 
-UserData.create();
-const lang = UserData.getLocale();
-
-i18n.init({
+i18n.use(CustomCallbackBackend).init({
 	// keys as strings
 	defaultNS: I18N_NAMESPACE_FRONTEND,
 	fallbackLng: false,
@@ -19,12 +16,29 @@ i18n.init({
 	interpolation: {
 		escapeValue: false,
 	},
-});
 
-for (const fn of ["global"]) {
-	import(`i18n/${lang}/${fn}.json`).then(module => {
-		i18n.addResourceBundle(lang, I18N_NAMESPACE_HEARTHSTONE, module);
-	});
-}
+	// CustomCallbackBackend
+	customLoad: async (language, namespace, callback) => {
+		const translations = {};
+		if (namespace === I18N_NAMESPACE_HEARTHSTONE) {
+			const promises = [];
+			for (const hearthstoneNS of ["global"]) {
+				promises.push(import(`i18n/${language}/${hearthstoneNS}.json`));
+			}
+			try {
+				const modules = await Promise.all(promises);
+				for (const module of modules) {
+					if (!module) {
+						return;
+					}
+					Object.assign(translations, module);
+				}
+			} catch (e) {
+				console.error(e);
+			}
+		}
+		callback(null, translations);
+	},
+} as InitOptions);
 
 export default i18n;
