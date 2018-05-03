@@ -1,12 +1,17 @@
 import i18n, { InitOptions } from "i18next";
 import CustomCallbackBackend from "i18next-callback-backend";
+import UserData from "./UserData";
 
 export const I18N_NAMESPACE_FRONTEND = "frontend";
 export const I18N_NAMESPACE_HEARTHSTONE = "hearthstone";
 
+// just used while we feature flag frontend translations
+UserData.create();
+
 i18n.use(CustomCallbackBackend).init({
 	// keys as strings
 	defaultNS: I18N_NAMESPACE_FRONTEND,
+	fallbackNS: false,
 	fallbackLng: false,
 	keySeparator: false,
 	lowerCaseLng: true,
@@ -20,6 +25,11 @@ i18n.use(CustomCallbackBackend).init({
 	// CustomCallbackBackend
 	customLoad: async (language, namespace, callback) => {
 		const translations = {};
+		if (namespace === "translation") {
+			// default fallback namespace, do not load
+			callback(null, translations);
+			return;
+		}
 		if (namespace === I18N_NAMESPACE_HEARTHSTONE) {
 			const promises = [];
 			for (const hearthstoneNS of ["global"]) {
@@ -29,10 +39,19 @@ i18n.use(CustomCallbackBackend).init({
 				const modules = await Promise.all(promises);
 				for (const module of modules) {
 					if (!module) {
-						return;
+						continue;
 					}
 					Object.assign(translations, module);
 				}
+			} catch (e) {
+				console.error(e);
+			}
+		} else if (UserData.hasFeature("frontend-translations")) {
+			try {
+				Object.assign(
+					translations,
+					await import(`i18n/${language}/${namespace}.json`),
+				);
 			} catch (e) {
 				console.error(e);
 			}
