@@ -109,7 +109,7 @@ module.exports = env => {
 		context: __dirname,
 		entry: entriesFlat,
 		output: {
-			filename: "[name].js",
+			filename: "[name].[chunkhash].js",
 			path: path.join(__dirname, "build", "generated", "webpack"),
 			publicPath: exportedSettings.STATIC_URL + "webpack/",
 		},
