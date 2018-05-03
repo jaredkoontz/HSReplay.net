@@ -22,6 +22,7 @@ jobs:
       install:
         - yarn --pure-lockfile
         - scripts/get_vendor_static.sh
+        - git clone https://github.com/HearthSim/hsreplaynet-i18n locale
       script: yarn run $SCRIPT
 
     - stage: test

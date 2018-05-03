@@ -80,7 +80,9 @@ class LoginButton extends React.Component<Props, State> {
 							onClick={this.toggle}
 						>
 							<span className="caret" />
-							<span className="sr-only">{t("Toggle Dropdown")}</span>
+							<span className="sr-only">
+								{t("Toggle Dropdown")}
+							</span>
 						</button>
 						<ul className={"dropdown-menu"}>
 							{blizzard || china ? (
