@@ -8,6 +8,8 @@ import CollectionSetup from "../components/collection/CollectionSetup";
 import { Provider as BlizzardAccountProvider } from "../components/utils/hearthstone-account";
 import AccountNavigation from "../components/account/AccountNavigation";
 import PremiumModal from "../components/premium/PremiumModal";
+import i18n from "../i18n";
+import I18nextProvider from "react-i18next/src/I18nextProvider";
 
 UserData.create();
 
@@ -16,14 +18,16 @@ function renderNavbar() {
 	if (userNav) {
 		const hideLogin = !!+userNav.getAttribute("data-hide-login");
 		ReactDOM.render(
-			<BlizzardAccountProvider>
-				<AccountNavigation
-					isAuthenticated={UserData.isAuthenticated()}
-					isStaff={UserData.isStaff()}
-					hideLogin={hideLogin}
-					isPremium={UserData.isPremium()}
-				/>
-			</BlizzardAccountProvider>,
+			<I18nextProvider i18n={i18n} initialLanguage={UserData.getLocale()}>
+				<BlizzardAccountProvider>
+					<AccountNavigation
+						isAuthenticated={UserData.isAuthenticated()}
+						isStaff={UserData.isStaff()}
+						hideLogin={hideLogin}
+						isPremium={UserData.isPremium()}
+					/>
+				</BlizzardAccountProvider>
+			</I18nextProvider>,
 			userNav,
 		);
 	}
