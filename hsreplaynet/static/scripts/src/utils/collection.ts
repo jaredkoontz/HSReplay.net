@@ -47,9 +47,13 @@ export function getDustCostForCollection(
 	let dustCost = 0;
 	for (const cardObj of cards) {
 		const { card, count } = cardObj;
+		if (typeof card.dbfId === "undefined") {
+			continue;
+		}
+		const dbfId = card.dbfId;
 		let remaining = count;
-		const available = Array.isArray(collected[card.dbfId])
-			? collected[card.dbfId]
+		const available = Array.isArray(collected[dbfId])
+			? collected[dbfId]
 			: [0];
 		remaining -= available.reduce((a, b) => a + b, 0);
 		if (remaining > 0) {
