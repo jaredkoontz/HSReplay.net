@@ -3,7 +3,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from oauth2_provider.contrib.rest_framework import OAuth2Authentication
 from rest_framework import status
 from rest_framework.authentication import SessionAuthentication
-from rest_framework.exceptions import NotFound, ValidationError
+from rest_framework.exceptions import NotFound, PermissionDenied, ValidationError
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -122,6 +122,26 @@ class CollectionView(BaseCollectionView):
 				ret[v] = self.request.META[k]
 
 		return ret
+
+	def check_permissions(self, request):
+		if self.request.method == "GET":
+			if not self.can_view_collection(self.request.user, self._account):
+				raise PermissionDenied("You are not allowed to view this user's collection.")
+		else:
+			return super().check_permissions(request)
+
+	def can_view_collection(self, user, blizzard_account):
+		if not blizzard_account.user:
+			return False
+		elif user == blizzard_account.user:
+			return True
+		else:
+			return blizzard_account.user.settings.get("collection-visibility", "") == "public"
+
+	def get_queryset(self):
+		if self.request.method == "GET":
+			return BlizzardAccount.objects.all()
+		return super().get_queryset()
 
 	def get(self, request, **kwargs):
 		# Add cache headers to the s3 request
