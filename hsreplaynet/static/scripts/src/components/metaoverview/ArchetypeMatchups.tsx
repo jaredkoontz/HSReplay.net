@@ -26,6 +26,7 @@ interface Props {
 	setSortDirection?: (ascending: SortDirection) => void;
 	sortBy?: string;
 	setSortBy?: (prop: string) => void;
+	simple?: boolean;
 }
 
 interface State {
@@ -129,6 +130,7 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 					onIgnoreChanged={(archetypeId: number, ignore: boolean) =>
 						this.onIgnoreChanged(archetypeId, ignore)
 					}
+					simple={this.props.simple}
 					{...commonProps}
 				/>
 			</div>
