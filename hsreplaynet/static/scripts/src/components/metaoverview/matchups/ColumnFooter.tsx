@@ -11,8 +11,6 @@ interface Props {
 	customWeight: number;
 	useCustomWeight: boolean;
 	onCustomWeightChanged: (popularity: number) => void;
-	onHover?: (hovering: boolean) => void;
-	onInputFocus?: (focus: boolean) => void;
 }
 
 interface State {
@@ -66,14 +64,6 @@ export default class ColumnFooter extends React.Component<Props, State> {
 					onChange={event =>
 						this.setState({ text: event.target.value })
 					}
-					onFocus={(event: any) => {
-						event.target.select();
-						this.props.onInputFocus(true);
-					}}
-					onBlur={event => {
-						this.onCustomPopularityChanged(event);
-						this.props.onInputFocus(false);
-					}}
 					onKeyPress={event => {
 						if (event.which === 13) {
 							this.onCustomPopularityChanged(event);
@@ -93,12 +83,7 @@ export default class ColumnFooter extends React.Component<Props, State> {
 			: this.props.archetypeData.popularityTotal;
 
 		return (
-			<div
-				className={classNames.join(" ")}
-				style={this.props.style}
-				onMouseEnter={() => this.props.onHover(true)}
-				onMouseLeave={() => this.props.onHover(false)}
-			>
+			<div className={classNames.join(" ")} style={this.props.style}>
 				<Bar
 					total={this.props.max ? this.props.max : 100}
 					value={value}

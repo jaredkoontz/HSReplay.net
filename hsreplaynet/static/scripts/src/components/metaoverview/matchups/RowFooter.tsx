@@ -8,7 +8,6 @@ interface Props {
 	archetypeData?: ArchetypeData;
 	highlight?: boolean;
 	style?: any;
-	onHover?: (hovering: boolean) => void;
 }
 
 export default class RowFooter extends React.Component<Props> {
@@ -50,12 +49,7 @@ export default class RowFooter extends React.Component<Props> {
 		}
 
 		return (
-			<div
-				className={classNames.join(" ")}
-				style={style}
-				onMouseEnter={() => this.props.onHover(true)}
-				onMouseLeave={() => this.props.onHover(false)}
-			>
+			<div className={classNames.join(" ")} style={style}>
 				{label}
 			</div>
 		);

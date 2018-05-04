@@ -15,7 +15,6 @@ interface Props {
 	matchupData: MatchupData;
 	isIgnored: boolean;
 	style?: any;
-	onHover?: (hovering: boolean) => void;
 }
 
 export default class MatchupCell extends React.Component<Props> {
@@ -148,8 +147,6 @@ export default class MatchupCell extends React.Component<Props> {
 			<div
 				className={classNames.join(" ")}
 				style={{ color, backgroundColor, ...this.props.style }}
-				onMouseEnter={() => this.props.onHover(true)}
-				onMouseLeave={() => this.props.onHover(false)}
 			>
 				{label}
 			</div>

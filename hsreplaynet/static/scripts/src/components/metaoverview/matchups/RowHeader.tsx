@@ -13,7 +13,6 @@ interface Props {
 	highlight?: boolean;
 	isFavorite?: boolean;
 	onFavoriteChanged: (favorite: boolean) => void;
-	onHover?: (hovering: boolean) => void;
 	style?: any;
 }
 
@@ -46,12 +45,7 @@ export default class RowHeader extends React.Component<Props> {
 		}
 
 		return (
-			<div
-				className={classNames.join(" ")}
-				style={this.props.style}
-				onMouseEnter={() => this.props.onHover(true)}
-				onMouseLeave={() => this.props.onHover(false)}
-			>
+			<div className={classNames.join(" ")} style={this.props.style}>
 				<div className="archetype matchup-archetype">
 					<div
 						className="class-icon-wrapper"
