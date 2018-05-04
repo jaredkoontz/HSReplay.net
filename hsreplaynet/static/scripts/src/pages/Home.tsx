@@ -71,7 +71,7 @@ class Home extends React.Component<Props, State> {
 						<div id="banner-ranks">{ranks}</div>
 					</div>
 				</div>
-				<div className="row features">
+				<div className="row content features">
 					<div className="col-lg-4 col-md-6 col-sm-6 col-xs-12">
 						<div className="feature" id="feature-live-data">
 							<div className="feature-title">
@@ -254,12 +254,8 @@ class Home extends React.Component<Props, State> {
 						/>
 					</div>
 				</div>
-				<div className="row" id="live-data">
-					<LiveData cardData={this.props.cardData} numCards={12} />
-				</div>
-				<div className="row" id="faq">
-					<FAQ />
-				</div>
+				{this.renderNewBelowTheFold(bannerStyle)}
+				{this.renderOldBelowTheFold()}
 			</div>
 		);
 	}
@@ -275,6 +271,139 @@ class Home extends React.Component<Props, State> {
 
 	private closeCollectionModal = (): void =>
 		this.setState({ showCollectionModal: false });
+
+	private renderOldBelowTheFold(): React.ReactNode {
+		if (UserData.hasFeature("new-frontpage")) {
+			return null;
+		}
+		return (
+			<>
+				<div className="row" id="live-data">
+					<LiveData cardData={this.props.cardData} numCards={12} />
+				</div>
+				<div className="row" id="faq">
+					<FAQ />
+				</div>
+			</>
+		);
+	}
+
+	private renderNewBelowTheFold(bannerStyle: any): React.ReactNode {
+		if (!UserData.hasFeature("new-frontpage")) {
+			return null;
+		}
+		return (
+			<>
+				<div className="row content" id="pilot">
+					<div className="section-header" style={bannerStyle}>
+						Be A Better Deck Pilot
+					</div>
+					<section className="section-left">
+						<div className="section-description">
+							<h1>Hearthstone Deck Tracker</h1>
+							<p>
+								Keep track of the cards you and your opponent
+								play with an in-game overlay. Never second guess
+								if they still have the coin!
+							</p>
+							<a className="btn promo-button">Download</a>
+						</div>
+						<div className="section-feature">
+							<img
+								src="https://raw.githubusercontent.com/HearthSim/Hearthstone-Deck-Tracker/master/raw-assets/readme/overlay.png"
+								alt="Hearthstone Deck Tracker"
+							/>
+						</div>
+					</section>
+					<section className="section-right">
+						<div className="section-feature">
+							<img
+								src={STATIC_URL + "images/mulligan-temp.png"}
+								alt="Mulligan"
+							/>
+						</div>
+						<div className="section-description">
+							<h1>Mulligan Statistics</h1>
+							<p>
+								Knowing what to keep in your opening hand is
+								critical to winning games. Check out the best
+								cards to keep during mulligan.
+							</p>
+							<a className="btn promo-button">See all cards</a>
+						</div>
+					</section>
+				</div>
+				<div className="row content" id="data">
+					<div className="section-header" style={bannerStyle}>
+						Make Data Driven Plays
+					</div>
+					<section className="section-right">
+						<div className="section-feature">
+							<img
+								src={STATIC_URL + "images/matchups-temp.png"}
+								alt="Matchups"
+							/>
+						</div>
+						<div className="section-description">
+							<h1>Meta Matchups</h1>
+							<p>
+								Analyze which deck types are favourites and
+								underdogs in each matchup. Figure out how to
+								beat the meta!
+							</p>
+							<a className="btn promo-button">
+								View all matchups
+							</a>
+						</div>
+					</section>
+					<section className="section-left">
+						<div className="section-description">
+							<h1>Meta Tier List</h1>
+							<p>
+								By the numbers, find out which decks are
+								performing the best for each class by rank and
+								region.
+							</p>
+							<a className="btn promo-button">
+								View Full Tier List
+							</a>
+						</div>
+						<div className="section-feature">
+							<img
+								src={STATIC_URL + "images/tierlist-temp.png"}
+								alt="Tier List"
+							/>
+						</div>
+					</section>
+					<section id="live-data" style={{ color: "white" }}>
+						<LiveData
+							cardData={this.props.cardData}
+							numCards={12}
+						/>
+					</section>
+				</div>
+			</>
+		);
+	}
+
+	private renderCollectionPanel(): React.ReactNode {
+		return (
+			<>
+				<Modal
+					visible={this.state.showCollectionModal}
+					onClose={this.closeCollectionModal}
+				>
+					<CollectionSetup />
+				</Modal>
+				<FeaturePanel
+					title="Collection Uploading"
+					subtitle="Find the best decks for your collection"
+					backgroundCardId="LOOTA_814"
+					onClick={this.showCollectionModal}
+				/>
+			</>
+		);
+	}
 
 	private showPremiumModal = (
 		event?: React.MouseEvent<HTMLElement>,
