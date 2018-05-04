@@ -7,6 +7,7 @@ import Modal from "../components/Modal";
 import ModeSvg from "../components/ModeSvg";
 import CollectionSetup from "../components/collection/CollectionSetup";
 import ArchetypeHighlight from "../components/home/ArchetypeHighlight";
+import ArchetypeMatchups from "../components/metaoverview/ArchetypeMatchups";
 import ClassRanking from "../components/home/ClassRanking";
 import FAQ from "../components/home/FAQ";
 import FeaturePanel from "../components/home/FeaturePanel";
@@ -338,11 +339,38 @@ class Home extends React.Component<Props, State> {
 						Make Data Driven Plays
 					</div>
 					<section className="section-right">
-						<div className="section-feature">
-							<img
-								src={STATIC_URL + "images/matchups-temp.png"}
-								alt="Matchups"
-							/>
+						<div className="section-feature" id="feature-meta">
+							<DataInjector
+								query={[
+									{
+										key: "archetypeData",
+										params: {},
+										url: "/api/v1/archetypes/",
+									},
+									{
+										key: "matchupData",
+										params: {},
+										url: "head_to_head_archetype_matchups",
+									},
+									{
+										key: "popularityData",
+										params: {},
+										url:
+											"archetype_popularity_distribution_stats",
+									},
+								]}
+							>
+								<ArchetypeMatchups
+									cardData={this.props.cardData}
+									gameType="RANKED_STANDARD"
+									mobileView={false}
+									setSortBy={() => null}
+									setSortDirection={() => null}
+									sortBy="popularity"
+									sortDirection="descending"
+									simple
+								/>
+							</DataInjector>
 						</div>
 						<div className="section-description">
 							<h1>Meta Matchups</h1>
@@ -351,7 +379,7 @@ class Home extends React.Component<Props, State> {
 								underdogs in each matchup. Figure out how to
 								beat the meta!
 							</p>
-							<a className="btn promo-button">
+							<a className="btn promo-button" href="/meta/">
 								View all matchups
 							</a>
 						</div>
