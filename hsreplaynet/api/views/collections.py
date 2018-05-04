@@ -21,7 +21,11 @@ class BaseCollectionView(APIView):
 
 	s3_key = "collections/{hi}/{lo}/collection.json"
 
-	def _serialize_request(self, request):
+	def perform_authentication(self, request):
+		super().perform_authentication(request)
+		# All this logic has to be performed *after* authentication, but right
+		# before check_permissions(). So we override perform_authentication().
+
 		serializer = self.serializer_class(data=request.GET)
 		serializer.is_valid(raise_exception=True)
 		accounts = self.get_queryset()
@@ -63,7 +67,6 @@ class CollectionURLPresigner(BaseCollectionView):
 	)
 
 	def get(self, request, **kwargs):
-		self._serialize_request(request)
 		expires_in = 180  # Seconds
 		self.s3_params["ContentType"] = "application/json"
 
@@ -121,8 +124,6 @@ class CollectionView(BaseCollectionView):
 		return ret
 
 	def get(self, request, **kwargs):
-		self._serialize_request(request)
-
 		# Add cache headers to the s3 request
 		self.s3_params.update(self._translate_s3_cache_headers(self.request.META))
 
@@ -151,8 +152,6 @@ class CollectionView(BaseCollectionView):
 		return Response(collection, headers=headers)
 
 	def delete(self, request, **kwargs):
-		self._serialize_request(request)
-
 		S3.delete_object(**self.s3_params)
 
 		return Response(status=status.HTTP_204_NO_CONTENT)
