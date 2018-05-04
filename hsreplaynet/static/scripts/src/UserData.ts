@@ -33,7 +33,7 @@ interface Feature {
 export interface Account extends BlizzardAccount {
 	/** @deprecated use {@link account_lo} instead */
 	lo: number;
-	/** @deprecated use {@link prettyBlizzardAccount} instead */
+	/** @deprecated use {@link PrettyBlizzardAccount} instead */
 	display: string;
 }
 

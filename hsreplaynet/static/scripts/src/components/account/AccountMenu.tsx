@@ -1,8 +1,8 @@
 import React from "react";
 import { InjectedTranslateProps, translate } from "react-i18next";
 import { Account } from "../../UserData";
-import { prettyBlizzardAccount } from "../../utils/account";
 import CSRFElement from "../CSRFElement";
+import PrettyBlizzardAccount from "../text/PrettyBlizzardAccount";
 
 interface Props extends InjectedTranslateProps {
 	username: string;
@@ -99,7 +99,9 @@ class AccountMenu extends React.Component<Props, State> {
 						}
 					>
 						<a href="#" onClick={this.selectAccount(key)}>
-							{prettyBlizzardAccount(this.props.accounts[key])}
+							<PrettyBlizzardAccount
+								account={this.props.accounts[key]}
+							/>
 						</a>
 					</li>
 				))}
@@ -107,15 +109,15 @@ class AccountMenu extends React.Component<Props, State> {
 		);
 	}
 
-	private getDisplayName(): string {
+	private getDisplayName(): React.ReactNode {
 		if (typeof this.props.accounts === "object") {
 			const account = this.props.accounts[this.props.currentAccount];
 			if (account) {
-				return prettyBlizzardAccount(account);
+				return <PrettyBlizzardAccount account={account} />;
 			}
 		}
 
-		return this.props.username;
+		return <>{this.props.username}</>;
 	}
 
 	private renderDropdown(): React.ReactNode {

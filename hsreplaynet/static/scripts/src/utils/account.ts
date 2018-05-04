@@ -5,20 +5,6 @@ export function getAccountKey(account: BlizzardAccount): string {
 	return `${account.region}-${account.account_lo}`;
 }
 
-const REGION_NAMES = {
-	[BnetRegion.REGION_US]: "Americas",
-	[BnetRegion.REGION_EU]: "Europe",
-	[BnetRegion.REGION_KR]: "Asia",
-	[BnetRegion.REGION_CN]: "China",
-	[BnetRegion.REGION_TW]: "Taiwan (Legacy)",
-	[BnetRegion.REGION_PTR]: "Public Test Realm",
-};
-
-export function prettyBlizzardAccount(account: BlizzardAccount): string {
-	const region = REGION_NAMES[account.region] || "Unknown region";
-	return `${account.battletag} (${region})`;
-}
-
 export function addNextToUrl(url: string, next: string): string {
 	if (!next) {
 		return url;

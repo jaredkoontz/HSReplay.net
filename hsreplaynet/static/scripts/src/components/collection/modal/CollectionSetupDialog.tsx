@@ -2,7 +2,7 @@ import React from "react";
 import { BlizzardAccount } from "../../../utils/api";
 import ModalAwait from "./ModalAwait";
 import DownloadSection from "./DownloadSection";
-import { getAccountKey, prettyBlizzardAccount } from "../../../utils/account";
+import { getAccountKey } from "../../../utils/account";
 import ProgressIndicator from "./ProgressIndicator";
 import CloseModalButton from "../../modal/CloseModalButton";
 import LoginButton from "../../account/LoginButton";
@@ -10,6 +10,7 @@ import { CollectionEvents } from "../../../metrics/GoogleAnalytics";
 import { isCollectionDisabled } from "../../../utils/collection";
 import { cookie } from "cookie_js";
 import Feature from "../../Feature";
+import PrettyBlizzardAccount from "../../text/PrettyBlizzardAccount";
 
 interface Props {
 	isAuthenticated: boolean;
@@ -261,9 +262,11 @@ export default class CollectionSetupDialog extends React.Component<
 									<p>
 										We found your account{" "}
 										<strong>
-											{prettyBlizzardAccount(
-												this.props.blizzardAccount,
-											)}
+											<PrettyBlizzardAccount
+												account={
+													this.props.blizzardAccount
+												}
+											/>
 										</strong>.
 									</p>
 									<p>
@@ -287,9 +290,11 @@ export default class CollectionSetupDialog extends React.Component<
 										Make sure you're logged in to Battle.net
 										as{" "}
 										<strong>
-											{prettyBlizzardAccount(
-												this.props.blizzardAccount,
-											)}
+											<PrettyBlizzardAccount
+												account={
+													this.props.blizzardAccount
+												}
+											/>
 										</strong>.
 										{this.props
 											.hasMultipleBlizzardAccounts ? (
@@ -315,9 +320,9 @@ export default class CollectionSetupDialog extends React.Component<
 							<p className="text-center">
 								You have uploaded your collection for{" "}
 								<strong>
-									{prettyBlizzardAccount(
-										this.props.blizzardAccount,
-									)}
+									<PrettyBlizzardAccount
+										account={this.props.blizzardAccount}
+									/>
 								</strong>. Hooray!
 								<br />
 								The deck tracker will now keep your collection

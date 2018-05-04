@@ -1,6 +1,6 @@
 import React from "react";
-import { prettyBlizzardAccount } from "../../../utils/account";
 import { BlizzardAccount } from "../../../utils/api";
+import PrettyBlizzardAccount from "../../text/PrettyBlizzardAccount";
 
 interface Props {
 	id?: string;
@@ -39,7 +39,7 @@ export default class BlizzardAccountChooser extends React.Component<Props> {
 							const account = this.props.accounts[key];
 							return (
 								<option value={key} key={key}>
-									{prettyBlizzardAccount(account)}
+									<PrettyBlizzardAccount account={account} />
 								</option>
 							);
 						})}
