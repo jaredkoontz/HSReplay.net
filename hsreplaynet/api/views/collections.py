@@ -24,12 +24,7 @@ class BaseCollectionView(APIView):
 	def _serialize_request(self, request):
 		serializer = self.serializer_class(data=request.GET)
 		serializer.is_valid(raise_exception=True)
-
-		if request.user.is_staff:
-			accounts = BlizzardAccount.objects
-		else:
-			accounts = request.user.blizzard_accounts
-
+		accounts = self.get_queryset()
 		params = {"account_lo": serializer.validated_data["account_lo"]}
 		# We allow specifying either `account_hi` or `region`.
 		# So we have to pass the appropriate pair of parameters to find the account.
@@ -52,6 +47,14 @@ class BaseCollectionView(APIView):
 			"Bucket": S3_COLLECTIONS_BUCKET,
 			"Key": key.format(hi=self._account.account_hi, lo=self._account.account_lo),
 		}
+
+	def get_queryset(self):
+		if self.request.user.is_staff:
+			return BlizzardAccount.objects.all()
+		elif self.request.user.is_authenticated:
+			return self.request.user.blizzard_accounts.all()
+		else:
+			return BlizzardAccount.objects.none()
 
 
 class CollectionURLPresigner(BaseCollectionView):
