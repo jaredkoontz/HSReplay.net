@@ -7,6 +7,7 @@ import Modal from "../components/Modal";
 import ModeSvg from "../components/ModeSvg";
 import CollectionSetup from "../components/collection/CollectionSetup";
 import ArchetypeHighlight from "../components/home/ArchetypeHighlight";
+import TierListPreview from "../components/home/TierListPreview";
 import ArchetypeMatchups from "../components/metaoverview/ArchetypeMatchups";
 import ClassRanking from "../components/home/ClassRanking";
 import FAQ from "../components/home/FAQ";
@@ -397,10 +398,35 @@ class Home extends React.Component<Props, State> {
 							</a>
 						</div>
 						<div className="section-feature">
-							<img
-								src={STATIC_URL + "images/tierlist-temp.png"}
-								alt="Tier List"
-							/>
+							<DataInjector
+								query={[
+									{
+										key: "archetypeData",
+										params: {},
+										url: "/api/v1/archetypes/",
+									},
+									{
+										key: "deckData",
+										params: {},
+										url: "list_decks_by_win_rate",
+									},
+									{
+										params: {},
+										url:
+											"archetype_popularity_distribution_stats",
+									},
+								]}
+								extract={{
+									data: data => ({
+										data: data.series.data,
+										timestamp: data.as_of,
+									}),
+								}}
+							>
+								<TierListPreview
+									cardData={this.props.cardData}
+								/>
+							</DataInjector>
 						</div>
 					</section>
 					<section id="live-data" style={{ color: "white" }}>

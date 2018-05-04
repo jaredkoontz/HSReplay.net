@@ -17,6 +17,7 @@ interface State {
 interface Props {
 	className?: string;
 	data: ClassListData[];
+	style?: any;
 }
 
 export default class ClassList extends React.Component<Props, State> {
@@ -96,7 +97,12 @@ export default class ClassList extends React.Component<Props, State> {
 			);
 		});
 		return (
-			<ul className={"class-list " + this.props.className}>{classes}</ul>
+			<ul
+				className={"class-list " + this.props.className || ""}
+				style={this.props.style}
+			>
+				{classes}
+			</ul>
 		);
 	}
 }
