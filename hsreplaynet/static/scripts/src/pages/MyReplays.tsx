@@ -82,8 +82,12 @@ class MyReplays extends React.Component<Props, State> {
 			viewType,
 			working: true,
 		};
+	}
+
+	public componentDidMount(): void {
 		this.query(
-			"/api/v1/games/?username=" + encodeURIComponent(props.username),
+			"/api/v1/games/?username=" +
+				encodeURIComponent(this.props.username),
 		);
 	}
 
