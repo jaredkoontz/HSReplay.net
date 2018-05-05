@@ -73,7 +73,7 @@ class Home extends React.Component<Props, State> {
 						<div id="banner-ranks">{ranks}</div>
 					</div>
 				</div>
-				<div className="row content features">
+				<div className="row content-row features">
 					<div className="col-lg-4 col-md-6 col-sm-6 col-xs-12">
 						<div className="feature" id="feature-live-data">
 							<div className="feature-title">
@@ -296,7 +296,7 @@ class Home extends React.Component<Props, State> {
 		}
 		return (
 			<>
-				<div className="row content" id="pilot">
+				<div className="row content-row" id="pilot">
 					<div className="section-header" style={bannerStyle}>
 						Be A Better Deck Pilot
 					</div>
@@ -335,7 +335,7 @@ class Home extends React.Component<Props, State> {
 						</div>
 					</section>
 				</div>
-				<div className="row content" id="data">
+				<div className="row content-row" id="data">
 					<div className="section-header" style={bannerStyle}>
 						Make Data Driven Plays
 					</div>
