@@ -5,7 +5,7 @@ import CardData from "../../CardData";
 import { Region } from "../../interfaces";
 import { getArchetypeUrl, toDynamicFixed } from "../../helpers";
 import SlotMachine from "./SlotMachine";
-import SemanticAge from "../SemanticAge";
+import SemanticAge from "../text/SemanticAge";
 import Carousel from "./Carousel";
 import _ from "lodash";
 

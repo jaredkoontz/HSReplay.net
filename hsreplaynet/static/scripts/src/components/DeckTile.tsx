@@ -15,7 +15,7 @@ import {
 import UserData from "../UserData";
 import Tooltip from "./Tooltip";
 import DataInjector from "./DataInjector";
-import SemanticAge from "./SemanticAge";
+import SemanticAge from "./text/SemanticAge";
 import { TwitchStreamPromotionEvents } from "../metrics/GoogleAnalytics";
 import { CardData as HearthstoneJSONCardData } from "hearthstonejson-client";
 import { getDustCostForCollection } from "../utils/collection";

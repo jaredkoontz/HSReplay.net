@@ -4,8 +4,8 @@ import GameHistoryPlayer from "./GameHistoryPlayer";
 import GameModeIcon from "../GameModeIcon";
 import GameModeText from "../GameModeText";
 import { PlayState } from "../../hearthstone";
-import { getDuration } from "../../PrettyTime";
-import SemanticAge from "../SemanticAge";
+import SemanticAge from "../text/SemanticAge";
+import SemanticDuration from "../text/SemanticDuration";
 
 interface Props extends ImageProps, CardArtProps {
 	shortid: string;
@@ -63,10 +63,11 @@ export default class GameHistoryItem extends React.Component<Props> {
 							</dd>
 							<dt>Duration</dt>
 							<dd>
-								{getDuration(
-									this.props.startTime,
-									this.props.endTime,
-								)}
+								<SemanticDuration
+									from={this.props.startTime}
+									to={this.props.endTime}
+									strict
+								/>
 							</dd>
 							<dt>Turns</dt>
 							<dd>{Math.ceil(this.props.turns / 2)} turns</dd>

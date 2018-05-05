@@ -2,7 +2,7 @@ import React from "react";
 import { InjectedTranslateProps, translate } from "react-i18next";
 import CardData from "../CardData";
 import DataInjector from "../components/DataInjector";
-import SemanticAge from "../components/SemanticAge";
+import SemanticAge from "../components/text/SemanticAge";
 import Tooltip from "../components/Tooltip";
 import HideLoading from "../components/loading/HideLoading";
 import TableLoading from "../components/loading/TableLoading";

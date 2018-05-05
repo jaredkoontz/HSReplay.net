@@ -3,8 +3,8 @@ import { CardArtProps, GlobalGamePlayer, ImageProps } from "../../interfaces";
 import ClassIcon from "../ClassIcon";
 import GameModeIcon from "../GameModeIcon";
 import GameModeText from "../GameModeText";
-import { getDuration } from "../../PrettyTime";
-import SemanticAge from "../SemanticAge";
+import SemanticAge from "../text/SemanticAge";
+import SemanticDuration from "../text/SemanticDuration";
 import { toTitleCase } from "../../helpers";
 
 interface Props extends ImageProps, CardArtProps {
@@ -80,7 +80,11 @@ export default class GameHistoryTableRow extends React.Component<Props> {
 					</div>
 				</div>
 				<div className="match-table-cell hide-below-1600">
-					{getDuration(this.props.startTime, this.props.endTime)}
+					<SemanticDuration
+						from={this.props.startTime}
+						to={this.props.endTime}
+						strict
+					/>
 				</div>
 				<div className="match-table-cell hide-below-768">
 					{Math.ceil(this.props.turns / 2)}
