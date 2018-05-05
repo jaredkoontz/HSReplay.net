@@ -1,10 +1,5 @@
 import React from "react";
-import {
-	getHeroClassName,
-	getHeroSkinCardUrl,
-	toDynamicFixed,
-	winrateData,
-} from "../../helpers";
+import { getHeroClassName } from "../../helpers";
 import { BnetGameType } from "../../hearthstone";
 import { withLoading } from "../loading/Loading";
 import ClassList, { ClassListData } from "./ClassList";
@@ -61,7 +56,7 @@ class ClassRanking extends React.Component<Props> {
 					</span>,
 				],
 				winRate: datum.win_rate,
-				buttonText: "View" + (isArena ? "Cards" : "Decks"),
+				buttonText: isArena ? "View Cards" : "View Decks",
 				href: url,
 			});
 		});
