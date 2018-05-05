@@ -4,40 +4,52 @@
 	{% with request.session.socialaccount_sociallogin.account as account %}
 	<h2>Sign up</h2>
 	<hr/>
-	<form method="POST" action="">
-		{% csrf_token %}
-		{% if account.extra_data.battletag %}
+
+	{% if not account.extra_data.battletag %}
+		<h3>Blizzard Account Error</h3>
+		<p>
+			The Blizzard account you are signing up with does not have a confirmed battletag yet, and cannot play Hearthstone.
+			Please <a href="https://www.blizzard.com" target="_blank" rel="noopener">go to Blizzard.com</a> and sign out to choose a different website.
+		</p>
+		<p>
+			<a href="mailto:{{ site_email }}">Contact us</a> if you need help signing in to an existing account.
+		</p>
+	{% else %}
+		<form method="POST" action="">
+			{% csrf_token %}
+
 			<p>
 				<input type="hidden" name="username" value="{{ account.extra_data.battletag }}"/>
-				Signing up with <strong>{{ account.extra_data.battletag|default:"Blizzard" }}</strong>.
+				Signing up with <strong>{{ account.extra_data.battletag }}</strong>.
 				<em>(You can change this later.)</em>
 			</p>
-		{% else %}
-			<p class="form-group{% if form.username.errors %} has-error{% endif %}">
-				<label>Username
-					<input type="text" name="username" minlength="4" maxlength="16" id="id_username" class="form-control"/>
+
+			<p class="form-group{% if form.email.errors %} has-error{% endif %}">
+				<label>Email address
+					<input type="email" name="email" minlength="5" maxlength="150" placeholder="alice@example.org" id="id_email" class="form-control" value="{{ form.email.value }}"/>
 				</label>
-				{% if form.username.errors %}<small class="help-inline">{{ form.username.errors.0 }}</small>{% endif %}
+				{% if form.email.errors %}
+					<p class="alert alert-danger">
+						{{ form.email.errors.0 }}
+					</p>
+					<p class="alert alert-warning">
+						<strong>Already have an account?</strong><br/>
+						You may still be logged into the wrong Blizzard account.
+						<a href="https://www.blizzard.com" target="_blank" rel="noopener">Go to Blizzard.com</a>, sign in to the correct account, then try again.<br/>
+						<a href="mailto:{{ site_email }}">Contact us</a> if you need help signing in to an existing account. We can merge accounts for you!
+					</p>
+				{% endif %}
 				<small class="form-text text-muted">
-					Your Blizzard account does not appear to have a battletag yet.
-					You get to choose your own username!
+					Used for account and billing purposes and for optional product updates. Email confirmation is required.
 				</small>
 			</p>
-		{% endif %}
 
-		<p class="form-group{% if form.email.errors %} has-error{% endif %}">
-			<label>Email address
-				<input type="email" name="email" minlength="5" maxlength="150" placeholder="alice@example.org" id="id_email" class="form-control"/>
-			</label>
-			{% if form.email.errors %}<small class="help-inline">{{ form.email.errors.0 }}</small>{% endif %}
-			<small class="form-text text-muted">Used to recover your account and for occasional product updates. No spam! Your email is private and never shared with third parties.</small>
-		</p>
+			<p class="form-group">
+				<label><input type="checkbox" required/> I agree to the <a href="{% url 'terms_of_service' %}">Terms of Service</a></label>.
+			</p>
 
-		<p class="form-group">
-			<label><input type="checkbox" required/> I agree to the <a href="{% url 'terms_of_service' %}">Terms of Service</a></label>.
-		</p>
-
-		<input type="submit" value="Sign up" class="btn btn-primary"/>
-	</form>
+			<input type="submit" value="Sign up" class="btn btn-primary"/>
+		</form>
+	{% endif %}
 	{% endwith %}
 {% endblock %}
