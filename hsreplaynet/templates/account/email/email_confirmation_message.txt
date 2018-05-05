@@ -2,9 +2,11 @@
 
 You've added this email address to your account. We need to verify that you own it.
 
-If this is correct, go to the following URL to confirm:
+If this is correct, go to the following URL within three days to confirm:
 
 {{ activate_url }}
+
+If this was not you, you can simply ignore this email.
 
 Cheers,
 The HSReplay.net Team
