@@ -1,0 +1,19 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+
+	<h2>{% trans "Verify your e-mail address" %}</h2>
+	<hr/>
+
+	<p>
+		{% trans "We have sent you an e-mail for verification. Follow the link in it to finalize the signup process." %}
+	</p>
+	<p>
+		{% blocktrans %}
+			Please <a href="mailto:{{ site_email }}">contact us</a> if you do not receive it within a few minutes.
+		{% endblocktrans %}
+	</p>
+
+{% endblock %}
