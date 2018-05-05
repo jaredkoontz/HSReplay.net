@@ -103,7 +103,7 @@ module.exports = env => {
 		"hsreplaynet/static/styles",
 		"main.scss",
 	);
-	const extractSCSS = new ExtractTextPlugin("main.css");
+	const extractSCSS = new ExtractTextPlugin("[name].[chunkhash].css");
 
 	return {
 		context: __dirname,
