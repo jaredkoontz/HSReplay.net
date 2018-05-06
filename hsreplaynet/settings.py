@@ -54,7 +54,6 @@ INSTALLED_APPS_CORE = [
 	"hsreplaynet.features",
 	"hsreplaynet.games",
 	"hsreplaynet.lambdas",
-	"hsreplaynet.live",
 	"hsreplaynet.uploads",
 	"hsreplaynet.utils",
 	"hsreplaynet.webhooks",

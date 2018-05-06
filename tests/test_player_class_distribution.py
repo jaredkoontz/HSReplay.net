@@ -5,7 +5,7 @@ from random import randrange
 import fakeredis
 from hearthstone.enums import CardClass
 
-from hsreplaynet.live.distributions import get_player_class_distribution
+from hsreplaynet.api.live.distributions import get_player_class_distribution
 
 
 def test_player_class_distribution():

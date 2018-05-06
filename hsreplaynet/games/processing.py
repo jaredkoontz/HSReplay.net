@@ -23,11 +23,11 @@ from hearthsim.identity.accounts.models import AuthToken, BlizzardAccount, Visib
 from hsredshift.etl.exceptions import CorruptReplayDataError, CorruptReplayPacketError
 from hsredshift.etl.exporters import RedshiftPublishingExporter
 from hsredshift.etl.firehose import flush_exporter_to_firehose
-from hsreplaynet.decks.models import Deck
-from hsreplaynet.live.distributions import (
+from hsreplaynet.api.live.distributions import (
 	get_daily_contributor_set, get_daily_game_counter, get_live_stats_redis,
 	get_played_cards_distribution, get_player_class_distribution, get_replay_feed
 )
+from hsreplaynet.decks.models import Deck
 from hsreplaynet.uploads.models import UploadEventStatus
 from hsreplaynet.utils import guess_ladder_season, log
 from hsreplaynet.utils.influx import influx_metric, influx_timer
