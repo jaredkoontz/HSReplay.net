@@ -341,7 +341,7 @@ class DeckDetail extends React.Component<Props, State> {
 							{infoBoxFilter(
 								"rankRange",
 								"LEGEND_THROUGH_FIVE",
-								t("{{rankMin}}—{{rankMax}}", {
+								t("{{rankMin}}–{{rankMax}}", {
 									rankMin: t("Legend"),
 									rankMax: 5,
 								}),
@@ -349,7 +349,7 @@ class DeckDetail extends React.Component<Props, State> {
 							{infoBoxFilter(
 								"rankRange",
 								"LEGEND_THROUGH_TEN",
-								t("{{rankMin}}—{{rankMax}}", {
+								t("{{rankMin}}–{{rankMax}}", {
 									rankMin: t("Legend"),
 									rankMax: 10,
 								}),
@@ -358,7 +358,7 @@ class DeckDetail extends React.Component<Props, State> {
 						{infoBoxFilter(
 							"rankRange",
 							"ALL",
-							t("{{rankMin}}—{{rankMax}}", {
+							t("{{rankMin}}–{{rankMax}}", {
 								rankMin: t("Legend"),
 								rankMax: 25,
 							}),
