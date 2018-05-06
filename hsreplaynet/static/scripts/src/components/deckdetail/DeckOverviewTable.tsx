@@ -1,16 +1,18 @@
 import React from "react";
+import { InjectedTranslateProps, translate } from "react-i18next";
+import { getHeroClassName, winrateData } from "../../helpers";
 import { TableData } from "../../interfaces";
-import { toTitleCase, winrateData } from "../../helpers";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	opponentWinrateData?: TableData;
 	deckListData?: TableData;
 	deckId: string;
 	playerClass: string;
 }
 
-export default class DeckOverviewTable extends React.Component<Props> {
+class DeckOverviewTable extends React.Component<Props> {
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		const deck = this.props.deckListData.series.data[
 			this.props.playerClass
 		].find(x => x.deck_id === this.props.deckId);
@@ -47,7 +49,7 @@ export default class DeckOverviewTable extends React.Component<Props> {
 		rows.sort((a, b) => (a.opponent > b.opponent ? 1 : -1));
 		const winrates = rows.map(row => {
 			return (
-				<tr>
+				<tr key={row.opponent}>
 					<td>
 						vs.&nbsp;
 						<span
@@ -55,7 +57,7 @@ export default class DeckOverviewTable extends React.Component<Props> {
 								"player-class " + row.opponent.toLowerCase()
 							}
 						>
-							{toTitleCase(row.opponent)}
+							{getHeroClassName(row.opponent)}
 						</span>
 					</td>
 					{winrateCell(row.winrate, deck.win_rate, true)}
@@ -67,24 +69,26 @@ export default class DeckOverviewTable extends React.Component<Props> {
 			<table className="table table-striped table-hover half-table">
 				<tbody>
 					<tr>
-						<td>Match duration</td>
+						<td>{t("Match duration")}</td>
 						<td>
 							{deck &&
-								`${(deck.avg_game_length_seconds / 60).toFixed(
-									1,
-								)} minutes`}
+								t("{{durationInMinutes}} minutes", {
+									durationInMinutes: (
+										deck.avg_game_length_seconds / 60
+									).toFixed(1),
+								})}
 						</td>
 					</tr>
 					<tr>
-						<td>Turns</td>
+						<td>{t("Turns")}</td>
 						<td>{deck && deck.avg_num_player_turns}</td>
 					</tr>
 					<tr>
-						<td>Turn duration</td>
+						<td>{t("Turn duration")}</td>
 						<td>{deck && secondsPerTurn + " seconds"}</td>
 					</tr>
 					<tr>
-						<td>Overall winrate</td>
+						<td>t{"Overall winrate"}</td>
 						{deck && winrateCell(deck.win_rate, 50, false)}
 					</tr>
 					{winrates}
@@ -93,3 +97,4 @@ export default class DeckOverviewTable extends React.Component<Props> {
 		);
 	}
 }
+export default translate()(DeckOverviewTable);

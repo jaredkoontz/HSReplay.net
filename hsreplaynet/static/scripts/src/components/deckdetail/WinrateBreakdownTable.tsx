@@ -1,9 +1,10 @@
 import React from "react";
+import { InjectedTranslateProps, translate } from "react-i18next";
+import { getHeroClassName, winrateData } from "../../helpers";
 import { SortDirection, TableData } from "../../interfaces";
-import { toTitleCase, winrateData } from "../../helpers";
 import SortableTable from "../SortableTable";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	opponentWinrateData?: TableData;
 	deckListData?: TableData;
 	deckId: string;
@@ -15,10 +16,7 @@ interface State {
 	sortDirection: SortDirection;
 }
 
-export default class WinrateBreakdownTable extends React.Component<
-	Props,
-	State
-> {
+class WinrateBreakdownTable extends React.Component<Props, State> {
 	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
@@ -28,6 +26,7 @@ export default class WinrateBreakdownTable extends React.Component<
 	}
 
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		const deck = this.props.deckListData.series.data[
 			this.props.playerClass
 		].find(x => x.deck_id === this.props.deckId);
@@ -60,14 +59,14 @@ export default class WinrateBreakdownTable extends React.Component<
 		);
 		const winrates = rows.map(row => {
 			return (
-				<tr>
+				<tr key={row.opponent}>
 					<td>
 						<span
 							className={
 								"player-class " + row.opponent.toLowerCase()
 							}
 						>
-							{toTitleCase(row.opponent)}
+							{getHeroClassName(row.opponent)}
 						</span>
 					</td>
 					{winrateCell(row.winrate)}
@@ -78,14 +77,14 @@ export default class WinrateBreakdownTable extends React.Component<
 		const tableHeaders = [
 			{
 				sortKey: "opponent",
-				text: "Opponent",
+				text: t("Opponent"),
 				defaultSortDirection: "ascending" as SortDirection,
 			},
 			{
 				sortKey: "winrate",
-				text: "Winrate",
-				infoHeader: "Winrate",
-				infoText: "Winrate of the deck versus the given opponent.",
+				text: t("Winrate"),
+				infoHeader: t("Winrate"),
+				infoText: t("Winrate of the deck versus the given opponent."),
 			},
 		];
 
@@ -103,3 +102,4 @@ export default class WinrateBreakdownTable extends React.Component<
 		);
 	}
 }
+export default translate()(WinrateBreakdownTable);
