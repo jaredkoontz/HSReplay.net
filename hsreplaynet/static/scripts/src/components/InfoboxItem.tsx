@@ -1,8 +1,8 @@
 import React from "react";
 
 interface Props {
-	header: string;
-	value?: any;
+	header: React.ReactNode;
+	value: React.ReactNode;
 }
 
 export default class InfoboxItem extends React.Component<Props> {
