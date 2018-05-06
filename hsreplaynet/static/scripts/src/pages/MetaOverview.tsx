@@ -240,30 +240,29 @@ class MetaOverview extends React.Component<Props, State> {
 								}}
 								extract={{
 									data: data => ({
-										value: commaSeparate(
+										contributors: commaSeparate(
 											data.series.metadata.totals
 												.contributors,
 										),
-									}),
-								}}
-							>
-								<InfoboxItem header="Contributors" />
-							</DataInjector>
-							<DataInjector
-								query={{
-									params,
-									url: "head_to_head_archetype_matchups",
-								}}
-								extract={{
-									data: data => ({
-										value: commaSeparate(
+										games: commaSeparate(
 											data.series.metadata.totals
 												.total_games,
 										),
 									}),
 								}}
 							>
-								<InfoboxItem header={t("Games")} />
+								{({ contributors, games }) => (
+									<>
+										<InfoboxItem
+											header={t("Contributors")}
+											value={contributors}
+										/>
+										<InfoboxItem
+											header={t("Games")}
+											value={games}
+										/>
+									</>
+								)}
 							</DataInjector>
 						</ul>
 					</section>
