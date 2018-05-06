@@ -1,13 +1,14 @@
-import React from "react";
 import clipboard from "clipboard-polyfill";
 import { encode as encodeDeckstring } from "deckstrings";
-import Tooltip from "./Tooltip";
-import CardData from "../CardData";
-import { getHeroClassName } from "../helpers";
-import { FormatType } from "../hearthstone";
 import { CardData as HearthstoneJSONCardData } from "hearthstonejson-client";
+import React from "react";
+import { InjectedTranslateProps, translate } from "react-i18next";
+import CardData from "../CardData";
+import { FormatType } from "../hearthstone";
+import { getHeroClassName } from "../helpers";
+import Tooltip from "./Tooltip";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	cardData: CardData;
 	onCopy?: () => any;
 	name?: string;
@@ -23,7 +24,7 @@ interface State {
 	copied: boolean;
 }
 
-export default class CopyDeckButton extends React.Component<Props, State> {
+class CopyDeckButton extends React.Component<Props, State> {
 	private timeout: number;
 
 	constructor(props: Props, context?: any) {
@@ -35,7 +36,7 @@ export default class CopyDeckButton extends React.Component<Props, State> {
 
 	copy = (event: React.MouseEvent<HTMLSpanElement>) => {
 		clipboard
-			.writeText(this.buildCopieableString(event.shiftKey))
+			.writeText(this.buildShareableString(event.shiftKey))
 			.then(() => {
 				this.setState({ copied: true });
 				window.clearTimeout(this.timeout);
@@ -50,6 +51,7 @@ export default class CopyDeckButton extends React.Component<Props, State> {
 	};
 
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		const classNames = ["copy-deck-button btn"];
 		if (this.state.copied) {
 			classNames.push("btn-success");
@@ -60,7 +62,9 @@ export default class CopyDeckButton extends React.Component<Props, State> {
 			classNames.push("glyphicon glyphicon-copy");
 			return (
 				<Tooltip
-					content={this.state.copied ? "Copied!" : "Copy Deck Code"}
+					content={
+						this.state.copied ? t("Copied!") : t("Copy deck code")
+					}
 					simple
 				>
 					<span
@@ -76,8 +80,9 @@ export default class CopyDeckButton extends React.Component<Props, State> {
 				header="After you click:"
 				content={
 					<p>
-						Create a new deck in Hearthstone, or paste it into our
-						own Hearthstone&nbsp;Deck&nbsp;Tracker.
+						{t(
+							"Create a new deck in Hearthstone, or paste it into Hearthstone Deck Tracker.",
+						)}
 					</p>
 				}
 				belowCursor
@@ -91,8 +96,8 @@ export default class CopyDeckButton extends React.Component<Props, State> {
 						</span>
 					) : null}
 					{this.state.copied
-						? "Deck copied!"
-						: "Copy Deck to Hearthstone"}
+						? t("Deck copied!")
+						: t("Copy deck to Hearthstone")}
 				</span>
 			</Tooltip>
 		);
@@ -104,7 +109,8 @@ export default class CopyDeckButton extends React.Component<Props, State> {
 		}
 	}
 
-	buildCopieableString(onlyDeckstring?: boolean): string {
+	buildShareableString(onlyDeckstring?: boolean): string {
+		const { t } = this.props;
 		const dbfs = {};
 		let cards = this.props.cards;
 		if (cards.length > 0 && typeof cards[0] === "string") {
@@ -135,7 +141,7 @@ export default class CopyDeckButton extends React.Component<Props, State> {
 
 		const standard = format === 2;
 
-		let prettyDeckList = null;
+		let prettyDeckList: string[] = [];
 		if (this.props.cardData) {
 			const dataCountTuples = tuples.map(([dbfId, count]) => {
 				return [this.props.cardData.fromDbf(dbfId), count];
@@ -147,27 +153,35 @@ export default class CopyDeckButton extends React.Component<Props, State> {
 				([a, x], [b, y]) => (a["cost"] > b["cost"] ? 1 : -1),
 			);
 			prettyDeckList = dataCountTuples.map(
-				([card, count]) => `${count}x (${card.cost}) ${card.name}`,
+				([card, count]) => `# ${count}x (${card.cost}) ${card.name}`,
 			);
 		}
 
-		return [
-			`### ${this.props.name || "HSReplay.net Deck"}`,
-			...(this.props.deckClass
-				? [`# Class: ${getHeroClassName(this.props.deckClass)}`]
-				: []),
-			`# Format: ${standard ? "Standard" : "Wild"}`,
-			...(standard ? ["# Year of the Raven"] : []),
-			...(prettyDeckList
-				? ["#", ...prettyDeckList.map(line => "# " + line)]
-				: []),
-			"#",
-			deckstring,
-			"#",
-			"# To use this deck, copy it to your clipboard and create a new deck in Hearthstone",
-			...(this.props.sourceUrl
-				? [`# Find the deck on ${this.props.sourceUrl}`]
-				: []),
-		].join("\n");
+		const deckName = this.props.name || t("HSReplay.net Deck");
+		const className = getHeroClassName(this.props.deckClass || "NEUTRAL");
+		const deckUrl = this.props.sourceUrl || "https://hsreplay.net/decks/";
+		const formatName = format === 2 ? t("Standard") : t("Wild");
+
+		return (
+			[
+				`### ${deckName}`,
+				"# " + t("Class: {{ className }}", { className }),
+				"# " + t("Format: {{ formatName }}", { formatName }),
+				standard ? "# " + t("Year of the Raven") : "",
+				"#",
+				...prettyDeckList,
+				"#",
+				deckstring,
+				"# " +
+					t(
+						"To use this deck, copy it to your clipboard and create a new deck in Hearthstone",
+					),
+				"# " + t("Find this deck on {{ deckUrl }}", { deckUrl }),
+			]
+				.filter(Boolean)
+				.join("\n") + "\n"
+		);
 	}
 }
+
+export default translate()(CopyDeckButton);
