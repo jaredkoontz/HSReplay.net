@@ -45,10 +45,10 @@ export default class DeckList extends React.Component<Props, State> {
 		this.state = {
 			archetypeData: [],
 		};
+		this.cacheDecks(props.decks, props.collection);
 	}
 
 	public componentDidMount(): void {
-		this.cacheDecks(this.props.decks, this.props.collection);
 		this.fetchArchetypeDict();
 	}
 
