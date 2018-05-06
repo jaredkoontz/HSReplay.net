@@ -1,13 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import CardData from "../CardData";
-import Cards from "../pages/Cards";
 import UserData from "../UserData";
+import DataInjector from "../components/DataInjector";
 import Fragments from "../components/Fragments";
-import GoogleAnalytics from "../metrics/GoogleAnalytics";
 import Root from "../components/Root";
 import { Consumer as AccountConsumer } from "../components/utils/hearthstone-account";
-import DataInjector from "../components/DataInjector";
+import GoogleAnalytics from "../metrics/GoogleAnalytics";
+import Cards from "../pages/Cards";
 import { isCollectionDisabled } from "../utils/collection";
 
 const container = document.getElementById("card-container");
@@ -94,7 +94,7 @@ const render = (cardData: CardData) => {
 
 render(null);
 
-const addMechanics = (card: any) => {
+const addMechanics = (c: any) => {
 	const add = (card: any, mechanic: string) => {
 		if (!card.mechanics) {
 			card.mechanics = [];
@@ -103,8 +103,8 @@ const addMechanics = (card: any) => {
 			card.mechanics.push(mechanic);
 		}
 	};
-	if (card.referencedTags) {
-		card.referencedTags.forEach(tag => add(card, tag));
+	if (c.referencedTags) {
+		c.referencedTags.forEach(tag => add(c, tag));
 	}
 };
 

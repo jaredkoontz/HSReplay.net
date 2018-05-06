@@ -1,5 +1,8 @@
 import React from "react";
+import CardData from "./CardData";
 import { Colors } from "./Colors";
+import Fragments from "./components/Fragments";
+import { wildSets } from "./contants";
 import {
 	ChartMetaData,
 	ChartScheme,
@@ -8,9 +11,6 @@ import {
 	DataPoint,
 	GlobalGamePlayer,
 } from "./interfaces";
-import { wildSets } from "./contants";
-import Fragments from "./components/Fragments";
-import CardData from "./CardData";
 import { Archetype } from "./utils/api";
 
 export function staticFile(file: string) {
@@ -83,6 +83,7 @@ export function getChartScheme(theme: ChartSchemeType): ChartScheme {
 		case "rarity":
 			scheme = rarityScheme;
 			break;
+
 		case "cardtype":
 			scheme = cardtypeScheme;
 			break;
@@ -622,7 +623,7 @@ export function getDustCost(card: any | any[]): number {
 	}
 
 	if (Array.isArray(card)) {
-		return card.reduce((cost, card) => cost + getDustCost(card), 0);
+		return card.reduce((cost, c) => cost + getDustCost(c), 0);
 	}
 
 	const set = card.set;
@@ -662,7 +663,7 @@ export function getManaCost(card: any | any[]): number {
 	}
 
 	if (Array.isArray(card)) {
-		return card.reduce((cost, card) => cost + getManaCost(card), 0);
+		return card.reduce((cost, c) => cost + getManaCost(c), 0);
 	}
 
 	return +card.cost;
@@ -781,8 +782,8 @@ export function getCookie(name: string): string {
 	let cookieValue = null;
 	if (document.cookie && document.cookie !== "") {
 		const cookies = document.cookie.split(";");
-		for (let i = 0; i < cookies.length; i++) {
-			const cookie = cookies[i].trim();
+		for (let cookie of cookies) {
+			cookie = cookie.trim();
 			// Does this cookie string begin with the name we want?
 			if (cookie.substring(0, name.length + 1) === name + "=") {
 				cookieValue = decodeURIComponent(
