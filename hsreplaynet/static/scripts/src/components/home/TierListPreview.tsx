@@ -2,7 +2,6 @@ import React from "react";
 import { ApiArchetypePopularity } from "../../interfaces";
 import { withLoading } from "../loading/Loading";
 import CardData from "../../CardData";
-import InfoIcon from "../InfoIcon";
 import { Archetype } from "../../utils/api";
 import ClassList, { ClassListData } from "./ClassList";
 

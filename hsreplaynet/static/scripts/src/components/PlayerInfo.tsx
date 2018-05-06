@@ -7,7 +7,6 @@ import CopyDeckButton from "./CopyDeckButton";
 import Tooltip from "./Tooltip";
 import InfoIcon from "./InfoIcon";
 import DataManager from "../DataManager";
-import UserData from "../UserData";
 
 interface Props {
 	build: number;

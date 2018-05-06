@@ -1,5 +1,4 @@
 import { BlizzardAccount } from "./api";
-import { BnetRegion } from "../hearthstone";
 
 export function getAccountKey(account: BlizzardAccount): string {
 	return `${account.region}-${account.account_lo}`;

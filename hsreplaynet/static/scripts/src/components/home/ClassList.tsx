@@ -1,6 +1,5 @@
 import React from "react";
 import { getHeroSkinCardUrl, toDynamicFixed, winrateData } from "../../helpers";
-import { withLoading } from "../loading/Loading";
 
 export interface ClassListData {
 	playerClass: string;
