@@ -36,9 +36,7 @@ export default class DeckInfo extends React.Component<Props> {
 			);
 		} else {
 			const cardList = [];
-			// hotfix for unload issue 2017-09-24
-			const fixedDeckList = (deck.deck_list || "").replace(/\\,/g, ",");
-			JSON.parse(fixedDeckList).forEach((c: any[]) => {
+			JSON.parse(deck.deck_list || "").forEach((c: any[]) => {
 				for (let i = 0; i < c[1]; i++) {
 					cardList.push(c[0]);
 				}

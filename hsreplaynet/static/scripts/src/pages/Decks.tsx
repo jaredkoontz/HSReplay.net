@@ -339,12 +339,7 @@ class Decks extends React.Component<Props, State> {
 						if (deck.total_games < minGames) {
 							return;
 						}
-						// hotfix for unload issue 2017-09-24
-						const fixedDeckList = (deck.deck_list || "").replace(
-							/\\,/g,
-							",",
-						);
-						const rawCards = JSON.parse(fixedDeckList);
+						const rawCards = JSON.parse(deck.deck_list || "");
 						const cards = cardList(rawCards);
 						if (
 							missingIncludedCards(cards) ||

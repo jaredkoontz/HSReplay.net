@@ -3,7 +3,7 @@ import DustPreset from "./DustPreset";
 
 interface Props {
 	dust: number | null;
-	setDust: (dust?: number) => any;
+	setDust: (dust?: number) => void;
 	ownedDust: number;
 	maxDust?: number;
 	id?: string;
