@@ -51,9 +51,9 @@ export default class InfluxMetricsBackend implements MetricsBackend {
 			{ type: "text/plain" },
 		);
 		let success = false;
-		if (navigator["sendBeacon"]) {
+		if (typeof navigator.sendBeacon === "function") {
 			// try beacon api
-			success = (navigator as any).sendBeacon(url, blob);
+			success = navigator.sendBeacon(url, blob);
 		}
 		if (!success) {
 			// fallback to plain old XML http requests
