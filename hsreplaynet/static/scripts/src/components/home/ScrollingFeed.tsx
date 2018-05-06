@@ -34,11 +34,11 @@ export default class ScrollingFeed extends React.Component<Props, State> {
 			index: 0,
 			pause: false,
 		};
-		window.addEventListener("visibilitychange", this.onVisibilityChange);
 	}
 
 	public componentDidMount(): void {
 		this.update();
+		window.addEventListener("visibilitychange", this.onVisibilityChange);
 	}
 
 	public componentWillUnmount(): void {

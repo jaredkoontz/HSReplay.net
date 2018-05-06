@@ -6,10 +6,6 @@ interface Props {
 }
 
 export default class ModeSvg extends React.Component<Props> {
-	constructor(props: Props, context?: any) {
-		super(props, context);
-	}
-
 	render(): React.ReactNode {
 		const className = ["mode-icon"];
 		if (this.props.className) {

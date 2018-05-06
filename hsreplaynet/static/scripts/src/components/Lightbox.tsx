@@ -12,22 +12,20 @@ interface Props {
 
 export default class Lightbox extends React.Component<Props> {
 	private ref: HTMLDivElement;
-	private onkeydown: (event) => void;
 
 	constructor(props: Props, context?: any) {
 		super(props, context);
-		this.onkeydown = event => this.onKeyDown(event);
 	}
 
 	public componentDidMount(): void {
-		window.addEventListener("keydown", this.onkeydown);
+		window.addEventListener("keydown", this.onKeyDown);
 	}
 
 	public componentWillUnmount(): void {
-		window.addEventListener("keydown", this.onkeydown);
+		window.addEventListener("keydown", this.onKeyDown);
 	}
 
-	protected onKeyDown(event) {
+	protected onKeyDown = event => {
 		if (this.props.hidden) {
 			return;
 		}
@@ -52,7 +50,7 @@ export default class Lightbox extends React.Component<Props> {
 				this.props.setCurrentPage(this.props.currentPage - 1);
 				break;
 		}
-	}
+	};
 
 	public render(): React.ReactNode {
 		if (this.props.hidden) {

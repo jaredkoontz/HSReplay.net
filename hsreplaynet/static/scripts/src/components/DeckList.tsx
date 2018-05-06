@@ -38,15 +38,17 @@ interface State {
 }
 
 export default class DeckList extends React.Component<Props, State> {
-	private cache: any;
+	private cache: { [id: string]: { dust: number; mana: number } } = {};
 
 	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
 			archetypeData: [],
 		};
-		this.cache = {};
-		this.cacheDecks(props.decks, props.collection);
+	}
+
+	public componentDidMount(): void {
+		this.cacheDecks(this.props.decks, this.props.collection);
 		this.fetchArchetypeDict();
 	}
 

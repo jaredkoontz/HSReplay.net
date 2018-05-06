@@ -30,6 +30,9 @@ export default class PlayerInfo extends React.Component<Props, State> {
 			display: props.playerExpandDirection === "up" ? "both" : "none",
 			game: null,
 		};
+	}
+
+	public componentDidMount(): void {
 		if (this.props.gameId) {
 			this.fetch();
 		}

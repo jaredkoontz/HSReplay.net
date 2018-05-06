@@ -17,10 +17,13 @@ export default class CardImage extends React.Component<Props, State> {
 		this.state = {
 			url: props.placeholder,
 		};
+	}
+
+	public componentDidMount(): void {
 		this.fetchImage();
 	}
 
-	fetchImage() {
+	private fetchImage() {
 		const hearthstoneLang = UserData.getHearthstoneLocale();
 		const url = `${HEARTHSTONE_ART_URL}/render/latest/${hearthstoneLang}/256x/${
 			this.props.card.id

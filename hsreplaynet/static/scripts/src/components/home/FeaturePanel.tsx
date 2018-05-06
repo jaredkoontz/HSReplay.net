@@ -10,10 +10,6 @@ interface Props {
 }
 
 export default class FeaturePanel extends React.Component<Props> {
-	constructor(props: Props, context?: any) {
-		super(props, context);
-	}
-
 	render(): React.ReactNode {
 		const style = Object.assign({}, this.props.backgroundStyle);
 		style["backgroundImage"] = `url(${HEARTHSTONE_ART_URL}/512x/${

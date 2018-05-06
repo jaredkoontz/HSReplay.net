@@ -65,6 +65,9 @@ class MyDecks extends React.Component<Props, State> {
 			loading: true,
 			showFilters: false,
 		};
+	}
+
+	public componentDidMount(): void {
 		this.updateFilteredDecks();
 	}
 

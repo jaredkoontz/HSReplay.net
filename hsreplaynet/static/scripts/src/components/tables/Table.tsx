@@ -55,20 +55,19 @@ interface Props extends BaseTableProps {
 
 interface State {
 	hoveringRow: number;
+	referenceId: string;
 }
 
 const HEADER_WIDTH_RATIO = 0.33;
 const INFO_ROW_HEIGHT = 50;
 
 export default class Table extends React.Component<Props, State> {
-	referenceId: string;
-
 	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
 			hoveringRow: -1,
+			referenceId: _.uniqueId("table"),
 		};
-		this.referenceId = _.uniqueId("table");
 	}
 
 	public render(): React.ReactNode {
@@ -417,11 +416,11 @@ export default class Table extends React.Component<Props, State> {
 	}
 
 	getRowId(rowIndex: number | string): string {
-		return `${this.referenceId}-row${rowIndex}`;
+		return `${this.state.referenceId}-row${rowIndex}`;
 	}
 
 	getColumnId(rowIndex: number | string): string {
-		return `${this.referenceId}-column${rowIndex}`;
+		return `${this.state.referenceId}-column${rowIndex}`;
 	}
 
 	getSortHeader(

@@ -143,7 +143,7 @@ class Cards extends React.Component<Props, State> {
 			"SECRET",
 			"ECHO",
 			"RUSH",
-		],
+		].sort(),
 		playerClass: [
 			"DRUID",
 			"HUNTER",
@@ -221,18 +221,6 @@ class Cards extends React.Component<Props, State> {
 			numCards: 24,
 			showFilters: false,
 		};
-		this.filters.mechanics.sort();
-
-		if (this.props.personal && this.props.account) {
-			DataManager.get(
-				"single_account_lo_individual_card_stats",
-				this.getPersonalParams(),
-			).then(data =>
-				this.setState({
-					hasPersonalData: data && data.series.data.ALL.length > 0,
-				}),
-			);
-		}
 	}
 
 	getAllowedValues(): any {
@@ -257,6 +245,17 @@ class Cards extends React.Component<Props, State> {
 	private scrollCb;
 
 	public componentDidMount(): void {
+		if (this.props.personal && this.props.account) {
+			DataManager.get(
+				"single_account_lo_individual_card_stats",
+				this.getPersonalParams(),
+			).then(data =>
+				this.setState({
+					hasPersonalData: data && data.series.data.ALL.length > 0,
+				}),
+			);
+		}
+
 		this.scrollCb = () => this.onSearchScroll();
 		document.addEventListener("scroll", this.scrollCb);
 		if (this.props.display === "gallery") {

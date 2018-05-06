@@ -103,6 +103,9 @@ class DeckDetail extends React.Component<Props, State> {
 			sortDirection: "ascending",
 			showCollectionModal: false,
 		};
+	}
+
+	public componentDidMount(): void {
 		this.fetchInventory();
 	}
 

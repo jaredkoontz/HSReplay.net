@@ -31,8 +31,8 @@ interface State {
  * A default key pageNumber:1 will result in the props pageNumber:1 and setPageNumber:(newPageNumber).
  */
 export default class Fragments extends React.Component<Props, State> {
-	private listener: any | null;
-	private timeout: any | null;
+	private listener: any | null = null;
+	private timeout: any | null = null;
 
 	constructor(props: Props, context?: any) {
 		super(props, context);
@@ -40,8 +40,6 @@ export default class Fragments extends React.Component<Props, State> {
 			childProps: this.getParts(), // populate with initial url parts
 			intermediate: {},
 		};
-		this.listener = null;
-		this.timeout = null;
 	}
 
 	public reset(key?: string): void {

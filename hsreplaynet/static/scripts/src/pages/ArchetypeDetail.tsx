@@ -67,9 +67,11 @@ class ArchetypeDetail extends React.Component<Props, State> {
 			popularDecksSortBy: "popularity",
 			popularDecksSortDirection: "descending",
 		};
+	}
 
+	public componentDidMount(): void {
 		this.fixGameTypeFragments();
-		this.fetchDeckData(props);
+		this.fetchDeckData(this.props);
 	}
 
 	hasData(props?: Props): boolean {

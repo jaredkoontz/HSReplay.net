@@ -97,7 +97,6 @@ class Decks extends React.Component<Props, State> {
 			loading: true,
 			showFilters: false,
 		};
-		this.updateFilteredDecks();
 	}
 
 	public componentDidUpdate(
@@ -175,6 +174,7 @@ class Decks extends React.Component<Props, State> {
 	}
 
 	public componentDidMount(): void {
+		this.updateFilteredDecks();
 		if (this.props.maxDustCost >= 0) {
 			CollectionEvents.onEnableDustWidget();
 		}
