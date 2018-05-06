@@ -1,4 +1,5 @@
 import React from "react";
+import { Trans } from "react-i18next";
 import HideLoading from "./loading/HideLoading";
 import DataInjector from "./DataInjector";
 import Tooltip from "./Tooltip";
@@ -17,7 +18,7 @@ export default class InfoboxLastUpdated extends React.Component<Props> {
 		const { fetchCondition, modify, params, url } = this.props;
 		return (
 			<li>
-				Last updated
+				<Trans>Last updated</Trans>
 				<span className="infobox-value">
 					<Tooltip
 						header="Automatic updates"
