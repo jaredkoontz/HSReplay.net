@@ -33,7 +33,9 @@ i18n.use(CustomCallbackBackend).init({
 		if (namespace === I18N_NAMESPACE_HEARTHSTONE) {
 			const promises = [];
 			for (const hearthstoneNS of ["global"]) {
-				promises.push(import(`i18n/${language}/${hearthstoneNS}.json`));
+				promises.push(
+					import(`i18n/${language}/hearthstone/${hearthstoneNS}.json`),
+				);
 			}
 			try {
 				const modules = await Promise.all(promises);
