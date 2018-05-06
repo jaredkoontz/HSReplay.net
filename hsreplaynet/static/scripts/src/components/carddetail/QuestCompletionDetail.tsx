@@ -1,16 +1,18 @@
 import React from "react";
-import InfoIcon from "../InfoIcon";
+import { InjectedTranslateProps, translate } from "react-i18next";
 import DataInjector, { Query } from "../DataInjector";
-import ChartLoading from "../loading/ChartLoading";
-import WinrateByTurnLineChart from "../charts/WinrateByTurnLineChart";
+import InfoIcon from "../InfoIcon";
 import TurnPlayedBarChart from "../charts/TurnPlayedBarChart";
+import WinrateByTurnLineChart from "../charts/WinrateByTurnLineChart";
+import ChartLoading from "../loading/ChartLoading";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	query: Query | Query[];
 }
 
-export default class QuestCompletionDetail extends React.Component<Props> {
+class QuestCompletionDetail extends React.Component<Props> {
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		return (
 			<div className="container-fluid">
 				<div className="row">
@@ -25,8 +27,10 @@ export default class QuestCompletionDetail extends React.Component<Props> {
 								</ChartLoading>
 							</DataInjector>
 							<InfoIcon
-								header="Popularity by turn completed"
-								content="Percentage of the time this Quest is completed on a given turn."
+								header={t("Popularity by turn completed")}
+								content={t(
+									"Percentage of the time this Quest is completed on a given turn.",
+								)}
 							/>
 						</div>
 					</div>
@@ -41,8 +45,10 @@ export default class QuestCompletionDetail extends React.Component<Props> {
 								</ChartLoading>
 							</DataInjector>
 							<InfoIcon
-								header="Winrate by turn completed"
-								content="Percentage of games won when this Quest is completed on a given turn."
+								header={t("Winrate by turn completed")}
+								content={t(
+									"Percentage of games won when this Quest is completed on a given turn.",
+								)}
 							/>
 						</div>
 					</div>
@@ -51,3 +57,4 @@ export default class QuestCompletionDetail extends React.Component<Props> {
 		);
 	}
 }
+export default translate()(QuestCompletionDetail);

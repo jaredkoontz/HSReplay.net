@@ -1,12 +1,13 @@
 import React from "react";
-import { SortDirection, TableData, TableHeaderProps } from "../../interfaces";
+import { InjectedTranslateProps, Trans, translate } from "react-i18next";
 import CardData from "../../CardData";
-import CardTile from "../CardTile";
 import { toDynamicFixed, winrateData } from "../../helpers";
+import { SortDirection, TableData, TableHeaderProps } from "../../interfaces";
+import CardTile from "../CardTile";
 import Pager from "../Pager";
 import SortableTable from "../SortableTable";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	cardData: CardData;
 	data?: TableData;
 }
@@ -17,7 +18,7 @@ interface State {
 	sortDirection: SortDirection;
 }
 
-export default class QuestContributors extends React.Component<Props, State> {
+class QuestContributors extends React.Component<Props, State> {
 	private readonly numRows = 15;
 
 	constructor(props: Props, context?: any) {
@@ -30,6 +31,7 @@ export default class QuestContributors extends React.Component<Props, State> {
 	}
 
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		let totalRows = 0;
 		const rows = [];
 		const offset = (this.state.page - 1) * this.numRows;
@@ -81,54 +83,58 @@ export default class QuestContributors extends React.Component<Props, State> {
 				sortable: false,
 				infoHeader: "Contributor",
 				infoText: (
-					<>
+					<Trans>
 						<p>
 							Cards that contributed to the completion of this
 							quest in some way.
 						</p>
 						<br />
-						<strong>Created cards:</strong>,
+						<strong>Created cards:</strong>
 						<p>
 							Created cards count towards their source: e.g.
 							Fireballs created by Archmage Antonidas will count
 							towards the Archmage, rather than Fireball.
 						</p>
 						<br />
-						<strong>The Caverns Below (Rogue):</strong>,
+						<strong>The Caverns Below (Rogue):</strong>
 						<p>
 							All progress ticks are included, not just the ones
 							that eventually complete the Quest.
 						</p>
-					</>
+					</Trans>
 				),
 			},
 			{
 				sortKey: "win_rate",
-				text: "Played Winrate",
-				infoHeader: "Played Winrate",
-				infoText:
+				text: t("Played winrate"),
+				infoHeader: t("Played winrate"),
+				infoText: t(
 					"Average winrate of games where the card contributed to the quest.",
+				),
 			},
 			{
 				sortKey: "popularity",
-				text: "Popularity",
-				infoHeader: "Popularity",
-				infoText:
+				text: t("Popularity"),
+				infoHeader: t("Popularity"),
+				infoText: t(
 					"Total percentage of quest progress made by the card.",
+				),
 			},
 			{
 				sortKey: "median_turn_completed",
-				text: "Median Turn",
-				infoHeader: "Median Turn Completed",
-				infoText:
+				text: t("Median turn"),
+				infoHeader: t("Median turn completed"),
+				infoText: t(
 					"Turn this quest is most commonly completed on when the card contributed the progress.",
+				),
 			},
 			{
 				sortKey: "quest_completion_frequency",
-				text: "Completed",
-				infoHeader: "Completion Frequency",
-				infoText:
+				text: t("Completed"),
+				infoHeader: t("Completion frequency"),
+				infoText: t(
 					"Frequency of this quest being completed when the card contributed to the progress.",
+				),
 			},
 		];
 
@@ -161,3 +167,4 @@ export default class QuestContributors extends React.Component<Props, State> {
 		);
 	}
 }
+export default translate()(QuestContributors);

@@ -1,15 +1,16 @@
 import React from "react";
-import { SortDirection, TableData, TableHeaderProps } from "../../interfaces";
-import ClassFilter, { FilterOption } from "../ClassFilter";
-import UserData from "../../UserData";
-import PremiumWrapper from "../premium/PremiumWrapper";
+import { InjectedTranslateProps, translate } from "react-i18next";
 import CardData from "../../CardData";
-import CardTile from "../CardTile";
+import UserData from "../../UserData";
 import { winrateData } from "../../helpers";
+import { SortDirection, TableData, TableHeaderProps } from "../../interfaces";
+import CardTile from "../CardTile";
+import ClassFilter, { FilterOption } from "../ClassFilter";
 import Pager from "../Pager";
 import SortableTable from "../SortableTable";
+import PremiumWrapper from "../premium/PremiumWrapper";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	cardData: CardData;
 	data?: TableData;
 	opponentClass: string;
@@ -22,7 +23,7 @@ interface State {
 	sortDirection: SortDirection;
 }
 
-export default class AdaptDetail extends React.Component<Props, State> {
+class AdaptDetail extends React.Component<Props, State> {
 	private readonly numRows = 10;
 
 	constructor(props: Props, context?: any) {
@@ -35,6 +36,7 @@ export default class AdaptDetail extends React.Component<Props, State> {
 	}
 
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		let adaptations = 0;
 		let totalRows = 0;
 		const rows = [];
@@ -70,7 +72,6 @@ export default class AdaptDetail extends React.Component<Props, State> {
 									card={card}
 									count={1}
 									height={34}
-									noLink
 									customText={this.shortAdaptText(card)}
 								/>
 							</td>,
@@ -138,7 +139,7 @@ export default class AdaptDetail extends React.Component<Props, State> {
 				<div className="row">
 					<div className="opponent-filter-wrapper">
 						<PremiumWrapper analyticsLabel="Single Card Adapt Opponent Selection">
-							<h3>Opponent class</h3>
+							<h3>{t("Opponent class")}</h3>
 							<ClassFilter
 								filters="All"
 								hideAll
@@ -174,15 +175,15 @@ export default class AdaptDetail extends React.Component<Props, State> {
 	}
 
 	shortAdaptText(card: any): string {
+		const { t } = this.props;
 		switch (card.dbfId) {
 			case 41060:
-				return "Can't be targeted";
 			case 41054:
-				return "Stealth";
 			case 41057:
-				return "Deathrattle";
+				return card.name;
 			default:
-				return card.text.replace("<b>", "").replace("</b>", "");
+				return card.text.replace(/<\/?b>/g, "");
 		}
 	}
 }
+export default translate()(AdaptDetail);

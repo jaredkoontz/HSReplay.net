@@ -532,7 +532,7 @@ class CardDetail extends React.Component<Props, State> {
 									</DataInjector>
 								</Tab>
 								<Tab
-									label={t("Quest Contributors")}
+									label={t("Quest contributors")}
 									id="quest-contributors"
 									hidden={
 										!this.cardIsQuest() || this.isArena()
@@ -550,7 +550,7 @@ class CardDetail extends React.Component<Props, State> {
 									</DataInjector>
 								</Tab>
 								<Tab
-									label={t("Quest Completion")}
+									label={t("Quest completion")}
 									id="quest-completion"
 									hidden={
 										!this.cardIsQuest() || this.isArena()
