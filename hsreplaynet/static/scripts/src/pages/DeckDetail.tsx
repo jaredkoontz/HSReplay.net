@@ -886,7 +886,11 @@ class DeckDetail extends React.Component<Props, State> {
 		return (
 			<DataInjector
 				query={[
-					{ key: "streams", params: {}, url: "/live/streaming-now/" },
+					{
+						key: "streams",
+						params: {},
+						url: "/api/v1/live/streaming-now/",
+					},
 				]}
 				extract={{
 					streams: data => {

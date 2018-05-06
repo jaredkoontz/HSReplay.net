@@ -92,7 +92,7 @@ export interface ArchetypeSignatureCore {
 }
 
 /**
- * {@link /live/streaming-now/}
+ * {@link /api/v1/live/streaming-now/}
  */
 export interface Stream {
 	deck: number[];

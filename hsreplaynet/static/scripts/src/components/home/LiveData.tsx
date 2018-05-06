@@ -1,10 +1,10 @@
-import React from "react";
 import _ from "lodash";
-import CardTile from "../CardTile";
+import React from "react";
 import CardData from "../../CardData";
-import AnimatedList, { AnimatedListObject } from "./AnimatedList";
 import DataManager from "../../DataManager";
 import { image } from "../../helpers";
+import CardTile from "../CardTile";
+import AnimatedList, { AnimatedListObject } from "./AnimatedList";
 
 interface GameTypeData<T> {
 	BGT_ARENA: T;
@@ -60,36 +60,38 @@ export default class LiveData extends React.Component<Props, State> {
 
 	fetchData() {
 		this.setState({ fetching: true });
-		DataManager.get("/live/distributions/played_cards", {}, true).then(
-			(response: GameTypeData<ApiPlayedCards[]>) => {
-				if (
-					_.isEmpty(response) ||
-					Object.keys(response).some(key => _.isEmpty(response[key]))
-				) {
-					this.setState({ doUpdate: false, fetching: false });
-					return;
-				}
+		DataManager.get(
+			"/api/v1/live/distributions/played_cards",
+			{},
+			true,
+		).then((response: GameTypeData<ApiPlayedCards[]>) => {
+			if (
+				_.isEmpty(response) ||
+				Object.keys(response).some(key => _.isEmpty(response[key]))
+			) {
+				this.setState({ doUpdate: false, fetching: false });
+				return;
+			}
 
-				const data = Object.assign({}, this.state.data);
-				Object.keys(response).forEach(key => {
-					if (!data[key]) {
-						data[key] = {};
-					} else {
-						// delete any timestamps we passed
-						Object.keys(data[key]).forEach(ts => {
-							if (+ts < this.state.cursor) {
-								delete data[key][ts];
-							}
-						});
-					}
-					response[key].forEach((playedCards: ApiPlayedCards) => {
-						data[key][playedCards.ts] = playedCards.data;
+			const data = Object.assign({}, this.state.data);
+			Object.keys(response).forEach(key => {
+				if (!data[key]) {
+					data[key] = {};
+				} else {
+					// delete any timestamps we passed
+					Object.keys(data[key]).forEach(ts => {
+						if (+ts < this.state.cursor) {
+							delete data[key][ts];
+						}
 					});
+				}
+				response[key].forEach((playedCards: ApiPlayedCards) => {
+					data[key][playedCards.ts] = playedCards.data;
 				});
+			});
 
-				this.setState({ data, fetching: false });
-			},
-		);
+			this.setState({ data, fetching: false });
+		});
 	}
 
 	updateCursor() {

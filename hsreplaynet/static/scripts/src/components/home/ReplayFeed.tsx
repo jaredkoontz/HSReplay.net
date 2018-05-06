@@ -115,7 +115,7 @@ class ReplayFeed extends React.Component<Props, State> {
 			return;
 		}
 		this.setState({ fetching: true });
-		DataManager.get("/live/replay_feed/", {}, true)
+		DataManager.get("/api/v1/live/replay_feed/", {}, true)
 			.then((response: any) => {
 				if (_.isEmpty(response) || _.isEmpty(response.data)) {
 					return Promise.reject("No data");

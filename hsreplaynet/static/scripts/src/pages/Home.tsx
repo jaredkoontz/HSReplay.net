@@ -7,13 +7,13 @@ import Modal from "../components/Modal";
 import ModeSvg from "../components/ModeSvg";
 import CollectionSetup from "../components/collection/CollectionSetup";
 import ArchetypeHighlight from "../components/home/ArchetypeHighlight";
-import TierListPreview from "../components/home/TierListPreview";
-import ArchetypeMatchups from "../components/metaoverview/ArchetypeMatchups";
 import ClassRanking from "../components/home/ClassRanking";
 import FAQ from "../components/home/FAQ";
 import FeaturePanel from "../components/home/FeaturePanel";
 import LiveData from "../components/home/LiveData";
 import ReplayFeed from "../components/home/ReplayFeed";
+import TierListPreview from "../components/home/TierListPreview";
+import ArchetypeMatchups from "../components/metaoverview/ArchetypeMatchups";
 import PremiumModal from "../components/premium/PremiumModal";
 import { BnetGameType } from "../hearthstone";
 import { image } from "../helpers";
@@ -101,7 +101,8 @@ class Home extends React.Component<Props, State> {
 									query={[
 										archetypeDataQuery,
 										{
-											url: "/live/games_count/weekly/",
+											url:
+												"/api/v1/live/games_count/weekly/",
 											key: "gamesCountData",
 										},
 									]}

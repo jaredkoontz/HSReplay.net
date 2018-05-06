@@ -1,7 +1,7 @@
+import { decode as decodeDeckstring } from "deckstrings";
 import _ from "lodash";
 import React from "react";
 import { InjectedTranslateProps, Trans, translate } from "react-i18next";
-import { decode as decodeDeckstring } from "deckstrings";
 import CardData from "../CardData";
 import DataManager from "../DataManager";
 import UserData from "../UserData";
@@ -295,11 +295,12 @@ class Decks extends React.Component<Props, State> {
 			})
 			.then(data => {
 				if (this.props.withStream) {
-					return DataManager.get("/live/streaming-now/", null).then(
-						streams => {
-							return Promise.resolve({ data, streams });
-						},
-					);
+					return DataManager.get(
+						"/api/v1/live/streaming-now/",
+						null,
+					).then(streams => {
+						return Promise.resolve({ data, streams });
+					});
 				}
 				return Promise.resolve({ data, streams: null });
 			})
