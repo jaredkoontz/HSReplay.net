@@ -360,7 +360,7 @@ class CardDetail extends React.Component<Props, State> {
 								setTab={this.props.setTab}
 							>
 								<Tab
-									label={t("Recommended Decks")}
+									label={t("Recommended decks")}
 									id="recommended-decks"
 									disabled={this.isArena()}
 								>
@@ -387,7 +387,7 @@ class CardDetail extends React.Component<Props, State> {
 								<Tab
 									label={
 										<span className="text-premium">
-											{t("Turn Details")}
+											{t("Turn details")}
 											<InfoIcon
 												header={t(
 													"Popularity and Winrate by turn",
@@ -408,11 +408,11 @@ class CardDetail extends React.Component<Props, State> {
 									</PremiumWrapper>
 								</Tab>
 								<Tab
-									label={t("Class Distribution")}
+									label={t("Class distribution")}
 									id="class-distribution"
 									hidden={!this.cardIsNeutral()}
 								>
-									<h3>{t("Class Distribution")}</h3>
+									<h3>{t("Class distribution")}</h3>
 									<div id="class-chart">
 										<DataInjector
 											query={{
@@ -577,7 +577,7 @@ class CardDetail extends React.Component<Props, State> {
 		if (this.props.card && this.props.card.race) {
 			race = (
 				<li>
-					Race
+					{t("Race")}
 					<span className="infobox-value">
 						{toTitleCase(this.props.card.race)}
 					</span>
@@ -585,14 +585,14 @@ class CardDetail extends React.Component<Props, State> {
 			);
 		}
 
-		const dustCostValue = getDustCost(this.props.card);
+		const dustCostAmount = getDustCost(this.props.card);
 		const craftingCost = (
 			<li>
 				Cost
 				{this.props.card ? (
 					<span className="infobox-value">
-						{dustCostValue > 0
-							? t(`${dustCostValue} Dust`)
+						{dustCostAmount > 0
+							? t("{{dustCostAmount}} Dust", { dustCostAmount })
 							: t("Not craftable")}
 					</span>
 				) : null}
@@ -644,8 +644,8 @@ class CardDetail extends React.Component<Props, State> {
 						</InfoboxFilter>
 					</InfoboxFilterGroup>
 					<InfoboxFilterGroup
-						header={t("Rank Range")}
-						infoHeader={t("Rank Range")}
+						header={t("Rank range")}
+						infoHeader={t("Rank range")}
 						infoContent={t(
 							"Check out how this card performs at higher ranks!",
 						)}
@@ -661,14 +661,23 @@ class CardDetail extends React.Component<Props, State> {
 								{t("Legend only")}
 							</InfoboxFilter>
 							<InfoboxFilter value="LEGEND_THROUGH_FIVE">
-								{t("Legend–5")}
+								{t("{{rankMin}}—{{rankMax}}", {
+									rankMin: t("Legend"),
+									rankMax: 5,
+								})}
 							</InfoboxFilter>
 							<InfoboxFilter value="LEGEND_THROUGH_TEN">
-								{t("Legend–10")}
+								{t("{{rankMin}}—{{rankMax}}", {
+									rankMin: t("Legend"),
+									rankMax: 10,
+								})}
 							</InfoboxFilter>
 						</PremiumWrapper>
 						<InfoboxFilter value="ALL">
-							{t("Legend–25")}
+							{t("{{rankMin}}—{{rankMax}}", {
+								rankMin: t("Legend"),
+								rankMax: 25,
+							})}
 						</InfoboxFilter>
 					</InfoboxFilterGroup>
 					<h2>{t("Data")}</h2>
@@ -690,12 +699,12 @@ class CardDetail extends React.Component<Props, State> {
 											const series = data.series.find(
 												x => x.metadata.is_winrate_data,
 											);
-											return (
-												toPrettyNumber(
-													series.metadata
-														.num_data_points,
-												) + " replays"
+											const numReplays = toPrettyNumber(
+												series.metadata.num_data_points,
 											);
+											return t("{{numReplays}} replays", {
+												numReplays,
+											});
 										}
 										return null;
 									}}
@@ -721,7 +730,7 @@ class CardDetail extends React.Component<Props, State> {
 							params={this.getParams()}
 						/>
 					</ul>
-					<h2>Card</h2>
+					<h2>{t("Card")}</h2>
 					<ul>
 						<li>
 							{t("Class")}

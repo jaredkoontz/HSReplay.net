@@ -81,7 +81,7 @@ class LoginButton extends React.Component<Props, State> {
 						>
 							<span className="caret" />
 							<span className="sr-only">
-								{t("Toggle Dropdown")}
+								{t("Toggle dropdown")}
 							</span>
 						</button>
 						<ul className={"dropdown-menu"}>

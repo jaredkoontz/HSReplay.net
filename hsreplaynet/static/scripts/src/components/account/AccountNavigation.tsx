@@ -1,9 +1,9 @@
 import { cookie } from "cookie_js";
 import React from "react";
 import { InjectedTranslateProps, translate } from "react-i18next";
-import { Consumer as BlizzardAccountConsumer } from "../utils/hearthstone-account";
 import UserData from "../../UserData";
 import { getAccountKey } from "../../utils/account";
+import { Consumer as BlizzardAccountConsumer } from "../utils/hearthstone-account";
 import AccountMenu from "./AccountMenu";
 import DevTools from "./DevTools";
 import LanguageSelector from "./LanguageSelector";
@@ -133,7 +133,7 @@ class AccountNavigation extends React.Component<Props> {
 								href={`/account/login/?next=${next}`}
 								className="btn promo-button"
 							>
-								{t("Log in or create account")}
+								{t("Sign in")}
 							</a>
 						</li>
 					)

@@ -1070,14 +1070,23 @@ class Cards extends React.Component<Props, State> {
 								{t("Legend only")}
 							</InfoboxFilter>
 							<InfoboxFilter value="LEGEND_THROUGH_FIVE">
-								{t("Legend–5")}
+								{t("{{rankMin}}—{{rankMax}}", {
+									rankMin: t("Legend"),
+									rankMax: 5,
+								})}
 							</InfoboxFilter>
 							<InfoboxFilter value="LEGEND_THROUGH_TEN">
-								{t("Legend–10")}
+								{t("{{rankMin}}—{{rankMax}}", {
+									rankMin: t("Legend"),
+									rankMax: 10,
+								})}
 							</InfoboxFilter>
 						</PremiumWrapper>
 						<InfoboxFilter value="ALL">
-							{t("Legend–25")}
+							{t("{{rankMin}}—{{rankMax}}", {
+								rankMin: t("Legend"),
+								rankMax: 20,
+							})}
 						</InfoboxFilter>
 					</InfoboxFilterGroup>
 				</Fragment>,

@@ -271,7 +271,7 @@ class ArchetypeDetail extends React.Component<Props, State> {
 									),
 								}}
 							>
-								<MatchupBox title={t("Best Matchup")} />
+								<MatchupBox title={t("Best matchup")} />
 							</DataInjector>
 							<DataInjector
 								query={[
@@ -292,7 +292,7 @@ class ArchetypeDetail extends React.Component<Props, State> {
 									),
 								}}
 							>
-								<MatchupBox title={t("Worst Matchup")} />
+								<MatchupBox title={t("Worst matchup")} />
 							</DataInjector>
 							<DataInjector
 								query={[
@@ -474,7 +474,7 @@ class ArchetypeDetail extends React.Component<Props, State> {
 								collection={this.props.collection}
 							/>
 						</Tab>
-						<Tab label={t("Over Time")} id="overtime">
+						<Tab label={t("Over time")} id="overtime">
 							<div className="over-time-chart">
 								<AutoSizer>
 									{({ width }) => (
@@ -566,7 +566,7 @@ class ArchetypeDetail extends React.Component<Props, State> {
 					/>
 					<section id="rank-range-filter">
 						<InfoboxFilterGroup
-							header={t("Rank Range")}
+							header={t("Rank range")}
 							infoHeader={t("Archetype by rank")}
 							infoContent={t(
 								"Check out how this archetype performs at various rank ranges!",
@@ -582,14 +582,23 @@ class ArchetypeDetail extends React.Component<Props, State> {
 									{t("Legend only")}
 								</InfoboxFilter>
 								<InfoboxFilter value="LEGEND_THROUGH_FIVE">
-									{t("Legend–5")}
+									{t("{{rankMin}}—{{rankMax}}", {
+										rankMin: t("Legend"),
+										rankMax: 5,
+									})}
 								</InfoboxFilter>
 								<InfoboxFilter value="LEGEND_THROUGH_TEN">
-									{t("Legend–10")}
+									{t("{{rankMin}}—{{rankMax}}", {
+										rankMin: t("Legend"),
+										rankMax: 10,
+									})}
 								</InfoboxFilter>
 							</PremiumWrapper>
 							<InfoboxFilter value="LEGEND_THROUGH_TWENTY">
-								{t("Legend–20")}
+								{t("{{rankMin}}—{{rankMax}}", {
+									rankMin: t("Legend"),
+									rankMax: 20,
+								})}
 							</InfoboxFilter>
 						</InfoboxFilterGroup>
 					</section>

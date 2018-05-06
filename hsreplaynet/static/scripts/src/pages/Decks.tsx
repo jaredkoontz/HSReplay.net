@@ -651,7 +651,7 @@ class Decks extends React.Component<Props, State> {
 					</ResetHeader>
 					<section id="player-class-filter">
 						<h2>
-							{t("Player Class")}
+							{t("Player class")}
 							<InfoIcon
 								className="pull-right"
 								header={t("Player class restriction")}
@@ -719,10 +719,10 @@ class Decks extends React.Component<Props, State> {
 					</section>
 					<section id="max-dust-filter">
 						<h2>
-							{t("My Collection")}
+							{t("My collection")}
 							<InfoIcon
 								className="pull-right"
-								header={t("Maximum Dust Filter")}
+								header={t("Maximum dust filter")}
 								content={t(
 									"See which decks you can build right now without spending any or some dust.",
 								)}
@@ -841,7 +841,7 @@ class Decks extends React.Component<Props, State> {
 							</Feature>
 							<Feature feature={"current-patch-filter"}>
 								<InfoboxFilter value="CURRENT_PATCH">
-									{t("Patch 10.2")}
+									{t("Latest patch")}
 								</InfoboxFilter>
 							</Feature>
 						</InfoboxFilterGroup>
@@ -864,14 +864,23 @@ class Decks extends React.Component<Props, State> {
 									{t("Legend only")}
 								</InfoboxFilter>
 								<InfoboxFilter value="LEGEND_THROUGH_FIVE">
-									{t("Legend–5")}
+									{t("{{rankMin}}—{{rankMax}}", {
+										rankMin: t("Legend"),
+										rankMax: 5,
+									})}
 								</InfoboxFilter>
 								<InfoboxFilter value="LEGEND_THROUGH_TEN">
-									{t("Legend–10")}
+									{t("{{rankMin}}—{{rankMax}}", {
+										rankMin: t("Legend"),
+										rankMax: 10,
+									})}
 								</InfoboxFilter>
 							</PremiumWrapper>
 							<InfoboxFilter value="ALL">
-								{t("Legend–25")}
+								{t("{{rankMin}}—{{rankMax}}", {
+									rankMin: t("Legend"),
+									rankMax: 25,
+								})}
 							</InfoboxFilter>
 						</InfoboxFilterGroup>
 					</section>
@@ -906,7 +915,7 @@ class Decks extends React.Component<Props, State> {
 									</Feature>
 								</PremiumWrapper>
 								<InfoboxFilter value="ALL">
-									{t("All Regions")}
+									{t("All regions")}
 								</InfoboxFilter>
 							</InfoboxFilterGroup>
 						</section>
@@ -927,7 +936,7 @@ class Decks extends React.Component<Props, State> {
 					</section>
 					<section id="include-cards-filter">
 						<h2 id="card-search-include-label">
-							{t("Included Cards")}
+							{t("Included cards")}
 						</h2>
 						<Feature feature="new-card-filter">
 							<InfoboxFilterGroup
@@ -1012,7 +1021,7 @@ class Decks extends React.Component<Props, State> {
 					</section>
 					<section id="stream-filter">
 						<InfoboxFilterGroup
-							header="Community"
+							header={t("Community")}
 							deselectable
 							selectedValue={
 								this.props.withStream ? "WITH_STREAM" : null

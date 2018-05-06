@@ -336,20 +336,33 @@ class DeckDetail extends React.Component<Props, State> {
 							{infoBoxFilter(
 								"rankRange",
 								"LEGEND_ONLY",
-								"Legend only",
+								t("Legend only"),
 							)}
 							{infoBoxFilter(
 								"rankRange",
 								"LEGEND_THROUGH_FIVE",
-								"Legend–5",
+								t("{{rankMin}}—{{rankMax}}", {
+									rankMin: t("Legend"),
+									rankMax: 5,
+								}),
 							)}
 							{infoBoxFilter(
 								"rankRange",
 								"LEGEND_THROUGH_TEN",
-								"Legend–10",
+								t("{{rankMin}}—{{rankMax}}", {
+									rankMin: t("Legend"),
+									rankMax: 10,
+								}),
 							)}
 						</PremiumWrapper>
-						{infoBoxFilter("rankRange", "ALL", "Legend–25")}
+						{infoBoxFilter(
+							"rankRange",
+							"ALL",
+							t("{{rankMin}}—{{rankMax}}", {
+								rankMin: t("Legend"),
+								rankMax: 25,
+							}),
+						)}
 					</InfoboxFilterGroup>
 				</div>,
 				<Feature feature="deck-detail-region-filter">
@@ -391,7 +404,7 @@ class DeckDetail extends React.Component<Props, State> {
 								</InfoboxFilter>
 							</Feature>
 						</PremiumWrapper>
-						{infoBoxFilter("region", "ALL", "All Regions")}
+						{infoBoxFilter("region", "ALL", t("All regions"))}
 					</InfoboxFilterGroup>
 				</Feature>,
 			);
@@ -616,11 +629,11 @@ class DeckDetail extends React.Component<Props, State> {
 							tab={this.props.tab}
 							setTab={this.props.setTab}
 						>
-							<Tab label="Overview" id="overview">
+							<Tab label={t("Overview")} id="overview">
 								{overviewContent}
 							</Tab>
 							<Tab
-								label="Mulligan Guide"
+								label={t("Mulligan guide")}
 								id="mulligan-guide"
 								hidden={this.state.hasData === false}
 							>
@@ -632,7 +645,7 @@ class DeckDetail extends React.Component<Props, State> {
 							<Tab
 								label={
 									<span className="text-premium">
-										{t("My Statistics")}
+										{t("My statistics")}
 										<InfoIcon
 											header={t("Personal statistics")}
 											content={t(
@@ -650,7 +663,7 @@ class DeckDetail extends React.Component<Props, State> {
 									<span className="text-premium">
 										{t("Matchups")}
 										<InfoIcon
-											header="Archetype Matchups"
+											header="Archetype matchups"
 											content="See how this deck performs against specific archetypes."
 										/>
 									</span>
@@ -663,7 +676,7 @@ class DeckDetail extends React.Component<Props, State> {
 							>
 								{this.renderMatchups(deckParams)}
 							</Tab>
-							<Tab label="Similar Decks" id="similar">
+							<Tab label={t("Similar decks")} id="similar">
 								<DataInjector
 									fetchCondition={
 										this.isWildDeck() !== undefined
@@ -883,6 +896,7 @@ class DeckDetail extends React.Component<Props, State> {
 	}
 
 	renderStreams(): JSX.Element {
+		const { t } = this.props;
 		return (
 			<DataInjector
 				query={[
@@ -905,7 +919,7 @@ class DeckDetail extends React.Component<Props, State> {
 					},
 				}}
 			>
-				<StreamList customNoDataMessage={"No streams available"} />
+				<StreamList customNoDataMessage={t("No streams available")} />
 			</DataInjector>
 		);
 	}
