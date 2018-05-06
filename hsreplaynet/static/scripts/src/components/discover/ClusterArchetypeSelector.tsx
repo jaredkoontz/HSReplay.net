@@ -2,22 +2,22 @@ import React from "react";
 import { fetchCSRF } from "../../helpers";
 import { Archetype } from "../../utils/api";
 
-interface ClusterArchetypeSelectorState {
-	working?: boolean;
-}
-
-interface ClusterArchetypeSelectorProps {
+interface Props {
 	archetypes?: Archetype[];
 	clusterId: string;
 	format: string;
 	playerClass: string;
 }
 
+interface State {
+	working?: boolean;
+}
+
 export default class ClusterArchetypeSelector extends React.Component<
-	ClusterArchetypeSelectorProps,
-	ClusterArchetypeSelectorState
+	Props,
+	State
 > {
-	constructor(props: ClusterArchetypeSelectorProps, context?: any) {
+	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
 			working: false,
