@@ -1,16 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import ShareGameDialog from "../components/ShareGameDialog";
+import I18nextProvider from "react-i18next/src/I18nextProvider";
+import CardData from "../CardData";
 import JoustEmbedder from "../JoustEmbedder";
-import MetricsReporter from "../metrics/MetricsReporter";
-import BatchingMiddleware from "../metrics/BatchingMiddleware";
-import InfluxMetricsBackend from "../metrics/InfluxMetricsBackend";
-import VisibilityDropdown from "../components/VisibilityDropdown";
-import { Visibility } from "../interfaces";
+import UserData from "../UserData";
 import DeleteReplayButton from "../components/DeleteReplayButton";
 import PlayerInfo from "../components/PlayerInfo";
-import UserData from "../UserData";
-import CardData from "../CardData";
+import ShareGameDialog from "../components/ShareGameDialog";
+import VisibilityDropdown from "../components/VisibilityDropdown";
+import i18n from "../i18n";
+import { Visibility } from "../interfaces";
+import BatchingMiddleware from "../metrics/BatchingMiddleware";
+import InfluxMetricsBackend from "../metrics/InfluxMetricsBackend";
+import MetricsReporter from "../metrics/MetricsReporter";
 
 // shortid
 const shortid = document
@@ -126,14 +128,16 @@ const renderPlayerInfo = (
 	const build = +playerInfo.getAttribute("data-build");
 	const renderPlayerInfoComponent = (cards?) => {
 		ReactDOM.render(
-			<PlayerInfo
-				gameId={gameId}
-				playerName={playerName}
-				opponentName={opponentName}
-				build={build}
-				cardData={cards}
-				playerExpandDirection={playerExpandDirection}
-			/>,
+			<I18nextProvider i18n={i18n} initialLanguage={UserData.getLocale()}>
+				<PlayerInfo
+					gameId={gameId}
+					playerName={playerName}
+					opponentName={opponentName}
+					build={build}
+					cardData={cards}
+					playerExpandDirection={playerExpandDirection}
+				/>
+			</I18nextProvider>,
 			playerInfo,
 		);
 	};
