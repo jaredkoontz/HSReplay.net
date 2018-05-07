@@ -87,6 +87,7 @@ class Home extends React.Component<Props, State> {
 											: "")
 									}
 									onClick={e => {
+										e.preventDefault();
 										this.setState({
 											fullReplaySpeed: !this.state
 												.fullReplaySpeed,
