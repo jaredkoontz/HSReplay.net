@@ -32,10 +32,12 @@ i18n.use(CustomCallbackBackend).init({
 		}
 		if (namespace === I18N_NAMESPACE_HEARTHSTONE) {
 			try {
+				/* By specifying the same webpackChunkName, all the files for one language are
+				merged into a single module. This results in one network request per language */
 				const modules = await Promise.all([
-					import(`i18n/${language}/hearthstone/global.json`),
-					import(`i18n/${language}/hearthstone/gameplay.json`),
-					import(`i18n/${language}/hearthstone/presence.json`),
+					import(/* webpackChunkName: "i18n/[index]" */ `i18n/${language}/hearthstone/global.json`),
+					import(/* webpackChunkName: "i18n/[index]" */ `i18n/${language}/hearthstone/gameplay.json`),
+					import(/* webpackChunkName: "i18n/[index]" */ `i18n/${language}/hearthstone/presence.json`),
 				]);
 				for (const module of modules) {
 					if (!module) {
@@ -53,7 +55,7 @@ i18n.use(CustomCallbackBackend).init({
 			try {
 				Object.assign(
 					translations,
-					await import(`i18n/${language}/frontend.json`),
+					await import(/* webpackChunkName: "i18n/[index]" */ `i18n/${language}/frontend.json`),
 				);
 			} catch (e) {
 				console.error(e);
