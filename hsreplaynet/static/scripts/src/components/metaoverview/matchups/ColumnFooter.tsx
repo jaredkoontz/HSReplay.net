@@ -59,15 +59,13 @@ export default class ColumnFooter extends React.Component<Props, State> {
 				<input
 					className="input-popularity"
 					key={this.props.archetypeData.id}
-					type="text"
+					type="number"
+					min={0}
 					value={this.state.text}
-					onChange={event =>
-						this.setState({ text: event.target.value })
-					}
-					onKeyPress={event => {
-						if (event.which === 13) {
-							this.onCustomPopularityChanged(event);
-						}
+					onChange={event => {
+						this.setState({ text: event.target.value }, () =>
+							this.attemptCommit(),
+						);
 					}}
 				/>
 			);
@@ -95,11 +93,12 @@ export default class ColumnFooter extends React.Component<Props, State> {
 		);
 	}
 
-	onCustomPopularityChanged(event: any) {
-		const value = event.target.value;
+	private attemptCommit(): void {
+		const value = this.state.text;
 		const n = value === "" ? 0 : parseFloat(value);
-		if (!isNaN(n) && isFinite(n)) {
-			this.props.onCustomWeightChanged(n);
+		if (isNaN(n) || !isFinite(n)) {
+			return;
 		}
+		this.props.onCustomWeightChanged(n);
 	}
 }
