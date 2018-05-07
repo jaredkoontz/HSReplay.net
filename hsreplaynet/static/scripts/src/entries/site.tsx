@@ -115,7 +115,7 @@ if (
 			return;
 		}
 
-		($(premiumLink) as any).popover({
+		$(premiumLink).popover({
 			animation: true,
 			trigger: "manual",
 			placement: "bottom",
@@ -125,10 +125,10 @@ if (
 			content:
 				"Tell a friend about HSReplay.net for a cheaper Premium subscription!",
 		});
-		($(premiumLink) as any).on("shown.bs.popover", () => {
+		$(premiumLink).on("shown.bs.popover", () => {
 			$("#referral-popover-close").click(evt => {
 				evt.preventDefault();
-				($(premiumLink) as any).popover("destroy");
+				$(premiumLink).popover("destroy");
 				cookie.set("refer-popup-closed", "1", {
 					path: "/",
 					expires: 90,
