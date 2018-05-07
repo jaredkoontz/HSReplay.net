@@ -1,18 +1,20 @@
-import React from "react";
-import { BlizzardAccount } from "../../../utils/api";
-import ModalAwait from "./ModalAwait";
-import DownloadSection from "./DownloadSection";
-import { getAccountKey } from "../../../utils/account";
-import ProgressIndicator from "./ProgressIndicator";
-import CloseModalButton from "../../modal/CloseModalButton";
-import LoginButton from "../../account/LoginButton";
-import { CollectionEvents } from "../../../metrics/GoogleAnalytics";
-import { isCollectionDisabled } from "../../../utils/collection";
 import { cookie } from "cookie_js";
+import React from "react";
+import { InjectedTranslateProps, Trans, translate } from "react-i18next";
+import { image } from "../../../helpers";
+import { CollectionEvents } from "../../../metrics/GoogleAnalytics";
+import { getAccountKey } from "../../../utils/account";
+import { BlizzardAccount } from "../../../utils/api";
+import { isCollectionDisabled } from "../../../utils/collection";
 import Feature from "../../Feature";
+import LoginButton from "../../account/LoginButton";
+import CloseModalButton from "../../modal/CloseModalButton";
 import PrettyBlizzardAccount from "../../text/PrettyBlizzardAccount";
+import DownloadSection from "./DownloadSection";
+import ModalAwait from "./ModalAwait";
+import ProgressIndicator from "./ProgressIndicator";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	isAuthenticated: boolean;
 	hasConnectedHDT: boolean;
 	blizzardAccount: BlizzardAccount | null;
@@ -39,10 +41,7 @@ interface State {
 	previousStep: Step | null;
 }
 
-export default class CollectionSetupDialog extends React.Component<
-	Props,
-	State
-> {
+class CollectionSetupDialog extends React.Component<Props, State> {
 	private interval: number | null = null;
 
 	constructor(props: Props, context?: any) {
@@ -174,26 +173,22 @@ export default class CollectionSetupDialog extends React.Component<
 
 	private renderStep(): React.ReactNode {
 		const { step } = this.state;
+		const { blizzardAccount, t } = this.props;
 
 		if (step === Step.SIGN_IN) {
+			const next =
+				document &&
+				document.location &&
+				document.location.pathname &&
+				document.location.pathname + "?modal=collection";
 			return (
 				<>
 					<section
 						id="collection-setup-sign-in"
 						className="text-center"
 					>
-						<h2>Sign in to get started:</h2>
-						<LoginButton
-							next={
-								document &&
-								document.location &&
-								document.location.pathname
-									? `${
-											document.location.pathname
-									  }?modal=collection`
-									: undefined
-							}
-						/>
+						<h2>{t("Sign in to get started")}</h2>
+						<LoginButton next={next} />
 					</section>
 				</>
 			);
@@ -207,33 +202,42 @@ export default class CollectionSetupDialog extends React.Component<
 							hasLegacyClient={this.props.hasTokens}
 						/>
 						<section id="collection-setup-connect-tracker">
-							<h2>Setup Instructions</h2>
+							<h2>{t("Setup instructions")}</h2>
 							<ol>
 								<li>
 									{this.props.hasTokens
-										? "Run the latest version of Hearthstone Deck Tracker"
-										: "Download and install Hearthstone Deck Tracker"}
+										? t(
+												"Run the latest version of Hearthstone Deck Tracker",
+										  )
+										: t(
+												"Download and install Hearthstone Deck Tracker",
+										  )}
 								</li>
 								<li>
-									Click on the blue HSReplay.net banner at the
-									top of your deck tracker
+									{t(
+										"Click on the blue HSReplay.net banner at the top of your deck tracker",
+									)}
 									{this.props.hasTokens ? (
 										<>
 											<br />
 											<span className="text-help">
-												Note: You'll need to do this
-												even if you've claimed replays
-												in the past
+												{t(
+													"Note: You'll need to do this even if you've claimed replays in the past.",
+												)}
 											</span>
 										</>
 									) : null}
 								</li>
 								<li>
-									Make sure you're signed in to HSReplay.net
+									{t(
+										"Make sure you're signed in to HSReplay.net",
+									)}
 								</li>
 							</ol>
 						</section>
-						<ModalAwait>Waiting for your deck tracker…</ModalAwait>
+						<ModalAwait>
+							{t("Waiting for your deck tracker…")}
+						</ModalAwait>
 					</>
 				);
 			case Step.CLAIM_ACCOUNT:
@@ -243,101 +247,109 @@ export default class CollectionSetupDialog extends React.Component<
 							hasLegacyClient={this.props.hasTokens}
 						/>
 						<section id="collection-setup-blizzard-account">
-							<h2>Connect Hearthstone</h2>
+							<h2>{t("Connect Hearthstone")}</h2>
 							<p>
-								Launch Hearthstone while your deck tracker is
-								running and enter your collection.
+								{t(
+									"Launch Hearthstone while your deck tracker is running and enter your collection.",
+								)}
 							</p>
 						</section>
-						<ModalAwait>Waiting for Hearthstone…</ModalAwait>
+						<ModalAwait>{t("Waiting for Hearthstone…")}</ModalAwait>
 					</>
 				);
 			case Step.UPLOAD_COLLECTION:
 				return (
 					<>
 						<section id="collection-setup-upload">
-							<h2>Upload your Collection</h2>
+							<h2>{t("Upload your Collection")}</h2>
 							{this.state.previousStep === Step.CLAIM_ACCOUNT ? (
 								<>
 									<p>
-										We found your account{" "}
-										<strong>
-											<PrettyBlizzardAccount
-												account={
-													this.props.blizzardAccount
-												}
-											/>
-										</strong>.
+										<Trans>
+											<strong>
+												<PrettyBlizzardAccount
+													account={blizzardAccount}
+												/>
+											</strong>.
+										</Trans>
 									</p>
 									<p>
-										Now enter your collection in Hearthstone
-										to complete the setup.
+										{t(
+											"Now enter your collection in Hearthstone to complete the setup.",
+										)}
 									</p>
 									<p className="text-help">
-										Note: Make sure the deck tracker is
-										still running.
+										{t(
+											"Note: Make sure the deck tracker is still running.",
+										)}
 									</p>
 								</>
 							) : (
 								<>
-									<p>There's only a few steps remaining:</p>
+									<p>{t("You're almost done!")}</p>
 									<ol>
-										<li>Launch your deck tracker</li>
-										<li>Launch Hearthstone</li>
-										<li>Enter your collection</li>
+										<li>{t("Launch your deck tracker")}</li>
+										<li>{t("Launch Hearthstone")}</li>
+										<li>{t("Enter your collection")}</li>
 									</ol>
 									<p className="text-help">
-										Make sure you're logged in to Battle.net
-										as{" "}
-										<strong>
-											<PrettyBlizzardAccount
-												account={
-													this.props.blizzardAccount
-												}
-											/>
-										</strong>.
+										<Trans>
+											Make sure you're logged in to
+											Blizzard as
+											<strong>
+												<PrettyBlizzardAccount
+													account={blizzardAccount}
+												/>
+											</strong>.
+										</Trans>
 										{this.props
 											.hasMultipleBlizzardAccounts ? (
 											<>
 												<br />
-												Setup another account by
-												clicking on your account in the
-												top right.
+												{t(
+													"Setup another account by clicking on your account in the top right.",
+												)}
 											</>
 										) : null}
 									</p>
 								</>
 							)}
 						</section>
-						<ModalAwait>Waiting for your collection…</ModalAwait>
+						<ModalAwait>
+							{t("Waiting for your collection…")}
+						</ModalAwait>
 					</>
 				);
 			case Step.COMPLETE:
 				return (
 					<>
 						<section id="collection-setup-done">
-							<h2 className="text-center">Setup complete!</h2>
+							<h2 className="text-center">
+								{t("Setup complete!")}
+							</h2>
 							<p className="text-center">
-								You have uploaded your collection for{" "}
-								<strong>
-									<PrettyBlizzardAccount
-										account={this.props.blizzardAccount}
-									/>
-								</strong>. Hooray!
-								<br />
-								The deck tracker will now keep your collection
-								up to date.
+								<Trans>
+									You have uploaded your collection for{" "}
+									<strong>
+										<PrettyBlizzardAccount
+											account={blizzardAccount}
+										/>
+									</strong>. Hooray!
+									<br />
+									The deck tracker will now keep your
+									collection up to date.
+								</Trans>
 							</p>
 						</section>
 						<section id="collection-setup-check-it-out">
 							<p className="text-center">
 								<a
 									href={`/decks/?hearthstone_account=${getAccountKey(
-										this.props.blizzardAccount,
+										blizzardAccount,
 									)}#maxDustCost=0`}
 									className="promo-button-outline"
 								>
-									See the decks you can build
+									{t("See the decks you can build")}
 								</a>
 							</p>
 						</section>
@@ -350,11 +362,9 @@ export default class CollectionSetupDialog extends React.Component<
 										onClick={() => {
 											fetch(
 												`/api/v1/collection/?region=${
-													this.props.blizzardAccount
-														.region
+													blizzardAccount.region
 												}&account_lo=${
-													this.props.blizzardAccount
-														.account_lo
+													blizzardAccount.account_lo
 												}`,
 												{
 													method: "DELETE",
@@ -372,7 +382,7 @@ export default class CollectionSetupDialog extends React.Component<
 											);
 										}}
 									>
-										Remove collection
+										{t("Remove collection")}
 									</a>
 								</p>
 							</section>
@@ -383,10 +393,13 @@ export default class CollectionSetupDialog extends React.Component<
 				return (
 					<>
 						<section id="collection-setup-enable">
-							<h2 className="text-center">Collection disabled</h2>
+							<h2 className="text-center">
+								{t("Collection disabled")}
+							</h2>
 							<p className="text-center">
-								You have disabled this feature from your
-								HSReplay.net account settings.
+								{t(
+									"You have disabled this feature from your HSReplay.net account settings.",
+								)};
 							</p>
 						</section>
 						<section id="collection-setup-check-it-out">
@@ -395,7 +408,7 @@ export default class CollectionSetupDialog extends React.Component<
 									href={"/account/"}
 									className="promo-button-outline text-uppercase"
 								>
-									Account settings
+									{t("Account settings")}
 								</a>
 							</p>
 						</section>
@@ -406,30 +419,33 @@ export default class CollectionSetupDialog extends React.Component<
 	}
 
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		return (
 			<div className="collection-setup-modal">
 				<div
 					className="modal-banner"
 					style={{
-						backgroundImage:
-							"url('/static/images/feature-promotional/collection-syncing-decks.png')",
+						backgroundImage: `url("${image(
+							"feature-promotional/collection-syncing-decks.png",
+						)}")`,
 					}}
 				>
 					<CloseModalButton />
-					Collection Uploading
+					{t("Collection uploading")}
 				</div>
 				<div className="modal-body">
 					<section id="collection-setup-about">
-						<h1>Find the best decks for your collection!</h1>
+						<h1>{t("Find the best decks for your collection!")}</h1>
 						<p>
-							Upload your Hearthstone collection to enable the
-							following features:
+							{t(
+								"Upload your Hearthstone collection to enable the following features:",
+							)}
 						</p>
 						<ul className="list-ltr list-ltr-2">
-							<li>Find decks you can build right now</li>
-							<li>See missing cards at a glance</li>
-							<li>Filter decks by dust cost</li>
-							<li>Automatic uploading</li>
+							<li>{t("Find decks you can build right now")}</li>
+							<li>{t("See missing cards at a glance")}</li>
+							<li>{t("Filter decks by dust cost")}</li>
+							<li>{t("Automatic uploading")}</li>
 						</ul>
 					</section>
 					{this.state.step !== Step.COLLECTION_DISABLED ? (
@@ -438,7 +454,10 @@ export default class CollectionSetupDialog extends React.Component<
 								id="collection-setup-progress-step"
 								className="sr-only"
 							>
-								Step {this.state.step} of {LAST_STEP}
+								{t("Step {{step}} of {{lastStep}}", {
+									step: this.state.step,
+									lastStep: LAST_STEP,
+								})}
 							</span>
 							<ProgressIndicator
 								progress={this.state.step}
@@ -453,3 +472,4 @@ export default class CollectionSetupDialog extends React.Component<
 		);
 	}
 }
+export default translate()(CollectionSetupDialog);

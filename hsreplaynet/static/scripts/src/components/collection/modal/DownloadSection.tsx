@@ -1,7 +1,8 @@
 import React from "react";
+import { InjectedTranslateProps, translate } from "react-i18next";
 import { image } from "../../../helpers";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	id?: string;
 	hasLegacyClient?: boolean;
 }
@@ -10,7 +11,7 @@ interface State {
 	showBanner: boolean;
 }
 
-export default class DownloadSection extends React.Component<Props, State> {
+class DownloadSection extends React.Component<Props, State> {
 	static defaultProps = {
 		id: "collection-setup-download-client",
 	};
@@ -32,21 +33,18 @@ export default class DownloadSection extends React.Component<Props, State> {
 	};
 
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		return (
 			<section id={this.props.id}>
-				<h2>Download Hearthstone Deck Tracker</h2>
+				<h2>{t("Download Hearthstone Deck Tracker")}</h2>
 				<p className="text-center">
-					{this.props.hasLegacyClient ? (
-						<>
-							Make sure you have the latest version of Hearthstone
-							Deck Tracker:
-						</>
-					) : (
-						<>
-							Hearthstone Deck Tracker will upload your collection
-							and keep it up to date:
-						</>
-					)}
+					{this.props.hasLegacyClient
+						? t(
+								"Make sure you have the latest version of Hearthstone Deck Tracker:",
+						  )
+						: t(
+								"Hearthstone Deck Tracker will upload your collection and keep it up to date:",
+						  )}
 				</p>
 				<p className="text-center">
 					<a
@@ -55,19 +53,22 @@ export default class DownloadSection extends React.Component<Props, State> {
 						className="btn promo-button"
 						rel="noopener"
 					>
-						Download (Windows)
+						{t("Download (Windows)")}
 					</a>
 				</p>
 				<p className="text-center">
 					<a href="#" onClick={this.toggle}>
-						How can I tell I have the correct version?
+						{t(
+							"How can I tell whether I have the correct version?",
+						)}
 					</a>
 				</p>
 				{this.state.showBanner ? (
 					<>
 						<p className="text-center">
-							You're on the latest version if you see this banner
-							at the top:
+							{t(
+								"You're on the latest version if you see this banner at the top:",
+							)}
 						</p>
 						<div className="text-center">
 							<img
@@ -82,3 +83,4 @@ export default class DownloadSection extends React.Component<Props, State> {
 		);
 	}
 }
+export default translate()(DownloadSection);
