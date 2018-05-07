@@ -3,7 +3,7 @@
 	"private": true,
 	"scripts": {
 		"build": "cross-env NODE_ENV=production webpack --bail",
-		"dev": "webpack -d --devtool cheap-module-eval-source-map --progress --watch",
+		"dev": "webpack -d --progress --watch",
 		"lint": "yarn lint:prettier; yarn lint:tslint",
 		"lint:prettier": "prettier -l \"{hsreplaynet/static/scripts/src/**/*.ts{,x},*.js}\"",
 		"lint:tslint": "tslint \"hsreplaynet/static/scripts/src/**/*\" --project tsconfig.json",

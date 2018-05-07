@@ -27,6 +27,7 @@ if (isProduction) {
 	plugins.push(
 		new UglifyJSPlugin({
 			parallel: true,
+			sourceMap: true,
 		}),
 	);
 } else {
@@ -112,6 +113,7 @@ module.exports = env => {
 		entry: entriesFlat,
 		output: {
 			filename: isProduction ? "[name].[chunkhash].js" : "[name].js",
+			sourceMapFilename: "[file].map",
 			path: path.join(__dirname, "build", "generated", "webpack"),
 			publicPath: exportedSettings.STATIC_URL + "webpack/",
 		},
@@ -173,9 +175,15 @@ module.exports = env => {
 							loader: "css-loader",
 							options: {
 								minimize: true,
+								sourceMap: true,
 							},
 						},
-						"sass-loader",
+						{
+							loader: "sass-loader",
+							options: {
+								sourceMap: true,
+							},
+						},
 					]),
 				},
 			],
@@ -210,6 +218,7 @@ module.exports = env => {
 			// required in the Vagrant setup due to Vagrant inotify not working
 			poll: 1000,
 		},
+		devtool: isProduction ? "source-map" : "cheap-module-eval-source-map",
 		stats: {
 			modules: false,
 		},
