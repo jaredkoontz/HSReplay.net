@@ -31,14 +31,12 @@ i18n.use(CustomCallbackBackend).init({
 			return;
 		}
 		if (namespace === I18N_NAMESPACE_HEARTHSTONE) {
-			const promises = [];
-			for (const hearthstoneNS of ["global"]) {
-				promises.push(
-					import(`i18n/${language}/hearthstone/${hearthstoneNS}.json`),
-				);
-			}
 			try {
-				const modules = await Promise.all(promises);
+				const modules = await Promise.all([
+					import(`i18n/${language}/hearthstone/global.json`),
+					import(`i18n/${language}/hearthstone/gameplay.json`),
+					import(`i18n/${language}/hearthstone/presence.json`),
+				]);
 				for (const module of modules) {
 					if (!module) {
 						continue;
@@ -48,11 +46,14 @@ i18n.use(CustomCallbackBackend).init({
 			} catch (e) {
 				console.error(e);
 			}
-		} else if (UserData.hasFeature("frontend-translations")) {
+		} else if (
+			namespace === I18N_NAMESPACE_FRONTEND &&
+			UserData.hasFeature("frontend-translations")
+		) {
 			try {
 				Object.assign(
 					translations,
-					await import(`i18n/${language}/${namespace}.json`),
+					await import(`i18n/${language}/frontend.json`),
 				);
 			} catch (e) {
 				console.error(e);

@@ -116,7 +116,7 @@ module.exports = env => {
 			publicPath: exportedSettings.STATIC_URL + "webpack/",
 		},
 		resolve: {
-			extensions: [".ts", ".tsx", ".js", ".json"],
+			extensions: [".ts", ".tsx", ".js"],
 			alias: {
 				// we need to this to get the fully bundled d3, instead of the independent module
 				d3: "d3/build/d3.js",
