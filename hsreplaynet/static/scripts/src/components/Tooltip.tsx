@@ -31,8 +31,7 @@ interface State {
 }
 
 export default class Tooltip extends React.Component<Props, State> {
-	tooltip: HTMLDivElement;
-	tooltipContainer: Element;
+	tooltip: HTMLDivElement | null = null;
 
 	constructor(props: Props, context?: any) {
 		super(props, context);
@@ -44,36 +43,18 @@ export default class Tooltip extends React.Component<Props, State> {
 		};
 	}
 
-	public componentDidUpdate(
-		prevProps: Readonly<Props>,
-		prevState: Readonly<State>,
-		prevContext: any,
-	): void {
-		if (this.state.hovering) {
-			if (!this.tooltipContainer) {
-				this.tooltipContainer = document.createElement("div");
-				this.tooltipContainer.className = "tooltip-container";
-				document.body.appendChild(this.tooltipContainer);
-			}
-			this.renderTooltip();
-		} else {
-			this.removeTooltipContainer();
+	private renderTooltip(): React.ReactNode {
+		if (!this.state.hovering) {
+			return;
 		}
-	}
 
-	public componentWillUnmount(): void {
-		this.removeTooltipContainer();
-	}
-
-	removeTooltipContainer() {
-		if (this.tooltipContainer) {
-			ReactDOM.unmountComponentAtNode(this.tooltipContainer);
-			document.body.removeChild(this.tooltipContainer);
-			this.tooltipContainer = undefined;
+		let portal = document.getElementById("hsreplaynet-tooltip-container");
+		if (!portal) {
+			portal = document.createElement("div");
+			portal.setAttribute("id", "hsreplaynet-tooltip-container");
+			document.body.appendChild(portal);
 		}
-	}
 
-	renderTooltip() {
 		const classNames = ["hsreplay-tooltip"];
 		if (this.props.noBackground) {
 			classNames.push("no-background");
@@ -126,7 +107,7 @@ export default class Tooltip extends React.Component<Props, State> {
 			}
 		}
 
-		ReactDOM.render(
+		return ReactDOM.createPortal(
 			<div
 				id={this.props.id}
 				className={classNames.join(" ")}
@@ -136,16 +117,7 @@ export default class Tooltip extends React.Component<Props, State> {
 				{this.props.header ? <h4>{this.props.header}</h4> : null}
 				{body}
 			</div>,
-			this.tooltipContainer,
-			() => {
-				if (
-					this.tooltip &&
-					this.tooltip.getBoundingClientRect().height !== height
-				) {
-					// re-render if this render caused a height change, to update position
-					this.renderTooltip();
-				}
-			},
+			portal,
 		);
 	}
 
@@ -199,6 +171,7 @@ export default class Tooltip extends React.Component<Props, State> {
 						{content}
 					</section>
 				) : null}
+				{this.renderTooltip()}
 				{this.props.children}
 			</div>
 		);
