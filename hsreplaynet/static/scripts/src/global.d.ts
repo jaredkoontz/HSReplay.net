@@ -207,13 +207,6 @@ declare module "tether-shepherd" {
 	}
 }
 
-interface Window {
-	hsreplaynet_load_hscheckout: (
-		targetElement: any,
-		location?: string,
-	) => void;
-}
-
 declare var Raven: any;
 
 declare module "sunwell" {
