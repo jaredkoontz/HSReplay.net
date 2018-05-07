@@ -103,13 +103,15 @@ module.exports = env => {
 		"hsreplaynet/static/styles",
 		"main.scss",
 	);
-	const extractSCSS = new ExtractTextPlugin("[name].[contenthash].css");
+	const extractSCSS = new ExtractTextPlugin(
+		isProduction ? "[name].[contenthash].css" : "[name].css",
+	);
 
 	return {
 		context: __dirname,
 		entry: entriesFlat,
 		output: {
-			filename: "[name].[chunkhash].js",
+			filename: isProduction ? "[name].[chunkhash].js" : "[name].js",
 			path: path.join(__dirname, "build", "generated", "webpack"),
 			publicPath: exportedSettings.STATIC_URL + "webpack/",
 		},
