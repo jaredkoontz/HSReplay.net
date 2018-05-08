@@ -197,7 +197,7 @@ export default class PremiumWrapper extends React.Component<Props, State> {
 		);
 	}
 
-	protected shouldAppear() {
+	protected shouldAppear(): boolean {
 		return !UserData.isPremium();
 	}
 }
