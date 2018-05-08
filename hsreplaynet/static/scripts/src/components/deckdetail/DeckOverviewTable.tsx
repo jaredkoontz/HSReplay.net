@@ -88,7 +88,7 @@ class DeckOverviewTable extends React.Component<Props> {
 						<td>{deck && secondsPerTurn + " seconds"}</td>
 					</tr>
 					<tr>
-						<td>t{"Overall winrate"}</td>
+						<td>{t("Overall winrate")}</td>
 						{deck && winrateCell(deck.win_rate, 50, false)}
 					</tr>
 					{winrates}

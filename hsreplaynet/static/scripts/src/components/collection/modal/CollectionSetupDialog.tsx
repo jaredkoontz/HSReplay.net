@@ -265,6 +265,7 @@ class CollectionSetupDialog extends React.Component<Props, State> {
 							{this.state.previousStep === Step.CLAIM_ACCOUNT ? (
 								<>
 									<p>
+										We found your account{" "}
 										<Trans>
 											<strong>
 												<PrettyBlizzardAccount

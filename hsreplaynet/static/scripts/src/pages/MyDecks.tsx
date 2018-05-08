@@ -1,7 +1,7 @@
+import { decode as decodeDeckstring } from "deckstrings";
 import _ from "lodash";
 import React from "react";
-import { decode as decodeDeckstring } from "deckstrings";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { InjectedTranslateProps, Trans, translate } from "react-i18next";
 import CardData from "../CardData";
 import DataManager from "../DataManager";
 import UserData, { Account } from "../UserData";
@@ -318,19 +318,21 @@ class MyDecks extends React.Component<Props, State> {
 		if (!userAccounts.length) {
 			content = (
 				<div className="message-wrapper">
-					<h2>{t("Link your Hearthstone account")}</h2>
-					<p>
-						Play a game and{" "}
-						<a href="/games/mine/">upload the replay</a> for your
-						deck statistics to start appearing here.
-					</p>
-					<p className="text-muted">
-						Note: It may take a few hours for new data to appear on
-						this page.<br />
-						<a href="/contact/">
-							Contact us if you keep seeing this message.
-						</a>
-					</p>
+					<Trans>
+						<h2>Link your Hearthstone account</h2>
+						<p>
+							Play a game and{" "}
+							<a href="/games/mine/">upload the replay</a> for
+							your deck statistics to start appearing here.
+						</p>
+						<p className="text-muted">
+							Note: It may take a few hours for new data to appear
+							on this page.<br />
+							<a href="/contact/">
+								Contact us if you keep seeing this message.
+							</a>
+						</p>
+					</Trans>
 				</div>
 			);
 		} else if (this.state.loading) {
@@ -351,24 +353,29 @@ class MyDecks extends React.Component<Props, State> {
 			} else {
 				content = (
 					<div className="message-wrapper">
-						<h2>{t("All set!")}</h2>
-						<p>
-							We've successfully linked your Hearthstone account{" "}
-							<strong>
-								{this.props.account &&
-									this.props.account.battletag}
-							</strong>{" "}
-							and will analyze incoming replays.
-						</p>
-						<p>
-							After you've played some games you'll find
-							statistics for all the decks you play right here.
-						</p>
-						<p className="text-muted">
-							{t(
-								"Note: It may take a few hours for new data to appear on this page. If you are missing data, make sure the filters in the sidebar are correct!",
-							)}
-						</p>
+						<Trans>
+							<h2>All set</h2>
+							<p>
+								We've successfully linked your Hearthstone
+								account{" "}
+								<strong>
+									{this.props.account &&
+										this.props.account.battletag}
+								</strong>{" "}
+								and will analyze incoming replays.
+							</p>
+							<p>
+								After you've played some games you'll find
+								statistics for all the decks you play right
+								here.
+							</p>
+							<p className="text-muted">
+								Note: It may take a few hours for new data to
+								appear on this page. If you are missing data,
+								make sure the filters in the sidebar are
+								correct!
+							</p>
+						</Trans>
 					</div>
 				);
 			}
@@ -386,9 +393,9 @@ class MyDecks extends React.Component<Props, State> {
 						decks={this.state.filteredDecks}
 						pageSize={12}
 						hrefTab={"my-statistics"}
-						helpMessage={
-							"Personalized statistics are available for all decks you play after joining Premium."
-						}
+						helpMessage={t(
+							"Personalized statistics are available for all decks you play after joining Premium.",
+						)}
 						lastPlayedColumn
 						showGlobalDataNotice
 					/>
@@ -450,7 +457,7 @@ class MyDecks extends React.Component<Props, State> {
 						onReset={() => this.props.reset()}
 						showReset={this.props.canBeReset}
 					>
-						{t("My Decks")}
+						{t("My decks")}
 					</ResetHeader>
 					<section id="player-class-filter">
 						<h2>
@@ -567,7 +574,7 @@ class MyDecks extends React.Component<Props, State> {
 						/>
 					</section>
 					<section id="game-mode-filter">
-						<h2>Game Mode</h2>
+						<h2>{t("Game mode")}</h2>
 						<InfoboxFilterGroup
 							selectedValue={this.props.gameType}
 							onClick={value => this.props.setGameType(value)}
