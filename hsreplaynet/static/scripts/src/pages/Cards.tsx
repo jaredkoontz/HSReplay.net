@@ -1166,7 +1166,7 @@ class Cards extends React.Component<Props, State> {
 		filters.push(
 			<InfoboxFilterGroup
 				key="costs"
-				header="Cost"
+				header={t("Cost")}
 				deselectable
 				className="filter-list-cost"
 				selectedValue={this.props.cost}
@@ -1178,7 +1178,7 @@ class Cards extends React.Component<Props, State> {
 			</InfoboxFilterGroup>,
 			<InfoboxFilterGroup
 				key="rarities"
-				header="Rarity"
+				header={t("Rarity")}
 				deselectable
 				selectedValue={this.props.rarity}
 				onClick={(newValue, rarity) => this.props.toggleRarity(rarity)}
@@ -1190,7 +1190,7 @@ class Cards extends React.Component<Props, State> {
 			</InfoboxFilterGroup>,
 			<InfoboxFilterGroup
 				key="sets"
-				header="Set"
+				header={t("Set")}
 				collapsed
 				deselectable
 				selectedValue={this.props.set}
@@ -1207,7 +1207,7 @@ class Cards extends React.Component<Props, State> {
 			</InfoboxFilterGroup>,
 			<InfoboxFilterGroup
 				key="types"
-				header="Type"
+				header={t("Type")}
 				collapsed
 				deselectable
 				selectedValue={this.props.type}
@@ -1220,7 +1220,7 @@ class Cards extends React.Component<Props, State> {
 			</InfoboxFilterGroup>,
 			<InfoboxFilterGroup
 				key="races"
-				header="Race"
+				header={t("Race")}
 				collapsed
 				deselectable
 				selectedValue={this.props.race}
@@ -1233,7 +1233,7 @@ class Cards extends React.Component<Props, State> {
 			</InfoboxFilterGroup>,
 			<InfoboxFilterGroup
 				key="mechanics"
-				header="Mechanics"
+				header={t("Mechanics")}
 				collapsed
 				deselectable
 				selectedValue={this.props.mechanics}
@@ -1253,13 +1253,13 @@ class Cards extends React.Component<Props, State> {
 			filters.push(
 				<InfoboxFilterGroup
 					key="uncollectible"
-					header="Uncollectible"
+					header={t("Uncollectible")}
 					deselectable
 					selectedValue={this.props.uncollectible}
 					onClick={value => this.props.setUncollectible(value)}
 				>
 					<InfoboxFilter value="show">
-						Show uncollectible cards
+						{t("Show uncollectible cards")}
 					</InfoboxFilter>
 				</InfoboxFilterGroup>,
 			);
