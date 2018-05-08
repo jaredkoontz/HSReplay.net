@@ -106,6 +106,7 @@ class MetaOverview extends React.Component<Props, State> {
 							onSelectionChanged={rankRange =>
 								this.props.setRankRange(rankRange)
 							}
+							disabled={!UserData.isPremium()}
 						/>
 					</PremiumWrapper>
 				</section>

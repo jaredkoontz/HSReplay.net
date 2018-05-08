@@ -5,6 +5,7 @@ import RankSelector from "./RankSelector";
 interface Props {
 	selected: string;
 	onSelectionChanged: (selected: string) => void;
+	disabled?: boolean;
 }
 
 interface State {
@@ -72,6 +73,7 @@ export default class RankPicker extends React.Component<Props, State> {
 
 	public render(): React.ReactNode {
 		const selectedRanks = this.getSelectedRanks();
+		const { disabled } = this.props;
 		const { forceSet } = this.state;
 
 		const items = [];
@@ -115,6 +117,7 @@ export default class RankPicker extends React.Component<Props, State> {
 								? "add"
 								: "set"
 						}
+						disabled={disabled}
 					/>,
 				);
 			}
@@ -128,6 +131,7 @@ export default class RankPicker extends React.Component<Props, State> {
 						)
 					}
 					rank={rank}
+					disabled={disabled}
 				/>,
 			);
 		});

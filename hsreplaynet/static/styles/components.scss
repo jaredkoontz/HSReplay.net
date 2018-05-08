@@ -1181,12 +1181,14 @@ table .info-icon, .sort-header .info-icon {
 	user-select: none;
 
 	.rank-selector {
+		border: 0;
 		border-bottom: 1px solid $darkblue;
 		cursor: pointer;
 		display: block;
 		filter: grayscale(0.9);
 		position: relative;
 		width: 18%;
+		background: transparent;
 
 		&.rank-selector-legend {
 			width: 90%;
@@ -1216,52 +1218,59 @@ table .info-icon, .sort-header .info-icon {
 				1px 1px 0 #000;
 		}
 
-		&:hover {
+		&:hover, &:focus {
 			background: $lightblue1;
 			filter: grayscale(0);
+			outline: none;
 		}
 
 		&.selected {
 			background: $lightcyan;
 			filter: grayscale(0);
 
-			&:hover {
+			&:hover, &:focus {
 				background: $lightercyan;
+				outline: none;
 			}
 		}
 	}
 
 	.row-selector {
 		align-items: center;
+		border: 0;
 		border-bottom: 1px solid $darkblue;
 		cursor: pointer;
 		display: flex;
 		font-size: 12px;
 		text-align: center;
 		width: 10%;
+		background: transparent;
 
 		.glyphicon {
 			text-align: center;
 			width: 100%;
 		}
 
-		&:hover {
+		&:hover, &:focus {
 			background: $lightblue1;
+			outline: none;
 		}
 
 		&.selected {
 			background: $lightcyan;
 
-			&:hover {
+			&:hover, &:focus {
 				background: $lightercyan;
+				outline: none;
 			}
 		}
 
 		&.only {
 			color: gray;
 
-			&:hover {
+			&:hover, &:focus {
 				background: $lightcyan;
+				outline: none;
 			}
 		}
 	}

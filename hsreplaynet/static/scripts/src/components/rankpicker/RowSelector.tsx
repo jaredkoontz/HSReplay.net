@@ -6,20 +6,35 @@ interface Props {
 	classNames: string[];
 	onClick: (mode: Mode) => void;
 	mode: Mode;
+	disabled?: boolean;
 }
 
 export default class RowSelector extends React.Component<Props> {
+	private ref: HTMLButtonElement | null = null;
+
 	public render(): React.ReactNode {
-		const { mode } = this.props;
+		const { mode, disabled } = this.props;
 		const classNames = ["row-selector"].concat(this.props.classNames);
 		const glyphicon = mode === "add" ? "plus" : "arrow-right";
 		return (
-			<div
+			<button
 				className={classNames.join(" ")}
-				onClick={() => this.props.onClick(mode)}
+				onClick={this.toggle}
+				disabled={this.props.disabled}
+				ref={ref => (this.ref = ref)}
 			>
 				<span className={`glyphicon glyphicon-${glyphicon}`} />
-			</div>
+			</button>
 		);
 	}
+
+	private toggle = (): void => {
+		if (this.props.disabled) {
+			return;
+		}
+		this.props.onClick(this.props.mode);
+		if (this.ref) {
+			this.ref.blur();
+		}
+	};
 }
