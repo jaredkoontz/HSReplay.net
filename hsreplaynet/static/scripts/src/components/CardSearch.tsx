@@ -1,9 +1,10 @@
 import React from "react";
+import { InjectedTranslateProps, translate } from "react-i18next";
 import { cardSorting, cleanText, slangToCardId } from "../helpers";
 import ObjectSearch, { Limit } from "./ObjectSearch";
 import CardTile from "./CardTile";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	availableCards: any[];
 	id: string;
 	onCardsChanged: (cards: any[]) => void;
@@ -13,8 +14,9 @@ interface Props {
 	onPaste?: (e: React.ClipboardEvent<EventTarget>) => void;
 }
 
-export default class CardSearch extends React.Component<Props> {
+class CardSearch extends React.Component<Props> {
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		return (
 			<CardObjectSearch
 				getFilteredObjects={query => this.getFilteredCards(query)}
@@ -25,7 +27,7 @@ export default class CardSearch extends React.Component<Props> {
 				getObjectKey={card => card.id}
 				id={this.props.id}
 				label={this.props.label}
-				noDataText="No cards found"
+				noDataText={t("No cards found")}
 				objectLimit={
 					this.props.cardLimit !== undefined
 						? this.props.cardLimit
@@ -35,8 +37,8 @@ export default class CardSearch extends React.Component<Props> {
 				onPaste={this.props.onPaste}
 				placeholder={
 					this.props.onPaste
-						? "Search for cards or paste deck…"
-						: "Search for cards…"
+						? t("Search for cards or paste deck…")
+						: t("Search for cards…")
 				}
 				selectedObjects={this.props.selectedCards}
 				sorting={cardSorting}
@@ -84,6 +86,8 @@ export default class CardSearch extends React.Component<Props> {
 			: 0;
 	}
 }
+
+export default translate()(CardSearch);
 
 // tslint:disable-next-line:max-classes-per-file
 class CardObjectSearch extends ObjectSearch<any> {}

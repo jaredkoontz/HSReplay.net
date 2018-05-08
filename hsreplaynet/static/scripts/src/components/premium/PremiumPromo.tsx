@@ -1,4 +1,5 @@
 import React from "react";
+import { Trans } from "react-i18next";
 import { image } from "../../helpers";
 
 interface Props {
@@ -19,7 +20,9 @@ export default class PremiumPromo extends React.Component<Props> {
 				</div>
 				<div className="card text-center">
 					<h3>
-						<span className="text-premium">Premium</span> only
+						<Trans>
+							Get <span className="text-premium">Premium</span>
+						</Trans>
 					</h3>
 					<p className="big">{this.props.text}</p>
 					<p>
@@ -27,7 +30,7 @@ export default class PremiumPromo extends React.Component<Props> {
 							href="/premium/"
 							className="btn promo-button hero-button"
 						>
-							Learn more
+							<Trans>Learn more</Trans>
 						</a>
 					</p>
 				</div>

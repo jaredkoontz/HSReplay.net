@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Trans } from "react-i18next";
 import InfoIcon, { InfoIconProps } from "../InfoIcon";
 import UserData from "../../UserData";
 import { image } from "../../helpers";
@@ -123,6 +124,12 @@ export default class PremiumWrapper extends React.Component<Props, State> {
 			classNames.push("hovering");
 		}
 
+		const premium = (
+			<Trans>
+				Get <span className="text-premium">Premium</span>
+			</Trans>
+		);
+
 		return (
 			<>
 				<Modal
@@ -177,11 +184,11 @@ export default class PremiumWrapper extends React.Component<Props, State> {
 					/>
 					{infoIcon}
 					<div className="premium-info">
-						<h4>
-							Get <span className="text-premium">Premium</span>
-						</h4>
+						<h4>{premium}</h4>
 						{this.state.touchCount > 0 ? (
-							<span>Tap for more details…</span>
+							<span>
+								<Trans>Tap for more details…</Trans>
+							</span>
 						) : null}
 					</div>
 					{React.Children.map(

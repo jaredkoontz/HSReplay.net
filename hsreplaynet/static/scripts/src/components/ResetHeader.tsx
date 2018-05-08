@@ -1,4 +1,5 @@
 import React from "react";
+import { Trans } from "react-i18next";
 
 interface Props {
 	onReset: () => void;
@@ -26,9 +27,11 @@ export default class ResetHeader extends React.Component<Props> {
 				}}
 				tabIndex={this.props.showReset ? 0 : -1}
 			>
-				{this.props.showReset
-					? "Reset all filters"
-					: this.props.children}
+				{this.props.showReset ? (
+					<Trans>Reset all filters</Trans>
+				) : (
+					this.props.children
+				)}
 			</h1>
 		);
 	}
