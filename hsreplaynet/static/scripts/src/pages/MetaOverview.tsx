@@ -100,14 +100,18 @@ class MetaOverview extends React.Component<Props, State> {
 			rankRangeFilter = (
 				<section id="rank-range-filter">
 					<PremiumWrapper analyticsLabel="Meta Overview Rank Range">
-						<h2>{t("Rank range")}</h2>
-						<RankPicker
-							selected={this.props.rankRange}
-							onSelectionChanged={rankRange =>
-								this.props.setRankRange(rankRange)
-							}
-							disabled={!UserData.isPremium()}
-						/>
+						{({ disabled }) => (
+							<>
+								<h2>{t("Rank range")}</h2>
+								<RankPicker
+									selected={this.props.rankRange}
+									onSelectionChanged={rankRange =>
+										this.props.setRankRange(rankRange)
+									}
+									disabled={disabled}
+								/>
+							</>
+						)}
 					</PremiumWrapper>
 				</section>
 			);

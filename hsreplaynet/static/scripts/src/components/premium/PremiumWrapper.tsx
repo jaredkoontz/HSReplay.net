@@ -191,17 +191,29 @@ export default class PremiumWrapper extends React.Component<Props, State> {
 							</span>
 						) : null}
 					</div>
-					{React.Children.map(
-						children,
-						(child: React.ReactElement<any>) =>
-							React.cloneElement(
-								child,
-								Object.assign({}, childProps, child.props),
-							),
-					)}
+					{this.renderChildren(childProps)}
 				</div>
 			</>
 		);
+	}
+
+	private renderChildren(childProps): React.ReactNode {
+		const { children } = this.props;
+		if (typeof children === "function") {
+			return (children as any)({
+				disabled: this.shouldAppear(),
+				...childProps,
+			});
+		} else {
+			return React.Children.map(
+				children,
+				(child: React.ReactElement<any>) =>
+					React.cloneElement(
+						child,
+						Object.assign({}, childProps, child.props),
+					),
+			);
+		}
 	}
 
 	protected shouldAppear(): boolean {
