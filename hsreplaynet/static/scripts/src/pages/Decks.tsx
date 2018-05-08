@@ -210,12 +210,6 @@ class Decks extends React.Component<Props, State> {
 		}
 	}
 
-	getDeckType(totalCost: number): string {
-		return totalCost >= 100
-			? "control"
-			: totalCost >= 80 ? "midrange" : "aggro";
-	}
-
 	getDeckElements(): Promise<any> {
 		const deckElements = [];
 		const archetypes = [];
