@@ -493,27 +493,20 @@ class Decks extends React.Component<Props, State> {
 				this.props.gameType === "RANKED_WILD"
 					? t("Wild decks")
 					: t("Standard decks");
-			const helpMessage = (
+			const onClickHelpMessage = e => {
+				e.preventDefault();
+				const minGames = this.minGames[
+					+(this.props.minGames >= this.minGames[0])
+				];
+				this.props.setMinGames(minGames);
+			};
+			const helpMessage =
+				// prettier-ignore
 				<Trans>
-					{"Showing "}
-					{{ deckTypes }}
-					{" with at least 10 unique pilots and "}
-					<a
-						href="#"
-						id="min-games-switch"
-						onClick={e => {
-							e.preventDefault();
-							const minGames = this.minGames[
-								+(this.props.minGames >= this.minGames[0])
-							];
-							this.props.setMinGames(minGames);
-						}}
-					>
-						{{ curMinGames }}
-					</a>
-					{" recorded games."}
-				</Trans>
-			);
+					Showing {{deckTypes}} with at least 10 unique pilots
+					and <a href="#" id="min-games-switch" onClick={onClickHelpMessage}>{{curMinGames}}</a> recorded
+					games.
+				</Trans>;
 			content = (
 				<Fragments
 					defaults={{
