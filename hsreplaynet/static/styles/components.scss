@@ -1189,6 +1189,7 @@ table .info-icon, .sort-header .info-icon {
 		position: relative;
 		width: 18%;
 		background: transparent;
+		padding: 0;
 
 		&.rank-selector-legend {
 			width: 90%;
@@ -1245,6 +1246,7 @@ table .info-icon, .sort-header .info-icon {
 		text-align: center;
 		width: 10%;
 		background: transparent;
+		padding: 0;
 
 		.glyphicon {
 			text-align: center;
