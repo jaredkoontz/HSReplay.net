@@ -784,9 +784,7 @@ class Cards extends React.Component<Props, State> {
 					<div className="form-group has-feedback">
 						<input
 							autoFocus
-							placeholder={t(
-								"Search: Fireball, lance, valet, ...",
-							)}
+							placeholder={t("Search: Fireball, Magma Rager…")}
 							type="search"
 							className="form-control"
 							value={this.props.text}
