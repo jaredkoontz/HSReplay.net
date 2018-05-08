@@ -1,15 +1,18 @@
+import { getArchetypeUrl, toDynamicFixed } from "../../helpers";
 import React from "react";
 import { Archetype, MetaPreview } from "../../utils/api";
 import { withLoading } from "../loading/Loading";
 import CardData from "../../CardData";
 import { Region } from "../../interfaces";
-import { getArchetypeUrl, toDynamicFixed } from "../../helpers";
+import { InjectedTranslateProps, Trans, translate } from "react-i18next";
 import SlotMachine from "./SlotMachine";
 import SemanticAge from "../text/SemanticAge";
 import Carousel from "./Carousel";
 import _ from "lodash";
+import { BnetRegion } from "../../hearthstone";
+import PrettyRegion from "../text/PrettyRegion";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	archetypeData?: Archetype[];
 	data?: MetaPreview[];
 	cardData: CardData;
@@ -78,18 +81,20 @@ class ArchetypeHighlight extends React.Component<Props, State> {
 		);
 	};
 
-	private getRegions(): { [region: string]: string } {
+	private getRegions(): { [region: string]: BnetRegion } {
 		return {
-			REGION_US: "Americas",
-			REGION_EU: "Europe",
-			REGION_KR: "Asia",
-			REGION_CN: "China",
+			REGION_US: BnetRegion.REGION_US,
+			REGION_EU: BnetRegion.REGION_EU,
+			REGION_KR: BnetRegion.REGION_KR,
+			REGION_CN: BnetRegion.REGION_CN,
 		};
 	}
 
-	private getRegionList(): string[] {
+	private getRegionList(): React.ReactNode[] {
 		const regions = this.getRegions();
-		return Object.keys(regions).map(k => regions[k]);
+		return Object.keys(regions).map((k: string, i: number) => (
+			<PrettyRegion region={regions[k]} key={i} />
+		));
 	}
 
 	private getRegionIndex(region: Region): number {
@@ -97,10 +102,11 @@ class ArchetypeHighlight extends React.Component<Props, State> {
 	}
 
 	private getRankList(): string[] {
+		const { t } = this.props;
 		const ranks = [];
-		ranks.push("Legend");
+		ranks.push(t("Legend"));
 		for (let i = 1; i <= 25; i++) {
-			ranks.push(`Rank ${i}`);
+			ranks.push(t("Rank {{rank}}", { rank: i }));
 		}
 		return ranks;
 	}
@@ -110,6 +116,7 @@ class ArchetypeHighlight extends React.Component<Props, State> {
 	}
 
 	public renderOutput(data: MetaPreview): React.ReactNode {
+		const { t } = this.props;
 		const result = data.data;
 		const archetype = this.props.archetypeData.find(
 			a => a.id === result.archetype_id,
@@ -142,10 +149,15 @@ class ArchetypeHighlight extends React.Component<Props, State> {
 					<h2>{archetype.name}</h2>
 					<p>
 						<span>
-							Winrate: {toDynamicFixed(result.win_rate, 1)}%
+							{t("Winrate: {{winrate}}", {
+								winrate:
+									toDynamicFixed(result.win_rate, 1) + "%",
+							})}
 						</span>
 						<small>
-							Updated <SemanticAge date={data.as_of} />
+							<Trans>
+								Updated <SemanticAge date={data.as_of} />
+							</Trans>
 						</small>
 					</p>
 				</div>
@@ -154,6 +166,7 @@ class ArchetypeHighlight extends React.Component<Props, State> {
 	}
 
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		const current = this.props.data[this.state.index];
 		const previous =
 			this.state.lastIndex !== null
@@ -163,7 +176,7 @@ class ArchetypeHighlight extends React.Component<Props, State> {
 		return (
 			<div className="archetype-highlight">
 				<div className="archetype-highlight-input">
-					<h1>The best deck in</h1>
+					<h1>{t("The best deck in")}</h1>
 					<div className="archetype-highlight-input-query">
 						<div>
 							<SlotMachine
@@ -186,11 +199,13 @@ class ArchetypeHighlight extends React.Component<Props, State> {
 					onHoverEnd={this.startRotation}
 				/>
 				<a className="btn promo-button blue-style" href="/meta/">
-					View Meta Tier List
+					{t("View Meta Tier List")}
 				</a>
 			</div>
 		);
 	}
 }
 
-export default withLoading(["archetypeData", "cardData"])(ArchetypeHighlight);
+export default withLoading(["archetypeData", "cardData"])(
+	translate()(ArchetypeHighlight),
+);
