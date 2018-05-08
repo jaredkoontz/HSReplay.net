@@ -32,7 +32,7 @@
 		"babel-preset-env": "^1.6.1",
 		"babel-preset-react": "^6.24.1",
 		"blob": "0.0.4",
-		"clipboard-polyfill": "^2.4.1",
+		"clipboard-polyfill": "^2.4.6",
 		"cookie_js": "^1.2.2",
 		"cross-env": "^5.1.1",
 		"css-loader": "^0.28.7",
@@ -59,7 +59,7 @@
 		"victory": "^0.25.6",
 		"webpack": "^3.10.0",
 		"webpack-bundle-tracker": "^0.2.1",
-		"whatwg-fetch": "^2.0.3"
+		"whatwg-fetch": "^2.0.4"
 	},
 	"devDependencies": {
 		"babel-plugin-syntax-dynamic-import": "^6.18.0",

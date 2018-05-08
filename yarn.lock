@@ -1399,9 +1399,9 @@ classnames@^2.2.3:
   version "2.2.5"
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.5.tgz#fb3801d453467649ef3603c7d61a02bd129bde6d"
 
-clipboard-polyfill@^2.4.1:
-  version "2.4.3"
-  resolved "https://registry.yarnpkg.com/clipboard-polyfill/-/clipboard-polyfill-2.4.3.tgz#81e8690fe1523cc1ed26fbc4304c86a50ba8421a"
+clipboard-polyfill@^2.4.6:
+  version "2.4.6"
+  resolved "https://registry.yarnpkg.com/clipboard-polyfill/-/clipboard-polyfill-2.4.6.tgz#9fcf2ad9e0a3a0e76c256182b159de0e679b2709"
   dependencies:
     es6-promise "4.1.1"
 
@@ -5870,9 +5870,13 @@ webpack@^3.10.0:
     webpack-sources "^1.0.1"
     yargs "^8.0.2"
 
-whatwg-fetch@>=0.10.0, whatwg-fetch@^2.0.3:
+whatwg-fetch@>=0.10.0:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-2.0.3.tgz#9c84ec2dcf68187ff00bc64e1274b442176e1c84"
+
+whatwg-fetch@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-2.0.4.tgz#dde6a5df315f9d39991aa17621853d720b85566f"
 
 whet.extend@~0.9.9:
   version "0.9.9"
