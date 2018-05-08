@@ -573,11 +573,11 @@ class CardDetail extends React.Component<Props, State> {
 			content = <h3 className="message-wrapper">{t("Loading…")}</h3>;
 		}
 
-		let race = null;
+		let tribe = null;
 		if (this.props.card && this.props.card.race) {
-			race = (
+			tribe = (
 				<li>
-					{t("Race")}
+					{t("Tribe")}
 					<span className="infobox-value">
 						{toTitleCase(this.props.card.race)}
 					</span>
@@ -761,7 +761,7 @@ class CardDetail extends React.Component<Props, State> {
 									setNames[this.props.card.set.toLowerCase()]}
 							</span>
 						</li>
-						{race}
+						{tribe}
 						{craftingCost}
 						<li>
 							{t("Artist")}

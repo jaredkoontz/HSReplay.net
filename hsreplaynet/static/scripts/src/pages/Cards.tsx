@@ -42,7 +42,7 @@ interface CardFilters {
 	format: any;
 	mechanics: any;
 	playerClass: any;
-	race: any;
+	tribe: any;
 	rarity: any;
 	set: any;
 	type: any;
@@ -83,9 +83,9 @@ interface Props extends FragmentChildProps, InjectedTranslateProps {
 	type?: string[];
 	setType?: (type: string[]) => void;
 	toggleType?: (type: string) => void;
-	race?: string[];
-	setRace?: (race: string[]) => void;
-	toggleRace?: (race: string) => void;
+	tribe?: string[];
+	setTribe?: (tribe: string[]) => void;
+	toggleTribe?: (tribe: string) => void;
 	mechanics?: string[];
 	setMechanics?: (mechanics: string[]) => void;
 	toggleMechanics?: (mechanic: string) => void;
@@ -156,7 +156,7 @@ class Cards extends React.Component<Props, State> {
 			"WARRIOR",
 			"NEUTRAL",
 		],
-		race: [
+		tribe: [
 			"BEAST",
 			"DEMON",
 			"DRAGON",
@@ -861,7 +861,7 @@ class Cards extends React.Component<Props, State> {
 			format: {},
 			mechanics: {},
 			playerClass: {},
-			race: {},
+			tribe: {},
 			rarity: {},
 			set: {},
 			type: {},
@@ -1217,16 +1217,16 @@ class Cards extends React.Component<Props, State> {
 				)}
 			</InfoboxFilterGroup>,
 			<InfoboxFilterGroup
-				key="races"
-				header={t("Race")}
+				key="tribes"
+				header={t("Tribe")}
 				collapsed
 				deselectable
-				selectedValue={this.props.race}
-				onClick={(newValue, race) => this.props.toggleRace(race)}
+				selectedValue={this.props.tribe}
+				onClick={(newValue, tribe) => this.props.toggleTribe(tribe)}
 			>
 				{this.buildFilterItems(
-					"race",
-					this.state.filterCounts && this.state.filterCounts.race,
+					"tribe",
+					this.state.filterCounts && this.state.filterCounts.tribe,
 				)}
 			</InfoboxFilterGroup>,
 			<InfoboxFilterGroup
