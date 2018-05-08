@@ -505,14 +505,21 @@ def get_mulligan_preview():
 
 	decks_query = get_redshift_query("list_decks_by_win_rate")
 
-	parameterized_decks_query = decks_query.build_full_params({})
+	parameterized_decks_query = decks_query.build_full_params(dict(
+		GameType="RANKED_STANDARD",
+		RankRange="ALL",
+		Region="ALL",
+		TimeRange="LAST_30_DAYS"
+	))
 	if not parameterized_decks_query.result_available:
-		return {}
+		return {
+			"error": "No deck data available"
+		}
 	decks_response = parameterized_decks_query.response_payload
 
 	archetype_decks = defaultdict(list)
-	for all_decks in decks_response["series"]["data"].values():
-		for deck in all_decks:
+	for class_decks in decks_response["series"]["data"].values():
+		for deck in class_decks:
 			if deck["total_games"] >= 5000:
 				archetype_decks[deck["archetype_id"]].append(deck)
 
@@ -540,17 +547,28 @@ def get_mulligan_preview():
 	archetype_decks = list(archetype_decks.values())
 	shuffle(archetype_decks, random=random)
 
+	insufficient = 0
+	no_result = 0
+	deck_ids = []
+
 	for decks in archetype_decks:
 		shuffle(decks, random=random)
 		for deck in decks:
 			mulligan_query = get_redshift_query("single_deck_mulligan_guide_by_class")
 			parameterized_mulligan_query = mulligan_query.build_full_params(dict(
+				GameType="RANKED_STANDARD",
+				RankRange="ALL",
+				Region="ALL",
+				TimeRange="LAST_30_DAYS",
 				deck_id=deck["deck_id"]
 			))
+			deck_ids.append(deck["deck_id"])
 			if not parameterized_mulligan_query.result_available:
+				no_result += 1
 				continue
 			mulligan_response = parameterized_mulligan_query.response_payload
 			if not is_sufficiently_distinct(mulligan_response):
+				insufficient += 1
 				continue
 			return {
 				"deck_id": deck["deck_id"],
@@ -558,4 +576,9 @@ def get_mulligan_preview():
 				"meta_data": mulligan_response["series"]["meta_data"]
 			}
 
-	return {}
+	return {
+		"deck_ids": deck_ids,
+		"decks": archetype_decks,
+		"insufficient": insufficient,
+		"no_result": no_result
+	}
