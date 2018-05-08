@@ -62,6 +62,11 @@ urlpatterns = [
 		views.meta_preview,
 		name="analytics_meta_preview"
 	),
+	url(
+		r"^mulligan/preview/$",
+		views.mulligan_preview,
+		name="analytics_mulligan_preview"
+	)
 ]
 
 api_urlpatterns = [

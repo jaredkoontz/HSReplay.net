@@ -498,3 +498,64 @@ def get_meta_preview(num_items=10):
 	shuffle(results, random=random)
 
 	return results[:num_items]
+
+
+def get_mulligan_preview():
+	from hsreplaynet.utils.aws.redshift import get_redshift_query
+
+	decks_query = get_redshift_query("list_decks_by_win_rate")
+
+	parameterized_decks_query = decks_query.build_full_params({})
+	if not parameterized_decks_query.result_available:
+		return {}
+	decks_response = parameterized_decks_query.response_payload
+
+	archetype_decks = defaultdict(list)
+	for all_decks in decks_response["series"]["data"].values():
+		for deck in all_decks:
+			if deck["total_games"] >= 5000:
+				archetype_decks[deck["archetype_id"]].append(deck)
+
+	def is_sufficiently_distinct(mulligan_data):
+		card_data = [
+			sorted(card_data, key=lambda x: x["opening_hand_winrate"], reverse=True)[:5]
+			for card_data in mulligan_data["series"]["data"].values()
+		]
+		num_classes = len(card_data)
+		for i in range(0, num_classes):
+			count = sum([
+				1 for j in range(0, num_classes) if j != i and
+				all(
+					card_data[i][k]["dbf_id"] == card_data[j][k]["dbf_id"]
+					for k in range(0, 5)
+				)
+			])
+			if count > 3:
+				return False
+		return True
+
+	now = datetime.utcnow()
+	random = seed(int(datetime(now.year, now.month, now.day).timestamp()))
+
+	archetype_decks = list(archetype_decks.values())
+	shuffle(archetype_decks, random=random)
+
+	for decks in archetype_decks:
+		shuffle(decks, random=random)
+		for deck in decks:
+			mulligan_query = get_redshift_query("single_deck_mulligan_guide_by_class")
+			parameterized_mulligan_query = mulligan_query.build_full_params(dict(
+				deck_id=deck["deck_id"]
+			))
+			if not parameterized_mulligan_query.result_available:
+				continue
+			mulligan_response = parameterized_mulligan_query.response_payload
+			if not is_sufficiently_distinct(mulligan_response):
+				continue
+			return {
+				"deck_id": deck["deck_id"],
+				"data": mulligan_response["series"]["data"],
+				"meta_data": mulligan_response["series"]["meta_data"]
+			}
+
+	return {}
