@@ -82,7 +82,9 @@ class CardSearch extends React.Component<Props> {
 	getMaxCount(card: any): number {
 		const limit = this.props.cardLimit || Limit.DOUBLE;
 		return limit === Limit.DOUBLE
-			? card.rarity === "LEGENDARY" ? 1 : 2
+			? card.rarity === "LEGENDARY"
+				? 1
+				: 2
 			: 0;
 	}
 }

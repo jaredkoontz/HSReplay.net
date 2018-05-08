@@ -29,7 +29,9 @@ export default class DeleteReplayButton extends React.Component<Props, State> {
 			>
 				{this.state.deleted
 					? "Deleted"
-					: this.state.working ? "Deleting…" : "Delete"}
+					: this.state.working
+						? "Deleting…"
+						: "Delete"}
 			</button>
 		);
 	}

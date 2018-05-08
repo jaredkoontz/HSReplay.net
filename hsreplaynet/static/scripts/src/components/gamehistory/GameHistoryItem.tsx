@@ -28,7 +28,9 @@ export default class GameHistoryItem extends React.Component<Props> {
 					href={"/replay/" + this.props.shortid}
 					className={
 						this.props.won !== null
-							? this.props.won ? "won" : "lost"
+							? this.props.won
+								? "won"
+								: "lost"
 							: null
 					}
 				>

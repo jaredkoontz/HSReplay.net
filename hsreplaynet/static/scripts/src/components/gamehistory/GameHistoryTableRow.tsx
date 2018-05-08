@@ -25,7 +25,9 @@ export default class GameHistoryTableRow extends React.Component<Props> {
 		const url = "/replay/" + this.props.shortid;
 		const result =
 			this.props.won !== null
-				? this.props.won ? "result-won" : "result-lost"
+				? this.props.won
+					? "result-won"
+					: "result-lost"
 				: null;
 		return (
 			<a href={url} className={"match-table-row " + result}>
@@ -58,7 +60,9 @@ export default class GameHistoryTableRow extends React.Component<Props> {
 				</div>
 				<div className={"match-table-cell " + result}>
 					{this.props.won !== null
-						? this.props.won ? "Won" : "Lost"
+						? this.props.won
+							? "Won"
+							: "Lost"
 						: "Unknown"}
 				</div>
 				<div className="match-table-cell">

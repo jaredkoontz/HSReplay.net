@@ -915,7 +915,9 @@ class Cards extends React.Component<Props, State> {
 			>
 				{this.props.personal
 					? t("My Cards")
-					: isStatsView ? t("Cards") : t("Gallery")}
+					: isStatsView
+						? t("Cards")
+						: t("Gallery")}
 			</ResetHeader>,
 		];
 

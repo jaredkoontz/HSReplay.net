@@ -60,7 +60,9 @@ export default class CardRankingTable extends React.Component<Props, State> {
 						customCardText={
 							isNoTarget
 								? "No Target"
-								: isFace ? "Opponent Hero" : undefined
+								: isFace
+									? "Opponent Hero"
+									: undefined
 						}
 						popularity={popularity}
 						rank={
