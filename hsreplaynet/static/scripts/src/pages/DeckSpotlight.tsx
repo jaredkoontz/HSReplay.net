@@ -1,6 +1,7 @@
 import React from "react";
 import { InjectedTranslateProps, translate } from "react-i18next";
 import CardData from "../CardData";
+import { Collection } from "../utils/api";
 import DataInjector from "../components/DataInjector";
 import SemanticAge from "../components/text/SemanticAge";
 import Tooltip from "../components/Tooltip";
@@ -11,6 +12,7 @@ import PropRemapper from "../components/utils/PropRemapper";
 
 interface Props extends InjectedTranslateProps {
 	cardData: CardData;
+	collection: Collection | null;
 }
 
 class DeckSpotlight extends React.Component<Props> {
@@ -53,7 +55,7 @@ class DeckSpotlight extends React.Component<Props> {
 					query={{ url: "trending_decks_by_popularity", params: {} }}
 				>
 					<TableLoading cardData={this.props.cardData}>
-						<TrendingDecksList />
+						<TrendingDecksList collection={this.props.collection} />
 					</TableLoading>
 				</DataInjector>
 				<section id="deck-db-link">

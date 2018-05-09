@@ -1,11 +1,13 @@
 import React from "react";
 import CardData from "../../CardData";
+import { Collection } from "../../utils/api";
 import { DeckObj, TableData } from "../../interfaces";
 import DeckList from "../DeckList";
 
 interface Props {
 	cardData?: CardData;
 	data?: TableData;
+	collection?: Collection | null;
 }
 
 export default class TrendingDecksList extends React.Component<Props> {
@@ -35,6 +37,13 @@ export default class TrendingDecksList extends React.Component<Props> {
 			});
 		});
 		decks.sort((a, b) => (a.playerClass > b.playerClass ? 1 : -1));
-		return <DeckList decks={decks} pageSize={9} hideTopPager />;
+		return (
+			<DeckList
+				decks={decks}
+				pageSize={9}
+				collection={this.props.collection}
+				hideTopPager
+			/>
+		);
 	}
 }
