@@ -33,9 +33,7 @@ export default class GameHistoryTableRow extends React.Component<Props> {
 			<a href={url} className={"match-table-row " + result}>
 				<div className="match-table-cell auto-size player-icon">
 					<ClassIcon
-						heroClassName={
-							this.props.friendlyPlayer.hero_class_name
-						}
+						cardClass={this.props.friendlyPlayer.hero_class_name}
 						small
 					/>
 				</div>
@@ -45,9 +43,7 @@ export default class GameHistoryTableRow extends React.Component<Props> {
 				<div className="match-table-cell auto-size">vs.</div>
 				<div className="match-table-cell auto-size opponent-icon">
 					<ClassIcon
-						heroClassName={
-							this.props.opposingPlayer.hero_class_name
-						}
+						cardClass={this.props.opposingPlayer.hero_class_name}
 						small
 					/>
 				</div>

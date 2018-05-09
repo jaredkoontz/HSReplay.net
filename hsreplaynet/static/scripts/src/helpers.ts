@@ -12,6 +12,8 @@ import {
 	GlobalGamePlayer,
 } from "./interfaces";
 import { Archetype } from "./utils/api";
+import { CardClass } from "./hearthstone";
+import { getCardClass } from "./utils/enums";
 
 export function staticFile(file: string) {
 	return STATIC_URL + file;
@@ -47,32 +49,30 @@ export function toTitleCase(str: string) {
 	);
 }
 
-export function getHeroColor(hero: string): string {
-	if (!hero) {
+export function getHeroColor(cardClass: CardClass | string): string {
+	if (!cardClass) {
 		return;
 	}
-	switch (hero.toUpperCase()) {
-		case "DRUID":
+	switch (getCardClass(cardClass)) {
+		case CardClass.DRUID:
 			return "#FF7D0A";
-		case "HUNTER":
+		case CardClass.HUNTER:
 			return "#ABD473";
-		case "MAGE":
+		case CardClass.MAGE:
 			return "#69CCF0";
-		case "PALADIN":
+		case CardClass.PALADIN:
 			return "#F58CBA";
-		case "PRIEST":
+		case CardClass.PRIEST:
 			return "#D2D2D2";
-		case "ROGUE":
+		case CardClass.ROGUE:
 			return "#FFF01a";
-		case "SHAMAN":
+		case CardClass.SHAMAN:
 			return "#0070DE";
-		case "WARLOCK":
+		case CardClass.WARLOCK:
 			return "#9482C9";
-		case "WARRIOR":
+		case CardClass.WARRIOR:
 			return "#C79C6E";
-		case "ALL":
-			return "#808080";
-		case "NEUTRAL":
+		default:
 			return "#808080";
 	}
 }
@@ -554,11 +554,13 @@ export function cardObjSorting(
 	return (bVal - aVal) * direction;
 }
 
-export function getHeroSkinCardUrl(cardClass: string): string {
+export function getHeroSkinCardUrl(cardClass: CardClass | string): string {
 	return cardArt(getHeroSkinCardId(cardClass) || "HERO_01");
 }
 
-export function getHeroSkinCardId(cardClass: string): string | null {
+export function getHeroSkinCardId(
+	cardClass: CardClass | string,
+): string | null {
 	const cardId = getHeroCardId(cardClass);
 	if (!cardId) {
 		return cardId;
@@ -569,25 +571,25 @@ export function getHeroSkinCardId(cardClass: string): string | null {
 	return cardId + "a";
 }
 
-export function getHeroCardId(cardClass: string): string | null {
-	switch (cardClass) {
-		case "WARRIOR":
+export function getHeroCardId(cardClass: CardClass | string): string | null {
+	switch (getCardClass(cardClass)) {
+		case CardClass.WARRIOR:
 			return "HERO_01";
-		case "SHAMAN":
+		case CardClass.SHAMAN:
 			return "HERO_02";
-		case "ROGUE":
+		case CardClass.ROGUE:
 			return "HERO_03";
-		case "PALADIN":
+		case CardClass.PALADIN:
 			return "HERO_04";
-		case "HUNTER":
+		case CardClass.HUNTER:
 			return "HERO_05";
-		case "DRUID":
+		case CardClass.DRUID:
 			return "HERO_06";
-		case "WARLOCK":
+		case CardClass.WARLOCK:
 			return "HERO_07";
-		case "MAGE":
+		case CardClass.MAGE:
 			return "HERO_08";
-		case "PRIEST":
+		case CardClass.PRIEST:
 			return "HERO_09";
 	}
 
@@ -908,21 +910,53 @@ export function getHeroDbfId(
 	return card ? card.dbfId : 0;
 }
 
+export function getCardClassName(cardClass: CardClass): string {
+	switch (cardClass) {
+		case CardClass.DEATHKNIGHT:
+			return "DEATHKNIGHT";
+		case CardClass.DRUID:
+			return "DRUID";
+		case CardClass.HUNTER:
+			return "HUNTER";
+		case CardClass.MAGE:
+			return "MAGE";
+		case CardClass.PALADIN:
+			return "PALADIN";
+		case CardClass.PRIEST:
+			return "PRIEST";
+		case CardClass.ROGUE:
+			return "ROGUE";
+		case CardClass.SHAMAN:
+			return "SHAMAN";
+		case CardClass.WARLOCK:
+			return "WARLOCK";
+		case CardClass.WARRIOR:
+			return "WARRIOR";
+		case CardClass.DREAM:
+			return "DREAM";
+		case CardClass.NEUTRAL:
+			return "NEUTRAL";
+		default:
+			return "INVALID";
+	}
+}
+
 export function getOtherArchetype(archetypeId: number): Archetype {
 	if (archetypeId > 0) {
 		return undefined;
 	}
 	const classId = -archetypeId;
+	const className = getCardClassName(classId);
 
-	if (!cardClass[classId]) {
+	if (className === "INVALID") {
 		return undefined;
 	}
 
 	return {
 		id: archetypeId,
-		name: "Other " + getHeroClassName(cardClass[classId]),
+		name: "Other " + getHeroClassName(className),
 		player_class: -archetypeId,
-		player_class_name: cardClass[classId],
+		player_class_name: className,
 		url: "",
 	};
 }
@@ -950,19 +984,3 @@ export function compareDecks(dbfIdsA: number[], dbfIdsB: number[]): boolean {
 	}
 	return dbfIdsB.every(x => x === undefined);
 }
-
-export const cardClass = [
-	"INVALID",
-	"DEATHKNIGHT",
-	"DRUID",
-	"HUNTER",
-	"MAGE",
-	"PALADIN",
-	"PRIEST",
-	"ROGUE",
-	"SHAMAN",
-	"WARLOCK",
-	"WARRIOR",
-	"DREAM",
-	"NEUTRAL",
-];

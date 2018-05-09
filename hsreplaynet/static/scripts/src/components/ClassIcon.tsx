@@ -1,48 +1,34 @@
 import React from "react";
 import Tooltip from "./Tooltip";
-import { getHeroClassName, image } from "../helpers";
+import { getCardClassName, getHeroClassName, image } from "../helpers";
+import { CardClass } from "../hearthstone";
+import { getCardClass } from "../utils/enums";
 
 export interface ClassIconProps {
-	heroClassName: string;
+	cardClass: CardClass | string;
 	small?: boolean;
 	tooltip?: boolean;
 }
 
-export default class ClassIcon extends React.Component<ClassIconProps, any> {
-	private readonly classes = [
-		"DRUID",
-		"HUNTER",
-		"MAGE",
-		"PALADIN",
-		"PRIEST",
-		"ROGUE",
-		"SHAMAN",
-		"WARLOCK",
-		"WARRIOR",
-	];
-
+export default class ClassIcon extends React.Component<ClassIconProps> {
 	public render(): React.ReactNode {
-		const heroClassName = getHeroClassName(this.props.heroClassName);
-		let fileName;
+		let fileName = "mode-icons/mode_ai.png";
 
-		if (this.classes.indexOf(this.props.heroClassName) === -1) {
-			fileName = "mode-icons/mode_ai.png";
-		} else {
-			fileName = `class-icons/${this.props.heroClassName.toLowerCase()}.png`;
+		const cardClass = getCardClass(this.props.cardClass);
+		const className = getCardClassName(cardClass);
+
+		if (cardClass !== CardClass.INVALID) {
+			fileName = `class-icons/${className.toLowerCase()}.png`;
 		}
 
 		let img = (
-			<img
-				src={image(fileName)}
-				className="class-icon"
-				alt={heroClassName}
-			/>
+			<img src={image(fileName)} className="class-icon" alt={className} />
 		);
 
 		if (this.props.tooltip) {
 			img = (
 				<Tooltip
-					content={getHeroClassName(this.props.heroClassName)}
+					content={getHeroClassName(className)}
 					simple
 					noSrTooltip
 				>
@@ -50,6 +36,7 @@ export default class ClassIcon extends React.Component<ClassIconProps, any> {
 				</Tooltip>
 			);
 		}
+
 		return img;
 	}
 }

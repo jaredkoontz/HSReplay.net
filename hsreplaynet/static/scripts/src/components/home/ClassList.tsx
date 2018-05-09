@@ -1,5 +1,7 @@
 import React from "react";
 import { getHeroSkinCardUrl, toDynamicFixed, winrateData } from "../../helpers";
+import { getCardClass } from "../../utils/enums";
+import { CardClass } from "../../hearthstone";
 
 export interface ClassListData {
 	playerClass: string;
@@ -27,25 +29,25 @@ export default class ClassList extends React.Component<Props, State> {
 		};
 	}
 
-	getImagePosition(playerClass: string): number {
-		switch (playerClass.toLowerCase()) {
-			case "druid":
+	private getImagePosition(cardClass: CardClass): number {
+		switch (cardClass) {
+			case CardClass.DRUID:
 				return 0.29;
-			case "hunter":
+			case CardClass.HUNTER:
 				return 0.22;
-			case "mage":
+			case CardClass.MAGE:
 				return 0.28;
-			case "paladin":
+			case CardClass.PALADIN:
 				return 0.2;
-			case "priest":
+			case CardClass.PRIEST:
 				return 0.22;
-			case "rogue":
+			case CardClass.ROGUE:
 				return 0.32;
-			case "shaman":
+			case CardClass.SHAMAN:
 				return 0.28;
-			case "warlock":
+			case CardClass.WARLOCK:
 				return 0.36;
-			case "warrior":
+			case CardClass.WARRIOR:
 				return 0.22;
 		}
 	}
@@ -58,7 +60,7 @@ export default class ClassList extends React.Component<Props, State> {
 					datum.playerClass,
 				).replace("256", "512")})`,
 				backgroundPositionY: `${100 *
-					this.getImagePosition(datum.playerClass)}%`,
+					this.getImagePosition(getCardClass(datum.playerClass))}%`,
 			};
 			classes.push(
 				<li

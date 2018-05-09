@@ -18,8 +18,8 @@ import NoDecksMessage from "../components/NoDecksMessage";
 import { Limit } from "../components/ObjectSearch";
 import ResetHeader from "../components/ResetHeader";
 import {
-	cardClass,
 	cardSorting,
+	getCardClassName,
 	isCollectibleCard,
 	isWildSet,
 	sortCards,
@@ -191,7 +191,9 @@ class MyDecks extends React.Component<Props, State> {
 								{},
 								data.series.data[shortId],
 							) as any;
-							const playerClass = cardClass[deck.player_class];
+							const playerClass = getCardClassName(
+								deck.player_class,
+							);
 							if (
 								this.props.playerClasses.length &&
 								this.props.playerClasses.indexOf(

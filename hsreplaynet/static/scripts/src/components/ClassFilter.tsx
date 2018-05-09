@@ -184,7 +184,7 @@ export default class ClassFilter extends React.Component<Props> {
 				}
 				aria-checked={isSelected}
 			>
-				<ClassIcon heroClassName={className} small tooltip />
+				<ClassIcon cardClass={className} small tooltip />
 				{label}
 			</span>
 		);
