@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-export type TooltipContent = string | React.ReactNode;
+export type TooltipContent = React.ReactNode;
 
 export interface ClickTouch<T> {
 	click: T;
