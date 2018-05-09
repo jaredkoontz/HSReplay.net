@@ -58,15 +58,13 @@ class CopyDeckButton extends React.Component<Props, State> {
 		} else {
 			classNames.push("btn-primary");
 		}
+		const message = this.state.copied
+			? t("Deck copied!")
+			: t("Copy deck to Hearthstone");
 		if (this.props.simple) {
 			classNames.push("glyphicon glyphicon-copy");
 			return (
-				<Tooltip
-					content={
-						this.state.copied ? t("Copied!") : t("Copy deck code")
-					}
-					simple
-				>
+				<Tooltip content={message} simple>
 					<span
 						className={classNames.join(" ")}
 						onClick={this.copy}
@@ -95,9 +93,7 @@ class CopyDeckButton extends React.Component<Props, State> {
 							<span className="glyphicon glyphicon-copy" />&nbsp;
 						</span>
 					) : null}
-					{this.state.copied
-						? t("Deck copied!")
-						: t("Copy deck to Hearthstone")}
+					{message}
 				</span>
 			</Tooltip>
 		);
