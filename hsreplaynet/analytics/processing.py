@@ -563,7 +563,7 @@ def get_mulligan_preview():
 			if not is_sufficiently_distinct(mulligan_response):
 				continue
 			return {
-				"deck_id": deck["deck_id"],
+				"deck": deck,
 				"data": mulligan_response["series"]["data"],
 				"meta_data": mulligan_response["series"]["metadata"]
 			}
