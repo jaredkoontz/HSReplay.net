@@ -519,7 +519,7 @@ def get_mulligan_preview():
 	archetype_decks = defaultdict(list)
 	for class_decks in decks_response["series"]["data"].values():
 		for deck in class_decks:
-			if deck["total_games"] >= 5000:
+			if deck["total_games"] >= 10000:
 				archetype_decks[deck["archetype_id"]].append(deck)
 
 	def is_sufficiently_distinct(mulligan_data):
