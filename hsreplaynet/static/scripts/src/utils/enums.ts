@@ -1,4 +1,4 @@
-import { CardClass } from "../hearthstone";
+import { CardClass, Rarity } from "../hearthstone";
 
 export function getCardClass(cardClass: string | CardClass): CardClass {
 	if (typeof cardClass !== "string") {
@@ -31,5 +31,25 @@ export function getCardClass(cardClass: string | CardClass): CardClass {
 			return CardClass.DREAM;
 		default:
 			return CardClass.INVALID;
+	}
+}
+
+export function getRarity(rarity: string | Rarity): Rarity {
+	if (typeof rarity !== "string") {
+		return rarity;
+	}
+	switch (rarity.toUpperCase()) {
+		case "COMMON":
+			return Rarity.COMMON;
+		case "RARE":
+			return Rarity.RARE;
+		case "EPIC":
+			return Rarity.EPIC;
+		case "LEGENDARY":
+			return Rarity.LEGENDARY;
+		case "FREE":
+			return Rarity.FREE;
+		default:
+			return Rarity.INVALID;
 	}
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { GetDustValue, image } from "../../helpers";
+import { getDustValue, image } from "../../helpers";
 import Tooltip from "../Tooltip";
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
 export default class extends React.Component<Props> {
 	render(): JSX.Element {
 		const owned = this.props.type === "owned";
-		const value = this.props.value || GetDustValue(this.props.type);
+		const value = this.props.value || getDustValue(this.props.type);
 		const classNames = ["dust-preset"];
 		if (this.props.isActive(value)) {
 			classNames.push("active");

@@ -12,8 +12,8 @@ import {
 	GlobalGamePlayer,
 } from "./interfaces";
 import { Archetype } from "./utils/api";
-import { CardClass } from "./hearthstone";
-import { getCardClass } from "./utils/enums";
+import { CardClass, Rarity } from "./hearthstone";
+import { getCardClass, getRarity } from "./utils/enums";
 
 export function staticFile(file: string) {
 	return STATIC_URL + file;
@@ -633,25 +633,25 @@ export function getDustCost(card: any | any[]): number {
 		return 0;
 	}
 
-	return GetDustValue(card.rarity);
+	return getDustValue(card.rarity);
 }
 
-export function GetDustValue(rarity: string) {
+export function getDustValue(rarity: Rarity | string): number {
 	if (!rarity) {
 		return 0;
 	}
-	switch (rarity.toUpperCase()) {
-		case "COMMON":
+	switch (getRarity(rarity)) {
+		case Rarity.COMMON:
 			return 40;
-		case "RARE":
+		case Rarity.RARE:
 			return 100;
-		case "EPIC":
+		case Rarity.EPIC:
 			return 400;
-		case "LEGENDARY":
+		case Rarity.LEGENDARY:
 			return 1600;
+		default:
+			return 0;
 	}
-
-	return 0;
 }
 
 export function getManaCost(card: any | any[]): number {
