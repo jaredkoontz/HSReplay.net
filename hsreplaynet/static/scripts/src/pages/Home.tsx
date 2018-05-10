@@ -309,7 +309,7 @@ class Home extends React.Component<Props, State> {
 								play with an in-game overlay. Never second guess
 								if they still have the coin!
 							</p>
-							<a className="btn promo-button blue-style">
+							<a className="btn promo-button transparent-style">
 								Download
 							</a>
 						</div>
@@ -348,13 +348,13 @@ class Home extends React.Component<Props, State> {
 								critical to winning games. Check out the best
 								cards to keep during mulligan.
 							</p>
-							<a className="btn promo-button blue-style">
+							<a className="btn promo-button transparent-style">
 								See all cards
 							</a>
 						</div>
 					</section>
 				</div>
-				<div className="row content-row" id="data">
+				<div className="row content-row" id="data-driven-plays">
 					<div className="section-header red">
 						Make Data Driven Plays
 					</div>
@@ -399,7 +399,10 @@ class Home extends React.Component<Props, State> {
 								underdogs in each matchup. Figure out how to
 								beat the meta!
 							</p>
-							<a className="btn promo-button" href="/meta/">
+							<a
+								className="btn promo-button transparent-style"
+								href="/meta/"
+							>
 								View all matchups
 							</a>
 						</div>
@@ -412,7 +415,7 @@ class Home extends React.Component<Props, State> {
 								performing the best for each class by rank and
 								region.
 							</p>
-							<a className="btn promo-button">
+							<a className="btn promo-button transparent-style">
 								View Full Tier List
 							</a>
 						</div>
@@ -448,7 +451,7 @@ class Home extends React.Component<Props, State> {
 							</DataInjector>
 						</div>
 					</section>
-					<section id="live-data">
+					<section className="section-right" id="live-data">
 						<LiveData
 							cardData={this.props.cardData}
 							numCards={12}

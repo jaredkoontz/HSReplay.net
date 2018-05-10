@@ -20,6 +20,12 @@
 		background-color: $aqua;
 	}
 
+	&.transparent-style {
+		border: solid 1px black;
+		background-color: transparent;
+		color: black;
+	}
+
 	&.premium-style {
 		border: solid 1px $premium;
 		background-color: $premium;
@@ -87,6 +93,12 @@
 		color: $aqua;
 		background-color: white;
 		border-color: $aqua;
+	}
+
+	&.transparent-style {
+		color: white;
+		background-color: black;
+		border-color: white;
 	}
 
 	&.premium-style {

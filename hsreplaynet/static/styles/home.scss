@@ -187,14 +187,14 @@
 		&.red {
 			background-color: $red;
 		}
-
 	}
 
 	section {
 		display: flex;
 		margin: 10px;
 		box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-		border: 1px solid $blue;
+		border: 1px solid black;
+		background: linear-gradient(to right, transparent 0%, rgba(29, 54, 87, 0.1) 100%);
 
 		.section-description {
 			display: flex;
@@ -219,11 +219,12 @@
 			.btn {
 				text-shadow: none;
 				min-width: 50%;
-				border: 1px solid hsla(0, 0%, 100%, 0.2);
 			}
 		}
 
 		&.section-right {
+			background: linear-gradient(to left, transparent 0%, rgba(29, 54, 87, 0.1) 100%);
+
 			.section-description {
 				padding: 50px 100px 50px 0;
 			}
@@ -247,6 +248,16 @@
 	}
 }
 
+#data-driven-plays {
+	section {
+		background: linear-gradient(to right, transparent 0%, rgba(201, 72, 91, 0.1) 100%);
+
+		&.section-right {
+			background: linear-gradient(to left, transparent 0%, rgba(201, 72, 91, 0.1) 100%);
+		}
+	}
+}
+
 .mulligan-guide-container {
 	background: $spacegray;
 	color: white;
@@ -257,7 +268,8 @@
 		align-items: center;
 		padding: 10px;
 
-		.archetype-name, .opponent-class {
+		.archetype-name,
+		.opponent-class {
 			flex: 1 1 0;
 			font-size: 1.8em;
 			font-variant: small-caps;
@@ -290,7 +302,7 @@
 
 	.sort-header {
 		cursor: default;
-		background: $darkblue
+		background: $darkblue;
 	}
 }
 
@@ -611,7 +623,8 @@
 
 			justify-content: space-between;
 
-			&::before, &::after {
+			&::before,
+			&::after {
 				// simulate the partially unsupported space-evenly
 				content: "";
 			}
