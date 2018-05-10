@@ -18,6 +18,7 @@ from hearthsim.identity.accounts.models import BlizzardAccount
 from hsreplaynet.analytics.utils import (
 	attempt_request_triggered_query_execution, execute_query, trigger_if_stale
 )
+from hsreplaynet.decks.models import Deck
 from hsreplaynet.utils import log
 from hsreplaynet.utils.aws import redshift
 from hsreplaynet.utils.aws.sqs import write_messages_to_queue
@@ -512,9 +513,7 @@ def get_mulligan_preview():
 		TimeRange="LAST_30_DAYS"
 	))
 	if not parameterized_decks_query.result_available:
-		return {
-			"error": "No deck data available"
-		}
+		return {}
 	decks_response = parameterized_decks_query.response_payload
 
 	archetype_decks = defaultdict(list)
@@ -537,7 +536,7 @@ def get_mulligan_preview():
 					for k in range(0, 5)
 				)
 			])
-			if count > 3:
+			if count > 2:
 				return False
 		return True
 
@@ -547,38 +546,26 @@ def get_mulligan_preview():
 	archetype_decks = list(archetype_decks.values())
 	shuffle(archetype_decks, random=random)
 
-	insufficient = 0
-	no_result = 0
-	deck_ids = []
-
 	for decks in archetype_decks:
 		shuffle(decks, random=random)
 		for deck in decks:
 			mulligan_query = get_redshift_query("single_deck_mulligan_guide_by_class")
+			deck_obj = Deck.objects.get_by_shortid(deck["deck_id"])
 			parameterized_mulligan_query = mulligan_query.build_full_params(dict(
 				GameType="RANKED_STANDARD",
 				RankRange="ALL",
 				Region="ALL",
-				TimeRange="LAST_30_DAYS",
-				deck_id=deck["deck_id"]
+				deck_id=str(deck_obj.id)
 			))
-			deck_ids.append(deck["deck_id"])
 			if not parameterized_mulligan_query.result_available:
-				no_result += 1
 				continue
 			mulligan_response = parameterized_mulligan_query.response_payload
 			if not is_sufficiently_distinct(mulligan_response):
-				insufficient += 1
 				continue
 			return {
 				"deck_id": deck["deck_id"],
 				"data": mulligan_response["series"]["data"],
-				"meta_data": mulligan_response["series"]["meta_data"]
+				"meta_data": mulligan_response["series"]["metadata"]
 			}
 
-	return {
-		"deck_ids": deck_ids,
-		"decks": archetype_decks,
-		"insufficient": insufficient,
-		"no_result": no_result
-	}
+	return {}
