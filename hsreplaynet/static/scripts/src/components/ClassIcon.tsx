@@ -1,8 +1,9 @@
 import React from "react";
 import Tooltip from "./Tooltip";
-import { getCardClassName, getHeroClassName, image } from "../helpers";
+import { getCardClassName, image } from "../helpers";
 import { CardClass } from "../hearthstone";
 import { getCardClass } from "../utils/enums";
+import PrettyCardClass from "./text/PrettyCardClass";
 
 export interface ClassIconProps {
 	cardClass: CardClass | string;
@@ -28,7 +29,7 @@ export default class ClassIcon extends React.Component<ClassIconProps> {
 		if (this.props.tooltip) {
 			img = (
 				<Tooltip
-					content={getHeroClassName(className)}
+					content={<PrettyCardClass cardClass={cardClass} />}
 					simple
 					noSrTooltip
 				>

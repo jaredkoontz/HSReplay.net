@@ -1,9 +1,10 @@
 import React from "react";
 import { ApiArchetypePopularity, SortableProps } from "../../interfaces";
 import CardData from "../../CardData";
-import { getHeroClassName } from "../../helpers";
 import ArchetypeClassTable from "./ArchetypeClassTable";
 import { Archetype } from "../../utils/api";
+import { getCardClass } from "../../utils/enums";
+import PrettyCardClass from "../text/PrettyCardClass";
 
 interface Props extends SortableProps {
 	data: ApiArchetypePopularity[];
@@ -23,7 +24,9 @@ export default class ClassArchetypesBox extends React.Component<Props> {
 					<span
 						className={`player-class ${playerClass.toLowerCase()}`}
 					>
-						{getHeroClassName(playerClass)}
+						<PrettyCardClass
+							cardClass={getCardClass(this.props.playerClass)}
+						/>
 					</span>
 				</div>
 				<div className="box-content">

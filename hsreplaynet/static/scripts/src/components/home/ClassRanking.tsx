@@ -1,8 +1,8 @@
 import React from "react";
-import { getHeroClassName } from "../../helpers";
 import { BnetGameType } from "../../hearthstone";
 import { withLoading } from "../loading/Loading";
 import ClassList, { ClassListData } from "./ClassList";
+import PrettyCardClass from "../text/PrettyCardClass";
 
 interface ClassData<T> {
 	[cardClass: string]: T;
@@ -52,7 +52,7 @@ class ClassRanking extends React.Component<Props> {
 						#{index + 1}
 					</span>,
 					<span key="name" className="class-name">
-						{getHeroClassName(datum.playerClass)}
+						<PrettyCardClass cardClass={datum.playerClass} />
 					</span>,
 				],
 				winRate: datum.win_rate,
