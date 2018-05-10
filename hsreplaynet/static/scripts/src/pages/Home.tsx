@@ -17,6 +17,7 @@ import ArchetypeMatchups from "../components/metaoverview/ArchetypeMatchups";
 import PremiumModal from "../components/premium/PremiumModal";
 import { BnetGameType } from "../hearthstone";
 import { image } from "../helpers";
+import MulliganGuidePreview from "../components/home/MulliganGuidePreview";
 
 interface Props extends InjectedTranslateProps {
 	cardData: CardData | null;
@@ -321,10 +322,14 @@ class Home extends React.Component<Props, State> {
 					</section>
 					<section className="section-right">
 						<div className="section-feature">
-							<img
-								src={STATIC_URL + "images/mulligan-temp.png"}
-								alt="Mulligan"
-							/>
+							<DataInjector query={[
+								{key: "data", url: "/analytics/mulligan/preview/", params: {}},
+								{key: "archetypeData", url: "/api/v1/archetypes/", params: {}},
+							]}>
+								<MulliganGuidePreview
+									cardData={this.props.cardData}
+								/>
+							</DataInjector>
 						</div>
 						<div className="section-description">
 							<h1>Mulligan Statistics</h1>

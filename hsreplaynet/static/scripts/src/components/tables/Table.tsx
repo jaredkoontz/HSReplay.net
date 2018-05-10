@@ -51,6 +51,7 @@ interface Props extends BaseTableProps {
 	minColumnWidth: number;
 	headerWidth: [number, number];
 	rowHighlighting?: boolean;
+	alternatingBackground?: string;
 }
 
 interface State {
@@ -266,7 +267,7 @@ export default class Table extends React.Component<Props, State> {
 	rowHeaderRenderer = ({ rowIndex, key, style }) => {
 		style = Object.assign({}, style);
 		if (rowIndex % 2 === 0) {
-			style["background"] = "white";
+			style["background"] = this.props.alternatingBackground || "white";
 		}
 		const row = this.props.rowData[rowIndex];
 		const props = {
@@ -349,7 +350,7 @@ export default class Table extends React.Component<Props, State> {
 
 		let background = null;
 		if (rowIndex % 2 === 0) {
-			background = "white";
+			background = this.props.alternatingBackground || "white";
 		}
 
 		style = Object.assign({}, style, {

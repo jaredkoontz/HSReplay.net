@@ -28,6 +28,7 @@ interface Props extends SortableProps {
 	collection?: Collection | null;
 	showEmptyCollection?: boolean;
 	forceCardCounts?: boolean | ((count: number) => boolean);
+	alternatingBackground?: string;
 }
 
 const CELL_HEIGHT = 36;
@@ -103,6 +104,7 @@ class CardTable extends React.Component<Props> {
 				topInfoRow={this.props.topInfoRow}
 				bottomInfoRow={this.props.bottomInfoRow}
 				headerWidthRatio={this.props.headerWidthRatio}
+				alternatingBackground={this.props.alternatingBackground}
 			/>
 		);
 	}

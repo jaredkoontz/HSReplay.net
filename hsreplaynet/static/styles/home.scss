@@ -238,6 +238,53 @@
 	}
 }
 
+.mulligan-guide-container {
+	background: $spacegray;
+	color: white;
+	max-width: 600px;
+
+	.mulligan-guide-header {
+		display: flex;
+		align-items: center;
+		padding: 10px;
+
+		.archetype-name, .opponent-class {
+			flex: 1 1 0;
+			font-size: 1.8em;
+			font-variant: small-caps;
+			font-weight: bold;
+		}
+
+		.archetype-name {
+			text-align: left;
+		}
+
+		.opponent-class {
+			text-align: right;
+		}
+
+		.vs-icon {
+			width: 32px;
+			height: 32px;
+		}
+	}
+
+	.class-filter-wrapper {
+		background: $blue;
+		margin: 0;
+		padding: 5px 10px 10px;
+	}
+
+	.table-container {
+		margin: 0;
+	}
+
+	.sort-header {
+		cursor: default;
+		background: $darkblue
+	}
+}
+
 #feature-meta > div {
 	background: $spacegray;
 	color: white;

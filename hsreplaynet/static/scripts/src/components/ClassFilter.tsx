@@ -33,27 +33,27 @@ interface Props {
 	archetypesChanged?: (archetypes: string[]) => void;
 }
 
-export default class ClassFilter extends React.Component<Props> {
-	private readonly classes: FilterOption[] = [
-		"DRUID",
-		"HUNTER",
-		"MAGE",
-		"PALADIN",
-		"PRIEST",
-		"ROGUE",
-		"SHAMAN",
-		"WARLOCK",
-		"WARRIOR",
-	];
+export const filterOptionClasses: FilterOption[] = [
+	"DRUID",
+	"HUNTER",
+	"MAGE",
+	"PALADIN",
+	"PRIEST",
+	"ROGUE",
+	"SHAMAN",
+	"WARLOCK",
+	"WARRIOR",
+];
 
+export default class ClassFilter extends React.Component<Props> {
 	private readonly presets = new Map<FilterPreset, FilterOption[]>([
-		["All", ["ALL"].concat(this.classes) as FilterOption[]],
+		["All", ["ALL"].concat(filterOptionClasses) as FilterOption[]],
 		[
 			"AllNeutral",
-			["ALL"].concat(this.classes).concat(["NEUTRAL"]) as FilterOption[],
+			["ALL"].concat(filterOptionClasses).concat(["NEUTRAL"]) as FilterOption[],
 		],
-		["Neutral", this.classes.concat(["NEUTRAL"]) as FilterOption[]],
-		["ClassesOnly", this.classes],
+		["Neutral", filterOptionClasses.concat(["NEUTRAL"]) as FilterOption[]],
+		["ClassesOnly", filterOptionClasses],
 	]);
 
 	public componentWillReceiveProps(
