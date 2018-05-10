@@ -1,9 +1,10 @@
 module.exports = {
 	options: {
 		// use strings as keys
-		defaultNs: "frontend",
 		nsSeparator: false,
 		keySeparator: false,
+		// settings
+		defaultNs: "frontend",
 		lngs: ["en"],
 		resource: {
 			loadPath: "{{lng}}/{{ns}}.json",
