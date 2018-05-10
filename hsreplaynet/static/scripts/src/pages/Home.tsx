@@ -300,9 +300,7 @@ class Home extends React.Component<Props, State> {
 		return (
 			<>
 				<div className="row content-row" id="pilot">
-					<div className="section-header">
-						Be A Better Deck Pilot
-					</div>
+					<div className="section-header">Be A Better Deck Pilot</div>
 					<section className="section-left">
 						<div className="section-description">
 							<h1>Hearthstone Deck Tracker</h1>
@@ -311,7 +309,9 @@ class Home extends React.Component<Props, State> {
 								play with an in-game overlay. Never second guess
 								if they still have the coin!
 							</p>
-							<a className="btn promo-button blue-style">Download</a>
+							<a className="btn promo-button blue-style">
+								Download
+							</a>
 						</div>
 						<div className="section-feature">
 							<img
@@ -322,10 +322,20 @@ class Home extends React.Component<Props, State> {
 					</section>
 					<section className="section-right">
 						<div className="section-feature">
-							<DataInjector query={[
-								{key: "data", url: "/analytics/mulligan/preview/", params: {}},
-								{key: "archetypeData", url: "/api/v1/archetypes/", params: {}},
-							]}>
+							<DataInjector
+								query={[
+									{
+										key: "data",
+										url: "/analytics/mulligan/preview/",
+										params: {},
+									},
+									{
+										key: "archetypeData",
+										url: "/api/v1/archetypes/",
+										params: {},
+									},
+								]}
+							>
 								<MulliganGuidePreview
 									cardData={this.props.cardData}
 								/>
@@ -338,7 +348,9 @@ class Home extends React.Component<Props, State> {
 								critical to winning games. Check out the best
 								cards to keep during mulligan.
 							</p>
-							<a className="btn promo-button blue-style">See all cards</a>
+							<a className="btn promo-button blue-style">
+								See all cards
+							</a>
 						</div>
 					</section>
 				</div>

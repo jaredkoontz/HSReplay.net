@@ -66,7 +66,7 @@ class ReplayFeed extends React.Component<Props, State> {
 	}
 
 	public componentDidMount(): void {
-		//this.updateGamesToday();
+		// this.updateGamesToday();
 	}
 
 	getMillisecondsOfDay(asUtc: boolean = true): number {

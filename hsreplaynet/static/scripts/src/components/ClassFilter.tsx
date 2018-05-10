@@ -50,7 +50,9 @@ export default class ClassFilter extends React.Component<Props> {
 		["All", ["ALL"].concat(filterOptionClasses) as FilterOption[]],
 		[
 			"AllNeutral",
-			["ALL"].concat(filterOptionClasses).concat(["NEUTRAL"]) as FilterOption[],
+			["ALL"]
+				.concat(filterOptionClasses)
+				.concat(["NEUTRAL"]) as FilterOption[],
 		],
 		["Neutral", filterOptionClasses.concat(["NEUTRAL"]) as FilterOption[]],
 		["ClassesOnly", filterOptionClasses],
