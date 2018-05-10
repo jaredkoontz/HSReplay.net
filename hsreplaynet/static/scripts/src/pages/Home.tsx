@@ -259,7 +259,7 @@ class Home extends React.Component<Props, State> {
 						/>
 					</div>
 				</div>
-				{this.renderNewBelowTheFold(bannerStyle)}
+				{this.renderNewBelowTheFold()}
 				{this.renderOldBelowTheFold()}
 			</div>
 		);
@@ -293,14 +293,14 @@ class Home extends React.Component<Props, State> {
 		);
 	}
 
-	private renderNewBelowTheFold(bannerStyle: any): React.ReactNode {
+	private renderNewBelowTheFold(): React.ReactNode {
 		if (!UserData.hasFeature("new-frontpage")) {
 			return null;
 		}
 		return (
 			<>
 				<div className="row content-row" id="pilot">
-					<div className="section-header" style={bannerStyle}>
+					<div className="section-header">
 						Be A Better Deck Pilot
 					</div>
 					<section className="section-left">
@@ -311,7 +311,7 @@ class Home extends React.Component<Props, State> {
 								play with an in-game overlay. Never second guess
 								if they still have the coin!
 							</p>
-							<a className="btn promo-button">Download</a>
+							<a className="btn promo-button blue-style">Download</a>
 						</div>
 						<div className="section-feature">
 							<img
@@ -338,12 +338,12 @@ class Home extends React.Component<Props, State> {
 								critical to winning games. Check out the best
 								cards to keep during mulligan.
 							</p>
-							<a className="btn promo-button">See all cards</a>
+							<a className="btn promo-button blue-style">See all cards</a>
 						</div>
 					</section>
 				</div>
 				<div className="row content-row" id="data">
-					<div className="section-header" style={bannerStyle}>
+					<div className="section-header red">
 						Make Data Driven Plays
 					</div>
 					<section className="section-right">
@@ -436,7 +436,7 @@ class Home extends React.Component<Props, State> {
 							</DataInjector>
 						</div>
 					</section>
-					<section id="live-data" style={{ color: "white" }}>
+					<section id="live-data">
 						<LiveData
 							cardData={this.props.cardData}
 							numCards={12}
