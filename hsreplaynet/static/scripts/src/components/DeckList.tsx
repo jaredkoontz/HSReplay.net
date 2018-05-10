@@ -188,7 +188,7 @@ export default class DeckList extends React.Component<Props, State> {
 		const isSortable =
 			typeof this.props.setSortBy === "function" &&
 			typeof this.props.setSortDirection === "function";
-		const sortIndicator = (name: string): JSX.Element => {
+		const sortIndicator = (name: string): React.ReactNode => {
 			if (!isSortable) {
 				return null;
 			}

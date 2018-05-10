@@ -752,7 +752,10 @@ class DeckDetail extends React.Component<Props, State> {
 		);
 	}
 
-	renderMulliganGuideTable(deckParams: any, globalParams: any): JSX.Element {
+	renderMulliganGuideTable(
+		deckParams: any,
+		globalParams: any,
+	): React.ReactNode {
 		const premiumMulligan =
 			UserData.isPremium() &&
 			this.props.selectedClasses.length &&
@@ -818,7 +821,7 @@ class DeckDetail extends React.Component<Props, State> {
 		);
 	}
 
-	getMyStats(): JSX.Element {
+	getMyStats(): React.ReactNode {
 		const { t } = this.props;
 		if (!UserData.isAuthenticated() || !UserData.isPremium()) {
 			return (
@@ -895,7 +898,7 @@ class DeckDetail extends React.Component<Props, State> {
 		);
 	}
 
-	renderStreams(): JSX.Element {
+	renderStreams(): React.ReactNode {
 		const { t } = this.props;
 		return (
 			<DataInjector
@@ -924,7 +927,7 @@ class DeckDetail extends React.Component<Props, State> {
 		);
 	}
 
-	renderMatchups(deckParams: any): JSX.Element {
+	renderMatchups(deckParams: any): React.ReactNode {
 		const { t } = this.props;
 		if (!UserData.isAuthenticated() || !UserData.isPremium()) {
 			return (
@@ -1125,7 +1128,7 @@ class DeckDetail extends React.Component<Props, State> {
 		return renderData;
 	}
 
-	renderAdminSettings(): JSX.Element {
+	renderAdminSettings(): React.ReactNode {
 		const items = [];
 		if (UserData.isStaff() && this.props.adminUrl) {
 			items.push(

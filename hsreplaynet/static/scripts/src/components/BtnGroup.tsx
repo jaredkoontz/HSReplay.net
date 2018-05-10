@@ -1,7 +1,7 @@
 import React from "react";
 
 export interface Btn {
-	label: string | JSX.Element;
+	label: React.ReactNode;
 	value: string;
 	id?: string;
 	className?: string;

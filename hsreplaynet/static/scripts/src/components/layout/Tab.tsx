@@ -4,7 +4,7 @@ interface Props {
 	id: string;
 	hidden?: boolean;
 	disabled?: boolean;
-	label?: string | JSX.Element;
+	label?: React.ReactNode;
 	highlight?: boolean;
 }
 

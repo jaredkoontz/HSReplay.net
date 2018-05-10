@@ -126,7 +126,7 @@ export default class ClassFilter extends React.Component<Props> {
 		);
 	}
 
-	buildIcon(className: FilterOption, selected: boolean): JSX.Element {
+	buildIcon(className: FilterOption, selected: boolean): React.ReactNode {
 		const isSelected =
 			selected ||
 			this.props.selectedClasses.indexOf("ALL") !== -1 ||

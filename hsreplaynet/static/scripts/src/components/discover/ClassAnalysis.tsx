@@ -206,7 +206,7 @@ class ClassAnalysis extends React.Component<Props, State> {
 		);
 	}
 
-	renderChartTabLabel(): JSX.Element {
+	renderChartTabLabel(): React.ReactNode {
 		const { playerClass } = this.props;
 		return (
 			<span className={"player-class " + playerClass.toLowerCase()}>
@@ -215,7 +215,7 @@ class ClassAnalysis extends React.Component<Props, State> {
 		);
 	}
 
-	renderSignatureTabs(): JSX.Element[] {
+	renderSignatureTabs(): React.ReactNode[] {
 		const { canModifyArchetype, data, format, playerClass } = this.props;
 		const clusterIds = Object.keys(data.cluster_map).sort();
 		return clusterIds.map(clusterId => {
