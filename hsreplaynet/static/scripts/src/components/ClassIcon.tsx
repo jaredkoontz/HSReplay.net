@@ -18,7 +18,10 @@ export default class ClassIcon extends React.Component<ClassIconProps> {
 		const cardClass = getCardClass(this.props.cardClass);
 		const className = getCardClassName(cardClass);
 
-		if (cardClass !== CardClass.INVALID) {
+		if (
+			cardClass !== CardClass.INVALID &&
+			cardClass !== CardClass.NEUTRAL
+		) {
 			fileName = `class-icons/${className.toLowerCase()}.png`;
 		}
 
