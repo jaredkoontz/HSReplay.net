@@ -3,114 +3,52 @@
 const path = require("path");
 const webpack = require("webpack");
 const BundleTracker = require("webpack-bundle-tracker");
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-// TODO: unhardcode me
-const exportedSettings = {
-	STATIC_URL: "/static/",
-	JOUST_STATIC_URL: "https://joust.hearthsim.net/branches/master/",
-	SUNWELL_URL: "https://sunwell.hearthsim.net/branches/master/",
-	HEARTHSTONE_ART_URL: "https://art.hearthstonejson.com/v1",
-	JOUST_RAVEN_DSN_PUBLIC: process.env.JOUST_RAVEN_DSN_PUBLIC,
-	JOUST_RAVEN_ENVIRONMENT: process.env.NODE_ENV,
-	INFLUX_DATABASE_JOUST: process.env.INFLUX_DATABASE_JOUST,
-};
-const settings = {};
-for (const [key, val] of Object.entries(exportedSettings)) {
-	settings[key] = JSON.stringify(val);
-}
-const isProduction = process.env.NODE_ENV === "production";
+module.exports = function(env, args) {
+	const isProduction = args.mode === "production";
 
-const plugins = [];
-if (isProduction) {
-	const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
-	plugins.push(
-		new UglifyJSPlugin({
-			parallel: true,
-			sourceMap: true,
-		}),
-	);
-} else {
-	const HardSourceWebpackPlugin = require("hard-source-webpack-plugin");
-	plugins.push(new HardSourceWebpackPlugin({}));
-}
-
-module.exports = env => {
-	env = env || {};
-
-	// define entry points and groups with common code
-	const makeEntry = name =>
-		path.join(__dirname, "hsreplaynet/static/scripts/src/entries/", name);
-	const entries = {
-		my_replays: makeEntry("my_replays"),
-		replay_detail: makeEntry("replay_detail"),
-		replay_embed: makeEntry("replay_embed"),
-		stats: {
-			card_detail: makeEntry("card_detail"),
-			cards: makeEntry("cards"),
-			deck_detail: makeEntry("deck_detail"),
-			decks: makeEntry("decks"),
-			my_decks: makeEntry("my_decks"),
-			meta_overview: makeEntry("meta_overview"),
-			trending: makeEntry("trending"),
-			archetype_detail: makeEntry("archetype_detail"),
-		},
-		my_packs: makeEntry("my_packs"),
-		premium_detail: makeEntry("premium_detail"),
-		discover: makeEntry("discover"),
-		card_editor: makeEntry("card_editor"),
-		home: makeEntry("home"),
-		vendor: [
-			"babel-polyfill",
-			"whatwg-fetch",
-			"react",
-			"react-dom",
-			"prop-types",
-			"lodash",
-			makeEntry("export-react"),
-			"hearthstonejson-client",
-			makeEntry("polyfills"),
-		],
-		site: makeEntry("site"),
+	// TODO: unhardcode me
+	const exportedSettings = {
+		STATIC_URL: "/static/",
+		JOUST_STATIC_URL: "https://joust.hearthsim.net/branches/master/",
+		SUNWELL_URL: "https://sunwell.hearthsim.net/branches/master/",
+		HEARTHSTONE_ART_URL: "https://art.hearthstonejson.com/v1",
+		JOUST_RAVEN_DSN_PUBLIC: env ? env.JOUST_RAVEN_DSN_PUBLIC : "",
+		JOUST_RAVEN_ENVIRONMENT: env ? env.NODE_ENV : "",
+		INFLUX_DATABASE_JOUST: env ? env.INFLUX_DATABASE_JOUST : "",
 	};
-
-	// flatten the entry points for config
-	const entriesFlat = {};
-	const groups = [];
-	for (const group in entries) {
-		const values = entries[group];
-		if (typeof values === "string" || Array.isArray(values)) {
-			entriesFlat[group] = values;
-		} else if (typeof values === "object") {
-			groups.push(group);
-			for (const key in values) {
-				entriesFlat[key] = values[key];
-			}
-		}
+	const settings = {};
+	for (const [key, val] of Object.entries(exportedSettings)) {
+		settings[key] = JSON.stringify(val);
 	}
 
-	// define a CommonsChunkPlugin for each group
-	const commons = groups.map(
-		group =>
-			new webpack.optimize.CommonsChunkPlugin({
-				names: group,
-				chunks: Object.keys(entries[group]),
-				minChunks: 3,
-			}),
-	);
-
-	entriesFlat["main"] = path.join(
-		__dirname,
-		"hsreplaynet/static/styles",
-		"main.scss",
-	);
-	const extractSCSS = new ExtractTextPlugin(
-		isProduction ? "[name].[contenthash].css" : "[name].css",
-	);
+	const entry = name =>
+		path.join(__dirname, "hsreplaynet/static/scripts/src/entries/", name);
+	const entries = {
+		site: entry("site"),
+		main: path.join(__dirname, "hsreplaynet/static/styles", "main.scss"),
+		home: entry("home"),
+		my_replays: entry("my_replays"),
+		replay_detail: entry("replay_detail"),
+		replay_embed: entry("replay_embed"),
+		card_detail: entry("card_detail"),
+		cards: entry("cards"),
+		deck_detail: entry("deck_detail"),
+		decks: entry("decks"),
+		my_decks: entry("my_decks"),
+		meta_overview: entry("meta_overview"),
+		trending: entry("trending"),
+		archetype_detail: entry("archetype_detail"),
+		premium_detail: entry("premium_detail"),
+		discover: entry("discover"),
+		card_editor: entry("card_editor"),
+		my_packs: entry("my_packs"),
+	};
 
 	return {
 		context: __dirname,
-		entry: entriesFlat,
+		entry: entries,
 		output: {
 			filename: isProduction ? "[name].[chunkhash].js" : "[name].js",
 			sourceMapFilename: "[file].map",
@@ -149,6 +87,7 @@ module.exports = env => {
 												],
 											},
 											modules: false,
+											useBuiltins: true,
 										},
 									],
 								],
@@ -170,11 +109,12 @@ module.exports = env => {
 				{
 					test: /\.scss$/,
 					exclude: /node_modules/,
-					use: extractSCSS.extract([
+					use: [
+						MiniCssExtractPlugin.loader,
 						{
 							loader: "css-loader",
 							options: {
-								minimize: true,
+								minimize: isProduction,
 								sourceMap: true,
 							},
 						},
@@ -184,7 +124,7 @@ module.exports = env => {
 								sourceMap: true,
 							},
 						},
-					]),
+					],
 				},
 			],
 		},
@@ -193,32 +133,23 @@ module.exports = env => {
 			joust: "Joust",
 			sunwell: "Sunwell",
 		},
+		optimization: {
+			splitChunks: {
+				chunks: "all",
+			},
+		},
 		plugins: [
 			new BundleTracker({
 				path: __dirname,
 				filename: "./build/webpack-stats.json",
 			}),
 			new webpack.DefinePlugin(settings),
-			new webpack.DefinePlugin({
-				"process.env": {
-					NODE_ENV: JSON.stringify(
-						isProduction ? "production" : "development",
-					),
-				},
-			}),
-			extractSCSS,
-			new webpack.optimize.CommonsChunkPlugin({
-				name: "vendor",
-				minChunks: Infinity,
-			}),
-		]
-			.concat(commons)
-			.concat(plugins),
+			new MiniCssExtractPlugin("main.css"),
+		],
 		watchOptions: {
 			// required in the Vagrant setup due to Vagrant inotify not working
 			poll: 1000,
 		},
-		devtool: isProduction ? "source-map" : "cheap-module-eval-source-map",
 		stats: {
 			modules: false,
 		},

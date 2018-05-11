@@ -1,3 +1,6 @@
+import "./polyfills";
+import "./export-react";
+
 import React from "react";
 import ReactDOM from "react-dom";
 import $ from "jquery";

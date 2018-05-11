@@ -22,7 +22,6 @@
 <body>
 	<div id="joust-container" data-replayurl="{{ replay.replay_xml.url }}" data-locale="{{ lang|lang_to_blizzard }}"></div>
 	<script type="text/javascript" src="{% static 'vendor/jquery.min.js' %}"></script>
-	{% render_bundle "vendor" %}
 	<script src="{% joust_static 'joust.js' %}"></script>
 	{% render_bundle "replay_embed" %}
 </body>

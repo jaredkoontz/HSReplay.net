@@ -1,3 +1,5 @@
+import "babel-polyfill";
+
 if (
 	window &&
 	window.navigator &&

@@ -2,8 +2,6 @@
 {% load render_bundle from webpack_loader %}
 
 {% block fullcontent %}
-	<div id="discover-container">
-	</div>
-	{% render_bundle "stats" %}
+	<div id="discover-container"></div>
 	{% render_bundle "discover" %}
 {% endblock %}
