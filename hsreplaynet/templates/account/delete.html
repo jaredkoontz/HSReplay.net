@@ -1,62 +1,7 @@
 {% extends "account/base.html" %}
+{% load render_bundle from webpack_loader %}
 
 {% block content %}
-	<section class="box-section">
-		<h3>Delete account</h3>
-
-		<div class="inner">
-
-		<p class="alert alert-warning">
-			<strong>Did you log in with the wrong Blizzard account?</strong><br/>
-			You can link multiple Blizzard accounts
-			<a href="{% url 'socialaccount_connections' %}#account-connections">in the Blizzard section</a>.
-			If you need to merge an account, <a href="mailto:{{ site_email }}">contact us directly</a>.
-		</p>
-
-		<p>
-			Problems with the site? Something you're not happy about?
-			Maybe we can fix it. <a href="mailto:{{ site_email }}">Shoot us an email</a>!
-		</p>
-
-		{% if user.is_premium %}
-			<p class="alert alert-danger">
-				You currently have a <strong>HSReplay.net Premium</strong> subscription running.
-				Before deleting your account, please <a href="{% url 'billing_methods' %}">cancel your subscription</a>.
-				Note that you can cancel your subscription without deleting your account.
-			</p>
-		{% endif %}
-
-		{% if can_delete %}
-		<form action="" method="post" onsubmit="return confirm('Are you *really* sure?')">
-			{% csrf_token %}
-			<p>
-				Once your data is gone, it's irreversible. Are you sure?
-			</p>
-			<p class="form-group">
-				<label>
-					<input name="delete_confirm" type="checkbox" required="required"/>
-					<strong>I understand. Delete my account.</strong>
-				</label><br/>
-				<label>
-					<input name="delete_replays" type="checkbox"/>
-					Also delete my replay data
-				</label>
-			</p>
-
-			<p>
-				<textarea name="delete_reason" placeholder="Tell us why you're leaving" cols="50" rows="5" class="form-control"></textarea>
-			</p>
-
-			<p>
-				<em>Note: Accounts are deleted after a week. Logging back in before that will cancel the request.</em>
-			</p>
-			<p class="form-group">
-				<input type="submit" class="btn btn-danger" value="Confirm"/>
-			</p>
-		</form>
-		{% endif %}
-
-		</div>
-
-	</section>
+	<div id="account-delete-container"></div>
+	{% render_bundle "account_delete" %}
 {% endblock %}
