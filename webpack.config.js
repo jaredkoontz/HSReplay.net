@@ -42,10 +42,12 @@ module.exports = env => {
 	const makeEntry = name =>
 		path.join(__dirname, "hsreplaynet/static/scripts/src/entries/", name);
 	const entries = {
+		account_delete: makeEntry("account_delete"),
 		my_replays: makeEntry("my_replays"),
 		replay_detail: makeEntry("replay_detail"),
 		replay_embed: makeEntry("replay_embed"),
 		stats: {
+			archetype_detail: makeEntry("archetype_detail"),
 			card_detail: makeEntry("card_detail"),
 			cards: makeEntry("cards"),
 			deck_detail: makeEntry("deck_detail"),
@@ -53,7 +55,6 @@ module.exports = env => {
 			my_decks: makeEntry("my_decks"),
 			meta_overview: makeEntry("meta_overview"),
 			trending: makeEntry("trending"),
-			archetype_detail: makeEntry("archetype_detail"),
 		},
 		my_packs: makeEntry("my_packs"),
 		premium_detail: makeEntry("premium_detail"),
