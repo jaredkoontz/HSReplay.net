@@ -18,7 +18,6 @@ h2 {
 	}
 }
 
-
 .content.authentication-error {
 	margin-top: 3em;
 	p {
@@ -26,8 +25,8 @@ h2 {
 	}
 }
 
-
-#account-connections, #account-settings-emails {
+#account-connections,
+#account-settings-emails {
 	td {
 		padding: 0.5em;
 	}
@@ -95,7 +94,6 @@ h2 {
 			margin-top: 0;
 		}
 	}
-
 }
 
 .webhook-active {
@@ -186,7 +184,7 @@ h2 {
 /* Billing */
 
 #account-billing-plan {
-	&>.inner {
+	& > .inner {
 		position: relative;
 	}
 
@@ -232,5 +230,17 @@ h2 {
 				right: 0;
 			}
 		}
+	}
+}
+
+/* Account delete */
+#account-delete-container {
+	h4 {
+		margin-top: 1.3em;
+		font-size: 1.1em;
+	}
+
+	.form-group > .btn {
+		margin-right: 1em;
 	}
 }
