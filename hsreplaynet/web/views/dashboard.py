@@ -12,7 +12,7 @@ from oauth2_provider.generators import generate_client_secret
 from oauth2_provider.models import AccessToken, get_application_model
 from shortuuid import ShortUUID
 
-from hearthsim.identity.accounts.models import AccountDeleteRequest, User
+from hearthsim.identity.accounts.models import User
 from hsreplaynet.utils import log
 from hsreplaynet.utils.influx import influx_metric
 from hsreplaynet.web.html import RequestMetaMixin
@@ -75,6 +75,8 @@ class DeleteAccountView(LoginRequiredMixin, RequestMetaMixin, TemplateView):
 	title = "Delete Account"
 
 	def can_delete(self):
+		if self.request.user.is_staff:
+			return False
 		customer = self.request.user.stripe_customer
 		subscriptions = customer.active_subscriptions.filter(cancel_at_period_end=False)
 		if subscriptions.count():
@@ -84,19 +86,23 @@ class DeleteAccountView(LoginRequiredMixin, RequestMetaMixin, TemplateView):
 			return False
 		return True
 
-	def get_context_data(self, **kwargs):
-		context = super().get_context_data(**kwargs)
-		context["can_delete"] = self.can_delete()
-		return context
-
 	def post(self, request):
-		if not request.POST.get("delete_confirm"):
+		# Prevent staff and current subscribers from deleting accounts
+		if not self.can_delete():
+			messages.error(self.request, "This account cannot be deleted.")
 			return redirect("account_delete")
-		delete_request, _ = AccountDeleteRequest.objects.get_or_create(user=request.user)
-		delete_request.reason = request.POST.get("delete_reason")
-		delete_request.delete_replay_data = bool(request.POST.get("delete_replays"))
-		delete_request.save()
+
+		# Record reason and message in influx
+		influx_metric("hsreplaynet_account_delete", {
+			"count": 1,
+			"message": request.POST.get("message", ""),
+			"reason": request.POST.get("reason", ""),
+		})
+
+		# Log out, then delete the account
+		user = self.request.user
 		logout(self.request)
+		user.delete()
 		return redirect(self.success_url)
 
 
