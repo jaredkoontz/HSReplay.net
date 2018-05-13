@@ -247,9 +247,10 @@ class Home extends React.Component<Props, State> {
 							</a>
 						</div>
 						<div className="panel-feature col-md-7 col-xs-12">
-							<img
-								src="https://raw.githubusercontent.com/HearthSim/Hearthstone-Deck-Tracker/master/raw-assets/readme/overlay.png"
-								alt="Hearthstone Deck Tracker"
+							<video
+								autoPlay
+								loop
+								src={STATIC_URL + "images/hdt-preview.webm"}
 							/>
 						</div>
 						<div className="panel-button col-xs-12 visible-sm visible-xs">
