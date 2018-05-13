@@ -23,23 +23,64 @@ interface Props {
 }
 
 interface State {
-	selectedClass: FilterOption;
+	selectedClass: number;
 }
 
 class MulliganGuidePreview extends React.Component<Props, State> {
+	private interval: number | null;
+
 	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
-			selectedClass: filterOptionClasses[0],
+			selectedClass: 0,
 		};
 	}
+
+	public componentDidMount() {
+		this.startIterate();
+	}
+
+	public componentWillUnmount() {
+		this.stopIterate();
+	}
+
+	private iterate = (callback: () => any) => {
+		this.setState(
+			state => ({
+				selectedClass:
+					state.selectedClass >= filterOptionClasses.length - 1
+						? 0
+						: state.selectedClass + 1,
+			}),
+			callback,
+		);
+	};
+
+	private stopIterate = () => {
+		if (this.interval !== null) {
+			window.clearTimeout(this.interval);
+		}
+		this.interval = null;
+	};
+
+	private startIterate = () => {
+		this.stopIterate();
+		this.interval = window.setTimeout(
+			() => this.iterate(this.startIterate),
+			2000,
+		);
+	};
 
 	public render(): React.ReactNode {
 		const archetype = this.props.archetypeData.find(
 			x => x.id === this.props.data.deck.archetype_id,
 		);
 		return (
-			<div className="mulligan-guide-container">
+			<div
+				className="mulligan-guide-container"
+				onMouseOver={this.stopIterate}
+				onMouseOut={this.startIterate}
+			>
 				<div className="mulligan-guide-header">
 					<div className="mulligan-guide-header-background">
 						<TwoCardFade
@@ -48,7 +89,7 @@ class MulliganGuidePreview extends React.Component<Props, State> {
 								archetype.player_class_name,
 							)}
 							rightCardId={getHeroSkinCardId(
-								this.state.selectedClass,
+								filterOptionClasses[this.state.selectedClass],
 							)}
 							rightFlipped
 						/>
@@ -59,15 +100,23 @@ class MulliganGuidePreview extends React.Component<Props, State> {
 						</span>
 						<img className="vs-icon" src={image("vs.png")} />
 						<span className="opponent-class">
-							{getHeroClassName(this.state.selectedClass)}
+							{getHeroClassName(
+								filterOptionClasses[this.state.selectedClass],
+							)}
 						</span>
 					</div>
 				</div>
 				<ClassFilter
 					filters="ClassesOnly"
-					selectedClasses={[this.state.selectedClass]}
+					selectedClasses={[
+						filterOptionClasses[this.state.selectedClass],
+					]}
 					selectionChanged={(x: FilterOption[]) =>
-						this.setState({ selectedClass: x[0] })
+						this.setState({
+							selectedClass: filterOptionClasses.findIndex(
+								f => f === x[0],
+							),
+						})
 					}
 					minimal
 				/>
@@ -83,17 +132,24 @@ class MulliganGuidePreview extends React.Component<Props, State> {
 						winrateData: data => {
 							return {
 								baseWinrate: +data.series.data[
-									this.state.selectedClass
+									filterOptionClasses[
+										this.state.selectedClass
+									]
 								][0].winrate,
 							};
 						},
 					}}
 				>
 					<CardTable
-						data={this.props.data.data[this.state.selectedClass]}
+						data={
+							this.props.data.data[
+								filterOptionClasses[this.state.selectedClass]
+							]
+						}
 						baseWinrate={
-							this.props.data.meta_data[this.state.selectedClass]
-								.base_winrate
+							this.props.data.meta_data[
+								filterOptionClasses[this.state.selectedClass]
+							].base_winrate
 						}
 						cards={this.getCards()}
 						columns={["mulliganWinrate", "keepPercent"]}
@@ -111,9 +167,9 @@ class MulliganGuidePreview extends React.Component<Props, State> {
 	getCards(): CardObj[] {
 		const cards: CardObj[] = [];
 		if (this.props.cardData) {
-			const dbfIds = this.props.data.data[this.state.selectedClass].map(
-				x => x.dbf_id,
-			);
+			const dbfIds = this.props.data.data[
+				filterOptionClasses[this.state.selectedClass]
+			].map(x => x.dbf_id);
 			dbfIds.forEach(dbfId => {
 				cards.push({
 					card: this.props.cardData.fromDbf(dbfId),
