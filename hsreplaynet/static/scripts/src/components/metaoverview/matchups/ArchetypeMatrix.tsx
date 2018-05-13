@@ -604,7 +604,7 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 	public render(): React.ReactNode {
 		const archetypes = this.props.archetypes.slice(
 			0,
-			this.props.simple && 4,
+			this.props.simple && 5,
 		);
 
 		const gridWidth = cellWidth * archetypes.length;
