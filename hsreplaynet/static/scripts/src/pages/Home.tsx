@@ -232,16 +232,15 @@ class Home extends React.Component<Props, State> {
 			<>
 				<div className="row content-row info-content" id="pilot">
 					<Panel
-						header="Be a better deck pilot"
+						header="Be a Better Deck Pilot"
 						theme="light"
 						accent="blue"
 					>
 						<div className="panel-description col-md-5 col-xs-12">
 							<h1>Hearthstone Deck Tracker</h1>
 							<p>
-								Keep track of the cards you and your opponent
-								play with an in-game overlay. Never second guess
-								if they still have the coin!
+								Play like a pro! Keep track of the cards you and
+								your opponent play with an in-game overlay.
 							</p>
 							<a className="btn promo-button transparent-style hidden-sm hidden-xs">
 								Download
@@ -265,8 +264,11 @@ class Home extends React.Component<Props, State> {
 						className="reverse-panel"
 					>
 						<div className="panel-button col-xs-12 visible-sm visible-xs">
-							<a className="btn promo-button transparent-style">
-								See all cards
+							<a
+								className="btn promo-button transparent-style"
+								href="/decks/"
+							>
+								Find your deck
 							</a>
 						</div>
 						<div className="panel-feature col-md-7 col-xs-12">
@@ -290,28 +292,23 @@ class Home extends React.Component<Props, State> {
 							</DataInjector>
 						</div>
 						<div className="panel-description col-md-5 col-xs-12">
-							<h1>Mulligan Statistics</h1>
+							<h1>Mulligan Guide</h1>
 							<p>
-								Knowing what to keep in your opening hand is
-								critical to winning games. Check out the best
-								cards to keep during mulligan.
+								Many games are decided based on your starting
+								hand. Learn which cards to keep based on
+								statistics from millions of games.
 							</p>
 							<a className="btn promo-button transparent-style hidden-sm hidden-xs">
 								See all cards
 							</a>
 						</div>
 					</Panel>
-					<Panel
-						header="Make data driven plays"
-						theme="light"
-						accent="red"
-					>
+					<Panel header="Master the Meta" theme="light" accent="red">
 						<div className="panel-description col-md-5 col-xs-12">
 							<h1>Meta Tier List</h1>
 							<p>
-								By the numbers, find out which decks are
-								performing the best for each class by rank and
-								region.
+								Climb the ladder faster by using the best deck
+								for your rank and region.
 							</p>
 							<a className="btn promo-button transparent-style hidden-sm hidden-xs">
 								View Full Tier List
@@ -397,11 +394,10 @@ class Home extends React.Component<Props, State> {
 							</DataInjector>
 						</div>
 						<div className="panel-description col-md-5 col-xs-12">
-							<h1>Meta Matchups</h1>
+							<h1>Archetype Matchups</h1>
 							<p>
-								Analyze which deck types are favourites and
-								underdogs in each matchup. Figure out how to
-								beat the meta!
+								Find the counter! Discover the archetype that
+								will beat your opponent.
 							</p>
 							<a
 								className="btn promo-button transparent-style hidden-sm hidden-xs"
