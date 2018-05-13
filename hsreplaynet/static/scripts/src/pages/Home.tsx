@@ -18,6 +18,7 @@ import PremiumModal from "../components/premium/PremiumModal";
 import { BnetGameType } from "../hearthstone";
 import { image } from "../helpers";
 import MulliganGuidePreview from "../components/home/MulliganGuidePreview";
+import Panel from "../components/Panel";
 
 interface Props extends InjectedTranslateProps {
 	cardData: CardData | null;
@@ -76,50 +77,35 @@ class Home extends React.Component<Props, State> {
 				</div>
 				<div className="row content-row features">
 					<div className="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-						<div className="feature" id="feature-live-data">
-							<div className="feature-title">
-								<span>{t("Live Data")}</span>
-								<a
-									href="#"
-									className={
-										"btn feature-btn" +
-										(this.state.fullReplaySpeed
-											? " active"
-											: "")
-									}
-									onClick={e => {
-										e.preventDefault();
-										this.setState({
-											fullReplaySpeed: !this.state
-												.fullReplaySpeed,
-										});
-									}}
-								>
-									<span>{t("Full speed")}</span>
-								</a>
-							</div>
-							<div className="feature-content">
-								<DataInjector
-									query={[
-										archetypeDataQuery,
-										{
-											url:
-												"/api/v1/live/games_count/weekly/",
-											key: "gamesCountData",
-										},
-									]}
-									extract={{
-										gamesCountData: data => ({
-											gamesCountData: data.data,
-										}),
-									}}
-								>
-									<ReplayFeed
-										fullSpeed={this.state.fullReplaySpeed}
-									/>
-								</DataInjector>
-							</div>
-						</div>
+						<Panel
+							header={
+								<>
+									<span>{t("Live Data")}</span>
+									{this.renderLiveDataButton()}
+								</>
+							}
+							theme="dark"
+							accent="blue"
+						>
+							<DataInjector
+								query={[
+									archetypeDataQuery,
+									{
+										url: "/api/v1/live/games_count/weekly/",
+										key: "gamesCountData",
+									},
+								]}
+								extract={{
+									gamesCountData: data => ({
+										gamesCountData: data.data,
+									}),
+								}}
+							>
+								<ReplayFeed
+									fullSpeed={this.state.fullReplaySpeed}
+								/>
+							</DataInjector>
+						</Panel>
 						<FeaturePanel
 							title={t("Replays")}
 							subtitle={t("Watch and share your games")}
@@ -128,121 +114,66 @@ class Home extends React.Component<Props, State> {
 						/>
 					</div>
 					<div className="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-						<div
-							className="feature premium-feature"
-							id="feature-best-deck"
+						<Panel
+							header={
+								<>
+									<span>{t("Premium Feature")}</span>
+									{this.renderPremiumFeatureButton()}
+								</>
+							}
+							accent="premium"
+							theme="dark"
 						>
-							<div className="feature-title">
-								<span>{t("Premium Feature")}</span>
-								{this.renderPremiumFeatureButton()}
-							</div>
-							<div className="feature-content">
-								<DataInjector
-									query={[
-										archetypeDataQuery,
-										{
-											url: "/analytics/meta/preview/",
-											key: "previewData",
-										},
-									]}
-									extract={{
-										previewData: data => ({
-											data,
-										}),
-									}}
-								>
-									<ArchetypeHighlight
-										cardData={this.props.cardData}
-									/>
-								</DataInjector>
-							</div>
-						</div>
+							<DataInjector
+								query={[
+									archetypeDataQuery,
+									{
+										url: "/analytics/meta/preview/",
+										key: "previewData",
+									},
+								]}
+								extract={{
+									previewData: data => ({
+										data,
+									}),
+								}}
+							>
+								<ArchetypeHighlight
+									cardData={this.props.cardData}
+								/>
+							</DataInjector>
+						</Panel>
 						{this.renderPremiumPanel()}
 					</div>
 					<div className="col-lg-4 col-xs-12">
-						<div className="feature" id="feature-class-ranking">
-							<div className="feature-title">
-								<span className="hidden-xs">
-									{t("Class Winrates")}
-								</span>
-								<span className="visible-xs">
-									{t("Winrates")}
-								</span>
-								<a
-									className={
-										"btn feature-btn " +
-										(this.state.gameType ===
-										BnetGameType.BGT_RANKED_STANDARD
-											? "active"
-											: "")
-									}
-									onClick={e => {
-										e.preventDefault();
-										this.setState({
-											gameType:
-												BnetGameType.BGT_RANKED_STANDARD,
-										});
-									}}
-								>
-									<ModeSvg type="standard" />
-									{t("Standard")}
-								</a>
-								<a
-									className={
-										"btn feature-btn " +
-										(this.state.gameType ===
-										BnetGameType.BGT_RANKED_WILD
-											? "active"
-											: "")
-									}
-									onClick={e => {
-										e.preventDefault();
-										this.setState({
-											gameType:
-												BnetGameType.BGT_RANKED_WILD,
-										});
-									}}
-								>
-									<ModeSvg type="wild" />
-									{t("Wild")}
-								</a>
-								<a
-									className={
-										"btn feature-btn " +
-										(this.state.gameType ===
-										BnetGameType.BGT_ARENA
-											? "active"
-											: "")
-									}
-									onClick={e => {
-										e.preventDefault();
-										this.setState({
-											gameType: BnetGameType.BGT_ARENA,
-										});
-									}}
-								>
-									<ModeSvg type="arena" />
-									{t("Arena")}
-								</a>
-							</div>
-							<div className="feature-content">
-								<DataInjector
-									query={{
-										url: "player_class_performance_summary",
-									}}
-									extract={{
-										data: data => ({
-											classData: data.series.data,
-										}),
-									}}
-								>
-									<ClassRanking
-										gameType={this.state.gameType}
-									/>
-								</DataInjector>
-							</div>
-						</div>
-
+						<Panel
+							header={
+								<>
+									<span className="hidden-xs">
+										{t("Class Winrates")}
+									</span>
+									<span className="visible-xs">
+										{t("Winrates")}
+									</span>
+									{this.renderArchetypeHighlightButton()}
+								</>
+							}
+							theme="dark"
+							accent="blue"
+						>
+							<DataInjector
+								query={{
+									url: "player_class_performance_summary",
+								}}
+								extract={{
+									data: data => ({
+										classData: data.series.data,
+									}),
+								}}
+							>
+								<ClassRanking gameType={this.state.gameType} />
+							</DataInjector>
+						</Panel>
 						<Modal
 							visible={this.state.showCollectionModal}
 							onClose={this.closeCollectionModal}
@@ -549,6 +480,89 @@ class Home extends React.Component<Props, State> {
 		);
 	}
 
+	private renderLiveDataButton(): React.ReactNode {
+		const { t } = this.props;
+		return (
+			<>
+				<a
+					href="#"
+					className={
+						"btn feature-btn" +
+						(this.state.fullReplaySpeed ? " active" : "")
+					}
+					onClick={e => {
+						e.preventDefault();
+						this.setState({
+							fullReplaySpeed: !this.state.fullReplaySpeed,
+						});
+					}}
+				>
+					<span>{t("Full speed")}</span>
+				</a>
+			</>
+		);
+	}
+
+	private renderArchetypeHighlightButton(): React.ReactNode {
+		const { t } = this.props;
+		return (
+			<>
+				<a
+					className={
+						"btn feature-btn " +
+						(this.state.gameType ===
+						BnetGameType.BGT_RANKED_STANDARD
+							? "active"
+							: "")
+					}
+					onClick={e => {
+						e.preventDefault();
+						this.setState({
+							gameType: BnetGameType.BGT_RANKED_STANDARD,
+						});
+					}}
+				>
+					<ModeSvg type="standard" />
+					{t("Standard")}
+				</a>
+				<a
+					className={
+						"btn feature-btn " +
+						(this.state.gameType === BnetGameType.BGT_RANKED_WILD
+							? "active"
+							: "")
+					}
+					onClick={e => {
+						e.preventDefault();
+						this.setState({
+							gameType: BnetGameType.BGT_RANKED_WILD,
+						});
+					}}
+				>
+					<ModeSvg type="wild" />
+					{t("Wild")}
+				</a>
+				<a
+					className={
+						"btn feature-btn " +
+						(this.state.gameType === BnetGameType.BGT_ARENA
+							? "active"
+							: "")
+					}
+					onClick={e => {
+						e.preventDefault();
+						this.setState({
+							gameType: BnetGameType.BGT_ARENA,
+						});
+					}}
+				>
+					<ModeSvg type="arena" />
+					{t("Arena")}
+				</a>
+			</>
+		);
+	}
+
 	private renderPremiumPanel(): React.ReactNode {
 		const { t } = this.props;
 		if (UserData.isPremium()) {
@@ -572,11 +586,8 @@ class Home extends React.Component<Props, State> {
 				>
 					<PremiumModal />
 				</Modal>
-				<div className="feature feature-small">
-					<div
-						className="feature-content no-title"
-						id="premium-feature"
-					>
+				<div className="feature-panel">
+					<div className="feature-content premium-feature">
 						<div className="header-wrapper">
 							<h1>{t("HSReplay.net Premium")}</h1>
 						</div>

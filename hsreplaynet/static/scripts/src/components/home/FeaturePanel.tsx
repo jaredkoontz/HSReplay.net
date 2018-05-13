@@ -16,9 +16,9 @@ export default class FeaturePanel extends React.Component<Props> {
 			this.props.backgroundCardId
 		}.jpg)`;
 		return (
-			<div className="feature feature-small">
+			<div className="feature-panel">
 				<a
-					className="feature-content no-title"
+					className="feature-content"
 					style={style}
 					href={this.props.href || "#"}
 					onClick={e => {
