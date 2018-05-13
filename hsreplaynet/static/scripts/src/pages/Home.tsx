@@ -230,201 +230,198 @@ class Home extends React.Component<Props, State> {
 		}
 		return (
 			<>
-				<div className="row content-row" id="pilot">
-					<div className="row section">
-						<div className="section-header col-xs-12">
-							Be A Better Deck Pilot
+				<div className="row content-row info-content" id="pilot">
+					<Panel
+						header="Be a better deck pilot"
+						theme="light"
+						accent="blue"
+					>
+						<div className="panel-description col-md-5 col-xs-12">
+							<h1>Hearthstone Deck Tracker</h1>
+							<p>
+								Keep track of the cards you and your opponent
+								play with an in-game overlay. Never second guess
+								if they still have the coin!
+							</p>
+							<a className="btn promo-button transparent-style hidden-sm hidden-xs">
+								Download
+							</a>
 						</div>
-						<div className="section-content">
-							<div className="section-description col-md-5 col-xs-12">
-								<h1>Hearthstone Deck Tracker</h1>
-								<p>
-									Keep track of the cards you and your
-									opponent play with an in-game overlay. Never
-									second guess if they still have the coin!
-								</p>
-								<a className="btn promo-button transparent-style hidden-sm hidden-xs">
-									Download
-								</a>
-							</div>
-							<div className="section-feature col-md-7 col-xs-12">
-								<img
-									src="https://raw.githubusercontent.com/HearthSim/Hearthstone-Deck-Tracker/master/raw-assets/readme/overlay.png"
-									alt="Hearthstone Deck Tracker"
-								/>
-							</div>
-							<div className="section-button col-xs-12 visible-sm visible-xs">
-								<a className="btn promo-button transparent-style">
-									Download
-								</a>
-							</div>
-						</div>
-					</div>
-					<div className="section section-right">
-						<div className="section-content">
-							<div className="section-button col-xs-12 visible-sm visible-xs">
-								<a className="btn promo-button transparent-style">
-									See all cards
-								</a>
-							</div>
-							<div className="section-feature col-md-7 col-xs-12">
-								<DataInjector
-									query={[
-										{
-											key: "data",
-											url: "/analytics/mulligan/preview/",
-											params: {},
-										},
-										{
-											key: "archetypeData",
-											url: "/api/v1/archetypes/",
-											params: {},
-										},
-									]}
-								>
-									<MulliganGuidePreview
-										cardData={this.props.cardData}
-									/>
-								</DataInjector>
-							</div>
-							<div className="section-description col-md-5 col-xs-12">
-								<h1>Mulligan Statistics</h1>
-								<p>
-									Knowing what to keep in your opening hand is
-									critical to winning games. Check out the
-									best cards to keep during mulligan.
-								</p>
-								<a className="btn promo-button transparent-style hidden-sm hidden-xs">
-									See all cards
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div className="row content-row" id="data-driven-plays">
-					<div className="section">
-						<div className="section-header red">
-							Make Data Driven Plays
-						</div>
-						<div className="section-content">
-							<div className="section-description col-md-5 col-xs-12">
-								<h1>Meta Tier List</h1>
-								<p>
-									By the numbers, find out which decks are
-									performing the best for each class by rank
-									and region.
-								</p>
-								<a className="btn promo-button transparent-style hidden-sm hidden-xs">
-									View Full Tier List
-								</a>
-							</div>
-							<div className="section-feature col-md-7 col-xs-12">
-								<DataInjector
-									query={[
-										{
-											key: "archetypeData",
-											params: {},
-											url: "/api/v1/archetypes/",
-										},
-										{
-											key: "deckData",
-											params: {},
-											url: "list_decks_by_win_rate",
-										},
-										{
-											params: {},
-											url:
-												"archetype_popularity_distribution_stats",
-										},
-									]}
-									extract={{
-										data: data => ({
-											data: data.series.data,
-											timestamp: data.as_of,
-										}),
-									}}
-								>
-									<TierListPreview
-										cardData={this.props.cardData}
-									/>
-								</DataInjector>
-							</div>
-							<div className="section-button col-xs-12 visible-sm visible-xs">
-								<a className="btn promo-button transparent-style">
-									View full tier list
-								</a>
-							</div>
-						</div>
-					</div>
-					<div className="section section-right">
-						<div className="section-content">
-							<div className="section-button col-xs-12 visible-sm visible-xs">
-								<a className="btn promo-button transparent-style">
-									View all matchups
-								</a>
-							</div>
-							<div
-								className="section-feature col-md-7 col-xs-12"
-								id="feature-meta"
-							>
-								<DataInjector
-									query={[
-										{
-											key: "archetypeData",
-											params: {},
-											url: "/api/v1/archetypes/",
-										},
-										{
-											key: "matchupData",
-											params: {},
-											url:
-												"head_to_head_archetype_matchups",
-										},
-										{
-											key: "popularityData",
-											params: {},
-											url:
-												"archetype_popularity_distribution_stats",
-										},
-									]}
-								>
-									<ArchetypeMatchups
-										cardData={this.props.cardData}
-										gameType="RANKED_STANDARD"
-										mobileView={false}
-										setSortBy={() => null}
-										setSortDirection={() => null}
-										sortBy="popularity"
-										sortDirection="descending"
-										simple
-									/>
-								</DataInjector>
-							</div>
-							<div className="section-description col-md-5 col-xs-12">
-								<h1>Meta Matchups</h1>
-								<p>
-									Analyze which deck types are favourites and
-									underdogs in each matchup. Figure out how to
-									beat the meta!
-								</p>
-								<a
-									className="btn promo-button transparent-style hidden-sm hidden-xs"
-									href="/meta/"
-								>
-									View all matchups
-								</a>
-							</div>
-						</div>
-					</div>
-					<div className="section" id="live-data">
-						<div className="section-header red">Live Data</div>
-						<div className="section-content">
-							<LiveData
-								cardData={this.props.cardData}
-								numCards={12}
+						<div className="panel-feature col-md-7 col-xs-12">
+							<img
+								src="https://raw.githubusercontent.com/HearthSim/Hearthstone-Deck-Tracker/master/raw-assets/readme/overlay.png"
+								alt="Hearthstone Deck Tracker"
 							/>
 						</div>
-					</div>
+						<div className="panel-button col-xs-12 visible-sm visible-xs">
+							<a className="btn promo-button transparent-style">
+								Download
+							</a>
+						</div>
+					</Panel>
+					<Panel
+						theme="light"
+						accent="blue"
+						className="reverse-panel"
+					>
+						<div className="panel-button col-xs-12 visible-sm visible-xs">
+							<a className="btn promo-button transparent-style">
+								See all cards
+							</a>
+						</div>
+						<div className="panel-feature col-md-7 col-xs-12">
+							<DataInjector
+								query={[
+									{
+										key: "data",
+										url: "/analytics/mulligan/preview/",
+										params: {},
+									},
+									{
+										key: "archetypeData",
+										url: "/api/v1/archetypes/",
+										params: {},
+									},
+								]}
+							>
+								<MulliganGuidePreview
+									cardData={this.props.cardData}
+								/>
+							</DataInjector>
+						</div>
+						<div className="panel-description col-md-5 col-xs-12">
+							<h1>Mulligan Statistics</h1>
+							<p>
+								Knowing what to keep in your opening hand is
+								critical to winning games. Check out the best
+								cards to keep during mulligan.
+							</p>
+							<a className="btn promo-button transparent-style hidden-sm hidden-xs">
+								See all cards
+							</a>
+						</div>
+					</Panel>
+					<Panel
+						header="Make data driven plays"
+						theme="light"
+						accent="red"
+					>
+						<div className="panel-description col-md-5 col-xs-12">
+							<h1>Meta Tier List</h1>
+							<p>
+								By the numbers, find out which decks are
+								performing the best for each class by rank and
+								region.
+							</p>
+							<a className="btn promo-button transparent-style hidden-sm hidden-xs">
+								View Full Tier List
+							</a>
+						</div>
+						<div className="panel-feature col-md-7 col-xs-12">
+							<DataInjector
+								query={[
+									{
+										key: "archetypeData",
+										params: {},
+										url: "/api/v1/archetypes/",
+									},
+									{
+										key: "deckData",
+										params: {},
+										url: "list_decks_by_win_rate",
+									},
+									{
+										params: {},
+										url:
+											"archetype_popularity_distribution_stats",
+									},
+								]}
+								extract={{
+									data: data => ({
+										data: data.series.data,
+										timestamp: data.as_of,
+									}),
+								}}
+							>
+								<TierListPreview
+									cardData={this.props.cardData}
+								/>
+							</DataInjector>
+						</div>
+						<div className="panel-button col-xs-12 visible-sm visible-xs">
+							<a className="btn promo-button transparent-style">
+								View full tier list
+							</a>
+						</div>
+					</Panel>
+					<Panel theme="light" accent="red" className="reverse-panel">
+						<div className="panel-button col-xs-12 visible-sm visible-xs">
+							<a className="btn promo-button transparent-style">
+								View all matchups
+							</a>
+						</div>
+						<div
+							className="panel-feature col-md-7 col-xs-12"
+							id="feature-meta"
+						>
+							<DataInjector
+								query={[
+									{
+										key: "archetypeData",
+										params: {},
+										url: "/api/v1/archetypes/",
+									},
+									{
+										key: "matchupData",
+										params: {},
+										url: "head_to_head_archetype_matchups",
+									},
+									{
+										key: "popularityData",
+										params: {},
+										url:
+											"archetype_popularity_distribution_stats",
+									},
+								]}
+							>
+								<ArchetypeMatchups
+									cardData={this.props.cardData}
+									gameType="RANKED_STANDARD"
+									mobileView={false}
+									setSortBy={() => null}
+									setSortDirection={() => null}
+									sortBy="popularity"
+									sortDirection="descending"
+									simple
+								/>
+							</DataInjector>
+						</div>
+						<div className="panel-description col-md-5 col-xs-12">
+							<h1>Meta Matchups</h1>
+							<p>
+								Analyze which deck types are favourites and
+								underdogs in each matchup. Figure out how to
+								beat the meta!
+							</p>
+							<a
+								className="btn promo-button transparent-style hidden-sm hidden-xs"
+								href="/meta/"
+							>
+								View all matchups
+							</a>
+						</div>
+					</Panel>
+					<Panel
+						header="Live data"
+						theme="light"
+						accent="red"
+						id="live-data"
+					>
+						<LiveData
+							cardData={this.props.cardData}
+							numCards={12}
+						/>
+					</Panel>
 				</div>
 			</>
 		);

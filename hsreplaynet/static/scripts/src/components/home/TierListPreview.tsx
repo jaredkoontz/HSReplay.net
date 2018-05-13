@@ -4,6 +4,7 @@ import { withLoading } from "../loading/Loading";
 import CardData from "../../CardData";
 import { Archetype } from "../../utils/api";
 import ClassList, { ClassListData } from "./ClassList";
+import Panel from "../Panel";
 
 interface ClassArchetypeData {
 	[playerClass: string]: ApiArchetypePopularity[];
@@ -76,15 +77,12 @@ class TierListPreview extends React.Component<Props> {
 			}
 			count += items.length;
 			classLists.push(
-				<div className="feature">
-					<div className="feature-title">{"Tier " + (i + 1)}</div>
-					<div className="feature-content">
-						<ClassList
-							data={items}
-							style={{ height: items.length * 50 + "px" }}
-						/>
-					</div>
-				</div>,
+				<Panel header={"Tier " + (i + 1)} theme="dark" accent="red">
+					<ClassList
+						data={items}
+						style={{ height: items.length * 50 + "px" }}
+					/>
+				</Panel>,
 			);
 		});
 

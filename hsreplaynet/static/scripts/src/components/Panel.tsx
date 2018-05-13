@@ -4,6 +4,8 @@ interface Props {
 	header?: string | React.ReactNode;
 	theme?: "light" | "dark";
 	accent?: "blue" | "red" | "premium";
+	id?: string;
+	className?: string;
 }
 
 export default class Panel extends React.Component<Props> {
@@ -15,7 +17,9 @@ export default class Panel extends React.Component<Props> {
 		const accent = this.props.accent || "blue";
 		return (
 			<div
-				className={`panel-card panel-theme-${theme} panel-accent-${accent}`}
+				className={`panel-card panel-theme-${theme} panel-accent-${accent} ${this
+					.props.className || ""}`}
+				id={this.props.id}
 			>
 				{header}
 				<div
