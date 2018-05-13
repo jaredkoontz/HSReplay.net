@@ -6,7 +6,8 @@ import CardData from "../../CardData";
 import { withLoading } from "../loading/Loading";
 import ClassFilter, { FilterOption, filterOptionClasses } from "../ClassFilter";
 import { Archetype } from "../../utils/api";
-import { getHeroClassName, image } from "../../helpers";
+import { getHeroClassName, getHeroSkinCardId, image } from "../../helpers";
+import TwoCardFade from "../TwoCardFade";
 
 interface MulliganPreviewData {
 	deck: any;
@@ -40,13 +41,27 @@ class MulliganGuidePreview extends React.Component<Props, State> {
 		return (
 			<div className="mulligan-guide-container">
 				<div className="mulligan-guide-header">
-					<span className="archetype-name">
-						{archetype && archetype.name}
-					</span>
-					<img className="vs-icon" src={image("vs.png")} />
-					<span className="opponent-class">
-						{getHeroClassName(this.state.selectedClass)}
-					</span>
+					<div className="mulligan-guide-header-background">
+						<TwoCardFade
+							cardData={this.props.cardData}
+							leftCardId={getHeroSkinCardId(
+								archetype.player_class_name,
+							)}
+							rightCardId={getHeroSkinCardId(
+								this.state.selectedClass,
+							)}
+							rightFlipped
+						/>
+					</div>
+					<div className="mulligan-guide-header-content">
+						<span className="archetype-name">
+							{archetype && archetype.name}
+						</span>
+						<img className="vs-icon" src={image("vs.png")} />
+						<span className="opponent-class">
+							{getHeroClassName(this.state.selectedClass)}
+						</span>
+					</div>
 				</div>
 				<ClassFilter
 					filters="ClassesOnly"

@@ -1,5 +1,10 @@
 import React from "react";
-import { getHeroSkinCardUrl, toDynamicFixed, winrateData } from "../../helpers";
+import {
+	classImageOffset,
+	getHeroSkinCardUrl,
+	toDynamicFixed,
+	winrateData,
+} from "../../helpers";
 import { getCardClass } from "../../utils/enums";
 import { CardClass } from "../../hearthstone";
 
@@ -29,29 +34,6 @@ export default class ClassList extends React.Component<Props, State> {
 		};
 	}
 
-	private getImagePosition(cardClass: CardClass): number {
-		switch (cardClass) {
-			case CardClass.DRUID:
-				return 0.29;
-			case CardClass.HUNTER:
-				return 0.22;
-			case CardClass.MAGE:
-				return 0.28;
-			case CardClass.PALADIN:
-				return 0.2;
-			case CardClass.PRIEST:
-				return 0.22;
-			case CardClass.ROGUE:
-				return 0.32;
-			case CardClass.SHAMAN:
-				return 0.28;
-			case CardClass.WARLOCK:
-				return 0.36;
-			case CardClass.WARRIOR:
-				return 0.22;
-		}
-	}
-
 	render(): React.ReactNode {
 		const classes = [];
 		this.props.data.forEach((datum, index) => {
@@ -60,7 +42,7 @@ export default class ClassList extends React.Component<Props, State> {
 					datum.playerClass,
 				).replace("256", "512")})`,
 				backgroundPositionY: `${100 *
-					this.getImagePosition(getCardClass(datum.playerClass))}%`,
+					classImageOffset(getCardClass(datum.playerClass))}%`,
 			};
 			classes.push(
 				<li

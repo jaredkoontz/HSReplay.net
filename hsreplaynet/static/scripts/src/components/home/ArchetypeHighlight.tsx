@@ -11,6 +11,7 @@ import Carousel from "./Carousel";
 import _ from "lodash";
 import { BnetRegion } from "../../hearthstone";
 import PrettyRegion from "../text/PrettyRegion";
+import TwoCardFade from "../TwoCardFade";
 
 interface Props extends InjectedTranslateProps {
 	archetypeData?: Archetype[];
@@ -122,28 +123,19 @@ class ArchetypeHighlight extends React.Component<Props, State> {
 			a => a.id === result.archetype_id,
 		);
 		const components = archetype.standard_ccp_signature_core.components;
-
-		const cards = components.slice(0, 2).map(dbfId => {
-			const card = this.props.cardData.fromDbf(dbfId);
-			const style = {
-				backgroundImage: `url(${HEARTHSTONE_ART_URL}/512x/${
-					card.id
-				}.jpg)`,
-			};
-			return <div className="card-art" key={card.id} style={style} />;
-		});
-
 		return (
 			<a
 				href={getArchetypeUrl(archetype.id, archetype.name)}
 				className="archetype-highlight-output"
 			>
 				<div className="archetype-highlight-output-background">
-					<div>
-						{cards}
-						<div className="fade fade-top" />
-						<div className="fade fade-bottom" />
-					</div>
+					<TwoCardFade
+						cardData={this.props.cardData}
+						leftCardId={components[0]}
+						rightCardId={components[1]}
+						topFade
+						bottomFade
+					/>
 				</div>
 				<div className="archetype-highlight-output-content">
 					<h2>{archetype.name}</h2>

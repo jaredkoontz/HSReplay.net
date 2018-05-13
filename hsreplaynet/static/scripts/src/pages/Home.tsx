@@ -300,7 +300,7 @@ class Home extends React.Component<Props, State> {
 								statistics from millions of games.
 							</p>
 							<a className="btn promo-button transparent-style hidden-sm hidden-xs">
-								See all cards
+								Find your deck
 							</a>
 						</div>
 					</Panel>

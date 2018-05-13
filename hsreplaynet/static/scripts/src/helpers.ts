@@ -984,3 +984,35 @@ export function compareDecks(dbfIdsA: number[], dbfIdsB: number[]): boolean {
 	}
 	return dbfIdsB.every(x => x === undefined);
 }
+
+export function classImageOffset(cardClass: CardClass | string): number {
+	switch (cardClass) {
+		case "DRUID":
+		case CardClass.DRUID:
+			return 0.29;
+		case "HUNTER":
+		case CardClass.HUNTER:
+			return 0.22;
+		case "MAGE":
+		case CardClass.MAGE:
+			return 0.28;
+		case "PALADIN":
+		case CardClass.PALADIN:
+			return 0.2;
+		case "PRIEST":
+		case CardClass.PRIEST:
+			return 0.22;
+		case "ROGUE":
+		case CardClass.ROGUE:
+			return 0.32;
+		case "SHAMAN":
+		case CardClass.SHAMAN:
+			return 0.28;
+		case "WARLOCK":
+		case CardClass.WARLOCK:
+			return 0.36;
+		case "WARRIOR":
+		case CardClass.WARRIOR:
+			return 0.22;
+	}
+}

@@ -3,7 +3,8 @@
 	text-transform: none;
 }
 
-table .info-icon, .sort-header .info-icon {
+table .info-icon,
+.sort-header .info-icon {
 	margin-left: 0.3em;
 }
 
@@ -53,7 +54,8 @@ table .info-icon, .sort-header .info-icon {
 		padding: 0;
 	}
 
-	ol, ul {
+	ol,
+	ul {
 		list-style-position: inside;
 		margin: 0;
 		padding: 0;
@@ -91,9 +93,7 @@ table .info-icon, .sort-header .info-icon {
 		font-weight: bold;
 		position: absolute;
 		right: -1px;
-		text-shadow: -1px -1px 0 #000,
-			1px -1px 0 #000,
-			-1px 1px 0 #000,
+		text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
 			1px 1px 0 #000;
 		top: -9px;
 	}
@@ -121,15 +121,14 @@ table .info-icon, .sort-header .info-icon {
 		text-align: center;
 		bottom: 5%;
 		font-weight: bold;
-		text-shadow: -1px -1px 0 #000,
-			1px -1px 0 #000,
-			-1px 1px 0 #000,
+		text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
 			1px 1px 0 #000;
 	}
 }
 
 .card-icon-link {
-	&:active, &:focus {
+	&:active,
+	&:focus {
 		outline: none;
 	}
 }
@@ -139,14 +138,14 @@ table .info-icon, .sort-header .info-icon {
 	padding-left: 0px;
 
 	> li {
-		background: linear-gradient(transparent 60%, rgba(0,0,0,0.1) 100%);
+		background: linear-gradient(transparent 60%, rgba(0, 0, 0, 0.1) 100%);
 		float: left;
 		height: 30px;
 		margin-left: 1px;
 		position: relative;
 		width: 5px;
 
-		>span {
+		> span {
 			background: $lightblue;
 			bottom: 0;
 			display: block;
@@ -158,7 +157,6 @@ table .info-icon, .sort-header .info-icon {
 }
 
 .deck-list {
-
 	.pagination {
 		margin: 20px 0 0 0;
 	}
@@ -213,18 +211,23 @@ table .info-icon, .sort-header .info-icon {
 		}
 	}
 
-	>ul {
+	> ul {
 		list-style-type: none;
 		padding-left: 0px;
 
-		>li {
+		> li {
 			border-bottom: 1px solid $darkgrey;
 			line-height: 34px;
 			background-position: 0 -42px;
 			background-repeat: no-repeat;
 
-			>a {
-				background: linear-gradient(to right, $offwhite 1%, rgba(251, 247, 246, 0.7) 100px, $offwhite 256px);
+			> a {
+				background: linear-gradient(
+					to right,
+					$offwhite 1%,
+					rgba(251, 247, 246, 0.7) 100px,
+					$offwhite 256px
+				);
 				display: block;
 				color: black;
 			}
@@ -232,21 +235,37 @@ table .info-icon, .sort-header .info-icon {
 			> a {
 				outline: none;
 
-				&:hover, &:focus {
-					background: linear-gradient(to right, $offwhite 1%, rgba(251, 247, 246, 0.5) 100px, #f1f2f4 256px);
+				&:hover,
+				&:focus {
+					background: linear-gradient(
+						to right,
+						$offwhite 1%,
+						rgba(251, 247, 246, 0.5) 100px,
+						#f1f2f4 256px
+					);
 					text-decoration: none;
 				}
 			}
 		}
-		>li:nth-child(odd) {
-
-			>a {
-				background: linear-gradient(to right, $offwhite 1%, rgba(255, 255, 255, 0.7) 100px, #f9f9f9 256px);
+		> li:nth-child(odd) {
+			> a {
+				background: linear-gradient(
+					to right,
+					$offwhite 1%,
+					rgba(255, 255, 255, 0.7) 100px,
+					#f9f9f9 256px
+				);
 			}
 
 			> a {
-				&:hover, &:focus {
-					background: linear-gradient(to right, $offwhite 1%, rgba(255, 255, 255, 0.5) 100px, #f1f2f4 256px);
+				&:hover,
+				&:focus {
+					background: linear-gradient(
+						to right,
+						$offwhite 1%,
+						rgba(255, 255, 255, 0.5) 100px,
+						#f1f2f4 256px
+					);
 				}
 			}
 		}
@@ -258,7 +277,8 @@ table .info-icon, .sort-header .info-icon {
 			background-position: center;
 			overflow: hidden;
 
-			> a, > div {
+			> a,
+			> div {
 				height: 100%;
 				display: flex;
 				align-items: center;
@@ -274,10 +294,8 @@ table .info-icon, .sort-header .info-icon {
 
 				> span {
 					display: inline-block;
-					text-shadow: -1px -1px 0 #000,
-					1px -1px 0 #000,
-					-1px 1px 0 #000,
-					1px 1px 0 #000;
+					text-shadow: -1px -1px 0 #000, 1px -1px 0 #000,
+						-1px 1px 0 #000, 1px 1px 0 #000;
 					font-size: 1.5em;
 					font-weight: bold;
 					padding-bottom: 0.05em;
@@ -301,10 +319,8 @@ table .info-icon, .sort-header .info-icon {
 				width: 1em;
 				font-size: 2.5em;
 				color: white;
-				text-shadow: -1px -1px 0 #000,
-				1px -1px 0 #000,
-				-1px 1px 0 #000,
-				1px 1px 0 #000;
+				text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+					1px 1px 0 #000;
 				position: relative;
 
 				span {
@@ -333,10 +349,10 @@ table .info-icon, .sort-header .info-icon {
 	padding-top: 10px;
 	overflow: hidden;
 
-	>div {
+	> div {
 		font-weight: bold;
 
-		>span {
+		> span {
 			display: block;
 		}
 
@@ -349,7 +365,9 @@ table .info-icon, .sort-header .info-icon {
 			white-space: pre;
 		}
 
-		.dust-cost, .last-played, .live-now {
+		.dust-cost,
+		.last-played,
+		.live-now {
 			line-height: 20px;
 			white-space: nowrap;
 			display: inline-block;
@@ -357,7 +375,8 @@ table .info-icon, .sort-header .info-icon {
 			text-shadow: white 0 0 2px;
 		}
 
-		.dust-cost, .last-played {
+		.dust-cost,
+		.last-played {
 			opacity: 0.6;
 		}
 
@@ -376,7 +395,9 @@ table .info-icon, .sort-header .info-icon {
 			position: relative;
 			z-index: 1;
 
-			&:active, &:hover, &:focus {
+			&:active,
+			&:hover,
+			&:focus {
 				opacity: 1;
 				color: $twitch-purple;
 				text-decoration: none;
@@ -400,7 +421,9 @@ table .info-icon, .sort-header .info-icon {
 			}
 		}
 
-		.win-rate, .game-count, .duration {
+		.win-rate,
+		.game-count,
+		.duration {
 			text-align: center;
 			margin-top: 15px;
 		}
@@ -494,7 +517,6 @@ table .info-icon, .sort-header .info-icon {
 				opacity: 0.7;
 			}
 		}
-
 	}
 }
 
@@ -572,7 +594,7 @@ table .info-icon, .sort-header .info-icon {
 .table-wrapper {
 	overflow-x: auto;
 
-	>table {
+	> table {
 		min-width: 1000px;
 	}
 }
@@ -608,7 +630,6 @@ table .info-icon, .sort-header .info-icon {
 		color: $lighterblue;
 	}
 }
-
 
 .table > tbody > tr > td.card-cell {
 	padding-top: 0;
@@ -692,14 +713,17 @@ table .info-icon, .sort-header .info-icon {
 .pagination {
 	> li {
 		&.active > a {
-			&, &:focus, &:hover {
+			&,
+			&:focus,
+			&:hover {
 				color: white;
 				background-color: $lighterblue;
 				border-color: $lighterblue;
 			}
 		}
 
-		> a, > span {
+		> a,
+		> span {
 			margin-left: 6px;
 			margin-right: 6px;
 			text-align: center;
@@ -721,14 +745,16 @@ table .info-icon, .sort-header .info-icon {
 		}
 
 		&:first-child {
-			> a, > span {
+			> a,
+			> span {
 				border-radius: 0;
 				margin-left: 0;
 			}
 		}
 
 		&:last-child {
-			> a, > span {
+			> a,
+			> span {
 				border-radius: 0;
 				margin-right: 0;
 			}
@@ -738,7 +764,8 @@ table .info-icon, .sort-header .info-icon {
 			color: black;
 			border-color: black;
 
-			&:hover, &:focus {
+			&:hover,
+			&:focus {
 				color: white;
 				border-color: $lightblue;
 				background-color: $lightblue;
@@ -749,7 +776,8 @@ table .info-icon, .sort-header .info-icon {
 			color: black;
 			cursor: default;
 
-			&, &:hover {
+			&,
+			&:hover {
 				color: black;
 				background-color: transparent;
 				border: none;
@@ -813,7 +841,8 @@ table .info-icon, .sort-header .info-icon {
 		padding: 5px 5px 0 5px;
 	}
 
-	.class-matchup-archetype:hover, .class-matchup-archetype:active {
+	.class-matchup-archetype:hover,
+	.class-matchup-archetype:active {
 		text-decoration: unset;
 		background: #f1f2f4;
 	}
@@ -822,7 +851,6 @@ table .info-icon, .sort-header .info-icon {
 		color: black;
 	}
 }
-
 
 .box {
 	border: 1px solid black;
@@ -835,7 +863,9 @@ table .info-icon, .sort-header .info-icon {
 	text-align: center;
 	text-decoration: none;
 
-	&:hover, &:active, &:link {
+	&:hover,
+	&:active,
+	&:link {
 		color: black;
 		text-decoration: none;
 	}
@@ -861,11 +891,11 @@ table .info-icon, .sort-header .info-icon {
 		flex-direction: column;
 		flex-grow: 1;
 
-		>h2 {
+		> h2 {
 			margin-top: 0;
 		}
 
-		>h3 {
+		> h3 {
 			margin-top: 0;
 		}
 	}
@@ -917,7 +947,7 @@ table .info-icon, .sort-header .info-icon {
 		}
 	}
 
-	&.class-box{
+	&.class-box {
 		.box-title {
 			text-transform: none;
 			text-align: left;
@@ -940,7 +970,7 @@ table .info-icon, .sort-header .info-icon {
 	flex-wrap: wrap;
 	justify-content: center;
 
-	@media(max-width: 500px) {
+	@media (max-width: 500px) {
 		padding: 10px 15px;
 	}
 
@@ -956,10 +986,9 @@ table .info-icon, .sort-header .info-icon {
 		min-width: 450px;
 		flex-grow: 1;
 
-		@media(max-width: 500px) {
+		@media (max-width: 500px) {
 			min-width: 100%;
 		}
-
 
 		&:hover {
 			background: unset;
@@ -989,7 +1018,7 @@ table .info-icon, .sort-header .info-icon {
 	}
 
 	.col {
-		flex: 1 100%
+		flex: 1 100%;
 	}
 }
 
@@ -1066,7 +1095,9 @@ table .info-icon, .sort-header .info-icon {
 		}
 
 		&.active {
-			> a, > a:hover, > a:focus {
+			> a,
+			> a:hover,
+			> a:focus {
 				background: $offwhite;
 				border: 1px solid $blue;
 				border-bottom-color: transparent;
@@ -1089,9 +1120,9 @@ table .info-icon, .sort-header .info-icon {
 		&.highlight:not(.active) > a {
 			background: $lightblue;
 			border: 1px solid $blue;
-			 &:hover {
-				 color: black;
-			 }
+			&:hover {
+				color: black;
+			}
 		}
 	}
 }
@@ -1101,7 +1132,8 @@ table .info-icon, .sort-header .info-icon {
 	font-weight: bold;
 
 	a {
-		&.table-row-header, &.table-cell {
+		&.table-row-header,
+		&.table-cell {
 			color: black;
 			text-decoration: none;
 		}
@@ -1213,13 +1245,12 @@ table .info-icon, .sort-header .info-icon {
 			text-align: center;
 			top: 0;
 			width: 100%;
-			text-shadow: -1px -1px 0 #000,
-				1px -1px 0 #000,
-				-1px 1px 0 #000,
+			text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
 				1px 1px 0 #000;
 		}
 
-		&:hover, &:focus {
+		&:hover,
+		&:focus {
 			background: $lightblue1;
 			filter: grayscale(0);
 			outline: none;
@@ -1229,7 +1260,8 @@ table .info-icon, .sort-header .info-icon {
 			background: $lightcyan;
 			filter: grayscale(0);
 
-			&:hover, &:focus {
+			&:hover,
+			&:focus {
 				background: $lightercyan;
 				outline: none;
 			}
@@ -1253,7 +1285,8 @@ table .info-icon, .sort-header .info-icon {
 			width: 100%;
 		}
 
-		&:hover, &:focus {
+		&:hover,
+		&:focus {
 			background: $lightblue1;
 			outline: none;
 		}
@@ -1261,7 +1294,8 @@ table .info-icon, .sort-header .info-icon {
 		&.selected {
 			background: $lightcyan;
 
-			&:hover, &:focus {
+			&:hover,
+			&:focus {
 				background: $lightercyan;
 				outline: none;
 			}
@@ -1270,7 +1304,8 @@ table .info-icon, .sort-header .info-icon {
 		&.only {
 			color: gray;
 
-			&:hover, &:focus {
+			&:hover,
+			&:focus {
 				background: $lightcyan;
 				outline: none;
 			}
@@ -1317,7 +1352,8 @@ table .info-icon, .sort-header .info-icon {
 			width: 100%;
 			margin-top: 0.25em;
 
-			&, * {
+			&,
+			* {
 				overflow: hidden;
 				text-overflow: ellipsis;
 			}
@@ -1350,7 +1386,6 @@ table .info-icon, .sort-header .info-icon {
 			> img {
 				filter: brightness(65%);
 			}
-
 		}
 
 		.stream-thumbnail-default-image {
@@ -1422,9 +1457,7 @@ table .info-icon, .sort-header .info-icon {
 		font-weight: bold;
 		color: white;
 
-		text-shadow: -1px -1px 0 #000,
-			-1px 1px 0 #000,
-			1px 1px 0 #000,
+		text-shadow: -1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000,
 			1px -1px 0 #000;
 	}
 }
@@ -1444,7 +1477,8 @@ table .info-icon, .sort-header .info-icon {
 			opacity: 0.8;
 		}
 
-		&.active, &.active:hover {
+		&.active,
+		&.active:hover {
 			opacity: 1;
 		}
 	}
@@ -1463,7 +1497,8 @@ table .info-icon, .sort-header .info-icon {
 	}
 }
 
-ul.list-ltr, ol.list-ltr {
+ul.list-ltr,
+ol.list-ltr {
 	display: grid;
 	grid-auto-flow: row;
 
@@ -1472,7 +1507,7 @@ ul.list-ltr, ol.list-ltr {
 		grid-column-gap: 40px;
 	}
 
-	@media(max-width: 991px) {
+	@media (max-width: 991px) {
 		&.list-ltr-2 {
 			grid-template-columns: auto;
 		}
@@ -1609,7 +1644,8 @@ ul.list-ltr, ol.list-ltr {
 		}
 	}
 
-	.panel-header, .panel-content {
+	.panel-header,
+	.panel-content {
 		box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 	}
 
@@ -1664,5 +1700,58 @@ ul.list-ltr, ol.list-ltr {
 		.panel-content {
 			border: 1px solid $premium;
 		}
+	}
+}
+
+.card-fade-container {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+
+	.card-art {
+		flex: 1 1 0;
+		height: 100%;
+		width: 100%;
+		background-position-x: center;
+		background-position-y: center;
+		position: absolute;
+
+		&.flipped {
+			transform: scaleX(-1);
+		}
+
+		&:nth-of-type(1) {
+			left: -25%;
+		}
+
+		&:nth-of-type(2) {
+			right: -25%;
+			-webkit-mask-image: -webkit-gradient(
+				linear,
+				left top,
+				right top,
+				color-stop(0, rgba(0, 0, 0, 0)),
+				color-stop(15%, rgba(0, 0, 0, 0)),
+				color-stop(35%, rgba(0, 0, 0, 1)),
+				color-stop(100%, rgba(0, 0, 0, 1))
+			);
+
+			&.flipped {
+				-webkit-mask-image: -webkit-gradient(
+					linear,
+					right top,
+					left top,
+					color-stop(0, rgba(0, 0, 0, 0)),
+					color-stop(15%, rgba(0, 0, 0, 0)),
+					color-stop(35%, rgba(0, 0, 0, 1)),
+					color-stop(100%, rgba(0, 0, 0, 1))
+				);
+			}
+		}
+	}
+
+	.fade {
+		height: 70px;
 	}
 }
