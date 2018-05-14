@@ -55,13 +55,11 @@ export default class ArchetypeFilter extends React.Component<Props> {
 					others[archetype.playerClass] = archetype.id;
 				}
 			});
-			if (UserData.hasFeature("archetype-training")) {
-				playerClasses.forEach(playerClass => {
-					if (others[playerClass]) {
-						addFilter(others[playerClass], playerClass, "Other");
-					}
-				});
-			}
+			playerClasses.forEach(playerClass => {
+				if (others[playerClass]) {
+					addFilter(others[playerClass], playerClass, "Other");
+				}
+			});
 		}
 
 		if (filters.length === 0) {
