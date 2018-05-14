@@ -1,16 +1,16 @@
 .archetype-detail-container {
 	display: flex;
 
-	@media(max-width: 768px) {
+	@media (max-width: 768px) {
 		flex-direction: column;
 	}
 
-	>main {
+	> main {
 		min-height: calc(100vh - 50px);
 		padding-top: 10px;
 		width: calc(100% - 300px);
 
-		@media(max-width: 768px) {
+		@media (max-width: 768px) {
 			max-width: 100%;
 			width: 100%;
 		}
@@ -19,7 +19,7 @@
 			color: $blue;
 			font-size: 1em;
 			left: 3%;
-			@media(min-width: 1336px) {
+			@media (min-width: 1336px) {
 				left: calc(50% - 350px);
 			}
 			padding: 0;
@@ -63,8 +63,8 @@
 		}
 	}
 
-	>aside {
-		@media(max-width: 768px) {
+	> aside {
+		@media (max-width: 768px) {
 			max-width: 100%;
 			width: 100%;
 			padding-bottom: 0;
@@ -74,12 +74,33 @@
 			border-bottom: 1px solid $blue;
 		}
 
-		.hero-image {
-			margin: 25px calc(50% - 125px);
-			margin-top: 0;
-			width: 250px;
-		}
+		.archetype-image-container {
+			align-items: center;
+			display: flex;
+			height: 320px;
+			justify-content: center;
+			margin: 0 auto;
+			max-width: 500px;
+			padding: 10px;
+			position: relative;
 
+			h1 {
+				font-size: 2em;
+				font-weight: bold;
+				position: absolute;
+				text-shadow: 0 0.2em 0.3em #000;
+				z-index: 1;
+			}
+
+			.card-fade-container {
+				filter: brightness(80%);
+				border: 1px solid $darkblue;
+
+				.card-art {
+					background-position-y: 35%;
+				}
+			}
+		}
 
 		.player-class-icon {
 			width: 24px;
@@ -98,12 +119,11 @@
 		padding-right: 0;
 	}
 
-	>h3 {
+	> h3 {
 		border-bottom: 1px solid $darkgrey;
 	}
 
 	#message-no-data {
 		padding-top: 20px;
 	}
-
 }

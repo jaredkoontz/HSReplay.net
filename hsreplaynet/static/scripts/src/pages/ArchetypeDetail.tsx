@@ -12,6 +12,7 @@ import InfoboxFilterGroup from "../components/InfoboxFilterGroup";
 import ArchetypeDistributionPieChart from "../components/archetypedetail/ArchetypeDistributionPieChart";
 import ArchetypeMatchups from "../components/archetypedetail/ArchetypeMatchups";
 import ArchetypeSignature from "../components/archetypedetail/ArchetypeSignature";
+import ArchetypeImage from "../components/archetypedetail/ArchetypeImage";
 import DeckBox from "../components/box/DeckBox";
 import MatchupBox from "../components/box/MatchupBox";
 import PopularityBox from "../components/box/PopularityBox";
@@ -28,6 +29,7 @@ import { extractSignature } from "../extractors";
 import { getHeroSkinCardUrl, isWildSet } from "../helpers";
 import { DeckObj, LoadingStatus, SortDirection } from "../interfaces";
 import { Archetype, Collection } from "../utils/api";
+import TwoCardFade from "../components/TwoCardFade";
 
 interface Props extends InjectedTranslateProps {
 	archetypeId: number;
@@ -559,11 +561,20 @@ class ArchetypeDetail extends React.Component<Props, State> {
 		return (
 			<div className="archetype-detail-container">
 				<aside className="infobox">
-					<h1>{this.props.archetypeName}</h1>
-					<img
-						className="hero-image"
-						src={getHeroSkinCardUrl(this.props.playerClass)}
-					/>
+					<DataInjector
+						query={[
+							{
+								key: "archetypeData",
+								params: {},
+								url: "/api/v1/archetypes/",
+							},
+						]}
+					>
+						<ArchetypeImage
+							archetypeId={this.props.archetypeId}
+							cardData={this.props.cardData}
+						/>
+					</DataInjector>
 					<section id="rank-range-filter">
 						<InfoboxFilterGroup
 							header={t("Rank range")}
