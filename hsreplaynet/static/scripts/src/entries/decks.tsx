@@ -8,6 +8,7 @@ import { Consumer as HearthstoneAccountConsumer } from "../components/utils/hear
 import DataInjector from "../components/DataInjector";
 import Root from "../components/Root";
 import { isCollectionDisabled } from "../utils/collection";
+import { TimeRange } from "../filters";
 
 const container = document.getElementById("decks-container");
 UserData.create();
@@ -46,12 +47,12 @@ const render = (cardData: CardData) => {
 									timeRange: UserData.hasFeature(
 										"current-patch-filter",
 									)
-										? "CURRENT_PATCH"
+										? TimeRange.CURRENT_PATCH
 										: UserData.hasFeature(
 												"current-expansion-filter",
 										  )
-											? "CURRENT_EXPANSION"
-											: "LAST_30_DAYS",
+											? TimeRange.CURRENT_EXPANSION
+											: TimeRange.LAST_30_DAYS,
 									trainingData: "",
 									withStream: false,
 								}}

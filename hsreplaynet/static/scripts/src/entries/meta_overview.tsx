@@ -5,6 +5,7 @@ import UserData from "../UserData";
 import Fragments from "../components/Fragments";
 import MetaOverview from "../pages/MetaOverview";
 import Root from "../components/Root";
+import { TimeRange } from "../filters";
 
 UserData.create();
 
@@ -29,8 +30,8 @@ const render = (cardData: CardData) => {
 					sortDirection: "descending",
 					tab: "tierlist",
 					timeFrame: UserData.hasFeature("current-expansion-filter")
-						? "CURRENT_EXPANSION"
-						: "LAST_7_DAYS",
+						? TimeRange.CURRENT_EXPANSION
+						: TimeRange.LAST_7_DAYS,
 				}}
 				immutable={immutable}
 			>

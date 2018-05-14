@@ -6,6 +6,7 @@ import Fragments from "../components/Fragments";
 import MyDecks from "../pages/MyDecks";
 import Root from "../components/Root";
 import { Consumer as AccountConsumer } from "../components/utils/hearthstone-account";
+import { TimeRange } from "../filters";
 
 const container = document.getElementById("my-decks-container");
 UserData.create();
@@ -21,7 +22,7 @@ const render = (cardData: CardData) => {
 							gameType: "RANKED_STANDARD",
 							includedCards: [],
 							includedSet: "ALL",
-							timeRange: "LAST_30_DAYS",
+							timeRange: TimeRange.LAST_30_DAYS,
 							playerClasses: [],
 						}}
 					>

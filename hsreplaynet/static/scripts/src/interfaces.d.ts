@@ -301,12 +301,6 @@ export type Region =
 	| "REGION_EU"
 	| "REGION_KR"
 	| "REGION_CN";
-export type TimeFrame =
-	| "LAST_7_DAYS"
-	| "LAST_14_DAYS"
-	| "LAST_30_DAYS"
-	| "CURRENT_SEASON"
-	| "PREVIOUS_SEASON";
 
 export const enum LoadingStatus {
 	SUCCESS,

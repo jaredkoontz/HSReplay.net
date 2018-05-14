@@ -36,6 +36,7 @@ import {
 	getCollectionCardCount,
 	isCollectionDisabled,
 } from "../utils/collection";
+import { TimeRange } from "../filters";
 
 interface CardFilters {
 	cost: any;
@@ -198,14 +199,19 @@ class Cards extends React.Component<Props, State> {
 		gameType: ["RANKED_STANDARD", "RANKED_WILD", "ARENA"],
 		rankRange: [],
 		region: [],
-		timeRange: ["LAST_14_DAYS"],
+		timeRange: [TimeRange.LAST_14_DAYS],
 	};
 
 	private readonly allowedValuesPremium = {
 		gameType: ["RANKED_STANDARD", "RANKED_WILD", "ARENA"],
 		rankRange: ["LEGEND_THROUGH_TEN"],
 		region: [],
-		timeRange: ["LAST_1_DAY", "LAST_3_DAYS", "LAST_7_DAYS", "LAST_14_DAYS"],
+		timeRange: [
+			TimeRange.LAST_1_DAY,
+			TimeRange.LAST_3_DAYS,
+			TimeRange.LAST_7_DAYS,
+			TimeRange.LAST_14_DAYS,
+		],
 	};
 
 	showMoreButton: HTMLDivElement;
@@ -1021,21 +1027,23 @@ class Cards extends React.Component<Props, State> {
 								analyticsLabel="Card List Time Frame"
 								iconStyle={{ display: "none" }}
 							>
-								<InfoboxFilter value="LAST_1_DAY">
+								<InfoboxFilter value={TimeRange.LAST_1_DAY}>
 									{t("Last 1 day")}
 								</InfoboxFilter>
-								<InfoboxFilter value="LAST_3_DAYS">
+								<InfoboxFilter value={TimeRange.LAST_3_DAYS}>
 									{t("Last {{n}} days", { n: 3 })}
 								</InfoboxFilter>
-								<InfoboxFilter value="LAST_7_DAYS">
+								<InfoboxFilter value={TimeRange.LAST_7_DAYS}>
 									{t("Last {{n}} days", { n: 7 })}
 								</InfoboxFilter>
 							</PremiumWrapper>
-							<InfoboxFilter value="LAST_14_DAYS">
+							<InfoboxFilter value={TimeRange.LAST_14_DAYS}>
 								{t("Last {{n}} days", { n: 14 })}
 							</InfoboxFilter>
 							<Feature feature={"current-expansion-filter"}>
-								<InfoboxFilter value="CURRENT_EXPANSION">
+								<InfoboxFilter
+									value={TimeRange.CURRENT_EXPANSION}
+								>
 									{t("The Witchwood")}
 									<span className="infobox-value">
 										{t("New!")}
@@ -1043,7 +1051,7 @@ class Cards extends React.Component<Props, State> {
 								</InfoboxFilter>
 							</Feature>
 							<Feature feature={"current-patch-filter"}>
-								<InfoboxFilter value="CURRENT_PATCH">
+								<InfoboxFilter value={TimeRange.CURRENT_PATCH}>
 									{t("Latest patch")}
 								</InfoboxFilter>
 							</Feature>
@@ -1102,26 +1110,26 @@ class Cards extends React.Component<Props, State> {
 					onClick={value => this.props.setTimeRange(value)}
 					key="timeframe"
 				>
-					<InfoboxFilter value="LAST_3_DAYS">
+					<InfoboxFilter value={TimeRange.LAST_3_DAYS}>
 						{t("Last {{n}} days", { n: 3 })}
 					</InfoboxFilter>
-					<InfoboxFilter value="LAST_7_DAYS">
+					<InfoboxFilter value={TimeRange.LAST_7_DAYS}>
 						{t("Last {{n}} days", { n: 7 })}
 					</InfoboxFilter>
-					<InfoboxFilter value="LAST_30_DAYS">
+					<InfoboxFilter value={TimeRange.LAST_30_DAYS}>
 						{t("Last {{n}} days", { n: 30 })}
 					</InfoboxFilter>
-					<InfoboxFilter value="CURRENT_SEASON">
+					<InfoboxFilter value={TimeRange.CURRENT_SEASON}>
 						{t("Current season")}
 					</InfoboxFilter>
 					<Feature feature={"current-expansion-filter"}>
-						<InfoboxFilter value="CURRENT_EXPANSION">
+						<InfoboxFilter value={TimeRange.CURRENT_EXPANSION}>
 							The Witchwood
 							<span className="infobox-value">New!</span>
 						</InfoboxFilter>
 					</Feature>
 					<Feature feature={"current-patch-filter"}>
-						<InfoboxFilter value="CURRENT_PATCH">
+						<InfoboxFilter value={TimeRange.CURRENT_PATCH}>
 							{t("Latest patch")}
 							<span className="infobox-value">{t("New!")}</span>
 						</InfoboxFilter>

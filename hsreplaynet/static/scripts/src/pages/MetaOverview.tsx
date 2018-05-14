@@ -20,6 +20,7 @@ import PremiumWrapper from "../components/premium/PremiumWrapper";
 import RankPicker from "../components/rankpicker/RankPicker";
 import { commaSeparate } from "../helpers";
 import { SortDirection } from "../interfaces";
+import { TimeRange } from "../filters";
 
 interface Props extends InjectedTranslateProps {
 	cardData: CardData;
@@ -150,18 +151,20 @@ class MetaOverview extends React.Component<Props, State> {
 								analyticsLabel="Meta Overview Time Frame"
 								iconStyle={{ display: "none" }}
 							>
-								<InfoboxFilter value="LAST_1_DAY">
+								<InfoboxFilter value={TimeRange.LAST_1_DAY}>
 									{t("Last 1 day")}
 								</InfoboxFilter>
-								<InfoboxFilter value="LAST_3_DAYS">
+								<InfoboxFilter value={TimeRange.LAST_3_DAYS}>
 									{t("Last {{n}} days", { n: 3 })}
 								</InfoboxFilter>
 							</PremiumWrapper>
-							<InfoboxFilter value="LAST_7_DAYS">
+							<InfoboxFilter value={TimeRange.LAST_7_DAYS}>
 								{t("Last {{n}} days", { n: 7 })}
 							</InfoboxFilter>
 							<Feature feature="current-expansion-filter">
-								<InfoboxFilter value="CURRENT_EXPANSION">
+								<InfoboxFilter
+									value={TimeRange.CURRENT_EXPANSION}
+								>
 									{t("The Witchwood")}
 									<span className="infobox-value">
 										{t("New!")}
@@ -300,9 +303,9 @@ class MetaOverview extends React.Component<Props, State> {
 											GameType: this.getGameType(),
 											TimeRange:
 												this.props.timeFrame ===
-												"CURRENT_EXPANSION"
-													? "CURRENT_EXPANSION"
-													: "LAST_30_DAYS",
+												TimeRange.CURRENT_EXPANSION
+													? TimeRange.CURRENT_EXPANSION
+													: TimeRange.LAST_30_DAYS,
 											Region: this.props.region,
 										},
 										url: "list_decks_by_win_rate",

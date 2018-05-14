@@ -29,6 +29,7 @@ import { extractSignature } from "../extractors";
 import { isWildSet } from "../helpers";
 import { DeckObj, LoadingStatus, SortDirection } from "../interfaces";
 import { Archetype, Collection } from "../utils/api";
+import { TimeRange } from "../filters";
 
 interface Props extends InjectedTranslateProps {
 	archetypeId: number;
@@ -95,8 +96,8 @@ class ArchetypeDetail extends React.Component<Props, State> {
 			GameType: this.getGameType(props),
 			RankRange: props.rankRange,
 			TimeRange: UserData.hasFeature("current-expansion-filter")
-				? "CURRENT_EXPANSION"
-				: "LAST_30_DAYS",
+				? TimeRange.CURRENT_EXPANSION
+				: TimeRange.LAST_30_DAYS,
 		};
 		const setDeckData = data => {
 			this.setState({ deckData: data ? data.series.data : null }, () =>
@@ -184,15 +185,15 @@ class ArchetypeDetail extends React.Component<Props, State> {
 			GameType,
 			RankRange,
 			TimeRange: UserData.hasFeature("current-expansion-filter")
-				? "CURRENT_EXPANSION"
-				: "LAST_7_DAYS",
+				? TimeRange.CURRENT_EXPANSION
+				: TimeRange.LAST_7_DAYS,
 		};
 		const listDecksParams = {
 			GameType,
 			RankRange,
 			TimeRange: UserData.hasFeature("current-expansion-filter")
-				? "CURRENT_EXPANSION"
-				: "LAST_30_DAYS",
+				? TimeRange.CURRENT_EXPANSION
+				: TimeRange.LAST_30_DAYS,
 		};
 
 		let content = null;

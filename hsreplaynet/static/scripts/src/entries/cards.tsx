@@ -9,6 +9,7 @@ import { Consumer as AccountConsumer } from "../components/utils/hearthstone-acc
 import GoogleAnalytics from "../metrics/GoogleAnalytics";
 import Cards from "../pages/Cards";
 import { isCollectionDisabled } from "../utils/collection";
+import { TimeRange } from "../filters";
 
 const container = document.getElementById("card-container");
 const personal = container.getAttribute("data-view-type") === "personal";
@@ -48,16 +49,16 @@ const render = (cardData: CardData) => {
 									playerClass: "ALL",
 									rankRange: "ALL",
 									timeRange: personal
-										? "LAST_30_DAYS"
+										? TimeRange.LAST_30_DAYS
 										: UserData.hasFeature(
 												"current-patch-filter",
 										  )
-											? "CURRENT_PATCH"
+											? TimeRange.CURRENT_PATCH
 											: UserData.hasFeature(
 													"current-expansion-filter",
 											  )
-												? "CURRENT_EXPANSION"
-												: "LAST_14_DAYS",
+												? TimeRange.CURRENT_EXPANSION
+												: TimeRange.LAST_14_DAYS,
 
 									exclude: "",
 									cost: [],

@@ -34,6 +34,7 @@ import {
 	getDustCostForCollection,
 	isCollectionDisabled,
 } from "../utils/collection";
+import { TimeRange } from "../filters";
 
 interface Props extends InjectedTranslateProps, FragmentChildProps {
 	cardData: CardData | null;
@@ -800,21 +801,23 @@ class Decks extends React.Component<Props, State> {
 								analyticsLabel="Deck List Time Frame"
 								iconStyle={{ display: "none" }}
 							>
-								<InfoboxFilter value="CURRENT_SEASON">
+								<InfoboxFilter value={TimeRange.CURRENT_SEASON}>
 									{t("Current Season")}
 								</InfoboxFilter>
-								<InfoboxFilter value="LAST_3_DAYS">
+								<InfoboxFilter value={TimeRange.LAST_3_DAYS}>
 									{t("Last {{n}} days", { n: 3 })}
 								</InfoboxFilter>
-								<InfoboxFilter value="LAST_7_DAYS">
+								<InfoboxFilter value={TimeRange.LAST_7_DAYS}>
 									{t("Last {{n}} days", { n: 7 })}
 								</InfoboxFilter>
 							</PremiumWrapper>
-							<InfoboxFilter value="LAST_30_DAYS">
+							<InfoboxFilter value={TimeRange.LAST_30_DAYS}>
 								{t("Last {{n}} days", { n: 30 })}
 							</InfoboxFilter>
 							<Feature feature={"current-expansion-filter"}>
-								<InfoboxFilter value="CURRENT_EXPANSION">
+								<InfoboxFilter
+									value={TimeRange.CURRENT_EXPANSION}
+								>
 									{t("The Witchwood")}
 									<span className="infobox-value">
 										{t("New!")}
@@ -822,7 +825,7 @@ class Decks extends React.Component<Props, State> {
 								</InfoboxFilter>
 							</Feature>
 							<Feature feature={"current-patch-filter"}>
-								<InfoboxFilter value="CURRENT_PATCH">
+								<InfoboxFilter value={TimeRange.CURRENT_PATCH}>
 									{t("Latest patch")}
 								</InfoboxFilter>
 							</Feature>
