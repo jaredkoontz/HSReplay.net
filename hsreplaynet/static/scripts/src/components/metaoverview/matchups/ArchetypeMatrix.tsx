@@ -39,8 +39,6 @@ interface State {
 }
 
 const offWhite = "#fbf7f6";
-const headerCellWidth = 210;
-const headerCellHeight = 132;
 const cellWidth = 70;
 const cellHeight = 40;
 const footerCellHeight = 80;
@@ -50,6 +48,8 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 	private rowHeaders: Grid = null;
 	private matchupCells: Grid = null;
 	private rowFooters: Grid = null;
+	private headerCellWidth = 210;
+	private headerCellHeight = 132;
 
 	constructor(props: Props, context?: any) {
 		super(props, context);
@@ -57,18 +57,32 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 			highlightColumn: null,
 			highlightRow: null,
 		};
+		if (props.simple) {
+			this.headerCellWidth = 160;
+			this.headerCellHeight = 100;
+		}
 	}
 
 	private renderLeftHeader(): React.ReactNode {
 		if (this.props.simple) {
-			return null;
+			return (
+				<div
+					className="matchup-header-cell matchup-header-top-left"
+					style={{
+						width: this.headerCellWidth,
+						height: this.headerCellHeight,
+					}}
+				>
+					Archetypes
+				</div>
+			);
 		}
 		return (
 			<div
 				className="matchup-header-cell matchup-header-top-left matchup-header-archetype"
 				style={{
-					height: headerCellHeight,
-					width: headerCellWidth,
+					height: this.headerCellHeight,
+					width: this.headerCellWidth,
 				}}
 			>
 				{this.getSortHeader("class", "Archetype", "ascending")}
@@ -98,7 +112,7 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 			<div
 				className="grid-container grid-container-top"
 				style={{
-					left: headerCellWidth,
+					left: this.headerCellWidth,
 					background: "none",
 				}}
 			>
@@ -147,15 +161,15 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 					}}
 					width={
 						width -
-						headerCellWidth -
+						this.headerCellWidth -
 						this.rowFooterWidth() -
 						scrollbarWidth
 					}
-					height={headerCellHeight}
+					height={this.headerCellHeight}
 					columnCount={archetypes.length}
 					columnWidth={cellWidth}
 					rowCount={1}
-					rowHeight={headerCellHeight}
+					rowHeight={this.headerCellHeight}
 					scrollLeft={scrollLeft}
 					className={"matchup-header"}
 				/>
@@ -186,7 +200,7 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 			<div
 				className="matchup-header-cell matchup-header-top-right"
 				style={{
-					height: headerCellHeight,
+					height: this.headerCellHeight,
 					width: cellWidth,
 					right,
 				}}
@@ -214,7 +228,7 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 		return (
 			<div
 				className="grid-container grid-container-left"
-				style={{ top: headerCellHeight }}
+				style={{ top: this.headerCellHeight }}
 			>
 				<Grid
 					cellRenderer={({ key, rowIndex, style }) => {
@@ -246,15 +260,15 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 							/>
 						);
 					}}
-					width={headerCellWidth}
+					width={this.headerCellWidth}
 					height={
 						height -
-						headerCellHeight -
+						this.headerCellHeight -
 						this.columnFooterHeight() -
 						scrollbarHeight
 					}
 					columnCount={1}
-					columnWidth={headerCellWidth}
+					columnWidth={this.headerCellWidth}
 					rowCount={archetypes.length}
 					rowHeight={({ index }) =>
 						cellHeight +
@@ -303,8 +317,8 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 			<div
 				className="grid-container"
 				style={{
-					top: headerCellHeight,
-					left: headerCellWidth,
+					top: this.headerCellHeight,
+					left: this.headerCellWidth,
 				}}
 			>
 				<Grid
@@ -344,11 +358,13 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 					scrollToRow={0}
 					width={Math.min(
 						cellWidth * archetypes.length + scrollbarWidth,
-						width - headerCellWidth - this.rowFooterWidth(),
+						width - this.headerCellWidth - this.rowFooterWidth(),
 					)}
 					height={Math.min(
 						cellHeight * archetypes.length + scrollbarHeight,
-						height - headerCellHeight - this.columnFooterHeight(),
+						height -
+							this.headerCellHeight -
+							this.columnFooterHeight(),
 					)}
 					columnCount={archetypes.length}
 					columnWidth={cellWidth}
@@ -411,7 +427,7 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 				className="matchup-header-cell matchup-header-bottom-left matchup-header-popularity"
 				style={{
 					height: footerCellHeight,
-					width: headerCellWidth,
+					width: this.headerCellWidth,
 					bottom,
 				}}
 			>
@@ -459,7 +475,7 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 			<div
 				className="grid-container grid-container-bottom"
 				style={{
-					left: headerCellWidth,
+					left: this.headerCellWidth,
 					bottom,
 				}}
 			>
@@ -489,7 +505,7 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 					}}
 					width={
 						width -
-						headerCellWidth -
+						this.headerCellWidth -
 						this.rowFooterWidth() -
 						scrollbarWidth
 					}
@@ -537,7 +553,7 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 			<div
 				className="grid-container grid-container-right"
 				style={{
-					top: headerCellHeight,
+					top: this.headerCellHeight,
 					right,
 				}}
 			>
@@ -559,7 +575,7 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 					width={cellWidth}
 					height={
 						height -
-						headerCellHeight -
+						this.headerCellHeight -
 						footerCellHeight -
 						scrollbarHeight
 					}
@@ -611,9 +627,10 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 		const gridHeight = cellHeight * archetypes.length;
 
 		const totalHeight =
-			gridHeight + headerCellHeight + this.columnFooterHeight();
+			gridHeight + this.headerCellHeight + this.columnFooterHeight();
 
-		const totalWidth = gridWidth + headerCellWidth + this.rowFooterWidth();
+		const totalWidth =
+			gridWidth + this.headerCellWidth + this.rowFooterWidth();
 
 		return (
 			<div className="archetype-matrix-container">

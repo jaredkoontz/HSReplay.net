@@ -370,10 +370,11 @@
 		box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 		color: white;
 		display: flex;
-		height: 340px;
-		max-width: 600px;
-		padding: 0 10px;
+		height: 323px;
+		max-width: 533px;
 		overflow: hidden;
+		border: 1px solid $red;
+		padding: 10px;
 
 		.archetype-matrix-container {
 			justify-content: center;
@@ -382,7 +383,6 @@
 			height: 100%;
 			width: 100%;
 			margin: 0;
-			margin-top: -20px;
 
 			.gradient-right {
 				background: linear-gradient(to right, transparent, $spacegray);
@@ -423,6 +423,8 @@
 
 		.matchup-column-header-archetype {
 			pointer-events: none;
+			border-left: 1px solid rgba(255, 255, 255, 0.3);
+			border-right: 1px solid rgba(255, 255, 255, 0.3);
 		}
 
 		.archetype-name {
@@ -430,11 +432,20 @@
 		}
 
 		.matchup-row-header {
+			border-top: 1px solid rgba(255, 255, 255, 0.3);
+			border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 			> a,
 			a:hover,
 			a:active {
 				color: white;
 			}
+		}
+
+		.matchup-header-top-left {
+			align-items: center;
+			font-size: 1.5em;
+			padding-bottom: 0;
+			font-variant: small-caps;
 		}
 
 		.class-icon-wrapper {
