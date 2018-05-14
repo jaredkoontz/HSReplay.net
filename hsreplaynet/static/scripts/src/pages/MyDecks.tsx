@@ -26,6 +26,7 @@ import {
 } from "../helpers";
 import { DeckObj, FragmentChildProps, TableData } from "../interfaces";
 import { TimeRange } from "../filters";
+import PrettyTimeRange from "../components/text/PrettyTimeRange";
 
 interface Props extends FragmentChildProps, InjectedTranslateProps {
 	account: Account | null;
@@ -610,19 +611,27 @@ class MyDecks extends React.Component<Props, State> {
 							onClick={value => this.props.setTimeRange(value)}
 						>
 							<InfoboxFilter value={TimeRange.PREVIOUS_SEASON}>
-								{t("Previous season")}
+								<PrettyTimeRange
+									timeRange={TimeRange.PREVIOUS_SEASON}
+								/>
 							</InfoboxFilter>
 							<InfoboxFilter value={TimeRange.CURRENT_SEASON}>
-								{t("Current season")}
+								<PrettyTimeRange
+									timeRange={TimeRange.CURRENT_SEASON}
+								/>
 							</InfoboxFilter>
 							<InfoboxFilter value={TimeRange.LAST_30_DAYS}>
-								{t("Last {{n}} days", { n: 30 })}
+								<PrettyTimeRange
+									timeRange={TimeRange.LAST_30_DAYS}
+								/>
 							</InfoboxFilter>
 							<Feature feature={"current-expansion-filter"}>
 								<InfoboxFilter
 									value={TimeRange.CURRENT_EXPANSION}
 								>
-									{t("The Witchwood")}
+									<PrettyTimeRange
+										timeRange={TimeRange.CURRENT_EXPANSION}
+									/>
 									<span className="infobox-value">
 										{t("New!")}
 									</span>
@@ -630,7 +639,9 @@ class MyDecks extends React.Component<Props, State> {
 							</Feature>
 							<Feature feature={"current-patch-filter"}>
 								<InfoboxFilter value={TimeRange.CURRENT_PATCH}>
-									{t("Latest patch")}
+									<PrettyTimeRange
+										timeRange={TimeRange.CURRENT_PATCH}
+									/>
 									<span className="infobox-value">
 										{t("New!")}
 									</span>

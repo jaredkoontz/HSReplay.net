@@ -37,6 +37,7 @@ import {
 	isCollectionDisabled,
 } from "../utils/collection";
 import { RankRange, TimeRange } from "../filters";
+import PrettyTimeRange from "../components/text/PrettyTimeRange";
 
 interface CardFilters {
 	cost: any;
@@ -1028,23 +1029,33 @@ class Cards extends React.Component<Props, State> {
 								iconStyle={{ display: "none" }}
 							>
 								<InfoboxFilter value={TimeRange.LAST_1_DAY}>
-									{t("Last 1 day")}
+									<PrettyTimeRange
+										timeRange={TimeRange.LAST_1_DAY}
+									/>
 								</InfoboxFilter>
 								<InfoboxFilter value={TimeRange.LAST_3_DAYS}>
-									{t("Last {{n}} days", { n: 3 })}
+									<PrettyTimeRange
+										timeRange={TimeRange.LAST_3_DAYS}
+									/>
 								</InfoboxFilter>
 								<InfoboxFilter value={TimeRange.LAST_7_DAYS}>
-									{t("Last {{n}} days", { n: 7 })}
+									<PrettyTimeRange
+										timeRange={TimeRange.LAST_7_DAYS}
+									/>
 								</InfoboxFilter>
 							</PremiumWrapper>
 							<InfoboxFilter value={TimeRange.LAST_14_DAYS}>
-								{t("Last {{n}} days", { n: 14 })}
+								<PrettyTimeRange
+									timeRange={TimeRange.LAST_14_DAYS}
+								/>
 							</InfoboxFilter>
 							<Feature feature={"current-expansion-filter"}>
 								<InfoboxFilter
 									value={TimeRange.CURRENT_EXPANSION}
 								>
-									{t("The Witchwood")}
+									<PrettyTimeRange
+										timeRange={TimeRange.CURRENT_EXPANSION}
+									/>
 									<span className="infobox-value">
 										{t("New!")}
 									</span>
@@ -1052,7 +1063,12 @@ class Cards extends React.Component<Props, State> {
 							</Feature>
 							<Feature feature={"current-patch-filter"}>
 								<InfoboxFilter value={TimeRange.CURRENT_PATCH}>
-									{t("Latest patch")}
+									<PrettyTimeRange
+										timeRange={TimeRange.CURRENT_PATCH}
+									/>
+									<span className="infobox-value">
+										{t("New!")}
+									</span>
 								</InfoboxFilter>
 							</Feature>
 						</InfoboxFilterGroup>
@@ -1113,26 +1129,30 @@ class Cards extends React.Component<Props, State> {
 					key="timeframe"
 				>
 					<InfoboxFilter value={TimeRange.LAST_3_DAYS}>
-						{t("Last {{n}} days", { n: 3 })}
+						<PrettyTimeRange timeRange={TimeRange.LAST_3_DAYS} />
 					</InfoboxFilter>
 					<InfoboxFilter value={TimeRange.LAST_7_DAYS}>
-						{t("Last {{n}} days", { n: 7 })}
+						<PrettyTimeRange timeRange={TimeRange.LAST_7_DAYS} />
 					</InfoboxFilter>
 					<InfoboxFilter value={TimeRange.LAST_30_DAYS}>
-						{t("Last {{n}} days", { n: 30 })}
+						<PrettyTimeRange timeRange={TimeRange.LAST_30_DAYS} />
 					</InfoboxFilter>
 					<InfoboxFilter value={TimeRange.CURRENT_SEASON}>
-						{t("Current season")}
+						<PrettyTimeRange timeRange={TimeRange.CURRENT_SEASON} />
 					</InfoboxFilter>
 					<Feature feature={"current-expansion-filter"}>
 						<InfoboxFilter value={TimeRange.CURRENT_EXPANSION}>
-							The Witchwood
+							<PrettyTimeRange
+								timeRange={TimeRange.CURRENT_EXPANSION}
+							/>
 							<span className="infobox-value">New!</span>
 						</InfoboxFilter>
 					</Feature>
 					<Feature feature={"current-patch-filter"}>
 						<InfoboxFilter value={TimeRange.CURRENT_PATCH}>
-							{t("Latest patch")}
+							<PrettyTimeRange
+								timeRange={TimeRange.CURRENT_PATCH}
+							/>
 							<span className="infobox-value">{t("New!")}</span>
 						</InfoboxFilter>
 					</Feature>

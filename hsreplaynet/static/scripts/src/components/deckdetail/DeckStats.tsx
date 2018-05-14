@@ -3,6 +3,8 @@ import { InjectedTranslateProps, translate } from "react-i18next";
 import { toPrettyNumber } from "../../helpers";
 import { TableData } from "../../interfaces";
 import InfoboxLastUpdated from "../InfoboxLastUpdated";
+import { TimeRange } from "../../filters";
+import PrettyTimeRange from "../text/PrettyTimeRange";
 
 interface Props extends InjectedTranslateProps {
 	data?: TableData;
@@ -46,7 +48,9 @@ class DeckStats extends React.Component<Props, State> {
 					<li>
 						{t("Time frame")}
 						<span className="infobox-value">
-							{t("Last {{n}} days", { n: 30 })}
+							<PrettyTimeRange
+								timeRange={TimeRange.LAST_30_DAYS}
+							/>
 						</span>
 					</li>
 					<InfoboxLastUpdated

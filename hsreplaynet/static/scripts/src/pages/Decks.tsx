@@ -35,6 +35,7 @@ import {
 	getDustCostForCollection,
 	isCollectionDisabled,
 } from "../utils/collection";
+import PrettyTimeRange from "../components/text/PrettyTimeRange";
 
 interface Props extends InjectedTranslateProps, FragmentChildProps {
 	cardData: CardData | null;
@@ -798,23 +799,33 @@ class Decks extends React.Component<Props, State> {
 								iconStyle={{ display: "none" }}
 							>
 								<InfoboxFilter value={TimeRange.CURRENT_SEASON}>
-									{t("Current season")}
+									<PrettyTimeRange
+										timeRange={TimeRange.CURRENT_SEASON}
+									/>
 								</InfoboxFilter>
 								<InfoboxFilter value={TimeRange.LAST_3_DAYS}>
-									{t("Last {{n}} days", { n: 3 })}
+									<PrettyTimeRange
+										timeRange={TimeRange.LAST_3_DAYS}
+									/>
 								</InfoboxFilter>
 								<InfoboxFilter value={TimeRange.LAST_7_DAYS}>
-									{t("Last {{n}} days", { n: 7 })}
+									<PrettyTimeRange
+										timeRange={TimeRange.LAST_7_DAYS}
+									/>
 								</InfoboxFilter>
 							</PremiumWrapper>
 							<InfoboxFilter value={TimeRange.LAST_30_DAYS}>
-								{t("Last {{n}} days", { n: 30 })}
+								<PrettyTimeRange
+									timeRange={TimeRange.LAST_30_DAYS}
+								/>
 							</InfoboxFilter>
 							<Feature feature={"current-expansion-filter"}>
 								<InfoboxFilter
 									value={TimeRange.CURRENT_EXPANSION}
 								>
-									{t("The Witchwood")}
+									<PrettyTimeRange
+										timeRange={TimeRange.CURRENT_EXPANSION}
+									/>
 									<span className="infobox-value">
 										{t("New!")}
 									</span>
@@ -822,7 +833,12 @@ class Decks extends React.Component<Props, State> {
 							</Feature>
 							<Feature feature={"current-patch-filter"}>
 								<InfoboxFilter value={TimeRange.CURRENT_PATCH}>
-									{t("Latest patch")}
+									<PrettyTimeRange
+										timeRange={TimeRange.CURRENT_PATCH}
+									/>
+									<span className="infobox-value">
+										{t("New!")}
+									</span>
 								</InfoboxFilter>
 							</Feature>
 						</InfoboxFilterGroup>

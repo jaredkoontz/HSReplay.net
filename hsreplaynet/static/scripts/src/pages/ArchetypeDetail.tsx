@@ -33,6 +33,7 @@ import {
 	RankRange as RankRangeFilter,
 	TimeRange as TimeRangeFilter,
 } from "../filters";
+import PrettyTimeRange from "../components/text/PrettyTimeRange";
 
 interface Props extends InjectedTranslateProps {
 	archetypeId: number;
@@ -636,7 +637,9 @@ class ArchetypeDetail extends React.Component<Props, State> {
 							<li>
 								{t("Time frame")}
 								<span className="infobox-value">
-									{t("Last {{n}} days", { n: 7 })}
+									<PrettyTimeRange
+										timeRange={TimeRangeFilter.LAST_7_DAYS}
+									/>
 								</span>
 							</li>
 						</ul>

@@ -21,6 +21,7 @@ import RankPicker from "../components/rankpicker/RankPicker";
 import { commaSeparate } from "../helpers";
 import { SortDirection } from "../interfaces";
 import { TimeRange } from "../filters";
+import PrettyTimeRange from "../components/text/PrettyTimeRange";
 
 interface Props extends InjectedTranslateProps {
 	cardData: CardData;
@@ -152,20 +153,28 @@ class MetaOverview extends React.Component<Props, State> {
 								iconStyle={{ display: "none" }}
 							>
 								<InfoboxFilter value={TimeRange.LAST_1_DAY}>
-									{t("Last 1 day")}
+									<PrettyTimeRange
+										timeRange={TimeRange.LAST_1_DAY}
+									/>
 								</InfoboxFilter>
 								<InfoboxFilter value={TimeRange.LAST_3_DAYS}>
-									{t("Last {{n}} days", { n: 3 })}
+									<PrettyTimeRange
+										timeRange={TimeRange.LAST_3_DAYS}
+									/>
 								</InfoboxFilter>
 							</PremiumWrapper>
 							<InfoboxFilter value={TimeRange.LAST_7_DAYS}>
-								{t("Last {{n}} days", { n: 7 })}
+								<PrettyTimeRange
+									timeRange={TimeRange.LAST_7_DAYS}
+								/>
 							</InfoboxFilter>
 							<Feature feature="current-expansion-filter">
 								<InfoboxFilter
 									value={TimeRange.CURRENT_EXPANSION}
 								>
-									{t("The Witchwood")}
+									<PrettyTimeRange
+										timeRange={TimeRange.CURRENT_EXPANSION}
+									/>
 									<span className="infobox-value">
 										{t("New!")}
 									</span>

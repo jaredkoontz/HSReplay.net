@@ -27,7 +27,7 @@ import HideLoading from "../components/loading/HideLoading";
 import TableLoading from "../components/loading/TableLoading";
 import PremiumWrapper from "../components/premium/PremiumWrapper";
 import PrettyCardClass from "../components/text/PrettyCardClass";
-import { RankRange } from "../filters";
+import { RankRange, TimeRange } from "../filters";
 import {
 	getChartScheme,
 	getDustCost,
@@ -38,6 +38,7 @@ import {
 import { I18N_NAMESPACE_HEARTHSTONE } from "../i18n";
 import { RenderData, TableData } from "../interfaces";
 import { Collection } from "../utils/api";
+import PrettyTimeRange from "../components/text/PrettyTimeRange";
 
 interface Props extends InjectedTranslateProps {
 	card: any;
@@ -727,7 +728,9 @@ class CardDetail extends React.Component<Props, State> {
 						<li>
 							{t("Time frame")}
 							<span className="infobox-value">
-								{t("Last {{n}} days", { n: 30 })}
+								<PrettyTimeRange
+									timeRange={TimeRange.LAST_30_DAYS}
+								/>
 							</span>
 						</li>
 						<InfoboxLastUpdated
