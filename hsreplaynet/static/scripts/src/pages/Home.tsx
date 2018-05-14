@@ -247,11 +247,16 @@ class Home extends React.Component<Props, State> {
 							</a>
 						</div>
 						<div className="panel-feature col-md-7 col-xs-12">
-							<video
-								autoPlay
-								loop
-								src={STATIC_URL + "images/hdt-preview.webm"}
-							/>
+							<video loop autoPlay muted>
+								<source
+									src="https://s3.amazonaws.com/media.hearthsim.net/hsreplaynet/hdt-preview.webm"
+									type="video/webm"
+								/>
+								<source
+									src="https://s3.amazonaws.com/media.hearthsim.net/hsreplaynet/hdt-preview.mp4"
+									type="video/mp4"
+								/>
+							</video>
 						</div>
 						<div className="panel-button col-xs-12 visible-sm visible-xs">
 							<a className="btn promo-button transparent-style">
