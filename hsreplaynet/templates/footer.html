@@ -7,10 +7,12 @@
 	</p>
 
 	<div class="col-md-4">
-		<a class="footer-brand" href="/">
+		<div class="row footer-brand">
+		<a href="/">
 			<img src="{% static 'images/logo.png' %}" id="footer-logo" alt="HSReplay" />
 			<h1>HSReplay.net</h1>
 		</a>
+		</div>
 		<ul class="horizontal-icons">
 			{% setting 'HSREPLAY_TWITTER_HANDLE' as twitter_handle %}
 			<li><a href="https://twitter.com/{{ twitter_handle }}" target="_blank" rel="me" class="social-button">

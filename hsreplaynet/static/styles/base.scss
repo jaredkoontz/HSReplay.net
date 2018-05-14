@@ -261,11 +261,13 @@ header .navbar {
 		}
 
 		h1 {
-			padding: 12px 0;
 			display: inline-block;
-			font-size: 1.2em;
-			margin-top: 12px;
+			font-size: 1.7em;
 			font-weight: bold;
+			margin: 12px 0 0 5px;
+			padding: 12px 0;
+			position: relative;
+			top: 4px;
 		}
 
 	}
@@ -286,7 +288,7 @@ header .navbar {
 		font-size: x-small;
 
 		h4 {
-			font-size: 1.2em;
+			font-size: 1.4em;
 			font-weight: bold;
 			color: white;
 		}
