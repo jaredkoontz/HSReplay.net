@@ -455,7 +455,7 @@ class CollectionSetupDialog extends React.Component<Props, State> {
 								id="collection-setup-progress-step"
 								className="sr-only"
 							>
-								{t("Step {{step}} of {{lastStep}}", {
+								{t("Step {step} of {lastStep}", {
 									step: this.state.step,
 									lastStep: LAST_STEP,
 								})}

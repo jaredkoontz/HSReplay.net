@@ -161,8 +161,8 @@ class CopyDeckButton extends React.Component<Props, State> {
 		return (
 			[
 				`### ${deckName}`,
-				"# " + t("Class: {{ className }}", { className }),
-				"# " + t("Format: {{ formatName }}", { formatName }),
+				"# " + t("Class: {className}", { className }),
+				"# " + t("Format: {formatName}", { formatName }),
 				standard ? "# " + t("Year of the Raven") : "",
 				"#",
 				...prettyDeckList,
@@ -172,7 +172,7 @@ class CopyDeckButton extends React.Component<Props, State> {
 					t(
 						"To use this deck, copy it to your clipboard and create a new deck in Hearthstone",
 					),
-				"# " + t("Find this deck on {{ deckUrl }}", { deckUrl }),
+				"# " + t("Find this deck on {deckUrl}", { deckUrl }),
 			]
 				.filter(Boolean)
 				.join("\n") + "\n"

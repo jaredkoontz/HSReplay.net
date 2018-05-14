@@ -17,7 +17,7 @@ class RankSelector extends React.Component<Props> {
 		const classNames = ["rank-selector"].concat(this.props.classNames);
 		const srcString = rank === 0 ? "Legend" : rank;
 		const rankStr = rank === 0 ? t("Legend") : rank;
-		const altStr = rank === 0 ? t("Legend") : t("Rank {{rank}}", { rank });
+		const altStr = rank === 0 ? t("Legend") : t("Rank {rank}", { rank });
 		return (
 			<button
 				className={classNames.join(" ")}

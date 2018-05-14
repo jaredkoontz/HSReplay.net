@@ -222,7 +222,7 @@ class DeckDetail extends React.Component<Props, State> {
 					<Tooltip
 						header={t("Not enough data")}
 						content={t(
-							"This deck does not have enough data at {{text}}.",
+							"This deck does not have enough data at {text}.",
 							{ text },
 						)}
 					>
@@ -366,7 +366,7 @@ class DeckDetail extends React.Component<Props, State> {
 							{infoBoxFilter(
 								"rankRange",
 								RankRange.LEGEND_THROUGH_FIVE,
-								t("{{rankMin}}–{{rankMax}}", {
+								t("{rankMin}–{rankMax}", {
 									rankMin: t("Legend"),
 									rankMax: 5,
 								}),
@@ -374,7 +374,7 @@ class DeckDetail extends React.Component<Props, State> {
 							{infoBoxFilter(
 								"rankRange",
 								RankRange.LEGEND_THROUGH_TEN,
-								t("{{rankMin}}–{{rankMax}}", {
+								t("{rankMin}–{rankMax}", {
 									rankMin: t("Legend"),
 									rankMax: 10,
 								}),
@@ -383,7 +383,7 @@ class DeckDetail extends React.Component<Props, State> {
 						{infoBoxFilter(
 							"rankRange",
 							"ALL",
-							t("{{rankMin}}–{{rankMax}}", {
+							t("{rankMin}–{rankMax}", {
 								rankMin: t("Legend"),
 								rankMax: 25,
 							}),
@@ -622,7 +622,7 @@ class DeckDetail extends React.Component<Props, State> {
 							{t("Cost")}
 							<span className="infobox-value">
 								{dustCost !== null
-									? t("{{dustCost}} Dust", { dustCost })
+									? t("{dustCost} Dust", { dustCost })
 									: t("Counting…")}
 							</span>
 						</li>

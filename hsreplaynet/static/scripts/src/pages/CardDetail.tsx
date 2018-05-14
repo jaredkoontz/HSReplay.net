@@ -349,7 +349,7 @@ class CardDetail extends React.Component<Props, State> {
 				content = [
 					<section id="content-header" key="content-header">
 						<h1>
-							{t("{{ cardName }} – Statistics", {
+							{t("{cardName} – Statistics", {
 								cardName: this.props.card.name,
 							})}
 						</h1>
@@ -601,7 +601,7 @@ class CardDetail extends React.Component<Props, State> {
 				{this.props.card ? (
 					<span className="infobox-value">
 						{dustCost > 0
-							? t("{{dustCost}} Dust", { dustCost })
+							? t("{dustCost} Dust", { dustCost })
 							: t("Not craftable")}
 					</span>
 				) : null}
@@ -710,7 +710,7 @@ class CardDetail extends React.Component<Props, State> {
 											const numReplays = toPrettyNumber(
 												series.metadata.num_data_points,
 											);
-											return t("{{numReplays}} replays", {
+											return t("{numReplays} replays", {
 												numReplays,
 											});
 										}

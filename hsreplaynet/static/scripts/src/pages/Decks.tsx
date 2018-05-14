@@ -500,8 +500,8 @@ class Decks extends React.Component<Props, State> {
 			const helpMessage =
 				// prettier-ignore
 				<Trans>
-					Showing {{deckTypes}} with at least 10 unique pilots
-					and <a href="#" id="min-games-switch" onClick={onClickHelpMessage}>{{curMinGames}}</a> recorded
+					Showing {deckTypes} with at least 10 unique pilots
+					and <a href="#" id="min-games-switch" onClick={onClickHelpMessage}>{curMinGames}</a> recorded
 					games.
 				</Trans>;
 			content = (
@@ -1053,7 +1053,7 @@ class Decks extends React.Component<Props, State> {
 							}}
 						>
 							<InfoboxFilter value="MIN_GAMES">
-								{t("At least {{minGames}} games", {
+								{t("At least {minGames} games", {
 									minGames: this.getMinGames()[0],
 								})}
 							</InfoboxFilter>

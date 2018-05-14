@@ -45,6 +45,7 @@
 		"hearthstonejson-client": "^0.8.1",
 		"i18next": "^11.2.2",
 		"i18next-callback-backend": "^1.0.0-alpha.1",
+		"i18next-icu": "^0.3.0",
 		"lodash": "^4.17.4",
 		"node-sass": "^4.7.2",
 		"prop-types": "^15.6.0",

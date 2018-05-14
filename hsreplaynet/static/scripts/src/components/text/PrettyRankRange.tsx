@@ -32,7 +32,7 @@ class PrettyRankRange extends React.Component<Props> {
 
 	private renderRankRange(minRank: string, maxRank: string): string {
 		const { t } = this.props;
-		return t("{{rankMin}}–{{rankMax}}", {
+		return t("{rankMin}–{rankMax}", {
 			rankMin: minRank,
 			rankMax: maxRank,
 		});

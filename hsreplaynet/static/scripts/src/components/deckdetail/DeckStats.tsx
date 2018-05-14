@@ -42,7 +42,7 @@ class DeckStats extends React.Component<Props, State> {
 					<li>
 						{t("Sample size")}
 						<span className="infobox-value">
-							{t("{{totalGames}} games", { totalGames })}
+							{t("{totalGames} games", { totalGames })}
 						</span>
 					</li>
 					<li>

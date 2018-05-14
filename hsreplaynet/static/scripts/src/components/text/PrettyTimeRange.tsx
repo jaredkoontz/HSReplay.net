@@ -12,7 +12,7 @@ class PrettyTimeRange extends React.Component<Props> {
 
 		const matches = /^LAST_(\d+)_DAYS?$/.exec("" + timeRange);
 		if (matches !== null) {
-			return t("Last {{n}} days", {
+			return t("Last {n} days", {
 				n: +matches[1],
 			});
 		}

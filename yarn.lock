@@ -2966,6 +2966,12 @@ i18next-callback-backend@^1.0.0-alpha.1:
   dependencies:
     invariant "^2.2.0"
 
+i18next-icu@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/i18next-icu/-/i18next-icu-0.3.0.tgz#39887b63ac17b8c859928b8aaa7f624ba06ed964"
+  dependencies:
+    intl-messageformat "2.2.0"
+
 i18next-scanner@^2.4.6:
   version "2.4.6"
   resolved "https://registry.yarnpkg.com/i18next-scanner/-/i18next-scanner-2.4.6.tgz#c0433757c227cc3517d956cb15d8339deabba4c5"
@@ -3056,6 +3062,16 @@ ini@~1.3.0:
 interpret@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/interpret/-/interpret-1.1.0.tgz#7ed1b1410c6a0e0f78cf95d3b8440c63f78b8614"
+
+intl-messageformat-parser@1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/intl-messageformat-parser/-/intl-messageformat-parser-1.4.0.tgz#b43d45a97468cadbe44331d74bb1e8dea44fc075"
+
+intl-messageformat@2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/intl-messageformat/-/intl-messageformat-2.2.0.tgz#345bcd46de630b7683330c2e52177ff5eab484fc"
+  dependencies:
+    intl-messageformat-parser "1.4.0"
 
 invariant@^2.2.0:
   version "2.2.4"

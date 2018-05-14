@@ -107,7 +107,7 @@ class ArchetypeHighlight extends React.Component<Props, State> {
 		const ranks = [];
 		ranks.push(t("Legend"));
 		for (let i = 1; i <= 25; i++) {
-			ranks.push(t("Rank {{rank}}", { rank: i }));
+			ranks.push(t("Rank {rank}", { rank: i }));
 		}
 		return ranks;
 	}
@@ -141,7 +141,7 @@ class ArchetypeHighlight extends React.Component<Props, State> {
 					<h2>{archetype.name}</h2>
 					<p>
 						<span>
-							{t("Winrate: {{winrate}}", {
+							{t("Winrate: {winrate}", {
 								winrate:
 									toDynamicFixed(result.win_rate, 1) + "%",
 							})}

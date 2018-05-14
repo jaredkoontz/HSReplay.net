@@ -1,5 +1,6 @@
 import i18n, { InitOptions } from "i18next";
 import CustomCallbackBackend from "i18next-callback-backend";
+import ICU from "i18next-icu";
 import UserData from "./UserData";
 
 export const I18N_NAMESPACE_FRONTEND = "frontend";
@@ -8,61 +9,64 @@ export const I18N_NAMESPACE_HEARTHSTONE = "hearthstone";
 // just used while we feature flag frontend translations
 UserData.create();
 
-i18n.use(CustomCallbackBackend).init({
-	// keys as strings
-	defaultNS: I18N_NAMESPACE_FRONTEND,
-	fallbackNS: false,
-	fallbackLng: false,
-	keySeparator: false,
-	lowerCaseLng: true,
-	nsSeparator: false,
+i18n
+	.use(CustomCallbackBackend)
+	.use(ICU)
+	.init({
+		// keys as strings
+		defaultNS: I18N_NAMESPACE_FRONTEND,
+		fallbackNS: false,
+		fallbackLng: false,
+		keySeparator: false,
+		lowerCaseLng: true,
+		nsSeparator: false,
 
-	// not required using i18next-react
-	interpolation: {
-		escapeValue: false,
-	},
+		// not required using i18next-react
+		interpolation: {
+			escapeValue: false,
+		},
 
-	// CustomCallbackBackend
-	customLoad: async (language, namespace, callback) => {
-		const translations = {};
-		if (namespace === "translation") {
-			// default fallback namespace, do not load
-			callback(null, translations);
-			return;
-		}
-		if (namespace === I18N_NAMESPACE_HEARTHSTONE) {
-			try {
-				/* By specifying the same webpackChunkName, all the files for one language are
+		// CustomCallbackBackend
+		customLoad: async (language, namespace, callback) => {
+			const translations = {};
+			if (namespace === "translation") {
+				// default fallback namespace, do not load
+				callback(null, translations);
+				return;
+			}
+			if (namespace === I18N_NAMESPACE_HEARTHSTONE) {
+				try {
+					/* By specifying the same webpackChunkName, all the files for one language are
 				merged into a single module. This results in one network request per language */
-				const modules = await Promise.all([
-					import(/* webpackChunkName: "i18n/[index]" */ `i18n/${language}/hearthstone/global.json`),
-					import(/* webpackChunkName: "i18n/[index]" */ `i18n/${language}/hearthstone/gameplay.json`),
-					import(/* webpackChunkName: "i18n/[index]" */ `i18n/${language}/hearthstone/presence.json`),
-				]);
-				for (const module of modules) {
-					if (!module) {
-						continue;
+					const modules = await Promise.all([
+						import(/* webpackChunkName: "i18n/[index]" */ `i18n/${language}/hearthstone/global.json`),
+						import(/* webpackChunkName: "i18n/[index]" */ `i18n/${language}/hearthstone/gameplay.json`),
+						import(/* webpackChunkName: "i18n/[index]" */ `i18n/${language}/hearthstone/presence.json`),
+					]);
+					for (const module of modules) {
+						if (!module) {
+							continue;
+						}
+						Object.assign(translations, module);
 					}
-					Object.assign(translations, module);
+				} catch (e) {
+					console.error(e);
 				}
-			} catch (e) {
-				console.error(e);
+			} else if (
+				namespace === I18N_NAMESPACE_FRONTEND &&
+				UserData.hasFeature("frontend-translations")
+			) {
+				try {
+					Object.assign(
+						translations,
+						await import(/* webpackChunkName: "i18n/[index]" */ `i18n/${language}/frontend.json`),
+					);
+				} catch (e) {
+					console.error(e);
+				}
 			}
-		} else if (
-			namespace === I18N_NAMESPACE_FRONTEND &&
-			UserData.hasFeature("frontend-translations")
-		) {
-			try {
-				Object.assign(
-					translations,
-					await import(/* webpackChunkName: "i18n/[index]" */ `i18n/${language}/frontend.json`),
-				);
-			} catch (e) {
-				console.error(e);
-			}
-		}
-		callback(null, translations);
-	},
-} as InitOptions);
+			callback(null, translations);
+		},
+	} as InitOptions);
 
 export default i18n;
