@@ -519,12 +519,12 @@ def get_mulligan_preview():
 	archetype_decks = defaultdict(list)
 	for class_decks in decks_response["series"]["data"].values():
 		for deck in class_decks:
-			if deck["total_games"] >= 15000:
+			if deck["total_games"] >= 25000:
 				archetype_decks[deck["archetype_id"]].append(deck)
 
 	def is_sufficiently_distinct(mulligan_data):
 		card_data = [
-			sorted(card_data, key=lambda x: x["opening_hand_winrate"], reverse=True)[:3]
+			sorted(card_data, key=lambda x: x["opening_hand_winrate"], reverse=True)[:5]
 			for card_data in mulligan_data["series"]["data"].values()
 		]
 		num_classes = len(card_data)
@@ -533,7 +533,7 @@ def get_mulligan_preview():
 				1 for j in range(0, num_classes) if j != i and
 				all(
 					card_data[i][k]["dbf_id"] == card_data[j][k]["dbf_id"]
-					for k in range(0, 3)
+					for k in range(0, 5)
 				)
 			])
 			if count > 2:
