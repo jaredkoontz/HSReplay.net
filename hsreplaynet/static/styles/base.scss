@@ -232,23 +232,49 @@ header .navbar {
 }
 
 .site-footer {
+	background-color: $blue;
 	clear: both;
-	color: $darkgrey;
-	font-size: x-small;
+	color: $lightgrey;
 	margin-top: 3em;
-	margin-bottom: 2em;
-	text-align: center;
+	padding: 1em;
+	width: 100%;
 
-	.prominent {
-		color: $aqua;
-		font-size: 1.5em;
-		margin: 0 0 1em 0;
+	a {
+		color: inherit;
+	}
+
+	.footer-content {
+		margin: 0 auto;
+		max-width: 930px;
+	}
+
+	.footer-brand {
+		padding: 0;
+		padding-right: 15px;
+		text-align: center;
+
+		img {
+			height: 38px;
+			width: 30px;
+		}
+
+		h1 {
+			display: inline-block;
+			font-size: 1.7em;
+			font-weight: bold;
+			margin: 12px 0 0 5px;
+			padding: 12px 0;
+			position: relative;
+			top: 4px;
+		}
+
 	}
 
 	.horizontal-icons {
 		margin: 1em 0;
 		list-style-type: none;
 		padding-left: 0;
+		text-align: center;
 
 		li {
 			display: inline-block;
@@ -256,16 +282,33 @@ header .navbar {
 		}
 	}
 
-	p {
-		margin: 0;
+	.footer-menu {
+		font-size: small;
+
+		@media(max-width:991px) {
+			font-size: initial;
+			margin-top: 2em;
+		}
+
+		h4 {
+			font-size: 1.4em;
+			font-weight: bold;
+			color: white;
+		}
+
+		li {
+			margin: 0.3em 0;
+		}
+
+		ul {
+			list-style-type: none;
+			padding: 0px;
+		}
 	}
 
-	a {
-		color: inherit;
-	}
-
-	abbr[title] {
-		border-bottom: none;
+	.copyright {
+		font-size: small;
+		padding: 1em 15px;
 	}
 }
 

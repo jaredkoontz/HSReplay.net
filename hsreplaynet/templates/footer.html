@@ -1,53 +1,89 @@
+{% load static %}
 {% load web_extras %}
-<p class="visible-xs text-center prominent">
-	<a href="#">&uparrow; Back to top</a>
-</p>
-<p>
-	<a href="https://hearthsim.net">HearthSim</a> &copy; {% now 'Y' %} &middot;
-	<a href="{% url 'privacy_policy' %}">Privacy Policy</a> &middot;
-	<a href="{% url 'terms_of_service' %}">Terms of Service</a> &middot;
-	<a href="{% url 'contact_us' %}">Contact</a>
-</p>
-<p>
-	This website is not affiliated with Blizzard Entertainment.
-</p>
 
-<ul class="horizontal-icons">
-	{% setting 'HSREPLAY_TWITTER_HANDLE' as twitter_handle %}
-	<li><a href="https://twitter.com/{{ twitter_handle }}" target="_blank" rel="me" class="social-button">
-		<span class="label">Follow us on Twitter</span>
-		{% include "snippets/twitter_button.svg" with fill="#9e9e9e" width=28 height=28 selector=".social-button" %}
-	</a></li>
-
-	{% setting 'HSREPLAY_DISCORD_URL' as discord_url %}
-	<li><a href="{{ discord_url }}" target="_blank" rel="noopener" class="social-button">
-		<span class="label">Join our Discord server</span>
-		{% include "snippets/discord_button.svg" with fill="#9e9e9e" width=28 height=28 selector=".social-button" %}
-	</a></li>
-
-	{% setting 'HSREPLAY_FACEBOOK_URL' as facebook_url %}
-	<li><a href="{{ facebook_url }}" target="_blank" rel="noopener" class="social-button">
-		<span class="label">Like us on Facebook</span>
-		{% include "snippets/facebook_button.svg" with fill="#9e9e9e" width=28 height=28 selector=".social-button" %}
-	</a></li>
-</ul>
-
-{% if user.is_staff or debug %}
-	<p>
-		{% setting "RAVEN_CONFIG" as raven_config %}
-		{% if raven_config.release %}
-			<a href="https://github.com/HearthSim/HSReplay.net/commits/{{ raven_config.release }}" target="_blank" rel="noopener">
-				@<abbr title="{{ raven_config.release }}">{{ raven_config.release|slice:":12" }}</abbr>
-			</a>
-		{% else %}
-			@unknown revision
-		{% endif %}
-
-		&middot; {{ python_version }}
-		&middot; {{ django_version }}
-
-		{% if debug %}
-			&middot; <strong>Running in DEBUG mode</strong>
-		{% endif %}
+<div class="footer-content row">
+	<p class="visible-xs text-center prominent">
+		<a href="#">&uparrow; Back to top</a>
 	</p>
-{% endif %}
+
+	<div class="col-md-4">
+		<div class="row footer-brand">
+		<a href="/">
+			<img src="{% static 'images/logo.png' %}" id="footer-logo" alt="HSReplay" />
+			<h1>HSReplay.net</h1>
+		</a>
+		</div>
+		<ul class="horizontal-icons">
+			{% setting 'HSREPLAY_TWITTER_HANDLE' as twitter_handle %}
+			<li><a href="https://twitter.com/{{ twitter_handle }}" target="_blank" rel="me" class="social-button">
+				<span class="label">Follow us on Twitter</span>
+				{% include "snippets/twitter_button.svg" with fill="#9e9e9e" width=28 height=28 selector=".social-button" %}
+			</a></li>
+
+			{% setting 'HSREPLAY_DISCORD_URL' as discord_url %}
+			<li><a href="{{ discord_url }}" target="_blank" rel="noopener" class="social-button">
+				<span class="label">Join our Discord server</span>
+				{% include "snippets/discord_button.svg" with fill="#9e9e9e" width=28 height=28 selector=".social-button" %}
+			</a></li>
+
+			{% setting 'HSREPLAY_FACEBOOK_URL' as facebook_url %}
+			<li><a href="{{ facebook_url }}" target="_blank" rel="noopener" class="social-button">
+				<span class="label">Like us on Facebook</span>
+				{% include "snippets/facebook_button.svg" with fill="#9e9e9e" width=28 height=28 selector=".social-button" %}
+			</a></li>
+		</ul>
+	</div>
+	<div class="col-md-8">
+		<div class="row">
+			<div class="col-md-4 footer-menu">
+				<h4>HSReplay.net</h4>
+				<ul>
+					<li><a href="{% url 'premium' %}">Premium</a></li>
+					<li><a href="{% url 'downloads' %}">Downloads</a></li>
+					<li><a href="{% url 'privacy_policy' %}">Privacy Policy</a></li>
+					<li><a href="{% url 'terms_of_service' %}">Terms of Service</a></li>
+				</ul>
+			</div>
+			<div class="col-md-4 footer-menu">
+				<h4>Help</h4>
+				<ul>
+					<li><a href="https://hearthsim.net/">About Us</a></li>
+					<li><a href="{% url 'contact_us' %}">FAQ</a></li>
+					<li><a href="{% url 'contact_us' %}">Contact</a></li>
+					<li><a href="mailto:security@hearthsim.net">Security</a></li>
+				</ul>
+			</div>
+			<div class="col-md-4 footer-menu">
+				<h4>HearthSim</h4>
+				<ul>
+					<li><a href="https://hearthsim.net/">Corporate</a></li>
+					<li><a href="https://github.com/HearthSim/">Open source</a></li>
+					<li><a href="mailto:jobs@hearthsim.net">Careers</a></li>
+					<li><a href="mailto:press@hearthsim.net">Press</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="row copyright">
+			<p>&copy; {% now 'Y' %} &middot This website is not affiliated with Blizzard Entertainment.</p>
+			{% if user.is_staff or debug %}
+			<p>
+				{% setting "RAVEN_CONFIG" as raven_config %}
+				{% if raven_config.release %}
+				<a href="https://github.com/HearthSim/HSReplay.net/commits/{{ raven_config.release }}" target="_blank" rel="noopener">
+					@<abbr title="{{ raven_config.release }}">{{ raven_config.release|slice:":12" }}</abbr>
+				</a>
+				{% else %}
+				@unknown revision
+				{% endif %}
+
+				&middot; {{ python_version }}
+				&middot; {{ django_version }}
+
+				{% if debug %}
+				&middot; <strong>Running in DEBUG mode</strong>
+				{% endif %}
+			</p>
+			{% endif %}
+		</div>
+	</div>
+</div>
