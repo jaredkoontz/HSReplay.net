@@ -228,22 +228,24 @@ class Home extends React.Component<Props, State> {
 		if (!UserData.hasFeature("new-frontpage")) {
 			return null;
 		}
+		const { t } = this.props;
 		return (
 			<>
 				<div className="row content-row info-content" id="pilot">
 					<Panel
-						header="Be a Better Deck Pilot"
+						header={t("Be a Better Deck Pilot")}
 						theme="light"
 						accent="blue"
 					>
 						<div className="panel-description col-md-5 col-xs-12">
-							<h1>Hearthstone Deck Tracker</h1>
+							<h1>{t("Hearthstone Deck Tracker")}</h1>
 							<p>
-								Play like a pro! Keep track of the cards you and
-								your opponent play with an in-game overlay.
+								{t(
+									"Play like a pro! Keep track of the cards you and your opponent play with an in-game overlay.",
+								)}
 							</p>
 							<a className="btn promo-button transparent-style hidden-sm hidden-xs">
-								Download
+								{t("Download")}
 							</a>
 						</div>
 						<div className="panel-feature col-md-7 col-xs-12">
@@ -260,7 +262,7 @@ class Home extends React.Component<Props, State> {
 						</div>
 						<div className="panel-button col-xs-12 visible-sm visible-xs">
 							<a className="btn promo-button transparent-style">
-								Download
+								{t("Download")}
 							</a>
 						</div>
 					</Panel>
@@ -274,7 +276,7 @@ class Home extends React.Component<Props, State> {
 								className="btn promo-button transparent-style"
 								href="/decks/"
 							>
-								Find your deck
+								{t("Find your deck")}
 							</a>
 						</div>
 						<div className="panel-feature col-md-7 col-xs-12">
@@ -298,26 +300,27 @@ class Home extends React.Component<Props, State> {
 							</DataInjector>
 						</div>
 						<div className="panel-description col-md-5 col-xs-12">
-							<h1>Mulligan Guide</h1>
+							<h1>{t("Mulligan Guide")}</h1>
 							<p>
-								Many games are decided based on your starting
-								hand. Learn which cards to keep based on
-								statistics from millions of games.
+								{t(
+									"Many games are decided based on your starting hand. Learn which cards to keep based on statistics from millions of games.",
+								)}
 							</p>
 							<a className="btn promo-button transparent-style hidden-sm hidden-xs">
-								Find your deck
+								{t("Find your deck")}
 							</a>
 						</div>
 					</Panel>
 					<Panel header="Master the Meta" theme="light" accent="red">
 						<div className="panel-description col-md-5 col-xs-12">
-							<h1>Meta Tier List</h1>
+							<h1>{t("Meta Tier List")}</h1>
 							<p>
-								Climb the ladder faster by using the best deck
-								for your rank and region.
+								{t(
+									"Climb the ladder faster by using the best deck for your rank and region.",
+								)}
 							</p>
 							<a className="btn promo-button transparent-style hidden-sm hidden-xs">
-								View Full Tier List
+								{t("View full tier list")}
 							</a>
 						</div>
 						<div className="panel-feature col-md-7 col-xs-12">
@@ -353,14 +356,14 @@ class Home extends React.Component<Props, State> {
 						</div>
 						<div className="panel-button col-xs-12 visible-sm visible-xs">
 							<a className="btn promo-button transparent-style">
-								View full tier list
+								{t("View full tier list")}
 							</a>
 						</div>
 					</Panel>
 					<Panel theme="light" accent="red" className="reverse-panel">
 						<div className="panel-button col-xs-12 visible-sm visible-xs">
 							<a className="btn promo-button transparent-style">
-								View all matchups
+								{t("View all matchups")}
 							</a>
 						</div>
 						<div
@@ -400,16 +403,17 @@ class Home extends React.Component<Props, State> {
 							</DataInjector>
 						</div>
 						<div className="panel-description col-md-5 col-xs-12">
-							<h1>Archetype Matchups</h1>
+							<h1>{t("Archetype Matchups")}</h1>
 							<p>
-								Find the counter! Discover the archetype that
-								will beat your opponent.
+								{t(
+									"Find the counter! Discover the archetype that will beat your opponent.",
+								)}
 							</p>
 							<a
 								className="btn promo-button transparent-style hidden-sm hidden-xs"
 								href="/meta/"
 							>
-								View all matchups
+								{t("View all matchups")}
 							</a>
 						</div>
 					</Panel>

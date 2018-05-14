@@ -5,12 +5,13 @@ import CardData from "../../CardData";
 import { Archetype } from "../../utils/api";
 import ClassList, { ClassListData } from "./ClassList";
 import Panel from "../Panel";
+import { InjectedTranslateProps, translate } from "react-i18next";
 
 interface ClassArchetypeData {
 	[playerClass: string]: ApiArchetypePopularity[];
 }
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	archetypeData?: Archetype[];
 	cardData: CardData;
 	data?: ClassArchetypeData;
@@ -19,6 +20,7 @@ interface Props {
 
 class TierListPreview extends React.Component<Props> {
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		const archetypes = Object.keys(this.props.data)
 			.map(key => this.props.data[key])
 			.reduce((a, b) => a.concat(b))
@@ -63,7 +65,7 @@ class TierListPreview extends React.Component<Props> {
 					</span>,
 				],
 				winRate: archetype.win_rate,
-				buttonText: "View archetype",
+				buttonText: t("View archetype"),
 				href: archetypeData.url,
 			});
 		});
@@ -77,7 +79,11 @@ class TierListPreview extends React.Component<Props> {
 			}
 			count += items.length;
 			classLists.push(
-				<Panel header={"Tier " + (i + 1)} theme="dark" accent="red">
+				<Panel
+					header={t("Tier") + " " + (i + 1)}
+					theme="dark"
+					accent="red"
+				>
 					<ClassList
 						data={items}
 						style={{ height: items.length * 50 + "px" }}
@@ -104,5 +110,5 @@ class TierListPreview extends React.Component<Props> {
 }
 
 export default withLoading(["data", "deckData", "archetypeData", "cardData"])(
-	TierListPreview,
+	translate()(TierListPreview),
 );
