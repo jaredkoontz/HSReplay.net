@@ -39,6 +39,7 @@ import { I18N_NAMESPACE_HEARTHSTONE } from "../i18n";
 import { RenderData, TableData } from "../interfaces";
 import { Collection } from "../utils/api";
 import PrettyTimeRange from "../components/text/PrettyTimeRange";
+import PrettyRankRange from "../components/text/PrettyRankRange";
 
 interface Props extends InjectedTranslateProps {
 	card: any;
@@ -666,28 +667,25 @@ class CardDetail extends React.Component<Props, State> {
 							iconStyle={{ display: "none" }}
 						>
 							<InfoboxFilter value={RankRange.LEGEND_ONLY}>
-								{t("Legend only")}
+								<PrettyRankRange
+									rankRange={RankRange.LEGEND_ONLY}
+								/>
 							</InfoboxFilter>
 							<InfoboxFilter
 								value={RankRange.LEGEND_THROUGH_FIVE}
 							>
-								{t("{{rankMin}}–{{rankMax}}", {
-									rankMin: t("Legend"),
-									rankMax: 5,
-								})}
+								<PrettyRankRange
+									rankRange={RankRange.LEGEND_THROUGH_FIVE}
+								/>
 							</InfoboxFilter>
 							<InfoboxFilter value={RankRange.LEGEND_THROUGH_TEN}>
-								{t("{{rankMin}}–{{rankMax}}", {
-									rankMin: t("Legend"),
-									rankMax: 10,
-								})}
+								<PrettyRankRange
+									rankRange={RankRange.LEGEND_THROUGH_TEN}
+								/>
 							</InfoboxFilter>
 						</PremiumWrapper>
 						<InfoboxFilter value={RankRange.ALL}>
-							{t("{{rankMin}}–{{rankMax}}", {
-								rankMin: t("Legend"),
-								rankMax: 25,
-							})}
+							<PrettyRankRange rankRange={RankRange.ALL} />
 						</InfoboxFilter>
 					</InfoboxFilterGroup>
 					<h2>{t("Data")}</h2>

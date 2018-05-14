@@ -1,5 +1,5 @@
+import InfoboxLastUpdated from "../components/InfoboxLastUpdated";
 import _ from "lodash";
-import React, { Fragment } from "react";
 import { InjectedTranslateProps, translate } from "react-i18next";
 import CardData from "../CardData";
 import DataManager from "../DataManager";
@@ -10,7 +10,7 @@ import DataInjector from "../components/DataInjector";
 import Feature from "../components/Feature";
 import InfoboxFilter from "../components/InfoboxFilter";
 import InfoboxFilterGroup from "../components/InfoboxFilterGroup";
-import InfoboxLastUpdated from "../components/InfoboxLastUpdated";
+import React, { Fragment } from "react";
 import ResetHeader from "../components/ResetHeader";
 import TableLoading from "../components/loading/TableLoading";
 import PremiumWrapper from "../components/premium/PremiumWrapper";
@@ -38,6 +38,7 @@ import {
 } from "../utils/collection";
 import { RankRange, TimeRange } from "../filters";
 import PrettyTimeRange from "../components/text/PrettyTimeRange";
+import PrettyRankRange from "../components/text/PrettyRankRange";
 
 interface CardFilters {
 	cost: any;
@@ -1091,28 +1092,25 @@ class Cards extends React.Component<Props, State> {
 							iconStyle={{ display: "none" }}
 						>
 							<InfoboxFilter value={RankRange.LEGEND_ONLY}>
-								{t("Legend only")}
+								<PrettyRankRange
+									rankRange={RankRange.LEGEND_ONLY}
+								/>
 							</InfoboxFilter>
 							<InfoboxFilter
 								value={RankRange.LEGEND_THROUGH_FIVE}
 							>
-								{t("{{rankMin}}–{{rankMax}}", {
-									rankMin: t("Legend"),
-									rankMax: 5,
-								})}
+								<PrettyRankRange
+									rankRange={RankRange.LEGEND_THROUGH_FIVE}
+								/>
 							</InfoboxFilter>
 							<InfoboxFilter value={RankRange.LEGEND_THROUGH_TEN}>
-								{t("{{rankMin}}–{{rankMax}}", {
-									rankMin: t("Legend"),
-									rankMax: 10,
-								})}
+								<PrettyRankRange
+									rankRange={RankRange.LEGEND_THROUGH_TEN}
+								/>
 							</InfoboxFilter>
 						</PremiumWrapper>
 						<InfoboxFilter value={RankRange.ALL}>
-							{t("{{rankMin}}–{{rankMax}}", {
-								rankMin: t("Legend"),
-								rankMax: 20,
-							})}
+							<PrettyRankRange rankRange={RankRange.ALL} />
 						</InfoboxFilter>
 					</InfoboxFilterGroup>
 				</Fragment>,

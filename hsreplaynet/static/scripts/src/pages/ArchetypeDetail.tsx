@@ -34,6 +34,7 @@ import {
 	TimeRange as TimeRangeFilter,
 } from "../filters";
 import PrettyTimeRange from "../components/text/PrettyTimeRange";
+import PrettyRankRange from "../components/text/PrettyRankRange";
 
 interface Props extends InjectedTranslateProps {
 	archetypeId: number;
@@ -596,32 +597,37 @@ class ArchetypeDetail extends React.Component<Props, State> {
 								<InfoboxFilter
 									value={RankRangeFilter.LEGEND_ONLY}
 								>
-									{t("Legend only")}
+									<PrettyRankRange
+										rankRange={RankRangeFilter.LEGEND_ONLY}
+									/>
 								</InfoboxFilter>
 								<InfoboxFilter
 									value={RankRangeFilter.LEGEND_THROUGH_FIVE}
 								>
-									{t("{{rankMin}}–{{rankMax}}", {
-										rankMin: t("Legend"),
-										rankMax: 5,
-									})}
+									<PrettyRankRange
+										rankRange={
+											RankRangeFilter.LEGEND_THROUGH_FIVE
+										}
+									/>
 								</InfoboxFilter>
 								<InfoboxFilter
 									value={RankRangeFilter.LEGEND_THROUGH_TEN}
 								>
-									{t("{{rankMin}}–{{rankMax}}", {
-										rankMin: t("Legend"),
-										rankMax: 10,
-									})}
+									<PrettyRankRange
+										rankRange={
+											RankRangeFilter.LEGEND_THROUGH_TEN
+										}
+									/>
 								</InfoboxFilter>
 							</PremiumWrapper>
 							<InfoboxFilter
 								value={RankRangeFilter.LEGEND_THROUGH_TWENTY}
 							>
-								{t("{{rankMin}}–{{rankMax}}", {
-									rankMin: t("Legend"),
-									rankMax: 20,
-								})}
+								<PrettyRankRange
+									rankRange={
+										RankRangeFilter.LEGEND_THROUGH_TWENTY
+									}
+								/>
 							</InfoboxFilter>
 						</InfoboxFilterGroup>
 					</section>
