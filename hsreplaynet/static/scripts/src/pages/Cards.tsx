@@ -36,7 +36,7 @@ import {
 	getCollectionCardCount,
 	isCollectionDisabled,
 } from "../utils/collection";
-import { TimeRange } from "../filters";
+import { RankRange, TimeRange } from "../filters";
 
 interface CardFilters {
 	cost: any;
@@ -204,7 +204,7 @@ class Cards extends React.Component<Props, State> {
 
 	private readonly allowedValuesPremium = {
 		gameType: ["RANKED_STANDARD", "RANKED_WILD", "ARENA"],
-		rankRange: ["LEGEND_THROUGH_TEN"],
+		rankRange: [RankRange.LEGEND_THROUGH_TEN],
 		region: [],
 		timeRange: [
 			TimeRange.LAST_1_DAY,
@@ -1074,23 +1074,25 @@ class Cards extends React.Component<Props, State> {
 							analyticsLabel="Card List Rank Range"
 							iconStyle={{ display: "none" }}
 						>
-							<InfoboxFilter value="LEGEND_ONLY">
+							<InfoboxFilter value={RankRange.LEGEND_ONLY}>
 								{t("Legend only")}
 							</InfoboxFilter>
-							<InfoboxFilter value="LEGEND_THROUGH_FIVE">
+							<InfoboxFilter
+								value={RankRange.LEGEND_THROUGH_FIVE}
+							>
 								{t("{{rankMin}}–{{rankMax}}", {
 									rankMin: t("Legend"),
 									rankMax: 5,
 								})}
 							</InfoboxFilter>
-							<InfoboxFilter value="LEGEND_THROUGH_TEN">
+							<InfoboxFilter value={RankRange.LEGEND_THROUGH_TEN}>
 								{t("{{rankMin}}–{{rankMax}}", {
 									rankMin: t("Legend"),
 									rankMax: 10,
 								})}
 							</InfoboxFilter>
 						</PremiumWrapper>
-						<InfoboxFilter value="ALL">
+						<InfoboxFilter value={RankRange.ALL}>
 							{t("{{rankMin}}–{{rankMax}}", {
 								rankMin: t("Legend"),
 								rankMax: 20,

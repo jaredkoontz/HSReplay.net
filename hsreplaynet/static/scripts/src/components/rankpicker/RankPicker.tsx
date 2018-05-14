@@ -1,6 +1,7 @@
 import React from "react";
 import RowSelector, { Mode } from "./RowSelector";
 import RankSelector from "./RankSelector";
+import { RankRange } from "../../filters";
 
 interface Props {
 	selected: string;
@@ -144,7 +145,7 @@ export default class RankPicker extends React.Component<Props, State> {
 	}
 
 	decodeRank(value: string): number {
-		if (value === "LEGEND_ONLY") {
+		if (value === RankRange.LEGEND_ONLY) {
 			return 0;
 		}
 		for (const key of Object.keys(rankMap)) {

@@ -8,6 +8,7 @@ import Root from "../components/Root";
 import { Consumer as AccountConsumer } from "../components/utils/hearthstone-account";
 import DataInjector from "../components/DataInjector";
 import { isCollectionDisabled } from "../utils/collection";
+import { RankRange } from "../filters";
 
 const container = document.getElementById("archetype-container");
 const archetypeId = container.getAttribute("data-archetype-id");
@@ -38,7 +39,7 @@ const render = (cardData: CardData) => {
 						{({ collection }) => (
 							<Fragments
 								defaults={{
-									rankRange: "LEGEND_THROUGH_TWENTY",
+									rankRange: RankRange.LEGEND_THROUGH_TWENTY,
 									tab: "overview",
 								}}
 								immutable={

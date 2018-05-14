@@ -29,7 +29,10 @@ import { extractSignature } from "../extractors";
 import { isWildSet } from "../helpers";
 import { DeckObj, LoadingStatus, SortDirection } from "../interfaces";
 import { Archetype, Collection } from "../utils/api";
-import { TimeRange } from "../filters";
+import {
+	RankRange as RankRangeFilter,
+	TimeRange as TimeRangeFilter,
+} from "../filters";
 
 interface Props extends InjectedTranslateProps {
 	archetypeId: number;
@@ -96,8 +99,8 @@ class ArchetypeDetail extends React.Component<Props, State> {
 			GameType: this.getGameType(props),
 			RankRange: props.rankRange,
 			TimeRange: UserData.hasFeature("current-expansion-filter")
-				? TimeRange.CURRENT_EXPANSION
-				: TimeRange.LAST_30_DAYS,
+				? TimeRangeFilter.CURRENT_EXPANSION
+				: TimeRangeFilter.LAST_30_DAYS,
 		};
 		const setDeckData = data => {
 			this.setState({ deckData: data ? data.series.data : null }, () =>
@@ -185,15 +188,15 @@ class ArchetypeDetail extends React.Component<Props, State> {
 			GameType,
 			RankRange,
 			TimeRange: UserData.hasFeature("current-expansion-filter")
-				? TimeRange.CURRENT_EXPANSION
-				: TimeRange.LAST_7_DAYS,
+				? TimeRangeFilter.CURRENT_EXPANSION
+				: TimeRangeFilter.LAST_7_DAYS,
 		};
 		const listDecksParams = {
 			GameType,
 			RankRange,
 			TimeRange: UserData.hasFeature("current-expansion-filter")
-				? TimeRange.CURRENT_EXPANSION
-				: TimeRange.LAST_30_DAYS,
+				? TimeRangeFilter.CURRENT_EXPANSION
+				: TimeRangeFilter.LAST_30_DAYS,
 		};
 
 		let content = null;
@@ -589,23 +592,31 @@ class ArchetypeDetail extends React.Component<Props, State> {
 								analyticsLabel="Archetype Detail Rank Range"
 								iconStyle={{ display: "none" }}
 							>
-								<InfoboxFilter value="LEGEND_ONLY">
+								<InfoboxFilter
+									value={RankRangeFilter.LEGEND_ONLY}
+								>
 									{t("Legend only")}
 								</InfoboxFilter>
-								<InfoboxFilter value="LEGEND_THROUGH_FIVE">
+								<InfoboxFilter
+									value={RankRangeFilter.LEGEND_THROUGH_FIVE}
+								>
 									{t("{{rankMin}}–{{rankMax}}", {
 										rankMin: t("Legend"),
 										rankMax: 5,
 									})}
 								</InfoboxFilter>
-								<InfoboxFilter value="LEGEND_THROUGH_TEN">
+								<InfoboxFilter
+									value={RankRangeFilter.LEGEND_THROUGH_TEN}
+								>
 									{t("{{rankMin}}–{{rankMax}}", {
 										rankMin: t("Legend"),
 										rankMax: 10,
 									})}
 								</InfoboxFilter>
 							</PremiumWrapper>
-							<InfoboxFilter value="LEGEND_THROUGH_TWENTY">
+							<InfoboxFilter
+								value={RankRangeFilter.LEGEND_THROUGH_TWENTY}
+							>
 								{t("{{rankMin}}–{{rankMax}}", {
 									rankMin: t("Legend"),
 									rankMax: 20,

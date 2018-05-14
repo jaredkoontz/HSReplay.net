@@ -5,7 +5,7 @@ import UserData from "../UserData";
 import Fragments from "../components/Fragments";
 import MetaOverview from "../pages/MetaOverview";
 import Root from "../components/Root";
-import { TimeRange } from "../filters";
+import { RankRange, TimeRange } from "../filters";
 
 UserData.create();
 
@@ -24,7 +24,7 @@ const render = (cardData: CardData) => {
 					gameType: "RANKED_STANDARD",
 					popularitySortBy: "total",
 					popularitySortDirection: "descending",
-					rankRange: "LEGEND_THROUGH_TWENTY",
+					rankRange: RankRange.LEGEND_THROUGH_TWENTY,
 					region: "ALL",
 					sortBy: "popularity",
 					sortDirection: "descending",

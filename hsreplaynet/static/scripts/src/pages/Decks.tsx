@@ -34,7 +34,7 @@ import {
 	getDustCostForCollection,
 	isCollectionDisabled,
 } from "../utils/collection";
-import { TimeRange } from "../filters";
+import { RankRange, TimeRange } from "../filters";
 
 interface Props extends InjectedTranslateProps, FragmentChildProps {
 	cardData: CardData | null;
@@ -845,23 +845,27 @@ class Decks extends React.Component<Props, State> {
 								analyticsLabel="Deck List Rank Range"
 								iconStyle={{ display: "none" }}
 							>
-								<InfoboxFilter value="LEGEND_ONLY">
+								<InfoboxFilter value={RankRange.LEGEND_ONLY}>
 									{t("Legend only")}
 								</InfoboxFilter>
-								<InfoboxFilter value="LEGEND_THROUGH_FIVE">
+								<InfoboxFilter
+									value={RankRange.LEGEND_THROUGH_FIVE}
+								>
 									{t("{{rankMin}}–{{rankMax}}", {
 										rankMin: t("Legend"),
 										rankMax: 5,
 									})}
 								</InfoboxFilter>
-								<InfoboxFilter value="LEGEND_THROUGH_TEN">
+								<InfoboxFilter
+									value={RankRange.LEGEND_THROUGH_TEN}
+								>
 									{t("{{rankMin}}–{{rankMax}}", {
 										rankMin: t("Legend"),
 										rankMax: 10,
 									})}
 								</InfoboxFilter>
 							</PremiumWrapper>
-							<InfoboxFilter value="ALL">
+							<InfoboxFilter value={RankRange.ALL}>
 								{t("{{rankMin}}–{{rankMax}}", {
 									rankMin: t("Legend"),
 									rankMax: 25,

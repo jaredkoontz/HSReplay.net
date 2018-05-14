@@ -285,16 +285,6 @@ export interface ApiArchetypeRankPopularity {
 }
 
 export type GameMode = "RANKED_STANDARD" | "RANKED_WILD" | "TAVERNBRAWL";
-export type RankRange =
-	| "ALL"
-	| "LEGEND_ONLY"
-	| "ONE_THROUGH_FIVE"
-	| "SIX_THROUGH_TEN"
-	| "ELEVEN_THROUGH_FIFTEEN"
-	| "SIXTEEN_THROUGH_TWENTY"
-	| "TWENTYONE_THROUGH_TWENTYFIVE"
-	| "LEGEND_THROUGH_TEN"
-	| "ELEVEN_THROUGH_TWENTYFIVE";
 export type Region =
 	| "ALL"
 	| "REGION_US"

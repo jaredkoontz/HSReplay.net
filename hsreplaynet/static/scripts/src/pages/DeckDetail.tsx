@@ -44,6 +44,7 @@ import { CardObj, RenderData, SortDirection } from "../interfaces";
 import { DeckEvents } from "../metrics/GoogleAnalytics";
 import { Collection } from "../utils/api";
 import { getDustCostForCollection } from "../utils/collection";
+import { RankRange } from "../filters";
 
 interface InventoryGameType {
 	[gameType: string]: InventoryRegion[];
@@ -335,12 +336,12 @@ class DeckDetail extends React.Component<Props, State> {
 						>
 							{infoBoxFilter(
 								"rankRange",
-								"LEGEND_ONLY",
+								RankRange.LEGEND_ONLY,
 								t("Legend only"),
 							)}
 							{infoBoxFilter(
 								"rankRange",
-								"LEGEND_THROUGH_FIVE",
+								RankRange.LEGEND_THROUGH_FIVE,
 								t("{{rankMin}}–{{rankMax}}", {
 									rankMin: t("Legend"),
 									rankMax: 5,
@@ -348,7 +349,7 @@ class DeckDetail extends React.Component<Props, State> {
 							)}
 							{infoBoxFilter(
 								"rankRange",
-								"LEGEND_THROUGH_TEN",
+								RankRange.LEGEND_THROUGH_TEN,
 								t("{{rankMin}}–{{rankMax}}", {
 									rankMin: t("Legend"),
 									rankMax: 10,
