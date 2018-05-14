@@ -425,6 +425,7 @@
 
 		.matchup-column-header-archetype {
 			pointer-events: none;
+			border-top: 1px solid rgba(255, 255, 255, 0.3);
 			border-left: 1px solid rgba(255, 255, 255, 0.3);
 			border-right: 1px solid rgba(255, 255, 255, 0.3);
 		}
@@ -436,6 +437,7 @@
 		.matchup-row-header {
 			border-top: 1px solid rgba(255, 255, 255, 0.3);
 			border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+			border-left: 1px solid rgba(255, 255, 255, 0.3);
 			> a,
 			a:hover,
 			a:active {
@@ -448,6 +450,8 @@
 			font-size: 1.5em;
 			padding-bottom: 0;
 			font-variant: small-caps;
+			border-top: 1px solid rgba(255, 255, 255, 0.3);
+			border-left: 1px solid rgba(255, 255, 255, 0.3);
 		}
 
 		.class-icon-wrapper {
