@@ -6,7 +6,6 @@ import {
 	winrateData,
 } from "../../helpers";
 import { getCardClass } from "../../utils/enums";
-import { CardClass } from "../../hearthstone";
 
 export interface ClassListData {
 	playerClass: string;

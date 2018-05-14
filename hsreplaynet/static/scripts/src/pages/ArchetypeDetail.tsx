@@ -26,10 +26,9 @@ import PremiumPromo from "../components/premium/PremiumPromo";
 import PremiumWrapper from "../components/premium/PremiumWrapper";
 import CardTable from "../components/tables/CardTable";
 import { extractSignature } from "../extractors";
-import { getHeroSkinCardUrl, isWildSet } from "../helpers";
+import { isWildSet } from "../helpers";
 import { DeckObj, LoadingStatus, SortDirection } from "../interfaces";
 import { Archetype, Collection } from "../utils/api";
-import TwoCardFade from "../components/TwoCardFade";
 
 interface Props extends InjectedTranslateProps {
 	archetypeId: number;

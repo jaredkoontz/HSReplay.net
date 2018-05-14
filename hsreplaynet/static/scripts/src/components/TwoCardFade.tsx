@@ -1,9 +1,7 @@
 import React from "react";
 import CardData from "../CardData";
 import { withLoading } from "./loading/Loading";
-import { classImageOffset, getHeroSkinCardId } from "../helpers";
-import { getCardClass } from "../utils/enums";
-import { CardClass } from "../hearthstone";
+import { classImageOffset } from "../helpers";
 
 interface Props {
 	cardData?: CardData;
