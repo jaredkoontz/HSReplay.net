@@ -1,3 +1,5 @@
+import logging
+
 from allauth.socialaccount.models import SocialAccount
 from django.contrib import messages
 from django.contrib.auth import logout
@@ -17,6 +19,9 @@ from hsreplaynet.utils import log
 from hsreplaynet.utils.influx import influx_metric
 from hsreplaynet.web.html import RequestMetaMixin
 from hsreplaynet.webhooks.models import WebhookDelivery, WebhookEndpoint
+
+
+logger = logging.getLogger("hsreplaynet")
 
 
 ##
@@ -89,8 +94,10 @@ class DeleteAccountView(LoginRequiredMixin, RequestMetaMixin, TemplateView):
 	def post(self, request):
 		# Prevent staff and current subscribers from deleting accounts
 		if not self.can_delete():
-			messages.error(self.request, "This account cannot be deleted.")
+			messages.error(request, "This account cannot be deleted.")
 			return redirect("account_delete")
+
+		logger.info(f"Deleting account: {request.user}")
 
 		# Record reason and message in influx
 		influx_metric("hsreplaynet_account_delete", {
@@ -100,8 +107,8 @@ class DeleteAccountView(LoginRequiredMixin, RequestMetaMixin, TemplateView):
 		})
 
 		# Log out, then delete the account
-		user = self.request.user
-		logout(self.request)
+		user = request.user
+		logout(request)
 		user.delete()
 		return redirect(self.success_url)
 
