@@ -82,7 +82,7 @@ class TierListPreview extends React.Component<Props> {
 				<Panel
 					header={t("Tier") + " " + (i + 1)}
 					theme="dark"
-					accent="red"
+					accent="blue"
 				>
 					<ClassList
 						data={items}

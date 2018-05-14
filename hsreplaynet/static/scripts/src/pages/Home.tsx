@@ -311,7 +311,7 @@ class Home extends React.Component<Props, State> {
 							</a>
 						</div>
 					</Panel>
-					<Panel header="Master the Meta" theme="light" accent="red">
+					<Panel header="Master the Meta" theme="light" accent="blue">
 						<div className="panel-description col-md-5 col-xs-12">
 							<h1>{t("Meta Tier List")}</h1>
 							<p>
@@ -360,7 +360,11 @@ class Home extends React.Component<Props, State> {
 							</a>
 						</div>
 					</Panel>
-					<Panel theme="light" accent="red" className="reverse-panel">
+					<Panel
+						theme="light"
+						accent="blue"
+						className="reverse-panel"
+					>
 						<div className="panel-button col-xs-12 visible-sm visible-xs">
 							<a className="btn promo-button transparent-style">
 								{t("View all matchups")}
