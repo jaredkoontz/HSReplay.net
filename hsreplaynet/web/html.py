@@ -49,6 +49,7 @@ class HTMLHead:
 		self.add_stylesheets(
 			"vendor/bootstrap/css/bootstrap.min.css",
 			"https://fonts.googleapis.com/css?family=Noto+Sans:400,700",
+			"https://fonts.googleapis.com/css?family=Montserrat:800",
 		)
 		self.add_opensearch(href="opensearch.xml", title="HSReplay.net")
 
