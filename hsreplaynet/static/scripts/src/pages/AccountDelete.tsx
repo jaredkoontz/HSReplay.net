@@ -75,7 +75,8 @@ class AccountDelete extends React.Component<Props, State> {
 							</li>
 							<li>
 								Delete your replays. If you wish to delete your
-								replays, you can do so <a href="#">here</a>.
+								replays, you can do so{" "}
+								<a href="/account/delete/replays/">here</a>.
 							</li>
 							<li>
 								Delete any billing data, or any records we are
@@ -131,7 +132,9 @@ class AccountDelete extends React.Component<Props, State> {
 								is because we track everyone's statistics
 								globally.<br />If you want to delete your
 								replays, you can simply do so by{" "}
-								<a href="#">clicking here</a>.{" "}
+								<a href="/account/delete/replays/">
+									clicking here
+								</a>.{" "}
 							</AccountDeleteReason>
 							<AccountDeleteReason
 								value="stopped-hearthstone"

@@ -1,0 +1,24 @@
+{% extends "account/base.html" %}
+{% load trans from i18n %}
+
+{% block content %}
+<div id="delete-replays-container">
+	<h2>{% trans "Delete my replays" %}</h2>
+
+	<div class="alert alert-warning">
+		<h3>{% trans "Are you sure?" %}</h3>
+		<p>{% trans "Deleting your replays will unlink them from your account and make any previously-shared replay URL inaccessible." %}</p>
+		<p><strong>
+			{% trans "Your personal statistics will not be reset. Are you sure you want to proceed?" %}
+		</strong></p>
+		<br />
+		<form action="" method="POST">
+			{% csrf_token %}
+			<p>
+				<a class="btn btn-info" href="/">{% trans "Cancel" %}</a>
+				<button class="btn btn-danger" type="submit">{% trans "Delete my replays" %}</button>
+			</p>
+		</form>
+	</div>
+</div>
+{% endblock %}

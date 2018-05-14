@@ -106,6 +106,21 @@ class DeleteAccountView(LoginRequiredMixin, RequestMetaMixin, TemplateView):
 		return redirect(self.success_url)
 
 
+class DeleteReplaysView(LoginRequiredMixin, RequestMetaMixin, TemplateView):
+	template_name = "account/delete_replays.html"
+	success_url = reverse_lazy("my_replays")
+	title = "Delete replays"
+
+	def post(self, request):
+		# Record reason and message in influx
+		influx_metric("hsreplaynet_replays_delete", {"count": 1})
+
+		request.user.replays.update(is_deleted=True)
+		messages.info(self.request, "Your replays have been deleted.")
+
+		return redirect(self.success_url)
+
+
 class MakePrimaryView(LoginRequiredMixin, View):
 	success_url = reverse_lazy("socialaccount_connections")
 

@@ -18,6 +18,11 @@ urlpatterns = [
 		dashboard.WebhookUpdateView.as_view(), name="account_update_webhook"
 	),
 	path("delete/", dashboard.DeleteAccountView.as_view(), name="account_delete"),
+	path(
+		"delete/replays/",
+		dashboard.DeleteReplaysView.as_view(),
+		name="account_delete_replays"
+	),
 	path("make_primary/", dashboard.MakePrimaryView.as_view(), name="account_make_primary"),
 
 	# OAuth2
