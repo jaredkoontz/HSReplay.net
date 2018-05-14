@@ -409,9 +409,9 @@ class Home extends React.Component<Props, State> {
 						</div>
 					</Panel>
 					<Panel
-						header="Live data"
+						header="Live Data"
 						theme="light"
-						accent="red"
+						accent="blue"
 						id="live-data"
 					>
 						<LiveData
