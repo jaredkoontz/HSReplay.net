@@ -1613,6 +1613,8 @@ ol.list-ltr {
 		border-radius: 1px;
 		z-index: 1;
 		font-family: "Montserrat", sans-serif;
+		white-space: nowrap;
+		text-overflow: ellipsis;
 
 		.btn {
 			border: 1px solid rgba(0, 0, 0, 0.1);
