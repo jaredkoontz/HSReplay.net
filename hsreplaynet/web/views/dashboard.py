@@ -102,9 +102,8 @@ class DeleteAccountView(LoginRequiredMixin, RequestMetaMixin, TemplateView):
 		# Record reason and message in influx
 		influx_metric("hsreplaynet_account_delete", {
 			"count": 1,
-			"message": request.POST.get("message", ""),
-			"reason": request.POST.get("reason", ""),
-		})
+			"message": request.POST.get("message", "")
+		}, reason=request.POST.get("reason", ""))
 
 		# Log out, then delete the account
 		user = request.user
