@@ -18,12 +18,14 @@ html {
 
 body {
 	background-color: $offwhite;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
 }
 
 body, html {
 	margin: 0;
 	padding: 0;
-	height: 100%;
 	font-family: "Noto Sans", sans-serif;
 }
 
@@ -235,7 +237,7 @@ header .navbar {
 	background-color: $blue;
 	clear: both;
 	color: $lightgrey;
-	margin-top: 3em;
+	margin-top: auto;
 	padding: 1em;
 	width: 100%;
 	border-top: 1px solid $darkblue;
