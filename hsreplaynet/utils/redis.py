@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 from itertools import chain
 
-from redis import StrictRedis
+from redis import StrictRedis, TimeoutError
 
 
 SECONDS_PER_MINUTE = 60
