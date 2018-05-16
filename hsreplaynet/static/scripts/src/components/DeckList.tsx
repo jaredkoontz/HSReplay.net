@@ -1,21 +1,22 @@
-import React from "react";
 import _ from "lodash";
-import DeckTile from "./DeckTile";
-import InfoIcon from "./InfoIcon";
-import Pager from "./Pager";
-import SortIndicator from "./SortIndicator";
+import React from "react";
+import { InjectedTranslateProps, translate } from "react-i18next";
+import DataManager from "../DataManager";
+import { getManaCost } from "../helpers";
 import {
 	CardObj,
 	DeckObj,
 	FragmentChildProps,
 	SortDirection,
 } from "../interfaces";
-import { getManaCost } from "../helpers";
-import DataManager from "../DataManager";
-import { getDustCostForCollection } from "../utils/collection";
 import { Collection } from "../utils/api";
+import { getDustCostForCollection } from "../utils/collection";
+import DeckTile from "./DeckTile";
+import InfoIcon from "./InfoIcon";
+import Pager from "./Pager";
+import SortIndicator from "./SortIndicator";
 
-interface Props extends FragmentChildProps {
+interface Props extends FragmentChildProps, InjectedTranslateProps {
 	decks: DeckObj[];
 	pageSize: number;
 	hideTopPager?: boolean;
@@ -37,7 +38,7 @@ interface State {
 	archetypeData: any[];
 }
 
-export default class DeckList extends React.Component<Props, State> {
+class DeckList extends React.Component<Props, State> {
 	private cache: { [id: string]: { dust: number; mana: number } } = {};
 
 	constructor(props: Props, context?: any) {
@@ -87,6 +88,7 @@ export default class DeckList extends React.Component<Props, State> {
 	}
 
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		const currentPage =
 			typeof this.props.page !== "undefined" ? this.props.page : 1;
 		const pageOffset = (currentPage - 1) * this.props.pageSize;
@@ -95,6 +97,7 @@ export default class DeckList extends React.Component<Props, State> {
 
 		let cacheProp = null;
 		let sortProp = this.props.sortBy;
+
 		switch (sortProp) {
 			case "winrate":
 				sortProp = "winrate";
@@ -260,13 +263,11 @@ export default class DeckList extends React.Component<Props, State> {
 					role="columnheader"
 					aria-sort={sortDirection("lastPlayed")}
 				>
-					<span>
-						Deck / <span aria-hidden="true">Last Played</span>
-					</span>
+					<span>{t("Deck / Last played")}</span>
 					{sortIndicator("lastPlayed")}
 					<InfoIcon
-						header="Last Played"
-						content="Time since you last played the deck."
+						header={t("Last played")}
+						content={t("Time since you last played the deck.")}
 					/>
 				</div>
 			);
@@ -282,13 +283,13 @@ export default class DeckList extends React.Component<Props, State> {
 					role="columnheader"
 					aria-sort={sortDirection("dust")}
 				>
-					<span>
-						Deck / <span aria-hidden="true">Cost</span>
-					</span>
+					<span>{t("Deck / Cost")}</span>
 					{sortIndicator("dust")}
 					<InfoIcon
-						header="Crafting Cost"
-						content="Total amount of dust required to craft the deck."
+						header={t("Crafting cost")}
+						content={t(
+							"Total amount of dust required to craft the deck.",
+						)}
 					/>
 				</div>
 			);
@@ -317,7 +318,7 @@ export default class DeckList extends React.Component<Props, State> {
 						role="columnheader"
 						aria-sort={sortDirection("winrate")}
 					>
-						<span aria-hidden="true">Winrate</span>
+						<span aria-hidden="true">{t("Winrate")}</span>
 						{sortIndicator("winrate")}
 						<InfoIcon
 							header="Winrate"
@@ -335,11 +336,13 @@ export default class DeckList extends React.Component<Props, State> {
 						role="columnheader"
 						aria-sort={sortDirection("popularity")}
 					>
-						<span aria-hidden="true">Games</span>
+						<span aria-hidden="true">{t("Games")}</span>
 						{sortIndicator("popularity")}
 						<InfoIcon
-							header="Games Played"
-							content="Number of recorded games where the deck is played."
+							header={t("Games played")}
+							content={t(
+								"Number of recorded games where the deck is played.",
+							)}
 						/>
 					</div>
 					<div
@@ -353,11 +356,13 @@ export default class DeckList extends React.Component<Props, State> {
 						role="columnheader"
 						aria-sort={sortDirection("duration")}
 					>
-						<span aria-hidden="true">Duration</span>
+						<span aria-hidden="true">{t("Duration")}</span>
 						{sortIndicator("duration")}
 						<InfoIcon
-							header="Game Duration"
-							content="How long a game takes on average when the deck is played."
+							header={t("Game duration")}
+							content={t(
+								"How long a game takes on average when the deck is played.",
+							)}
 						/>
 					</div>
 					<div
@@ -371,18 +376,20 @@ export default class DeckList extends React.Component<Props, State> {
 						role="columnheader"
 						aria-sort={sortDirection("mana")}
 					>
-						<span aria-hidden="true">Mana</span>
+						<span aria-hidden="true">{t("Mana")}</span>
 						{sortIndicator("mana")}
 						<InfoIcon
-							header="Mana Curve"
-							content="Distribution of card costs for the deck."
+							header={t("Mana curve")}
+							content={t(
+								"Distribution of card costs for the deck.",
+							)}
 						/>
 					</div>
 					<div
 						className="col-lg-6 col-md-7 col-sm-8 hidden-xs"
 						role="columnheader"
 					>
-						{this.props.compareWith ? "Changes" : "Cards"}
+						{this.props.compareWith ? t("Changes") : t("Cards")}
 					</div>
 				</div>
 				<ul>
@@ -394,3 +401,4 @@ export default class DeckList extends React.Component<Props, State> {
 		);
 	}
 }
+export default translate()(DeckList);
