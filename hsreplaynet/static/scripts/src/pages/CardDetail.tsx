@@ -26,16 +26,16 @@ import ChartLoading from "../components/loading/ChartLoading";
 import HideLoading from "../components/loading/HideLoading";
 import TableLoading from "../components/loading/TableLoading";
 import PremiumWrapper from "../components/premium/PremiumWrapper";
+import PrettyCardClass from "../components/text/PrettyCardClass";
 import { RankRange } from "../filters";
 import {
 	getChartScheme,
 	getDustCost,
 	isCollectibleCard,
 	isWildSet,
-	setNames,
 	toPrettyNumber,
-	toTitleCase,
 } from "../helpers";
+import { I18N_NAMESPACE_HEARTHSTONE } from "../i18n";
 import { RenderData, TableData } from "../interfaces";
 import { Collection } from "../utils/api";
 
@@ -584,7 +584,9 @@ class CardDetail extends React.Component<Props, State> {
 				<li>
 					{t("Tribe")}
 					<span className="infobox-value">
-						{toTitleCase(this.props.card.race)}
+						{t(`GLOBAL_RACE_${this.props.card.race}`, {
+							ns: I18N_NAMESPACE_HEARTHSTONE,
+						})}
 					</span>
 				</li>
 			);
@@ -744,30 +746,49 @@ class CardDetail extends React.Component<Props, State> {
 						<li>
 							{t("Class")}
 							<span className="infobox-value">
-								{this.props.card &&
-									toTitleCase(this.props.card.cardClass)}
+								{this.props.card ? (
+									<PrettyCardClass
+										cardClass={this.props.card.cardClass}
+									/>
+								) : (
+									<></>
+								)}
 							</span>
 						</li>
 						<li>
 							{t("Type")}
 							<span className="infobox-value">
 								{this.props.card &&
-									toTitleCase(this.props.card.type)}
+									t(
+										`GLOBAL_CARDTYPE_${
+											this.props.card.type
+										}`,
+										{ ns: I18N_NAMESPACE_HEARTHSTONE },
+									)}
 							</span>
 						</li>
 						<li>
 							{t("Rarity")}
 							<span className="infobox-value">
 								{this.props.card &&
-									toTitleCase(this.props.card.rarity)}
+									t(
+										`GLOBAL_RARITY_${
+											this.props.card.rarity
+										}`,
+										{ ns: I18N_NAMESPACE_HEARTHSTONE },
+									)}
 							</span>
 						</li>
 						<li>
 							{t("Set")}
 							<span className="infobox-value">
 								{this.props.card &&
-									typeof this.props.card.set === "string" &&
-									setNames[this.props.card.set.toLowerCase()]}
+									t(
+										`GLOBAL_CARD_SET_${
+											this.props.card.set
+										}`,
+										{ ns: I18N_NAMESPACE_HEARTHSTONE },
+									)}
 							</span>
 						</li>
 						{tribe}
