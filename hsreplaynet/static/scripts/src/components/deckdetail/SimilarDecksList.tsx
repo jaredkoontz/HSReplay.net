@@ -1,9 +1,9 @@
 import React from "react";
 import CardData from "../../CardData";
 import { CardObj, DeckObj, TableData } from "../../interfaces";
+import { Collection } from "../../utils/api";
 import DeckList from "../DeckList";
 import Fragments from "../Fragments";
-import { Collection } from "../../utils/api";
 
 interface Props {
 	cardData?: CardData;
@@ -49,7 +49,7 @@ export default class SimilarDecksList extends React.Component<Props> {
 		});
 
 		if (!byDistance.length) {
-			return <h3 className="message-wrapper">No decks found.</h3>;
+			return <h3 className="message-wrapper">No deck found</h3>;
 		}
 
 		byDistance.sort((a, b) => a.distance - b.distance);

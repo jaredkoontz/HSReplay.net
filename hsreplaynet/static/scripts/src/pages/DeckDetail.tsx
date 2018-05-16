@@ -32,6 +32,7 @@ import TableLoading from "../components/loading/TableLoading";
 import PremiumPromo from "../components/premium/PremiumPromo";
 import PremiumWrapper from "../components/premium/PremiumWrapper";
 import CardTable from "../components/tables/CardTable";
+import { RankRange } from "../filters";
 import {
 	compareDecks,
 	getArchetypeUrl,
@@ -44,7 +45,6 @@ import { CardObj, RenderData, SortDirection } from "../interfaces";
 import { DeckEvents } from "../metrics/GoogleAnalytics";
 import { Collection } from "../utils/api";
 import { getDustCostForCollection } from "../utils/collection";
-import { RankRange } from "../filters";
 
 interface InventoryGameType {
 	[gameType: string]: InventoryRegion[];

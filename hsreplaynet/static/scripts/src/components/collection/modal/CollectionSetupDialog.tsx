@@ -350,7 +350,7 @@ class CollectionSetupDialog extends React.Component<Props, State> {
 									)}#maxDustCost=0`}
 									className="promo-button-outline"
 								>
-									{t("See the decks you can build")}
+									{t("Find decks you can build")}
 								</a>
 							</p>
 						</section>

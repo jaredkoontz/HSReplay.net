@@ -19,6 +19,7 @@ import ResetHeader from "../components/ResetHeader";
 import CollectionBanner from "../components/collection/CollectionBanner";
 import DustFilter from "../components/filters/DustFilter";
 import PremiumWrapper from "../components/premium/PremiumWrapper";
+import { RankRange, TimeRange } from "../filters";
 import {
 	cardSorting,
 	compareDecks,
@@ -34,7 +35,6 @@ import {
 	getDustCostForCollection,
 	isCollectionDisabled,
 } from "../utils/collection";
-import { RankRange, TimeRange } from "../filters";
 
 interface Props extends InjectedTranslateProps, FragmentChildProps {
 	cardData: CardData | null;
@@ -470,7 +470,7 @@ class Decks extends React.Component<Props, State> {
 		} else if (this.state.filteredDecks.length === 0) {
 			content = (
 				<div className="content-message">
-					<h2>{t("No decks found")}</h2>
+					<h2>{t("No deck found")}</h2>
 					<button
 						className="btn btn-default"
 						type="button"
@@ -764,11 +764,7 @@ class Decks extends React.Component<Props, State> {
 								{authenticated =>
 									authenticated ? (
 										isCollectionDisabled() ? (
-											<>
-												{t(
-													"Find the decks you can build",
-												)}
-											</>
+											<>{t("Find decks you can build")}</>
 										) : (
 											<>
 												{t(
@@ -802,7 +798,7 @@ class Decks extends React.Component<Props, State> {
 								iconStyle={{ display: "none" }}
 							>
 								<InfoboxFilter value={TimeRange.CURRENT_SEASON}>
-									{t("Current Season")}
+									{t("Current season")}
 								</InfoboxFilter>
 								<InfoboxFilter value={TimeRange.LAST_3_DAYS}>
 									{t("Last {{n}} days", { n: 3 })}
@@ -990,7 +986,7 @@ class Decks extends React.Component<Props, State> {
 					</section>
 					<section id="exclude-cards-filter">
 						<h2 id="card-search-exclude-label">
-							{t("Excluded Cards")}
+							{t("Excluded cards")}
 						</h2>
 						<CardSearch
 							id="card-search-exclude"

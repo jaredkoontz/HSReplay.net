@@ -1,9 +1,9 @@
 import React from "react";
 import CardData from "../../CardData";
 import { DeckObj, TableData } from "../../interfaces";
+import { Collection } from "../../utils/api";
 import DeckList from "../DeckList";
 import Fragments from "../Fragments";
-import { Collection } from "../../utils/api";
 
 interface Props {
 	card: any;
@@ -49,7 +49,7 @@ export default class RecommendedDecksList extends React.Component<Props> {
 		});
 
 		if (!decks.length) {
-			return <h3 className="message-wrapper">No decks found.</h3>;
+			return <h3 className="message-wrapper">No deck found</h3>;
 		}
 
 		return (

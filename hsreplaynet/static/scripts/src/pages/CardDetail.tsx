@@ -26,6 +26,7 @@ import ChartLoading from "../components/loading/ChartLoading";
 import HideLoading from "../components/loading/HideLoading";
 import TableLoading from "../components/loading/TableLoading";
 import PremiumWrapper from "../components/premium/PremiumWrapper";
+import { RankRange } from "../filters";
 import {
 	getChartScheme,
 	getDustCost,
@@ -37,7 +38,6 @@ import {
 } from "../helpers";
 import { RenderData, TableData } from "../interfaces";
 import { Collection } from "../utils/api";
-import { RankRange } from "../filters";
 
 interface Props extends InjectedTranslateProps {
 	card: any;
@@ -219,7 +219,7 @@ class CardDetail extends React.Component<Props, State> {
 								<ChartLoading>
 									<WinrateLineChart
 										widthRatio={2}
-										axisLabelY={t("Deck Winrate")}
+										axisLabelY={t("Deck winrate")}
 									/>
 								</ChartLoading>
 							</DataInjector>
@@ -346,7 +346,11 @@ class CardDetail extends React.Component<Props, State> {
 
 				content = [
 					<section id="content-header" key="content-header">
-						<h1>{t(`${this.props.card.name} - Statistics`)}</h1>
+						<h1>
+							{t("{{ cardName }} – Statistics", {
+								cardName: this.props.card.name,
+							})}
+						</h1>
 						{headerContent}
 					</section>,
 					<section id="page-content" key="page-content">
@@ -586,14 +590,14 @@ class CardDetail extends React.Component<Props, State> {
 			);
 		}
 
-		const dustCostAmount = getDustCost(this.props.card);
+		const dustCost = getDustCost(this.props.card);
 		const craftingCost = (
 			<li>
-				Cost
+				{t("Cost")}
 				{this.props.card ? (
 					<span className="infobox-value">
-						{dustCostAmount > 0
-							? t("{{dustCostAmount}} Dust", { dustCostAmount })
+						{dustCost > 0
+							? t("{{dustCost}} Dust", { dustCost })
 							: t("Not craftable")}
 					</span>
 				) : null}

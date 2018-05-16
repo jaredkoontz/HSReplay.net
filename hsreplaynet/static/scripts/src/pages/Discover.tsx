@@ -172,7 +172,9 @@ class Discover extends React.Component<Props, State> {
 						/>
 					</section>
 					<section id="exclude-cards-filter">
-						<h2 id="card-search-exclude-label">Excluded Cards</h2>
+						<h2 id="card-search-exclude-label">
+							{t("Excluded cards")}
+						</h2>
 						<CardSearch
 							id="card-search-exclude"
 							label="card-search-exclude-label"

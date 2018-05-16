@@ -159,7 +159,7 @@ export const cardTableColumnData: {
 		dataKey: "included_popularity",
 		infoHeader: t("Included in % of decks"),
 		infoText: t(
-			"Percentage of decks that include at least one copy of the card.",
+			"Percentage of decks that include at least one copy of this card.",
 		),
 		percent: true,
 		sortKey: "includedPopularity",
