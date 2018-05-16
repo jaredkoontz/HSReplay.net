@@ -65,7 +65,7 @@ const render = (cardData: CardData) => {
 									rarity: [],
 									set: [],
 									type: [],
-									tribe: [],
+									race: [],
 									mechanics: [],
 									sortBy: "timesPlayed",
 									sortDirection: "descending",
