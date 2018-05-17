@@ -244,7 +244,10 @@ class Home extends React.Component<Props, State> {
 									"Play like a pro! Keep track of the cards you and your opponent play with an in-game overlay.",
 								)}
 							</p>
-							<a className="btn promo-button transparent-style hidden-sm hidden-xs">
+							<a
+								className="btn promo-button transparent-style hidden-sm hidden-xs"
+								href="https://hsdecktracker.net/download/"
+							>
 								{t("Download")}
 							</a>
 						</div>
@@ -261,7 +264,10 @@ class Home extends React.Component<Props, State> {
 							</video>
 						</div>
 						<div className="panel-button col-xs-12 visible-sm visible-xs">
-							<a className="btn promo-button transparent-style">
+							<a
+								className="btn promo-button transparent-style"
+								href="https://hsdecktracker.net/download/"
+							>
 								{t("Download")}
 							</a>
 						</div>
@@ -306,7 +312,10 @@ class Home extends React.Component<Props, State> {
 									"Many games are decided based on your starting hand. Learn which cards to keep based on statistics from millions of games.",
 								)}
 							</p>
-							<a className="btn promo-button transparent-style hidden-sm hidden-xs">
+							<a
+								className="btn promo-button transparent-style hidden-sm hidden-xs"
+								href="/decks/"
+							>
 								{t("Find your deck")}
 							</a>
 						</div>
@@ -319,7 +328,10 @@ class Home extends React.Component<Props, State> {
 									"Climb the ladder faster by using the best deck for your rank and region.",
 								)}
 							</p>
-							<a className="btn promo-button transparent-style hidden-sm hidden-xs">
+							<a
+								className="btn promo-button transparent-style hidden-sm hidden-xs"
+								href="/meta/"
+							>
 								{t("View full tier list")}
 							</a>
 						</div>
@@ -355,7 +367,10 @@ class Home extends React.Component<Props, State> {
 							</DataInjector>
 						</div>
 						<div className="panel-button col-xs-12 visible-sm visible-xs">
-							<a className="btn promo-button transparent-style">
+							<a
+								className="btn promo-button transparent-style"
+								href="/meta/"
+							>
 								{t("View full tier list")}
 							</a>
 						</div>
@@ -366,7 +381,10 @@ class Home extends React.Component<Props, State> {
 						className="reverse-panel"
 					>
 						<div className="panel-button col-xs-12 visible-sm visible-xs">
-							<a className="btn promo-button transparent-style">
+							<a
+								className="btn promo-button transparent-style"
+								href="/meta/#tab=matchups"
+							>
 								{t("View all matchups")}
 							</a>
 						</div>
@@ -415,7 +433,7 @@ class Home extends React.Component<Props, State> {
 							</p>
 							<a
 								className="btn promo-button transparent-style hidden-sm hidden-xs"
-								href="/meta/"
+								href="/meta/#tab=matchups"
 							>
 								{t("View all matchups")}
 							</a>
