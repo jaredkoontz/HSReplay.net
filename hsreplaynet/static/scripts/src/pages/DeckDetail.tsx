@@ -238,6 +238,33 @@ class DeckDetail extends React.Component<Props, State> {
 
 		const overviewContent = [];
 
+		const getDefaultDeckName = (playerClass: string) => {
+			switch (playerClass) {
+				case "DEATHKNIGHT":
+					return t("Death Knight Deck");
+				case "DRUID":
+					return t("Druid Deck");
+				case "HUNTER":
+					return t("Hunter Deck");
+				case "MAGE":
+					return t("Mage Deck");
+				case "PALADIN":
+					return t("Paladin Deck");
+				case "PRIEST":
+					return t("Priest Deck");
+				case "ROGUE":
+					return t("Rogue Deck");
+				case "SHAMAN":
+					return t("Shaman Deck");
+				case "WARLOCK":
+					return t("Warlock Deck");
+				case "WARRIOR":
+					return t("Warrior Deck");
+				default:
+					return t("Neutral Deck");
+			}
+		};
+
 		const cardList = (
 			<div className="card-list-wrapper">
 				<CardList
@@ -245,11 +272,7 @@ class DeckDetail extends React.Component<Props, State> {
 					cardList={dbfIds}
 					name={
 						this.props.deckName ||
-						t("{{deckClassName}} Deck", {
-							deckClassName: getHeroClassName(
-								this.props.deckClass,
-							),
-						})
+						getDefaultDeckName(this.props.deckClass)
 					}
 					heroes={[this.props.heroDbfId]}
 					collection={this.props.collection}
