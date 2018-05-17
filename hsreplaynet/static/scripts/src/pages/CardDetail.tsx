@@ -675,9 +675,7 @@ class CardDetail extends React.Component<Props, State> {
 									rankMax: 5,
 								})}
 							</InfoboxFilter>
-							<InfoboxFilter
-								value={RankRange.LEGEND_THROUGH_FIVE}
-							>
+							<InfoboxFilter value={RankRange.LEGEND_THROUGH_TEN}>
 								{t("{{rankMin}}–{{rankMax}}", {
 									rankMin: t("Legend"),
 									rankMax: 10,
