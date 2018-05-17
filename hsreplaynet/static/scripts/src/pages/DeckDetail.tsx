@@ -32,6 +32,7 @@ import TableLoading from "../components/loading/TableLoading";
 import PremiumPromo from "../components/premium/PremiumPromo";
 import PremiumWrapper from "../components/premium/PremiumWrapper";
 import CardTable from "../components/tables/CardTable";
+import PrettyCardClass from "../components/text/PrettyCardClass";
 import { RankRange } from "../filters";
 import {
 	compareDecks,
@@ -611,7 +612,9 @@ class DeckDetail extends React.Component<Props, State> {
 									this.props.deckClass
 								}
 							>
-								{getHeroClassName(this.props.deckClass)}
+								<PrettyCardClass
+									cardClass={this.props.deckClass}
+								/>
 							</a>
 						</li>
 						{archetypeInfo}

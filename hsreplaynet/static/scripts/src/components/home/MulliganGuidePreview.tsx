@@ -1,13 +1,14 @@
 import React from "react";
-import CardTable from "../../components/tables/CardTable";
-import DataInjector from "../DataInjector";
-import { CardObj } from "../../interfaces";
 import CardData from "../../CardData";
-import { withLoading } from "../loading/Loading";
-import ClassFilter, { FilterOption, filterOptionClasses } from "../ClassFilter";
+import CardTable from "../../components/tables/CardTable";
+import { getHeroSkinCardId, image } from "../../helpers";
 import { Archetype } from "../../utils/api";
-import { getHeroClassName, getHeroSkinCardId, image } from "../../helpers";
+import ClassFilter, { FilterOption, filterOptionClasses } from "../ClassFilter";
+import DataInjector from "../DataInjector";
 import TwoCardFade from "../TwoCardFade";
+import PrettyCardClass from "../text/PrettyCardClass";
+import { CardObj } from "../../interfaces";
+import { withLoading } from "../loading/Loading";
 
 interface MulliganPreviewData {
 	deck: any;
@@ -100,9 +101,13 @@ class MulliganGuidePreview extends React.Component<Props, State> {
 						</span>
 						<img className="vs-icon" src={image("vs.png")} />
 						<span className="opponent-class">
-							{getHeroClassName(
-								filterOptionClasses[this.state.selectedClass],
-							)}
+							<PrettyCardClass
+								cardClass={
+									filterOptionClasses[
+										this.state.selectedClass
+									]
+								}
+							/>
 						</span>
 					</div>
 				</div>

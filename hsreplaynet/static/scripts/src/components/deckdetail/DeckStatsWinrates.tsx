@@ -1,6 +1,6 @@
 import React from "react";
-import { getHeroClassName } from "../../helpers";
 import { TableData } from "../../interfaces";
+import PrettyCardClass from "../text/PrettyCardClass";
 
 interface Props {
 	data?: TableData;
@@ -21,7 +21,8 @@ export default class DeckStatsWinrates extends React.Component<Props> {
 			const winrate = +data[key][0]["win_rate"];
 			winrates.push(
 				<li>
-					vs. {getHeroClassName(data[key][0]["player_class"])}
+					vs.{" "}
+					<PrettyCardClass cardClass={data[key][0]["player_class"]} />
 					<span className="infobox-value">
 						{(+winrate).toFixed(1) + "%"}
 					</span>

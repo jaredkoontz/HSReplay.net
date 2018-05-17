@@ -1,8 +1,9 @@
 import React from "react";
 import { AutoSizer } from "react-virtualized";
-import { getHeroClassName, toDynamicFixed } from "../../helpers";
-import PopularityLineChart from "./PopularityLineChart";
+import { toDynamicFixed } from "../../helpers";
 import { LoadingStatus } from "../../interfaces";
+import PrettyCardClass from "../text/PrettyCardClass";
+import PopularityLineChart from "./PopularityLineChart";
 
 interface Props {
 	chartData?: any;
@@ -32,10 +33,16 @@ export default class PopularityBox extends React.Component<Props> {
 
 		let content = null;
 		if (this.props.popularity !== undefined) {
-			content = [
-				<h1>{toDynamicFixed(this.props.popularity, 2)}%</h1>,
-				<h3>of {getHeroClassName(this.props.playerClass)} decks</h3>,
-			];
+			content = (
+				<>
+					<h1>{toDynamicFixed(this.props.popularity, 2)}%</h1>,
+					<h3>
+						of{" "}
+						<PrettyCardClass cardClass={this.props.playerClass} />{" "}
+						decks
+					</h3>,
+				</>
+			);
 		} else if (
 			this.props.status === LoadingStatus.NO_DATA ||
 			this.props.status === LoadingStatus.PROCESSING

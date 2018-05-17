@@ -1,7 +1,8 @@
 import React from "react";
 import { InjectedTranslateProps, translate } from "react-i18next";
-import { getHeroClassName, winrateData } from "../../helpers";
+import { winrateData } from "../../helpers";
 import { TableData } from "../../interfaces";
+import PrettyCardClass from "../text/PrettyCardClass";
 
 interface Props extends InjectedTranslateProps {
 	opponentWinrateData?: TableData;
@@ -57,7 +58,7 @@ class DeckOverviewTable extends React.Component<Props> {
 								"player-class " + row.opponent.toLowerCase()
 							}
 						>
-							{getHeroClassName(row.opponent)}
+							<PrettyCardClass cardClass={row.opponent} />
 						</span>
 					</td>
 					{winrateCell(row.winrate, deck.win_rate, true)}

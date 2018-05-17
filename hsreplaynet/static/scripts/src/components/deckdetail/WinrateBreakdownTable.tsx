@@ -1,8 +1,9 @@
 import React from "react";
 import { InjectedTranslateProps, translate } from "react-i18next";
-import { getHeroClassName, winrateData } from "../../helpers";
+import { winrateData } from "../../helpers";
 import { SortDirection, TableData } from "../../interfaces";
 import SortableTable from "../SortableTable";
+import PrettyCardClass from "../text/PrettyCardClass";
 
 interface Props extends InjectedTranslateProps {
 	opponentWinrateData?: TableData;
@@ -66,7 +67,7 @@ class WinrateBreakdownTable extends React.Component<Props, State> {
 								"player-class " + row.opponent.toLowerCase()
 							}
 						>
-							{getHeroClassName(row.opponent)}
+							<PrettyCardClass cardClass={row.opponent} />
 						</span>
 					</td>
 					{winrateCell(row.winrate)}

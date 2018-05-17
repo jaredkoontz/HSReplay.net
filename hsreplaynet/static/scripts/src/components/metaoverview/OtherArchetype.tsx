@@ -1,6 +1,6 @@
 import React from "react";
 import Tooltip from "../Tooltip";
-import { getHeroClassName } from "../../helpers";
+import PrettyCardClass from "../text/PrettyCardClass";
 
 interface Props {
 	name: string;
@@ -16,8 +16,9 @@ export default class OtherArchetype extends React.Component<Props> {
 				content={
 					<p>
 						This is a collection of all{" "}
-						{getHeroClassName(playerClass)} decks that do not fit
-						into one of the popular archetypes.
+						<PrettyCardClass cardClass={playerClass} />
+						decks that do not fit into one of the popular
+						archetypes.
 						<br />
 						<br />No archetype details are available.
 					</p>

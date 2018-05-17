@@ -1,8 +1,8 @@
 import React from "react";
-import { getHeroClassName } from "../helpers";
+import ArchetypeFilter from "./ArchetypeFilter";
 import ClassIcon from "./ClassIcon";
 import DataInjector from "./DataInjector";
-import ArchetypeFilter from "./ArchetypeFilter";
+import PrettyCardClass from "./text/PrettyCardClass";
 
 export type FilterOption =
 	| "ALL"
@@ -148,7 +148,7 @@ export default class ClassFilter extends React.Component<Props> {
 			}
 			label = (
 				<div className={labelClassNames.join(" ")}>
-					{getHeroClassName(className)}
+					<PrettyCardClass cardClass={className} />
 				</div>
 			);
 		}

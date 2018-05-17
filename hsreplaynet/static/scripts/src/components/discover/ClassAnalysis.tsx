@@ -1,15 +1,15 @@
 import React from "react";
+import { AutoSizer } from "react-virtualized";
 import CardData from "../../CardData";
-import ClusterDetail from "./ClusterDetail";
-import ClusterTabLabel from "./ClusterTabLabel";
-import DeckInfo from "./DeckInfo";
+import TourManager from "../../TourManager";
+import ClusterChart from "../d3/ClusterChart";
 import Tab from "../layout/Tab";
 import TabList from "../layout/TabList";
 import { withLoading } from "../loading/Loading";
-import { AutoSizer } from "react-virtualized";
-import { getHeroClassName } from "../../helpers";
-import ClusterChart from "../d3/ClusterChart";
-import TourManager from "../../TourManager";
+import PrettyCardClass from "../text/PrettyCardClass";
+import ClusterDetail from "./ClusterDetail";
+import ClusterTabLabel from "./ClusterTabLabel";
+import DeckInfo from "./DeckInfo";
 
 export interface ClusterData {
 	cluster_map: { [clusterId: number]: number };
@@ -210,7 +210,7 @@ class ClassAnalysis extends React.Component<Props, State> {
 		const { playerClass } = this.props;
 		return (
 			<span className={"player-class " + playerClass.toLowerCase()}>
-				{getHeroClassName(playerClass)} Decks
+				<PrettyCardClass cardClass={playerClass} /> Decks
 			</span>
 		);
 	}
