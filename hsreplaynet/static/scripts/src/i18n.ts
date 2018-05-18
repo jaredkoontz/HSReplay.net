@@ -1,6 +1,18 @@
 import i18n, { InitOptions } from "i18next";
 import CustomCallbackBackend from "i18next-callback-backend";
 import ICU from "i18next-icu";
+import de from "i18next-icu/locale-data/de";
+import en from "i18next-icu/locale-data/en";
+import es from "i18next-icu/locale-data/es";
+import fr from "i18next-icu/locale-data/fr";
+import it from "i18next-icu/locale-data/it";
+import ja from "i18next-icu/locale-data/ja";
+import ko from "i18next-icu/locale-data/ko";
+import pl from "i18next-icu/locale-data/pl";
+import pt from "i18next-icu/locale-data/pt";
+import ru from "i18next-icu/locale-data/ru";
+import th from "i18next-icu/locale-data/th";
+import zh from "i18next-icu/locale-data/zh";
 import UserData from "./UserData";
 
 export const I18N_NAMESPACE_FRONTEND = "frontend";
@@ -20,6 +32,14 @@ i18n
 		keySeparator: false,
 		lowerCaseLng: true,
 		nsSeparator: false,
+
+		// i18next-icu
+		i18nFormat: {
+			/* We cannot load these dynamically right now due to the different
+			file names. There's not a lot data behind these though, so we just
+			hardcode the languages we support for now. */
+			localeData: [de, en, es, fr, it, ja, ko, pl, pt, ru, th, zh],
+		},
 
 		// not required using i18next-react
 		interpolation: {
