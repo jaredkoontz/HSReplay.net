@@ -80,9 +80,10 @@ class TierListPreview extends React.Component<Props> {
 			count += items.length;
 			classLists.push(
 				<Panel
-					header={t("Tier") + " " + (i + 1)}
+					header={t("Tier {n}", { n: i + 1 })}
 					theme="dark"
 					accent="blue"
+					key={i}
 				>
 					<ClassList
 						data={items}
