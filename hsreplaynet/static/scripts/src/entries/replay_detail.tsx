@@ -54,6 +54,7 @@ const shared = {};
 
 function renderShareDialog() {
 	ReactDOM.render(
+		<I18nextProvider i18n={i18n} initialLanguage={UserData.getLocale()}>
 		<ShareGameDialog
 			url={document
 				.getElementById("share-game-dialog")
@@ -78,7 +79,8 @@ function renderShareDialog() {
 				);
 				shared[network] = true;
 			}}
-		/>,
+		/>
+		</I18nextProvider>,
 		document.getElementById("share-game-dialog"),
 	);
 }
@@ -96,7 +98,9 @@ if (visibilityTarget) {
 		"data-selected",
 	) as Visibility;
 	ReactDOM.render(
-		<VisibilityDropdown initial={status} shortid={shortid} />,
+		<I18nextProvider i18n={i18n} initialLanguage={UserData.getLocale()}>
+			<VisibilityDropdown initial={status} shortid={shortid} />
+		</I18nextProvider>,
 		visibilityTarget,
 	);
 }
@@ -106,10 +110,12 @@ const deleteTarget = document.getElementById("replay-delete");
 if (deleteTarget) {
 	const redirect = deleteTarget.getAttribute("data-redirect");
 	ReactDOM.render(
-		<DeleteReplayButton
-			shortid={shortid}
-			done={() => (window.location.href = redirect)}
-		/>,
+		<I18nextProvider i18n={i18n} initialLanguage={UserData.getLocale()}>
+			<DeleteReplayButton
+				shortid={shortid}
+				done={() => (window.location.href = redirect)}
+			/>
+		</I18nextProvider>,
 		deleteTarget,
 	);
 }
