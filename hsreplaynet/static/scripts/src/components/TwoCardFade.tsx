@@ -21,14 +21,12 @@ class TwoCardFade extends React.Component<Props> {
 					className={
 						"card-art" + (this.props.leftFlipped ? " flipped" : "")
 					}
-					key={this.props.leftCardId}
 					style={this.getStyle(this.props.leftCardId)}
 				/>
 				<div
 					className={
 						"card-art" + (this.props.rightFlipped ? " flipped" : "")
 					}
-					key={this.props.rightCardId}
 					style={this.getStyle(this.props.rightCardId)}
 				/>
 				{this.props.topFade ? <div className="fade fade-top" /> : null}
