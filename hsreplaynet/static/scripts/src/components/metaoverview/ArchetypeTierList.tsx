@@ -1,16 +1,17 @@
 import React from "react";
-import { ApiArchetypePopularity } from "../../interfaces";
-import { withLoading } from "../loading/Loading";
+import { InjectedTranslateProps, translate } from "react-i18next";
 import CardData from "../../CardData";
-import ArchetypeListItem from "./ArchetypeListItem";
-import InfoIcon from "../InfoIcon";
+import { ApiArchetypePopularity } from "../../interfaces";
 import { Archetype } from "../../utils/api";
+import InfoIcon from "../InfoIcon";
+import { withLoading } from "../loading/Loading";
+import ArchetypeListItem from "./ArchetypeListItem";
 
 interface ClassArchetypeData {
 	[playerClass: string]: ApiArchetypePopularity[];
 }
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	archetypeData?: Archetype[];
 	cardData: CardData;
 	data?: ClassArchetypeData;
@@ -21,6 +22,7 @@ interface Props {
 
 class ArchetypeTierList extends React.Component<Props> {
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		const archetypes = Object.keys(this.props.data)
 			.map(key => this.props.data[key])
 			.reduce((a, b) => a.concat(b))
@@ -56,6 +58,22 @@ class ArchetypeTierList extends React.Component<Props> {
 			);
 		});
 
+		const tierInfo = [
+			t(
+				"Winrate within one standard deviation of the strongest archetype.",
+			),
+			t("Winrate above 50%."),
+			t("Winrate within one standard deviation below 50%."),
+			t("Winrate more than one standard deviation below 50%."),
+		];
+
+		const tierInfoHeader = [
+			t("Overperforming Archetypes"),
+			t("Winning Archetypes"),
+			t("Underperforming Archetypes"),
+			t("Losing Archetypes"),
+		];
+
 		return (
 			<div className="archetype-tier-list">
 				{tiers.map((tier, index) => {
@@ -65,12 +83,13 @@ class ArchetypeTierList extends React.Component<Props> {
 					return (
 						<div className="tier" key={"tier" + index}>
 							<div className="tier-header">
-								Tier {index + 1}
+								{t("Tier {n}", { n: index + 1 })}
 								<InfoIcon
-									header={`Tier ${index + 1}: ${
-										this.tierInfoHeader[index]
-									}`}
-									content={this.tierInfo[index]}
+									header={t("Tier {n}: {description}", {
+										n: index + 1,
+										description: tierInfoHeader[index],
+									})}
+									content={tierInfo[index]}
 								/>
 							</div>
 							{tier}
@@ -93,22 +112,8 @@ class ArchetypeTierList extends React.Component<Props> {
 	average(data: number[]) {
 		return data.reduce((a, b) => a + b, 0) / data.length;
 	}
-
-	tierInfo = [
-		"Winrate within one standard deviation of the strongest archetype.",
-		"Winrate above 50%.",
-		"Winrate within one standard deviation below 50%.",
-		"Winrate more than one standard deviation below 50%.",
-	];
-
-	tierInfoHeader = [
-		"Overperforming Archetypes",
-		"Winning Archetypes",
-		"Underperforming Archetypes",
-		"Losing Archetypes",
-	];
 }
 
 export default withLoading(["data", "deckData", "archetypeData", "cardData"])(
-	ArchetypeTierList,
+	translate()(ArchetypeTierList),
 );

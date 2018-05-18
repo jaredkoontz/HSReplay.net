@@ -1,11 +1,12 @@
 import React from "react";
-import { ApiArchetypePopularity } from "../../interfaces";
+import { InjectedTranslateProps, translate } from "react-i18next";
 import CardData from "../../CardData";
 import { getHeroSkinCardUrl, toDynamicFixed, winrateData } from "../../helpers";
-import CardIcon from "../CardIcon";
+import { ApiArchetypePopularity } from "../../interfaces";
 import { Archetype } from "../../utils/api";
+import CardIcon from "../CardIcon";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	archetype: ApiArchetypePopularity;
 	archetypeData: Archetype[];
 	cardData: CardData;
@@ -13,8 +14,9 @@ interface Props {
 	deckData?: any;
 }
 
-export default class ArchetypeListItem extends React.Component<Props> {
+class ArchetypeListItem extends React.Component<Props> {
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		const archetype = this.props.archetypeData.find(
 			a => a.id === this.props.archetype.archetype_id,
 		);
@@ -53,7 +55,7 @@ export default class ArchetypeListItem extends React.Component<Props> {
 					className="btn btn-primary btn-deck"
 					href={`/decks/${deck.deck_id}`}
 				>
-					View most popular deck
+					{t("View most popular deck")}
 				</a>
 			);
 		}
@@ -82,7 +84,7 @@ export default class ArchetypeListItem extends React.Component<Props> {
 					</div>
 					<div className="archetype-cards col-xs-12 col-md-5">
 						<span className="archetype-cards-header">
-							Core cards
+							{t("Core cards")}
 						</span>
 						<ul className="archetype-card-list">
 							{coreCards.slice(0, 8)}
@@ -97,3 +99,5 @@ export default class ArchetypeListItem extends React.Component<Props> {
 		);
 	}
 }
+
+export default translate()(ArchetypeListItem);
