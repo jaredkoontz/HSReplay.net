@@ -9,7 +9,7 @@ import { Provider as BlizzardAccountProvider } from "../components/utils/hearths
 import AccountNavigation from "../components/account/AccountNavigation";
 import PremiumModal from "../components/premium/PremiumModal";
 import i18n from "../i18n";
-import I18nextProvider from "react-i18next/src/I18nextProvider";
+import { I18nextProvider } from "react-i18next";
 
 UserData.create();
 

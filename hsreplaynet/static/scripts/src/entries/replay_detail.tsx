@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import I18nextProvider from "react-i18next/src/I18nextProvider";
+import { I18nextProvider } from "react-i18next";
 import CardData from "../CardData";
 import JoustEmbedder from "../JoustEmbedder";
 import UserData from "../UserData";
