@@ -9,7 +9,7 @@ import { getCardClass } from "../../utils/enums";
 
 export interface ClassListData {
 	playerClass: string;
-	title: string | React.ReactNode | React.ReactNode[];
+	title: React.ReactNode;
 	winRate: number;
 	buttonText?: string;
 	href?: string;
@@ -47,7 +47,7 @@ export default class ClassList extends React.Component<Props, State> {
 				<li
 					className="class-item"
 					style={style}
-					key={datum.playerClass}
+					key={index}
 					onMouseEnter={() => this.setState({ hovering: index })}
 					onMouseLeave={() => this.setState({ hovering: 0 })}
 				>
