@@ -625,9 +625,9 @@ class Home extends React.Component<Props, State> {
 							<div className="btn-wrapper">
 								<a
 									className="btn promo-button blue-style"
-									href="/premium"
+									href="/premium/"
 								>
-									Learn more
+									{t("Learn more")}
 								</a>
 								<a
 									className="btn promo-button"
