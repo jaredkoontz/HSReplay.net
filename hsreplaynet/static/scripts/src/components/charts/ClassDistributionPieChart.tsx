@@ -83,7 +83,7 @@ class ClassDistributionPieChart extends React.Component<Props, State> {
 					padAngle={2}
 					innerRadius={10}
 					labels={d =>
-						this.props.loading
+						this.props.loading || !gameCount
 							? null
 							: Math.round(1000 / gameCount * d.y) / 10 + "%"
 					}
@@ -124,29 +124,25 @@ class ClassDistributionPieChart extends React.Component<Props, State> {
 												style: Object.assign(
 													{},
 													props.style,
-													{ transform: null },
+													{
+														stroke: null,
+														transform: null,
+													},
 												),
 											}),
 										},
 									];
 								},
 								onClick: () => {
-									if (this.props.onPieceClicked) {
+									if (
+										this.props.onPieceClicked &&
+										this.state.hoveringSlice
+									) {
 										this.props.onPieceClicked(
 											this.state.hoveringSlice.x.toLowerCase(),
 										);
 									}
-									return [
-										{
-											mutation: props => ({
-												style: Object.assign(
-													{},
-													props.style,
-													{ transform: null },
-												),
-											}),
-										},
-									];
+									return [];
 								},
 							},
 						},
