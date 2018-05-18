@@ -2,6 +2,7 @@ import React from "react";
 import { withLoading } from "./loading/Loading";
 import StreamThumbnail from "./StreamThumbnail";
 import { Stream as ApiStream } from "../utils/api";
+import { InjectedTranslateProps, translate } from "react-i18next";
 
 interface TwitchStream {
 	language: string;
@@ -11,7 +12,7 @@ interface TwitchStream {
 	viewer_count: number;
 }
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	streams?: ApiStream[];
 	verifyExtension?: boolean;
 }
@@ -101,12 +102,14 @@ class StreamList extends React.Component<Props, State> {
 	}
 
 	public render(): React.ReactNode {
+		const { t } = this.props;
+
 		if (!this.props.streams || !Array.isArray(this.props.streams)) {
 			return null;
 		}
 
 		if (this.state.metadata === null) {
-			return <h3 className="message-wrapper">Loading...</h3>;
+			return <h3 className="message-wrapper">{t("Loading…")}</h3>;
 		}
 
 		return (
@@ -136,8 +139,10 @@ class StreamList extends React.Component<Props, State> {
 				})}
 				<li>
 					<StreamThumbnail
-						title="Add your own stream to HSReplay.net…"
-						displayName="Using our Twitch Extension for Hearthstone Deck Tracker."
+						title={t("Add your own stream to HSReplay.net…")}
+						displayName={t(
+							"Using our Twitch Extension for Hearthstone Deck Tracker.",
+						)}
 						url={"https://hsdecktracker.net/twitch/setup/"}
 						thumbnailWidth={400}
 						thumbnailHeight={225}
@@ -149,4 +154,4 @@ class StreamList extends React.Component<Props, State> {
 	}
 }
 
-export default withLoading(["streams"])(StreamList);
+export default withLoading(["streams"])(translate()(StreamList));

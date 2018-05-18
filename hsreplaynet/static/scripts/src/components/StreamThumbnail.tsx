@@ -3,8 +3,9 @@ import { commaSeparate } from "../helpers";
 import { TwitchStreamPromotionEvents } from "../metrics/GoogleAnalytics";
 import { BnetGameType } from "../hearthstone";
 import RankIcon from "./RankIcon";
+import { InjectedTranslateProps, translate } from "react-i18next";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	url?: string;
 	displayName?: string;
 	thumbnailUrl?: string;
@@ -19,7 +20,7 @@ interface Props {
 	noMetrics?: boolean;
 }
 
-export default class StreamThumbnail extends React.Component<Props> {
+class StreamThumbnail extends React.Component<Props> {
 	static defaultProps = {
 		target: "_blank",
 	};
@@ -34,6 +35,7 @@ export default class StreamThumbnail extends React.Component<Props> {
 	};
 
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		let thumbnail = null;
 		if (this.props.thumbnailUrl) {
 			const thumbnailUrl = this.props.thumbnailUrl
@@ -66,10 +68,13 @@ export default class StreamThumbnail extends React.Component<Props> {
 
 		let viewers = null;
 		if (this.props.viewerCount !== undefined) {
+			const viewerCount = commaSeparate(this.props.viewerCount);
 			viewers = (
 				<span>
-					{commaSeparate(this.props.viewerCount)}{" "}
-					{this.props.viewerCount === 1 ? "viewer" : "viewers"}
+					{t(
+						"{viewerCount, plural, one {# viewer} other {# viewers}}",
+						{ viewerCount },
+					)}
 				</span>
 			);
 		}
@@ -102,3 +107,5 @@ export default class StreamThumbnail extends React.Component<Props> {
 		);
 	}
 }
+
+export default translate()(StreamThumbnail);

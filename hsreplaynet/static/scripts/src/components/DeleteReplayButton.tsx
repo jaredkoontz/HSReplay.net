@@ -1,7 +1,8 @@
 import React from "react";
 import { fetchCSRF } from "../helpers";
+import { InjectedTranslateProps, translate } from "react-i18next";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	shortid: string;
 	done?: () => void;
 }
@@ -11,7 +12,7 @@ interface State {
 	working: boolean;
 }
 
-export default class DeleteReplayButton extends React.Component<Props, State> {
+class DeleteReplayButton extends React.Component<Props, State> {
 	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
@@ -21,6 +22,7 @@ export default class DeleteReplayButton extends React.Component<Props, State> {
 	}
 
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		return (
 			<button
 				className="btn btn-danger btn-xs"
@@ -28,19 +30,20 @@ export default class DeleteReplayButton extends React.Component<Props, State> {
 				onClick={() => this.onRequestDelete()}
 			>
 				{this.state.deleted
-					? "Deleted"
+					? t("Deleted")
 					: this.state.working
-						? "Deleting…"
-						: "Delete"}
+						? t("Deleting…")
+						: t("Delete")}
 			</button>
 		);
 	}
 
-	protected onRequestDelete() {
+	private onRequestDelete() {
 		if (this.state.working || this.state.deleted) {
 			return;
 		}
-		if (!confirm("Are you sure you would like to remove this replay?")) {
+		const { t } = this.props;
+		if (!confirm(t("Are you sure you would like to remove this replay?"))) {
 			return;
 		}
 		this.setState({ working: true });
@@ -59,9 +62,7 @@ export default class DeleteReplayButton extends React.Component<Props, State> {
 					statusCode !== 404
 				) {
 					throw new Error(
-						"Unexpected status code " +
-							statusCode +
-							", expected 200, 204 or 404",
+						`Unexpected status code ${+statusCode}, expected 200, 204 or 404`,
 					);
 				}
 				if (this.props.done) {
@@ -70,10 +71,12 @@ export default class DeleteReplayButton extends React.Component<Props, State> {
 				this.setState({ deleted: true });
 			})
 			.catch(err => {
-				alert("Replay could not be deleted.");
+				alert(t("Replay could not be deleted."));
 			})
 			.then(() => {
 				this.setState({ working: false });
 			});
 	}
 }
+
+export default translate()(DeleteReplayButton);

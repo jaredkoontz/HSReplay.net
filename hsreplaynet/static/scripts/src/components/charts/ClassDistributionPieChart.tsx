@@ -1,8 +1,10 @@
 import React from "react";
 import { VictoryContainer, VictoryPie } from "victory";
 import { getHeroColor, pieScaleTransform } from "../../helpers";
+import PrettyCardClass from "../text/PrettyCardClass";
+import { InjectedTranslateProps, Trans, translate } from "react-i18next";
 
-export interface Props {
+export interface Props extends InjectedTranslateProps {
 	data: any[];
 	loading?: boolean;
 	onPieceClicked?: (name: string) => void;
@@ -12,10 +14,7 @@ interface State {
 	hoveringSlice: any;
 }
 
-export default class ClassDistributionPieChart extends React.Component<
-	Props,
-	State
-> {
+class ClassDistributionPieChart extends React.Component<Props, State> {
 	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
@@ -24,40 +23,44 @@ export default class ClassDistributionPieChart extends React.Component<
 	}
 
 	public render(): React.ReactNode {
-		let text = "";
+		const { t } = this.props;
 		const data =
 			this.props.data && this.props.data.length
 				? this.props.data
 				: [{ x: " ", y: 1, color: "lightgrey" }];
-		const numGames =
+		const gameCount =
 			this.props.data && this.props.data.reduce((a, b) => a + b.y, 0);
-		if (numGames && this.state.hoveringSlice) {
-			text =
-				this.state.hoveringSlice.xName +
-				": " +
-				this.state.hoveringSlice.y;
+
+		let cardClass = null;
+		if (gameCount && this.state.hoveringSlice) {
+			cardClass = (
+				<PrettyCardClass cardClass={this.state.hoveringSlice.xName} />
+			);
 		} else {
-			text = "Total: " + numGames;
+			cardClass = t("Total");
 		}
-		const total = this.state.hoveringSlice
-			? this.state.hoveringSlice.y
-			: numGames;
-		text += " game" + (!this.props.loading && total === 1 ? "" : "s");
-		if (this.props.loading) {
-			text += " [Loading…]";
-		} else if (numGames) {
-			let winrate = 0;
+
+		const numGamesInt = this.state.hoveringSlice
+			? +this.state.hoveringSlice.y
+			: +gameCount;
+		const numGames = t("{games, plural, one {# game} other {# games}}", {
+			games: numGamesInt,
+		});
+
+		let winrate = null;
+		if (!this.props.loading && gameCount) {
+			let wr = 0;
 			if (this.state.hoveringSlice) {
-				winrate = this.state.hoveringSlice.winrate;
+				wr = this.state.hoveringSlice.winrate;
 			} else {
 				let count = 0;
 				data.forEach(d => {
-					winrate += d.winrate * d.y;
+					wr += d.winrate * d.y;
 					count += d.y;
 				});
-				winrate /= count;
+				wr /= count;
 			}
-			text += " - " + Math.round(100.0 * winrate) + "% winrate";
+			winrate = Math.round(100.0 * wr) + "%";
 		}
 
 		const pieSize = 400;
@@ -82,7 +85,7 @@ export default class ClassDistributionPieChart extends React.Component<
 					labels={d =>
 						this.props.loading
 							? null
-							: Math.round(1000 / numGames * d.y) / 10 + "%"
+							: Math.round(1000 / gameCount * d.y) / 10 + "%"
 					}
 					events={[
 						{
@@ -150,9 +153,17 @@ export default class ClassDistributionPieChart extends React.Component<
 					]}
 				/>
 				<h5 style={{ textAlign: "center", marginTop: "-20px" }}>
-					{text}
+					{this.props.loading ? (
+						t("Loading…")
+					) : (
+						<Trans>
+							{cardClass}: {numGames} - {winrate} winrate
+						</Trans>
+					)}
 				</h5>
 			</div>
 		);
 	}
 }
+
+export default translate()(ClassDistributionPieChart);

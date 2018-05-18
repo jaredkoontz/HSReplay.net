@@ -4,8 +4,9 @@ import { withLoading } from "../loading/Loading";
 import ClassArchetypesBox from "../metaoverview/ClassArchetypesBox";
 import CardData from "../../CardData";
 import { Archetype } from "../../utils/api";
+import { InjectedTranslateProps, translate } from "react-i18next";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	archetypeId: number;
 	archetypeMatchupData?: any;
 	archetypeData?: Archetype[];
@@ -29,7 +30,7 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 	}
 
 	public render(): React.ReactNode {
-		const { archetypeMatchupData, archetypeId, minGames } = this.props;
+		const { t, archetypeMatchupData, archetypeId, minGames } = this.props;
 
 		const opponentClasses: { [key: string]: ApiArchetypePopularity[] } = {};
 		const games: { [key: string]: number } = {};
@@ -59,7 +60,9 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 		if (Object.keys(opponentClasses).length === 0) {
 			return (
 				<h3 className="message-wrapper">
-					Not enough games for meaningful matchup data available.
+					{t(
+						"Not enough games for meaningful matchup data available.",
+					)}
 				</h3>
 			);
 		}
@@ -99,5 +102,5 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 }
 
 export default withLoading(["archetypeMatchupData", "archetypeData"])(
-	ArchetypeMatchups,
+	translate()(ArchetypeMatchups),
 );

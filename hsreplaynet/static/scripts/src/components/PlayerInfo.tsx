@@ -7,8 +7,9 @@ import CopyDeckButton from "./CopyDeckButton";
 import Tooltip from "./Tooltip";
 import InfoIcon from "./InfoIcon";
 import DataManager from "../DataManager";
+import { InjectedTranslateProps, translate } from "react-i18next";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	build: number;
 	gameId: string;
 	opponentName: string;
@@ -22,7 +23,7 @@ interface State {
 	game: GameReplay;
 }
 
-export default class PlayerInfo extends React.Component<Props, State> {
+class PlayerInfo extends React.Component<Props, State> {
 	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
@@ -48,6 +49,8 @@ export default class PlayerInfo extends React.Component<Props, State> {
 	}
 
 	public render(): React.ReactNode {
+		const { t } = this.props;
+
 		let playerCards = null;
 		let opponentCards = null;
 		let playerName = null;
@@ -108,8 +111,10 @@ export default class PlayerInfo extends React.Component<Props, State> {
 					);
 					opponentInfoIcon = (
 						<InfoIcon
-							header="Opponent Deck"
-							content="Based on cards seen, this is the most likely deck that was played."
+							header={t("Opponent Deck")}
+							content={t(
+								"Based on cards seen, this is the most likely deck that was played.",
+							)}
 						/>
 					);
 				}
@@ -211,7 +216,7 @@ export default class PlayerInfo extends React.Component<Props, State> {
 		const opponentExpandButton = (
 			<Tooltip
 				simple
-				content={display === "opponent" ? "Collapse" : "Expand"}
+				content={display === "opponent" ? t("Collapse") : t("Expand")}
 			>
 				<span
 					className={
@@ -321,7 +326,7 @@ export default class PlayerInfo extends React.Component<Props, State> {
 		return playerClass;
 	}
 
-	getDeckName(player: GlobalGamePlayer) {
+	getDeckName(player: GlobalGamePlayer): string {
 		return (
 			this.pluralize(player.name) +
 			" " +
@@ -333,3 +338,5 @@ export default class PlayerInfo extends React.Component<Props, State> {
 		return str + "'" + (str.charAt(str.length - 1) !== "s" ? "s" : "");
 	}
 }
+
+export default translate()(PlayerInfo);

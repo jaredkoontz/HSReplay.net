@@ -2,8 +2,9 @@ import React from "react";
 import { Feature, Features } from "../../utils/api";
 import DataManager from "../../DataManager";
 import { cookie } from "cookie_js";
+import { InjectedTranslateProps, translate } from "react-i18next";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	className?: string;
 	lazyReload?: boolean;
 }
@@ -16,7 +17,7 @@ interface State {
 	loggedOutMode: boolean;
 }
 
-export default class DevTools extends React.Component<Props, State> {
+class DevTools extends React.Component<Props, State> {
 	private ref: HTMLElement;
 	private dropdownRef: HTMLElement;
 
@@ -147,18 +148,19 @@ export default class DevTools extends React.Component<Props, State> {
 	};
 
 	private renderFeatures(): React.ReactNode {
+		const { t } = this.props;
 		const { features } = this.state;
 		if (!features) {
 			return (
 				<li className="disabled">
-					<a href="#">Loading…</a>
+					<a href="#">{t("Loading…")}</a>
 				</li>
 			);
 		}
 		if (!features.length) {
 			return (
 				<li className="disabled">
-					<a href="#">No features</a>
+					<a href="#">{t("No features")}</a>
 				</li>
 			);
 		}
@@ -174,20 +176,26 @@ export default class DevTools extends React.Component<Props, State> {
 			<>
 				{features
 					.sort((a, b) => (a.name > b.name ? 1 : -1))
-					.map(feature => (
-						<li key={feature.name}>
-							<a
-								href="#"
-								className="devtools-feature"
-								onClick={() => this.toggleFeature(feature.name)}
-							>
-								{feature.name}
-								<span className={getLabelClassName(feature)}>
-									{feature.status}
-								</span>
-							</a>
-						</li>
-					))}
+					.map<React.ReactNode>(
+						(feature: Feature): React.ReactNode => (
+							<li key={feature.name}>
+								<a
+									href="#"
+									className="devtools-feature"
+									onClick={() =>
+										this.toggleFeature(feature.name)
+									}
+								>
+									{feature.name}
+									<span
+										className={getLabelClassName(feature)}
+									>
+										{feature.status}
+									</span>
+								</a>
+							</li>
+						),
+					)}
 			</>
 		);
 	}
@@ -197,40 +205,42 @@ export default class DevTools extends React.Component<Props, State> {
 			return;
 		}
 
+		const { t } = this.props;
+
 		return (
 			<ul className="dropdown-menu" ref={ref => (this.dropdownRef = ref)}>
 				<li>
-					<a href="/admin/">Admin</a>
+					<a href="/admin/">{t("Admin")}</a>
 				</li>
 				<li role="separator" className="divider" />
 				<li className="dropdown-header" id="devtools-features-header">
-					Account
+					{t("Account")}
 				</li>
 				<li className={this.state.freeMode ? "active" : ""}>
 					<a href="#" onClick={this.toggleFreemode}>
-						Free Mode
+						{t("Free Mode")}
 					</a>
 				</li>
 				<li className={this.state.loggedOutMode ? "active" : ""}>
 					<a href="#" onClick={this.toggleLoggedOutMode}>
-						Logged Out Mode
+						{t("Logged Out Mode")}
 					</a>
 				</li>
 				<li role="separator" className="divider" />
 				<li className="dropdown-header" id="devtools-features-header">
-					Features
+					{t("Features")}
 				</li>
 				{this.renderFeatures()}
 				{this.props.lazyReload && this.state.reload ? (
 					<li>
 						<a href="#" onClick={() => document.location.reload()}>
 							<span className="glyphicon glyphicon-refresh" />
-							Reload
+							{t("Reload")}
 						</a>
 					</li>
 				) : null}
 				<li>
-					<a href="/admin/features/feature/">Edit Features</a>
+					<a href="/admin/features/feature/">{t("Edit features")}</a>
 				</li>
 			</ul>
 		);
@@ -238,6 +248,7 @@ export default class DevTools extends React.Component<Props, State> {
 
 	public render(): React.ReactNode {
 		const classNames = ["dropdown-toggle"];
+		const { t } = this.props;
 		const open = this.state.expanded ? " open" : "";
 
 		return (
@@ -254,10 +265,12 @@ export default class DevTools extends React.Component<Props, State> {
 					aria-expanded={this.state.expanded}
 					onClick={e => e.preventDefault()}
 				>
-					<span>DevTools</span> <span className="caret" />
+					<span>{t("DevTools")}</span> <span className="caret" />
 				</a>
 				{this.renderDropdown()}
 			</li>
 		);
 	}
 }
+
+export default translate()(DevTools);

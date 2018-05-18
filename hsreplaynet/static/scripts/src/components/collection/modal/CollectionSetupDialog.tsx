@@ -194,6 +194,12 @@ class CollectionSetupDialog extends React.Component<Props, State> {
 			);
 		}
 
+		const accountName = blizzardAccount ? (
+			<strong>
+				<PrettyBlizzardAccount account={blizzardAccount} />
+			</strong>
+		) : null;
+
 		switch (step) {
 			case Step.CONNECT_HDT:
 				return (
@@ -265,13 +271,9 @@ class CollectionSetupDialog extends React.Component<Props, State> {
 							{this.state.previousStep === Step.CLAIM_ACCOUNT ? (
 								<>
 									<p>
-										We found your account{" "}
+										{/* prettier-ignore */}
 										<Trans>
-											<strong>
-												<PrettyBlizzardAccount
-													account={blizzardAccount}
-												/>
-											</strong>.
+											We found your account {accountName}.
 										</Trans>
 									</p>
 									<p>
@@ -294,14 +296,10 @@ class CollectionSetupDialog extends React.Component<Props, State> {
 										<li>{t("Enter your collection")}</li>
 									</ol>
 									<p className="text-help">
+										{/* prettier-ignore */}
 										<Trans>
 											Make sure you're logged in to
-											Blizzard as
-											<strong>
-												<PrettyBlizzardAccount
-													account={blizzardAccount}
-												/>
-											</strong>.
+											Blizzard as {accountName}.
 										</Trans>
 										{this.props
 											.hasMultipleBlizzardAccounts ? (
@@ -329,14 +327,12 @@ class CollectionSetupDialog extends React.Component<Props, State> {
 								{t("Setup complete!")}
 							</h2>
 							<p className="text-center">
+								{/* prettier-ignore */}
 								<Trans>
-									You have uploaded your collection for{" "}
-									<strong>
-										<PrettyBlizzardAccount
-											account={blizzardAccount}
-										/>
-									</strong>. Hooray!
-									<br />
+									You have uploaded your collection for
+									{accountName}. Hooray!
+								</Trans>
+								<Trans>
 									The deck tracker will now keep your
 									collection up to date.
 								</Trans>

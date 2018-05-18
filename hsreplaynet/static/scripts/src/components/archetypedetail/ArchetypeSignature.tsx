@@ -3,6 +3,7 @@ import _ from "lodash";
 import CardData from "../../CardData";
 import CardList from "../CardList";
 import { ArchetypeSignature as ApiArchetypeSignature } from "../../utils/api";
+import { InjectedTranslateProps, translate } from "react-i18next";
 
 interface Bucket {
 	cards: number[];
@@ -10,7 +11,7 @@ interface Bucket {
 	title: string;
 }
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	cardData: CardData;
 	signature?: ApiArchetypeSignature;
 	showOccasional?: boolean;
@@ -18,7 +19,7 @@ interface Props {
 	maxCards?: number;
 }
 
-export default class ArchetypeSignature extends React.Component<Props> {
+class ArchetypeSignature extends React.Component<Props> {
 	public shouldComponentUpdate(
 		nextProps: Readonly<Props>,
 		nextState: Readonly<{}>,
@@ -31,19 +32,19 @@ export default class ArchetypeSignature extends React.Component<Props> {
 	}
 
 	public render(): React.ReactNode {
-		const { cardData, signature, showValues } = this.props;
+		const { t, cardData, signature, showValues } = this.props;
 		if (!signature || !signature.components || !cardData) {
 			return null;
 		}
 
 		const buckets: Bucket[] = [
-			{ title: "Core Cards", threshold: 0.8, cards: [] },
-			{ title: "Popular Cards", threshold: 0.3, cards: [] },
+			{ title: t("Core cards"), threshold: 0.8, cards: [] },
+			{ title: t("Popular cards"), threshold: 0.3, cards: [] },
 		];
 
 		if (this.props.showOccasional) {
 			buckets.push({
-				title: "Occasional Cards",
+				title: t("Occasional cards"),
 				threshold: 0.1,
 				cards: [],
 			});
@@ -88,3 +89,5 @@ export default class ArchetypeSignature extends React.Component<Props> {
 		return <div className="archetype-signature">{cardLists}</div>;
 	}
 }
+
+export default translate()(ArchetypeSignature);

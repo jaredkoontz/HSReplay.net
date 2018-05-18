@@ -8,8 +8,9 @@ import RowFooter from "./RowFooter";
 import ArchetypeSearch from "../../ArchetypeSearch";
 import PopularityCell from "./../popularity/PopularityCell";
 import { Archetype } from "../../../utils/api";
+import { InjectedTranslateProps, translate } from "react-i18next";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	archetypes: ArchetypeData[];
 	allArchetypes: Archetype[];
 	cardData: CardData;
@@ -24,13 +25,13 @@ interface Props {
 
 const offWhite = "#fbf7f6";
 
-export default class ArchetypeList extends React.Component<Props> {
+class ArchetypeList extends React.Component<Props> {
 	private rowHeaders: Grid = null;
 	private popularityCells: Grid = null;
 	private winrateCells: Grid = null;
 
 	public render(): React.ReactNode {
-		const archetypes = this.props.archetypes;
+		const { t, archetypes } = this.props;
 
 		const headerCellHeight = 40;
 		const cellWidth = 80;
@@ -84,10 +85,12 @@ export default class ArchetypeList extends React.Component<Props> {
 							>
 								{this.getSortHeader(
 									"popularity",
-									"Pop.",
+									t("Pop."),
 									null,
-									"Popularity on Ladder",
-									"The percentage of decks played that belong to this archetype.",
+									t("Popularity on Ladder"),
+									t(
+										"The percentage of decks played that belong to this archetype.",
+									),
 								)}
 							</div>
 							<div
@@ -100,10 +103,12 @@ export default class ArchetypeList extends React.Component<Props> {
 							>
 								{this.getSortHeader(
 									"winrate",
-									"EWR",
+									t("EWR"),
 									null,
-									"Effective Winrate",
-									"The expected winrate against all active archetypes, weighted by their popularity.",
+									t("Effective Winrate"),
+									t(
+										"The expected winrate against all active archetypes, weighted by their popularity.",
+									),
 								)}
 							</div>
 							<div
@@ -262,3 +267,5 @@ export default class ArchetypeList extends React.Component<Props> {
 		);
 	}
 }
+
+export default translate()(ArchetypeList);

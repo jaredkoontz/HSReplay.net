@@ -10,6 +10,7 @@ import PrettyCardClass from "../text/PrettyCardClass";
 import ClusterDetail from "./ClusterDetail";
 import ClusterTabLabel from "./ClusterTabLabel";
 import DeckInfo from "./DeckInfo";
+import { InjectedTranslateProps, translate } from "react-i18next";
 
 export interface ClusterData {
 	cluster_map: { [clusterId: number]: number };
@@ -38,7 +39,7 @@ interface State {
 	selectedDeck: ClusterMetaData;
 }
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	cardData: CardData | null;
 	data?: ClusterData;
 	format: string;
@@ -84,31 +85,42 @@ class ClassAnalysis extends React.Component<Props, State> {
 		this.showTour(false);
 	}
 
-	showTour(force: boolean) {
+	private showTour(force: boolean) {
+		const { t } = this.props;
 		new TourManager().createTour(
 			"discover-introduction",
 			[
 				{
 					id: "introduction",
 					text: [
-						"On this page you can find the deck clusters that were automatically detected by our archetype algorithm.",
-						"Each dot represents a deck and the distance between decks is proportional to their similarity.",
+						t(
+							"On this page you can find the deck clusters that were automatically detected by our archetype algorithm.",
+						),
+						t(
+							"Each dot represents a deck and the distance between decks is proportional to their similarity.",
+						),
 					],
-					title: "Discover Introduction",
+					title: t("Discover Introduction"),
 				},
 				{
 					id: "interaction",
 					text: [
-						"<b>Hover</b> any deck to see the full list of cards on the right.",
+						t(
+							"<b>Hover</b> any deck to see the full list of cards on the right.",
+						),
 						"",
-						`
-							<b>Click</b> any deck to focus it.
-							Focusing a deck will cause the cursor to return to it when no other deck is hovered.
-							This allows for easier comparison of two distant decks and interaction with the deck list on the right.
-						`,
-						"Click the same deck again to defocus it.",
+						[
+							t("<b>Click</b> any deck to focus it."),
+							t(
+								"Focusing a deck will cause the cursor to return to it when no other deck is hovered.",
+							),
+							t(
+								"This allows for easier comparison of two distant decks and interaction with the deck list on the right.",
+							),
+						].join("\n"),
+						t("Click the same deck again to unfocus it."),
 					],
-					title: "Interaction",
+					title: t("Interaction"),
 				},
 			],
 			null,
@@ -267,4 +279,4 @@ class ClassAnalysis extends React.Component<Props, State> {
 	}
 }
 
-export default withLoading()(ClassAnalysis);
+export default withLoading()(translate()(ClassAnalysis));

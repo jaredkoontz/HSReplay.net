@@ -1,8 +1,9 @@
 import React from "react";
 import { BlizzardAccount } from "../../../utils/api";
 import PrettyBlizzardAccount from "../../text/PrettyBlizzardAccount";
+import { InjectedTranslateProps, translate } from "react-i18next";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	id?: string;
 	accounts: { [account: string]: BlizzardAccount };
 	account: string;
@@ -10,7 +11,7 @@ interface Props {
 	note?: React.ReactNode;
 }
 
-export default class BlizzardAccountChooser extends React.Component<Props> {
+class BlizzardAccountChooser extends React.Component<Props> {
 	static defaultProps = {
 		id: "collection-select-blizzard-account",
 	};
@@ -20,6 +21,8 @@ export default class BlizzardAccountChooser extends React.Component<Props> {
 	};
 
 	public render(): React.ReactNode {
+		const { t } = this.props;
+
 		const accountKeys = Object.keys(this.props.accounts);
 		if (accountKeys.length <= 1) {
 			return null;
@@ -27,8 +30,10 @@ export default class BlizzardAccountChooser extends React.Component<Props> {
 
 		return (
 			<section id={this.props.id}>
-				<h2>Select your account</h2>
-				<p>Select the Hearthstone account you'd like to set up:</p>
+				<h2>{t("Select your account")}</h2>
+				<p>
+					{t("Select the Hearthstone account you'd like to set up:")}
+				</p>
 				<div className="form-group">
 					<select
 						value={this.props.account}
@@ -52,3 +57,5 @@ export default class BlizzardAccountChooser extends React.Component<Props> {
 		);
 	}
 }
+
+export default translate()(BlizzardAccountChooser);

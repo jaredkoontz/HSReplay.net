@@ -1,8 +1,9 @@
 import React from "react";
 import CardTile from "./CardTile";
 import { winrateData } from "../helpers";
+import { InjectedTranslateProps, translate } from "react-i18next";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	card: any;
 	customCardText?: string;
 	popularity: number;
@@ -11,11 +12,14 @@ interface Props {
 	noLink?: boolean;
 }
 
-export default class CardRankingTableRow extends React.Component<Props> {
+class CardRankingTableRow extends React.Component<Props> {
 	public render(): React.ReactNode {
+		const { t } = this.props;
+
 		if (!this.props.card) {
 			return null;
 		}
+
 		const cardTile = (
 			<CardTile
 				height={34}
@@ -39,7 +43,9 @@ export default class CardRankingTableRow extends React.Component<Props> {
 
 		return (
 			<tr className="card-table-row">
-				<td className="rank-cell hidden-xs">{"#" + this.props.rank}</td>
+				<td className="rank-cell hidden-xs">
+					{t("#{rank}", { rank: this.props.rank })}
+				</td>
 				<td className="card-cell">{cardTile}</td>
 				<td style={{ lineHeight: "19px", fontWeight: "bold" }}>
 					{this.getPopularity()}
@@ -58,3 +64,5 @@ export default class CardRankingTableRow extends React.Component<Props> {
 		return this.props.popularity.toFixed(digits) + "%";
 	}
 }
+
+export default translate()(CardRankingTableRow);
