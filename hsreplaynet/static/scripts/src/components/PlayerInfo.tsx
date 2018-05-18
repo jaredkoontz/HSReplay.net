@@ -111,7 +111,7 @@ class PlayerInfo extends React.Component<Props, State> {
 					);
 					opponentInfoIcon = (
 						<InfoIcon
-							header={t("Opponent Deck")}
+							header={t("Predicted deck")}
 							content={t(
 								"Based on cards seen, this is the most likely deck that was played.",
 							)}
