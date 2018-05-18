@@ -1,5 +1,5 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { InjectedTranslateProps, Trans, translate } from "react-i18next";
 import { winrateData } from "../../helpers";
 import { TableData } from "../../interfaces";
 import PrettyCardClass from "../text/PrettyCardClass";
@@ -49,17 +49,15 @@ class DeckOverviewTable extends React.Component<Props> {
 		});
 		rows.sort((a, b) => (a.opponent > b.opponent ? 1 : -1));
 		const winrates = rows.map(row => {
+			const playerClass = (
+				<span className={"player-class " + row.opponent.toLowerCase()}>
+					<PrettyCardClass cardClass={row.opponent} />
+				</span>
+			);
 			return (
 				<tr key={row.opponent}>
 					<td>
-						vs.&nbsp;
-						<span
-							className={
-								"player-class " + row.opponent.toLowerCase()
-							}
-						>
-							<PrettyCardClass cardClass={row.opponent} />
-						</span>
+						<Trans>vs. {playerClass}</Trans>
 					</td>
 					{winrateCell(row.winrate, deck.win_rate, true)}
 				</tr>
