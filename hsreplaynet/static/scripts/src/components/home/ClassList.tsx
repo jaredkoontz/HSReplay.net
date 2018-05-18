@@ -70,7 +70,10 @@ export default class ClassList extends React.Component<Props, State> {
 							</span>
 						</div>
 						{this.state.hovering === index ? (
-							<a className="btn details-btn" href={datum.href}>
+							<a
+								className="btn details-btn text-capitalize"
+								href={datum.href}
+							>
 								{datum.buttonText}
 							</a>
 						) : null}
