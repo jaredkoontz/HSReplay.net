@@ -176,7 +176,7 @@ class DeckTile extends React.Component<Props> {
 		});
 
 		const dustCost = canBeBuilt
-			? "Buildable"
+			? t("Buildable")
 			: getDustCostForCollection(this.props.collection, this.props.cards);
 
 		const dustCostStyle = {
