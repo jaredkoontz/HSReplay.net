@@ -49,6 +49,8 @@ class PrettyCardClass extends React.Component<Props> {
 			case CardClass.NEUTRAL:
 				return t("GLOBAL_CLASS_NEUTRAL");
 		}
+
+		return t("Unknown class");
 	}
 }
 
