@@ -39,6 +39,7 @@ i18n
 			file names. There's not a lot data behind these though, so we just
 			hardcode the languages we support for now. */
 			localeData: [de, en, es, fr, it, ja, ko, pl, pt, ru, th, zh],
+			memoize: false,
 		},
 
 		// not required using i18next-react
