@@ -660,7 +660,7 @@ class DeckDetail extends React.Component<Props, State> {
 								{overviewContent}
 							</Tab>
 							<Tab
-								label={t("Mulligan guide")}
+								label={t("Mulligan Guide")}
 								id="mulligan-guide"
 								hidden={this.state.hasData === false}
 							>
@@ -672,7 +672,7 @@ class DeckDetail extends React.Component<Props, State> {
 							<Tab
 								label={
 									<span className="text-premium">
-										{t("My statistics")}
+										{t("My Statistics")}
 										<InfoIcon
 											header={t("Personal statistics")}
 											content={t(
@@ -703,7 +703,7 @@ class DeckDetail extends React.Component<Props, State> {
 							>
 								{this.renderMatchups(deckParams)}
 							</Tab>
-							<Tab label={t("Similar decks")} id="similar">
+							<Tab label={t("Similar Decks")} id="similar">
 								<DataInjector
 									fetchCondition={
 										this.isWildDeck() !== undefined
@@ -728,7 +728,7 @@ class DeckDetail extends React.Component<Props, State> {
 							<Tab
 								label={
 									<span className="text-premium">
-										{t("Deck counters")}
+										{t("Deck Counters")}
 										<InfoIcon
 											header={t("Deck counters")}
 											content={t(

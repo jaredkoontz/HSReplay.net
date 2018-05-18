@@ -18,10 +18,10 @@ import ArchetypeTierList from "../components/metaoverview/ArchetypeTierList";
 import PremiumPromo from "../components/premium/PremiumPromo";
 import PremiumWrapper from "../components/premium/PremiumWrapper";
 import RankPicker from "../components/rankpicker/RankPicker";
+import PrettyTimeRange from "../components/text/PrettyTimeRange";
+import { TimeRange } from "../filters";
 import { commaSeparate } from "../helpers";
 import { SortDirection } from "../interfaces";
-import { TimeRange } from "../filters";
-import PrettyTimeRange from "../components/text/PrettyTimeRange";
 
 interface Props extends InjectedTranslateProps {
 	cardData: CardData;
@@ -298,7 +298,7 @@ class MetaOverview extends React.Component<Props, State> {
 						tab={this.props.tab}
 						setTab={tab => this.props.setTab(tab)}
 					>
-						<Tab id="tierlist" label={t("Tier list")}>
+						<Tab id="tierlist" label={t("Tier List")}>
 							<DataInjector
 								query={[
 									{
@@ -338,7 +338,7 @@ class MetaOverview extends React.Component<Props, State> {
 								/>
 							</DataInjector>
 						</Tab>
-						<Tab id="archetypes" label={t("By class")}>
+						<Tab id="archetypes" label={t("By Class")}>
 							<DataInjector
 								query={[
 									{

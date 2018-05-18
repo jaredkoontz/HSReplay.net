@@ -10,9 +10,9 @@ import InfoIcon from "../components/InfoIcon";
 import InfoboxFilter from "../components/InfoboxFilter";
 import InfoboxFilterGroup from "../components/InfoboxFilterGroup";
 import ArchetypeDistributionPieChart from "../components/archetypedetail/ArchetypeDistributionPieChart";
+import ArchetypeImage from "../components/archetypedetail/ArchetypeImage";
 import ArchetypeMatchups from "../components/archetypedetail/ArchetypeMatchups";
 import ArchetypeSignature from "../components/archetypedetail/ArchetypeSignature";
-import ArchetypeImage from "../components/archetypedetail/ArchetypeImage";
 import DeckBox from "../components/box/DeckBox";
 import MatchupBox from "../components/box/MatchupBox";
 import PopularityBox from "../components/box/PopularityBox";
@@ -25,16 +25,16 @@ import ChartLoading from "../components/loading/ChartLoading";
 import PremiumPromo from "../components/premium/PremiumPromo";
 import PremiumWrapper from "../components/premium/PremiumWrapper";
 import CardTable from "../components/tables/CardTable";
+import PrettyRankRange from "../components/text/PrettyRankRange";
+import PrettyTimeRange from "../components/text/PrettyTimeRange";
 import { extractSignature } from "../extractors";
-import { isWildSet } from "../helpers";
-import { DeckObj, LoadingStatus, SortDirection } from "../interfaces";
-import { Archetype, Collection } from "../utils/api";
 import {
 	RankRange as RankRangeFilter,
 	TimeRange as TimeRangeFilter,
 } from "../filters";
-import PrettyTimeRange from "../components/text/PrettyTimeRange";
-import PrettyRankRange from "../components/text/PrettyRankRange";
+import { isWildSet } from "../helpers";
+import { DeckObj, LoadingStatus, SortDirection } from "../interfaces";
+import { Archetype, Collection } from "../utils/api";
 
 interface Props extends InjectedTranslateProps {
 	archetypeId: number;
@@ -481,7 +481,7 @@ class ArchetypeDetail extends React.Component<Props, State> {
 								collection={this.props.collection}
 							/>
 						</Tab>
-						<Tab label={t("Over time")} id="overtime">
+						<Tab label={t("Over Time")} id="overtime">
 							<div className="over-time-chart">
 								<AutoSizer>
 									{({ width }) => (

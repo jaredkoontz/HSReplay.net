@@ -27,6 +27,8 @@ import HideLoading from "../components/loading/HideLoading";
 import TableLoading from "../components/loading/TableLoading";
 import PremiumWrapper from "../components/premium/PremiumWrapper";
 import PrettyCardClass from "../components/text/PrettyCardClass";
+import PrettyRankRange from "../components/text/PrettyRankRange";
+import PrettyTimeRange from "../components/text/PrettyTimeRange";
 import { RankRange, TimeRange } from "../filters";
 import {
 	getChartScheme,
@@ -38,8 +40,6 @@ import {
 import { I18N_NAMESPACE_HEARTHSTONE } from "../i18n";
 import { RenderData, TableData } from "../interfaces";
 import { Collection } from "../utils/api";
-import PrettyTimeRange from "../components/text/PrettyTimeRange";
-import PrettyRankRange from "../components/text/PrettyRankRange";
 
 interface Props extends InjectedTranslateProps {
 	card: any;
@@ -367,7 +367,7 @@ class CardDetail extends React.Component<Props, State> {
 								setTab={this.props.setTab}
 							>
 								<Tab
-									label={t("Recommended decks")}
+									label={t("Recommended Decks")}
 									id="recommended-decks"
 									disabled={this.isArena()}
 								>
@@ -394,7 +394,7 @@ class CardDetail extends React.Component<Props, State> {
 								<Tab
 									label={
 										<span className="text-premium">
-											{t("Turn details")}
+											{t("Turn Details")}
 											<InfoIcon
 												header={t(
 													"Popularity and Winrate by turn",
@@ -419,7 +419,7 @@ class CardDetail extends React.Component<Props, State> {
 									id="class-distribution"
 									hidden={!this.cardIsNeutral()}
 								>
-									<h3>{t("Class distribution")}</h3>
+									<h3>{t("Class Distribution")}</h3>
 									<div id="class-chart">
 										<DataInjector
 											query={{
@@ -539,7 +539,7 @@ class CardDetail extends React.Component<Props, State> {
 									</DataInjector>
 								</Tab>
 								<Tab
-									label={t("Quest contributors")}
+									label={t("Quest Contributors")}
 									id="quest-contributors"
 									hidden={
 										!this.cardIsQuest() || this.isArena()
@@ -557,7 +557,7 @@ class CardDetail extends React.Component<Props, State> {
 									</DataInjector>
 								</Tab>
 								<Tab
-									label={t("Quest completion")}
+									label={t("Quest Completion")}
 									id="quest-completion"
 									hidden={
 										!this.cardIsQuest() || this.isArena()
