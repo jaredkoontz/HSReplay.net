@@ -1,8 +1,9 @@
 import React from "react";
-import BtnGroup from "../BtnGroup";
-import { CheckoutFormInstanceProps } from "./CheckoutForm";
+import { InjectedTranslateProps, Trans, translate } from "react-i18next";
 import UserData from "../../UserData";
+import BtnGroup from "../BtnGroup";
 import CSRFElement from "../CSRFElement";
+import { CheckoutFormInstanceProps } from "./CheckoutForm";
 
 export interface PaypalPlan {
 	paypalId: string;
@@ -11,7 +12,7 @@ export interface PaypalPlan {
 	currency: string;
 }
 
-interface Props extends CheckoutFormInstanceProps {
+interface Props extends CheckoutFormInstanceProps, InjectedTranslateProps {
 	plans: PaypalPlan[];
 	showCouponWarning?: boolean;
 }
@@ -21,7 +22,7 @@ interface State {
 	submit?: boolean;
 }
 
-export default class PaypalCheckoutForm extends React.Component<Props, State> {
+class PaypalCheckoutForm extends React.Component<Props, State> {
 	form: HTMLFormElement;
 
 	constructor(props: Props, context?: any) {
@@ -67,19 +68,23 @@ export default class PaypalCheckoutForm extends React.Component<Props, State> {
 
 		return (
 			<p className="alert alert-warning">
-				We currently don't support coupons for PayPal payments.<br />
-				<strong>You will be charged the full amount.</strong>
+				<Trans>
+					We currently don't support coupons for PayPal payments.<br />
+					<strong>You will be charged the full amount.</strong>
+				</Trans>
 			</p>
 		);
 	}
 
 	renderGeolocationWarning() {
+		const { t } = this.props;
 		const country = UserData.getIpCountry();
 		if (!country) {
 			return null;
 		}
 
 		switch (country.toUpperCase()) {
+			/* FIXME i18n */
 			case "DE":
 				return (
 					<p className="alert alert-danger">
@@ -91,9 +96,9 @@ export default class PaypalCheckoutForm extends React.Component<Props, State> {
 						</em>
 						<br />
 						<br />
-						PayPal payments are not currently supported for German
-						PayPal accounts. You may not be able to complete the
-						payment. Consider using a different payment method.
+						{t(
+							"PayPal payments are not currently supported for German PayPal accounts. You may not be able to complete the payment. Consider using a different payment method.",
+						)}
 					</p>
 				);
 			case "CN":
@@ -104,9 +109,9 @@ export default class PaypalCheckoutForm extends React.Component<Props, State> {
 						</em>
 						<br />
 						<br />
-						PayPal payments are not currently supported for Chinese
-						PayPal accounts. You may not be able to complete the
-						payment. Consider using a different payment method.
+						{t(
+							" PayPal payments are not currently supported for Chinese PayPal accounts. You may not be able to complete the payment. Consider using a different payment method.",
+						)}
 					</p>
 				);
 			default:
@@ -115,6 +120,7 @@ export default class PaypalCheckoutForm extends React.Component<Props, State> {
 	}
 
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		const working = this.state.submit;
 		return (
 			<form
@@ -125,7 +131,7 @@ export default class PaypalCheckoutForm extends React.Component<Props, State> {
 			>
 				<div style={{ margin: "25px 0 10px 0" }}>
 					<label htmlFor="paypal-plan" id="choose-plan">
-						Choose your plan
+						{t("Choose your plan")}
 					</label>
 					<BtnGroup
 						className="btn-group btn-group-flex"
@@ -143,8 +149,9 @@ export default class PaypalCheckoutForm extends React.Component<Props, State> {
 				</div>
 				<div style={{ margin: "0 0 20px 0" }}>
 					<em>
-						*Includes an additional $0.50 USD processing fee (PayPal
-						only).
+						{t(
+							"*Includes an additional $0.50 USD processing fee (PayPal only).",
+						)}
 					</em>
 				</div>
 				{this.renderCouponWarning()}
@@ -155,7 +162,9 @@ export default class PaypalCheckoutForm extends React.Component<Props, State> {
 						onClick={() => this.submit()}
 						disabled={working}
 					>
-						{!working ? "Pay with PayPal" : "Waiting for PayPal"}
+						{!working
+							? t("Pay with PayPal")
+							: t("Waiting for PayPal")}
 					</button>
 				</p>
 				<CSRFElement />
@@ -163,3 +172,4 @@ export default class PaypalCheckoutForm extends React.Component<Props, State> {
 		);
 	}
 }
+export default translate()(PaypalCheckoutForm);

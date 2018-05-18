@@ -1,4 +1,5 @@
 import React from "react";
+import { InjectedTranslateProps, translate } from "react-i18next";
 
 interface Page {
 	number?: number;
@@ -6,14 +7,14 @@ interface Page {
 	skip?: boolean;
 }
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	currentPage?: number;
 	setCurrentPage?: (page: number) => void;
 	pageCount?: number;
 	minimal?: boolean;
 }
 
-export default class Pager extends React.Component<Props> {
+class Pager extends React.Component<Props> {
 	public render(): React.ReactNode {
 		if (
 			typeof this.props.pageCount === "number" &&
@@ -25,6 +26,7 @@ export default class Pager extends React.Component<Props> {
 		const safeCurrentPage = this.getCurrentPage();
 
 		const pages = [];
+		const { t } = this.props;
 		let lastPage: number | null = null;
 		for (const page of this.getPagesToShow()) {
 			if (lastPage !== null && lastPage + 1 !== page) {
@@ -108,10 +110,10 @@ export default class Pager extends React.Component<Props> {
 									(!this.props.minimal ? " hidden-lg" : "")
 								}
 							>
-								Previous
+								{t("Previous")}
 							</span>
 						</>,
-						{ title: "Previous page" },
+						{ title: t("Previous page") },
 					)}
 					{!this.props.minimal
 						? pages.map((page: Page, index: number) => {
@@ -136,7 +138,9 @@ export default class Pager extends React.Component<Props> {
 												true,
 											)}
 											className="fixed-width"
-											aria-label={"Page " + pageNumber}
+											aria-label={t("Page {pageNumber}", {
+												pageNumber,
+											})}
 										>
 											{pageNumber}{" "}
 											{page.active ? (
@@ -185,11 +189,11 @@ export default class Pager extends React.Component<Props> {
 									(!this.props.minimal ? " hidden-lg" : "")
 								}
 							>
-								Next
+								{t("Next")}
 							</span>
 							<span className="glyphicon glyphicon-arrow-right" />
 						</>,
-						{ title: "Next page" },
+						{ title: t("Next page") },
 					)}
 				</ul>
 			</nav>
@@ -269,3 +273,4 @@ export default class Pager extends React.Component<Props> {
 		return pages;
 	}
 }
+export default translate()(Pager);

@@ -1,9 +1,10 @@
 import React from "react";
+import { InjectedTranslateProps, Trans, translate } from "react-i18next";
 import { CardElement, injectStripe } from "react-stripe-elements";
-import BtnGroup from "../BtnGroup";
-import { CheckoutFormInstanceProps } from "./CheckoutForm";
 import UserData from "../../UserData";
+import BtnGroup from "../BtnGroup";
 import CSRFElement from "../CSRFElement";
+import { CheckoutFormInstanceProps } from "./CheckoutForm";
 
 const enum StripeCheckoutStep {
 	READY_TO_PAY,
@@ -19,7 +20,7 @@ export interface StripePlan {
 	currency: string;
 }
 
-interface Props extends CheckoutFormInstanceProps {
+interface Props extends CheckoutFormInstanceProps, InjectedTranslateProps {
 	plans: StripePlan[];
 	defaultSource?: string;
 	coupon?: string;
@@ -187,7 +188,7 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 	private static getButtonMessage(step: StripeCheckoutStep) {
 		switch (step) {
 			case StripeCheckoutStep.READY_TO_PAY:
-				return "Pay Now";
+				return "Pay now";
 			case StripeCheckoutStep.CONFIRM_3D_SECURE:
 				return "Continue";
 			case StripeCheckoutStep.WORKING:
@@ -247,9 +248,11 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 				className="alert alert-success text-center"
 				style={{ marginTop: "20px" }}
 			>
-				You have an active coupon for{" "}
-				<strong>{this.props.coupon}</strong>.<br />
-				This amount will be deducted from your purchase.
+				<Trans>
+					You have an active coupon for{" "}
+					<strong>{this.props.coupon}</strong>.<br />
+					This amount will be deducted from your purchase.
+				</Trans>
 			</p>
 		);
 	}
@@ -267,6 +270,7 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 	}
 
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		let message = null;
 		const disabled = this.state.step !== StripeCheckoutStep.READY_TO_PAY;
 
@@ -283,9 +287,9 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 			case StripeCheckoutStep.CONFIRM_3D_SECURE:
 				message = (
 					<p className="alert alert-warning text-left">
-						Your card requires 3D Secure which we don't support at
-						this time. It is likely the payment will fail, but you
-						can try anyway.
+						{t(
+							"Your card requires 3D Secure which we don't support at this time. The payment may fail.",
+						)}
 					</p>
 				);
 				break;
@@ -327,7 +331,7 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 						width: "100%",
 					}}
 				>
-					<label htmlFor="stripe-email">Email address</label>
+					<label htmlFor="stripe-email">{t("Email address")}</label>
 					<div style={{ width: "100%" }}>
 						<input
 							id="stripe-email"
@@ -344,12 +348,12 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 							}
 						/>
 						<p className="help-block">
-							We'll send your invoices here.
+							{t("We'll send your invoices here.")}
 						</p>
 					</div>
 				</div>
 				<div style={{ margin: "25px auto" }}>
-					<label htmlFor="stripe-email">Payment details</label>
+					<label htmlFor="stripe-email">{t("Payment details")}</label>
 					<div
 						style={Object.assign(
 							{
@@ -406,8 +410,9 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 						message
 					) : (
 						<p className="help-block">
-							Transmitted securely to our payment provider. We
-							don't store these.
+							{t(
+								"Transmitted securely to our payment provider. We don't store these.",
+							)}
 						</p>
 					)}
 				</div>
@@ -429,4 +434,4 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 	}
 }
 
-export default injectStripe(StripeElementsCheckoutForm);
+export default injectStripe(translate()(StripeElementsCheckoutForm));

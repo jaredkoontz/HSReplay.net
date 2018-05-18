@@ -1,17 +1,19 @@
 import React from "react";
+import { InjectedTranslateProps, translate } from "react-i18next";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	query: string;
 	setQuery: (query: string) => void;
 }
 
-export default class GameHistorySearch extends React.Component<Props> {
+class GameHistorySearch extends React.Component<Props> {
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		return (
 			<div className="search-wrapper">
 				<input
 					type="search"
-					placeholder="Search for players…"
+					placeholder={t("Search for players…")}
 					className="form-control"
 					value={this.props.query || ""}
 					onChange={(e: any) => this.props.setQuery(e.target.value)}
@@ -20,3 +22,4 @@ export default class GameHistorySearch extends React.Component<Props> {
 		);
 	}
 }
+export default translate()(GameHistorySearch);

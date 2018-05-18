@@ -1,12 +1,12 @@
 import React from "react";
-import GameHistoryItem from "./GameHistoryItem";
+import { PlayState } from "../../hearthstone";
 import {
 	CardArtProps,
 	GameReplay,
 	GlobalGamePlayer,
 	ImageProps,
 } from "../../interfaces";
-import { PlayState } from "../../hearthstone";
+import GameHistoryItem from "./GameHistoryItem";
 
 interface Props extends ImageProps, CardArtProps {
 	games: GameReplay[];
@@ -63,22 +63,22 @@ export default class GameHistoryList extends React.Component<Props> {
 	}
 
 	public static hasWon(
-		friendly_player: GlobalGamePlayer,
-		opposing_player: GlobalGamePlayer,
+		friendlyPlayer: GlobalGamePlayer,
+		opposingPlayer: GlobalGamePlayer,
 	): boolean | null {
-		if (!friendly_player) {
+		if (!friendlyPlayer) {
 			return null;
 		}
 		if (
 			[PlayState.WINNING, PlayState.WON].indexOf(
-				friendly_player.final_state,
+				friendlyPlayer.final_state,
 			) !== -1
 		) {
 			return true;
 		}
 		if (
 			[PlayState.LOSING, PlayState.LOST].indexOf(
-				friendly_player.final_state,
+				friendlyPlayer.final_state,
 			) !== -1
 		) {
 			return false;

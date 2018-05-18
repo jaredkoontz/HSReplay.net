@@ -1,11 +1,12 @@
 import React from "react";
+import { InjectedTranslateProps, Trans, translate } from "react-i18next";
 import { AutoSizer } from "react-virtualized";
 import { toDynamicFixed } from "../../helpers";
 import { LoadingStatus } from "../../interfaces";
 import PrettyCardClass from "../text/PrettyCardClass";
 import PopularityLineChart from "./PopularityLineChart";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	chartData?: any;
 	href: string;
 	onClick?: () => void;
@@ -14,8 +15,9 @@ interface Props {
 	status?: LoadingStatus;
 }
 
-export default class PopularityBox extends React.Component<Props> {
+class PopularityBox extends React.Component<Props> {
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		let chart = null;
 		if (this.props.chartData) {
 			chart = (
@@ -34,20 +36,20 @@ export default class PopularityBox extends React.Component<Props> {
 		let content = null;
 		if (this.props.popularity !== undefined) {
 			content = (
-				<>
+				<Trans>
 					<h1>{toDynamicFixed(this.props.popularity, 2)}%</h1>,
 					<h3>
 						of{" "}
 						<PrettyCardClass cardClass={this.props.playerClass} />{" "}
 						decks
 					</h3>,
-				</>
+				</Trans>
 			);
 		} else if (
 			this.props.status === LoadingStatus.NO_DATA ||
 			this.props.status === LoadingStatus.PROCESSING
 		) {
-			content = "Please check back later";
+			content = t("Please check back later");
 		}
 
 		return (
@@ -62,7 +64,7 @@ export default class PopularityBox extends React.Component<Props> {
 						}
 					}}
 				>
-					<div className="box-title">Popularity</div>
+					<div className="box-title">{t("Popularity")}</div>
 					<div className="box-content">{content}</div>
 					<div className="box-chart">{chart}</div>
 				</a>
@@ -70,3 +72,5 @@ export default class PopularityBox extends React.Component<Props> {
 		);
 	}
 }
+
+export default translate()(PopularityBox);

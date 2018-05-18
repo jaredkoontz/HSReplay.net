@@ -1,10 +1,10 @@
 import React from "react";
-import ArchetypeSignature from "../archetypedetail/ArchetypeSignature";
 import CardData from "../../CardData";
-import Tooltip from "../Tooltip";
 import DataManager from "../../DataManager";
-import LoadingSpinner from "../LoadingSpinner";
 import { ArchetypeSignature as ApiArchetypeSignature } from "../../utils/api";
+import LoadingSpinner from "../LoadingSpinner";
+import Tooltip from "../Tooltip";
+import ArchetypeSignature from "../archetypedetail/ArchetypeSignature";
 
 interface Props {
 	cardData: CardData;
@@ -58,7 +58,7 @@ export default class ArchetypeSignatureTooltip extends React.Component<
 
 	renderTooltip(): JSX.Element {
 		if (!this.state.signature || !this.props.cardData) {
-			return <LoadingSpinner active={true} />;
+			return <LoadingSpinner active />;
 		}
 		return (
 			<div>

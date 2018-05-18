@@ -1,4 +1,5 @@
 import React from "react";
+import { InjectedTranslateProps, translate } from "react-i18next";
 import CardData from "../CardData";
 import { TableData } from "../interfaces";
 import CardRankingTableRow from "./CardRankingTableRow";
@@ -11,7 +12,7 @@ interface TooltipMap<T> {
 	winrate?: T;
 }
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	data?: TableData;
 	dataKey: string;
 	cardData: CardData;
@@ -23,7 +24,7 @@ interface State {
 	page: number;
 }
 
-export default class CardRankingTable extends React.Component<Props, State> {
+class CardRankingTable extends React.Component<Props, State> {
 	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
@@ -32,6 +33,7 @@ export default class CardRankingTable extends React.Component<Props, State> {
 	}
 
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		const tableRows = this.props.data.series.data[this.props.dataKey];
 		const hasWinrate = tableRows[0] && tableRows[0].win_rate;
 		const rowCount = tableRows.length;
@@ -56,12 +58,13 @@ export default class CardRankingTable extends React.Component<Props, State> {
 				}
 				return (
 					<CardRankingTableRow
+						key={row.dbf_id}
 						card={card}
 						customCardText={
 							isNoTarget
-								? "No Target"
+								? t("No target")
 								: isFace
-									? "Opponent Hero"
+									? t("Opponent hero")
 									: undefined
 						}
 						popularity={popularity}
@@ -91,11 +94,23 @@ export default class CardRankingTable extends React.Component<Props, State> {
 				<table className="table table-striped">
 					<thead>
 						<tr>
-							<th className="hidden-xs">Rank{tooltip("rank")}</th>
-							<th>Card{tooltip("card")}</th>
-							<th>Popularity{tooltip("popularity")}</th>
+							<th className="hidden-xs">
+								{t("Rank")}
+								{tooltip("rank")}
+							</th>
+							<th>
+								{t("Card")}
+								{tooltip("card")}
+							</th>
+							<th>
+								{t("Popularity")}
+								{tooltip("popularity")}
+							</th>
 							{hasWinrate ? (
-								<th>Winrate{tooltip("winrate")}</th>
+								<th>
+									{t("Winrate")}
+									{tooltip("winrate")}
+								</th>
 							) : null}
 						</tr>
 					</thead>
@@ -111,3 +126,4 @@ export default class CardRankingTable extends React.Component<Props, State> {
 		);
 	}
 }
+export default translate()(CardRankingTable);

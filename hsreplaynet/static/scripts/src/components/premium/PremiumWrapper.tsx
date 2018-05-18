@@ -1,13 +1,13 @@
-import React from "react";
 import PropTypes from "prop-types";
-import { Trans } from "react-i18next";
-import InfoIcon, { InfoIconProps } from "../InfoIcon";
+import React from "react";
+import { InjectedTranslateProps, Trans, translate } from "react-i18next";
 import UserData from "../../UserData";
 import { image } from "../../helpers";
+import InfoIcon, { InfoIconProps } from "../InfoIcon";
 import Modal from "../Modal";
 import PremiumModal from "./PremiumModal";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	analyticsLabel: string;
 	iconStyle?: any;
 	infoHeader?: InfoIconProps["header"];
@@ -23,7 +23,7 @@ interface State {
 
 const key = "hsreplaynet_premium_wrappers";
 
-export default class PremiumWrapper extends React.Component<Props, State> {
+class PremiumWrapper extends React.Component<Props, State> {
 	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
@@ -108,6 +108,7 @@ export default class PremiumWrapper extends React.Component<Props, State> {
 			infoHeader,
 			infoContent,
 			children,
+			t,
 			...childProps
 		} = this.props;
 
@@ -186,9 +187,7 @@ export default class PremiumWrapper extends React.Component<Props, State> {
 					<div className="premium-info">
 						<h4>{premium}</h4>
 						{this.state.touchCount > 0 ? (
-							<span>
-								<Trans>Tap for more details…</Trans>
-							</span>
+							<span>{t("Tap for more details…")}</span>
 						) : null}
 					</div>
 					{this.renderChildren(childProps)}
@@ -220,3 +219,4 @@ export default class PremiumWrapper extends React.Component<Props, State> {
 		return !UserData.isPremium();
 	}
 }
+export default translate()(PremiumWrapper);

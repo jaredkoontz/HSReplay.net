@@ -1,10 +1,11 @@
 import React from "react";
+import { InjectedTranslateProps, Trans, translate } from "react-i18next";
 import { AutoSizer } from "react-virtualized";
-import WinrateLineChart from "./WinrateLineChart";
 import { commaSeparate, toDynamicFixed, winrateData } from "../../helpers";
 import { LoadingStatus } from "../../interfaces";
+import WinrateLineChart from "./WinrateLineChart";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	chartData?: any;
 	games?: number;
 	href: string;
@@ -13,8 +14,9 @@ interface Props {
 	status?: LoadingStatus;
 }
 
-export default class WinrateBox extends React.Component<Props> {
+class WinrateBox extends React.Component<Props> {
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		let chart = null;
 		if (this.props.chartData) {
 			chart = (
@@ -36,17 +38,19 @@ export default class WinrateBox extends React.Component<Props> {
 			this.props.games !== undefined
 		) {
 			const wrData = winrateData(50, this.props.winrate, 3);
-			content = [
-				<h1 style={{ color: wrData.color }}>
-					{toDynamicFixed(this.props.winrate, 2)}%
-				</h1>,
-				<h3>over {commaSeparate(this.props.games)} games</h3>,
-			];
+			content = (
+				<Trans>
+					<h1 style={{ color: wrData.color }}>
+						{toDynamicFixed(this.props.winrate, 2)}%
+					</h1>,
+					<h3>over {commaSeparate(this.props.games)} games</h3>,
+				</Trans>
+			);
 		} else if (
 			this.props.status === LoadingStatus.NO_DATA ||
 			this.props.status === LoadingStatus.PROCESSING
 		) {
-			content = "Please check back later";
+			content = t("Please check back later");
 		}
 
 		return (
@@ -61,7 +65,7 @@ export default class WinrateBox extends React.Component<Props> {
 						}
 					}}
 				>
-					<div className="box-title">Winrate</div>
+					<div className="box-title">{t("Winrate")}</div>
 					<div className="box-content">{content}</div>
 					<div className="box-chart">{chart}</div>
 				</a>
@@ -69,3 +73,5 @@ export default class WinrateBox extends React.Component<Props> {
 		);
 	}
 }
+
+export default translate()(WinrateBox);

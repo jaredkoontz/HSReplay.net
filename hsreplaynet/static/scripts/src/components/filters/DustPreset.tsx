@@ -1,16 +1,18 @@
 import React from "react";
+import { InjectedTranslateProps, translate } from "react-i18next";
 import { getDustValue, image } from "../../helpers";
 import Tooltip from "../Tooltip";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	type: "common" | "rare" | "epic" | "legendary" | "owned";
 	onClick: (value: number) => void;
 	isActive: (value: number) => boolean;
 	value?: number;
 }
 
-export default class extends React.Component<Props> {
+class DustPreset extends React.Component<Props> {
 	render(): JSX.Element {
+		const { t } = this.props;
 		const owned = this.props.type === "owned";
 		const value = this.props.value || getDustValue(this.props.type);
 		const classNames = ["dust-preset"];
@@ -20,9 +22,10 @@ export default class extends React.Component<Props> {
 		const filename = owned
 			? "dust.png"
 			: `rarity-icons/rarity-${this.props.type}.png`;
-		const tooltip = `Spend ${
-			owned ? `all your Dust (${value})` : value + " dust"
-		}`;
+
+		const tooltip = owned
+			? t("Spend all your dust ({value})", { value })
+			: t("Spend {value} dust", { value });
 		return (
 			<Tooltip content={tooltip} simple noSrTooltip>
 				<img
@@ -34,3 +37,5 @@ export default class extends React.Component<Props> {
 		);
 	}
 }
+
+export default translate()(DustPreset);

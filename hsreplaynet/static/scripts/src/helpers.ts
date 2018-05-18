@@ -3,6 +3,7 @@ import CardData from "./CardData";
 import { Colors } from "./Colors";
 import Fragments from "./components/Fragments";
 import { wildSets } from "./contants";
+import { CardClass, Rarity } from "./hearthstone";
 import {
 	ChartMetaData,
 	ChartScheme,
@@ -12,7 +13,6 @@ import {
 	GlobalGamePlayer,
 } from "./interfaces";
 import { Archetype } from "./utils/api";
-import { CardClass, Rarity } from "./hearthstone";
 import { getCardClass, getRarity } from "./utils/enums";
 
 export function staticFile(file: string) {
@@ -383,12 +383,14 @@ export function sliceZeros(input: string): string {
 				.join("");
 }
 
+/* FIXME i18n */
 export function toPrettyNumber(n: number): string {
 	const divisor = Math.max(10 ** (Math.floor(Math.log10(n)) - 1), 1);
 	n = Math.floor(n / divisor) * divisor;
 	return commaSeparate(n);
 }
 
+/* FIXME i18n */
 export function commaSeparate(n: number | string): string {
 	const str = typeof n === "string" ? n : n.toString();
 	return str.replace(/\B(?=(\d{3})+(?!\d))/g, ",");

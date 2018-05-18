@@ -26,6 +26,7 @@ export type CardTableColumnKey =
 
 const t = (s: string) => s;
 
+/* FIXME i18n */
 export const cardTableColumnData: {
 	[key in CardTableColumnKey]: TableColumn
 } = {

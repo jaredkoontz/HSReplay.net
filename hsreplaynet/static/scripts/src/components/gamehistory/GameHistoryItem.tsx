@@ -1,13 +1,14 @@
 import React from "react";
+import { InjectedTranslateProps, translate } from "react-i18next";
+import { PlayState } from "../../hearthstone";
 import { CardArtProps, GlobalGamePlayer, ImageProps } from "../../interfaces";
-import GameHistoryPlayer from "./GameHistoryPlayer";
 import GameModeIcon from "../GameModeIcon";
 import GameModeText from "../GameModeText";
-import { PlayState } from "../../hearthstone";
 import SemanticAge from "../text/SemanticAge";
 import SemanticDuration from "../text/SemanticDuration";
+import GameHistoryPlayer from "./GameHistoryPlayer";
 
-interface Props extends ImageProps, CardArtProps {
+interface Props extends ImageProps, CardArtProps, InjectedTranslateProps {
 	shortid: string;
 	startTime: Date;
 	endTime: Date;
@@ -20,12 +21,13 @@ interface Props extends ImageProps, CardArtProps {
 	opposingPlayer: GlobalGamePlayer;
 }
 
-export default class GameHistoryItem extends React.Component<Props> {
+class GameHistoryItem extends React.Component<Props> {
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		return (
 			<div className="col-xs-12 col-sm-6 col-md-4 col-lg-3 game-history-item">
 				<a
-					href={"/replay/" + this.props.shortid}
+					href={`/replay/${this.props.shortid}`}
 					className={
 						this.props.won !== null
 							? this.props.won
@@ -52,18 +54,18 @@ export default class GameHistoryItem extends React.Component<Props> {
 									cardArt={this.props.cardArt}
 									name={player.name}
 									heroId={player.hero_id}
-									won={player.final_state == PlayState.WON}
+									won={player.final_state === PlayState.WON}
 								/>
 							);
 						})}
 					</div>
 					<div className="hsreplay-details">
 						<dl>
-							<dt>Played</dt>
+							<dt>{t("Played")}</dt>
 							<dd>
 								<SemanticAge date={this.props.endTime} strict />
 							</dd>
-							<dt>Duration</dt>
+							<dt>{t("Duration")}</dt>
 							<dd>
 								<SemanticDuration
 									from={this.props.startTime}
@@ -71,8 +73,12 @@ export default class GameHistoryItem extends React.Component<Props> {
 									strict
 								/>
 							</dd>
-							<dt>Turns</dt>
-							<dd>{Math.ceil(this.props.turns / 2)} turns</dd>
+							<dt>{t("Turns")}</dt>
+							<dd>
+								{t("{turns} turns", {
+									turns: Math.ceil(this.props.turns / 2),
+								})}
+							</dd>
 						</dl>
 						<div>
 							<GameModeIcon
@@ -94,3 +100,4 @@ export default class GameHistoryItem extends React.Component<Props> {
 		);
 	}
 }
+export default translate()(GameHistoryItem);

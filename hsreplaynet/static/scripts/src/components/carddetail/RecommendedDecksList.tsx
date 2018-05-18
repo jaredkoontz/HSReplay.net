@@ -1,19 +1,21 @@
 import React from "react";
+import { InjectedTranslateProps, translate } from "react-i18next";
 import CardData from "../../CardData";
 import { DeckObj, TableData } from "../../interfaces";
 import { Collection } from "../../utils/api";
 import DeckList from "../DeckList";
 import Fragments from "../Fragments";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	card: any;
 	cardData: CardData;
 	data?: TableData;
 	collection: Collection | null;
 }
 
-export default class RecommendedDecksList extends React.Component<Props> {
+class RecommendedDecksList extends React.Component<Props> {
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		const decks: DeckObj[] = [];
 		const data = this.props.data.series.data;
 
@@ -49,7 +51,7 @@ export default class RecommendedDecksList extends React.Component<Props> {
 		});
 
 		if (!decks.length) {
-			return <h3 className="message-wrapper">No deck found</h3>;
+			return <h3 className="message-wrapper">{t("No deck found")}</h3>;
 		}
 
 		return (
@@ -70,3 +72,4 @@ export default class RecommendedDecksList extends React.Component<Props> {
 		);
 	}
 }
+export default translate()(RecommendedDecksList);

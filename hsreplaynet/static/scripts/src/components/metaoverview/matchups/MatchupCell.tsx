@@ -1,15 +1,16 @@
-import React from "react";
 import _ from "lodash";
-import { MatchupData } from "../../../interfaces";
+import React from "react";
+import { InjectedTranslateProps, translate } from "react-i18next";
+import { Colors } from "../../../Colors";
 import {
 	commaSeparate,
 	getColorString,
 	toDynamicFixed,
 } from "../../../helpers";
-import { Colors } from "../../../Colors";
+import { MatchupData } from "../../../interfaces";
 import Tooltip from "../../Tooltip";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	highlightColumn?: boolean;
 	highlightRow?: boolean;
 	matchupData: MatchupData;
@@ -17,11 +18,11 @@ interface Props {
 	style?: any;
 }
 
-export default class MatchupCell extends React.Component<Props> {
-	public static isEligibleMatchup(games: number): boolean {
-		return games >= 30;
-	}
+export function isEligibleMatchup(games: number): boolean {
+	return games >= 30;
+}
 
+class MatchupCell extends React.Component<Props> {
 	public shouldComponentUpdate(
 		nextProps: Readonly<Props>,
 		nextState: Readonly<{}>,
@@ -37,7 +38,7 @@ export default class MatchupCell extends React.Component<Props> {
 	}
 
 	public render(): React.ReactNode {
-		const { matchupData } = this.props;
+		const { matchupData, t } = this.props;
 		let label: string | JSX.Element = "";
 		const color = "black";
 		let backgroundColor = "white";
@@ -47,7 +48,7 @@ export default class MatchupCell extends React.Component<Props> {
 		if (matchupData.friendlyId === matchupData.opponentId) {
 			// mirror match
 			label = (
-				<Tooltip content="Mirror&nbsp;matchup" simple>
+				<Tooltip content={t("Mirror matchup")} simple>
 					<svg
 						viewBox={"0 0 10 10"}
 						style={{ height: "1em", verticalAlign: "middle" }}
@@ -66,7 +67,7 @@ export default class MatchupCell extends React.Component<Props> {
 				</Tooltip>
 			);
 			backgroundColor = "rgb(200,200,200)";
-		} else if (MatchupCell.isEligibleMatchup(matchupData.totalGames)) {
+		} else if (isEligibleMatchup(matchupData.totalGames)) {
 			// actual matchup
 			backgroundColor = getColorString(
 				Colors.REDORANGEGREEN,
@@ -90,7 +91,7 @@ export default class MatchupCell extends React.Component<Props> {
 							</span>
 							<table>
 								<tr>
-									<th>Versus:</th>
+									<th>{t("Versus:")}</th>
 									<td>
 										<span
 											className={
@@ -103,11 +104,11 @@ export default class MatchupCell extends React.Component<Props> {
 									</td>
 								</tr>
 								<tr>
-									<th>Winrate:</th>
+									<th>{t("Winrate:")}</th>
 									<td>{toDynamicFixed(winrate, 2)}%</td>
 								</tr>
 								<tr>
-									<th>Games:</th>
+									<th>{t("Games:")}</th>
 									<td>
 										{commaSeparate(
 											matchupData.totalGames || 0,
@@ -124,7 +125,7 @@ export default class MatchupCell extends React.Component<Props> {
 		} else {
 			// not enough data
 			label = (
-				<Tooltip content="Not enough games" simple>
+				<Tooltip content={t("Not enough games")} simple>
 					⁓
 				</Tooltip>
 			);
@@ -153,3 +154,4 @@ export default class MatchupCell extends React.Component<Props> {
 		);
 	}
 }
+export default translate()(MatchupCell);

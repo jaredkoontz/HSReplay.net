@@ -1,5 +1,6 @@
 import _ from "lodash";
 import React from "react";
+import { InjectedTranslateProps, Trans, translate } from "react-i18next";
 import CardData from "../../CardData";
 import DataManager from "../../DataManager";
 import { image } from "../../helpers";
@@ -25,7 +26,7 @@ interface CardCount {
 	[dbfId: string]: number;
 }
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	cardData: CardData;
 	numCards: number;
 }
@@ -46,7 +47,7 @@ const entranceAnimationOrder: GameType[] = [
 	"BGT_ARENA",
 ];
 
-export default class LiveData extends React.Component<Props, State> {
+class LiveData extends React.Component<Props, State> {
 	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
@@ -152,6 +153,7 @@ export default class LiveData extends React.Component<Props, State> {
 	}
 
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		if (!this.state.doUpdate) {
 			return null;
 		}
@@ -159,20 +161,22 @@ export default class LiveData extends React.Component<Props, State> {
 			<div className="container">
 				<header>
 					<h3>
-						<strong>Cards played</strong> by game mode over the last{" "}
-						<strong>5 minutes</strong>:
+						<Trans>
+							<strong>Cards played</strong> by game mode over the
+							last <strong>5 minutes</strong>:
+						</Trans>
 					</h3>
 				</header>
 				<div className="row">
 					{this.renderCardList(
 						"BGT_RANKED_STANDARD",
 						"standard",
-						"Ranked Standard",
+						t("Ranked Standard"),
 					)}
 					{this.renderCardList(
 						"BGT_RANKED_WILD",
 						"wild",
-						"Ranked Wild",
+						t("Ranked Wild"),
 					)}
 					{this.renderCardList("BGT_ARENA", "arena", "Arena")}
 				</div>
@@ -238,3 +242,4 @@ export default class LiveData extends React.Component<Props, State> {
 		);
 	}
 }
+export default translate()(LiveData);

@@ -1,7 +1,8 @@
 import clipboard from "clipboard-polyfill";
 import React from "react";
+import { InjectedTranslateProps, translate } from "react-i18next";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	url: string;
 	turn: number;
 	reveal?: boolean;
@@ -19,7 +20,7 @@ interface State {
 	confirming: boolean;
 }
 
-export default class ShareGameDialog extends React.Component<Props, State> {
+class ShareGameDialog extends React.Component<Props, State> {
 	private input: HTMLInputElement;
 	private timeout: number = null;
 
@@ -108,6 +109,7 @@ export default class ShareGameDialog extends React.Component<Props, State> {
 	}
 
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		const url = this.buildUrl();
 		return (
 			<form>
@@ -135,7 +137,9 @@ export default class ShareGameDialog extends React.Component<Props, State> {
 									type="button"
 									onClick={e => this.onCopy(e)}
 								>
-									{this.state.confirming ? "Copied!" : "Copy"}
+									{this.state.confirming
+										? t("Copied!")
+										: t("Copy")}
 								</button>
 							</span>
 						</div>
@@ -174,7 +178,7 @@ export default class ShareGameDialog extends React.Component<Props, State> {
 									checked={this.state.linkToTurn}
 									onChange={e => this.onChangeLinkToTurn()}
 								/>
-								Link to current turn
+								{t("Link to current turn")}
 							</label>
 						</div>
 					) : null}
@@ -198,3 +202,4 @@ export default class ShareGameDialog extends React.Component<Props, State> {
 		);
 	}
 }
+export default translate()(ShareGameDialog);

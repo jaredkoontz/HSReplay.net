@@ -1,5 +1,7 @@
 import React from "react";
-import ArchetypeMatrix from "./matchups/ArchetypeMatrix";
+import CardData from "../../CardData";
+import UserData from "../../UserData";
+import { getOtherArchetype } from "../../helpers";
 import {
 	ApiArchetypeMatchupData,
 	ApiArchetypePopularity,
@@ -7,13 +9,11 @@ import {
 	MatchupData,
 	SortDirection,
 } from "../../interfaces";
-import UserData from "../../UserData";
-import CardData from "../../CardData";
-import { withLoading } from "../loading/Loading";
-import { getOtherArchetype } from "../../helpers";
-import LowDataWarning from "./LowDataWarning";
 import { Archetype } from "../../utils/api";
-import MatchupCell from "./matchups/MatchupCell";
+import { withLoading } from "../loading/Loading";
+import LowDataWarning from "./LowDataWarning";
+import ArchetypeMatrix from "./matchups/ArchetypeMatrix";
+import { isEligibleMatchup } from "./matchups/MatchupCell";
 
 interface Props {
 	archetypeData?: any;
@@ -156,8 +156,7 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 					archetypeMatchup,
 				).filter(
 					([id, matchup]) =>
-						+id > 0 &&
-						MatchupCell.isEligibleMatchup(matchup.total_games),
+						+id > 0 && isEligibleMatchup(matchup.total_games),
 				);
 				if (!eligibleMatchups.length) {
 					return false;

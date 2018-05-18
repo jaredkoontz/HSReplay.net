@@ -1,6 +1,7 @@
 import React from "react";
+import { InjectedTranslateProps, Trans, translate } from "react-i18next";
 
-interface Props {}
+interface Props extends InjectedTranslateProps {}
 
 interface State {
 	error: Error | null;
@@ -8,7 +9,7 @@ interface State {
 	tracing: any | null;
 }
 
-export default class ErrorReporter extends React.Component<Props, State> {
+class ErrorReporter extends React.Component<Props, State> {
 	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
@@ -31,13 +32,14 @@ export default class ErrorReporter extends React.Component<Props, State> {
 	}
 
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		if (!this.state.error) {
 			return this.props.children;
 		}
 		return (
 			<div className="error-reporter">
 				<div className="container">
-					<h1>Something went wrong!</h1>
+					<h1>{t("Something went wrong!")}</h1>
 					{this.renderMessage()}
 				</div>
 			</div>
@@ -47,18 +49,18 @@ export default class ErrorReporter extends React.Component<Props, State> {
 	renderMessage() {
 		if (!this.state.tracing) {
 			return (
-				<>
+				<Trans>
 					<p>We were unable to report this issue automatically.</p>
 					<p>
 						Try disabling your adblocker or any similar browser
 						extensions and reload the page.
 					</p>
 					{this.renderError()}
-				</>
+				</Trans>
 			);
 		}
 		return (
-			<>
+			<Trans>
 				<p>
 					We've been notified about this issue and will be looking
 					into it.
@@ -70,7 +72,7 @@ export default class ErrorReporter extends React.Component<Props, State> {
 					</a>, please pass along the following event reference:
 				</p>
 				<pre>{this.state.tracing}</pre>
-			</>
+			</Trans>
 		);
 	}
 
@@ -83,7 +85,7 @@ export default class ErrorReporter extends React.Component<Props, State> {
 			message += this.state.errorInfo.componentStack;
 		}
 		return (
-			<>
+			<Trans>
 				<p>
 					If you keep seeing this message, please{" "}
 					<a href="/contact/" target="_blank">
@@ -92,7 +94,8 @@ export default class ErrorReporter extends React.Component<Props, State> {
 					with the following error:
 				</p>
 				<pre>{message}</pre>
-			</>
+			</Trans>
 		);
 	}
 }
+export default translate()(ErrorReporter);

@@ -1,22 +1,23 @@
-import React from "react";
-import CardData from "../../CardData";
-import { ClusterData, DeckData } from "./ClassAnalysis";
 import _ from "lodash";
-import CardList from "../CardList";
-import ClusterSignature from "./ClusterSignature";
-import { commaSeparate } from "../../helpers";
+import React from "react";
+import { InjectedTranslateProps, translate } from "react-i18next";
+import CardData from "../../CardData";
 import UserData from "../../UserData";
+import { commaSeparate } from "../../helpers";
 import { ArchetypeSignature } from "../../utils/api";
+import CardList from "../CardList";
+import { ClusterData, DeckData } from "./ClassAnalysis";
+import ClusterSignature from "./ClusterSignature";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	cardData: CardData | null;
 	clusterId: string;
 	data?: ClusterData;
 }
 
-export default class ClusterDetail extends React.Component<Props> {
+class ClusterDetail extends React.Component<Props> {
 	public render(): React.ReactNode {
-		const { cardData, clusterId, data } = this.props;
+		const { cardData, clusterId, data, t } = this.props;
 		const signature: ArchetypeSignature = {
 			as_of: null,
 			components: data.signatures[clusterId],
@@ -34,19 +35,19 @@ export default class ClusterDetail extends React.Component<Props> {
 			const eligibleDecks = decks.filter(d => d.metadata.games > 1000)
 				.length;
 			content.push(
-				<h2>Cluster Info</h2>,
+				<h2>{t("Cluster info")}</h2>,
 				<table className="table">
 					<tbody>
 						<tr>
-							<th>Total Games</th>
+							<th>{t("Total games")}</th>
 							<td>{commaSeparate(totalGames)}</td>
 						</tr>
 						<tr>
-							<th>Total Decks</th>
+							<th>{t("Total decks")}</th>
 							<td>{decks.length}</td>
 						</tr>
 						<tr>
-							<th>Eligible Decks</th>
+							<th>{t("Eligible decks")}</th>
 							<td>{eligibleDecks}</td>
 						</tr>
 					</tbody>
@@ -62,7 +63,7 @@ export default class ClusterDetail extends React.Component<Props> {
 					format: null,
 				};
 				content.push(
-					<h2>Weighted Signature</h2>,
+					<h2>{t("Weighted signature")}</h2>,
 					<ClusterSignature
 						cardData={cardData}
 						signature={cppSignature}
@@ -98,7 +99,7 @@ export default class ClusterDetail extends React.Component<Props> {
 					className="col-xs-12 col-sm-6 col-md-4"
 					style={{ maxWidth: 400 }}
 				>
-					<h2>Signature</h2>
+					<h2>{t("Signature")}</h2>
 					<ClusterSignature
 						cardData={cardData}
 						signature={signature}
@@ -109,8 +110,12 @@ export default class ClusterDetail extends React.Component<Props> {
 					className="col-xs-12 col-sm-6 col-md-4"
 					style={{ maxWidth: 300 }}
 				>
-					<h2>Most Popular Deck</h2>
-					<p className="text-center">{deck.metadata.games} games</p>
+					<h2>{t("Most popular deck")}</h2>
+					<p className="text-center">
+						{t("{numGames} games", {
+							numGames: deck.metadata.games,
+						})}
+					</p>
 					<CardList
 						cardData={cardData}
 						cardList={cardList}
@@ -122,3 +127,4 @@ export default class ClusterDetail extends React.Component<Props> {
 		);
 	}
 }
+export default translate()(ClusterDetail);

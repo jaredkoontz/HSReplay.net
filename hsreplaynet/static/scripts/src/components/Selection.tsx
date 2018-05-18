@@ -11,7 +11,7 @@ interface Props {
 	visible: Option[];
 	collapsed: Option[];
 	default?: string;
-	selectionChanged?: (string) => void;
+	selectionChanged?: (s) => void;
 	premiumAvailable?: boolean;
 }
 
@@ -80,21 +80,23 @@ export default class Selection extends React.Component<Props, State> {
 						</li>,
 					);
 				});
-			dropDown = [
-				<button
-					type="button"
-					className="btn btn-default dropdown-toggle"
-					data-toggle="dropdown"
-				>
-					<span className="caret" />
-				</button>,
-				<ul
-					className="dropdown-menu dropdown-menu-right"
-					style={{ paddingBottom: 0 }}
-				>
-					{items}
-				</ul>,
-			];
+			dropDown = (
+				<>
+					<button
+						type="button"
+						className="btn btn-default dropdown-toggle"
+						data-toggle="dropdown"
+					>
+						<span className="caret" />
+					</button>
+					<ul
+						className="dropdown-menu dropdown-menu-right"
+						style={{ paddingBottom: 0 }}
+					>
+						{items}
+					</ul>
+				</>
+			);
 		}
 
 		return (
@@ -117,7 +119,7 @@ export default class Selection extends React.Component<Props, State> {
 		const visibleOptions = this.props.visible.slice();
 		let collapsedOptions = this.props.collapsed.slice();
 		const collapsedSelected = this.props.collapsed.find(
-			x => x.key == this.state.selected,
+			x => x.key === this.state.selected,
 		);
 		if (collapsedSelected) {
 			collapsedOptions.unshift(visibleOptions.pop());

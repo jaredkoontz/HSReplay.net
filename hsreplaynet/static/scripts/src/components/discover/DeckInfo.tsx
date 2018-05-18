@@ -1,9 +1,10 @@
 import React from "react";
+import { InjectedTranslateProps, Trans, translate } from "react-i18next";
 import CardData from "../../CardData";
 import CardList from "../CardList";
 import { ClusterMetaData } from "./ClassAnalysis";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	cardData: CardData | null;
 	clusterColor: string;
 	deck: ClusterMetaData;
@@ -12,7 +13,7 @@ interface Props {
 	playerClass: string;
 }
 
-export default class DeckInfo extends React.Component<Props> {
+class DeckInfo extends React.Component<Props> {
 	public render(): React.ReactNode {
 		const {
 			cardData,
@@ -20,6 +21,7 @@ export default class DeckInfo extends React.Component<Props> {
 			deck,
 			height,
 			playerClass,
+			t,
 		} = this.props;
 		const infoboxClassNames = ["infobox"];
 
@@ -29,8 +31,10 @@ export default class DeckInfo extends React.Component<Props> {
 			content = (
 				<div className="no-deck-message">
 					<p>
-						<strong>Hover</strong> any deck for more details.<br />
-						<strong>Click</strong> any deck to focus/defocus it.
+						<Trans>
+							<strong>Hover</strong> any deck for more details.<br />
+							<strong>Click</strong> any deck to focus/defocus it.
+						</Trans>
 					</p>
 				</div>
 			);
@@ -61,12 +65,12 @@ export default class DeckInfo extends React.Component<Props> {
 					className="btn btn-primary btn-deck-details"
 					href={`/decks/${deck.shortid}/`}
 				>
-					View Deck Details
+					{t("View deck details")}
 				</a>,
 				<h2 key="data-header">Data</h2>,
 				<ul key="data-list">
 					<li>
-						Games
+						{t("Games")}
 						<span className="infobox-value">{deck.games}</span>
 					</li>
 				</ul>,
@@ -84,3 +88,4 @@ export default class DeckInfo extends React.Component<Props> {
 		);
 	}
 }
+export default translate()(DeckInfo);

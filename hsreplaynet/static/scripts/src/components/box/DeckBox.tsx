@@ -1,9 +1,10 @@
 import React from "react";
+import { InjectedTranslateProps, translate } from "react-i18next";
 import { winrateData } from "../../helpers";
-import CardIcon from "../CardIcon";
 import { LoadingStatus } from "../../interfaces";
+import CardIcon from "../CardIcon";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	cards?: any[];
 	deckId?: string;
 	games?: number;
@@ -12,8 +13,9 @@ interface Props {
 	status?: LoadingStatus;
 }
 
-export default class DeckBox extends React.Component<Props> {
+class DeckBox extends React.Component<Props> {
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		let content = null;
 		let href = null;
 		if (
@@ -26,29 +28,31 @@ export default class DeckBox extends React.Component<Props> {
 				<CardIcon card={card} size={50} />
 			));
 			const wrData = winrateData(50, this.props.winrate, 3);
-			content = [
-				<div className="tech-cards">{cardIcons}</div>,
-				<div className="stats-table">
-					<table>
-						<tr>
-							<th>Winrate:</th>
-							<td style={{ color: wrData.color }}>
-								{this.props.winrate}%
-							</td>
-						</tr>
-						<tr>
-							<th>Games:</th>
-							<td>{this.props.games}</td>
-						</tr>
-					</table>
-				</div>,
-			];
+			content = (
+				<>
+					<div className="tech-cards">{cardIcons}</div>,
+					<div className="stats-table">
+						<table>
+							<tr>
+								<th>{t("Winrate:")}</th>
+								<td style={{ color: wrData.color }}>
+									{this.props.winrate}%
+								</td>
+							</tr>
+							<tr>
+								<th>{t("Games:")}</th>
+								<td>{this.props.games}</td>
+							</tr>
+						</table>
+					</div>
+				</>
+			);
 			href = `/decks/${this.props.deckId}/`;
 		} else if (
 			this.props.status === LoadingStatus.NO_DATA ||
 			this.props.status === LoadingStatus.PROCESSING
 		) {
-			content = "Please check back later";
+			content = t("Please check back later");
 		}
 
 		return (
@@ -61,3 +65,4 @@ export default class DeckBox extends React.Component<Props> {
 		);
 	}
 }
+export default translate()(DeckBox);

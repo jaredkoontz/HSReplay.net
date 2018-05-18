@@ -1,8 +1,8 @@
-import React from "react";
+import { CardData as HearthstoneJSONCardData } from "hearthstonejson-client";
 import _ from "lodash";
-import CardIcon from "./CardIcon";
-import ManaCurve from "./ManaCurve";
-import { CardObj, DeckObj } from "../interfaces";
+import React from "react";
+import { InjectedTranslateProps, translate } from "react-i18next";
+import UserData from "../UserData";
 import {
 	cardSorting,
 	compareDecks,
@@ -12,16 +12,17 @@ import {
 	image,
 	toPrettyNumber,
 } from "../helpers";
-import UserData from "../UserData";
-import Tooltip from "./Tooltip";
-import DataInjector from "./DataInjector";
-import SemanticAge from "./text/SemanticAge";
+import { CardObj, DeckObj } from "../interfaces";
 import { TwitchStreamPromotionEvents } from "../metrics/GoogleAnalytics";
-import { CardData as HearthstoneJSONCardData } from "hearthstonejson-client";
-import { getDustCostForCollection } from "../utils/collection";
 import { Collection, Stream } from "../utils/api";
+import { getDustCostForCollection } from "../utils/collection";
+import CardIcon from "./CardIcon";
+import DataInjector from "./DataInjector";
+import ManaCurve from "./ManaCurve";
+import Tooltip from "./Tooltip";
+import SemanticAge from "./text/SemanticAge";
 
-interface ExternalProps extends DeckObj {
+interface ExternalProps extends DeckObj, InjectedTranslateProps {
 	compareWith?: CardObj[];
 	archetypeName?: string;
 	hrefTab?: string;
@@ -59,6 +60,7 @@ class DeckTile extends React.Component<Props> {
 	}
 
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		const cards = this.props.cards || [];
 		const cardIcons = [];
 
@@ -178,9 +180,9 @@ class DeckTile extends React.Component<Props> {
 			: getDustCostForCollection(this.props.collection, this.props.cards);
 
 		const dustCostStyle = {
-			backgroundImage: canBeBuilt
-				? "url(/static/images/dust-check.png)"
-				: "url(/static/images/dust.png)",
+			backgroundImage: `url(${image(
+				canBeBuilt ? "dust-check.png" : "dust.png",
+			)})`,
 		};
 
 		const deckName = this.props.archetypeName
@@ -192,8 +194,8 @@ class DeckTile extends React.Component<Props> {
 			globalDataIndicator = (
 				<Tooltip
 					className="global-data-wrapper"
-					header="Global statistics available"
-					content="This deck is eligible for global statistics."
+					header={t("Global statistics available")}
+					content={t("This deck is eligible for global statistics.")}
 				>
 					<span className="glyphicon glyphicon-globe" />
 				</Tooltip>
@@ -287,9 +289,10 @@ class DeckTile extends React.Component<Props> {
 						<div className="col-lg-1 col-md-1 hidden-sm hidden-xs">
 							<div
 								className="duration"
-								title="Average game length"
+								title={t("Average game length")}
 							>
 								<span className="glyphicon glyphicon-time" />
+								{/* FIXME i18n (use date-fns) */}
 								{" " +
 									`${(this.props.duration / 60).toFixed(
 										1,
@@ -309,7 +312,7 @@ class DeckTile extends React.Component<Props> {
 	}
 }
 
-export default class InjectedDeckTile extends React.Component<ExternalProps> {
+class InjectedDeckTile extends React.Component<ExternalProps> {
 	public render(): React.ReactNode {
 		const props = _.omit(this.props, "children") as any;
 
@@ -346,3 +349,5 @@ export default class InjectedDeckTile extends React.Component<ExternalProps> {
 		);
 	}
 }
+
+export default translate()(InjectedDeckTile);
