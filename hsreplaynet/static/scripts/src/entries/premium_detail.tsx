@@ -28,7 +28,9 @@ window.onload = () => {
 	const checkoutRoot = document.getElementById("premium-detail-checkout");
 	if (checkoutRoot) {
 		ReactDOM.render(
-			<PremiumCheckout analyticsLabel={"Premium Detail"} preselect />,
+			<Root>
+				<PremiumCheckout analyticsLabel={"Premium Detail"} preselect />
+			</Root>,
 			checkoutRoot,
 		);
 	}
