@@ -55,31 +55,31 @@ const shared = {};
 function renderShareDialog() {
 	ReactDOM.render(
 		<I18nextProvider i18n={i18n} initialLanguage={UserData.getLocale()}>
-		<ShareGameDialog
-			url={document
-				.getElementById("share-game-dialog")
-				.getAttribute("data-url")}
-			showLinkToTurn
-			showPreservePerspective={false}
-			turn={embedder.turn}
-			reveal={embedder.reveal}
-			swap={embedder.swap}
-			onShare={(network: string, linkToTurn: boolean) => {
-				if (!metrics) {
-					return;
-				}
-				if (shared[network]) {
-					// deduplicate
-					return;
-				}
-				metrics.writePoint(
-					"shares",
-					{ count: 1, link_to_turn: linkToTurn },
-					{ network },
-				);
-				shared[network] = true;
-			}}
-		/>
+			<ShareGameDialog
+				url={document
+					.getElementById("share-game-dialog")
+					.getAttribute("data-url")}
+				showLinkToTurn
+				showPreservePerspective={false}
+				turn={embedder.turn}
+				reveal={embedder.reveal}
+				swap={embedder.swap}
+				onShare={(network: string, linkToTurn: boolean) => {
+					if (!metrics) {
+						return;
+					}
+					if (shared[network]) {
+						// deduplicate
+						return;
+					}
+					metrics.writePoint(
+						"shares",
+						{ count: 1, link_to_turn: linkToTurn },
+						{ network },
+					);
+					shared[network] = true;
+				}}
+			/>
 		</I18nextProvider>,
 		document.getElementById("share-game-dialog"),
 	);
