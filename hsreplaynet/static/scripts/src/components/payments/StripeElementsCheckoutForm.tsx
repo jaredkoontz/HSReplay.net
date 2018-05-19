@@ -339,6 +339,8 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 							style={{
 								padding: "9px",
 								width: "100%",
+								border: "solid 1px #ccc",
+								borderRadius: "none",
 							}}
 							placeholder="thelichking@example.com"
 							disabled={disabled}
