@@ -51,7 +51,7 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 			selectedPlan: this.props.plans
 				? this.props.plans[0].stripeId
 				: null,
-			email: UserData.getEmail(),
+			email: UserData.getEmail() || "",
 		};
 	}
 
@@ -344,10 +344,14 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 							}}
 							placeholder="thelichking@example.com"
 							disabled={disabled}
+							required
 							value={this.state.email}
 							onChange={e =>
 								this.setState({ email: e.target.value })
 							}
+							autoComplete="email"
+							autoCorrect="off"
+							spellCheck={false}
 						/>
 						<p className="help-block">
 							{t("We'll send your invoices here.")}
@@ -363,6 +367,11 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 								border: "solid 1px #ccc",
 								padding: "10px",
 							},
+							this.state.errorMessage
+								? {
+										border: "solid 1px #eb1c26",
+								  }
+								: {},
 							disabled
 								? {
 										backgroundColor: "#eee",
