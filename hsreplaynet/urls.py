@@ -2,15 +2,17 @@ from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib.flatpages.views import flatpage
 from django.contrib.sitemaps.views import sitemap
+from django.views.generic import RedirectView
 
 from .billing.views import PremiumDetailView
-from .games.views import AnnotatedReplayView, ReplayDetailView, ReplayEmbedView
 from .web.sitemap import SITEMAPS
 from .web.views import (
 	ArticlesRedirectView, DownloadsView, HomeView, PingView, SetLocaleView
 )
 from .web.views.profiles import PackListView
-from .web.views.replays import UploadDetailView
+from .web.views.replays import (
+	AnnotatedReplayView, MyReplaysView, ReplayDetailView, ReplayEmbedView, UploadDetailView
+)
 
 
 urlpatterns = [
@@ -25,6 +27,14 @@ urlpatterns = [
 	url(r"^i18n/setprefs/$", SetLocaleView.as_view()),
 	url(r"^ping/$", PingView.as_view()),
 	url(r"^premium/$", PremiumDetailView.as_view(), name="premium"),
+
+	# Replays
+	url(
+		r"^uploads/upload/(?P<shortid>[\w-]+)/$", UploadDetailView.as_view(),
+		name="upload_detail"
+	),
+	url(r"^games/$", RedirectView.as_view(pattern_name="my_replays", permanent=False)),
+	url(r"^games/mine/$", MyReplaysView.as_view(), name="my_replays"),
 	url(r"^replay/(?P<id>\w+)$", ReplayDetailView.as_view(), name="games_replay_view"),
 	url(
 		r"^replay/(?P<shortid>\w+)/annotated_xml$",
@@ -40,14 +50,9 @@ urlpatterns = [
 	url(r"^account/billing/", include("hsreplaynet.billing.urls")),
 	url(r"^comments/", include("django_comments.urls")),
 	url(r"^features/", include("hsreplaynet.features.urls")),
-	url(r"^games/", include("hsreplaynet.games.urls")),
 	url(r"^oauth2/", include("hearthsim.identity.oauth2.urls")),
 	url(r"^pages/", include("django.contrib.flatpages.urls")),
 	url(r"^ref/", include("django_reflinks.urls")),
-	url(
-		r"^uploads/upload/(?P<shortid>[\w-]+)/$", UploadDetailView.as_view(),
-		name="upload_detail"
-	),
 
 	# decks and cards
 	url(r"^", include("hsreplaynet.decks.urls")),
