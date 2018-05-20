@@ -44,9 +44,10 @@
 				</small>
 			</p>
 
-			<p class="form-group">
-				<label><input type="checkbox" required/> I agree to the <a href="{% url 'terms_of_service' %}">Terms of Service</a></label>.
-			</p>
+			<ul class="form-group">
+				<li class="checkbox"><label><input type="checkbox" required/> I agree to the <a href="{% url 'terms_of_service' %}">Terms of Service</a></label>.</li>
+				<li class="checkbox"><label><input type="checkbox" name="email_marketing"/> I want to receive product updates by email.</label> <em class="text-muted">(You can change this at any time)</em>.</li>
+			</ul>
 
 			<input type="submit" value="Sign up" class="btn btn-primary"/>
 		</form>

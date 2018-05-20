@@ -1,4 +1,5 @@
 from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
+from django.utils import timezone
 
 from hearthsim.identity.accounts.models import BlizzardAccount
 from hsreplaynet.utils import log
@@ -46,6 +47,14 @@ class BattleNetAdapter(DefaultSocialAccountAdapter):
 
 	def save_user(self, request, sociallogin, form=None):
 		user = super().save_user(request, sociallogin, form)
+
+		if "email" in request.POST:
+			marketing_prefs = request.POST.get("email_marketing", "") == "on"
+			user.settings["email"] = {
+				"marketing": marketing_prefs,
+				"updated": timezone.now().isoformat(),
+			}
+			user.save()
 
 		battletag = sociallogin.account.extra_data.get("battletag")
 		if battletag:
