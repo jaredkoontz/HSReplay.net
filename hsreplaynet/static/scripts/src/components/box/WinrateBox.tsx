@@ -40,7 +40,7 @@ class WinrateBox extends React.Component<Props> {
 			const wrData = winrateData(50, this.props.winrate, 3);
 			const winrate = (
 				<h1 style={{ color: wrData.color }}>
-					${toDynamicFixed(this.props.winrate, 2)}%
+					{toDynamicFixed(this.props.winrate, 2)}%
 				</h1>
 			);
 			const gameCount = commaSeparate(this.props.games);
