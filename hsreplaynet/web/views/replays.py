@@ -4,8 +4,7 @@ from django.shortcuts import render
 from django.views.generic import View
 
 from hsreplaynet.games.models import GameReplay
-
-from .models import UploadEvent
+from hsreplaynet.uploads.models import UploadEvent
 
 
 class UploadDetailView(View):

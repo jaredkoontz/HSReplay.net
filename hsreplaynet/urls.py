@@ -10,6 +10,7 @@ from .web.views import (
 	ArticlesRedirectView, DownloadsView, HomeView, PingView, SetLocaleView
 )
 from .web.views.profiles import PackListView
+from .web.views.replays import UploadDetailView
 
 
 urlpatterns = [
@@ -43,7 +44,10 @@ urlpatterns = [
 	url(r"^oauth2/", include("hearthsim.identity.oauth2.urls")),
 	url(r"^pages/", include("django.contrib.flatpages.urls")),
 	url(r"^ref/", include("django_reflinks.urls")),
-	url(r"^uploads/", include("hsreplaynet.uploads.urls")),
+	url(
+		r"^uploads/upload/(?P<shortid>[\w-]+)/$", UploadDetailView.as_view(),
+		name="upload_detail"
+	),
 
 	# decks and cards
 	url(r"^", include("hsreplaynet.decks.urls")),
