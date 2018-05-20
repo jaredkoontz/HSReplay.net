@@ -16,36 +16,38 @@ interface Props extends InjectedTranslateProps {
 class MatchupBox extends React.Component<Props> {
 	public render(): React.ReactNode {
 		const { t } = this.props;
-		let content = null;
+		let content: React.ReactNode = null;
 		if (
 			this.props.playerClass &&
 			this.props.games !== undefined &&
 			this.props.winrate !== undefined
 		) {
 			const wrData = winrateData(50, this.props.winrate, 3);
-			content = [
-				<div>
-					<span
-						className={`player-class ${this.props.playerClass.toLowerCase()}`}
-					>
-						{this.props.archetypeName}
-					</span>
-				</div>,
-				<div className="stats-table">
-					<table>
-						<tr>
-							<th>{t("Winrate:")}</th>
-							<td style={{ color: wrData.color }}>
-								{this.props.winrate}%
-							</td>
-						</tr>
-						<tr>
-							<th>{t("Games:")}</th>
-							<td>{this.props.games}</td>
-						</tr>
-					</table>
-				</div>,
-			];
+			content = (
+				<>
+					<div>
+						<span
+							className={`player-class ${this.props.playerClass.toLowerCase()}`}
+						>
+							{this.props.archetypeName}
+						</span>
+					</div>
+					<div className="stats-table">
+						<table>
+							<tr>
+								<th>{t("Winrate:")}</th>
+								<td style={{ color: wrData.color }}>
+									{this.props.winrate}%
+								</td>
+							</tr>
+							<tr>
+								<th>{t("Games:")}</th>
+								<td>{this.props.games}</td>
+							</tr>
+						</table>
+					</div>
+				</>
+			);
 		} else if (
 			this.props.status === LoadingStatus.NO_DATA ||
 			this.props.status === LoadingStatus.PROCESSING

@@ -2,9 +2,10 @@ import React from "react";
 import UserData from "../UserData";
 import { getCardUrl, getFragments } from "../helpers";
 import Tooltip from "./Tooltip";
+import { CardData } from "hearthstonejson-client";
 
 interface Props {
-	card: any;
+	card: CardData;
 	size?: number;
 	mark?: string;
 	markStyle?: any;

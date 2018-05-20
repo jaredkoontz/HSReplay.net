@@ -3,9 +3,10 @@ import { InjectedTranslateProps, translate } from "react-i18next";
 import { winrateData } from "../../helpers";
 import { LoadingStatus } from "../../interfaces";
 import CardIcon from "../CardIcon";
+import { CardData } from "hearthstonejson-client";
 
 interface Props extends InjectedTranslateProps {
-	cards?: any[];
+	cards?: CardData[];
 	deckId?: string;
 	games?: number;
 	title: string;
@@ -16,7 +17,7 @@ interface Props extends InjectedTranslateProps {
 class DeckBox extends React.Component<Props> {
 	public render(): React.ReactNode {
 		const { t } = this.props;
-		let content = null;
+		let content: React.ReactNode = null;
 		let href = null;
 		if (
 			this.props.cards &&
@@ -25,12 +26,12 @@ class DeckBox extends React.Component<Props> {
 			this.props.winrate !== undefined
 		) {
 			const cardIcons = this.props.cards.map(card => (
-				<CardIcon card={card} size={50} />
+				<CardIcon key={card.dbfId} card={card} size={50} />
 			));
 			const wrData = winrateData(50, this.props.winrate, 3);
 			content = (
 				<>
-					<div className="tech-cards">{cardIcons}</div>,
+					<div className="tech-cards">{cardIcons}</div>
 					<div className="stats-table">
 						<table>
 							<tr>
