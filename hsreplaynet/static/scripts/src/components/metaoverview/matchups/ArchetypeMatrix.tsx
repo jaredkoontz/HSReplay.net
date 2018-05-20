@@ -1,19 +1,20 @@
-import MatchupCell from "./MatchupCell";
-import React from "react";
-import SortHeader from "../../SortHeader";
-import CardData from "../../../CardData";
-import { AutoSizer, Grid, ScrollSync } from "react-virtualized";
-import { ArchetypeData, SortDirection } from "../../../interfaces";
 import scrollbarSize from "dom-helpers/util/scrollbarSize";
-import ColumnHeader from "./ColumnHeader";
-import RowHeader from "./RowHeader";
-import RowFooter from "./RowFooter";
-import ColumnFooter from "./ColumnFooter";
+import React from "react";
+import { InjectedTranslateProps, translate } from "react-i18next";
+import { AutoSizer, Grid, ScrollSync } from "react-virtualized";
+import CardData from "../../../CardData";
+import { ArchetypeData, SortDirection } from "../../../interfaces";
+import { Archetype } from "../../../utils/api";
 import ArchetypeSearch from "../../ArchetypeSearch";
 import InfoIcon from "../../InfoIcon";
-import { Archetype } from "../../../utils/api";
+import SortHeader from "../../SortHeader";
+import ColumnFooter from "./ColumnFooter";
+import ColumnHeader from "./ColumnHeader";
+import MatchupCell from "./MatchupCell";
+import RowFooter from "./RowFooter";
+import RowHeader from "./RowHeader";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	archetypes: ArchetypeData[];
 	allArchetypes: Archetype[];
 	cardData: CardData;
@@ -44,7 +45,7 @@ const cellHeight = 40;
 const footerCellHeight = 80;
 const spacerSize = 5;
 
-export default class ArchetypeMatrix extends React.Component<Props, State> {
+class ArchetypeMatrix extends React.Component<Props, State> {
 	private rowHeaders: Grid = null;
 	private matchupCells: Grid = null;
 	private rowFooters: Grid = null;
@@ -193,6 +194,7 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 	}
 
 	private renderEwrHeader(right: number): React.ReactNode {
+		const { t } = this.props;
 		if (this.props.simple) {
 			return null;
 		}
@@ -207,10 +209,12 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 			>
 				{this.getSortHeader(
 					"winrate",
-					"EWR",
+					t("EWR"),
 					null,
-					"Effective Winrate",
-					"The expected winrate against all active archetypes, weighted by their popularity.",
+					t("Effective Winrate"),
+					t(
+						"The expected winrate against all active archetypes, weighted by their popularity.",
+					),
 				)}
 			</div>
 		);
@@ -419,6 +423,7 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 	}
 
 	private renderLeftFooter(bottom: number): React.ReactNode {
+		const { t } = this.props;
 		if (this.props.simple) {
 			return null;
 		}
@@ -433,10 +438,12 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 			>
 				{this.getSortHeader(
 					"popularity",
-					"Popularity",
+					t("Popularity"),
 					null,
-					"Popularity on Ladder",
-					"The percentage of decks played that belong to this archetype.",
+					t("Popularity on Ladder"),
+					t(
+						"The percentage of decks played that belong to this archetype.",
+					),
 				)}
 				<label className="custom-weight-checkbox">
 					<input
@@ -450,8 +457,10 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 					/>
 					&nbsp;Custom&nbsp;weights&nbsp;
 					<InfoIcon
-						header="Custom weights"
-						content="Check this box to provide your own popularity weights, e.g. based on tournament popularity data you may have."
+						header={t("Custom weights")}
+						content={t(
+							"Check this box to provide your own popularity weights, e.g. based on tournament popularity data you may have.",
+						)}
 					/>
 				</label>
 			</div>
@@ -760,3 +769,5 @@ export default class ArchetypeMatrix extends React.Component<Props, State> {
 		);
 	}
 }
+
+export default translate()(ArchetypeMatrix);

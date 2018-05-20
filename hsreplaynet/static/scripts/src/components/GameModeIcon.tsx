@@ -1,9 +1,10 @@
 import React from "react";
-import { GlobalGamePlayer } from "../interfaces";
+import { InjectedTranslateProps, translate } from "react-i18next";
 import { BnetGameType } from "../hearthstone";
 import { image } from "../helpers";
+import { GlobalGamePlayer } from "../interfaces";
 
-export interface Props {
+export interface Props extends InjectedTranslateProps {
 	player: GlobalGamePlayer;
 	gameType: BnetGameType;
 	disconnected: boolean;
@@ -17,18 +18,19 @@ interface IconInfo {
 	text: string;
 }
 
-export default class GameModeIcon extends React.Component<Props> {
+class GameModeIcon extends React.Component<Props> {
 	isHeroicTavernBrawl(): boolean {
 		return this.props.scenarioId === 2109;
 	}
 
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		if (this.props.disconnected) {
 			return (
 				<img
 					src={image("dc.png")}
 					className={this.props.className}
-					alt="Disconnected"
+					alt={t("Disconnected")}
 				/>
 			);
 		}
@@ -53,13 +55,14 @@ export default class GameModeIcon extends React.Component<Props> {
 
 	private getIconInfo(gameType: BnetGameType): IconInfo {
 		const basePath = this.props.small ? "64x/" : "";
+		const { t } = this.props;
 		let imgPath = null;
 		let text = null;
 		switch (gameType) {
 			case BnetGameType.BGT_ARENA:
 				const wins = this.props.player ? this.props.player.wins + 1 : 1;
 				imgPath = "arena-medals/Medal_Key_" + wins + ".png";
-				text = "Arena";
+				text = t("Arena");
 				break;
 			case BnetGameType.BGT_RANKED_STANDARD:
 			case BnetGameType.BGT_RANKED_WILD:
@@ -69,12 +72,12 @@ export default class GameModeIcon extends React.Component<Props> {
 							"ranked-medals/Medal_Ranked_" +
 							this.props.player.rank +
 							".png";
-						text = "Ranked";
+						text = t("Ranked");
 						break;
 					}
 					if (this.props.player.legend_rank) {
 						imgPath = "ranked-medals/Medal_Ranked_Legend.png";
-						text = "Legend";
+						text = t("Legend");
 					}
 				}
 				break;
@@ -83,27 +86,27 @@ export default class GameModeIcon extends React.Component<Props> {
 			case BnetGameType.BGT_TAVERNBRAWL_PVP:
 				if (this.isHeroicTavernBrawl()) {
 					imgPath = "mode-icons/brawl_skull.png";
-					text = "Heroic Tavern Brawl";
+					text = t("Heroic Tavern Brawl");
 					break;
 				}
 				imgPath = "mode-icons/modeID_Brawl.png";
-				text = "Tavern Brawl";
+				text = t("Tavern Brawl");
 				break;
 			case BnetGameType.BGT_CASUAL_STANDARD:
 				imgPath = "mode-icons/casual.png";
-				text = "Casual";
+				text = t("Casual");
 				break;
 			case BnetGameType.BGT_CASUAL_WILD:
 				imgPath = "mode-icons/casual-wild.png";
-				text = "Casual (Wild)";
+				text = t("Casual (Wild)");
 				break;
 			case BnetGameType.BGT_VS_AI:
 				imgPath = "mode-icons/mode_ai.png";
-				text = "Adventure";
+				text = t("Adventure");
 				break;
 			case BnetGameType.BGT_FRIENDS:
 				imgPath = "mode-icons/mode_friendly.png";
-				text = "Friendly Challenge";
+				text = t("Friendly Challenge");
 				break;
 		}
 		if (!imgPath) {
@@ -113,3 +116,5 @@ export default class GameModeIcon extends React.Component<Props> {
 		return { imgPath, text };
 	}
 }
+
+export default translate()(GameModeIcon);

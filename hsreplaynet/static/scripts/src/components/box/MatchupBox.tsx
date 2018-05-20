@@ -1,8 +1,9 @@
 import React from "react";
+import { InjectedTranslateProps, translate } from "react-i18next";
 import { getArchetypeUrl, winrateData } from "../../helpers";
 import { LoadingStatus } from "../../interfaces";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	archetypeId?: number;
 	archetypeName?: string;
 	games?: number;
@@ -12,8 +13,9 @@ interface Props {
 	status?: LoadingStatus;
 }
 
-export default class MatchupBox extends React.Component<Props> {
+class MatchupBox extends React.Component<Props> {
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		let content = null;
 		if (
 			this.props.playerClass &&
@@ -32,13 +34,13 @@ export default class MatchupBox extends React.Component<Props> {
 				<div className="stats-table">
 					<table>
 						<tr>
-							<th>Winrate:</th>
+							<th>{t("Winrate:")}</th>
 							<td style={{ color: wrData.color }}>
 								{this.props.winrate}%
 							</td>
 						</tr>
 						<tr>
-							<th>Games:</th>
+							<th>{t("Games:")}</th>
 							<td>{this.props.games}</td>
 						</tr>
 					</table>
@@ -48,7 +50,7 @@ export default class MatchupBox extends React.Component<Props> {
 			this.props.status === LoadingStatus.NO_DATA ||
 			this.props.status === LoadingStatus.PROCESSING
 		) {
-			content = "Please check back later";
+			content = t("Please check back later");
 		}
 
 		let href = null;
@@ -69,3 +71,5 @@ export default class MatchupBox extends React.Component<Props> {
 		);
 	}
 }
+
+export default translate()(MatchupBox);

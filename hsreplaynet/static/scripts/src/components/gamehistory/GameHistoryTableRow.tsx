@@ -1,13 +1,14 @@
 import React from "react";
+import { InjectedTranslateProps, translate } from "react-i18next";
+import { toTitleCase } from "../../helpers";
 import { CardArtProps, GlobalGamePlayer, ImageProps } from "../../interfaces";
 import ClassIcon from "../ClassIcon";
 import GameModeIcon from "../GameModeIcon";
 import GameModeText from "../GameModeText";
 import SemanticAge from "../text/SemanticAge";
 import SemanticDuration from "../text/SemanticDuration";
-import { toTitleCase } from "../../helpers";
 
-interface Props extends ImageProps, CardArtProps {
+interface Props extends ImageProps, CardArtProps, InjectedTranslateProps {
 	shortid: string;
 	startTime: Date;
 	endTime: Date;
@@ -20,8 +21,9 @@ interface Props extends ImageProps, CardArtProps {
 	opposingPlayer: GlobalGamePlayer;
 }
 
-export default class GameHistoryTableRow extends React.Component<Props> {
+class GameHistoryTableRow extends React.Component<Props> {
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		const url = "/replay/" + this.props.shortid;
 		const result =
 			this.props.won !== null
@@ -57,9 +59,9 @@ export default class GameHistoryTableRow extends React.Component<Props> {
 				<div className={"match-table-cell " + result}>
 					{this.props.won !== null
 						? this.props.won
-							? "Won"
-							: "Lost"
-						: "Unknown"}
+							? t("Won")
+							: t("Lost")
+						: t("Unknown")}
 				</div>
 				<div className="match-table-cell">
 					<div className="match-table-game-type">
@@ -103,3 +105,5 @@ export default class GameHistoryTableRow extends React.Component<Props> {
 		return toTitleCase(player.hero_class_name);
 	}
 }
+
+export default translate()(GameHistoryTableRow);

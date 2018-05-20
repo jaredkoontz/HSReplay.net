@@ -1,6 +1,7 @@
 import React from "react";
+import { InjectedTranslateProps, translate } from "react-i18next";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	date: Date;
 	numArchetypes: number;
 }
@@ -9,15 +10,20 @@ const MIN_ARCHETYPES_THRESHOLD = 6;
 const SEVERE_MIN_ARCHETYPES_THRESHHOLD = 3;
 const SEASON_AGE_THRESHOLD = 7;
 
-export default class LowDataWarning extends React.Component<Props> {
+class LowDataWarning extends React.Component<Props> {
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		if (this.props.numArchetypes >= MIN_ARCHETYPES_THRESHOLD) {
 			return null;
 		}
 		const message =
 			this.props.date.getDate() < SEASON_AGE_THRESHOLD
-				? "Too few contributors at this rank(s) at this point in the season for reliable statistics."
-				: "Too few contributors at this rank(s) for reliable statistics.";
+				? t(
+						"Too few contributors at this rank(s) at this point in the season for reliable statistics.",
+				  )
+				: t(
+						"Too few contributors at this rank(s) for reliable statistics.",
+				  );
 
 		const classNames = ["low-data-warning"];
 		const belowThredhold =
@@ -29,9 +35,11 @@ export default class LowDataWarning extends React.Component<Props> {
 		return (
 			<div className={classNames.join(" ")}>
 				<span className={"glyphicon glyphicon-" + glyphicon} />
-				<strong>&nbsp;Low Data:&nbsp;</strong>
+				<strong>&nbsp;{t("Low Data:")}&nbsp;</strong>
 				{message}
 			</div>
 		);
 	}
 }
+
+export default translate()(LowDataWarning);

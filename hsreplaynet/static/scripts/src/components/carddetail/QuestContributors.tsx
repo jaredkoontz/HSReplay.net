@@ -79,9 +79,9 @@ class QuestContributors extends React.Component<Props, State> {
 		const headers: TableHeaderProps[] = [
 			{
 				sortKey: "card",
-				text: "Contributor",
+				text: t("Contributor"),
 				sortable: false,
-				infoHeader: "Contributor",
+				infoHeader: t("Contributor"),
 				infoText: (
 					<Trans>
 						<p>

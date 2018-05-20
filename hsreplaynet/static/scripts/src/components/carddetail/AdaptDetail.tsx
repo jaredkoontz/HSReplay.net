@@ -103,11 +103,11 @@ class AdaptDetail extends React.Component<Props, State> {
 		const headers: TableHeaderProps[] = [
 			{
 				sortKey: "rank",
-				text: "Rank",
+				text: t("Rank"),
 				sortable: false,
 				classNames: ["hidden-xs"],
 			},
-			{ sortKey: "adaptations", text: "Adaptations", sortable: false },
+			{ sortKey: "adaptations", text: t("Adaptations"), sortable: false },
 		];
 		Array.from({ length: adaptations - 1 }, (x, index) =>
 			headers.push({
@@ -117,8 +117,8 @@ class AdaptDetail extends React.Component<Props, State> {
 			}),
 		);
 		headers.push(
-			{ sortKey: "win_rate", text: "Winrate" },
-			{ sortKey: "popularity", text: "Popularity" },
+			{ sortKey: "win_rate", text: t("Winrate") },
+			{ sortKey: "popularity", text: t("Popularity") },
 		);
 
 		const table = (

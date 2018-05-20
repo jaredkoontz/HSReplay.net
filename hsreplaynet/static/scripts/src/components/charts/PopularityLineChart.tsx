@@ -1,8 +1,15 @@
-import _ from "lodash";
 import { addDays, format } from "date-fns";
+import _ from "lodash";
 import React from "react";
-import { VictoryArea, VictoryAxis, VictoryChart, VictoryLabel } from "victory";
-import { VictoryClipContainer, VictoryVoronoiContainer } from "victory";
+import { InjectedTranslateProps, translate } from "react-i18next";
+import {
+	VictoryArea,
+	VictoryAxis,
+	VictoryChart,
+	VictoryClipContainer,
+	VictoryLabel,
+	VictoryVoronoiContainer,
+} from "victory";
 import {
 	getChartMetaData,
 	sliceZeros,
@@ -12,7 +19,7 @@ import {
 import { RenderData } from "../../interfaces";
 import ChartHighlighter from "./ChartHighlighter";
 
-interface PopularityLineChartProps {
+interface PopularityLineChartProps extends InjectedTranslateProps {
 	data?: RenderData;
 	maxYDomain: 10 | 100;
 	widthRatio?: number;
@@ -22,9 +29,7 @@ interface PopularityLineChartProps {
 	scale?: string;
 }
 
-export default class PopularityLineChart extends React.Component<
-	PopularityLineChartProps
-> {
+class PopularityLineChart extends React.Component<PopularityLineChartProps> {
 	static defaultProps = {
 		scale: "sqrt",
 	};
@@ -33,6 +38,7 @@ export default class PopularityLineChart extends React.Component<
 	private readonly colorMax = "rgba(255, 128, 0, 1.0)";
 
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		const height = this.props.height || 150;
 		const width =
 			Math.max(0, this.props.width) ||
@@ -104,7 +110,7 @@ export default class PopularityLineChart extends React.Component<
 					<VictoryAxis
 						dependentAxis
 						scale={this.props.scale as any}
-						label={"Popularity"}
+						label={t("Popularity")}
 						axisLabelComponent={
 							<VictoryLabel
 								textAnchor="middle"
@@ -185,3 +191,5 @@ export default class PopularityLineChart extends React.Component<
 		);
 	}
 }
+
+export default translate()(PopularityLineChart);

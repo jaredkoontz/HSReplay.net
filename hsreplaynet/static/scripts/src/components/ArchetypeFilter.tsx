@@ -1,8 +1,9 @@
 import React from "react";
-import InfoboxFilterGroup from "./InfoboxFilterGroup";
+import { InjectedTranslateProps, translate } from "react-i18next";
 import InfoboxFilter from "./InfoboxFilter";
+import InfoboxFilterGroup from "./InfoboxFilterGroup";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	archetypes: any[];
 	playerClasses: string[];
 	selectedArchetypes: string[];
@@ -10,7 +11,7 @@ interface Props {
 	data?: any;
 }
 
-export default class ArchetypeFilter extends React.Component<Props> {
+class ArchetypeFilter extends React.Component<Props> {
 	public render(): React.ReactNode {
 		const {
 			archetypes,
@@ -18,6 +19,7 @@ export default class ArchetypeFilter extends React.Component<Props> {
 			data,
 			playerClasses,
 			selectedArchetypes,
+			t,
 		} = this.props;
 		if (!data) {
 			return null;
@@ -56,7 +58,7 @@ export default class ArchetypeFilter extends React.Component<Props> {
 			});
 			playerClasses.forEach(playerClass => {
 				if (others[playerClass]) {
-					addFilter(others[playerClass], playerClass, "Other");
+					addFilter(others[playerClass], playerClass, t("Other"));
 				}
 			});
 		}
@@ -91,3 +93,5 @@ export default class ArchetypeFilter extends React.Component<Props> {
 		);
 	}
 }
+
+export default translate()(ArchetypeFilter);

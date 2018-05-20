@@ -1,13 +1,14 @@
 import React from "react";
+import { InjectedTranslateProps, Trans, translate } from "react-i18next";
+import { Elements, StripeProvider } from "react-stripe-elements";
+import Stripe from "stripe";
+import UserData from "../../UserData";
+import BtnGroup from "../BtnGroup";
+import PaypalCheckoutForm, { PaypalPlan } from "./PaypalCheckoutForm";
 import StripeElementsCheckoutForm, {
 	StripePlan,
 } from "./StripeElementsCheckoutForm";
-import PaypalCheckoutForm, { PaypalPlan } from "./PaypalCheckoutForm";
-import BtnGroup from "../BtnGroup";
-import UserData from "../../UserData";
 import StripeLegacyCheckoutForm from "./StripeLegacyCheckoutForm";
-import { Elements, StripeProvider } from "react-stripe-elements";
-import Stripe from "stripe";
 
 export const enum PaymentMethod {
 	STRIPECHECKOUT = "stripe-checkout",
@@ -21,7 +22,7 @@ export interface CheckoutFormInstanceProps {
 	onSubscribe: (value: number) => any;
 }
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	defaultPaymentMethod?: PaymentMethod;
 	stripeApiKey: string;
 	stripeDefaultSource?: string;
@@ -42,7 +43,7 @@ interface State {
 	stripe: Stripe | null;
 }
 
-export default class CheckoutForm extends React.Component<Props, State> {
+class CheckoutForm extends React.Component<Props, State> {
 	static defaultProps = {
 		supportStripeElements: true,
 	};
@@ -76,6 +77,7 @@ export default class CheckoutForm extends React.Component<Props, State> {
 	}
 
 	getValidPaymentMethods() {
+		const { t } = this.props;
 		const methods = [];
 
 		if (this.props.supportStripeElements) {
@@ -83,8 +85,9 @@ export default class CheckoutForm extends React.Component<Props, State> {
 				method: PaymentMethod.CREDITCARD,
 				label: (
 					<strong>
-						<span className="glyphicon glyphicon-credit-card" />&nbsp;Credit
-						Card
+						<span className="glyphicon glyphicon-credit-card" />&nbsp;{t(
+							"Credit Card",
+						)}
 					</strong>
 				),
 			});
@@ -93,8 +96,9 @@ export default class CheckoutForm extends React.Component<Props, State> {
 				method: PaymentMethod.STRIPECHECKOUT,
 				label: (
 					<strong>
-						<span className="glyphicon glyphicon-credit-card" />&nbsp;Credit
-						Card
+						<span className="glyphicon glyphicon-credit-card" />&nbsp;{t(
+							"Credit Card",
+						)}
 					</strong>
 				),
 			});
@@ -105,7 +109,9 @@ export default class CheckoutForm extends React.Component<Props, State> {
 				method: PaymentMethod.PAYPAL,
 				label: (
 					<strong>
-						<span className="glyphicon glyphicon-lock" />&nbsp;PayPal
+						<span className="glyphicon glyphicon-lock" />&nbsp;{t(
+							"PayPal",
+						)}
 					</strong>
 				),
 			});
@@ -115,6 +121,7 @@ export default class CheckoutForm extends React.Component<Props, State> {
 	}
 
 	renderPaymentMethods() {
+		const { t } = this.props;
 		const methods = this.getValidPaymentMethods();
 
 		if (methods.length < 2) {
@@ -124,7 +131,7 @@ export default class CheckoutForm extends React.Component<Props, State> {
 
 		return (
 			<div style={{ textAlign: "center" }}>
-				<label id="payment-method">Payment method</label>
+				<label id="payment-method">{t("Payment method")}</label>
 				<BtnGroup
 					name="method"
 					className="btn-group btn-group-flex"
@@ -206,22 +213,29 @@ export default class CheckoutForm extends React.Component<Props, State> {
 				</main>
 				<footer>
 					<small className="help-block text-center">
-						By signing up you agree to our{" "}
-						<a href="/about/tos/" target="_blank">
-							Terms of Service
-						</a>.<br />
-						Subscriptions renew automatically and can be cancelled
-						any time from the{" "}
-						<a
-							href="https://hsreplay.net/account/billing/"
-							target="_blank"
-						>
-							billing settings
-						</a>{" "}
-						page.
+						<Trans>
+							By signing up you agree to our{" "}
+							<a href="/about/tos/" target="_blank">
+								Terms of Service
+							</a>.
+						</Trans>
+						<br />
+						<Trans>
+							Subscriptions renew automatically and can be
+							cancelled any time from the{" "}
+							<a
+								href="https://hsreplay.net/account/billing/"
+								target="_blank"
+							>
+								billing settings
+							</a>{" "}
+							page.
+						</Trans>
 					</small>
 				</footer>
 			</div>
 		);
 	}
 }
+
+export default translate()(CheckoutForm);

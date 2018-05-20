@@ -1,7 +1,8 @@
 import React from "react";
+import { InjectedTranslateProps, translate } from "react-i18next";
 import { image, toDynamicFixed, winrateData } from "../../helpers";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	href: string;
 	popularity?: number;
 	rank?: number;
@@ -10,8 +11,9 @@ interface Props {
 	type: "performance" | "popularity";
 }
 
-export default class RankBox extends React.Component<Props> {
+class RankBox extends React.Component<Props> {
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		let content = null;
 		if (
 			this.props.rank !== undefined &&
@@ -26,12 +28,14 @@ export default class RankBox extends React.Component<Props> {
 			if (this.props.type === "popularity") {
 				data = (
 					<span>
-						{toDynamicFixed(this.props.popularity, 2)}% of decks
+						{t("{n}% of decks", {
+							n: toDynamicFixed(this.props.popularity, 2),
+						})}
 					</span>
 				);
 			} else {
 				data = [
-					<span className="winrate">Winrate:</span>,
+					<span className="winrate">{t("Winrate:")}</span>,
 					<span style={{ color: wrData.color }}>
 						{toDynamicFixed(this.props.winrate, 2)}%
 					</span>,
@@ -44,7 +48,9 @@ export default class RankBox extends React.Component<Props> {
 					src={image(`ranked-medals/${rankMedalName}.png`)}
 				/>,
 				<h2>
-					{this.props.rank ? "Rank " + this.props.rank : "Legend"}
+					{this.props.rank
+						? t("Rank {n}", { n: this.props.rank })
+						: t("Legend")}
 				</h2>,
 				<div className="box-data">{data}</div>,
 			];
@@ -60,3 +66,5 @@ export default class RankBox extends React.Component<Props> {
 		);
 	}
 }
+
+export default translate()(RankBox);

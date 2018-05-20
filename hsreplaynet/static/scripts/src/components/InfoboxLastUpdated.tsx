@@ -1,28 +1,30 @@
 import React from "react";
-import { Trans } from "react-i18next";
-import HideLoading from "./loading/HideLoading";
+import { InjectedTranslateProps, Trans, translate } from "react-i18next";
 import DataInjector from "./DataInjector";
 import Tooltip from "./Tooltip";
+import HideLoading from "./loading/HideLoading";
 import SemanticAge from "./text/SemanticAge";
 import PropRemapper from "./utils/PropRemapper";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	fetchCondition?: boolean;
 	params: any;
 	url: string;
 	modify?: (data: any) => any;
 }
 
-export default class InfoboxLastUpdated extends React.Component<Props> {
+class InfoboxLastUpdated extends React.Component<Props> {
 	public render(): React.ReactNode {
-		const { fetchCondition, modify, params, url } = this.props;
+		const { fetchCondition, modify, params, t, url } = this.props;
 		return (
 			<li>
 				<Trans>Last updated</Trans>
 				<span className="infobox-value">
 					<Tooltip
-						header="Automatic updates"
-						content="This page is periodically updated as new data becomes available."
+						header={t("Automatic updates")}
+						content={t(
+							"This page is periodically updated as new data becomes available.",
+						)}
 					>
 						<DataInjector
 							fetchCondition={fetchCondition}
@@ -47,3 +49,5 @@ export default class InfoboxLastUpdated extends React.Component<Props> {
 		);
 	}
 }
+
+export default translate()(InfoboxLastUpdated);

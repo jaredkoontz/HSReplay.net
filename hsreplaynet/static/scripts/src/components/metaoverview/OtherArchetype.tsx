@@ -1,4 +1,5 @@
 import React from "react";
+import { Trans, translate } from "react-i18next";
 import Tooltip from "../Tooltip";
 import PrettyCardClass from "../text/PrettyCardClass";
 
@@ -7,7 +8,7 @@ interface Props {
 	playerClass: string;
 }
 
-export default class OtherArchetype extends React.Component<Props> {
+class OtherArchetype extends React.Component<Props> {
 	public render(): React.ReactNode {
 		const { name, playerClass } = this.props;
 		return (
@@ -15,12 +16,16 @@ export default class OtherArchetype extends React.Component<Props> {
 				header={name}
 				content={
 					<p>
-						This is a collection of all{" "}
-						<PrettyCardClass cardClass={playerClass} />
-						decks that do not fit into one of the popular
-						archetypes.
+						<Trans>
+							This is a collection of all
+							<PrettyCardClass cardClass={playerClass} />
+							decks that do not fit into one of the popular
+							archetypes.
+						</Trans>
+
 						<br />
-						<br />No archetype details are available.
+						<br />
+						<Trans>No archetype details are available.</Trans>
 					</p>
 				}
 			>
@@ -29,3 +34,5 @@ export default class OtherArchetype extends React.Component<Props> {
 		);
 	}
 }
+
+export default translate()(OtherArchetype);

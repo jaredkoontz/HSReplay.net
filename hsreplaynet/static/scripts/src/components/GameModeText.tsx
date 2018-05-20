@@ -1,20 +1,22 @@
 import React from "react";
-import { GlobalGamePlayer } from "../interfaces";
+import { InjectedTranslateProps, translate } from "react-i18next";
 import { BnetGameType } from "../hearthstone";
+import { GlobalGamePlayer } from "../interfaces";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	player: GlobalGamePlayer;
 	gameType: BnetGameType;
 	scenarioId: number;
 	className?: string;
 }
 
-export default class GameModeText extends React.Component<Props> {
+class GameModeText extends React.Component<Props> {
 	private isHeroicTavernBrawl(): boolean {
 		return +this.props.scenarioId === 2109;
 	}
 
 	private getIconInfo(): string {
+		const { t } = this.props;
 		if (!this.props.player) {
 			return null;
 		}
@@ -25,30 +27,30 @@ export default class GameModeText extends React.Component<Props> {
 				if (wins !== null || losses !== null) {
 					return +wins + " - " + +losses;
 				}
-				return "Arena";
+				return t("Arena");
 			case BnetGameType.BGT_RANKED_STANDARD:
 			case BnetGameType.BGT_RANKED_WILD:
 				if (this.props.player.rank) {
-					return "Rank " + this.props.player.rank;
+					return t("Rank {n}", { n: this.props.player.rank });
 				}
 				if (this.props.player.legend_rank) {
-					return "Rank " + this.props.player.legend_rank;
+					return t("Rank {n}", { n: this.props.player.legend_rank });
 				}
-				return "Ranked";
+				return t("Ranked");
 			case BnetGameType.BGT_CASUAL_STANDARD:
 			case BnetGameType.BGT_CASUAL_WILD:
-				return "Casual";
+				return t("Casual");
 			case BnetGameType.BGT_TAVERNBRAWL_1P_VERSUS_AI:
 			case BnetGameType.BGT_TAVERNBRAWL_2P_COOP:
 			case BnetGameType.BGT_TAVERNBRAWL_PVP:
 				if (this.isHeroicTavernBrawl()) {
-					return "Heroic Brawl";
+					return t("Heroic Brawl");
 				}
-				return "Brawl";
+				return t("Brawl");
 			case BnetGameType.BGT_VS_AI:
-				return "Adventure";
+				return t("Adventure");
 			case BnetGameType.BGT_FRIENDS:
-				return "Friendly";
+				return t("Friendly");
 			default:
 				return null;
 		}
@@ -62,3 +64,5 @@ export default class GameModeText extends React.Component<Props> {
 		return <div className={this.props.className}>{text}</div>;
 	}
 }
+
+export default translate()(GameModeText);

@@ -1,7 +1,8 @@
 import React from "react";
+import { InjectedTranslateProps, translate } from "react-i18next";
 import { default as UserData } from "../../UserData";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	next: string;
 }
 
@@ -11,7 +12,7 @@ interface State {
 	activeLanguage: string;
 }
 
-export default class LanguageSelector extends React.Component<Props, State> {
+class LanguageSelector extends React.Component<Props, State> {
 	private ref: HTMLElement;
 	private dropdownRef: HTMLElement;
 
@@ -89,6 +90,7 @@ export default class LanguageSelector extends React.Component<Props, State> {
 	public render(): React.ReactNode {
 		const classNames = ["dropdown-toggle"];
 		const open = this.state.expanded ? " open" : "";
+		const { t } = this.props;
 
 		return (
 			<li
@@ -107,7 +109,7 @@ export default class LanguageSelector extends React.Component<Props, State> {
 					<span className="glyphicon glyphicon-globe" />
 					<span>
 						{this.state.languages[this.state.activeLanguage] ||
-							"Language"}
+							t("Language")}
 					</span>{" "}
 					<span className="caret" />
 				</a>
@@ -116,3 +118,5 @@ export default class LanguageSelector extends React.Component<Props, State> {
 		);
 	}
 }
+
+export default translate()(LanguageSelector);

@@ -1,9 +1,10 @@
 import React from "react";
+import { InjectedTranslateProps, translate } from "react-i18next";
 import CardData from "../../CardData";
 import { cloneComponent } from "../../helpers";
 import { LoadingStatus, RenderData } from "../../interfaces";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	cardData?: CardData;
 	data?: RenderData;
 	dataKeys?: string[];
@@ -12,7 +13,7 @@ interface Props {
 	widthRatio?: number;
 }
 
-export default class ChartLoading extends React.Component<Props> {
+class ChartLoading extends React.Component<Props> {
 	public render(): React.ReactNode {
 		const width = 150 * (this.props.widthRatio || 2);
 		const loadingMessage = this.getLoadingMessage();
@@ -28,39 +29,40 @@ export default class ChartLoading extends React.Component<Props> {
 	}
 
 	getLoadingMessage(): JSX.Element {
+		const { t } = this.props;
 		switch (this.props.status) {
 			case LoadingStatus.LOADING:
 				return (
 					<h3 className="chart-message-wrapper" aria-busy="true">
-						Loading…
+						{t("Loading…")}
 					</h3>
 				);
 			case LoadingStatus.PROCESSING:
 				return (
 					<div className="chart-message-wrapper" aria-busy="true">
-						<h3>Loading…</h3>
+						<h3>{t("Loading…")}</h3>
 						<p>
-							<i>This may take a few seconds</i>
+							<i>{t("This may take a few seconds")}</i>
 						</p>
 					</div>
 				);
 			case LoadingStatus.NO_DATA:
 				return (
 					<h3 className="chart-message-wrapper">
-						No available data.
+						{t("No available data.")}
 					</h3>
 				);
 			case LoadingStatus.ERROR:
 				return (
 					<h3 className="chart-message-wrapper">
-						Something went wrong
+						{t("Something went wrong")}
 					</h3>
 				);
 		}
 		if (this.props.cardData === null) {
 			return (
 				<h3 className="chart-message-wrapper" aria-busy="true">
-					Loading…
+					{t("Loading…")}
 				</h3>
 			);
 		}
@@ -76,9 +78,13 @@ export default class ChartLoading extends React.Component<Props> {
 		});
 		if (noData) {
 			return (
-				<h3 className="chart-message-wrapper">No available data.</h3>
+				<h3 className="chart-message-wrapper">
+					{t("No available data.")}
+				</h3>
 			);
 		}
 		return null;
 	}
 }
+
+export default translate()(ChartLoading);

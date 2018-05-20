@@ -1,26 +1,27 @@
 import _ from "lodash";
 import React from "react";
+import { InjectedTranslateProps, translate } from "react-i18next";
 import {
 	VictoryArea,
 	VictoryAxis,
 	VictoryChart,
 	VictoryLabel,
 	VictoryScatter,
+	VictoryVoronoiContainer,
 } from "victory";
-import { VictoryVoronoiContainer } from "victory";
 import { getChartMetaData } from "../../helpers";
 import { RenderData } from "../../interfaces";
 import ChartHighlighter from "./ChartHighlighter";
 import WinLossGradient from "./gradients/WinLossGradient";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	data?: RenderData;
 	opponentClass?: string;
 	widthRatio?: number;
 	premiumLocked?: boolean;
 }
 
-export default class WinrateByTurnLineChart extends React.Component<Props> {
+class WinrateByTurnLineChart extends React.Component<Props> {
 	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
@@ -29,6 +30,7 @@ export default class WinrateByTurnLineChart extends React.Component<Props> {
 	}
 
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		const width = 150 * (this.props.widthRatio || 3);
 		const renderData = this.props.premiumLocked
 			? this.mockData
@@ -79,7 +81,7 @@ export default class WinrateByTurnLineChart extends React.Component<Props> {
 				<VictoryAxis
 					tickCount={series.data.length}
 					tickFormat={tick => tick}
-					label="Turn"
+					label={t("Turn")}
 					style={{
 						axisLabel: { fontSize },
 						tickLabels: { fontSize },
@@ -89,7 +91,7 @@ export default class WinrateByTurnLineChart extends React.Component<Props> {
 				/>
 				<VictoryAxis
 					dependentAxis
-					label="Winrate"
+					label={t("Winrate")}
 					axisLabelComponent={
 						<VictoryLabel
 							textAnchor="middle"
@@ -121,7 +123,7 @@ export default class WinrateByTurnLineChart extends React.Component<Props> {
 					symbol="circle"
 					scale="linear"
 					size={1}
-					labels={d => "Turn " + d.x + "\n" + d.y + "%"}
+					labels={d => t("Turn {x}\n{y}%", { x: d.x, y: d.y })}
 					labelComponent={
 						<ChartHighlighter xCenter={metaData.xCenter} />
 					}
@@ -184,3 +186,5 @@ export default class WinrateByTurnLineChart extends React.Component<Props> {
 		],
 	};
 }
+
+export default translate()(WinrateByTurnLineChart);

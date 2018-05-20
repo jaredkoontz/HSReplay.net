@@ -1,8 +1,9 @@
 import React from "react";
+import { InjectedTranslateProps, translate } from "react-i18next";
 import { fetchCSRF } from "../helpers";
 import { Archetype } from "../utils/api";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	archetypes?: Archetype[];
 	deckId: string;
 	defaultSelectedArchetype?: number;
@@ -13,7 +14,7 @@ interface State {
 	working: boolean;
 }
 
-export default class ArchetypeSelector extends React.Component<Props, State> {
+class ArchetypeSelector extends React.Component<Props, State> {
 	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
@@ -23,6 +24,7 @@ export default class ArchetypeSelector extends React.Component<Props, State> {
 	}
 
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		return (
 			<div className="dropdown">
 				<button
@@ -46,7 +48,7 @@ export default class ArchetypeSelector extends React.Component<Props, State> {
 							href="#"
 							onClick={e => this.onArchetypeClick(e, null)}
 						>
-							Remove Archetype
+							{t("Remove Archetype")}
 						</a>
 					</li>
 					<li role="separator" className="divider" />
@@ -69,13 +71,14 @@ export default class ArchetypeSelector extends React.Component<Props, State> {
 	}
 
 	selectedArchetype(): string {
+		const { t } = this.props;
 		if (!this.state.selectedArchetype) {
-			return "No Archetype";
+			return t("No Archetype");
 		}
 		const archetype = this.props.archetypes.find(
 			a => a.id === this.state.selectedArchetype,
 		);
-		return archetype ? archetype.name : "Unknown Archetype";
+		return archetype ? archetype.name : t("Unknown Archetype");
 	}
 
 	onArchetypeClick = (event: any, archetypeId: number | null) => {
@@ -108,3 +111,5 @@ export default class ArchetypeSelector extends React.Component<Props, State> {
 			});
 	};
 }
+
+export default translate()(ArchetypeSelector);

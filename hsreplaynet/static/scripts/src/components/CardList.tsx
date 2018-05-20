@@ -1,14 +1,15 @@
 import React from "react";
-import CardTile from "./CardTile";
-import { cardSorting } from "../helpers";
-import CopyDeckButton from "./CopyDeckButton";
+import { InjectedTranslateProps, translate } from "react-i18next";
 import CardData from "../CardData";
-import { isMissingCardFromCollection } from "../utils/collection";
+import { cardSorting } from "../helpers";
 import { Collection } from "../utils/api";
+import { isMissingCardFromCollection } from "../utils/collection";
+import CardTile from "./CardTile";
+import CopyDeckButton from "./CopyDeckButton";
 
 type CardId = string | number;
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	cardData: CardData | null;
 	cardList: CardId[];
 	predictedCardList?: CardId[];
@@ -24,7 +25,7 @@ interface Props {
 	collection?: Collection | null;
 }
 
-export default class CardList extends React.Component<Props> {
+class CardList extends React.Component<Props> {
 	cardCounts(cards: CardId[]): any {
 		if (!cards) {
 			return [];
@@ -35,11 +36,12 @@ export default class CardList extends React.Component<Props> {
 	}
 
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		if (!this.props.cardList) {
 			return null;
 		}
 		if (!this.props.cardData) {
-			return <div className="text-center">Loading cards…</div>;
+			return <div className="text-center">{t("Loading cards…")}</div>;
 		}
 
 		const { cardData, cardList, customCounts, sortByCount } = this.props;
@@ -103,7 +105,7 @@ export default class CardList extends React.Component<Props> {
 						height={cardHeight}
 						countBoxSize={customCounts && 50}
 						predicted={predicted}
-						subtitle={predicted ? "Predicted Card" : null}
+						subtitle={predicted ? t("Predicted Card") : null}
 						key={dbfIds ? card.dbfId : card.id}
 						craftable={isMissingCardFromCollection(
 							this.props.collection,
@@ -148,3 +150,5 @@ export default class CardList extends React.Component<Props> {
 		);
 	}
 }
+
+export default translate()(CardList);

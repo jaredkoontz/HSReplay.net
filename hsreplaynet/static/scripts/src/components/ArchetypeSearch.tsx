@@ -1,9 +1,10 @@
 import React from "react";
+import { InjectedTranslateProps, translate } from "react-i18next";
 import { cardSorting, cleanText } from "../helpers";
-import ObjectSearch, { Limit } from "./ObjectSearch";
 import { Archetype } from "../utils/api";
+import ObjectSearch, { Limit } from "./ObjectSearch";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	availableArchetypes: Archetype[];
 	selectedArchetypes?: Archetype[];
 	onArchetypeSelected?: (archetype: Archetype) => void;
@@ -12,8 +13,9 @@ interface Props {
 	label?: string;
 }
 
-export default class ArchetypeSearch extends React.Component<Props> {
+class ArchetypeSearch extends React.Component<Props> {
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		return (
 			<ArchetypeObjectSearch
 				getFilteredObjects={query => this.getFilteredArchetypes(query)}
@@ -23,11 +25,11 @@ export default class ArchetypeSearch extends React.Component<Props> {
 				getObjectKey={archetype => "" + archetype.id}
 				id={this.props.id}
 				label={this.props.label}
-				noDataText="No archetype found"
+				noDataText={t("No archetype found")}
 				objectLimit={Limit.SINGLE}
 				onObjectsChanged={this.props.onArchetypesChanged}
 				onObjectSelected={this.props.onArchetypeSelected}
-				placeholder="Set favorite..."
+				placeholder={t("Set favorite...")}
 				selectedObjects={this.props.selectedArchetypes}
 				sorting={cardSorting}
 				showOnFocus
@@ -64,3 +66,5 @@ export default class ArchetypeSearch extends React.Component<Props> {
 
 // tslint:disable-next-line:max-classes-per-file
 class ArchetypeObjectSearch extends ObjectSearch<Archetype> {}
+
+export default translate()(ArchetypeSearch);

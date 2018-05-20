@@ -1,10 +1,11 @@
-import React from "react";
 import _ from "lodash";
+import React from "react";
+import { InjectedTranslateProps, translate } from "react-i18next";
+import { getHeroClassName, image } from "../../../helpers";
 import { ArchetypeData } from "../../../interfaces";
 import Tooltip from "../../Tooltip";
-import { getHeroClassName, image } from "../../../helpers";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	archetypeData: ArchetypeData;
 	highlight?: boolean;
 	isIgnored: boolean;
@@ -12,7 +13,7 @@ interface Props {
 	style?: any;
 }
 
-export default class ColumnHeader extends React.Component<Props> {
+class ColumnHeader extends React.Component<Props> {
 	public shouldComponentUpdate(
 		nextProps: Readonly<Props>,
 		nextState: Readonly<{}>,
@@ -27,7 +28,7 @@ export default class ColumnHeader extends React.Component<Props> {
 	}
 
 	public render(): React.ReactNode {
-		const { archetypeData, isIgnored } = this.props;
+		const { archetypeData, isIgnored, t } = this.props;
 		const classNames = [
 			"matchup-column-header matchup-column-header-archetype",
 		];
@@ -37,9 +38,11 @@ export default class ColumnHeader extends React.Component<Props> {
 		if (this.props.highlight) {
 			classNames.push("highlight");
 		}
-		const tooltip =
-			(isIgnored ? "Include " : "Ignore ") +
-			getHeroClassName(archetypeData.playerClass);
+		const heroClassName = getHeroClassName(archetypeData.playerClass);
+		const tooltip = isIgnored
+			? t("Include {name}", { name: heroClassName })
+			: t("Ignore {name}", { name: heroClassName });
+
 		return (
 			<div
 				className={classNames.join(" ")}
@@ -70,3 +73,5 @@ export default class ColumnHeader extends React.Component<Props> {
 		);
 	}
 }
+
+export default translate()(ColumnHeader);

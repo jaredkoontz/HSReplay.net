@@ -1,15 +1,16 @@
-import React from "react";
-import SortHeader from "../../SortHeader";
-import CardData from "../../../CardData";
-import { AutoSizer, Grid, ScrollSync } from "react-virtualized";
-import { ArchetypeRankPopularity, SortDirection } from "../../../interfaces";
 import scrollbarSize from "dom-helpers/util/scrollbarSize";
-import ColumnHeader from "./ColumnHeader";
-import RowHeader from "./RowHeader";
-import PopularityCell from "./PopularityCell";
+import React from "react";
+import { InjectedTranslateProps, translate } from "react-i18next";
+import { AutoSizer, Grid, ScrollSync } from "react-virtualized";
+import CardData from "../../../CardData";
+import { ArchetypeRankPopularity, SortDirection } from "../../../interfaces";
+import SortHeader from "../../SortHeader";
 import ColumnFooter from "./ColumnFooter";
+import ColumnHeader from "./ColumnHeader";
+import PopularityCell from "./PopularityCell";
+import RowHeader from "./RowHeader";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	archetypes: ArchetypeRankPopularity[];
 	cardData: CardData;
 	games: number[];
@@ -22,9 +23,9 @@ interface Props {
 	numRanks: number;
 }
 
-export default class PopularityMatrix extends React.Component<Props> {
+class PopularityMatrix extends React.Component<Props> {
 	public render(): React.ReactNode {
-		const { archetypes, numRanks } = this.props;
+		const { archetypes, numRanks, t } = this.props;
 
 		const headerCellWidth = 210;
 		const headerCellHeight = 132;
@@ -75,7 +76,7 @@ export default class PopularityMatrix extends React.Component<Props> {
 										>
 											{this.getSortHeader(
 												"class",
-												"Archetype",
+												t("Archetype"),
 												"ascending",
 											)}
 										</div>
@@ -166,7 +167,7 @@ export default class PopularityMatrix extends React.Component<Props> {
 										>
 											{this.getSortHeader(
 												"total",
-												"Total",
+												t("Total"),
 												null,
 											)}
 										</div>
@@ -414,7 +415,7 @@ export default class PopularityMatrix extends React.Component<Props> {
 												bottom,
 											}}
 										>
-											<div>Games</div>
+											<div>{t("Games")}</div>
 										</div>
 										<div
 											className="grid-container grid-container-bottom"
@@ -508,3 +509,5 @@ export default class PopularityMatrix extends React.Component<Props> {
 		);
 	}
 }
+
+export default translate()(PopularityMatrix);

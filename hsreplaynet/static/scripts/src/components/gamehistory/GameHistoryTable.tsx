@@ -1,15 +1,17 @@
 import React from "react";
-import GameHistoryTableRow from "./GameHistoryTableRow";
+import { InjectedTranslateProps, translate } from "react-i18next";
 import { CardArtProps, GameReplay, ImageProps } from "../../interfaces";
 import GameHistoryList from "./GameHistoryList";
+import GameHistoryTableRow from "./GameHistoryTableRow";
 
-interface Props extends ImageProps, CardArtProps {
+interface Props extends ImageProps, CardArtProps, InjectedTranslateProps {
 	games: GameReplay[];
 }
 
-export default class GameHistoryTable extends React.Component<Props> {
+class GameHistoryTable extends React.Component<Props> {
 	public render(): React.ReactNode {
 		const columns = [];
+		const { t } = this.props;
 		this.props.games.forEach((game: GameReplay, i: number) => {
 			const startTime: Date = new Date(game.global_game.match_start);
 			const endTime: Date = new Date(game.global_game.match_end);
@@ -48,7 +50,7 @@ export default class GameHistoryTable extends React.Component<Props> {
 				<div className="match-table-header">
 					<div className="match-table-row">
 						<div className="match-table-cell auto-size match-header">
-							<span>Match</span>
+							<span>{t("Match")}</span>
 						</div>
 						<div className="match-table-cell auto-size hide-below-768" />
 						<div className="match-table-cell auto-size" />
@@ -56,18 +58,18 @@ export default class GameHistoryTable extends React.Component<Props> {
 						<div className="match-table-cell auto-size" />
 						<div className="match-table-cell" />
 						<div className="match-table-cell hide-below-1100">
-							Opponent
+							{t("Opponent")}
 						</div>
-						<div className="match-table-cell">Result</div>
-						<div className="match-table-cell">Mode</div>
+						<div className="match-table-cell">{t("Result")}</div>
+						<div className="match-table-cell">{t("Mode")}</div>
 						<div className="match-table-cell hide-below-1600">
-							Duration
+							{t("Duration")}
 						</div>
 						<div className="match-table-cell hide-below-768">
-							Turns
+							{t("Turns")}
 						</div>
 						<div className="match-table-cell hide-below-500">
-							Played
+							{t("Played")}
 						</div>
 					</div>
 				</div>
@@ -76,3 +78,5 @@ export default class GameHistoryTable extends React.Component<Props> {
 		);
 	}
 }
+
+export default translate()(GameHistoryTable);

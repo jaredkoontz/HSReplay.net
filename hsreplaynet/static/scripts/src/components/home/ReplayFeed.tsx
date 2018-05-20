@@ -1,5 +1,6 @@
 import _ from "lodash";
 import React from "react";
+import { InjectedTranslateProps, translate } from "react-i18next";
 import DataManager from "../../DataManager";
 import { BnetGameType } from "../../hearthstone";
 import { commaSeparate, image } from "../../helpers";
@@ -35,7 +36,7 @@ interface State {
 	startTime: number;
 }
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	archetypeData?: Archetype[];
 	gamesCountData?: GameCountData;
 	fullSpeed?: boolean;
@@ -149,6 +150,7 @@ class ReplayFeed extends React.Component<Props, State> {
 	}
 
 	render(): React.ReactNode {
+		const { t } = this.props;
 		if (this.state.data === null) {
 			return null;
 		}
@@ -159,44 +161,48 @@ class ReplayFeed extends React.Component<Props, State> {
 			this.props.gamesCountData.games_today /
 			(this.state.startTime / 1000);
 		return (
-			<div id="replay-feed">
-				<h1>
-					Games Last 7 Days:{" "}
-					{commaSeparate(this.props.gamesCountData.games_weekly)}
-				</h1>
-				<h4>
-					Games Today:{" "}
-					<span id="games-count">
+			<>
+				<div id="replay-feed">
+					<h1>
+						{t("Games Last 7 Days:")}
+						{commaSeparate(this.props.gamesCountData.games_weekly)}
+					</h1>
+					<h4>
+						{t("Games Today:")}
+						<span id="games-count">
+							{commaSeparate(
+								Math.floor(this.getAdjustedGamesToday()),
+							)}
+						</span>
+					</h4>
+					<ScrollingFeed
+						direction="up"
+						items={items}
+						itemConverter={d => this.itemConverter(d)}
+						itemHeight={44}
+						onLowItems={() => this.fetchData()}
+						lowItemCount={10}
+						itemsPerSecond={
+							this.props.fullSpeed ? gamesPerSecond : 1.2
+						}
+					/>
+					<div id="replay-contributors">
+						{t("Contributors:")}
 						{commaSeparate(
-							Math.floor(this.getAdjustedGamesToday()),
+							this.props.gamesCountData.contributors_weekly,
 						)}
-					</span>
-				</h4>
-				<ScrollingFeed
-					direction="up"
-					items={items}
-					itemConverter={d => this.itemConverter(d)}
-					itemHeight={44}
-					onLowItems={() => this.fetchData()}
-					lowItemCount={10}
-					itemsPerSecond={this.props.fullSpeed ? gamesPerSecond : 1.2}
-				/>
-				<div id="replay-contributors">
-					Contributors:{" "}
-					{commaSeparate(
-						this.props.gamesCountData.contributors_weekly,
-					)}
+					</div>
+					<div id="contributor-button-wrapper">
+						<a
+							className="btn promo-button blue-style"
+							href="https://hsdecktracker.net/"
+							target="_blank"
+						>
+							{t("Become a Contributor")}
+						</a>
+					</div>
 				</div>
-				<div id="contributor-button-wrapper">
-					<a
-						className="btn promo-button blue-style"
-						href="https://hsdecktracker.net/"
-						target="_blank"
-					>
-						Become a Contributor
-					</a>
-				</div>
-			</div>
+			</>
 		);
 	}
 
@@ -240,4 +246,6 @@ class ReplayFeed extends React.Component<Props, State> {
 	}
 }
 
-export default withLoading(["archetypeData", "gamesCountData"])(ReplayFeed);
+export default withLoading(["archetypeData", "gamesCountData"])(
+	translate()(ReplayFeed),
+);
