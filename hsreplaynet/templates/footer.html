@@ -70,7 +70,7 @@
 				{% setting "RAVEN_CONFIG" as raven_config %}
 				{% if raven_config.release %}
 				<a href="https://github.com/HearthSim/HSReplay.net/commits/{{ raven_config.release }}" target="_blank" rel="noopener">
-					@<abbr title="{{ raven_config.release }}">{{ raven_config.release|slice:":12" }}</abbr>
+					@<abbr title="{{ raven_config.release }}">{{ raven_config.release|slice:":7" }}</abbr>
 				</a>
 				{% else %}
 				@unknown revision
