@@ -1,9 +1,10 @@
 import _ from "lodash";
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { InjectedTranslateProps, translate, Trans } from "react-i18next";
 import { getHeroClassName, image } from "../../../helpers";
 import { ArchetypeData } from "../../../interfaces";
 import Tooltip from "../../Tooltip";
+import PrettyCardClass from "../../text/PrettyCardClass";
 
 interface Props extends InjectedTranslateProps {
 	archetypeData: ArchetypeData;
@@ -38,10 +39,14 @@ class ColumnHeader extends React.Component<Props> {
 		if (this.props.highlight) {
 			classNames.push("highlight");
 		}
-		const heroClassName = getHeroClassName(archetypeData.playerClass);
-		const tooltip = isIgnored
-			? t("Include {name}", { name: heroClassName })
-			: t("Ignore {name}", { name: heroClassName });
+		const playerClass = (
+			<PrettyCardClass cardClass={archetypeData.playerClass} />
+		);
+		const tooltip = isIgnored ? (
+			<Trans>Include {playerClass}</Trans>
+		) : (
+			<Trans>Ignore {playerClass}</Trans>
+		);
 
 		return (
 			<div
@@ -54,7 +59,7 @@ class ColumnHeader extends React.Component<Props> {
 				<span className="header-archetype-name">
 					{archetypeData.name}
 				</span>
-				<Tooltip simple header={tooltip}>
+				<Tooltip simple content={tooltip}>
 					<img
 						className="class-icon"
 						src={image(
