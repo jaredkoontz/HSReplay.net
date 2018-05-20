@@ -174,7 +174,6 @@ class GlobalGamePlayer(models.Model):
 	game = models.ForeignKey(GlobalGame, on_delete=models.CASCADE, related_name="players")
 
 	name = models.CharField("Player name", blank=True, max_length=64, db_index=True)
-	real_name = models.CharField("Real name", blank=True, max_length=64)
 
 	player_id = PlayerIDField(blank=True)
 	pegasus_account = models.ForeignKey("accounts.BlizzardAccount", on_delete=models.PROTECT)
@@ -228,7 +227,7 @@ class GlobalGamePlayer(models.Model):
 		unique_together = ("game", "player_id")
 
 	def __str__(self):
-		return self.name or self.real_name
+		return self.name
 
 	@property
 	def won(self):

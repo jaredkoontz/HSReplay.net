@@ -86,7 +86,6 @@ class Migration(migrations.Migration):
 			fields=[
 				("id", models.BigAutoField(primary_key=True, serialize=False)),
 				("name", models.CharField(blank=True, db_index=True, max_length=64, verbose_name="Player name")),
-				("real_name", models.CharField(blank=True, max_length=64, verbose_name="Real name")),
 				("player_id", hsreplaynet.utils.fields.PlayerIDField(blank=True, choices=[(1, 1), (2, 2)], validators=[django.core.validators.MinValueValidator(1), django.core.validators.MaxValueValidator(2)])),
 				("is_ai", models.BooleanField(default=False, help_text="Whether the player is an AI.", verbose_name="Is AI")),
 				("is_first", models.BooleanField(help_text="Whether the player is the first player", verbose_name="Is first player")),
