@@ -38,14 +38,17 @@ class WinrateBox extends React.Component<Props> {
 			this.props.games !== undefined
 		) {
 			const wrData = winrateData(50, this.props.winrate, 3);
-			content = (
-				<Trans>
-					<h1 style={{ color: wrData.color }}>
-						{toDynamicFixed(this.props.winrate, 2)}%
-					</h1>,
-					<h3>over {commaSeparate(this.props.games)} games</h3>,
-				</Trans>
+			const winrate = (
+				<h1 style={{ color: wrData.color }}>
+					${toDynamicFixed(this.props.winrate, 2)}%
+				</h1>
 			);
+			const gameCount = commaSeparate(this.props.games);
+			content =
+				// prettier-ignore
+				<Trans>
+					{winrate} <h3>over {gameCount} games</h3>
+				</Trans>;
 		} else if (
 			this.props.status === LoadingStatus.NO_DATA ||
 			this.props.status === LoadingStatus.PROCESSING

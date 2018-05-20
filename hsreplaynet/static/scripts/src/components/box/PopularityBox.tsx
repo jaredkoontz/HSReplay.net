@@ -35,16 +35,17 @@ class PopularityBox extends React.Component<Props> {
 
 		let content = null;
 		if (this.props.popularity !== undefined) {
-			content = (
-				<Trans>
-					<h1>{toDynamicFixed(this.props.popularity, 2)}%</h1>,
-					<h3>
-						of{" "}
-						<PrettyCardClass cardClass={this.props.playerClass} />{" "}
-						decks
-					</h3>,
-				</Trans>
+			const popularity = (
+				<h1>{toDynamicFixed(this.props.popularity, 2)}%</h1>
 			);
+			const playerClass = (
+				<PrettyCardClass cardClass={this.props.playerClass} />
+			);
+			content =
+				// prettier-ignore
+				<Trans>
+					{popularity} <h3>of {playerClass} decks</h3>
+				</Trans>;
 		} else if (
 			this.props.status === LoadingStatus.NO_DATA ||
 			this.props.status === LoadingStatus.PROCESSING
