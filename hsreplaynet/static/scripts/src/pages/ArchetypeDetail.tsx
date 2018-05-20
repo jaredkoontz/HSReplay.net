@@ -559,7 +559,7 @@ class ArchetypeDetail extends React.Component<Props, State> {
 			];
 		} else {
 			content = (
-				<h3 className="message-wrapper">{t("No data available")}</h3>
+				<h3 className="message-wrapper">{t("No available data")}</h3>
 			);
 		}
 

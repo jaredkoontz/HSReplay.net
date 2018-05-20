@@ -105,7 +105,7 @@ class CardList extends React.Component<Props> {
 						height={cardHeight}
 						countBoxSize={customCounts && 50}
 						predicted={predicted}
-						subtitle={predicted ? t("Predicted Card") : null}
+						subtitle={predicted ? t("Predicted card") : null}
 						key={dbfIds ? card.dbfId : card.id}
 						craftable={isMissingCardFromCollection(
 							this.props.collection,

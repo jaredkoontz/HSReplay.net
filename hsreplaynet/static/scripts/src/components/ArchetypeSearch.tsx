@@ -29,7 +29,7 @@ class ArchetypeSearch extends React.Component<Props> {
 				objectLimit={Limit.SINGLE}
 				onObjectsChanged={this.props.onArchetypesChanged}
 				onObjectSelected={this.props.onArchetypeSelected}
-				placeholder={t("Set favorite...")}
+				placeholder={t("Set as favorite…")}
 				selectedObjects={this.props.selectedArchetypes}
 				sorting={cardSorting}
 				showOnFocus
