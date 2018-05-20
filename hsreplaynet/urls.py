@@ -2,7 +2,6 @@ from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib.flatpages.views import flatpage
 from django.contrib.sitemaps.views import sitemap
-from django.views.generic import RedirectView
 
 from .billing.views import PremiumDetailView
 from .games.views import AnnotatedReplayView, ReplayDetailView, ReplayEmbedView
@@ -53,7 +52,6 @@ urlpatterns = [
 
 	# redirects
 	url(r"^articles/(?P<pk>[^/]+)?", ArticlesRedirectView.as_view()),
-	url(r"^about/premium/$", RedirectView.as_view(pattern_name="premium", permanent=True)),
 
 	# sitemaps
 	url(
