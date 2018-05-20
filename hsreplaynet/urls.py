@@ -17,6 +17,7 @@ urlpatterns = [
 
 	# Single pages
 	url(r"^about/privacy/$", flatpage, {"url": "/about/privacy/"}, name="privacy_policy"),
+	url(r"^about/third-parties/$", flatpage, {"url": "/about/third-parties/"}),
 	url(r"^about/tos/$", flatpage, {"url": "/about/tos/"}, name="terms_of_service"),
 	url(r"^contact/$", flatpage, {"url": "/contact/"}, name="contact_us"),
 	url(r"^downloads/", DownloadsView.as_view(), name="downloads"),
