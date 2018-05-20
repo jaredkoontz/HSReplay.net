@@ -64,10 +64,31 @@
 					<button type="submit" name="action_add" class="btn btn-success" type="button">{% trans "Add email address" %}</button>
 				</span>
 			</div>
+		</form>
 
-			<p class="help-block">
-				Add an email so we can contact you for billing and account purposes.
-				We will never sell it or share it with anybody.
+	</div>
+</section>
+
+<section class="box-section">
+	<h3>{% trans "Notification settings" %}</h3>
+
+	<div class="inner">
+		<p>
+			{% trans "Control which types of emails you receive at your primary address." %}
+		</p>
+
+		<form method="post" action="{% url 'account_email_preferences' %}">
+			{% csrf_token %}
+			<ul>
+				<li class="checkbox disabled"><label><input type="checkbox" checked disabled/> {% trans "Account & security (required)" %}</label></li>
+				<li class="checkbox disabled"><label><input type="checkbox" checked disabled/> {% trans "Billing (required)" %}</label></li>
+				<li class="checkbox"><label>
+					<input type="checkbox" name="marketing" {% if user.settings.email.marketing %}checked{% endif %}/>
+					{% trans "Product and feature announcements" %}
+				</label></li>
+			</ul>
+			<p>
+				<button type="submit" class="btn btn-info">{% trans "Save" %}</button>
 			</p>
 		</form>
 	</div>

@@ -25,6 +25,13 @@ urlpatterns = [
 	),
 	path("make_primary/", dashboard.MakePrimaryView.as_view(), name="account_make_primary"),
 
+	# Email
+	path(
+		"email/preferences/",
+		dashboard.EmailPreferencesView.as_view(),
+		name="account_email_preferences"
+	),
+
 	# OAuth2
 	path("applications/", dashboard.ApplicationListView.as_view(), name="oauth2_app_list"),
 	path(

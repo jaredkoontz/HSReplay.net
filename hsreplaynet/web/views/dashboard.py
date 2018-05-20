@@ -6,6 +6,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
+from django.utils import timezone
 from django.views.generic import (
 	CreateView, DeleteView, ListView, TemplateView, UpdateView, View
 )
@@ -131,8 +132,6 @@ class MakePrimaryView(LoginRequiredMixin, View):
 	success_url = reverse_lazy("socialaccount_connections")
 
 	def post(self, request):
-		self.request = request
-
 		account = request.POST.get("account")
 		try:
 			socacc = SocialAccount.objects.get(id=account)
@@ -164,6 +163,22 @@ class MakePrimaryView(LoginRequiredMixin, View):
 
 	def complete(self, success=True):
 		influx_metric("hsreplaynet_make_primary", {"count": 1})
+		return redirect(self.success_url)
+
+
+class EmailPreferencesView(LoginRequiredMixin, View):
+	success_url = reverse_lazy("account_email")
+
+	def post(self, request):
+		marketing_prefs = request.POST.get("marketing", "") == "on"
+
+		request.user.settings["email"] = {
+			"marketing": marketing_prefs,
+			"updated": timezone.now().isoformat(),
+		}
+		request.user.save()
+
+		messages.info(request, "Your email preferences have been saved.")
 		return redirect(self.success_url)
 
 
