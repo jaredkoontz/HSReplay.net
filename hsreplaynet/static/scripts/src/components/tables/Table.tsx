@@ -33,6 +33,7 @@ export interface AnnotatedNumber {
 }
 
 interface RowData {
+	key?: string;
 	data: Array<number | AnnotatedNumber | string | React.ReactNode>;
 	href?: string;
 }
@@ -273,7 +274,7 @@ export default class Table extends React.Component<Props, State> {
 		const props = {
 			id: this.getRowId(rowIndex),
 			className: "table-row-header",
-			key,
+			key: row.key || key,
 			style,
 			role: "rowheader",
 			...this.rowHighlighting(rowIndex),
@@ -361,7 +362,7 @@ export default class Table extends React.Component<Props, State> {
 
 		const props = {
 			className: "table-cell",
-			key,
+			key: `${row.key || key}-${column.dataKey}`,
 			style,
 			role: "gridcell",
 			"aria-describedby": `${this.getRowId(rowIndex)} ${this.getColumnId(
@@ -391,7 +392,7 @@ export default class Table extends React.Component<Props, State> {
 
 		if (row.href) {
 			return (
-				<a {...props} href={row.href} key={key}>
+				<a {...props} href={row.href}>
 					{content}
 					{annotation}
 				</a>

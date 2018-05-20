@@ -86,7 +86,7 @@ class CardTable extends React.Component<Props> {
 					}
 				/>,
 			);
-			return { data: row };
+			return { key: "" + card.card.dbfId, data: row };
 		});
 		return (
 			<Table
