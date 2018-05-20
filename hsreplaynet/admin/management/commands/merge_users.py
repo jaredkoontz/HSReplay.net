@@ -25,10 +25,6 @@ def merge_users(base_user, user):
 	# Packs
 	do_queryset(user.packs)
 
-	# Comments
-	do_queryset(user.comment_comments)
-	do_queryset(user.comment_flags)
-
 	# Blizzard Accounts
 	do_queryset(user.blizzard_accounts)
 

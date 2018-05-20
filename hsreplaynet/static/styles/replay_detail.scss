@@ -115,15 +115,6 @@
 	}
 }
 
-#replay-comments {
-	padding: 10px;
-	max-width: 700px;
-
-	> h2 {
-		margin-top: 0;
-	}
-}
-
 #share-game-dialog {
 	padding: 1em 0.5em 0;
 }
@@ -141,10 +132,6 @@
 
 	#replay-container {
 		flex-direction: column;
-	}
-
-	#replay-comments {
-		padding-top: 20px;
 	}
 }
 
