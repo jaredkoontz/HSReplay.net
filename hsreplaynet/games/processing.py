@@ -532,7 +532,7 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 		else:
 			decklist = decklist_from_meta
 
-		name, real_name = get_player_names(player)
+		name, _ = get_player_names(player)
 		player_hero_id = player._hero.card_id
 
 		try:
@@ -819,7 +819,6 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 
 		update = {
 			"name": name,
-			"real_name": real_name,
 			"pegasus_account": blizzard_account,
 			"rank": player_meta.get("rank"),
 			"legend_rank": player_meta.get("legend_rank"),
