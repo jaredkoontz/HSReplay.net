@@ -68,7 +68,7 @@ class MulliganGuidePreview extends React.Component<Props, State> {
 		this.stopIterate();
 		this.interval = window.setTimeout(
 			() => this.iterate(this.startIterate),
-			2000,
+			3000,
 		);
 	};
 
