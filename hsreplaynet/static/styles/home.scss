@@ -261,12 +261,27 @@
 					margin: 0 auto;
 				}
 
-				> video {
-					border: 1px solid $blue;
-					max-width: 100%;
+				.video-container {
+					width: 100%;
 					max-height: 400px;
-					box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16),
-						0 3px 6px rgba(0, 0, 0, 0.23);
+
+					> video,
+					img {
+						border: 1px solid $blue;
+						max-width: 100%;
+						max-height: 400px;
+						box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16),
+							0 3px 6px rgba(0, 0, 0, 0.23);
+						opacity: 1;
+						transition: opacity linear 500ms;
+					}
+
+					:nth-child(2) {
+						width: 0;
+						height: 0;
+						border: none;
+						opacity: 0.5;
+					}
 				}
 			}
 		}
