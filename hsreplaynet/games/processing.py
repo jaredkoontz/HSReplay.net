@@ -658,6 +658,7 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 						player_class=CardClass(int(player_class)).name,
 						format=FormatType(int(global_game.format)).name,
 						prediction_has_archetype=prediction_has_archetype,
+						actual_archetype_id=deck.archetype_id,
 						actual_has_archetype=actual_has_archetype,
 						is_friendly_player=is_friendly_player,
 						num_played_cards=len(played_cards_for_player)
