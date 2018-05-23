@@ -1,3 +1,4 @@
+from allauth.account.signals import email_changed
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from djpaypal.models import webhooks as djpaypal_webhooks
@@ -40,3 +41,16 @@ def on_paypal_webhook_error(sender, instance, **kwargs):
 			raise Exception("%s - %s" % (instance.exception, instance.id))
 		except Exception as e:
 			error_handler(e)
+
+
+@receiver(email_changed)
+def on_email_changed(request, user, from_email_address, to_email_address, **kwargs):
+	from djstripe.models import Customer
+	customer = Customer.objects.filter(subscriber=user).first()
+	if not customer:
+		# Don't bother creating a customer for this user, it'll happen later.
+		return
+
+	stripe_obj = customer.api_retrieve()
+	stripe_obj.email = to_email_address
+	Customer.sync_from_stripe_data(stripe_obj.save())
