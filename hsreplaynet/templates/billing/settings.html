@@ -292,7 +292,7 @@
 			</thead>
 			{% for invoice in customer.invoices.all %}
 				<tr>
-					<td>#{{ invoice.charge.receipt_number|default:invoice.id }} {% if stripe_debug %}<code>{{ invoice.stripe_id }}</code>{% endif %}</td>
+					<td>{{ invoice.number }} {% if stripe_debug %}<code>{{ invoice.stripe_id }}</code>{% endif %}</td>
 					<td>{{ invoice.date|htmltime:"%Y-%m-%d" }}</td>
 					<td>
 						<ul class="list-unstyled">
