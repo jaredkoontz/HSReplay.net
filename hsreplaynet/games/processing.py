@@ -646,6 +646,7 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 						predicted_deck_id = None
 
 					actual_has_archetype = deck.archetype_id is not None
+					final_state = player.tags.get(GameTag.PLAYSTATE, 0)
 
 					influx_metric(
 						"deck_prediction_validation",
@@ -662,7 +663,7 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 						actual_has_archetype=actual_has_archetype,
 						is_friendly_player=is_friendly_player,
 						num_played_cards=len(played_cards_for_player),
-						final_state=PlayState(int(player.tags.get(GameTag.PLAYSTATE, 0))).name
+						final_state=PlayState(int(final_state)).name
 					)
 
 					tree.observe(
