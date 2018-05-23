@@ -11,7 +11,7 @@ from django.db.utils import IntegrityError
 from django.utils import timezone
 from django_hearthstone.cards.models import Card
 from hearthstone.enums import (
-	BnetGameType, BnetRegion, CardClass, CardType, FormatType, GameTag
+	BnetGameType, BnetRegion, CardClass, CardType, FormatType, GameTag, PlayState
 )
 from hslog import LogParser, __version__ as hslog_version
 from hslog.exceptions import MissingPlayerData, ParsingError
@@ -661,7 +661,8 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 						actual_archetype_id=deck.archetype_id,
 						actual_has_archetype=actual_has_archetype,
 						is_friendly_player=is_friendly_player,
-						num_played_cards=len(played_cards_for_player)
+						num_played_cards=len(played_cards_for_player),
+						final_state=PlayState(int(player.tags.get(GameTag.PLAYSTATE, 0)))
 					)
 
 					tree.observe(
