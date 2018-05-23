@@ -477,13 +477,6 @@ def validate_parser(parser, meta):
 	return game, exporter
 
 
-def get_player_names(player):
-	if not player.is_ai and " " in player.name:
-		return "", player.name
-	else:
-		return player.name, ""
-
-
 def _is_decklist_superset(superset_decklist, subset_decklist):
 	s1 = set(superset_decklist) if superset_decklist else set()
 	s2 = set(subset_decklist) if subset_decklist else set()
@@ -532,7 +525,7 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 		else:
 			decklist = decklist_from_meta
 
-		name, _ = get_player_names(player)
+		name, _ = player.names
 		player_hero_id = player._hero.card_id
 
 		try:
