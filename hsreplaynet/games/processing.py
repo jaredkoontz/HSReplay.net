@@ -639,11 +639,13 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 						archetype_match = deck.archetype_id == cross_val_deck.archetype_id
 						prediction_has_archetype = cross_val_deck.archetype_id is not None
 						predicted_deck_id = cross_val_deck.id
+						predicted_archetype_id = cross_val_deck.archetype_id
 					else:
 						perfect_deck_match = False
 						archetype_match = False
 						prediction_has_archetype = False
 						predicted_deck_id = None
+						predicted_archetype_id = None
 
 					actual_has_archetype = deck.archetype_id is not None
 					final_state = player.tags.get(GameTag.PLAYSTATE, 0)
@@ -659,6 +661,7 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 						player_class=CardClass(int(player_class)).name,
 						format=FormatType(int(global_game.format)).name,
 						prediction_has_archetype=prediction_has_archetype,
+						predicted_archetype_id=predicted_archetype_id,
 						actual_archetype_id=deck.archetype_id,
 						actual_has_archetype=actual_has_archetype,
 						is_friendly_player=is_friendly_player,
