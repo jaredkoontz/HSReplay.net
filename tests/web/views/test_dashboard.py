@@ -14,12 +14,13 @@ def disconnect_post_delete():
 
 @pytest.fixture
 @pytest.mark.django_db
-@pytest.mark.xfail
+@pytest.mark.skip
 def user():
 	return User.objects.create_user(
 		username="test", email="test@example.com", password="password")
 
 
+@pytest.mark.xfail
 class TestDeleteAccountView:
 
 	def _do_post(self, client, settings, user):
