@@ -525,7 +525,6 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 		else:
 			decklist = decklist_from_meta
 
-		name, _ = player.names
 		player_hero_id = player._hero.card_id
 
 		try:
@@ -765,6 +764,10 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 			except Exception as e:
 				error_handler(e)
 
+		name, _ = player.names
+		if not name:
+			pass
+
 		# Create the BlizzardAccount first
 		defaults = {
 			"region": BnetRegion.from_account_hi(player.account_hi),
@@ -784,6 +787,10 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 			defaults=defaults
 		)
 		if not created:
+			if not name:
+				# Maybe we have an UNKNOWN HUMAN PLAYER for example
+				# Use the BlizzardAccount's name in that case
+				name = blizzard_account.battletag
 			if _can_claim(blizzard_account) and "user" in defaults:
 				# Set BlizzardAccount.user if it's an available claim for the user
 				influx_metric("pegasus_account_claimed", {
