@@ -26,8 +26,10 @@ class ReplayDetailView(View):
 
 	def get(self, request, id):
 		replay = GameReplay.objects.find_by_short_id(id)
-		if not replay or replay.is_deleted:
+		if not replay:
 			raise Http404("Replay not found.")
+		if replay.is_deleted:
+			return render(request, self.template_name, {"replay": None}, status=410)
 
 		replay.views += 1
 		replay.save()
@@ -76,8 +78,10 @@ class ReplayEmbedView(View):
 	@xframe_options_exempt
 	def get(self, request, id):
 		replay = GameReplay.objects.find_by_short_id(id)
-		if not replay or replay.is_deleted:
+		if not replay:
 			raise Http404("Replay not found.")
+		if replay.is_deleted:
+			return render(request, self.template_name, {"replay": None}, status=410)
 		return render(request, self.template_name, {"replay": replay})
 
 
