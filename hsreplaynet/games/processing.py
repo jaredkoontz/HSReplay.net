@@ -662,7 +662,7 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 						actual_has_archetype=actual_has_archetype,
 						is_friendly_player=is_friendly_player,
 						num_played_cards=len(played_cards_for_player),
-						final_state=PlayState(int(player.tags.get(GameTag.PLAYSTATE, 0)))
+						final_state=PlayState(int(player.tags.get(GameTag.PLAYSTATE, 0))).name
 					)
 
 					tree.observe(
