@@ -25,7 +25,7 @@ class PrettyTimeRange extends React.Component<Props> {
 			case TimeRange.CURRENT_EXPANSION:
 				return t("Latest expansion");
 			case TimeRange.CURRENT_PATCH:
-				return t("Patch 11.1");
+				return t("Latest patch");
 		}
 
 		return timeRange;
