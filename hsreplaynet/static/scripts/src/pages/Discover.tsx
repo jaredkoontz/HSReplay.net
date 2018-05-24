@@ -37,6 +37,7 @@ interface Props extends InjectedTranslateProps {
 interface State {
 	cards: any[];
 	deck: ClusterMetaData;
+	key: number;
 }
 
 class Discover extends React.Component<Props, State> {
@@ -45,6 +46,7 @@ class Discover extends React.Component<Props, State> {
 		this.state = {
 			cards: null,
 			deck: null,
+			key: 0,
 		};
 	}
 
@@ -206,7 +208,7 @@ class Discover extends React.Component<Props, State> {
 				</aside>
 				<main>
 					<DataInjector
-						query={{ url: dataUrl, params: {} }}
+						query={{ url: dataUrl + "?" + this.state.key, params: {} }}
 						extract={{
 							data: clusterData => {
 								let maxGames = 0;
@@ -244,6 +246,7 @@ class Discover extends React.Component<Props, State> {
 							}
 							playerClass={playerClass}
 							canModifyArchetype={dataset === "latest"}
+							requestReload={() => this.setState(s => ({key: s.key + 1}))}
 						/>
 					</DataInjector>
 				</main>

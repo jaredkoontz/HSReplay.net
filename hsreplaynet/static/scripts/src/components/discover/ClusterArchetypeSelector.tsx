@@ -7,6 +7,7 @@ interface Props {
 	clusterId: string;
 	format: string;
 	playerClass: string;
+	selectionChanged?: () => void;
 }
 
 interface State {
@@ -103,7 +104,7 @@ export default class ClusterArchetypeSelector extends React.Component<
 					console.error(response.toString());
 				}
 				this.setState({ working: false });
-				location.reload();
+				this.props.selectionChanged();
 			})
 			.catch(reason => {
 				console.error(reason);

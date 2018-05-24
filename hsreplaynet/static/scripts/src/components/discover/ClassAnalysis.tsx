@@ -52,6 +52,7 @@ interface Props extends InjectedTranslateProps {
 	clusterTab: string;
 	setClusterTab: (clusterTab: string) => void;
 	canModifyArchetype: boolean;
+	requestReload: () => void;
 }
 
 const COLORS = [
@@ -248,6 +249,7 @@ class ClassAnalysis extends React.Component<Props, State> {
 							format={format}
 							playerClass={playerClass}
 							canModifyArchetype={canModifyArchetype}
+							requestReload={() => this.props.requestReload()}
 						/>
 					}
 				>

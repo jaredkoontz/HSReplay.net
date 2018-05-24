@@ -12,6 +12,7 @@ interface Props {
 	format: string;
 	playerClass: string;
 	canModifyArchetype: boolean;
+	requestReload: () => void;
 }
 
 const EXPERIMENTAL_CLUSTER_ID = "-1";
@@ -57,6 +58,7 @@ export default class ClusterTabLabel extends React.Component<Props> {
 						clusterId={clusterId}
 						format={format}
 						playerClass={playerClass}
+						selectionChanged={this.props.requestReload}
 					/>
 				</DataInjector>
 			);
