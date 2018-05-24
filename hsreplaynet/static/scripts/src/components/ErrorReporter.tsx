@@ -1,5 +1,6 @@
 import React from "react";
 import { InjectedTranslateProps, Trans, translate } from "react-i18next";
+import RavenWatcher from "../RavenWatcher";
 
 interface Props extends InjectedTranslateProps {}
 
@@ -23,10 +24,15 @@ class ErrorReporter extends React.Component<Props, State> {
 		if (this.state.error !== null) {
 			return;
 		}
-		const report = { error, errorInfo };
+		const report = { error, errorInfo, tracing: null };
 		if (typeof Raven === "object") {
+			const watcher = new RavenWatcher();
+			watcher.start();
 			Raven.captureException(error, { extra: errorInfo });
-			Object.assign(report, { tracing: Raven.lastEventId() });
+			watcher.stop();
+			if (!watcher.failure) {
+				report.tracing = Raven.lastEventId();
+			}
 		}
 		this.setState(report);
 	}
@@ -51,10 +57,6 @@ class ErrorReporter extends React.Component<Props, State> {
 			return (
 				<Trans>
 					<p>We were unable to report this issue automatically.</p>
-					<p>
-						Try disabling your adblocker or any similar browser
-						extensions and reload the page.
-					</p>
 					{this.renderError()}
 				</Trans>
 			);
