@@ -83,13 +83,19 @@ class DeleteAccountView(LoginRequiredMixin, RequestMetaMixin, TemplateView):
 	def can_delete(self):
 		if self.request.user.is_staff:
 			return False
+
 		customer = self.request.user.stripe_customer
-		subscriptions = customer.active_subscriptions.filter(cancel_at_period_end=False)
-		if subscriptions.count():
-			# If the user has any active subscriptions that they did not cancel,
-			# we prevent them from deleting their account in order to ensure
-			# they confirm the cancellation of their subscription.
-			return False
+
+		# Fake users will not have a Stripe customer associated with them.
+
+		if customer is not None:
+			subscriptions = customer.active_subscriptions.filter(cancel_at_period_end=False)
+			if subscriptions.count():
+				# If the user has any active subscriptions that they did not cancel,
+				# we prevent them from deleting their account in order to ensure
+				# they confirm the cancellation of their subscription.
+				return False
+
 		return True
 
 	def post(self, request):
