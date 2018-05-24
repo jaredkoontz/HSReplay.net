@@ -76,6 +76,9 @@ class MulliganGuidePreview extends React.Component<Props, State> {
 		const archetype = this.props.archetypeData.find(
 			x => x.id === this.props.data.deck.archetype_id,
 		);
+		if (!archetype) {
+			return null;
+		}
 		return (
 			<div
 				className="mulligan-guide-container"
