@@ -238,6 +238,7 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 					cellRenderer={({ key, rowIndex, style }) => {
 						const archetype = archetypes[rowIndex];
 						const isFavorite =
+							!this.props.simple &&
 							this.props.favorites.indexOf(archetype.id) !== -1;
 
 						if (this.isLastFavorite(rowIndex)) {
@@ -743,6 +744,9 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 	}
 
 	isLastFavorite(index: number) {
+		if (this.props.simple) {
+			return false;
+		}
 		return index === this.props.favorites.length - 1;
 	}
 

@@ -302,7 +302,9 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 		};
 
 		archetypes.sort((a: ArchetypeData, b: ArchetypeData) => {
-			const favorite = +this.isFavorite(b.id) - +this.isFavorite(a.id);
+			const favorite =
+				!this.props.simple &&
+				(+this.isFavorite(b.id) - +this.isFavorite(a.id));
 			return (
 				favorite ||
 				compare(a, b) * direction ||
