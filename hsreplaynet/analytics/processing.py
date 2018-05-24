@@ -528,15 +528,18 @@ def get_mulligan_preview():
 			for card_data in mulligan_data["series"]["data"].values()
 		]
 		num_classes = len(card_data)
-		for i in range(0, num_classes):
-			count = sum([
+
+		def matching_cards(i, num_cards):
+			return sum([
 				1 for j in range(0, num_classes) if j != i and
 				all(
 					card_data[i][k]["dbf_id"] == card_data[j][k]["dbf_id"]
-					for k in range(0, 5)
+					for k in range(0, num_cards)
 				)
 			])
-			if count > 2:
+
+		for i in range(0, num_classes):
+			if matching_cards(i, 5) > 2 or matching_cards(i, 1) > 3:
 				return False
 		return True
 
