@@ -175,6 +175,9 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 			) {
 				return false;
 			}
+			if (this.props.simple && archetype.id < 0) {
+				return false;
+			}
 			return true;
 		});
 
@@ -304,7 +307,7 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 		archetypes.sort((a: ArchetypeData, b: ArchetypeData) => {
 			const favorite =
 				!this.props.simple &&
-				(+this.isFavorite(b.id) - +this.isFavorite(a.id));
+				+this.isFavorite(b.id) - +this.isFavorite(a.id);
 			return (
 				favorite ||
 				compare(a, b) * direction ||
@@ -314,6 +317,9 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 	}
 
 	isFavorite(archetypeId: number): boolean {
+		if (this.props.simple) {
+			return false;
+		}
 		return this.state.favorites.indexOf(archetypeId) !== -1;
 	}
 
