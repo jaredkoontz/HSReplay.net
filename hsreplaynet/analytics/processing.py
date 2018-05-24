@@ -539,7 +539,7 @@ def get_mulligan_preview():
 			])
 
 		for i in range(0, num_classes):
-			if matching_cards(i, 5) > 2 or matching_cards(i, 1) > 3:
+			if matching_cards(i, 5) > 3 or matching_cards(i, 1) > 4:
 				return False
 		return True
 
