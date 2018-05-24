@@ -16,6 +16,18 @@ interface Props extends InjectedTranslateProps {
 }
 
 class ClusterDetail extends React.Component<Props> {
+	public shouldComponentUpdate(
+		nextProps: Readonly<Props>,
+		nextState: Readonly<{}>,
+		nextContext: any,
+	): boolean {
+		return (
+			nextProps.clusterId !== this.props.clusterId ||
+			nextProps.cardData !== this.props.cardData ||
+			nextProps.data !== this.props.data
+		);
+	}
+
 	public render(): React.ReactNode {
 		const { cardData, clusterId, data, t } = this.props;
 		const signature: ArchetypeSignature = {
