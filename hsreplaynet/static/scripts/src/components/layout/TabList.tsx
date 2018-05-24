@@ -96,11 +96,11 @@ export default class TabList extends React.Component<Props> {
 		TabList.ensureVisibleTab(this.props);
 	}
 
-	public componentWillReceiveProps(
-		nextProps: Readonly<Props>,
-		nextContext: any,
+	public componentDidUpdate(
+		prevProps: Readonly<Props>,
+		prevState: Readonly<{}>,
 	): void {
-		TabList.ensureVisibleTab(nextProps);
+		TabList.ensureVisibleTab(this.props);
 	}
 
 	private static getValidChildren(

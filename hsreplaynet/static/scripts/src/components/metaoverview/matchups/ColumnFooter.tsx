@@ -43,13 +43,14 @@ export default class ColumnFooter extends React.Component<Props, State> {
 		);
 	}
 
-	public componentWillReceiveProps(
+	static getDerivedStateFromProps(
 		nextProps: Readonly<Props>,
-		nextContext: any,
-	): void {
+		prevState: State,
+	): Partial<State> | null {
 		if (nextProps.useCustomWeight) {
-			this.setState({ text: "" + nextProps.customWeight });
+			return { text: "" + nextProps.customWeight };
 		}
+		return null;
 	}
 
 	public render(): React.ReactNode {

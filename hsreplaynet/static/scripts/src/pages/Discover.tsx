@@ -50,11 +50,11 @@ class Discover extends React.Component<Props, State> {
 		};
 	}
 
-	public componentWillReceiveProps(
+	static getDerivedStateFromProps(
 		nextProps: Readonly<Props>,
-		nextContext: any,
-	): void {
-		if (!this.state.cards && nextProps.cardData) {
+		prevState: State,
+	): Partial<State> | null {
+		if (!prevState.cards && nextProps.cardData) {
 			const cards = [];
 			nextProps.cardData.all().forEach(card => {
 				if (card.name && isCollectibleCard(card)) {
@@ -62,8 +62,9 @@ class Discover extends React.Component<Props, State> {
 				}
 			});
 			cards.sort(cardSorting);
-			this.setState({ cards });
+			return { cards };
 		}
+		return null;
 	}
 
 	public render(): React.ReactNode {
