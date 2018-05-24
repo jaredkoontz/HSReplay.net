@@ -1,7 +1,7 @@
 import _ from "lodash";
 import React from "react";
-import { InjectedTranslateProps, translate, Trans } from "react-i18next";
-import { getHeroClassName, image } from "../../../helpers";
+import { InjectedTranslateProps, Trans, translate } from "react-i18next";
+import { image } from "../../../helpers";
 import { ArchetypeData } from "../../../interfaces";
 import Tooltip from "../../Tooltip";
 import PrettyCardClass from "../../text/PrettyCardClass";
