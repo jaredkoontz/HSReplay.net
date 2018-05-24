@@ -8,7 +8,6 @@ import ModeSvg from "../components/ModeSvg";
 import CollectionSetup from "../components/collection/CollectionSetup";
 import ArchetypeHighlight from "../components/home/ArchetypeHighlight";
 import ClassRanking from "../components/home/ClassRanking";
-import FAQ from "../components/home/FAQ";
 import FeaturePanel from "../components/home/FeaturePanel";
 import LiveData from "../components/home/LiveData";
 import ReplayFeed from "../components/home/ReplayFeed";
@@ -207,8 +206,7 @@ class Home extends React.Component<Props, State> {
 						/>
 					</div>
 				</div>
-				{this.renderNewBelowTheFold()}
-				{this.renderOldBelowTheFold()}
+				{this.renderBelowTheFold()}
 			</div>
 		);
 	}
@@ -225,26 +223,7 @@ class Home extends React.Component<Props, State> {
 	private closeCollectionModal = (): void =>
 		this.setState({ showCollectionModal: false });
 
-	private renderOldBelowTheFold(): React.ReactNode {
-		if (UserData.hasFeature("new-frontpage")) {
-			return null;
-		}
-		return (
-			<>
-				<div className="row" id="live-data">
-					<LiveData cardData={this.props.cardData} numCards={12} />
-				</div>
-				<div className="row" id="faq">
-					<FAQ />
-				</div>
-			</>
-		);
-	}
-
-	private renderNewBelowTheFold(): React.ReactNode {
-		if (!UserData.hasFeature("new-frontpage")) {
-			return null;
-		}
+	private renderBelowTheFold(): React.ReactNode {
 		const { t } = this.props;
 		const video = this.state.loadVideo ? (
 			<video
