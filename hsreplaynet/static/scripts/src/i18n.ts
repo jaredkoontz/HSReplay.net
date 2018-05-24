@@ -33,6 +33,9 @@ i18n
 		lowerCaseLng: true,
 		nsSeparator: false,
 
+		// initial namespaces to load
+		ns: ["frontend", "hearthstone"],
+
 		// i18next-icu
 		i18nFormat: {
 			/* We cannot load these dynamically right now due to the different
