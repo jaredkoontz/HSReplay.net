@@ -208,7 +208,10 @@ class Discover extends React.Component<Props, State> {
 				</aside>
 				<main>
 					<DataInjector
-						query={{ url: dataUrl + "?" + this.state.key, params: {} }}
+						query={{
+							url: dataUrl + "?" + this.state.key,
+							params: {},
+						}}
 						extract={{
 							data: clusterData => {
 								let maxGames = 0;
@@ -247,7 +250,7 @@ class Discover extends React.Component<Props, State> {
 							playerClass={playerClass}
 							canModifyArchetype={dataset === "latest"}
 							requestReload={() => {
-								this.setState(s => ({key: s.key + 1}));
+								this.setState(s => ({ key: s.key + 1 }));
 								this.props.setTab("decks");
 							}}
 						/>
