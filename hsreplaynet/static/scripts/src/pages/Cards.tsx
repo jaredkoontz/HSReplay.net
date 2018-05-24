@@ -119,7 +119,7 @@ const PLACEHOLDER_WEAPON = image("loading_weapon.png");
 const PLACEHOLDER_HERO = image("loading_hero.png");
 
 class Cards extends React.Component<Props, State> {
-	readonly filters = {
+	static readonly FILTERS = {
 		cost: [0, 1, 2, 3, 4, 5, 6, 7],
 		format: ["standard"],
 		mechanics: [
@@ -335,7 +335,7 @@ class Cards extends React.Component<Props, State> {
 		}
 
 		const filteredByProp = {};
-		const filterKeys = Object.keys(this.filters);
+		const filterKeys = Object.keys(Cards.FILTERS);
 		filterKeys.forEach(key => (filteredByProp[key] = []));
 		const filteredCards = [];
 
@@ -347,7 +347,7 @@ class Cards extends React.Component<Props, State> {
 
 		const viableUncollectibleCard = card =>
 			!card.collectible &&
-			this.filters.set.indexOf(card.set) !== -1 &&
+			Cards.FILTERS.set.indexOf(card.set) !== -1 &&
 			card.type !== "HERO" &&
 			isPlayableCard(card);
 
@@ -438,13 +438,13 @@ class Cards extends React.Component<Props, State> {
 		}
 	}
 
-	public componentWillReceiveProps(
+	static getDerivedStateFromProps(
 		nextProps: Readonly<Props>,
-		nextContext: any,
-	): void {
-		if (!this.state.cards && nextProps.cardData) {
+		prevState: State,
+	): Partial<State> | null {
+		if (!prevState.cards && nextProps.cardData) {
 			const cards = [];
-			const { set, type } = this.filters;
+			const { set, type } = Cards.FILTERS;
 			nextProps.cardData.all().forEach(card => {
 				if (
 					card.name &&
@@ -455,8 +455,9 @@ class Cards extends React.Component<Props, State> {
 				}
 			});
 			cards.sort(cardSorting);
-			this.setState({ cards });
+			return { cards };
 		}
+		return null;
 	}
 
 	public render(): React.ReactNode {
@@ -1313,7 +1314,7 @@ class Cards extends React.Component<Props, State> {
 			}
 		};
 
-		return this.filters[key].map(
+		return Cards.FILTERS[key].map(
 			item =>
 				getText("" + item) ? (
 					<InfoboxFilter value={item} disabled={!counts[item]}>
@@ -1329,7 +1330,7 @@ class Cards extends React.Component<Props, State> {
 	buildCostFilters(counts: any): JSX.Element[] {
 		return (
 			counts &&
-			this.filters["cost"].map(item => (
+			Cards.FILTERS["cost"].map(item => (
 				<InfoboxFilter
 					value={"" + item}
 					disabled={!counts["" + item]}
@@ -1454,7 +1455,7 @@ class Cards extends React.Component<Props, State> {
 
 		let filter = false;
 
-		Object.keys(this.filters).forEach(key => {
+		Object.keys(Cards.FILTERS).forEach(key => {
 			if (key === "playerClass") {
 				if (isStatsView) {
 					return;
@@ -1469,7 +1470,7 @@ class Cards extends React.Component<Props, State> {
 				return;
 			}
 
-			const available = this.filters[key].filter(
+			const available = Cards.FILTERS[key].filter(
 				x => values.indexOf("" + x) !== -1,
 			);
 			if (!filter && available.length) {
