@@ -246,7 +246,10 @@ class Discover extends React.Component<Props, State> {
 							}
 							playerClass={playerClass}
 							canModifyArchetype={dataset === "latest"}
-							requestReload={() => this.setState(s => ({key: s.key + 1}))}
+							requestReload={() => {
+								this.setState(s => ({key: s.key + 1}));
+								this.props.setTab("decks");
+							}}
 						/>
 					</DataInjector>
 				</main>
