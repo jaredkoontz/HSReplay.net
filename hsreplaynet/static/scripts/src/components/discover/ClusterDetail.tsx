@@ -1,5 +1,5 @@
 import _ from "lodash";
-import React from "react";
+import React, { Fragment } from "react";
 import { InjectedTranslateProps, translate } from "react-i18next";
 import CardData from "../../CardData";
 import UserData from "../../UserData";
@@ -47,23 +47,25 @@ class ClusterDetail extends React.Component<Props> {
 			const eligibleDecks = decks.filter(d => d.metadata.games > 1000)
 				.length;
 			content.push(
-				<h2>{t("Cluster info")}</h2>,
-				<table className="table">
-					<tbody>
-						<tr>
-							<th>{t("Total games")}</th>
-							<td>{commaSeparate(totalGames)}</td>
-						</tr>
-						<tr>
-							<th>{t("Total decks")}</th>
-							<td>{decks.length}</td>
-						</tr>
-						<tr>
-							<th>{t("Eligible decks")}</th>
-							<td>{eligibleDecks}</td>
-						</tr>
-					</tbody>
-				</table>,
+				<Fragment key="cluster-info">
+					<h2>{t("Cluster info")}</h2>
+					<table className="table">
+						<tbody>
+							<tr>
+								<th>{t("Total games")}</th>
+								<td>{commaSeparate(totalGames)}</td>
+							</tr>
+							<tr>
+								<th>{t("Total decks")}</th>
+								<td>{decks.length}</td>
+							</tr>
+							<tr>
+								<th>{t("Eligible decks")}</th>
+								<td>{eligibleDecks}</td>
+							</tr>
+						</tbody>
+					</table>
+				</Fragment>,
 			);
 			if (
 				!_.isEmpty(data.ccp_signatures) &&
@@ -75,11 +77,13 @@ class ClusterDetail extends React.Component<Props> {
 					format: null,
 				};
 				content.push(
-					<h2>{t("Weighted signature")}</h2>,
-					<ClusterSignature
-						cardData={cardData}
-						signature={cppSignature}
-					/>,
+					<Fragment key="weighted-signature">
+						<h2>{t("Weighted signature")}</h2>
+						<ClusterSignature
+							cardData={cardData}
+							signature={cppSignature}
+						/>
+					</Fragment>,
 				);
 			}
 			adminData = (
