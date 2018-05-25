@@ -60,11 +60,6 @@ class UserDetailsSerializer(UserSerializer):
 		return len(tokens) > 0
 
 
-class AccountHiLoSerializer(Serializer):
-	account_hi = IntegerField()
-	account_lo = IntegerField()
-
-
 class BlizzardAccountSerializer(Serializer):
 	battletag = CharField(max_length=64)
 

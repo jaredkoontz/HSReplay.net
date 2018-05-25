@@ -22,7 +22,7 @@ from hsreplaynet.utils import get_uuid_object_or_404
 from hsreplaynet.utils.influx import influx_metric
 
 from ..serializers.accounts import (
-	AccountHiLoSerializer, BlizzardAccountSerializer,
+	AccountHiLoRegionSerializer, BlizzardAccountSerializer,
 	ClaimTokenSerializer, UserDetailsSerializer
 )
 from ..serializers.socialaccount import TwitchSocialAccountSerializer
@@ -41,21 +41,24 @@ class UserDetailsView(RetrieveAPIView):
 class UnlinkBlizzardAccountView(APIView):
 	authentication_classes = (SessionAuthentication, OAuth2Authentication)
 	permission_classes = (IsAuthenticated, )
-	serializer_class = AccountHiLoSerializer
+	serializer_class = AccountHiLoRegionSerializer
 
 	def delete(self, request):
-		serializer = self.serializer_class(data={
-			"account_hi": request.GET.get("account_hi"),
-			"account_lo": request.GET.get("account_lo")
-		})
+		serializer = self.serializer_class(data=request.GET)
 		serializer.is_valid(raise_exception=True)
 
-		blizzard_account = BlizzardAccount.objects.filter(
-			account_hi=serializer.validated_data["account_hi"],
-			account_lo=serializer.validated_data["account_lo"],
-			user=request.user,
-		).first()
+		params = {
+			"user": request.user,
+			"account_lo": serializer.validated_data["account_lo"],
+		}
+		# We allow specifying either `account_hi` or `region`.
+		# So we have to pass the appropriate pair of parameters to find the account.
+		# The existence of the parameters is checked in the serializer itself.
+		for key in ("account_hi", "region"):
+			if key in serializer.validated_data:
+				params[key] = serializer.validated_data[key]
 
+		blizzard_account = BlizzardAccount.objects.filter(**params).first()
 		if not blizzard_account:
 			return Response({
 				"error": "account_not_found",
