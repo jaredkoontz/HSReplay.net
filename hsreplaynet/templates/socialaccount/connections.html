@@ -2,9 +2,9 @@
 {% load socialaccount staticfiles %}
 {% load feature from features %}
 {% load blocktrans trans from i18n %}
+{% load render_bundle from webpack_loader %}
 
 {% block content %}
-
 <section class="box-section">
 <h3>{% trans "Connected accounts" %}</h3>
 <div class="inner">
@@ -65,152 +65,11 @@
 </div>
 </section>
 
-<section id="account-blizzard-link" class="box-section">
-	<h3>{% trans "Connect with Blizzard" %}</h3>
-	<div class="inner">
-		<p>
-			{% blocktrans %}Here, you can connect multiple Blizzard accounts to your HSReplay.net account.
-			This lets you sign in with any of them.{% endblocktrans %}
-		</p>
-
-		<form method="GET" action="{% provider_login_url 'battlenet' %}">
-			<input type="hidden" name="process" value="connect"/>
-
-			<p>
-				<label for="id_region">Region</label>
-				<select name="region" id="id_region" class="sm">
-					<option value="us">Americas (US)</option>
-					<option value="eu">Europe (EU)</option>
-					<option value="kr">Korea (KR)</option>
-					<option value="sea">South East Asia (SEA)</option>
-					<option value="tw">Taiwan (TW)</option>
-					<option value="cn">China (CN)</option>
-				</select>
-				</label>
-			</p>
-
-			<p>
-				<a href="https://battle.net/en/?logout" target="_blank" rel="noopener" class="btn btn-default">{% trans "1. Sign out of Blizzard" %}</a>
-				<button type="submit" class="btn btn-primary">{% trans "2. Connect a Blizzard account" %}</button>
-			</p>
-
-			<p class="alert alert-info">
-				{% trans "Make sure to sign out of Blizzard before adding another account. This does not sign you out of HSReplay.net." %}
-			</p>
-		</form>
+	<div id="account-connections-container"
+		data-blizzard-url="{% provider_login_url 'battlenet' %}"
+		data-discord-url="{% provider_login_url 'discord' %}"
+		data-twitch-url="{% provider_login_url 'twitch' %}">
 	</div>
-</section>
-
-<section id="account-discord-link" class="box-section">
-	<h3>{% trans "Connect with Discord" %}</h3>
-	<div class="inner">
-		{% if premium %}
-		<p>
-			{% blocktrans %}As a subscriber, you have access to the exclusive <strong style="color:#dc9502">Premium Supporter</strong> role on <a href="https://discord.gg/hearthsim" target="_blank">our official Discord server</a>.
-			Connect your Discord account here to do so.{% endblocktrans %}
-		</p>
-
-		<form method="GET" action="{% provider_login_url 'discord' %}">
-			<input type="hidden" name="process" value="connect"/>
-			<p>
-				<button type="submit" class="btn btn-primary">{% trans "Connect a Discord account" %}</button>
-			</p>
-		</form>
-		{% else %}
-
-		<p>
-			<a href="{% url 'premium' %}">Premium subscribers</a> can connect their Discord account and get
-			a <strong style="color:#dc9502">special role</strong> on the <a href="https://discord.gg/hearthsim" target="_blank" rel="noopener">official HearthSim Discord</a>!
-		</p>
-
-		{% endif %}
-	</div>
-</section>
-
-<section id="account-twitch-link" class="box-section">
-	<h3>{% trans "Connect with Twitch" %}</h3>
-	<div class="inner">
-
-		<p>
-			Do you stream Hearthstone on Twitch?
-			Check out the <a href="https://articles.hsreplay.net/2017/10/26/twitch-extension-for-hearthstone-deck-tracker/">Twitch Extension for Hearthstone Deck Tracker</a>.
-			Connect your account here to set it up!
-		</p>
-
-		<form method="GET" action="{% provider_login_url 'twitch' %}">
-			<input type="hidden" name="process" value="connect"/>
-			<p>
-				<button type="submit" class="btn btn-primary">{% trans "Connect a Twitch account" %}</button>
-			</p>
-		</form>
-	</div>
-</section>
-
-<section id="account-blizzard-accounts" class="box-section">
-	<h3>{% trans "Hearthstone accounts" %}</h3>
-	<div class="inner">
-		<p>
-			{% blocktrans %}We have automatically detected the following Hearthstone accounts and associated them with you.
-			You can see statistics and upload your collection for any of these accounts.{% endblocktrans %}
-		</p>
-		{% if user.blizzard_accounts.count %}
-			<ul class="list-group list-group-no-margin">
-			{% for blizzard_account in user.blizzard_accounts.all %}
-				<li class="list-group-item">
-					<button
-						data-target-url="/api/v1/account/unlink/?account_hi={{ blizzard_account.account_hi }}&account_lo={{ blizzard_account.account_lo }}"
-						type="submit"
-						class="btn btn-danger pull-right remove-blizzard-account-button"
-					>
-						Remove
-					</button>
-					<strong>{{ blizzard_account }}</strong>
-					<div class="clearfix"></div>
-				</li>
-			{% endfor %}
-			</ul>
-			<script>
-				(function () {
-					var token = ("; " + document.cookie).split("; csrftoken=").pop().split(";").shift();
-					var btns = document.querySelectorAll(".remove-blizzard-account-button");
-					for (var i = 0; i < btns.length; i++) {
-						var btn = btns[i];
-						var url = btn.getAttribute("data-target-url");
-						btn.onclick = function () {
-							if (!confirm("By removing this account, you will no longer be able to access it's statistics. To recover it, upload some replays with that account!")) {
-								return;
-							}
-							btn.setAttribute("disabled", "disabled");
-							fetch(url, {
-								method: "DELETE",
-								credentials: "include",
-								headers: {
-									"X-CSRFToken": token,
-								}
-							}).then(function (response) {
-								if (response.status !== 200) {
-									throw new Error("Invalid response code");
-								}
-							}).then(function () {
-								btn.parentNode.remove();
-							})
-							.catch(function (error) {
-								btn.removeAttribute("disabled");
-								console.error(error);
-							});
-						};
-					}
-				})();
-			</script>
-		{% else %}
-		<p>
-			You do not have any connected Hearthstone account.
-			<a href="{% url 'downloads' %}">Download a Deck Tracker</a> and start uploading games!
-		</p>
-		{% endif %}
-	</div>
-</section>
-
-{% include "socialaccount/snippets/login_extra.html" %}
+	{% render_bundle "account_connections" %}
 
 {% endblock %}
