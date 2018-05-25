@@ -12,12 +12,12 @@ from hearthsim.identity.oauth2.permissions import OAuth2HasScopes
 from hsreplaynet.settings import S3_COLLECTIONS_BUCKET
 from hsreplaynet.utils.aws.clients import S3
 
-from ..serializers.collections import CollectionRequestSerializer
+from ..serializers.accounts import AccountHiLoRegionSerializer
 
 
 class BaseCollectionView(APIView):
 	authentication_classes = (SessionAuthentication, OAuth2Authentication)
-	serializer_class = CollectionRequestSerializer
+	serializer_class = AccountHiLoRegionSerializer
 
 	s3_key = "collections/{hi}/{lo}/collection.json"
 
