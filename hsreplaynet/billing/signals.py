@@ -52,5 +52,5 @@ def on_email_changed(request, user, from_email_address, to_email_address, **kwar
 		return
 
 	stripe_obj = customer.api_retrieve()
-	stripe_obj.email = to_email_address
+	stripe_obj.email = to_email_address.email
 	Customer.sync_from_stripe_data(stripe_obj.save())
