@@ -225,7 +225,13 @@ class SubscribeView(LoginRequiredMixin, PaymentsMixin, View):
 
 		try:
 			# Attempt to subscribe the customer to the plan
-			customer.subscribe(plan_id)
+			# Note on `charge_immediately`:
+			# This is a misnomer in dj-stripe. The way we use subscriptions,
+			# customers are immediately charged by default.
+			# If set to True, we will attempt to send an Invoice immediately.
+			# This is not the behaviour we want; it will error, there is nothing
+			# to invoice as it's done automatically by Stripe.
+			customer.subscribe(plan_id, charge_immediately=False)
 		except InvalidRequestError:
 			# Most likely, bad form data. This will be logged by Stripe.
 			messages.error(self.request, "Could not process subscription.")
