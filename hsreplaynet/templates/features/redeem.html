@@ -1,21 +1,9 @@
 {% extends "base.html" %}
+{% load render_bundle from webpack_loader %}
 
 {% block content %}
 
-<div class="container">
-	<h2>Redeem a code</h2>
-
-	<p>
-		Redeem an invitation code or a <a href="{% url 'premium' %}">HSReplay.net Premium</a> coupon.
-	</p>
-
-	<form method="POST" action="">
-		{% csrf_token %}
-		{{ form.as_p }}
-		<p>
-			<button type="submit" class="btn btn-primary">Redeem</button>
-		</p>
-	</form>
-</div>
+<div id="redeem-code-container"></div>
+{% render_bundle "redeem_code" %}
 
 {% endblock %}

@@ -45,6 +45,7 @@ module.exports = env => {
 		account_connections: makeEntry("account_connections"),
 		account_delete: makeEntry("account_delete"),
 		my_replays: makeEntry("my_replays"),
+		redeem_code: makeEntry("redeem_code"),
 		replay_detail: makeEntry("replay_detail"),
 		replay_embed: makeEntry("replay_embed"),
 		stats: {
