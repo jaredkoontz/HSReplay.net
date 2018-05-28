@@ -1,5 +1,5 @@
 import { getArchetypeUrl, toDynamicFixed } from "../../helpers";
-import React from "react";
+import React, { Fragment } from "react";
 import { Archetype, MetaPreview } from "../../utils/api";
 import { withLoading } from "../loading/Loading";
 import CardData from "../../CardData";
@@ -102,12 +102,16 @@ class ArchetypeHighlight extends React.Component<Props, State> {
 		return Object.keys(this.getRegions()).indexOf(region);
 	}
 
-	private getRankList(): string[] {
+	private getRankList(): React.ReactNode[] {
 		const { t } = this.props;
 		const ranks = [];
-		ranks.push(t("Legend"));
+		ranks.push(<Fragment key="legend">{t("Legend")}</Fragment>);
 		for (let i = 1; i <= 25; i++) {
-			ranks.push(t("Rank {rank}", { rank: i }));
+			ranks.push(
+				<Fragment key={`rank-${i}`}>
+					{t("Rank {rank}", { rank: i })}
+				</Fragment>,
+			);
 		}
 		return ranks;
 	}

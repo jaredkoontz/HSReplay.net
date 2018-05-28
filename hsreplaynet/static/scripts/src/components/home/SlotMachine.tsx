@@ -31,18 +31,24 @@ export default class SlotMachine extends React.Component<Props, State> {
 						top: `${-this.props.index * this.state.height}px`,
 					}}
 				>
-					{this.props.slots.map((slot, index) => (
-						<li
-							key={index}
-							className={
-								index === this.props.index
-									? "active"
-									: undefined
-							}
-						>
-							{slot}
-						</li>
-					))}
+					{this.props.slots.map((slot, index) => {
+						const key =
+							slot["key"] !== null
+								? slot["key"]
+								: `slot-${index}`;
+						return (
+							<li
+								key={key}
+								className={
+									index === this.props.index
+										? "active"
+										: undefined
+								}
+							>
+								{slot}
+							</li>
+						);
+					})}
 				</ul>
 			</div>
 		);
