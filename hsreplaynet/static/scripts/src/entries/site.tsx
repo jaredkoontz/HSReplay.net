@@ -70,6 +70,7 @@ if (document && document.location && document.location.search) {
 						</BlizzardAccountProvider>,
 						modalDummy,
 					);
+					break;
 				case "premium":
 					ReactDOM.render(
 						<Modal
@@ -82,6 +83,7 @@ if (document && document.location && document.location.search) {
 						</Modal>,
 						modalDummy,
 					);
+					break;
 			}
 			break;
 		}
