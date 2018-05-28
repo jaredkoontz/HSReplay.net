@@ -61,29 +61,43 @@ function checkModal() {
 			switch (value) {
 				case "collection":
 					ReactDOM.render(
-						<BlizzardAccountProvider>
+						<I18nextProvider
+							i18n={i18n}
+							initialLanguage={UserData.getLocale()}
+						>
+							<BlizzardAccountProvider>
+								<Modal
+									visible
+									onClose={() => {
+										ReactDOM.unmountComponentAtNode(
+											modalDummy,
+										);
+									}}
+								>
+									<CollectionSetup />
+								</Modal>
+							</BlizzardAccountProvider>
+						</I18nextProvider>,
+						modalDummy,
+					);
+					break;
+				case "premium":
+					ReactDOM.render(
+						<I18nextProvider
+							i18n={i18n}
+							initialLanguage={UserData.getLocale()}
+						>
 							<Modal
 								visible
 								onClose={() => {
 									ReactDOM.unmountComponentAtNode(modalDummy);
 								}}
 							>
-								<CollectionSetup />
+								<PremiumModal
+									analyticsLabel={"URL Parameter"}
+								/>
 							</Modal>
-						</BlizzardAccountProvider>,
-						modalDummy,
-					);
-					break;
-				case "premium":
-					ReactDOM.render(
-						<Modal
-							visible
-							onClose={() => {
-								ReactDOM.unmountComponentAtNode(modalDummy);
-							}}
-						>
-							<PremiumModal analyticsLabel={"URL Parameter"} />
-						</Modal>,
+						</I18nextProvider>,
 						modalDummy,
 					);
 					break;
