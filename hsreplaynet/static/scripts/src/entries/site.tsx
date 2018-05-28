@@ -39,7 +39,10 @@ if (document.readyState === "loading") {
 	renderNavbar();
 }
 
-if (document && document.location && document.location.search) {
+function checkModal() {
+	if (!document || !document.location || !document.location.search) {
+		return;
+	}
 	const search = document.location.search.replace(/^\?/, "");
 	const parts = search.split("&");
 	for (const part of parts) {
@@ -85,9 +88,18 @@ if (document && document.location && document.location.search) {
 					);
 					break;
 			}
+			document.body.appendChild(modalDummy);
 			break;
 		}
 	}
+}
+
+if (document && document.body) {
+	checkModal();
+} else {
+	document.addEventListener("DOMContentLoaded", () => {
+		checkModal();
+	});
 }
 
 if (
