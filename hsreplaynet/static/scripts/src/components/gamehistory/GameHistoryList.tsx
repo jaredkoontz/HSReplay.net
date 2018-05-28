@@ -40,7 +40,7 @@ export default class GameHistoryList extends React.Component<Props> {
 
 			columns.push(
 				<GameHistoryItem
-					key={i}
+					key={game.shortid}
 					cardArt={this.props.cardArt}
 					image={this.props.image}
 					shortid={game.shortid}

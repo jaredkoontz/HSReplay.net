@@ -44,13 +44,13 @@ class GameHistoryItem extends React.Component<Props> {
 						{[
 							this.props.friendlyPlayer,
 							this.props.opposingPlayer,
-						].map((player: GlobalGamePlayer, i: number) => {
+						].map(player => {
 							if (!player) {
 								return null;
 							}
 							return (
 								<GameHistoryPlayer
-									key={i}
+									key={player.player_id}
 									cardArt={this.props.cardArt}
 									name={player.name}
 									heroId={player.hero_id}

@@ -12,7 +12,7 @@ class GameHistoryTable extends React.Component<Props> {
 	public render(): React.ReactNode {
 		const columns = [];
 		const { t } = this.props;
-		this.props.games.forEach((game: GameReplay, i: number) => {
+		this.props.games.forEach(game => {
 			const startTime: Date = new Date(game.global_game.match_start);
 			const endTime: Date = new Date(game.global_game.match_end);
 
@@ -26,7 +26,7 @@ class GameHistoryTable extends React.Component<Props> {
 
 			columns.push(
 				<GameHistoryTableRow
-					key={i}
+					key={game.shortid}
 					cardArt={this.props.cardArt}
 					image={this.props.image}
 					shortid={game.shortid}

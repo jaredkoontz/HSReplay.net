@@ -94,7 +94,7 @@ class ArchetypeHighlight extends React.Component<Props, State> {
 	private getRegionList(): React.ReactNode[] {
 		const regions = this.getRegions();
 		return Object.keys(regions).map((k: string, i: number) => (
-			<PrettyRegion region={regions[k]} key={i} />
+			<PrettyRegion region={regions[k]} key={k} />
 		));
 	}
 
