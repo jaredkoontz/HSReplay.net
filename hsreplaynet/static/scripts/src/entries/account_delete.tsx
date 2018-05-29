@@ -10,5 +10,5 @@ ReactDOM.render(
 	<Root>
 		<AccountDelete />
 	</Root>,
-	document.getElementById("account-delete-container"),
+	document.getElementById("account_delete-container"),
 );

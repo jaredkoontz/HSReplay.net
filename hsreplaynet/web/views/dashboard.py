@@ -21,6 +21,8 @@ from hsreplaynet.utils.influx import influx_metric
 from hsreplaynet.web.html import RequestMetaMixin
 from hsreplaynet.webhooks.models import WebhookDelivery, WebhookEndpoint
 
+from . import SimpleReactView
+
 
 logger = logging.getLogger("hsreplaynet")
 
@@ -75,10 +77,11 @@ class APIAccountView(LoginRequiredMixin, RequestMetaMixin, View):
 		return render(request, self.template_name, context)
 
 
-class DeleteAccountView(LoginRequiredMixin, RequestMetaMixin, TemplateView):
-	template_name = "account/delete.html"
+class DeleteAccountView(LoginRequiredMixin, SimpleReactView):
 	success_url = reverse_lazy("home")
 	title = "Delete Account"
+	bundle = "account_delete"
+	base_template = "account/base.html"
 
 	def can_delete(self):
 		if self.request.user.is_staff:

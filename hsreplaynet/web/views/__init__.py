@@ -99,10 +99,12 @@ class LoginView(BaseLoginView):
 
 class SimpleReactView(RequestMetaMixin, TemplateView):
 	template_name = "react_base.html"
+	base_template = "base.html"
 	bundle = ""
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
+		context["base_template"] = self.base_template
 		context["bundle"] = self.bundle
 		context["react_context"] = self.get_react_context()
 		return context
