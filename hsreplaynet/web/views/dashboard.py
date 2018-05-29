@@ -30,39 +30,41 @@ logger = logging.getLogger("hsreplaynet")
 ##
 # Account management
 
-class EditAccountView(LoginRequiredMixin, RequestMetaMixin, UpdateView):
-	template_name = "account/edit.html"
+class EditAccountView(LoginRequiredMixin, UpdateView, SimpleReactView):
 	model = User
 	fields = [
-		"default_replay_visibility", "joust_autoplay", "locale", "exclude_from_statistics"
+		"default_replay_visibility", "joust_autoplay", "exclude_from_statistics"
 	]
 	success_url = "/account/"
 	title = "My Account"
+	bundle = "account_edit"
+	base_template = "account/base.html"
+	object = None
 
 	def get_object(self, queryset=None):
 		return self.request.user
 
-	def get_context_data(self, **kwargs):
-		context = super().get_context_data(**kwargs)
-
-		context["reflink"] = ReferralLink.objects.filter(user=self.request.user).first()
-		if not context["reflink"]:
-			context["reflink"] = ReferralLink.objects.create(
+	def get_react_context(self):
+		reflink = ReferralLink.objects.filter(user=self.request.user).first()
+		if not reflink:
+			reflink = ReferralLink.objects.create(
 				identifier=ShortUUID().uuid()[:6], user=self.request.user
 			)
 
-		context["hits"] = ReferralHit.objects.filter(
-			referral_link=context["reflink"]
-		).exclude(confirmed=None).count()
+		if reflink.disabled:
+			reflink_url = ""
+		else:
+			reflink_url = "https://hsreplay.net" + reflink.get_absolute_url()
 
-		context["form"].fields["locale"].required = False
-		context["form"].fields["locale"].widget.choices.insert(0, ("", "System Default"))
-
-		# Collection syncing is enabled unless the cookie is set.
-		context["collection_syncing"] = \
-			self.request.COOKIES.get("disable-collection", "") != "true"
-
-		return context
+		return {
+			"default_replay_visibility": self.request.user.default_replay_visibility,
+			"exclude_from_statistics": self.request.user.exclude_from_statistics,
+			"joust_autoplay": self.request.user.joust_autoplay,
+			"reflink": reflink_url,
+			"hits": ReferralHit.objects.filter(
+				referral_link=reflink
+			).exclude(confirmed=None).count(),
+		}
 
 
 class APIAccountView(LoginRequiredMixin, RequestMetaMixin, View):
