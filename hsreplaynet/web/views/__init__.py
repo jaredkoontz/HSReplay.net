@@ -97,8 +97,21 @@ class LoginView(BaseLoginView):
 		return super().get(request)
 
 
-class DownloadsView(RequestMetaMixin, TemplateView):
-	template_name = "downloads.html"
+class SimpleReactView(RequestMetaMixin, TemplateView):
+	template_name = "react_base.html"
+	bundle = ""
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context["bundle"] = self.bundle
+		context["react_context"] = self.get_react_context()
+		return context
+
+	def get_react_context(self):
+		return {}
+
+
+class DownloadsView(SimpleReactView):
 	title = "Downloads"
 	stylesheets = (
 		{"href": settings.FONTAWESOME_CSS_URL, "integrity": settings.FONTAWESOME_CSS_INTEGRITY},
