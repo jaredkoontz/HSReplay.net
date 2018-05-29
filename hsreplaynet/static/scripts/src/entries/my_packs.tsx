@@ -1,12 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import CardData from "../CardData";
-import MyPacks from "../pages/MyPacks";
-import { Consumer as AccountConsumer } from "../components/utils/hearthstone-account";
-import DataInjector from "../components/DataInjector";
-
 import UserData from "../UserData";
+import DataInjector from "../components/DataInjector";
 import Root from "../components/Root";
+import { Consumer as AccountConsumer } from "../components/utils/hearthstone-account";
+import MyPacks from "../pages/MyPacks";
 
 UserData.create();
 
@@ -35,7 +34,7 @@ const render = (cardData: CardData) => {
 				)}
 			</AccountConsumer>
 		</Root>,
-		document.getElementById("my-packs-container"),
+		document.getElementById("my_packs-container"),
 	);
 };
 
