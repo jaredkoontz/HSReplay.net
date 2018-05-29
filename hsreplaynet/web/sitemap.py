@@ -6,7 +6,6 @@ from hsreplaynet.decks.models import Archetype
 
 
 class StaticViewSitemap(Sitemap):
-	changefreq = "daily"
 	priority = 1.0
 
 	def items(self):
@@ -28,8 +27,6 @@ class StaticViewSitemap(Sitemap):
 
 
 class CardSitemap(Sitemap):
-	changefreq = "daily"
-
 	def items(self):
 		return Card.objects.all()
 
