@@ -10,6 +10,8 @@ from hsreplaynet.web.views.dashboard import DeleteAccountView, DeleteReplaysView
 @pytest.fixture
 def disconnect_post_delete():
 	signals.pre_delete.disconnect(receiver=on_delete_subscriber_purge_customer, sender=User)
+	yield
+	signals.pre_delete.connect(receiver=on_delete_subscriber_purge_customer, sender=User)
 
 
 @pytest.fixture

@@ -869,7 +869,7 @@ def update_replay_feed(replay):
 		if replay.global_game.exclude_from_statistics:
 			return
 
-		if replay.user.default_replay_visibility != Visibility.Public:
+		if replay.user is not None and replay.user.default_replay_visibility != Visibility.Public:
 			return
 
 		elapsed_minutes = elapsed_seconds_from_match_end(replay.global_game) / 60.0
