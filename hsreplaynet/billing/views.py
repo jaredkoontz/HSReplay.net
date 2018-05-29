@@ -1,5 +1,3 @@
-import random
-
 from allauth.account.models import EmailAddress
 from django.conf import settings
 from django.contrib import messages
@@ -10,10 +8,8 @@ from django.urls import reverse_lazy
 from django.utils.http import is_safe_url
 from django.utils.timezone import now
 from django.views.generic import TemplateView, View
-from django_reflinks.models import ReferralLink
 from djstripe.enums import SubscriptionStatus
 from djstripe.settings import STRIPE_LIVE_MODE
-from shortuuid import ShortUUID
 from stripe.error import CardError, InvalidRequestError
 
 from hsreplaynet.web.html import RequestMetaMixin
@@ -407,46 +403,6 @@ class UpdateCardView(LoginRequiredMixin, View):
 	def post(self, request):
 		self.handle_form(request)
 		return redirect(self.success_url)
-
-
-class PremiumDetailView(RequestMetaMixin, TemplateView):
-	template_name = "premium/premium_detail.html"
-	title = "HSReplay.net Premium"
-	description = "More filters, more features, more data: Gain access to advanced " \
-		"Hearthstone statistics backed by millions of games with HSReplay.net Premium " \
-		"for HSReplay.net."
-
-	quotes = [
-		"It only cost my soul!",
-		"Mind if I roll Need?",
-		"I hope you like my invention!",
-		"Who knows what secrets we'll uncover?",
-		"You require my assistance?",
-		"Don't worry love, the cavalry's here!",
-		"Put your faith in the stats.",
-		"The gates are open!",
-		"Are you ready for this?",
-		"Join, or die… or both!",
-		"D-d-don't touch that!",
-		"Wanna blow somethin' up?",
-		"I have no time for games!",
-		"Support a small indie company!",
-		"Everyone, get in here!",
-	]
-
-	def get_context_data(self, **kwargs):
-		context = super().get_context_data(**kwargs)
-		context["random_quote"] = random.choice(self.quotes)
-		user = self.request.user
-
-		if user.is_authenticated:
-			context["reflink"] = ReferralLink.objects.filter(user=user).first()
-			if not context["reflink"]:
-				context["reflink"] = ReferralLink.objects.create(
-					identifier=ShortUUID().uuid()[:6], user=user
-				)
-
-		return context
 
 
 class BasePaypalView(View):

@@ -4,11 +4,11 @@ from django.contrib.flatpages.views import flatpage
 from django.contrib.sitemaps.views import sitemap
 from django.views.generic import RedirectView
 
-from .billing.views import PremiumDetailView
 from .web.sitemap import SITEMAPS
 from .web.views import (
 	ArticlesRedirectView, DownloadsView, HomeView, PingView, SetLocaleView
 )
+from .web.views.premium import PremiumDetailView
 from .web.views.profiles import PackListView
 from .web.views.redeem import RedeemCodeView
 from .web.views.replays import (
