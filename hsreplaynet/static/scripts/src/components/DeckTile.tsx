@@ -61,104 +61,72 @@ class DeckTile extends React.Component<Props> {
 
 	public render(): React.ReactNode {
 		const { t } = this.props;
-		const cards = this.props.cards || [];
-		const cardIcons = [];
+		const cards: CardObj[] = this.props.cards || [];
+		const collection: Collection | null =
+			this.props.collection && typeof this.props.collection === "object"
+				? this.props.collection
+				: null;
 
 		if (this.props.compareWith) {
-			const removed = this.props.compareWith.filter(c1 =>
+			const removedCards = this.props.compareWith.filter(c1 =>
 				cards.every(c2 => c2.card.id !== c1.card.id),
 			);
-			removed.forEach(c => cards.push({ card: c.card, count: 0 }));
+			removedCards.forEach(c => cards.push({ card: c.card, count: 0 }));
 		}
 
 		cards.sort(cardSorting);
 
-		let canBeBuilt = !!this.props.collection;
-		cards.forEach((obj, index: number) => {
-			const card = obj.card;
-			const count = +obj.count;
+		let canBeBuilt = !!collection;
+		const cardIcons = cards.flatMap(cardObj => {
+			const card = cardObj.card;
+			const count = +cardObj.count;
+			let userOwns = null;
+			if (collection) {
+				const [nonGolden, golden] = collection.collection[
+					card.dbfId
+				] || [0, 0];
+				userOwns = nonGolden + golden;
+				if (userOwns < count) {
+					canBeBuilt = false;
+				}
+			}
+
 			const markStyle = {
 				color: "#f4d442",
 				fontSize: "1em",
 				right: 0,
 				top: 0,
 			};
+			let markText = this.getMark(card, count);
 
-			let userOwns = null;
-			if (
-				this.props.collection &&
-				typeof this.props.collection.collection === "object"
-			) {
-				const collectionCards = this.props.collection.collection;
-				const dbfId = card.dbfId;
-				const [nonGolden, golden] = collectionCards[dbfId] || [0, 0];
-				userOwns = nonGolden + golden;
-			}
-
-			let remaining = count;
-			let toCraft = null;
-
-			if (
-				!this.props.compareWith &&
-				userOwns !== null &&
-				userOwns < count
-			) {
-				const difference = count - userOwns;
-				toCraft = (
-					<li
-						className={"missing-card"}
-						key={`${count}x ${card.id} (to craft)`}
-					>
-						<CardIcon
-							card={card}
-							mark={this.getMark(card, difference)}
-							markStyle={markStyle}
-							tabIndex={-1}
-							craftable
-						/>
-					</li>
-				);
-				canBeBuilt = false;
-				remaining -= difference;
-			}
-
-			if (remaining > 0 || this.props.compareWith) {
+			if (this.props.compareWith) {
 				let itemClassName = null;
-				let markText = this.getMark(card, remaining);
-
-				if (this.props.compareWith) {
-					const comparisonCard = this.props.compareWith.find(
-						c => c.card.dbfId === card.dbfId,
-					);
-					if (count === 0) {
-						itemClassName = "removed";
-						markText = "" + -comparisonCard.count;
+				const comparisonCard = this.props.compareWith.find(
+					c => c.card.dbfId === card.dbfId,
+				);
+				if (count === 0) {
+					itemClassName = "removed";
+					markText = "" + -comparisonCard.count;
+				} else {
+					if (!comparisonCard || comparisonCard.count < count) {
+						itemClassName = "added";
+						markText =
+							"+" +
+							(count -
+								(comparisonCard ? comparisonCard.count : 0));
+					} else if (comparisonCard.count > count) {
+						itemClassName = "reduced";
+						markText = "" + (count - comparisonCard.count);
 					} else {
-						if (!comparisonCard || comparisonCard.count < count) {
-							itemClassName = "added";
-							markText =
-								"+" +
-								(count -
-									(comparisonCard
-										? comparisonCard.count
-										: 0));
-						} else if (comparisonCard.count > count) {
-							itemClassName = "reduced";
-							markText = "" + (count - comparisonCard.count);
-						} else {
-							itemClassName = "unchanged";
-						}
+						itemClassName = "unchanged";
 					}
 				}
-
-				cardIcons.push(
+				return [
 					<li
 						className={itemClassName}
-						key={
-							this.props.compareWith
-								? index
-								: `${count}x ${card.id}`
-						}
+						key={`${comparisonCard.count - count}-${
+							card.dbfId
+						}-comparison`}
 					>
 						<CardIcon
 							card={card}
@@ -167,11 +135,46 @@ class DeckTile extends React.Component<Props> {
 							tabIndex={-1}
 						/>
 					</li>,
-				);
-			}
-
-			if (toCraft !== null) {
-				cardIcons.push(toCraft);
+				];
+			} else {
+				if (userOwns > 0 && userOwns < count) {
+					return [
+						<li key={`${count}-${card.dbfId}-owned`}>
+							<CardIcon
+								card={card}
+								mark={this.getMark(
+									card,
+									Math.min(userOwns, count),
+								)}
+								markStyle={markStyle}
+								tabIndex={-1}
+							/>
+						</li>,
+						<li key={`${count}-${card.dbfId}-craftable`}>
+							<CardIcon
+								card={card}
+								mark={this.getMark(
+									card,
+									Math.max(count - userOwns, 0),
+								)}
+								markStyle={markStyle}
+								craftable
+								tabIndex={-1}
+							/>
+						</li>,
+					];
+				}
+				return [
+					<li key={`${count}-${card.dbfId}`}>
+						<CardIcon
+							card={card}
+							mark={this.getMark(card, count)}
+							markStyle={markStyle}
+							craftable={collection && userOwns < count}
+							tabIndex={-1}
+						/>
+					</li>,
+				];
 			}
 		});
 
