@@ -6,7 +6,7 @@ import RedeemCode from "../pages/RedeemCode";
 
 UserData.create();
 
-const e = document.getElementById("redeem-code-container");
+const e = document.getElementById("redeem_code-container");
 
 ReactDOM.render(
 	<Root>

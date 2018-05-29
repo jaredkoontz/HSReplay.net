@@ -7,6 +7,8 @@ from django.urls import reverse_lazy
 from django.utils.http import is_safe_url
 from django.views.generic import FormView
 
+from hsreplaynet.web.views import SimpleReactView
+
 from .models import FeatureError, FeatureInvite
 
 
@@ -21,10 +23,10 @@ class FeatureInviteForm(Form):
 		return feature.uuid
 
 
-class FeatureInviteRedeemView(LoginRequiredMixin, FormView):
-	template_name = "features/redeem.html"
+class FeatureInviteRedeemView(LoginRequiredMixin, FormView, SimpleReactView):
 	form_class = FeatureInviteForm
 	success_url = reverse_lazy("feature_invite_redeem")
+	bundle = "redeem_code"
 
 	def get_initial(self):
 		initial = super().get_initial()
