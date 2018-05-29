@@ -1,6 +1,6 @@
 import React from "react";
-import { Visibility } from "../interfaces";
 import { fetchCSRF } from "../helpers";
+import { Visibility } from "../interfaces";
 
 interface Props {
 	initial: Visibility;
@@ -31,11 +31,11 @@ export default class PrivacyDropdown extends React.Component<Props, State> {
 
 		return (
 			<select
-				onChange={(e: any) => {
+				onChange={e => {
 					if (this.state.working) {
 						return;
 					}
-					const selected = e.target.value;
+					const selected = parseInt(e.target.value, 10) as Visibility;
 					this.setState({
 						selected,
 					});
