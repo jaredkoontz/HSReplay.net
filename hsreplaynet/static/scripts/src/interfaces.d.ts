@@ -65,7 +65,6 @@ export interface Deck {
 export const enum Visibility {
 	Public = 1,
 	Unlisted = 2,
-	Private = 3,
 }
 
 export interface ImageProps {

@@ -2,11 +2,12 @@ import React from "react";
 import { InjectedTranslateProps, Trans, translate } from "react-i18next";
 import CSRFElement from "../components/CSRFElement";
 import { isCollectionDisabled } from "../utils/collection";
+import { Visibility } from "../interfaces";
 
 interface Props extends InjectedTranslateProps {
 	reflink: string;
 	hits: number;
-	defaultReplayVisibility: number;
+	defaultReplayVisibility: Visibility;
 	excludeFromStatistics: boolean;
 	joustAutoplay: boolean;
 }
@@ -98,8 +99,12 @@ class AccountEdit extends React.Component<Props, State> {
 									"" + this.props.defaultReplayVisibility
 								}
 							>
-								<option value="1">{t("Public")}</option>
-								<option value="2">{t("Unlisted")}</option>
+								<option value={"" + Visibility.Public}>
+									{t("Public")}
+								</option>
+								<option value={"" + Visibility.Unlisted}>
+									{t("Unlisted")}
+								</option>
 							</select>
 						</p>
 
