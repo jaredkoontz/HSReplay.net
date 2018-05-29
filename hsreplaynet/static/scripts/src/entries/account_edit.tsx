@@ -15,7 +15,9 @@ ReactDOM.render(
 		<AccountEdit
 			reflink={context["reflink"]}
 			hits={context["hits"]}
-			defaultReplayVisibility={+context["default_replay_visibility"] as Visibility}
+			defaultReplayVisibility={
+				+context["default_replay_visibility"] as Visibility
+			}
 			excludeFromStatistics={context["exclude_from_statistics"]}
 			joustAutoplay={context["joust_autoplay"]}
 		/>
