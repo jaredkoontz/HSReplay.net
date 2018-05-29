@@ -2,7 +2,9 @@ import React from "react";
 import { InjectedTranslateProps, Trans, translate } from "react-i18next";
 import CSRFElement from "../components/CSRFElement";
 
-interface Props extends InjectedTranslateProps {}
+interface Props extends InjectedTranslateProps {
+	code: string;
+}
 interface State {}
 
 class RedeemCode extends React.Component<Props, State> {
@@ -22,8 +24,16 @@ class RedeemCode extends React.Component<Props, State> {
 				<form method="POST" action="">
 					<CSRFElement />
 					<p>
-						<label htmlFor="id_uuid">{t("Code:")}</label>{" "}
-						<input type="text" name="uuid" size={40} required />
+						<label>
+							{t("Code:")}{" "}
+							<input
+								type="text"
+								name="uuid"
+								size={40}
+								defaultValue={this.props.code}
+								required
+							/>
+						</label>
 					</p>
 
 					<p>

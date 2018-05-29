@@ -4,8 +4,7 @@ from rest_framework.routers import DefaultRouter
 from hsreplaynet.analytics.urls import api_urlpatterns as analytics_urlpatterns
 from hsreplaynet.decks.api import ArchetypeViewSet
 from hsreplaynet.decks.urls import api_urlpatterns as decks_urlpatterns
-from hsreplaynet.features.api import FeatureViewSet
-from hsreplaynet.features.urls import api_urlpatterns as features_urlpatterns
+from hsreplaynet.features.api import FeatureViewSet, SetFeatureView
 
 from . import views
 from .legacy import AuthTokenViewSet, CreateAccountClaimView
@@ -38,12 +37,12 @@ urlpatterns = [
 	url(r"^v1/games/(?P<shortid>.+)/$", views.games.GameReplayDetail.as_view()),
 	url(r"^v1/analytics/global/$", views.analytics.GlobalAnalyticsQueryView.as_view()),
 	url(r"^v1/analytics/personal/$", views.analytics.PersonalAnalyticsQueryView.as_view()),
+	url(r"^v1/features/(?P<name>[\w-]+)/$", SetFeatureView.as_view()),
 	url(r"^v1/live/", include("hsreplaynet.api.live.urls")),
 	url(r"^api-auth/", include("rest_framework.urls", namespace="rest_framework")),
 ]
 
 urlpatterns += decks_urlpatterns
 urlpatterns += analytics_urlpatterns
-urlpatterns += features_urlpatterns
 
 urlpatterns += [url(r"v1/", include(router.urls))]

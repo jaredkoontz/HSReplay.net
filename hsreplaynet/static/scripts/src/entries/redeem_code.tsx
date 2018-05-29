@@ -5,12 +5,13 @@ import Root from "../components/Root";
 import RedeemCode from "../pages/RedeemCode";
 
 UserData.create();
-
-const e = document.getElementById("redeem_code-container");
+const context = JSON.parse(
+	document.getElementById("react_context").textContent,
+);
 
 ReactDOM.render(
 	<Root>
-		<RedeemCode />
+		<RedeemCode code={context["code"]} />
 	</Root>,
-	e,
+	document.getElementById("redeem_code-container"),
 );

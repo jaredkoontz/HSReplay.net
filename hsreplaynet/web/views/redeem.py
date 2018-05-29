@@ -7,12 +7,12 @@ from django.urls import reverse_lazy
 from django.utils.http import is_safe_url
 from django.views.generic import FormView
 
-from hsreplaynet.web.views import SimpleReactView
+from hsreplaynet.features.models import FeatureError, FeatureInvite
 
-from .models import FeatureError, FeatureInvite
+from . import SimpleReactView
 
 
-class FeatureInviteForm(Form):
+class RedeemCodeForm(Form):
 	uuid = CharField(label="Code", required=True, widget=TextInput(attrs={"size": 40}))
 
 	def clean_uuid(self):
@@ -23,17 +23,10 @@ class FeatureInviteForm(Form):
 		return feature.uuid
 
 
-class FeatureInviteRedeemView(LoginRequiredMixin, FormView, SimpleReactView):
-	form_class = FeatureInviteForm
-	success_url = reverse_lazy("feature_invite_redeem")
+class RedeemCodeView(LoginRequiredMixin, SimpleReactView, FormView):
+	form_class = RedeemCodeForm
+	success_url = reverse_lazy("redeem_code")
 	bundle = "redeem_code"
-
-	def get_initial(self):
-		initial = super().get_initial()
-		if "code" in self.request.GET:
-			initial["uuid"] = self.request.GET["code"][:40]
-
-		return initial
 
 	def form_valid(self, form):
 		invite = FeatureInvite.objects.get(uuid=form.cleaned_data["uuid"])
@@ -51,3 +44,9 @@ class FeatureInviteRedeemView(LoginRequiredMixin, FormView, SimpleReactView):
 				return redirect(next)
 
 		return super().form_valid(form)
+
+	def get_react_context(self):
+		ret = {}
+		if "code" in self.request.GET:
+			ret["code"] = self.request.GET["code"][:40]
+		return ret
