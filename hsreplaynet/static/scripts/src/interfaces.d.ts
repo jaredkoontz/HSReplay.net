@@ -68,11 +68,11 @@ export const enum Visibility {
 }
 
 export interface ImageProps {
-	image: (string) => string;
+	image: (name: string) => string;
 }
 
 export interface CardArtProps {
-	cardArt: (string) => string;
+	cardArt: (name: string) => string;
 }
 
 export interface SelectableProps {
@@ -90,11 +90,6 @@ type RenderTypes =
 	| "single_value"
 	| "gauge"
 	| "list_table";
-
-export interface FilterData {
-	filters: Filter[];
-	server_date: Date;
-}
 
 export interface Filter {
 	name: string;
@@ -218,10 +213,6 @@ export interface CardObj {
 	count: number;
 }
 
-export interface MyDecks {
-	[deckId: string]: any;
-}
-
 export interface ArchetypeData {
 	matchups: MatchupData[];
 	id: number;
@@ -314,20 +305,6 @@ export interface TableHeaderProps {
 	infoText?: TooltipContent;
 	sortable?: boolean;
 	classNames?: string[];
-}
-
-export interface ApiTrainingData {
-	id: number;
-	deck: ApiTrainingDataDeck;
-	is_validation_deck: boolean;
-}
-
-export interface ApiTrainingDataDeck {
-	id: number;
-	archetype: number;
-	shortid: string;
-	cards: number[];
-	digest: string;
 }
 
 export interface SortableProps {
