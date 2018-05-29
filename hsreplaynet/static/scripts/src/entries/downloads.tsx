@@ -4,12 +4,15 @@ import Root from "../components/Root";
 import Downloads from "../pages/Downloads";
 
 const e = document.getElementById("downloads-container");
+const context = JSON.parse(
+	document.getElementById("react_context").textContent,
+);
 
 ReactDOM.render(
 	<Root>
 		<Downloads
-			hdtDownloadUrl={e.getAttribute("data-hdt-download-url")}
-			hstrackerDownloadUrl={e.getAttribute("data-hstracker-download-url")}
+			hdtDownloadUrl={context["hdt_download_url"]}
+			hstrackerDownloadUrl={context["hstracker_download_url"]}
 		/>
 	</Root>,
 	e,

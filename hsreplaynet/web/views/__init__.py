@@ -116,6 +116,13 @@ class DownloadsView(SimpleReactView):
 	stylesheets = (
 		{"href": settings.FONTAWESOME_CSS_URL, "integrity": settings.FONTAWESOME_CSS_INTEGRITY},
 	)
+	bundle = "downloads"
+
+	def get_react_context(self):
+		return {
+			"hdt_download_url": settings.HDT_DOWNLOAD_URL,
+			"hstracker_download_url": settings.HSTRACKER_DOWNLOAD_URL,
+		}
 
 
 class PingView(View):
