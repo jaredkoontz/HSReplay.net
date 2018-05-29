@@ -124,9 +124,9 @@ class DeckTile extends React.Component<Props> {
 				return [
 					<li
 						className={itemClassName}
-						key={`${comparisonCard.count - count}-${
-							card.dbfId
-						}-comparison`}
+						key={`${
+							comparisonCard ? comparisonCard.count - count : 0
+						}-${card.dbfId}-comparison`}
 					>
 						<CardIcon
 							card={card}
