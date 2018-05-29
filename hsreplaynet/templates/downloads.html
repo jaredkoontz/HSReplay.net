@@ -1,40 +1,14 @@
 {% extends "base.html" %}
-{% load static %}
-{% load web_extras %}
+{% load render_bundle from webpack_loader %}
+{% load setting from web_extras %}
 
 {% block content %}
-<div id="downloads" class="container-fluid">
-	<header>
-		<h1>Downloads</h1>
-	</header>
 
-    <div class="row">
-		<div class="col-lg-2 col-lg-offset-4 col-md-3 col-md-offset-3 col-sm-6 col-xs-12 download-container">
-			<a href="{% setting 'HDT_DOWNLOAD_URL' %}" class="download-platform">
-				<p><i class="fa fa-windows"></i></p>
-				<p>Windows</p>
-			</a>
-			<div class="download-description">
-				<p>
-					Our official client on Windows is <a href="https://hsdecktracker.net">Hearthstone Deck Tracker</a>.
-				</p>
-			</div>
-			<a href="{% setting 'HDT_DOWNLOAD_URL' %}" class="download-clickme">Download</a>
-		</div>
+<div id="downloads-container"
+	data-hdt-download-url="{% setting 'HDT_DOWNLOAD_URL' %}"
+	data-hstracker-download-url="{% setting 'HSTRACKER_DOWNLOAD_URL' %}"
+></div>
 
-		<div class="col-lg-2 col-md-3 col-md-3 col-sm-6 col-xs-12 download-container">
-			<a href="{% setting 'HSTRACKER_DOWNLOAD_URL' %}" class="download-platform">
-				<p><i class="fa fa-apple"></i></p>
-				<p>macOS (beta)</p>
-			</a>
-			<div class="download-description">
-				<p>
-					For macOS you can use <a href="https://github.com/HearthSim/HSTracker">HSTracker</a>,
-					the official port of Hearthstone Deck Tracker (currently still in beta).
-				</p>
-			</div>
-			<a href="{% setting 'HSTRACKER_DOWNLOAD_URL' %}" class="download-clickme">Download</a>
-		</div>
-	</div>
-</div>
+{% render_bundle "downloads" %}
+
 {% endblock %}

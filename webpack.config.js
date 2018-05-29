@@ -44,6 +44,7 @@ module.exports = env => {
 	const entries = {
 		account_connections: makeEntry("account_connections"),
 		account_delete: makeEntry("account_delete"),
+		downloads: makeEntry("downloads"),
 		my_replays: makeEntry("my_replays"),
 		redeem_code: makeEntry("redeem_code"),
 		replay_detail: makeEntry("replay_detail"),
