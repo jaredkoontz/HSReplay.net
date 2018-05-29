@@ -82,12 +82,12 @@ def test_update_replay_feed_deleted_user(mocker, user):
 	mock_replay_feed.push.assert_called_once_with({
 		"id": ANY,
 
-		"player1_archetype": 1,
+		"player1_archetype": archetype.id,
 		"player1_legend_rank": None,
 		"player1_rank": 25,
 		"player1_won": False,
 
-		"player2_archetype": 1,
+		"player2_archetype": archetype.id,
 		"player2_legend_rank": None,
 		"player2_rank": 25,
 		"player2_won": False
