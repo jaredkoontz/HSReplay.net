@@ -224,7 +224,7 @@ def do_drain_redshift_query_queue_iteration(queue_name):
 				lambda_invocation.start()
 
 			# We will exit once all child redshift_query_runners have returned.
-			countdown_latch.await()
+			countdown_latch.await_()
 			return True
 		else:
 			return False

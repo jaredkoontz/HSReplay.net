@@ -2,7 +2,7 @@ import threading
 from contextlib import contextmanager
 
 
-class CountDownLatch(object):
+class CountDownLatch:
 	def __init__(self, count=1):
 		self.count = count
 		self.lock = threading.Condition()
@@ -13,7 +13,7 @@ class CountDownLatch(object):
 			if self.count <= 0:
 				self.lock.notify_all()
 
-	def await(self):
+	def await_(self):
 		with self.lock:
 			while self.count > 0:
 				self.lock.wait()

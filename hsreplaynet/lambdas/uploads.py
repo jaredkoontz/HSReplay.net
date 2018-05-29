@@ -81,7 +81,7 @@ def process_replay_upload_stream_handler(event, context):
 
 	logger.debug("All child invocations have been started")
 	# We will exit once all child invocations have returned.
-	countdown_latch.await()
+	countdown_latch.await_()
 	logger.debug("All child invocations have completed")
 
 
