@@ -164,11 +164,11 @@ class ReplayFeed extends React.Component<Props, State> {
 			<>
 				<div id="replay-feed">
 					<h1>
-						{t("Games Last 7 Days:")}
+						{t("Games Last 7 Days:")}{" "}
 						{commaSeparate(this.props.gamesCountData.games_weekly)}
 					</h1>
 					<h4>
-						{t("Games Today:")}
+						{t("Games Today:")}{" "}
 						<span id="games-count">
 							{commaSeparate(
 								Math.floor(this.getAdjustedGamesToday()),
@@ -187,7 +187,7 @@ class ReplayFeed extends React.Component<Props, State> {
 						}
 					/>
 					<div id="replay-contributors">
-						{t("Contributors:")}
+						{t("Contributors:")}{" "}
 						{commaSeparate(
 							this.props.gamesCountData.contributors_weekly,
 						)}
