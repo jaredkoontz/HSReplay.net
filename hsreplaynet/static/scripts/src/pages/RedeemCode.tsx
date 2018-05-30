@@ -5,9 +5,8 @@ import CSRFElement from "../components/CSRFElement";
 interface Props extends InjectedTranslateProps {
 	code: string;
 }
-interface State {}
 
-class RedeemCode extends React.Component<Props, State> {
+class RedeemCode extends React.Component<Props> {
 	public render(): React.ReactNode {
 		const { t } = this.props;
 

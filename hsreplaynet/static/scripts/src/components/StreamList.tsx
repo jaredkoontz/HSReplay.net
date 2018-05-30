@@ -54,13 +54,13 @@ class StreamList extends React.Component<Props, State> {
 	}
 
 	static async fetchMetadata(streams: ApiStream[]): Promise<TwitchStream[]> {
-		const user_params = streams.map(
+		const userParams = streams.map(
 			stream => `user_login=${stream.twitch.name}`,
 		);
 		let resultSet = [];
 		let cursor = null;
 		do {
-			const params = user_params.slice();
+			const params = userParams.slice();
 			if (cursor !== null) {
 				params.push(`after=${cursor}`);
 			}

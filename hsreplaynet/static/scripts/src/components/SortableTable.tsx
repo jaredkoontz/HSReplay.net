@@ -11,18 +11,17 @@ interface Props {
 
 export default class SortableTable extends React.Component<Props> {
 	public render(): React.ReactNode {
-		const headers = this.props.headers.map(header => {
-			return (
-				<SortHeader
-					active={this.props.sortBy === header.sortKey}
-					direction={this.props.sortDirection}
-					onClick={(key, direction) =>
-						this.props.onSortChanged(key, direction)
-					}
-					{...header}
-				/>
-			);
-		});
+		const headers = this.props.headers.map(header => (
+			<SortHeader
+				active={this.props.sortBy === header.sortKey}
+				direction={this.props.sortDirection}
+				onClick={(key, direction) =>
+					this.props.onSortChanged(key, direction)
+				}
+				key={header.sortKey}
+				{...header}
+			/>
+		));
 
 		return (
 			<table className="table table-striped table-hover table-sortable">

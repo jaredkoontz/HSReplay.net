@@ -34,26 +34,30 @@ class RankBox extends React.Component<Props> {
 					</span>
 				);
 			} else {
-				data = [
-					<span className="winrate">{t("Winrate:")}</span>,
-					<span style={{ color: wrData.color }}>
-						{toDynamicFixed(this.props.winrate, 2)}%
-					</span>,
-				];
+				data = (
+					<>
+						<span className="winrate">{t("Winrate:")}</span>
+						<span style={{ color: wrData.color }}>
+							{toDynamicFixed(this.props.winrate, 2)}%
+						</span>
+					</>
+				);
 			}
 
-			content = [
-				<img
-					className="rank-icon"
-					src={image(`ranked-medals/${rankMedalName}.png`)}
-				/>,
-				<h2>
-					{this.props.rank
-						? t("Rank {n}", { n: this.props.rank })
-						: t("Legend")}
-				</h2>,
-				<div className="box-data">{data}</div>,
-			];
+			content = (
+				<>
+					<img
+						className="rank-icon"
+						src={image(`ranked-medals/${rankMedalName}.png`)}
+					/>
+					<h2>
+						{this.props.rank
+							? t("Rank {n}", { n: this.props.rank })
+							: t("Legend")}
+					</h2>
+					<div className="box-data">{data}</div>
+				</>
+			);
 		}
 
 		return (

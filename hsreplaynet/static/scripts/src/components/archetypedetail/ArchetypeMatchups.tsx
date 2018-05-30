@@ -30,7 +30,7 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 	}
 
 	public render(): React.ReactNode {
-		const { t, archetypeMatchupData, archetypeId, minGames } = this.props;
+		const { t, archetypeMatchupData, minGames } = this.props;
 
 		const opponentClasses: { [key: string]: ApiArchetypePopularity[] } = {};
 		const games: { [key: string]: number } = {};

@@ -310,7 +310,7 @@ export default class ObjectSearch<T> extends React.Component<Props<T>, State> {
 				: 1;
 
 			return (
-				<li>
+				<li key={key}>
 					{this.props.getObjectElement(object, count)}
 					<button
 						onClick={() => updateObject(count - 1)}
