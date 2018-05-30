@@ -8,10 +8,8 @@ import PaypalCheckoutForm, { PaypalPlan } from "./PaypalCheckoutForm";
 import StripeElementsCheckoutForm, {
 	StripePlan,
 } from "./StripeElementsCheckoutForm";
-import StripeLegacyCheckoutForm from "./StripeLegacyCheckoutForm";
 
 export const enum PaymentMethod {
-	STRIPECHECKOUT = "stripe-checkout",
 	CREDITCARD = "creditcard",
 	PAYPAL = "paypal",
 }
@@ -33,7 +31,6 @@ interface Props extends InjectedTranslateProps {
 	stripeCheckoutSubmitUrl: string;
 	paypalPlans: PaypalPlan[];
 	paypalSubmitUrl: string;
-	supportStripeElements?: boolean;
 	onSubscribe: (value: number) => any;
 }
 
@@ -44,10 +41,6 @@ interface State {
 }
 
 class CheckoutForm extends React.Component<Props, State> {
-	static defaultProps = {
-		supportStripeElements: true,
-	};
-
 	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
@@ -80,29 +73,16 @@ class CheckoutForm extends React.Component<Props, State> {
 		const { t } = this.props;
 		const methods = [];
 
-		if (this.props.supportStripeElements) {
-			methods.push({
-				method: PaymentMethod.CREDITCARD,
-				label: (
-					<strong>
-						<span className="glyphicon glyphicon-credit-card" />&nbsp;{t(
-							"Credit Card",
-						)}
-					</strong>
-				),
-			});
-		} else {
-			methods.push({
-				method: PaymentMethod.STRIPECHECKOUT,
-				label: (
-					<strong>
-						<span className="glyphicon glyphicon-credit-card" />&nbsp;{t(
-							"Credit Card",
-						)}
-					</strong>
-				),
-			});
-		}
+		methods.push({
+			method: PaymentMethod.CREDITCARD,
+			label: (
+				<strong>
+					<span className="glyphicon glyphicon-credit-card" />&nbsp;{t(
+						"Credit Card",
+					)}
+				</strong>
+			),
+		});
 
 		if (UserData.hasFeature("paypal")) {
 			methods.push({
@@ -151,21 +131,6 @@ class CheckoutForm extends React.Component<Props, State> {
 
 	renderCheckout() {
 		switch (this.state.paymentMethod) {
-			case PaymentMethod.STRIPECHECKOUT:
-				return (
-					<StripeLegacyCheckoutForm
-						plans={this.props.stripePlans}
-						apiKey={this.props.stripeApiKey}
-						coupon={this.props.stripeCoupon}
-						defaultSource={this.props.stripeDefaultSource}
-						submitUrl={this.props.stripeCheckoutSubmitUrl}
-						image={this.props.stripeCheckoutImageUrl}
-						onDisable={(disabled: boolean) =>
-							this.setState({ disabled })
-						}
-						onSubscribe={this.props.onSubscribe}
-					/>
-				);
 			case PaymentMethod.CREDITCARD:
 				return (
 					<StripeProvider stripe={this.state.stripe}>
