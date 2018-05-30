@@ -196,13 +196,9 @@ class DeckDetailView(View):
 		request.head.title = deck_name
 
 		if deck.deck_class:
-			deck_url = request.build_absolute_uri(deck.get_absolute_url())
 			request.head.add_meta(
 				{"property": "x-hearthstone:deck", "content": deck_name},
 				{"property": "x-hearthstone:deck:deckstring", "content": deck.deckstring},
-				{"property": "x-hearthstone:deck:hero", "content": deck.hero},
-				{"property": "x-hearthstone:deck:cards", "content": ",".join(deck.card_id_list())},
-				{"property": "x-hearthstone:deck:url", "content": deck_url},
 			)
 
 		self.request.head.add_meta({
