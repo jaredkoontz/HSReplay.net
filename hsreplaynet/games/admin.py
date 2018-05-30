@@ -54,7 +54,7 @@ class GameReplayAdmin(admin.ModelAdmin):
 	raw_id_fields = (
 		"upload_token", "user", "global_game"
 	)
-	readonly_fields = ("shortid", "upload_event", "opponent_revealed_deck")
+	readonly_fields = ("shortid", "upload_event", urlify("opponent_revealed_deck"))
 	search_fields = ("shortid", "global_game__players__name", "user__username")
 	show_full_result_count = False
 	paginator = EstimatedCountPaginator

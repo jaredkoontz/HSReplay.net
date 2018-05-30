@@ -262,6 +262,8 @@ class Deck(models.Model):
 		return self.digest in _get_global_stats_eligible_decks()
 
 	def get_absolute_url(self):
+		if self.size != 30:
+			return None
 		return reverse("deck_detail", kwargs={"id": self.shortid})
 
 	def update_archetype(self, archetype, save=True, force=True):
