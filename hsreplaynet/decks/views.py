@@ -12,6 +12,7 @@ from hearthstone.enums import CardClass, CardSet, CardType, FormatType, Locale, 
 from hsreplaynet.features.decorators import view_requires_feature_access
 from hsreplaynet.web.html import RequestMetaMixin
 from hsreplaynet.web.templatetags.web_extras import lang_to_blizzard
+from hsreplaynet.web.views import SimpleReactView
 
 from .models import Archetype, ClusterSnapshot, Deck
 
@@ -19,13 +20,14 @@ from .models import Archetype, ClusterSnapshot, Deck
 ##
 # Meta overview pages
 
-class MetaOverviewView(RequestMetaMixin, TemplateView):
-	template_name = "meta_overview/meta_overview.html"
+class MetaOverviewView(SimpleReactView):
 	title = "Hearthstone Meta"
 	description = (
 		"Explore the Hearthstone meta game and find out "
 		"how the archetypes match up."
 	)
+	bundle = "meta_overview"
+	bundles = ("stats", "meta_overview")
 
 
 ##

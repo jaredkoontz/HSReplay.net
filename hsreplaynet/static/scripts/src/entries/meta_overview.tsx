@@ -3,9 +3,9 @@ import ReactDOM from "react-dom";
 import CardData from "../CardData";
 import UserData from "../UserData";
 import Fragments from "../components/Fragments";
-import MetaOverview from "../pages/MetaOverview";
 import Root from "../components/Root";
 import { RankRange, TimeRange } from "../filters";
+import MetaOverview from "../pages/MetaOverview";
 
 UserData.create();
 
@@ -38,7 +38,7 @@ const render = (cardData: CardData) => {
 				<MetaOverview cardData={cardData} region="ALL" />
 			</Fragments>
 		</Root>,
-		document.getElementById("meta-overview-container"),
+		document.getElementById("meta_overview-container"),
 	);
 };
 
