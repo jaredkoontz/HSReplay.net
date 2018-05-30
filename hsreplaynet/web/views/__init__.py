@@ -101,11 +101,16 @@ class SimpleReactView(RequestMetaMixin, TemplateView):
 	template_name = "react_base.html"
 	base_template = "base.html"
 	bundle = ""
+	bundles = ()
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
 		context["base_template"] = self.base_template
 		context["bundle"] = self.bundle
+		if self.bundles:
+			context["bundles"] = self.bundles
+		else:
+			context["bundles"] = (self.bundle,)
 		context["react_context"] = self.get_react_context()
 		return context
 

@@ -5,5 +5,7 @@
 {% block content %}
 <script type="application/json" id="react_context">{{ react_context|json }}</script>
 <div id="{{ bundle }}-container"></div>
-{% render_bundle bundle %}
+{% for bundle_name in bundles %}
+	{% render_bundle bundle_name %}
+{% endfor %}
 {% endblock %}
