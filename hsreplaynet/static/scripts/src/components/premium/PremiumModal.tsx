@@ -19,7 +19,7 @@ class PremiumModal extends React.Component<Props> {
 					<CloseModalButton />
 					<h3>
 						<Trans>
-							HSReplay.net
+							HSReplay.net{" "}
 							<span className="text-premium">Premium</span>
 						</Trans>
 					</h3>
