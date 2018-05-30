@@ -127,18 +127,6 @@
 		{% endif %}
 		{% endwith %}
 
-		{% if stripe_debug %}
-		<hr/>
-		<ul>
-			<li><strong>Customer ID:</strong> <code>{{ customer.stripe_id }}</code></li>
-			{% for sub in customer.subscriptions.all %}
-				{% if sub.status != "canceled" %}
-					<li><strong>Subscription ID:</strong> <code>{{ sub.stripe_id }}</code> ({{ sub.status }}) <code>{{ sub.plan.stripe_id }}</code></li>
-				{% endif %}
-			{% endfor %}
-		</ul>
-		{% endif %}
-
 		{% if customer.pending_charges %}
 			<hr/>
 			<h4>Unattempted charges</h4>
@@ -195,8 +183,6 @@
 
 					<span class="card-expiry">Expires <time>{{ card.exp_month }}/{{ card.exp_year }}</time></span>
 
-					{% if stripe_debug %}<p><code>{{ card.stripe_id }}</code></p>{% endif %}
-
 					{% if not billing.read_only %}
 						{% if can_remove_payment_methods %}
 							<form method="POST" action="{% url 'billing_update_card' %}" class="card-remove-form">
@@ -231,8 +217,6 @@
 						{{ source|pretty_card }}
 					</h4>
 					<span class="card-expiry">Expires <time>{{ source.source_data.exp_month }}/{{ source.source_data.exp_year }}</time></span>
-
-					{% if stripe_debug %}<p><code>{{ source.stripe_id }}</code></p>{% endif %}
 
 					{% if not billing.read_only %}
 						{% if can_remove_payment_methods %}
@@ -292,7 +276,7 @@
 			</thead>
 			{% for invoice in customer.invoices.all %}
 				<tr>
-					<td>{{ invoice.number }} {% if stripe_debug %}<code>{{ invoice.stripe_id }}</code>{% endif %}</td>
+					<td>{{ invoice.number }}</td>
 					<td>{{ invoice.date|htmltime:"%Y-%m-%d" }}</td>
 					<td>
 						<ul class="list-unstyled">
