@@ -7,11 +7,7 @@
 <div class="content">
 <h2>{% trans "Sign up" %}</h2>
 
-<p>{% trans "To sign up to HSReplay.net, use your Blizzard account." %}</p>
-
-<div class="account-login login-bnet">
-	{% include 'login_button.html' %}
-</div>
+<p><a href="{% url 'account_login' %}">{% trans "To sign up to HSReplay.net, use your Blizzard account." %}</a></p>
 
 {% if debug or "show-form" in request.GET %}
 <hr/>
