@@ -65,6 +65,7 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 	}
 
 	private renderLeftHeader(): React.ReactNode {
+		const { t } = this.props;
 		if (this.props.simple) {
 			return (
 				<div
@@ -74,7 +75,7 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 						height: this.headerCellHeight,
 					}}
 				>
-					Archetypes
+					{t("Archetypes")}
 				</div>
 			);
 		}

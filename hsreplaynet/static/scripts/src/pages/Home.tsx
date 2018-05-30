@@ -341,7 +341,11 @@ class Home extends React.Component<Props, State> {
 							</a>
 						</div>
 					</Panel>
-					<Panel header="Master the Meta" theme="light" accent="blue">
+					<Panel
+						header={t("Master the Meta")}
+						theme="light"
+						accent="blue"
+					>
 						<div className="panel-description col-md-5 col-xs-12">
 							<h1>{t("Meta Tier List")}</h1>
 							<p>
@@ -461,7 +465,7 @@ class Home extends React.Component<Props, State> {
 						</div>
 					</Panel>
 					<Panel
-						header="Live Data"
+						header={t("Live Data")}
 						theme="light"
 						accent="blue"
 						id="live-data"
