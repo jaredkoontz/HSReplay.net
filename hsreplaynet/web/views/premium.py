@@ -1,18 +1,20 @@
 import random
 
-from django.views.generic import TemplateView
+from django.conf import settings
 from django_reflinks.models import ReferralLink
 from shortuuid import ShortUUID
 
-from hsreplaynet.web.html import RequestMetaMixin
+from . import SimpleReactView
 
 
-class PremiumDetailView(RequestMetaMixin, TemplateView):
-	template_name = "premium/premium_detail.html"
+class PremiumDetailView(SimpleReactView):
 	title = "HSReplay.net Premium"
-	description = "More filters, more features, more data: Gain access to advanced " \
-		"Hearthstone statistics backed by millions of games with HSReplay.net Premium " \
+	description = (
+		"More filters, more features, more data: Gain access to advanced "
+		"Hearthstone statistics backed by millions of games with HSReplay.net Premium "
 		"for HSReplay.net."
+	)
+	bundle = "premium_detail"
 
 	quotes = [
 		"It only cost my soul!",
@@ -32,16 +34,22 @@ class PremiumDetailView(RequestMetaMixin, TemplateView):
 		"Everyone, get in here!",
 	]
 
-	def get_context_data(self, **kwargs):
-		context = super().get_context_data(**kwargs)
-		context["random_quote"] = random.choice(self.quotes)
-		user = self.request.user
+	def get_react_context(self):
+		ret = {
+			"random_quote": random.choice(self.quotes),
+			"featured_card": getattr(settings, "FEATURED_CARD_ID", ""),
+			"featured_deck": getattr(settings, "FEATURED_DECK_ID", ""),
+		}
 
+		user = self.request.user
 		if user.is_authenticated:
-			context["reflink"] = ReferralLink.objects.filter(user=user).first()
-			if not context["reflink"]:
-				context["reflink"] = ReferralLink.objects.create(
+			reflink = ReferralLink.objects.filter(user=user).first()
+			if not reflink:
+				reflink = ReferralLink.objects.create(
 					identifier=ShortUUID().uuid()[:6], user=user
 				)
+			if not reflink.disabled:
+				ret["reflink"] = "https://hsreplay.net" + reflink.get_absolute_url()
+				ret["discount"] = "$2.50 USD"
 
-		return context
+		return ret
