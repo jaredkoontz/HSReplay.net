@@ -79,7 +79,7 @@ class DevTools extends React.Component<Props, State> {
 		if (freeMode) {
 			cookie.set("free-mode", "true", { path: "/", expires: 365 });
 		} else {
-			cookie.remove("free-mode");
+			cookie.removeSpecific("free-mode", { path: "/" });
 		}
 		this.setState({ freeMode, reload: true });
 		if (!this.props.lazyReload) {
@@ -93,7 +93,7 @@ class DevTools extends React.Component<Props, State> {
 		if (loggedOutMode) {
 			cookie.set("logged-out-mode", "true", { path: "/", expires: 365 });
 		} else {
-			cookie.remove("logged-out-mode");
+			cookie.removeSpecific("logged-out-mode", { path: "/" });
 		}
 		this.setState({ loggedOutMode, reload: true });
 		if (!this.props.lazyReload) {
