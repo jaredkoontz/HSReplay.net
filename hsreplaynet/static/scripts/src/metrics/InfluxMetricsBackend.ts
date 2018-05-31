@@ -14,19 +14,17 @@ export default class InfluxMetricsBackend implements MetricsBackend {
 				points
 					.map((point: Point) => {
 						const tags = [];
-						for (const tagKey in point.tags) {
-							let tag = point.tags[tagKey];
+						for (let [key, tag] of Object.entries(point.tags)) {
 							if (typeof tag === "boolean") {
 								tag = !!tag ? "1" : "0";
 							}
 							if (typeof tag === "number") {
 								tag = "" + tag;
 							}
-							tags.push(tagKey + "=" + tag);
+							tags.push(key + "=" + tag);
 						}
 						const values = [];
-						for (const valueKey in point.values) {
-							let value = point.values[valueKey];
+						for (let [key, value] of Object.entries(point.values)) {
 							if (typeof value === "boolean") {
 								value = value ? "t" : "f";
 							}
@@ -37,14 +35,14 @@ export default class InfluxMetricsBackend implements MetricsBackend {
 							) {
 								value = `"${value}"`;
 							}
-							values.push(valueKey + "=" + value);
+							values.push(key + "=" + value);
 						}
-						const line =
+						return (
 							point.series +
 							(tags.length ? "," + tags.join(",") : "") +
 							" " +
-							values.join(",");
-						return line;
+							values.join(",")
+						);
 					})
 					.join("\n"),
 			],
