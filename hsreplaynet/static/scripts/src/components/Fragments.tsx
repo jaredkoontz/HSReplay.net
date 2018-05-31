@@ -59,19 +59,15 @@ export default class Fragments extends React.Component<Props, State> {
 			this.props.defaults,
 			this.state.childProps,
 		);
-		for (const key in values) {
+		for (const [key, value] of Object.entries(values)) {
 			const suffix = capitalize(key);
 			// prepare the callback
 			const callback = this.isDebounced(key)
-				? (
-						value: any,
-						debounce?: boolean,
-						callback?: () => void,
-				  ): void => {
-						this.onChange(key, value, debounce, callback);
+				? (val: any, debounce?: boolean, cb?: () => void): void => {
+						this.onChange(key, val, debounce, cb);
 				  }
-				: (value: any, callback?: () => void): void => {
-						this.onChange(key, value, undefined, callback);
+				: (val: any, cb?: () => void): void => {
+						this.onChange(key, val, undefined, cb);
 				  };
 			const callbackKey = "set" + suffix;
 			// assign the props
@@ -79,15 +75,15 @@ export default class Fragments extends React.Component<Props, State> {
 				key,
 				typeof this.state.intermediate[key] !== "undefined"
 					? this.state.intermediate[key]
-					: values[key],
+					: value,
 			);
 			props[callbackKey] = callback;
 			if (this.isArray(key)) {
 				props["toggle" + suffix] = (
-					value: any,
-					callback?: () => void,
+					val: any,
+					cb?: () => void,
 				): void => {
-					this.onToggle(key, value, callback);
+					this.onToggle(key, val, cb);
 				};
 			}
 			props["default" + suffix] = this.cast(
@@ -146,13 +142,10 @@ export default class Fragments extends React.Component<Props, State> {
 			}
 			this.timeout = setTimeout(() => {
 				this.timeout = null;
-				for (const key in this.state.intermediate) {
-					this.onChange(
-						key,
-						this.state.intermediate[key],
-						false,
-						callback,
-					);
+				for (const [imKey, imValue] of Object.entries(
+					this.state.intermediate,
+				)) {
+					this.onChange(imKey, imValue, false, callback);
 				}
 			}, this.props.delay || 100);
 		} else {
@@ -207,7 +200,7 @@ export default class Fragments extends React.Component<Props, State> {
 				value = "" + value;
 				break;
 			case "boolean":
-				value = value === TRUE_STRING || value == true;
+				value = value === TRUE_STRING || !!value === true;
 				break;
 		}
 		return value;
@@ -387,8 +380,7 @@ export default class Fragments extends React.Component<Props, State> {
 			for (const part of fragment.split("&")) {
 				const atoms = part.split("=");
 				const key = decodeURIComponent(atoms[0]);
-				const value = decodeURIComponent(atoms.slice(1).join(""));
-				result[key] = value;
+				result[key] = decodeURIComponent(atoms.slice(1).join(""));
 			}
 		}
 		return result;
@@ -398,10 +390,8 @@ export default class Fragments extends React.Component<Props, State> {
 		let fragment = "#_";
 
 		const parts = [];
-		for (const key in map) {
-			parts.push(
-				encodeURIComponent(key) + "=" + encodeURIComponent(map[key]),
-			);
+		for (const [key, value] of Object.entries(map)) {
+			parts.push([key, value].map(encodeURIComponent).join("="));
 		}
 
 		if (parts.length) {
