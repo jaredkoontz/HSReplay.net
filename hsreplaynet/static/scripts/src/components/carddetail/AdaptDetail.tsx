@@ -175,7 +175,6 @@ class AdaptDetail extends React.Component<Props, State> {
 	}
 
 	shortAdaptText(card: any): string {
-		const { t } = this.props;
 		switch (card.dbfId) {
 			case 41060:
 			case 41054:

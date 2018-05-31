@@ -22,7 +22,7 @@ class RankSelector extends React.Component<Props> {
 			<button
 				className={classNames.join(" ")}
 				onClick={this.toggle}
-				disabled={this.props.disabled}
+				disabled={disabled}
 				ref={ref => (this.ref = ref)}
 			>
 				<img

@@ -223,7 +223,7 @@ declare module "cookie_js" {
 }
 
 declare namespace cookie {
-	export var cookie: Cookie;
+	export const cookie: Cookie;
 }
 
 declare namespace Cookie {

@@ -29,7 +29,7 @@ class ColumnHeader extends React.Component<Props> {
 	}
 
 	public render(): React.ReactNode {
-		const { archetypeData, isIgnored, t } = this.props;
+		const { archetypeData, isIgnored } = this.props;
 		const classNames = [
 			"matchup-column-header matchup-column-header-archetype",
 		];

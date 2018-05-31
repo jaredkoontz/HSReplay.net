@@ -9,7 +9,7 @@ const container = document.getElementById("joust-container");
 if (location.hash) {
 	let ret = location.hash.match(/turn=(\d+)(a|b)/);
 	if (ret) {
-		embedder.turn = +ret[1] * 2 + +(ret[2] == "b") - 1;
+		embedder.turn = +ret[1] * 2 + +(ret[2] === "b") - 1;
 	}
 	ret = location.hash.match(/reveal=(0|1)/);
 	if (ret) {

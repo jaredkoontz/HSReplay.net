@@ -20,7 +20,7 @@ export default class RowSelector extends React.Component<Props> {
 			<button
 				className={classNames.join(" ")}
 				onClick={this.toggle}
-				disabled={this.props.disabled}
+				disabled={disabled}
 				ref={ref => (this.ref = ref)}
 			>
 				<span className={`glyphicon glyphicon-${glyphicon}`} />
