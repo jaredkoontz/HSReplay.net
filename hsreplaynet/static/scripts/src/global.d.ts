@@ -1,5 +1,6 @@
 // various global module definitions
 // this file should be picked up automatically by the typescript compiler
+/* tslint:disable max-classes-per-file */
 
 declare var STATIC_URL: string;
 declare var HEARTHSTONE_ART_URL: string;
