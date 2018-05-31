@@ -260,7 +260,10 @@ class DeckTile extends React.Component<Props> {
 				key={this.props.deckId}
 			>
 				<a href={this.getUrl()}>
-					<div className="deck-tile">
+					<div
+						className="deck-tile"
+						data-card-class={this.props.playerClass}
+					>
 						<div className="col-lg-2 col-md-2 col-sm-2 col-xs-6">
 							<span
 								className="deck-name"
@@ -272,7 +275,6 @@ class DeckTile extends React.Component<Props> {
 										) +
 										")",
 								}}
-								title={deckName}
 							>
 								{deckName}
 							</span>
