@@ -8,6 +8,9 @@ from .web.sitemap import SITEMAPS
 from .web.views import (
 	ArticlesRedirectView, DownloadsView, HomeView, PingView, SetLocaleView
 )
+from .web.views.archetypes import ArchetypeDetailView, DiscoverView, MetaOverviewView
+from .web.views.cards import CardDetailView, CardEditorView, CardsView, MyCardsView
+from .web.views.decks import DeckDetailView, DecksView, MyDecksView, TrendingDecksView
 from .web.views.premium import PremiumDetailView
 from .web.views.profiles import PackListView
 from .web.views.redeem import RedeemCodeView
@@ -54,7 +57,32 @@ urlpatterns = [
 	url(r"^pages/", include("django.contrib.flatpages.urls")),
 	url(r"^ref/", include("django_reflinks.urls")),
 
-	# decks and cards
+	# archetypes
+	url(r"^discover/$", DiscoverView.as_view(), name="discover"),
+	url(r"^meta/$", MetaOverviewView.as_view(), name="meta_overview"),
+	url(
+		r"^archetypes/$",
+		RedirectView.as_view(pattern_name="meta_overview", permanent=False)
+	),
+	url(
+		r"^archetypes/(?P<id>\d+)/(?P<slug>[\w-]+)?",
+		ArchetypeDetailView.as_view(), name="archetype_detail"
+	),
+
+	# cards
+	url(r"^cards/$", CardsView.as_view(), name="cards"),
+	url(r"^cards/editor/", CardEditorView.as_view(), name="card_editor"),
+	url(r"^cards/gallery/$", RedirectView.as_view(pattern_name="cards", permanent=True)),
+	url(r"^cards/mine/$", MyCardsView.as_view(), name="my_cards"),
+	url(r"^cards/(?P<pk>\w+)/(?P<slug>[\w-]+)?", CardDetailView.as_view(), name="card_detail"),
+
+	# decks
+	url(r"^decks/$", DecksView.as_view(), name="decks"),
+	url(r"^decks/mine/$", MyDecksView.as_view(), name="my_decks"),
+	url(r"^decks/trending/", TrendingDecksView.as_view(), name="trending_decks"),
+	url(r"^decks/(?P<id>\w+)/$", DeckDetailView.as_view(), name="deck_detail"),
+
+	# TODO: remove me (migrate update_cluster_archetype to api)
 	url(r"^", include("hsreplaynet.decks.urls")),
 
 	# profiles (currently unused)
