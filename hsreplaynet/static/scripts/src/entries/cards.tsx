@@ -6,13 +6,16 @@ import DataInjector from "../components/DataInjector";
 import Fragments from "../components/Fragments";
 import Root from "../components/Root";
 import { Consumer as AccountConsumer } from "../components/utils/hearthstone-account";
+import { TimeRange } from "../filters";
 import GoogleAnalytics from "../metrics/GoogleAnalytics";
 import Cards from "../pages/Cards";
 import { isCollectionDisabled } from "../utils/collection";
-import { TimeRange } from "../filters";
 
-const container = document.getElementById("card-container");
-const personal = container.getAttribute("data-view-type") === "personal";
+const container = document.getElementById("cards-container");
+const context = JSON.parse(
+	document.getElementById("react_context").textContent,
+);
+const personal = context["view"] === "personal";
 
 UserData.create();
 const defaultAccount = UserData.getDefaultAccountKey();

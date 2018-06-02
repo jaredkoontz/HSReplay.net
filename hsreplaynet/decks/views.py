@@ -74,18 +74,26 @@ class ArchetypeDetailView(RequestMetaMixin, View):
 ##
 # Card pages
 
-class CardsView(RequestMetaMixin, TemplateView):
-	template_name = "cards/cards.html"
+class CardsView(SimpleReactView):
 	title = "Hearthstone Card Statistics"
 	description = (
 		"Compare statistics about all collectible Hearthstone cards. "
 		"Find the cards that are played the most or have the highest winrate."
 	)
+	bundle = "cards"
+	bundles = ("stats", "cards")
+
+	def get_react_context(self):
+		return {"view": "statistics"}
 
 
-class MyCardsView(RequestMetaMixin, TemplateView):
-	template_name = "cards/my_cards.html"
+class MyCardsView(SimpleReactView):
 	title = "My Cards"
+	bundle = "cards"
+	bundles = ("stats", "cards")
+
+	def get_react_context(self):
+		return {"view": "personal"}
 
 
 @method_decorator(view_requires_feature_access("cardeditor"), name="dispatch")

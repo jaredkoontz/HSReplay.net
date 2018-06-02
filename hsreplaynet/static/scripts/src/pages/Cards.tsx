@@ -1,6 +1,6 @@
-import InfoboxLastUpdated from "../components/InfoboxLastUpdated";
 import _ from "lodash";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import React, { Fragment } from "react";
+import { InjectedTranslateProps, Trans, translate } from "react-i18next";
 import CardData from "../CardData";
 import DataManager from "../DataManager";
 import UserData, { Account } from "../UserData";
@@ -10,11 +10,14 @@ import DataInjector from "../components/DataInjector";
 import Feature from "../components/Feature";
 import InfoboxFilter from "../components/InfoboxFilter";
 import InfoboxFilterGroup from "../components/InfoboxFilterGroup";
-import React, { Fragment } from "react";
+import InfoboxLastUpdated from "../components/InfoboxLastUpdated";
 import ResetHeader from "../components/ResetHeader";
 import TableLoading from "../components/loading/TableLoading";
 import PremiumWrapper from "../components/premium/PremiumWrapper";
 import CardTable from "../components/tables/CardTable";
+import PrettyRankRange from "../components/text/PrettyRankRange";
+import PrettyTimeRange from "../components/text/PrettyTimeRange";
+import { RankRange, TimeRange } from "../filters";
 import {
 	cardSorting,
 	cleanText,
@@ -36,9 +39,6 @@ import {
 	getCollectionCardCount,
 	isCollectionDisabled,
 } from "../utils/collection";
-import { RankRange, TimeRange } from "../filters";
-import PrettyTimeRange from "../components/text/PrettyTimeRange";
-import PrettyRankRange from "../components/text/PrettyRankRange";
 
 interface CardFilters {
 	cost: any;
@@ -489,6 +489,45 @@ class Cards extends React.Component<Props, State> {
 		}
 
 		if (this.props.personal) {
+			if (!UserData.isPremium()) {
+				return (
+					<div className="premium-promo">
+						<div className="premium-background">
+							<img
+								src={image(
+									"premium-promotional/mycards_full.png",
+								)}
+							/>
+						</div>
+						<div className="card">
+							<div className="container text-center">
+								<h2>
+									<Trans>
+										<span className="text-premium">
+											Premium
+										</span>{" "}
+										only
+									</Trans>
+								</h2>
+								<p className="big">
+									{t(
+										"View your card statistics across your replays right here.",
+									)}
+								</p>
+								<p>
+									<a
+										href="/premium/"
+										className="promo-button"
+									>
+										{t("Learn more")}
+									</a>
+								</p>
+							</div>
+						</div>
+					</div>
+				);
+			}
+
 			if (this.props.account) {
 				content.push(
 					<div className="table-wrapper">
@@ -521,27 +560,29 @@ class Cards extends React.Component<Props, State> {
 									this.onSortChanged(a, b)
 								}
 								numCards={this.state.numCards}
-								customNoDataMessage={[
-									<h2>{t("All set!")}</h2>,
-									<p>
-										We've successfully linked your
-										Hearthstone account{" "}
-										<strong>
-											{this.props.account.battletag}
-										</strong>{" "}
-										and will analyze incoming replays.
-									</p>,
-									<p>
-										{t(
-											"After you've played some games you'll find statistics for all the cards you play right here.",
-										)}
-									</p>,
-									<p className="text-muted">
-										{t(
-											"Note: It may take a few hours for new data to appear on this page. If you are missing data, make sure the filters in the sidebar are correct!",
-										)}
-									</p>,
-								]}
+								customNoDataMessage={
+									<>
+										<h2>{t("All set!")}</h2>,
+										<p>
+											We've successfully linked your
+											Hearthstone account{" "}
+											<strong>
+												{this.props.account.battletag}
+											</strong>{" "}
+											and will analyze incoming replays.
+										</p>
+										<p>
+											{t(
+												"After you've played some games you'll find statistics for all the cards you play right here.",
+											)}
+										</p>
+										<p className="text-muted">
+											{t(
+												"Note: It may take a few hours for new data to appear on this page. If you are missing data, make sure the filters in the sidebar are correct!",
+											)}
+										</p>
+									</>
+								}
 							/>
 						</DataInjector>
 					</div>,

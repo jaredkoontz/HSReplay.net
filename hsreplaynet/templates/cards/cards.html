@@ -1,9 +1,0 @@
-{% extends "base.html" %}
-{% load render_bundle from webpack_loader %}
-{% load feature from features %}
-
-{% block fullcontent %}
-	<div id="card-container" data-view-type="statistics"></div>
-	{% render_bundle "stats" %}
-	{% render_bundle "cards" %}
-{% endblock %}
