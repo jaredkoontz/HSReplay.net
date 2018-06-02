@@ -3,12 +3,12 @@ import ReactDOM from "react-dom";
 import CardData from "../CardData";
 import UserData from "../UserData";
 import Fragments from "../components/Fragments";
-import MyDecks from "../pages/MyDecks";
 import Root from "../components/Root";
 import { Consumer as AccountConsumer } from "../components/utils/hearthstone-account";
 import { TimeRange } from "../filters";
+import MyDecks from "../pages/MyDecks";
 
-const container = document.getElementById("my-decks-container");
+const container = document.getElementById("my_decks-container");
 UserData.create();
 
 const render = (cardData: CardData) => {

@@ -17,16 +17,17 @@ import InfoboxLastUpdated from "../components/InfoboxLastUpdated";
 import NoDecksMessage from "../components/NoDecksMessage";
 import { Limit } from "../components/ObjectSearch";
 import ResetHeader from "../components/ResetHeader";
+import PrettyTimeRange from "../components/text/PrettyTimeRange";
+import { TimeRange } from "../filters";
 import {
 	cardSorting,
 	getCardClassName,
+	image,
 	isCollectibleCard,
 	isWildSet,
 	sortCards,
 } from "../helpers";
 import { DeckObj, FragmentChildProps, TableData } from "../interfaces";
-import { TimeRange } from "../filters";
-import PrettyTimeRange from "../components/text/PrettyTimeRange";
 
 interface Props extends FragmentChildProps, InjectedTranslateProps {
 	account: Account | null;
@@ -317,6 +318,41 @@ class MyDecks extends React.Component<Props, State> {
 
 	public render(): React.ReactNode {
 		const { t } = this.props;
+
+		if (!UserData.isPremium()) {
+			return (
+				<div className="premium-promo">
+					<div className="premium-background">
+						<img
+							src={image("premium-promotional/mydecks_full.png")}
+						/>
+					</div>
+					<div className="card">
+						<div className="container text-center">
+							<h2>
+								<Trans>
+									<span className="text-premium">
+										Premium
+									</span>{" "}
+									only
+								</Trans>
+							</h2>
+							<p className="big">
+								{t(
+									"View statistics for the decks you've played across your replays right here.",
+								)}
+							</p>
+							<p>
+								<a href="/premium" className="promo-button">
+									{t("Learn more")}
+								</a>
+							</p>
+						</div>
+					</div>
+				</div>
+			);
+		}
+
 		let content = null;
 		const userAccounts = UserData.getAccounts();
 
