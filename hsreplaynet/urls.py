@@ -4,6 +4,7 @@ from django.contrib.flatpages.views import flatpage
 from django.contrib.sitemaps.views import sitemap
 from django.views.generic import RedirectView
 
+from .decks.views import ClusterSnapshotUpdateView
 from .web.sitemap import SITEMAPS
 from .web.views import (
 	ArticlesRedirectView, DownloadsView, HomeView, PingView, SetLocaleView
@@ -82,8 +83,12 @@ urlpatterns = [
 	url(r"^decks/trending/", TrendingDecksView.as_view(), name="trending_decks"),
 	url(r"^decks/(?P<id>\w+)/$", DeckDetailView.as_view(), name="deck_detail"),
 
-	# TODO: remove me (migrate update_cluster_archetype to api)
-	url(r"^", include("hsreplaynet.decks.urls")),
+	# TODO: move me to api module
+	url(
+		r"^clusters/latest/(?P<game_format>\w+)/(?P<player_class>\w+)/(?P<cluster_id>\w+)/",
+		ClusterSnapshotUpdateView.as_view(), name="update_cluster_archetype"
+	),
+
 
 	# profiles (currently unused)
 	url(r"^profile/packs/$", PackListView.as_view(), name="profile_packs"),
