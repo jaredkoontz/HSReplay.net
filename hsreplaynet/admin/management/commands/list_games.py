@@ -4,7 +4,7 @@ import zipfile
 from django.core.files.storage import default_storage
 from django.core.management.base import BaseCommand
 
-from ...models import GameReplay
+from hsreplaynet.games.models import GameReplay
 
 
 class Command(BaseCommand):
