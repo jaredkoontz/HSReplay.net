@@ -42,9 +42,10 @@ module.exports = env => {
 	const makeEntry = name =>
 		path.join(__dirname, "hsreplaynet/static/scripts/src/entries/", name);
 	const entries = {
+		account_billing: makeEntry("account_billing"),
 		account_connections: makeEntry("account_connections"),
-		account_edit: makeEntry("account_edit"),
 		account_delete: makeEntry("account_delete"),
+		account_edit: makeEntry("account_edit"),
 		downloads: makeEntry("downloads"),
 		my_replays: makeEntry("my_replays"),
 		redeem_code: makeEntry("redeem_code"),

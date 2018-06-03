@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist, SuspiciousOperation
 from django.shortcuts import redirect
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.utils.http import is_safe_url
 from django.utils.timezone import now
 from django.views.generic import TemplateView, View
@@ -12,7 +12,8 @@ from djstripe.enums import SubscriptionStatus
 from djstripe.settings import STRIPE_LIVE_MODE
 from stripe.error import CardError, InvalidRequestError
 
-from hsreplaynet.web.html import RequestMetaMixin
+from hsreplaynet.web.templatetags.web_extras import pretty_card
+from hsreplaynet.web.views import SimpleReactView
 
 from .models import CancellationRequest
 
@@ -89,28 +90,141 @@ class PaymentsMixin:
 		context["customer"] = customer
 
 		if customer:
-			# `payment_methods` is a queryset of the customer's payment sources
-			context["legacy_cards"] = customer.legacy_cards.all()
-			context["sources"] = customer.sources_v3.all()
+			context["currency"] = customer.currency
 			context["can_cancel"] = self.can_cancel(customer)
 			context["can_cancel_immediately"] = self.can_cancel_immediately(customer)
-			context["can_remove_payment_methods"] = self.can_remove_payment_methods(customer)
 			context["has_subscription_past_due"] = self.has_subscription_past_due(customer)
-			try:
-				context["latest_invoice"] = customer.invoices.latest("date")
-			except ObjectDoesNotExist:
-				context["latest_invoice"] = None
 		else:
-			# When anonymous, the customer is None, thus has no payment methods
-			context["payment_methods"] = []
+			context["currency"] = "usd"
 
 		return context
 
 
-class BillingView(LoginRequiredMixin, RequestMetaMixin, PaymentsMixin, TemplateView):
-	template_name = "billing/settings.html"
-	success_url = reverse_lazy("billing_methods")
+class BillingView(LoginRequiredMixin, PaymentsMixin, SimpleReactView):
 	title = "Billing"
+	bundle = "account_billing"
+	base_template = "account/base.html"
+
+	def _clean_currency_amount(self, value):
+		"""
+		Stripe-format compatibility shim.
+		Converts dj-stripe Decimal objects into cent-accuracy integers.
+		"""
+		from decimal import Decimal
+		if isinstance(value, Decimal):
+			return int(value * 100)
+		return value
+
+	def get_react_context(self):
+		customer = self.get_customer()
+		assert customer  # This page is not accessible to non-customers...
+
+		stripe = {
+			"can_cancel": self.can_cancel(customer),
+			"can_cancel_immediately": self.can_cancel_immediately(customer),
+			"can_remove_payment_methods": self.can_remove_payment_methods(customer),
+			"credits": customer.credits,
+			"pending_charges": customer.pending_charges,
+		}
+
+		if customer.default_source:
+			stripe["default_source"] = customer.default_source.stripe_id
+
+		if customer.coupon:
+			stripe["coupon"] = customer.coupon.human_readable
+
+		try:
+			stripe["next_payment_attempt"] = customer.invoices.latest("date").next_payment_attempt
+		except ObjectDoesNotExist:
+			pass
+
+		stripe["payment_methods"] = []
+		for card in customer.legacy_cards.all():
+			stripe["payment_methods"].append({
+				"type": "legacy_card",
+				"id": card.stripe_id,
+				"name": pretty_card(card),
+				"brand": card.brand,
+				"exp_month": card.exp_month,
+				"exp_year": card.exp_year,
+				"last4": card.last4,
+			})
+
+		for source in customer.sources_v3.all():
+			stripe["payment_methods"].append({
+				"type": "source",
+				"id": source.stripe_id,
+				"name": pretty_card(source),
+				"brand": source.source_data["brand"],
+				"exp_month": source.source_data["exp_month"],
+				"exp_year": source.source_data["exp_year"],
+				"last4": source.source_data["last4"],
+			})
+
+		stripe["invoices"] = []
+		for invoice in customer.invoices.all():
+			stripe["invoices"].append({
+				"id": invoice.stripe_id,
+				"number": invoice.number,
+				"date": invoice.date,
+				"currency": invoice.currency,
+				"amount_due": self._clean_currency_amount(invoice.amount_due),
+				"amount_paid": self._clean_currency_amount(invoice.amount_paid),
+				"amount_remaining": self._clean_currency_amount(invoice.amount_remaining),
+				"subtotal": self._clean_currency_amount(invoice.subtotal),
+				"total": self._clean_currency_amount(invoice.total),
+				"receipt_number": invoice.receipt_number,
+				"period_start": invoice.period_start,
+				"period_end": invoice.period_end,
+				"paid": invoice.paid,
+				"forgiven": invoice.forgiven,
+				"closed": invoice.closed,
+				"next_payment_attempt": invoice.next_payment_attempt,
+				"items": [str(item) for item in invoice.invoiceitems.all()],
+			})
+
+		stripe["subscriptions"] = []
+		for subscription in customer.valid_subscriptions.all():
+			if subscription.plan.amount and not subscription.cancel_at_period_end:
+				stripe["has_upcoming_payment"] = True
+
+			stripe["subscriptions"].append({
+				"id": subscription.stripe_id,
+				"status": subscription.status,
+				"cancel_at_period_end": subscription.cancel_at_period_end,
+				"current_period_start": subscription.current_period_start,
+				"current_period_end": subscription.current_period_end,
+				"start": subscription.start,
+				"trial_start": subscription.trial_start,
+				"trial_end": subscription.trial_end,
+				"plan": {
+					"id": subscription.plan.id,
+					"amount": subscription.plan.amount,
+					"name": subscription.plan.name,
+					"price": subscription.plan.human_readable_price,
+				},
+			})
+
+		paypal = {}
+		if self.request.user.is_paypal_premium:
+			paypal["subscribed"] = True
+			paypal["end_of_period"] = self.request.user.paypal_end_of_cancellation_period
+
+		from pprint import pprint
+		pprint(stripe)
+
+		return {
+			"paypal": paypal,
+			"stripe": stripe,
+			"urls": {
+				"cancel": reverse("premium_cancel"),
+				"update_card": reverse("billing_update_card"),
+				"subscribe": reverse("premium_subscribe"),
+				"paypal_manage": (
+					"https://www.paypal.com/cgi-bin/webscr?cmd=_manage-paylist"
+				),
+			}
+		}
 
 
 class SubscribeView(LoginRequiredMixin, PaymentsMixin, View):
