@@ -7,7 +7,7 @@ from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 from django.utils.http import is_safe_url
 from django.utils.timezone import now
-from django.views.generic import TemplateView, View
+from django.views.generic import View
 from djstripe.enums import SubscriptionStatus
 from djstripe.settings import STRIPE_LIVE_MODE
 from stripe.error import CardError, InvalidRequestError
@@ -124,6 +124,7 @@ class BillingView(LoginRequiredMixin, PaymentsMixin, SimpleReactView):
 			"can_cancel_immediately": self.can_cancel_immediately(customer),
 			"can_remove_payment_methods": self.can_remove_payment_methods(customer),
 			"credits": customer.credits,
+			"currency": customer.currency,
 			"pending_charges": customer.pending_charges,
 		}
 
@@ -403,8 +404,7 @@ class SubscribeView(LoginRequiredMixin, PaymentsMixin, View):
 		return redirect(self.get_success_url())
 
 
-class CancelSubscriptionView(LoginRequiredMixin, PaymentsMixin, TemplateView):
-	template_name = "billing/cancel_subscription.html"
+class CancelSubscriptionView(LoginRequiredMixin, PaymentsMixin, View):
 	success_url = reverse_lazy("billing_methods")
 
 	def fail(self, message):

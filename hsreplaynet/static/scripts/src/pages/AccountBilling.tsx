@@ -84,11 +84,152 @@ interface Props extends InjectedTranslateProps {
 	urls: BillingUrls;
 }
 
-interface State {}
+interface State {
+	canceling: boolean;
+}
 
 class AccountBilling extends React.Component<Props, State> {
+	constructor(props: Props, context?: any) {
+		super(props, context);
+		this.state = {
+			canceling: false,
+		};
+	}
 	public render(): React.ReactNode {
 		const { stripe, t, urls } = this.props;
+
+		if (
+			this.state.canceling &&
+			(stripe.can_cancel || stripe.can_cancel_immediately)
+		) {
+			const reasons: Array<[string, string]> = [
+				["expensive", t("It's too expensive for me")],
+				["wild", t("Not enough support for Wild")],
+				[
+					"dont-understand",
+					t("I don't understand how to use the site"),
+				],
+				["missing-features", t("It's missing features I want")],
+				["mobile", t("I play only on mobile")],
+				["not-useful", t("It's not useful for me")],
+				["not-worth", t("It's not worth the price")],
+				["stopped-playing", t("I have stopped playing Hearthstone")],
+				["other", t("Other (please explain further):")],
+			];
+			return (
+				<section id="account-billing-cancel" className="box-section">
+					<h3>{t("Cancel subscription")}</h3>
+					<div className="inner">
+						<p>
+							<Trans>
+								HSReplay.net Premium directly funds the
+								development of the site. We're sorry to see you
+								go! If you are having a problem with the site,
+								please{" "}
+								<a href={`mailto:${SITE_EMAIL}`}>email us</a> or{" "}
+								<a href="https://discord.gg/hearthsim">
+									reach out on Discord
+								</a>, we'll get you sorted out!
+							</Trans>
+						</p>
+
+						<hr />
+						<h4>{t("How can we improve?")}</h4>
+
+						<p>
+							{t(
+								"Please help us understand why you are unsubscribing.",
+							)}
+						</p>
+
+						<form
+							method="POST"
+							action={urls.cancel}
+							className="premium-plan-form"
+						>
+							<CSRFElement />
+							<ul>
+								{reasons.map(reason => (
+									<li className="checkbox" key={reason[0]}>
+										<label>
+											<input
+												type="checkbox"
+												name={`r-${reason[0]}`}
+											/>{" "}
+											{reason[1]}
+										</label>
+									</li>
+								))}
+							</ul>
+							<h4>{t("Please explain further")}</h4>
+							<textarea
+								className="form-control"
+								rows={5}
+								name="r-more"
+							/>
+							<p className="text-muted">
+								{t(
+									"You will retain access to Premium features until the end of the purchased period.",
+								)}
+							</p>
+
+							<p>
+								{stripe.can_cancel ? (
+									<button
+										type="submit"
+										name="cancel"
+										value="at_period_end"
+										className="btn btn-danger"
+										onClick={e => {
+											if (
+												!confirm(
+													t(
+														"Your subscription will remain available for the period you paid for. Proceed?",
+													),
+												)
+											) {
+												e.preventDefault();
+											}
+										}}
+									>
+										{t("Cancel subscription")}
+									</button>
+								) : null}{" "}
+								{stripe.can_cancel_immediately ? (
+									<button
+										type="submit"
+										name="cancel"
+										value="immediately"
+										className="btn btn-danger"
+										onClick={e => {
+											if (
+												!confirm(
+													t(
+														"Your subscription will be immediately terminated, no refund will be issued. Proceed?",
+													),
+												)
+											) {
+												e.preventDefault();
+											}
+										}}
+									>
+										{t("Cancel immediately")}
+									</button>
+								) : null}{" "}
+								<button
+									className="btn btn-info"
+									onClick={e => {
+										this.setState({ canceling: false });
+									}}
+								>
+									{t("I changed my mind")}
+								</button>
+							</p>
+						</form>
+					</div>
+				</section>
+			);
+		}
 
 		return (
 			<>
@@ -377,12 +518,16 @@ class AccountBilling extends React.Component<Props, State> {
 									{stripe.can_cancel ||
 									stripe.can_cancel_immediately ? (
 										<p className="premium-plan-form">
-											<a
-												href={urls.cancel}
+											<button
 												className="btn btn-danger"
+												onClick={e =>
+													this.setState({
+														canceling: true,
+													})
+												}
 											>
 												{t("Cancel subscription")}
-											</a>
+											</button>
 										</p>
 									) : null}
 
@@ -482,16 +627,13 @@ class AccountBilling extends React.Component<Props, State> {
 							<hr />
 							<h4>{t("Credits")}</h4>
 							<p>
-								<Trans>
-									Your account balance is{" "}
-									{this.currencyAmount(
-										stripe.credits,
-										stripe.currency,
-									)}.
-								</Trans>
-
+								Your account balance is{" "}
+								{this.currencyAmount(
+									stripe.credits,
+									stripe.currency,
+								)}.
 								<br />
-								<em>
+								<em className="text-muted">
 									{t(
 										"When making a payment, these credits will be withdrawn first. Payments made using PayPal are not supported.",
 									)}
@@ -530,7 +672,7 @@ class AccountBilling extends React.Component<Props, State> {
 	public currencyAmount(amount: number, currency: string): React.ReactNode {
 		return (
 			<>
-				{currency.toUpperCase()} {amount / 100}
+				${(amount / 100).toFixed(2)} {currency.toUpperCase()}
 			</>
 		);
 	}
