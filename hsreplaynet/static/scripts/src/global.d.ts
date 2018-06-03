@@ -9,6 +9,7 @@ declare var SUNWELL_URL: string;
 declare var JOUST_RAVEN_DSN_PUBLIC: string;
 declare var JOUST_RAVEN_ENVIRONMENT: string;
 declare var INFLUX_DATABASE_JOUST: string;
+declare var SITE_EMAIL: string;
 
 declare module "*.json" {
 	const value: any;

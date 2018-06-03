@@ -35,9 +35,7 @@ class AccountDelete extends React.Component<Props, State> {
 						<Trans>
 							We're sorry to see you go. You can reach out to us
 							by email at{" "}
-							<a href="mailto:contact@hsreplay.net">
-								contact@hsreplay.net
-							</a>,{" "}
+							<a href={`mailto:${SITE_EMAIL}`}>{SITE_EMAIL}</a>,{" "}
 							<a href="https://discord.gg/hearthsim">
 								on Discord
 							</a>, or on Twitter{" "}
@@ -109,9 +107,8 @@ class AccountDelete extends React.Component<Props, State> {
 								reason={t("I have another Blizzard account")}
 							>
 								Please{" "}
-								<a href="mailto:contact@hsreplay.net">
-									contact us
-								</a>, we can help you by merging your accounts!
+								<a href={`mailto:${SITE_EMAIL}`}>contact us</a>,
+								we can help you by merging your accounts!
 							</AccountDeleteReason>
 							<AccountDeleteReason
 								value="dont-want-premium"
@@ -146,8 +143,8 @@ class AccountDelete extends React.Component<Props, State> {
 							>
 								If you're encountering issues, we want to know
 								about them. You can contact us at{" "}
-								<a href="mailto:contact@hsreplay.net">
-									contact@hsreplay.net
+								<a href={`mailto:${SITE_EMAIL}`}>
+									{SITE_EMAIL}
 								</a>{" "}
 								or{" "}
 								<a href="https://discord.gg/hearthsim">

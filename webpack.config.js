@@ -14,6 +14,7 @@ const exportedSettings = {
 	JOUST_RAVEN_DSN_PUBLIC: process.env.JOUST_RAVEN_DSN_PUBLIC,
 	JOUST_RAVEN_ENVIRONMENT: process.env.NODE_ENV,
 	INFLUX_DATABASE_JOUST: process.env.INFLUX_DATABASE_JOUST,
+	SITE_EMAIL: "contact@hsreplay.net",
 };
 const settings = {};
 for (const [key, val] of Object.entries(exportedSettings)) {

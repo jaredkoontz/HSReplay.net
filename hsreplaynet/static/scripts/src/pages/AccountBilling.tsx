@@ -504,8 +504,8 @@ class AccountBilling extends React.Component<Props, State> {
 					<p>
 						<Trans>
 							Don't hesitate to{" "}
-							<a href="mailto:contact@hsreplay.net">contact us</a>{" "}
-							if you have issues or questions!
+							<a href={`mailto:${SITE_EMAIL}`}>contact us</a> if
+							you have issues or questions!
 						</Trans>
 					</p>
 				</div>
