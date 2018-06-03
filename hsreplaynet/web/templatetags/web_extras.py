@@ -5,6 +5,7 @@ from decimal import Decimal
 from django import template
 from django.conf import settings
 from django.contrib.staticfiles.templatetags.staticfiles import static
+from django.core.serializers.json import DjangoJSONEncoder
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 
@@ -22,7 +23,7 @@ def _json(data):
 	If the output needs to be put in an attribute, entitize the output of this
 	filter.
 	"""
-	json_str = json.dumps(data)
+	json_str = json.dumps(data, cls=DjangoJSONEncoder)
 
 	# Escape all the XML/HTML special characters.
 	escapes = ["<", ">", "&"]
