@@ -201,7 +201,7 @@ class BillingView(LoginRequiredMixin, PaymentsMixin, SimpleReactView):
 				"plan": {
 					"id": subscription.plan.id,
 					"amount": subscription.plan.amount,
-					"name": subscription.plan.name,
+					"name": str(subscription.plan),
 					"price": subscription.plan.human_readable_price,
 				},
 			})
