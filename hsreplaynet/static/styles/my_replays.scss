@@ -11,7 +11,11 @@
 	width: calc(100% - 300px);
 	padding: 10px;
 
-	@media(max-width: 992px) {
+	.row {
+		margin-right: 0;
+	}
+
+	@media (max-width: 992px) {
 		width: 100%;
 	}
 }
