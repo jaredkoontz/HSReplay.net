@@ -39,7 +39,9 @@ interface StripeInvoice {
 	currency: string;
 	date: string;
 	forgiven: boolean;
+	hosted_invoice_url: string;
 	id: string;
+	invoice_pdf: string;
 	items: Array<string>;
 	next_payment_attempt: string;
 	number: string;
@@ -364,28 +366,34 @@ class AccountBilling extends React.Component<Props, State> {
 												<tr key={invoice.number}>
 													<td>{invoice.number}</td>
 													<td>
-														<time
-															dateTime={
-																invoice.date
-															}
-														>
-															{" "}
-															{invoice.date}
-														</time>
+														<SemanticAge
+															date={invoice.date}
+														/>
 													</td>
 													<td>
 														<ul className="list-unstyled">
 															{invoice.items.map(
 																item => (
-																	<li
-																		key={
-																			invoice.number +
-																			"_" +
-																			item
+																	<a
+																		href={
+																			invoice.hosted_invoice_url ||
+																			"#"
 																		}
+																		target="_blank"
+																		rel="noopener"
 																	>
-																		{item}
-																	</li>
+																		<li
+																			key={
+																				invoice.number +
+																				"_" +
+																				item
+																			}
+																		>
+																			{
+																				item
+																			}
+																		</li>
+																	</a>
 																),
 															)}
 														</ul>
