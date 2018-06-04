@@ -2,7 +2,9 @@ html {
 	box-sizing: border-box;
 }
 
-*, *:before, *:after {
+*,
+*:before,
+*:after {
 	box-sizing: inherit;
 }
 
@@ -23,7 +25,8 @@ body {
 	flex-direction: column;
 }
 
-body, html {
+body,
+html {
 	margin: 0;
 	padding: 0;
 	font-family: "Noto Sans", sans-serif;
@@ -121,7 +124,8 @@ header .navbar {
 		&.active-premium > a {
 			color: $premium;
 
-			> &:focus, > &:hover {
+			> &:focus,
+			> &:hover {
 				color: $premium-hover;
 			}
 		}
@@ -147,7 +151,8 @@ header .navbar {
 			}
 		}
 
-		> a:focus, > a:hover {
+		> a:focus,
+		> a:hover {
 			color: $lightblue;
 			background: transparent;
 
@@ -157,7 +162,8 @@ header .navbar {
 		}
 
 		> .promo-button {
-			&:focus, &:hover {
+			&:focus,
+			&:hover {
 				color: $red;
 				background-color: $offwhite;
 				border-bottom: 0;
@@ -191,7 +197,8 @@ header .navbar {
 	}
 
 	@media (max-width: 767px) {
-		.promo-button, .promo-button-outline {
+		.promo-button,
+		.promo-button-outline {
 			width: auto;
 			float: left;
 			margin: 0 15px 10px 10px;
@@ -211,7 +218,9 @@ header .navbar {
 			}
 
 			.active > a {
-				&, &:focus, &:hover {
+				&,
+				&:focus,
+				&:hover {
 					color: white;
 					background-color: $lightblue;
 				}
@@ -220,7 +229,8 @@ header .navbar {
 			> li > a {
 				color: white;
 
-				&:focus, &:hover {
+				&:focus,
+				&:hover {
 					color: white;
 					background-color: $lightblue;
 				}
@@ -275,7 +285,9 @@ header .navbar {
 			top: 4px;
 		}
 
-		a, a:hover, a:active {
+		a,
+		a:hover,
+		a:active {
 			text-decoration: none;
 		}
 	}
@@ -295,7 +307,7 @@ header .navbar {
 	.footer-menu {
 		font-size: small;
 
-		@media(max-width:991px) {
+		@media (max-width: 991px) {
 			font-size: initial;
 			margin-top: 2em;
 		}
@@ -380,13 +392,16 @@ header .navbar {
 	padding: 3em;
 	text-align: center;
 
-	a, a:active, a:hover {
+	a,
+	a:active,
+	a:hover {
 		color: inherit;
 		text-decoration: underline;
 	}
 }
 
-.popover, .popover-title {
+.popover,
+.popover-title {
 	border-radius: 0;
 }
 
@@ -416,7 +431,8 @@ header .navbar {
 	display: block;
 	float: right;
 
-	&:hover, &:active {
+	&:hover,
+	&:active {
 		text-decoration: none;
 	}
 }
@@ -454,7 +470,8 @@ header .navbar {
 }
 
 .list-group-item {
-	&:first-child, &:last-child {
+	&:first-child,
+	&:last-child {
 		border-radius: 0;
 	}
 }

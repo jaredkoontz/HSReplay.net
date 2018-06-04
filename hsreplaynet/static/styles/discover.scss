@@ -1,16 +1,16 @@
 .discover-container {
 	display: flex;
 
-	@media(max-width: 768px) {
+	@media (max-width: 768px) {
 		flex-direction: column;
 	}
 
-	>main {
+	> main {
 		min-height: calc(100vh - 50px);
 		padding-top: 10px;
 		width: calc(100% - 300px);
 
-		@media(max-width: 768px) {
+		@media (max-width: 768px) {
 			max-width: 100%;
 			width: 100%;
 		}
@@ -40,7 +40,7 @@
 		.archetype-selection-dropdown {
 			margin-left: 5px;
 
-			>.btn {
+			> .btn {
 				background: $offwhite;
 				border: 1px solid $blue;
 				color: $blue;
@@ -104,7 +104,7 @@
 
 			#highlight {
 				stroke: black;
-				fill: rgba(49, 138, 185, .2);
+				fill: rgba(49, 138, 185, 0.2);
 				pointer-events: none;
 			}
 
@@ -121,8 +121,8 @@
 		}
 	}
 
-	>aside {
-		@media(max-width: 768px) {
+	> aside {
+		@media (max-width: 768px) {
 			max-width: 100%;
 			width: 100%;
 			padding-bottom: 0;
@@ -143,7 +143,7 @@
 		}
 
 		.dropdown {
-			>button {
+			> button {
 				padding: 0 5px;
 			}
 

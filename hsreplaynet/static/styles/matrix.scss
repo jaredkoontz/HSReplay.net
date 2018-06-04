@@ -14,7 +14,6 @@
 		font-weight: normal;
 
 		&.archetype {
-
 			&.selectable {
 				cursor: pointer;
 			}
@@ -86,8 +85,10 @@
 		}
 	}
 
-	th, td {
-		&, &:hover {
+	th,
+	td {
+		&,
+		&:hover {
 			background-color: inherit;
 		}
 	}

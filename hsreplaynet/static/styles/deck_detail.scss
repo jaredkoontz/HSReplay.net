@@ -1,21 +1,21 @@
 .deck-detail-container {
 	display: flex;
 
-	@media(max-width: 768px) {
+	@media (max-width: 768px) {
 		flex-direction: column;
 	}
 
-	>main {
+	> main {
 		min-height: calc(100vh - 50px);
 		padding-top: 10px;
 		width: calc(100% - 300px);
 
-		@media(max-width: 768px) {
+		@media (max-width: 768px) {
 			max-width: 100%;
 			width: 100%;
 		}
 
-		>.row {
+		> .row {
 			border-bottom: 1px solid $lightgrey;
 		}
 
@@ -23,7 +23,7 @@
 			color: $blue;
 			font-size: 1em;
 			left: 3%;
-			@media(min-width: 1336px) {
+			@media (min-width: 1336px) {
 				left: calc(50% - 350px);
 			}
 			padding: 0;
@@ -37,7 +37,7 @@
 				display: flex;
 			}
 
-			>div >div {
+			> div > div {
 				padding-top: 20px;
 			}
 
@@ -68,7 +68,7 @@
 					width: 25px;
 					margin-left: 2px;
 
-					>span::before {
+					> span::before {
 						content: attr(data-count);
 						left: -1px;
 						position: absolute;
@@ -76,7 +76,7 @@
 						width: 100%;
 					}
 
-					>span {
+					> span {
 						border-bottom: 1px solid $lightblue;
 						font-size: 0.8em;
 						font-weight: bold;
@@ -84,7 +84,7 @@
 						transition: height 0.5s ease-out;
 					}
 
-					>span::after {
+					> span::after {
 						background-image: url("/static/images/mana_crystal.png");
 						background-repeat: no-repeat;
 						background-size: contain;
@@ -97,23 +97,21 @@
 						top: calc(100% + 3px);
 						width: 100%;
 						color: rgba(255, 255, 255, 0.8);
-						text-shadow: -1px -1px 0 #000,
-							1px -1px 0 #000,
-							-1px 1px 0 #000,
-							1px 1px 0 #000;
+						text-shadow: -1px -1px 0 #000, 1px -1px 0 #000,
+							-1px 1px 0 #000, 1px 1px 0 #000;
 					}
 				}
 			}
 		}
 	}
 
-	>aside {
+	> aside {
 		.hero-image {
 			margin: 25px calc(50% - 125px);
 			width: 250px;
 		}
 
-		@media(max-width: 768px) {
+		@media (max-width: 768px) {
 			max-width: 100%;
 			width: 100%;
 			padding-bottom: 0;
@@ -129,7 +127,7 @@
 		}
 
 		.dropdown {
-			>button {
+			> button {
 				padding: 0 5px;
 			}
 
@@ -152,14 +150,14 @@
 		padding-right: 0;
 	}
 
-	>h3 {
+	> h3 {
 		border-bottom: 1px solid $darkgrey;
 	}
 
 	.table-wrapper {
 		overflow-x: auto;
 
-		>table {
+		> table {
 			min-width: 1050px;
 		}
 	}

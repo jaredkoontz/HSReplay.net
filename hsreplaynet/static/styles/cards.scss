@@ -48,7 +48,7 @@
 				margin: 10px 0;
 			}
 
-			>li {
+			> li {
 				&.mana-crystal {
 					filter: saturate(0) opacity(0.6);
 					height: 28px;
@@ -69,14 +69,13 @@
 						font-weight: bold;
 						margin-top: -24px;
 						text-align: center;
-						text-shadow: -1px -1px 0 #000,
-							1px -1px 0 #000,
-							-1px 1px 0 #000,
-							1px 1px 0 #000;
+						text-shadow: -1px -1px 0 #000, 1px -1px 0 #000,
+							-1px 1px 0 #000, 1px 1px 0 #000;
 						white-space: pre;
 					}
 
-					&:hover, &:focus {
+					&:hover,
+					&:focus {
 						filter: brightness(1.3);
 						text-decoration: none;
 						background: transparent;
@@ -98,12 +97,12 @@
 		}
 	}
 
-	>main {
+	> main {
 		min-height: 100vh;
 		padding: 10px;
 		width: calc(100% - 300px);
 
-		@media(max-width: 768px) {
+		@media (max-width: 768px) {
 			width: 100%;
 		}
 
@@ -111,7 +110,8 @@
 			text-align: center;
 		}
 
-		#card-list, .table {
+		#card-list,
+		.table {
 			padding-top: 20px;
 		}
 
@@ -126,17 +126,18 @@
 				> img {
 					outline: none;
 					height: 350px;
-					transition: transform .1s ease-in-out;
+					transition: transform 0.1s ease-in-out;
 
-					@media(max-width: 992px) {
+					@media (max-width: 992px) {
 						height: 300px;
 					}
 
-					@media(max-width: 450px) {
+					@media (max-width: 450px) {
 						height: 230px;
 					}
 				}
-				&:hover, &:focus {
+				&:hover,
+				&:focus {
 					img {
 						transform: scale(1.05);
 					}

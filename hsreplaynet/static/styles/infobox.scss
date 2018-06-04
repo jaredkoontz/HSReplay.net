@@ -7,7 +7,9 @@
 	display: inline-block;
 	flex-grow: 1;
 
-	a, a:hover, a:active {
+	a,
+	a:hover,
+	a:active {
 		&.infobox-value {
 			cursor: pointer;
 		}
@@ -52,7 +54,9 @@
 			padding-bottom: 0.5em;
 		}
 
-		a, a:hover, a:active {
+		a,
+		a:hover,
+		a:active {
 			color: inherit;
 		}
 
@@ -69,7 +73,8 @@
 			font-size: 1.1em;
 		}
 
-		&:hover, &:focus {
+		&:hover,
+		&:focus {
 			outline: none;
 
 			&.collapsible {
@@ -149,11 +154,14 @@
 		}
 	}
 
-	li:hover, li:active, li:focus {
+	li:hover,
+	li:active,
+	li:focus {
 		&.selectable {
 			background: $lightblue1;
 
-			.infobox-value, li.selected .infobox-value {
+			.infobox-value,
+			li.selected .infobox-value {
 				color: white;
 
 				&.disabled {
@@ -187,7 +195,8 @@
 		}
 	}
 
-	input, select {
+	input,
+	select {
 		color: black;
 		font-weight: normal;
 	}
@@ -212,13 +221,13 @@
 	}
 
 	&.full-sm {
-		@media(max-width: 992px) {
+		@media (max-width: 992px) {
 			max-width: 100%;
 		}
 	}
 
 	&.full-xs {
-		@media(max-width: 768px) {
+		@media (max-width: 768px) {
 			max-width: 100%;
 		}
 	}
@@ -267,7 +276,6 @@
 	}
 }
 
-
 .infobox {
 	.infobox-banner {
 		display: block;
@@ -281,18 +289,19 @@
 		font-size: 1.2em;
 		font-weight: bold;
 
-		text-shadow: -1px -1px 0 #000,
-		1px -1px 0 #000,
-		-1px 1px 0 #000,
-		1px 1px 0 #000;
+		text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+			1px 1px 0 #000;
 
-		> a, > div {
+		> a,
+		> div {
 			cursor: pointer;
 			display: block;
 			width: 100%;
 			padding: 8px 10px 10px 10px;
 
-			&, &:active, &:hover {
+			&,
+			&:active,
+			&:hover {
 				color: white;
 				text-decoration: none;
 				outline: none;

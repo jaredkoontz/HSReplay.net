@@ -1,7 +1,7 @@
 #my-highlights {
 	display: flex;
 
-	>main {
+	> main {
 		width: calc(100% - 300px);
 		min-height: calc(100vh - 50px);
 		display: flex;
@@ -18,9 +18,8 @@
 		}
 	}
 
-	>aside {
+	> aside {
 	}
-
 }
 
 .card-highlight-tile {
@@ -36,15 +35,13 @@
 		background: rgba(255, 255, 255, 0.4);
 		border: 2px solid black;
 		color: white;
-		text-shadow: -1px -1px 0 #000,
-			1px -1px 0 #000,
-			-1px 1px 0 #000,
+		text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
 			1px 1px 0 #000;
 		height: 100%;
 		text-align: center;
 		width: 100%;
 
-		>h1 {
+		> h1 {
 			background: rgba(0, 0, 0, 0.5);
 			border-bottom: 1px solid black;
 			color: white;
@@ -71,7 +68,8 @@
 	}
 }
 
-.card-highlight-tile:link, .card-highlight-tile:hover {
+.card-highlight-tile:link,
+.card-highlight-tile:hover {
 	text-decoration: none;
 }
 

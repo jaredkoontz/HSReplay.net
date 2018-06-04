@@ -9,9 +9,7 @@
 	cursor: default;
 
 	margin-top: 1px;
-	text-shadow: -1px -1px 0 #000,
-		1px -1px 0 #000,
-		-1px 1px 0 #000,
+	text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
 		1px 1px 0 #000;
 
 	.card-gem {
@@ -30,7 +28,8 @@
 			width: 100%;
 		}
 
-		&.rarity-common, &.rarity-free {
+		&.rarity-common,
+		&.rarity-free {
 			background: $card-tile-background-common;
 		}
 
@@ -61,14 +60,26 @@
 			position: absolute;
 			width: 100%;
 			height: 100%;
-			background: linear-gradient(65deg, rgba(49,49,9,1) 0%,rgba(49,49,49,1) calc(100% - 120px),rgba(49,49,49,0) calc(100% - 50px),rgba(49,49,49,0) 100%);
+			background: linear-gradient(
+				65deg,
+				rgba(49, 49, 9, 1) 0%,
+				rgba(49, 49, 49, 1) calc(100% - 120px),
+				rgba(49, 49, 49, 0) calc(100% - 50px),
+				rgba(49, 49, 49, 0) 100%
+			);
 		}
 
 		.card-fade-no-countbox {
 			position: absolute;
 			width: 100%;
 			height: 100%;
-			background: linear-gradient(65deg, rgba(49,49,9,1) 0%,rgba(49,49,49,1) calc(100% - 96px),rgba(49,49,49,0) calc(100% - 26px),rgba(49,49,49,0) 100%);
+			background: linear-gradient(
+				65deg,
+				rgba(49, 49, 9, 1) 0%,
+				rgba(49, 49, 49, 1) calc(100% - 96px),
+				rgba(49, 49, 49, 0) calc(100% - 26px),
+				rgba(49, 49, 49, 0) 100%
+			);
 		}
 
 		.card-name {
@@ -125,12 +136,14 @@
 	&.craftable {
 		opacity: 0.6;
 
-		a:hover &, a:focus & {
+		a:hover &,
+		a:focus & {
 			opacity: 0.8;
 		}
 	}
 
-	a:hover &, a:focus & {
+	a:hover &,
+	a:focus & {
 		cursor: pointer;
 
 		> * {

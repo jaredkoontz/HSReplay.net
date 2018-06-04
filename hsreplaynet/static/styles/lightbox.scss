@@ -41,15 +41,15 @@
 				width: auto;
 				max-width: 100%;
 
-				@media(min-width: 1200px) {
+				@media (min-width: 1200px) {
 					max-width: 80vw;
 				}
 
-				@media(min-height: 300px) {
+				@media (min-height: 300px) {
 					max-height: calc(100vh - 200px);
 				}
 
-				@media(max-height: 300px) {
+				@media (max-height: 300px) {
 					max-height: calc(100vh - 90px);
 				}
 			}

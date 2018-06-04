@@ -18,10 +18,8 @@
 
 	color: white;
 	font-weight: bold;
-	text-shadow: -1px -1px 0 #000,
-	1px -1px 0 #000,
-	-1px 1px 0 #000,
-	1px 1px 0 #000;
+	text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+		1px 1px 0 #000;
 
 	display: flex;
 	flex-direction: row;
@@ -51,7 +49,12 @@
 .modal-body {
 	margin: 10px 15px;
 
-	h1, h2, h3, h4, h5, h6 {
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
 		font-size: 1.45em;
 		font-weight: bold;
 		margin-top: 1em;
@@ -59,9 +62,15 @@
 	}
 
 	> {
-		section, div {
+		section,
+		div {
 			&:first-child > {
-				h1, h2, h3, h4, h5, h6 {
+				h1,
+				h2,
+				h3,
+				h4,
+				h5,
+				h6 {
 					&:first-child {
 						margin-top: 0;
 					}
@@ -69,7 +78,12 @@
 			}
 		}
 
-		h1, h2, h3, h4, h5, h6 {
+		h1,
+		h2,
+		h3,
+		h4,
+		h5,
+		h6 {
 			&:first-child {
 				margin-top: 0;
 			}
@@ -82,7 +96,8 @@
 		padding: 0.4em 2em 0.45em 2em;
 	}
 
-	.text-help, .help-block {
+	.text-help,
+	.help-block {
 		font-size: 0.9em;
 	}
 }
@@ -98,7 +113,6 @@
 	}
 
 	span:not(.glyphicon) {
-
 		@keyframes pulse {
 			from {
 				opacity: 1;

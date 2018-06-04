@@ -9,7 +9,6 @@
 	}
 }
 
-
 .download-container {
 	height: 100%;
 	flex-grow: 1;
@@ -40,7 +39,8 @@
 	margin-right: 1em;
 	width: 100%;
 
-	&:hover, &:active {
+	&:hover,
+	&:active {
 		color: $lighterblue;
 		text-decoration: none;
 	}
@@ -68,7 +68,8 @@
 	text-transform: uppercase;
 	font-weight: bold;
 
-	&:hover, &:active {
+	&:hover,
+	&:active {
 		color: $red;
 		background-color: white;
 		text-decoration: none;

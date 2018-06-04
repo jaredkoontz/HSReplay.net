@@ -14,14 +14,16 @@
 }
 
 .btn-primary {
-	&:active, &.active {
+	&:active,
+	&.active {
 		background-color: darken($lightblue, 10);
 		border-color: $lightblue;
 	}
 }
 
 .btn-primary {
-	&.focus, &:focus {
+	&.focus,
+	&:focus {
 		background-color: darken($lightblue, 5);
 		border-color: darken($lightblue, 20);
 	}

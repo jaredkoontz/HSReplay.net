@@ -1,4 +1,7 @@
-.promo-button, .promo-button:visited, .promo-button-outline, .promo-button-outline:visited {
+.promo-button,
+.promo-button:visited,
+.promo-button-outline,
+.promo-button-outline:visited {
 	display: inline-block;
 	font-weight: bold;
 	padding: 7px 30px;
@@ -76,7 +79,9 @@
 	text-transform: uppercase;
 }
 
-.promo-button:hover, .promo-button:active, .promo-button:focus {
+.promo-button:hover,
+.promo-button:active,
+.promo-button:focus {
 	text-decoration: none;
 
 	color: $red;
@@ -108,17 +113,20 @@
 	}
 }
 
-.promo-button-outline, .promo-button-outline:visited {
+.promo-button-outline,
+.promo-button-outline:visited {
 	background-color: transparent;
 	color: $red;
 }
 
-.promo-button-outline:hover, .promo-button-outline:active {
+.promo-button-outline:hover,
+.promo-button-outline:active {
 	text-decoration: none;
 	color: $red;
 }
 
-.promo-button img, .promo-button-outline img {
+.promo-button img,
+.promo-button-outline img {
 	vertical-align: text-bottom;
 }
 
@@ -127,16 +135,19 @@
 	padding-right: 25px;
 }
 
-.promo-link, .promo-help {
+.promo-link,
+.promo-help {
 	font-size: 1.2em;
 }
 
-.promo-link, .promo-link:visited {
+.promo-link,
+.promo-link:visited {
 	text-decoration: underline;
 	color: white;
 }
 
-.promo-link:hover, .promo-link:active {
+.promo-link:hover,
+.promo-link:active {
 	color: $red;
 }
 

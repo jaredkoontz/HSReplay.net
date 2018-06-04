@@ -1,20 +1,20 @@
 .card-detail-container {
 	display: flex;
 
-	@media(max-width: 768px) {
+	@media (max-width: 768px) {
 		flex-direction: column;
 	}
 
-	>main {
+	> main {
 		min-height: calc(100vh - 50px);
 		padding-top: 10px;
 		width: calc(100% - 300px);
 
-		>.row {
+		> .row {
 			border-bottom: 1px solid $lightgrey;
 		}
 
-		>.row:nth-child(even) {
+		> .row:nth-child(even) {
 			background: rgb(249, 249, 249);
 		}
 
@@ -30,7 +30,7 @@
 			margin-top: 20px;
 		}
 
-		@media(max-width: 768px) {
+		@media (max-width: 768px) {
 			max-width: 100%;
 			width: 100%;
 		}
@@ -54,7 +54,7 @@
 			color: $blue;
 			font-size: 1em;
 			left: 3%;
-			@media(min-width: 1336px) {
+			@media (min-width: 1336px) {
 				left: calc(50% - 350px);
 			}
 			padding: 0;
@@ -70,18 +70,18 @@
 		}
 	}
 
-	>aside {
+	> aside {
 		.card-image {
 			width: 256px;
 		}
 
-		>p {
+		> p {
 			font-style: italic;
 			margin: 0 10px 10px 10px;
 			text-align: center;
 		}
 
-		@media(max-width: 768px) {
+		@media (max-width: 768px) {
 			max-width: 100%;
 			width: 100%;
 			padding-bottom: 0;

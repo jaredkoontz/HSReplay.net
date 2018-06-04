@@ -1,4 +1,6 @@
-.control-rank-range-selector, .control-date-range-selector, .control-sample-size-selector {
+.control-rank-range-selector,
+.control-date-range-selector,
+.control-sample-size-selector {
 	width: 100%;
 	margin-bottom: 15px;
 
@@ -7,13 +9,14 @@
 			text-align: center;
 		}
 
-		> input, > .input-group {
+		> input,
+		> .input-group {
 			width: 100%;
 		}
 	}
 }
 
-label>input {
+label > input {
 	font-weight: normal;
 }
 
@@ -47,11 +50,14 @@ label>input {
 		$overlap: 30%;
 
 		> section {
-
-			&:nth-child(5n+1), &:first-child, &:last-child {
+			&:nth-child(5n + 1),
+			&:first-child,
+			&:last-child {
 				background-color: lightgray;
 
-				&.low, &.high, &.active {
+				&.low,
+				&.high,
+				&.active {
 					background-color: $blue;
 				}
 
@@ -78,7 +84,8 @@ label>input {
 				cursor: ns-resize;
 			}
 
-			&.low, &.high {
+			&.low,
+			&.high {
 				background-color: $blue;
 				cursor: ns-resize;
 				width: 100% + $overlap;
@@ -169,11 +176,23 @@ label>input {
 
 			.selected .card-tile {
 				.card-fade-countbox {
-					background: linear-gradient(65deg, $lightcyan 0%, $lightcyan calc(100% - 120px),transparent calc(100% - 50px), transparent 100%);
+					background: linear-gradient(
+						65deg,
+						$lightcyan 0%,
+						$lightcyan calc(100% - 120px),
+						transparent calc(100% - 50px),
+						transparent 100%
+					);
 				}
 
 				.card-fade-no-countbox {
-					background: linear-gradient(65deg, $lightcyan 0%, $lightcyan calc(100% - 96px), transparent calc(100% - 26px), transparent 100%);
+					background: linear-gradient(
+						65deg,
+						$lightcyan 0%,
+						$lightcyan calc(100% - 96px),
+						transparent calc(100% - 26px),
+						transparent 100%
+					);
 				}
 			}
 		}
@@ -195,7 +214,7 @@ label>input {
 
 	.class-label {
 		line-height: 1.6em;
-		height:  1.75em;
+		height: 1.75em;
 		margin: 0.15em 0 0 -20px;
 		padding: 0 7px 0 22px;
 		border-radius: 10px;
@@ -272,7 +291,7 @@ label>input {
 
 	&.deselected {
 		img {
-			filter: grayscale(100%)
+			filter: grayscale(100%);
 		}
 	}
 
@@ -285,11 +304,11 @@ label>input {
 	}
 }
 
-[data-toggle=buttons] {
-	& > .btn input[type=checkbox],
-	& > .btn input[type=radio],
-	& > .btn-group > .btn input[type=checkbox],
-	& > .btn-group > .btn input[type=radio] {
+[data-toggle="buttons"] {
+	& > .btn input[type="checkbox"],
+	& > .btn input[type="radio"],
+	& > .btn-group > .btn input[type="checkbox"],
+	& > .btn-group > .btn input[type="radio"] {
 		height: 0px;
 	}
 }

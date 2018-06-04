@@ -1,12 +1,9 @@
 .chart {
-
 	&.stacked-bar-chart {
-
 		.controls-wrapper {
 			text-align: center;
 			padding-top: 5px;
 		}
-
 	}
 }
 
@@ -16,7 +13,7 @@
 	justify-content: center;
 	margin-bottom: 5px;
 
-	>span {
+	> span {
 		margin: 5px 0 0 5px;
 		color: black;
 		user-select: none;

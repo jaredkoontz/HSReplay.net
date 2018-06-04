@@ -1,5 +1,6 @@
 .devtools-feature {
-	&, .dropdown-menu > li > & {
+	&,
+	.dropdown-menu > li > & {
 		font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
 		display: flex;
 		flex-direction: row;
