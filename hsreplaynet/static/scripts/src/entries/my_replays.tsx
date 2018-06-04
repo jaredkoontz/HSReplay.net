@@ -1,11 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { cardArt, image } from "../helpers";
-import MyReplays from "../pages/MyReplays";
+import CardData from "../CardData";
 import UserData from "../UserData";
 import Fragments from "../components/Fragments";
-import CardData from "../CardData";
 import Root from "../components/Root";
+import { cardArt, image } from "../helpers";
+import MyReplays from "../pages/MyReplays";
 
 UserData.create();
 let username = UserData.getUsername();
@@ -20,6 +20,10 @@ for (const part of parts) {
 		break;
 	}
 }
+
+const context = JSON.parse(
+	document.getElementById("react_context").textContent,
+);
 
 const render = (cardData: CardData) => {
 	ReactDOM.render(
@@ -40,10 +44,11 @@ const render = (cardData: CardData) => {
 					cardArt={cardArt}
 					cardData={cardData}
 					username={username}
+					totalGames={context["total_games"]}
 				/>
 			</Fragments>
 		</Root>,
-		document.getElementById("my-games-container"),
+		document.getElementById("my_replays-container"),
 	);
 };
 

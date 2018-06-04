@@ -10,15 +10,19 @@ from django.views.generic import View
 from hsreplaynet.games.models import GameReplay
 from hsreplaynet.uploads.models import UploadEvent
 
+from . import SimpleReactView
 
-class MyReplaysView(LoginRequiredMixin, View):
-	template_name = "games/my_replays.html"
 
-	def get(self, request):
-		replays = GameReplay.objects.live().filter(user=request.user).count()
-		context = {"replays": replays}
-		request.head.title = "My Replays"
-		return render(request, self.template_name, context)
+class MyReplaysView(LoginRequiredMixin, SimpleReactView):
+	title = "My Replays"
+	bundle = "my_replays"
+
+	def get_react_context(self):
+		return {
+			"total_games": GameReplay.objects.live().filter(
+				user=self.request.user
+			).count()
+		}
 
 
 class ReplayDetailView(View):

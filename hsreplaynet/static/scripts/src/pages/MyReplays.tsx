@@ -1,15 +1,7 @@
 import { cookie } from "cookie_js";
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
-import ClassDistributionPieChart from "../components/charts/ClassDistributionPieChart";
-import ClassFilter, { FilterOption } from "../components/ClassFilter";
-import GameHistoryList from "../components/gamehistory/GameHistoryList";
-import GameHistorySearch from "../components/gamehistory/GameHistorySearch";
-import GameHistoryTable from "../components/gamehistory/GameHistoryTable";
-import InfoboxFilter from "../components/InfoboxFilter";
-import InfoboxFilterGroup from "../components/InfoboxFilterGroup";
-import Pager from "../components/Pager";
-import ResetHeader from "../components/ResetHeader";
+import { InjectedTranslateProps, Trans, translate } from "react-i18next";
+import CardData from "../CardData";
 import {
 	formatMatch,
 	heroMatch,
@@ -17,14 +9,22 @@ import {
 	nameMatch,
 	resultMatch,
 } from "../GameFilters";
+import ClassFilter, { FilterOption } from "../components/ClassFilter";
+import InfoboxFilter from "../components/InfoboxFilter";
+import InfoboxFilterGroup from "../components/InfoboxFilterGroup";
+import Pager from "../components/Pager";
+import ResetHeader from "../components/ResetHeader";
+import ClassDistributionPieChart from "../components/charts/ClassDistributionPieChart";
+import GameHistoryList from "../components/gamehistory/GameHistoryList";
+import GameHistorySearch from "../components/gamehistory/GameHistorySearch";
+import GameHistoryTable from "../components/gamehistory/GameHistoryTable";
+import { getHeroCard, image } from "../helpers";
 import {
 	CardArtProps,
 	FragmentChildProps,
 	GameReplay,
 	ImageProps,
 } from "../interfaces";
-import CardData from "../CardData";
-import { getHeroCard } from "../helpers";
 
 type ViewType = "tiles" | "list";
 
@@ -38,6 +38,7 @@ interface Props
 		FragmentChildProps,
 		InjectedTranslateProps {
 	cardData: CardData;
+	totalGames: number;
 	username: string;
 	name?: string;
 	setName?: (name: string) => void;
@@ -224,12 +225,67 @@ class MyReplays extends React.Component<Props, State> {
 	}
 
 	public render(): React.ReactNode {
-		const { t } = this.props;
+		const { t, totalGames } = this.props;
 		let games: GameReplay[] = [];
 		const hasFilters = this.props.canBeReset;
 
+		if (!totalGames) {
+			// No replays at all on the account.
+			return (
+				<div className="content replay-listing no-replays">
+					<section id="play-some-hearthstone">
+						<h1>{t("Play a few games!")}</h1>
+						<p>
+							{t(
+								"Your replays will appear here once you've uploaded them using a Deck Tracker.",
+							)}
+						</p>
+						<p>
+							<a href="/downloads/" className="promo-button">
+								{t("Download Hearthstone Deck Tracker")}
+							</a>
+						</p>
+					</section>
+
+					<section id="claim-account">
+						<p>
+							{t(
+								"From the Deck Tracker, log in to HSReplay.net.",
+							)}
+						</p>
+
+						<a
+							href={image("claim-account.png")}
+							className="claim-account-screenshot"
+							target="_blank"
+						>
+							<img src={image("claim-account.jpg")} />
+						</a>
+					</section>
+
+					<section id="need-help">
+						<h2>{t("Join our Discord server")}</h2>
+						<p>
+							<Trans>
+								<a
+									href="https://discord.gg/hearthsim"
+									target="_blank"
+									rel="noopener"
+								>
+									Join our community on Discord
+								</a>{" "}
+								for help, questions, feedback, and to chat with
+								other players. We'll see you there!
+							</Trans>
+						</p>
+					</section>
+				</div>
+			);
+		}
+
 		let page = 0;
 		const firstPage = this.state.gamesPages[page];
+
 		if (firstPage) {
 			games = this.filterGames(firstPage);
 			// we load one more than we need so we know whether there is next page
