@@ -8,22 +8,24 @@ import DeleteReplayButton from "../components/DeleteReplayButton";
 import PlayerInfo from "../components/PlayerInfo";
 import ShareGameDialog from "../components/ShareGameDialog";
 import VisibilityDropdown from "../components/VisibilityDropdown";
+import SemanticAge from "../components/text/SemanticAge";
 import i18n from "../i18n";
 import { Visibility } from "../interfaces";
 import BatchingMiddleware from "../metrics/BatchingMiddleware";
 import InfluxMetricsBackend from "../metrics/InfluxMetricsBackend";
 import MetricsReporter from "../metrics/MetricsReporter";
 
-// shortid
-const shortid = document
-	.getElementById("replay-infobox")
-	.getAttribute("data-shortid");
+const context = JSON.parse(
+	document.getElementById("react_context").textContent,
+);
+UserData.create();
 
 // Joust
 const embedder = new JoustEmbedder();
 
 const container = document.getElementById("joust-container");
-const startPaused = container.getAttribute("data-autoplay") === "false";
+const startPaused = !context["autoplay"];
+let wasPlaying = !startPaused;
 
 // shared url decoding
 if (location.hash) {
@@ -52,73 +54,187 @@ if (endpoint) {
 }
 const shared = {};
 
-function renderShareDialog() {
-	ReactDOM.render(
-		<I18nextProvider i18n={i18n} initialLanguage={UserData.getLocale()}>
-			<ShareGameDialog
-				url={document
-					.getElementById("share-game-dialog")
-					.getAttribute("data-url")}
-				showLinkToTurn
-				showPreservePerspective={false}
-				turn={embedder.turn}
-				reveal={embedder.reveal}
-				swap={embedder.swap}
-				onShare={(network: string, linkToTurn: boolean) => {
-					if (!metrics) {
-						return;
-					}
-					if (shared[network]) {
-						// deduplicate
-						return;
-					}
-					metrics.writePoint(
-						"shares",
-						{ count: 1, link_to_turn: linkToTurn },
-						{ network },
-					);
-					shared[network] = true;
-				}}
-			/>
-		</I18nextProvider>,
-		document.getElementById("share-game-dialog"),
-	);
-}
-
-renderShareDialog();
-embedder.onTurn = () => renderShareDialog();
-embedder.onToggleReveal = () => renderShareDialog();
-embedder.onToggleSwap = () => renderShareDialog();
 embedder.prepare(container);
 
 // privacy dropodown
-const visibilityTarget = document.getElementById("replay-visibility");
-if (visibilityTarget) {
-	const status = +visibilityTarget.getAttribute(
-		"data-selected",
-	) as Visibility;
-	ReactDOM.render(
-		<I18nextProvider i18n={i18n} initialLanguage={UserData.getLocale()}>
-			<VisibilityDropdown initial={status} shortid={shortid} />
-		</I18nextProvider>,
-		visibilityTarget,
-	);
-}
+const targetTmp1 = document.getElementById("replay-infobox-container");
+ReactDOM.render(
+	<I18nextProvider i18n={i18n} initialLanguage={UserData.getLocale()}>
+		<>
+			<h1>{context["format_name"] || "Replay"}</h1>
 
-// delete link
-const deleteTarget = document.getElementById("replay-delete");
-if (deleteTarget) {
-	const redirect = deleteTarget.getAttribute("data-redirect");
-	ReactDOM.render(
-		<I18nextProvider i18n={i18n} initialLanguage={UserData.getLocale()}>
-			<DeleteReplayButton
-				shortid={shortid}
-				done={() => (window.location.href = redirect)}
+			{embedder.launcher ? (
+				<button
+					className="btn btn-primary btn-full visible-xs"
+					type="button"
+					onClick={() => {
+						if (embedder.launcher.fullscreenSupported) {
+							container.classList.remove("hidden-xs");
+							embedder.launcher.fullscreen(true);
+						} else {
+							container.scrollIntoView();
+						}
+					}}
+				>
+					Enter replay
+				</button>
+			) : (
+				<button
+					className="btn btn-danger btn-full visible-xs"
+					type="button"
+					onClick={() => {
+						alert(
+							"Something went wrong when trying to initialize the Replayer. Please try disabling browser extensions, or opening the replay in a different browser or device.",
+						);
+					}}
+				>
+					Something went wrong…
+				</button>
+			)}
+
+			<h2 className="hidden-lg">Decks</h2>
+			<section
+				id="infobox-players-container-small"
+				className="hidden-lg"
 			/>
-		</I18nextProvider>,
-		deleteTarget,
-	);
-}
+			<h2>Game</h2>
+			<ul id="infobox-game">
+				<li>
+					Played{" "}
+					<span className="infobox-value">
+						<SemanticAge date={context["match_start"]} />
+					</span>
+				</li>
+				{context["build"] ? (
+					<li>
+						Build
+						<span className="infobox-value">
+							{context["build"]}
+						</span>
+					</li>
+				) : null}
+				{context["ladder_season"] ? (
+					<li>
+						Ranked Season
+						<span className="infobox-value">
+							{context["ladder_season"]}
+						</span>
+					</li>
+				) : null}
+				<li>
+					Turns{" "}
+					<span className="infobox-value">
+						{context["own_turns"]}
+					</span>
+				</li>
+				{context["spectator_mode"] ? (
+					<li>
+						Spectator mode
+						<span className="infobox-value">
+							POV: {context["player_name"]}
+						</span>
+					</li>
+				) : null}
+			</ul>
+			<h2>
+				Share{" "}
+				<strong className="pull-right">{context["views"]} views</strong>
+			</h2>
+			<div id="share-game-dialog">
+				<ShareGameDialog
+					url={
+						(document.querySelector(
+							"link[rel='canonical']",
+						) as HTMLLinkElement).href
+					}
+					showLinkToTurn
+					showPreservePerspective={false}
+					turn={embedder.turn}
+					reveal={embedder.reveal}
+					swap={embedder.swap}
+					onShare={(network: string, linkToTurn: boolean) => {
+						if (!metrics) {
+							return;
+						}
+						if (shared[network]) {
+							// deduplicate
+							return;
+						}
+						metrics.writePoint(
+							"shares",
+							{ count: 1, link_to_turn: linkToTurn },
+							{ network },
+						);
+						shared[network] = true;
+					}}
+				/>
+			</div>
+
+			<h2>Controls</h2>
+			<ul className="infobox-settings hidden-sm">
+				{context["can_update"] ? (
+					<>
+						<li className="clearfix">
+							Visibility{" "}
+							<span
+								className="infobox-value"
+								id="replay-visibility"
+							>
+								<VisibilityDropdown
+									initial={
+										context["visibility"] as Visibility
+									}
+									shortid={context["shortid"]}
+								/>
+							</span>
+						</li>
+						<li className="clearfix">
+							Delete{" "}
+							<span className="infobox-value" id="replay-delete">
+								<DeleteReplayButton
+									shortid={context["shortid"]}
+									done={() =>
+										(window.location.href = "/games/mine/")
+									}
+								/>
+							</span>
+						</li>
+					</>
+				) : null}
+				{context["admin_url"] ? (
+					<li>
+						View in Admin{" "}
+						<span className="infobox-value">
+							<a href={context["admin_url"]}>Link</a>
+						</span>
+					</li>
+				) : null}
+				{UserData.isStaff() ? (
+					<li>
+						<a
+							href={context["annotated_replay_url"]}
+							download={`${
+								context["shortid"]
+							}-annotated.hsreplay.xml`}
+						>
+							Download annotated replay
+						</a>
+					</li>
+				) : null}
+				{/* TODO: move replay download URL to joust*/}
+				<li>
+					<a
+						href={context["replay_url"]}
+						download={`${context["shortid"]}.hsreplay.xml"`}
+					>
+						Download Replay XML
+					</a>
+				</li>
+			</ul>
+		</>
+	</I18nextProvider>,
+	targetTmp1,
+);
 
 // Player info
 const renderPlayerInfo = (
@@ -128,18 +244,14 @@ const renderPlayerInfo = (
 	if (!playerInfo) {
 		return;
 	}
-	const gameId = playerInfo.getAttribute("data-game-id");
-	const playerName = playerInfo.getAttribute("data-player-name");
-	const opponentName = playerInfo.getAttribute("data-opponent-name");
-	const build = +playerInfo.getAttribute("data-build");
 	const renderPlayerInfoComponent = (cards?) => {
 		ReactDOM.render(
 			<I18nextProvider i18n={i18n} initialLanguage={UserData.getLocale()}>
 				<PlayerInfo
-					gameId={gameId}
-					playerName={playerName}
-					opponentName={opponentName}
-					build={build}
+					gameId={context["shortid"]}
+					playerName={context["player_name"]}
+					opponentName={context["opponent_name"]}
+					build={context["build"]}
 					cardData={cards}
 					playerExpandDirection={playerExpandDirection}
 				/>
@@ -154,51 +266,10 @@ const renderPlayerInfo = (
 	});
 };
 
-UserData.create();
 renderPlayerInfo(document.getElementById("infobox-players-container"), "up");
 renderPlayerInfo(
 	document.getElementById("infobox-players-container-small"),
 	"down",
-);
-
-// fullscreen button for mobile
-let wasPlaying = !startPaused;
-const toggleButton = document.getElementById("replay-toggle-container");
-
-ReactDOM.render(
-	embedder.launcher ? (
-		<button
-			className="btn btn-primary btn-full visible-xs"
-			type="button"
-			onClick={() => {
-				if (embedder.launcher.fullscreenSupported) {
-					container.classList.remove("hidden-xs");
-					embedder.launcher.fullscreen(true);
-				} else {
-					container.scrollIntoView();
-				}
-			}}
-		>
-			Enter Replay
-		</button>
-	) : (
-		<button
-			className="btn btn-danger btn-full visible-xs"
-			type="button"
-			onClick={() => {
-				alert(
-					[
-						"Something went wrong when trying to initialize our Replay applet (Joust).",
-						"Please ensure you have no plugins blocking it, such as Adblockers or NoScript.",
-						"Otherwise try opening this replay on another device.",
-					].join(" "),
-				);
-			}}
-		>
-			Something went wrong…
-		</button>
-	),
-	toggleButton,
 );
 
 const style =

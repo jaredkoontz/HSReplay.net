@@ -138,6 +138,7 @@ class GlobalGame(models.Model):
 
 	@property
 	def format_friendly_name(self):
+		# TODO(i18n): Port to TS
 		if self.is_ranked:
 			if self.format == FormatType.FT_STANDARD:
 				return "Ranked - Standard"

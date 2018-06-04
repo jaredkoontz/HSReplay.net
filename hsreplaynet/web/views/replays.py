@@ -27,14 +27,20 @@ class MyReplaysView(LoginRequiredMixin, SimpleReactView):
 
 class ReplayDetailView(View):
 	template_name = "games/replay_detail.html"
+	model = GameReplay
+	bundle = "replay_detail"
 
-	def get(self, request, id):
-		replay = GameReplay.objects.find_by_short_id(id)
+	def get_object(self, id):
+		replay = self.model.objects.find_by_short_id(id)
 		if not replay:
 			raise Http404("Replay not found.")
-		if replay.is_deleted:
-			return render(request, self.template_name, {"replay": None}, status=410)
 
+		return replay
+
+	def get(self, request, id):
+		replay = self.replay = self.get_object(id)
+		if replay.is_deleted:
+			return render(self.request, self.template_name, {"replay": None}, status=410)
 		replay.views += 1
 		replay.save()
 
@@ -72,8 +78,32 @@ class ReplayDetailView(View):
 		context = {
 			"replay": replay,
 			"players": replay.global_game.players.all(),
+			"react_context": self.get_react_context(),
 		}
 		return render(request, self.template_name, context)
+
+	def get_react_context(self):
+		if not self.replay:
+			return {"deleted": True}
+		autoplay = self.request.user.is_authenticated and self.request.user.joust_autoplay
+		return {
+			"autoplay": autoplay,
+			"annotated_replay_url": reverse(
+				"annotated_replay", kwargs={"shortid": self.replay.shortid}
+			),
+			"build": self.replay.global_game.build,
+			"can_update": self.request.user == self.replay.user,
+			"format_name": self.replay.global_game.format_friendly_name,  # XXX
+			"match_start": self.replay.global_game.match_start,
+			"ladder_season": self.replay.global_game.ladder_season,
+			"opponent_name": self.replay.opposing_player.name,
+			"own_turns": self.replay.global_game.num_own_turns,
+			"player_name": self.replay.friendly_player.name,
+			"replay_url": self.replay.replay_xml.url,
+			"shortid": self.replay.shortid,
+			"views": self.replay.views,
+			"visibility": self.replay.visibility.value,
+		}
 
 
 class ReplayEmbedView(View):

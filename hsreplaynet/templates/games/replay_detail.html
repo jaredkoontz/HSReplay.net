@@ -9,70 +9,22 @@
 
 {% block fullcontent %}
 <style type="text/css">{% include "games/svg-paths-shim.css" with svg="/static/svg-paths.svg" %}</style>
+<script type="application/json" id="react_context">{{ react_context|json }}</script>
+<div id="replay_detail-container"></div>
+<script src="{% joust_static 'joust.js' %}"></script>
+<script>if(typeof Joust === "undefined") var Joust = null;</script>
+
 <div class="flex-container" id="replay-container">
 	{% with replay.global_game as gg %}
-	<aside id="replay-infobox" class="infobox" data-shortid="{{ replay.shortid }}">
-		{% if replay %}
-		<h1>{{ gg.format_friendly_name|default:"Replay" }}</h1>
-		<div id="replay-toggle-container"></div>
 
-		<h2 class="hidden-lg">Decks</h2>
-		<section
-			id="infobox-players-container-small"
-			class="hidden-lg"
-			data-game-id="{{ replay.shortid }}" data-player-name="{{ replay.friendly_player.name }}"
-			data-opponent-name="{{ replay.opposing_player.name }}" data-build="{{ replay.global_game.build }}"
-		></section>
-
-		<h2>Game</h2>
-		<ul id="infobox-game">
-			<li>Played <span class="infobox-value"> {{ gg.match_start|date:"SHORT_DATE_FORMAT" }} </span></li>
-			{% if replay.build %}
-				<li>Build <span class="infobox-value"> {{ replay.build }} </span></li>
-			{% endif %}
-			{% if gg.ladder_season %}
-				<li>Season <span class="infobox-value"> {{ gg.ladder_season }} </span></li>
-			{% endif %}
-			<li>Turns <span class="infobox-value"> {{ gg.num_own_turns }} </span></li>
-			{% if replay.spectator_mode %}
-				<li>Spectator mode <span class="infobox-value">POV: {{ replay.friendly_player.name }}</span></li>
-			{% endif %}
-		</ul>
-
-		<h2>Share{% if user.is_staff %}<strong class="pull-right">{{ replay.views }} views</strong>{% endif %}</h2>
-		<div id="share-game-dialog" data-url="{{ request.head.canonical_url }}"></div>
-
-		<h2>Controls</h2>
-		<ul class="infobox-settings hidden-sm">
-			{% if user == replay.user %}
-				<li class="clearfix">Visibility <span class="infobox-value" id="replay-visibility" data-selected="{{ replay.visibility.value }}"></span></li>
-				<li class="clearfix">Delete <span class="infobox-value" id="replay-delete" data-redirect="{% url 'my_replays' %}"></span></li>
-			{% endif %}
-			{% if user.is_staff %}
-				<li>View in Admin <span class="infobox-value"><a href="{% url 'admin:games_gamereplay_change' replay.id %}">Link</a></span></li>
-				{% if replay.friendly_deck %}
-					<li>Player Deck Details <span class="infobox-value"><a href="{% url 'deck_detail' id=replay.friendly_deck.id %}">Link</a></span></li>
-				{% endif %}
-				<li><a href="{% url 'annotated_replay' shortid=replay.shortid %}" download="{{ replay.shortid }}-annotated.hsreplay.xml">Download annotated replay</a></li>
-			{% endif %}
-			<!-- TODO: move this to Joust itself, in the extra menu -->
-			<li><a href="{{ replay.replay_xml.url }}" download="{{ replay.shortid }}.hsreplay.xml">Download XML</a></li>
-		</ul>
-
-		{% if not premium %}
-			<a href="{% url "decks" %}" id="banner-link">
-				<img src="{% static 'images/banner-statistics-cards.png' %}" class="statistics-banner" alt="HSReplay.net Statistics are now available!"/>
-			</a>
-		{% endif %}
-		{% endif %}
-	</aside>
+	<aside id="replay-infobox-container" class="infobox"></aside>
 	{% endwith %}
 	<main>
 		{% if not replay %}
 			<div class="alert alert-warning">
 				<h1>Replay not available</h1>
 				<p>This replay is no longer available.</p>
-				<p><a href="{% url 'my_replays' %}">Back to games list</a></p>
+				<p><a href="/games/mine/">Back to games list</a></p>
 			</div>
 		{% else %}
 			{% include "snippets/noscript.html" %}
@@ -95,8 +47,6 @@
 	</main>
 </div>
 
-<script src="{% joust_static 'joust.js' %}"></script>
-<script>if(typeof Joust === "undefined") var Joust = null;</script>
 {% render_bundle "replay_detail" %}
 
 {% endblock %}
