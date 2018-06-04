@@ -6,6 +6,7 @@ import pytest
 from django.core.exceptions import ValidationError
 from django.core.files.storage import default_storage
 from hearthstone.enums import CardType
+from moto import mock_s3
 from storages.backends.s3boto3 import S3Boto3Storage
 
 from hearthsim.identity.accounts.models import AuthToken
@@ -142,26 +143,29 @@ def do_process_raw_upload(raw_upload, is_reprocessing):
 			assert card.type != CardType.HERO
 
 
+@mock_s3
 @pytest.mark.django_db
 def test_process_raw_upload_corrupt(mocker):
-	localstack_s3_storage = S3Boto3Storage(
+	moto_s3_storage = S3Boto3Storage(
 		access_key="test",
 		auto_create_bucket=True,
 		bucket="hsreplaynet-replays",
-		content_type="text/plain",
-		encoding="gzip",
-		endpoint_url="http://localstack:4572/",
+		gzip_content_types=(),
 		secret_key="test"
 	)
 
-	mocker.patch("django.core.files.storage.default_storage._wrapped", localstack_s3_storage)
+	mocker.patch("django.core.files.storage.default_storage._wrapped", moto_s3_storage)
+	mocker.patch(
+		"storages.backends.s3boto3.mimetypes.guess_type",
+		lambda name: (None, "gzip")
+	)
 
 	raw_upload = MockRawUpload(os.path.join(
 		LOG_DATA_DIR,
 		"hsreplaynet-tests",
 		"uploads-invalid",
 		"gzip-corrupt"
-	), localstack_s3_storage)
+	), moto_s3_storage)
 
 	with pytest.raises(ValidationError):
 		process_raw_upload(raw_upload, False)
