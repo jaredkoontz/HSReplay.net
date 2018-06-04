@@ -1,19 +1,16 @@
 import json
 import os
-from io import BytesIO
 
 import pytest
-from django.core.exceptions import ValidationError
 from django.core.files.storage import default_storage
 from hearthstone.enums import CardType
-from storages.backends.s3boto3 import S3Boto3Storage
 
 from hearthsim.identity.accounts.models import AuthToken
 from hearthsim.identity.api.models import APIKey
 from hsreplaynet.lambdas.uploads import process_raw_upload
-from hsreplaynet.uploads.models import UploadEvent, UploadEventStatus, _generate_upload_key
+from hsreplaynet.uploads.models import UploadEvent, _generate_upload_key
 
-from .conftest import LOG_DATA_DIR, UPLOAD_SUITE
+from .conftest import UPLOAD_SUITE
 
 
 class MockRawUpload(object):
@@ -26,7 +23,7 @@ class MockRawUpload(object):
 		self._descriptor = json.loads(self.descriptor_json)
 
 		self._powerlog_path = os.path.join(path, "power.log")
-		with open(self._powerlog_path, "rb") as f:
+		with open(self._powerlog_path, "r") as f:
 			self._log = f.read()
 
 		api_key_str = self._descriptor["event"]["headers"]["X-Api-Key"]
@@ -50,7 +47,9 @@ class MockRawUpload(object):
 
 		if storage:
 			key = _generate_upload_key(self._timestamp, self._shortid)
-			storage.save(key, BytesIO(self._log))
+			os.makedirs(os.path.dirname(storage.path(key)), exist_ok=True)
+			with storage.open(key, mode="w") as log_file:
+				log_file.write(self._log)
 
 		self._reason = None
 		self._delete_was_called = False
@@ -140,36 +139,6 @@ def do_process_raw_upload(raw_upload, is_reprocessing):
 	for player_id in (1, 2):
 		for card in replay.global_game.players.get(player_id=player_id).deck_list:
 			assert card.type != CardType.HERO
-
-
-@pytest.mark.django_db
-def test_process_raw_upload_corrupt(mocker):
-	localstack_s3_storage = S3Boto3Storage(
-		access_key="test",
-		auto_create_bucket=True,
-		bucket="hsreplaynet-replays",
-		content_type="text/plain",
-		encoding="gzip",
-		endpoint_url="http://localstack:4572/",
-		secret_key="test"
-	)
-
-	mocker.patch("django.core.files.storage.default_storage._wrapped", localstack_s3_storage)
-
-	raw_upload = MockRawUpload(os.path.join(
-		LOG_DATA_DIR,
-		"hsreplaynet-tests",
-		"uploads-invalid",
-		"gzip-corrupt"
-	), localstack_s3_storage)
-
-	with pytest.raises(ValidationError):
-		process_raw_upload(raw_upload, False)
-
-	upload_event = UploadEvent.objects.get(shortid=raw_upload.shortid)
-
-	assert upload_event.status == UploadEventStatus.VALIDATION_ERROR
-	assert upload_event.error is not None
 
 
 def validate_fuzzy_date_match(upload_date, replay_date):

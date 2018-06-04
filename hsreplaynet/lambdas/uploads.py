@@ -219,20 +219,6 @@ def process_raw_upload(raw_upload, reprocess=False, log_group_name="", log_strea
 		if not api_key:
 			raise ValidationError("Missing X-Api-Key header. Please contact us for an API key.")
 		obj.api_key_id = LegacyAPIKey.objects.get(api_key=api_key).id
-
-		# This is a first-level attempt to identify files (such as the ones uploaded as part of
-		# https://github.com/HearthSim/HSReplay.net/issues/812) that can't be properly decoded
-		# to a stream of bytes because they're invalid at some lower level of binary
-		# encoding - e.g., incorrectly compressed In this case we should mark them invalid
-		# immediately.
-
-		try:
-			with obj.file.open(mode="rb") as log_file:
-				while log_file.read(4096):
-					pass
-		except OSError as e:
-			raise ValidationError("Could not read uploaded log: {0}".format(e))
-
 	except (ValidationError, LegacyAPIKey.DoesNotExist) as e:
 		logger.error("Exception: %r", e)
 		obj.status = UploadEventStatus.VALIDATION_ERROR
