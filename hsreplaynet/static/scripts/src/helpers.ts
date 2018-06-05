@@ -268,6 +268,7 @@ export const setNames = {
 	icecrown: "Knights of the Frozen Throne",
 	lootapalooza: "Kobolds and Catacombs",
 	gilneas: "The Witchwood",
+	taverns_of_time: "Taverns of Time",
 };
 
 export function isCollectibleCard(card: any) {

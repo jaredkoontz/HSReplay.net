@@ -188,6 +188,7 @@ class Cards extends React.Component<Props, State> {
 			"HOF",
 			"SLUSH",
 			"CHEAT",
+			"TAVERNS_OF_TIME",
 		],
 		type: ["HERO", "MINION", "SPELL", "WEAPON"],
 	};
