@@ -364,7 +364,18 @@ class AccountBilling extends React.Component<Props, State> {
 										{this.props.stripe.invoices.map(
 											invoice => (
 												<tr key={invoice.number}>
-													<td>{invoice.number}</td>
+													<td>
+														<a
+															href={
+																invoice.hosted_invoice_url ||
+																"#"
+															}
+															target="_blank"
+															rel="noopener"
+														>
+															{invoice.number}
+														</a>
+													</td>
 													<td>
 														<SemanticAge
 															date={invoice.date}
@@ -374,26 +385,13 @@ class AccountBilling extends React.Component<Props, State> {
 														<ul className="list-unstyled">
 															{invoice.items.map(
 																item => (
-																	<a
-																		href={
-																			invoice.hosted_invoice_url ||
-																			"#"
+																	<li
+																		key={
+																			item
 																		}
-																		target="_blank"
-																		rel="noopener"
 																	>
-																		<li
-																			key={
-																				invoice.number +
-																				"_" +
-																				item
-																			}
-																		>
-																			{
-																				item
-																			}
-																		</li>
-																	</a>
+																		{item}
+																	</li>
 																),
 															)}
 														</ul>
@@ -663,7 +661,7 @@ class AccountBilling extends React.Component<Props, State> {
 		);
 	}
 
-	public invoiceStatus(invoice: any): string {
+	public invoiceStatus(invoice: StripeInvoice): string {
 		const { t } = this.props;
 
 		if (invoice.paid) {
