@@ -5,11 +5,11 @@ import {
 } from "joust";
 import Raven from "raven-js";
 import React from "react";
+import UserData from "./UserData";
 import { cardArt, joustAsset, joustStaticFile } from "./helpers";
 import BatchingMiddleware from "./metrics/BatchingMiddleware";
 import InfluxMetricsBackend from "./metrics/InfluxMetricsBackend";
 import MetricsReporter from "./metrics/MetricsReporter";
-import UserData from "./UserData";
 
 export default class JoustEmbedder {
 	public turn: number = null;
@@ -85,7 +85,7 @@ export default class JoustEmbedder {
 		launcher.cardArt((cardId: string) => cardArt(cardId));
 
 		// setup language
-		const locale = target.getAttribute("data-locale");
+		const locale = UserData.getHearthstoneLocale();
 		launcher.locale(locale);
 
 		// setup influx
