@@ -384,7 +384,7 @@ header .navbar {
 }
 
 /* Status message for uploads in progress */
-.upload-status-message {
+#upload_processing-container {
 	background-color: $blue;
 	color: white;
 	font-size: 1.8em;

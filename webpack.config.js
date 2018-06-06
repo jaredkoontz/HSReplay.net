@@ -67,6 +67,7 @@ module.exports = env => {
 		discover: makeEntry("discover"),
 		card_editor: makeEntry("card_editor"),
 		home: makeEntry("home"),
+		upload_processing: makeEntry("upload_processing"),
 		vendor: [
 			"babel-polyfill",
 			"whatwg-fetch",

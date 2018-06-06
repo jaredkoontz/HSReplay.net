@@ -137,29 +137,30 @@ class AnnotatedReplayView(View):
 		return response
 
 
-class UploadDetailView(View):
-	def get(self, request, shortid):
+class UploadDetailView(SimpleReactView):
+	bundle = "upload_processing"
+	title = "Uploading replay…"
+
+	def get_react_context(self):
+		shortid = self.kwargs["shortid"]
 		replay = GameReplay.objects.find_by_short_id(shortid)
 		if replay:
 			return HttpResponseRedirect(replay.get_absolute_url())
 
-		# This setting lets us prevent the only site-wide queyr on UploadEvent.
-		# Bit of a hack but it does the job for now.
-		if getattr(settings, "UPLOADS_DB_DISABLED", False):
-			upload = None
-		else:
-			try:
-				upload = UploadEvent.objects.get(shortid=shortid)
-				if upload.game:
-					return HttpResponseRedirect(upload.game.get_absolute_url())
-			except UploadEvent.DoesNotExist:
-				# It is possible the UploadEvent hasn't been created yet.
-				upload = None
+		try:
+			upload = UploadEvent.objects.get(shortid=shortid)
+			if upload.game:
+				return HttpResponseRedirect(upload.game.get_absolute_url())
+		except UploadEvent.DoesNotExist:
+			# It is possible the UploadEvent hasn't been created yet.
+			return {}
 
-		request.head.title = "Uploading replay..."
+		context = {
+			"status": "PROCESSING" if upload.is_processing else upload.status.name,
+			"error": upload.error,
+		}
 
-		context = {}
-		context["upload"] = upload
-		context["redirect_url"] = request.build_absolute_uri(request.path)
+		if self.request.user.is_staff:
+			context["admin_url"] = reverse("admin:uploads_uploadevent_change", upload.id)
 
-		return render(request, "uploads/processing.html", context)
+		return context
