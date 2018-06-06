@@ -2,7 +2,7 @@ from django.conf import settings
 from django.http import Http404
 from django.utils import translation
 from django.utils.decorators import method_decorator
-from django.views.generic import DetailView, TemplateView
+from django.views.generic import TemplateView
 from django_hearthstone.cards.models import Card
 from hearthstone.enums import CardSet, CardType, Locale, Rarity
 
@@ -35,8 +35,10 @@ class MyCardsView(SimpleReactView):
 		return {"view": "personal"}
 
 
-class CardDetailView(DetailView):
+class CardDetailView(SimpleReactView):
 	model = Card
+	bundle = "card_detail"
+	bundles = ("stats", "card_detail")
 
 	@staticmethod
 	def get_card_snippet(card):
@@ -78,9 +80,9 @@ class CardDetailView(DetailView):
 
 	def get_object(self, queryset=None):
 		if queryset is None:
-			queryset = self.get_queryset()
+			queryset = self.model.objects.all()
 
-		pk = self.kwargs[self.pk_url_kwarg]
+		pk = self.kwargs["pk"]
 		if pk.isdigit():
 			# If it's numeric, filter using the dbf id
 			queryset = queryset.filter(dbf_id=pk)
@@ -110,6 +112,13 @@ class CardDetailView(DetailView):
 		)
 
 		return obj
+
+	def get_react_context(self):
+		card = self.get_object()
+		return {
+			"card_id": card.card_id,
+			"dbf_id": card.dbf_id,
+		}
 
 
 @method_decorator(view_requires_feature_access("cardeditor"), name="dispatch")

@@ -1,22 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import CardData from "../CardData";
-import CardDetail from "../pages/CardDetail";
 import UserData from "../UserData";
+import DataInjector from "../components/DataInjector";
 import Fragments from "../components/Fragments";
 import Root from "../components/Root";
 import { Consumer as AccountConsumer } from "../components/utils/hearthstone-account";
-import DataInjector from "../components/DataInjector";
+import CardDetail from "../pages/CardDetail";
 import { isCollectionDisabled } from "../utils/collection";
 
-const cardId = document
-	.getElementById("card-info")
-	.getAttribute("data-card-id");
-const dbfId = +document.getElementById("card-info").getAttribute("data-dbf-id");
 UserData.create();
+const context = JSON.parse(
+	document.getElementById("react_context").textContent,
+);
 
 const render = (cardData: CardData) => {
-	const card = cardData && cardData.fromDbf(dbfId);
+	const card = cardData && cardData.fromDbf(context["dbf_id"]);
 	ReactDOM.render(
 		<Root>
 			<AccountConsumer>
@@ -49,8 +48,8 @@ const render = (cardData: CardData) => {
 								<CardDetail
 									card={card}
 									cardData={cardData}
-									cardId={cardId}
-									dbfId={dbfId}
+									cardId={context["card_id"]}
+									dbfId={context["dbf_id"]}
 									collection={collection}
 								/>
 							</Fragments>
@@ -59,7 +58,7 @@ const render = (cardData: CardData) => {
 				)}
 			</AccountConsumer>
 		</Root>,
-		document.getElementById("card-container"),
+		document.getElementById("card_detail-container"),
 	);
 };
 
