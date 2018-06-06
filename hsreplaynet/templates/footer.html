@@ -1,9 +1,10 @@
 {% load static %}
 {% load web_extras %}
+{% load trans from i18n %}
 
 <div class="footer-content row">
 	<p class="visible-xs text-center prominent">
-		<a href="#">&uparrow; Back to top</a>
+		<a href="#">&uparrow; {% trans "Back to top" %}</a>
 	</p>
 
 	<div class="col-md-4">
@@ -16,19 +17,19 @@
 		<ul class="horizontal-icons">
 			{% setting 'HSREPLAY_TWITTER_HANDLE' as twitter_handle %}
 			<li><a href="https://twitter.com/{{ twitter_handle }}" target="_blank" rel="me" class="social-button">
-				<span class="label">Follow us on Twitter</span>
+				<span class="label">{% trans "Follow us on Twitter" %}</span>
 				{% include "snippets/twitter_button.svg" with fill="#9e9e9e" width=28 height=28 selector=".social-button" %}
 			</a></li>
 
 			{% setting 'HSREPLAY_DISCORD_URL' as discord_url %}
 			<li><a href="{{ discord_url }}" target="_blank" rel="noopener" class="social-button">
-				<span class="label">Join our Discord server</span>
+				<span class="label">{% trans "Join our Discord server" %}</span>
 				{% include "snippets/discord_button.svg" with fill="#9e9e9e" width=28 height=28 selector=".social-button" %}
 			</a></li>
 
 			{% setting 'HSREPLAY_FACEBOOK_URL' as facebook_url %}
 			<li><a href="{{ facebook_url }}" target="_blank" rel="noopener" class="social-button">
-				<span class="label">Like us on Facebook</span>
+				<span class="label">{% trans "Like us on Facebook" %}</span>
 				{% include "snippets/facebook_button.svg" with fill="#9e9e9e" width=28 height=28 selector=".social-button" %}
 			</a></li>
 		</ul>
@@ -38,33 +39,33 @@
 			<div class="col-md-4 footer-menu">
 				<h4>HSReplay.net</h4>
 				<ul>
-					<li><a href="{% url 'premium' %}">Premium</a></li>
-					<li><a href="{% url 'downloads' %}">Downloads</a></li>
-					<li><a href="{% url 'privacy_policy' %}">Privacy Policy</a></li>
-					<li><a href="{% url 'terms_of_service' %}">Terms of Service</a></li>
+					<li><a href="{% url 'premium' %}">{% trans "Premium" %}</a></li>
+					<li><a href="{% url 'downloads' %}">{% trans "Downloads" %}</a></li>
+					<li><a href="{% url 'privacy_policy' %}">{% trans "Privacy Policy" %}</a></li>
+					<li><a href="{% url 'terms_of_service' %}">{% trans "Terms of Service" %}</a></li>
 				</ul>
 			</div>
 			<div class="col-md-4 footer-menu">
-				<h4>Help</h4>
+				<h4>{% trans "Help" %}</h4>
 				<ul>
-					<li><a href="https://hearthsim.net/">About Us</a></li>
-					<li><a href="{% url 'contact_us' %}">FAQ</a></li>
-					<li><a href="{% url 'contact_us' %}">Contact</a></li>
-					<li><a href="mailto:security@hearthsim.net">Security</a></li>
+					<li><a href="https://hearthsim.net/">{% trans "About Us" %}</a></li>
+					<li><a href="{% url 'contact_us' %}">{% trans "FAQ" %}</a></li>
+					<li><a href="{% url 'contact_us' %}">{% trans "Contact" %}</a></li>
+					<li><a href="mailto:security@hearthsim.net">{% trans "Security" %}</a></li>
 				</ul>
 			</div>
 			<div class="col-md-4 footer-menu">
 				<h4>HearthSim</h4>
 				<ul>
-					<li><a href="https://hearthsim.net/">Corporate</a></li>
-					<li><a href="https://github.com/HearthSim/">Open source</a></li>
-					<li><a href="mailto:jobs@hearthsim.net">Careers</a></li>
-					<li><a href="mailto:press@hearthsim.net">Press</a></li>
+					<li><a href="https://hearthsim.net/">{% trans "Corporate" %}</a></li>
+					<li><a href="https://github.com/HearthSim/">{% trans "Open source" %}</a></li>
+					<li><a href="mailto:jobs@hearthsim.net">{% trans "Careers" %}</a></li>
+					<li><a href="mailto:press@hearthsim.net">{% trans "Press" %}</a></li>
 				</ul>
 			</div>
 		</div>
 		<div class="row copyright">
-			<p>&copy; {% now 'Y' %} &middot This website is not affiliated with Blizzard Entertainment.</p>
+			<p>&copy; {% now 'Y' %} &middot {% trans "This website is not affiliated with Blizzard Entertainment." %}</p>
 			{% if user.is_staff or debug %}
 			<p>
 				{% setting "RAVEN_CONFIG" as raven_config %}
