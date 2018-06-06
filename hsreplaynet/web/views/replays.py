@@ -141,26 +141,30 @@ class UploadDetailView(SimpleReactView):
 	bundle = "upload_processing"
 	title = "Uploading replay…"
 
-	def get_react_context(self):
-		shortid = self.kwargs["shortid"]
+	def get(self, request, **kwargs):
+		shortid = kwargs["shortid"]
 		replay = GameReplay.objects.find_by_short_id(shortid)
 		if replay:
 			return HttpResponseRedirect(replay.get_absolute_url())
-
 		try:
-			upload = UploadEvent.objects.get(shortid=shortid)
-			if upload.game:
-				return HttpResponseRedirect(upload.game.get_absolute_url())
+			self.upload = UploadEvent.objects.get(shortid=shortid)
+			if self.upload.game:
+				return HttpResponseRedirect(self.upload.game.get_absolute_url())
 		except UploadEvent.DoesNotExist:
-			# It is possible the UploadEvent hasn't been created yet.
+			self.upload = None
+
+		return super().get(request, **kwargs)
+
+	def get_react_context(self):
+		if not self.upload:
 			return {}
 
 		context = {
-			"status": "PROCESSING" if upload.is_processing else upload.status.name,
-			"error": upload.error,
+			"status": "PROCESSING" if self.upload.is_processing else self.upload.status.name,
+			"error": self.upload.error,
 		}
 
 		if self.request.user.is_staff:
-			context["admin_url"] = reverse("admin:uploads_uploadevent_change", upload.id)
+			context["admin_url"] = reverse("admin:uploads_uploadevent_change", pk=self.upload.id)
 
 		return context
