@@ -60,6 +60,10 @@ class PlayerInfo extends React.Component<Props, State> {
 		let opponentInfoIcon = null;
 		const opponentHeaderStyle = {};
 		const playerHeaderStyle = {};
+		const deckSourceUrl =
+			window && window.location
+				? window.location.toString().split("#")[0]
+				: null;
 
 		if (this.state.game) {
 			const {
@@ -84,7 +88,25 @@ class PlayerInfo extends React.Component<Props, State> {
 						predictedCardList={opposing_deck.predicted_cards}
 					/>
 				);
-				if (
+				if (opposing_deck.cards && opposing_deck.cards.length === 30) {
+					opponentCopyButton = (
+						<CopyDeckButton
+							cardData={this.props.cardData}
+							cards={opposing_deck.cards}
+							deckClass={opposing_player.hero_class_name}
+							heroes={[
+								getHeroDbfId(
+									this.props.cardData,
+									opposing_player,
+								),
+							]}
+							format={global_game.format}
+							name={this.getDeckName(opposing_player)}
+							simple
+							sourceUrl={deckSourceUrl}
+						/>
+					);
+				} else if (
 					opposing_deck.predicted_cards &&
 					opposing_deck.predicted_cards.length
 				) {
@@ -102,11 +124,7 @@ class PlayerInfo extends React.Component<Props, State> {
 							format={global_game.format}
 							name={this.getDeckName(opposing_player)}
 							simple
-							sourceUrl={
-								window && window.location
-									? window.location.toString().split("#")[0]
-									: undefined
-							}
+							sourceUrl={deckSourceUrl}
 						/>
 					);
 					opponentInfoIcon = (
@@ -150,11 +168,7 @@ class PlayerInfo extends React.Component<Props, State> {
 							]}
 							format={global_game.format}
 							name={this.getDeckName(friendly_player)}
-							sourceUrl={
-								window && window.location
-									? window.location.toString().split("#")[0]
-									: undefined
-							}
+							sourceUrl={deckSourceUrl}
 						/>
 					);
 				}
