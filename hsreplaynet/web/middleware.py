@@ -1,6 +1,5 @@
 """
 Miscellaneous middleware objects
-https://docs.djangoproject.com/en/1.10/topics/http/middleware/
 """
 
 from ipaddress import ip_address
@@ -10,7 +9,7 @@ from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.utils import translation
 
 from .html import HTMLHead
-from .templatetags.web_extras import lang_to_opengraph
+from .i18n import lang_to_opengraph
 
 
 class DoNotTrackMiddleware:

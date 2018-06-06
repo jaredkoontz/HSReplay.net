@@ -112,17 +112,3 @@ def last_used(time):
 	if difference > timedelta(days=7):
 		return "within the last %d weeks" % ((difference.days - 1) // 7 + 1)
 	return "within the last week"
-
-
-@register.filter
-def lang_to_blizzard(lang: str) -> str:
-	if lang not in settings.LANGUAGE_MAP:
-		lang = settings.LANGUAGE_CODE
-	return settings.LANGUAGE_MAP[lang][0]
-
-
-@register.filter
-def lang_to_opengraph(lang: str) -> str:
-	if lang not in settings.LANGUAGE_MAP:
-		lang = settings.LANGUAGE_CODE
-	return settings.LANGUAGE_MAP[lang][1]
