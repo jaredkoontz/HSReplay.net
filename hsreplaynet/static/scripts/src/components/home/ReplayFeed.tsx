@@ -43,6 +43,9 @@ interface Props extends InjectedTranslateProps {
 }
 
 class ReplayFeed extends React.Component<Props, State> {
+	private updateInterval: number | null = null;
+	private counterRef: HTMLElement | null = null;
+
 	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
@@ -67,7 +70,32 @@ class ReplayFeed extends React.Component<Props, State> {
 	}
 
 	public componentDidMount(): void {
-		// this.updateGamesToday();
+		let lastRequest: number | null = null;
+		if (typeof window.requestAnimationFrame !== "function") {
+			return;
+		}
+		this.updateInterval = window.setInterval(() => {
+			if (lastRequest !== null) {
+				window.cancelAnimationFrame(lastRequest);
+			}
+			lastRequest = window.requestAnimationFrame(() => {
+				if (!this.counterRef) {
+					return;
+				}
+				const now = this.getMillisecondsOfDay();
+				const factor = now / this.state.startTime;
+				const games = Math.floor(this.getAdjustedGamesToday() * factor);
+				this.counterRef.innerHTML = commaSeparate(games);
+			});
+		}, 10);
+	}
+
+	public componentWillUnmount(): void {
+		if (this.updateInterval !== null) {
+			window.clearInterval(this.updateInterval);
+		}
+		this.updateInterval = null;
+		this.counterRef = null;
 	}
 
 	getMillisecondsOfDay(asUtc: boolean = true): number {
@@ -86,26 +114,6 @@ class ReplayFeed extends React.Component<Props, State> {
 			this.props.gamesCountData.games_today *
 			(this.getMillisecondsOfDay(false) / this.getMillisecondsOfDay(true))
 		);
-	}
-
-	updateGamesToday() {
-		/*const element = document.getElementById("games-count");
-
-		const update = () => {
-			setTimeout(() => {
-				if (element) {
-					const now = this.getMillisecondsOfDay();
-					const factor = now / this.state.startTime;
-					const games = Math.floor(
-						this.getAdjustedGamesToday() * factor,
-					);
-					element.innerHTML = commaSeparate(games);
-				}
-				update();
-			}, 100);
-		};
-
-		update();*/
 	}
 
 	fetchData() {
@@ -169,7 +177,10 @@ class ReplayFeed extends React.Component<Props, State> {
 					</h1>
 					<h4>
 						{t("Games Today:")}{" "}
-						<span id="games-count">
+						<span
+							id="games-count"
+							ref={ref => (this.counterRef = ref)}
+						>
 							{commaSeparate(
 								Math.floor(this.getAdjustedGamesToday()),
 							)}
