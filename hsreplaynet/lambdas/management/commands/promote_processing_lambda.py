@@ -127,11 +127,14 @@ class Command(BaseCommand):
 				# We have canary failures, time to rollback.
 				self.log("The following canary uploads have failed:")
 				self.log(", ".join(u.shortid for u in canary_failures))
+				self.log("Here is one of the failures:")
+				self.log_canary_failure(canary_failures[0])
 				raise RuntimeError("Failed canary events detected. Rolling back.")
-		except Exception:
+		except Exception as err:
 
 			# Revert the canary alias back to what PROD still points to
 			prod_version = prod_alias["FunctionVersion"]
+			self.log(str(err))
 			self.log("CANARY will be reverted to version: %s" % prod_version)
 			self.set_canary_version(prod_version)
 
@@ -166,3 +169,7 @@ class Command(BaseCommand):
 
 		canaries = canary_uploads.all()
 		return self.get_failed_canaries(canaries)
+
+	def log_canary_failure(self, failed_canary):
+		self.log("%s failed with the following message:" % (failed_canary.shortid))
+		self.log(failed_canary.error)
