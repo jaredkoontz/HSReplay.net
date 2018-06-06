@@ -3,6 +3,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist, SuspiciousOperation
+from django.db import IntegrityError
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 from django.utils.http import is_safe_url
@@ -265,11 +266,19 @@ class SubscribeView(LoginRequiredMixin, PaymentsMixin, View):
 		email = self.request.POST.get("stripeEmail")
 		if email and not self.request.user.email:
 			# So if the user doesn't have an email, we set it to the stripe email.
-			# First we attach the email as an EmailAddress to the account
-			# confirm=True will send an email confirmation
-			EmailAddress.objects.add_email(
-				self.request, self.request.user, email, confirm=True
-			)
+			try:
+				# First we attach the email as an EmailAddress to the account
+				# confirm=True will send an email confirmation
+				EmailAddress.objects.add_email(
+					self.request, self.request.user, email, confirm=True
+				)
+			except IntegrityError:
+				messages.error(
+					self.request,
+					"That email address is associated with another account. "
+					"If you'd like to merge accounts, please contact us!"
+				)
+				return False
 			# Then we set it on the account object itself
 			self.request.user.email = email
 			self.request.user.save()
