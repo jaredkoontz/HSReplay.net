@@ -1,5 +1,6 @@
 import json
 import logging
+import time
 from datetime import datetime
 from io import BytesIO
 from threading import Thread
@@ -151,6 +152,33 @@ def auth_token_from_header(header: str):
 		pass
 
 
+def _validate_upload_encoding(obj):
+	"""Verify that the file be fetched from S3, raise ValidationError if not
+
+	This is a first-level attempt to identify files (such as the ones uploaded as part of
+	https://github.com/HearthSim/HSReplay.net/issues/812) that can't be properly decoded
+	to a stream of bytes because they're invalid at some lower level of binary
+	encoding - e.g., incorrectly compressed In this case we should mark them invalid
+	immediately.
+	"""
+
+	from botocore.vendored.requests.packages.urllib3.exceptions import ReadTimeoutError
+
+	def _get_file():
+		try:
+			return obj.file.open(mode="rb")
+		except ReadTimeoutError:
+			time.sleep(1)
+			return obj.file.open(mode="rb")
+
+	try:
+		with _get_file() as log_file:
+			while log_file.read(4096):
+				pass
+	except (OSError, ReadTimeoutError) as e:
+		raise ValidationError("Could not read uploaded log: {0}".format(e))
+
+
 def process_raw_upload(raw_upload, reprocess=False, log_group_name="", log_stream_name=""):
 	"""
 	Generic processing logic for raw log files.
@@ -220,18 +248,7 @@ def process_raw_upload(raw_upload, reprocess=False, log_group_name="", log_strea
 			raise ValidationError("Missing X-Api-Key header. Please contact us for an API key.")
 		obj.api_key_id = LegacyAPIKey.objects.get(api_key=api_key).id
 
-		# This is a first-level attempt to identify files (such as the ones uploaded as part of
-		# https://github.com/HearthSim/HSReplay.net/issues/812) that can't be properly decoded
-		# to a stream of bytes because they're invalid at some lower level of binary
-		# encoding - e.g., incorrectly compressed In this case we should mark them invalid
-		# immediately.
-
-		try:
-			with obj.file.open(mode="rb") as log_file:
-				while log_file.read(4096):
-					pass
-		except OSError as e:
-			raise ValidationError("Could not read uploaded log: {0}".format(e))
+		_validate_upload_encoding(obj)
 
 	except (ValidationError, LegacyAPIKey.DoesNotExist) as e:
 		logger.error("Exception: %r", e)

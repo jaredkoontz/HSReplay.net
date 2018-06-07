@@ -17,6 +17,14 @@ from hsreplaynet.uploads.models import UploadEvent, UploadEventStatus, _generate
 from .conftest import LOG_DATA_DIR, UPLOAD_SUITE
 
 
+@pytest.fixture(scope="module")
+def multi_db():
+	from django.test import TestCase
+	TestCase.multi_db = True
+	yield
+	TestCase.multi_db = False
+
+
 class MockRawUpload(object):
 	def __init__(self, path, storage=None):
 		from datetime import datetime
@@ -111,7 +119,8 @@ class MockRawUpload(object):
 
 
 @pytest.mark.django_db
-def test_upload_regression_suite():
+@pytest.mark.usefixtures("multi_db")
+def test_upload_regression_suite(db):
 	for shortid in os.listdir(UPLOAD_SUITE):
 		raw_upload = MockRawUpload(os.path.join(UPLOAD_SUITE, shortid), default_storage)
 
@@ -145,6 +154,7 @@ def do_process_raw_upload(raw_upload, is_reprocessing):
 
 @mock_s3
 @pytest.mark.django_db
+@pytest.mark.usefixtures("multi_db")
 def test_process_raw_upload_corrupt(mocker):
 	moto_s3_storage = S3Boto3Storage(
 		access_key="test",
@@ -174,6 +184,41 @@ def test_process_raw_upload_corrupt(mocker):
 
 	assert upload_event.status == UploadEventStatus.VALIDATION_ERROR
 	assert upload_event.error is not None
+
+
+@mock_s3
+@pytest.mark.django_db
+@pytest.mark.usefixtures("multi_db")
+def test_process_raw_upload_timeout(mocker):
+	moto_s3_storage = S3Boto3Storage(
+		access_key="test",
+		auto_create_bucket=True,
+		bucket="hsreplaynet-replays",
+		secret_key="test"
+	)
+
+	mocker.patch("django.core.files.storage.default_storage._wrapped", moto_s3_storage)
+
+	raw_upload = MockRawUpload(os.path.join(
+		LOG_DATA_DIR,
+		"hsreplaynet-tests",
+		"uploads",
+		"2hwp7nDJMyWvrHQGBYTvVM"
+	), moto_s3_storage)
+
+	from botocore.vendored.requests.packages.urllib3.exceptions import ReadTimeoutError
+
+	mocker.patch.object(S3Boto3Storage, "open")
+	S3Boto3Storage.open.side_effect = ReadTimeoutError(None, None, "Read timed out.")
+
+	with pytest.raises(ValidationError):
+		process_raw_upload(raw_upload, False)
+
+	upload_event = UploadEvent.objects.get(shortid=raw_upload.shortid)
+
+	assert upload_event.status == UploadEventStatus.VALIDATION_ERROR
+	assert upload_event.error is not None
+	assert S3Boto3Storage.open.call_count == 2
 
 
 def validate_fuzzy_date_match(upload_date, replay_date):
