@@ -105,17 +105,18 @@ class AccountBilling extends React.Component<Props, State> {
 			(stripe.can_cancel || stripe.can_cancel_immediately)
 		) {
 			const reasons: Array<[string, string]> = [
-				["expensive", t("It's too expensive for me")],
-				["wild", t("Not enough support for Wild")],
+				["expensive", t("My financial situation has changed")],
 				[
-					"dont-understand",
-					t("I don't understand how to use the site"),
+					"manual-renew",
+					t("I prefer to manually renew my subscriptions"),
 				],
+				["wild", t("Not enough support for Wild")],
 				["missing-features", t("It's missing features I want")],
 				["mobile", t("I play only on mobile")],
 				["not-useful", t("It's not useful for me")],
 				["not-worth", t("It's not worth the price")],
 				["stopped-playing", t("I have stopped playing Hearthstone")],
+				["one-month", t("I only wanted to subscribe for one month")],
 				["other", t("Other (please explain further):")],
 			];
 			return (
