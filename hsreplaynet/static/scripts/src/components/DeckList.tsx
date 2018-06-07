@@ -321,8 +321,8 @@ class DeckList extends React.Component<Props, State> {
 						<span aria-hidden="true">{t("Winrate")}</span>
 						{sortIndicator("winrate")}
 						<InfoIcon
-							header="Winrate"
-							content="Percentage of games won by the deck."
+							header={t("Winrate")}
+							content={t("Percentage of games won by the deck.")}
 						/>
 					</div>
 					<div

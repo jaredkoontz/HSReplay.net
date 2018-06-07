@@ -75,7 +75,7 @@ class CopyDeckButton extends React.Component<Props, State> {
 
 		return (
 			<Tooltip
-				header="After you click:"
+				header={t("After you click:")}
 				content={
 					<p>
 						{t(

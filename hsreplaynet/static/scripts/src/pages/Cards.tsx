@@ -1033,7 +1033,7 @@ class Cards extends React.Component<Props, State> {
 		} else {
 			filters.push(
 				<Fragment key="class">
-					<h2>Deck Class</h2>
+					<h2>{t("Deck Class")}</h2>
 					<ClassFilter
 						filters="All"
 						hideAll
