@@ -165,6 +165,8 @@ class UploadDetailView(SimpleReactView):
 		}
 
 		if self.request.user.is_staff:
-			context["admin_url"] = reverse("admin:uploads_uploadevent_change", pk=self.upload.id)
+			context["admin_url"] = reverse(
+				"admin:uploads_uploadevent_change", args=(self.upload.id,),
+			)
 
 		return context
