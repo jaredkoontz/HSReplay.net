@@ -142,7 +142,7 @@ def find_or_create_global_game(entity_tree, meta):
 		"brawl_season": meta.get("brawl_season", 0),
 		"ladder_season": ladder_season,
 		"scenario_id": meta.get("scenario_id"),
-		"num_entities": len(entity_tree.entities),
+		"num_entities": len(entity_tree._entities),
 		"num_turns": entity_tree.tags.get(GameTag.TURN),
 		"tainted_decks": False,
 	}
