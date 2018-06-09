@@ -262,25 +262,42 @@ function getClassColorScheme (t: TranslationFunction): ChartScheme {
 	}
 }
 
-export function getSetNames(t: TranslationFunction) {
-	return {
-		core: t("GLOBAL_CARD_SET_CORE"),
-		expert1: t("GLOBAL_CARD_SET_EXPERT1"),
-		hof: t("GLOBAL_CARD_SET_HOF"),
-		naxx: t("GLOBAL_CARD_SET_NAXX"),
-		gvg: t("GLOBAL_CARD_SET_GVG"),
-		brm: t("GLOBAL_CARD_SET_BRM"),
-		tgt: t("GLOBAL_CARD_SET_TGT"),
-		tb: t("Tavern Brawl"),
-		loe: t("GLOBAL_CARD_SET_LOE"),
-		og: t("GLOBAL_CARD_SET_OG"),
-		kara: t("GLOBAL_CARD_SET_KARA"),
-		gangs: t("GLOBAL_CARD_SET_GANGS"),
-		ungoro: t("GLOBAL_CARD_SET_UNGORO"),
-		icecrown: t("GLOBAL_CARD_SET_ICECROWN"),
-		lootapalooza: t("GLOBAL_CARD_SET_LOOTAPALOOZA"),
-		gilneas: t("GLOBAL_CARD_SET_GILNEAS"),
-		taverns_of_time: t("Taverns of Time"),
+export function getSetName(set: string, t: TranslationFunction) {
+	switch(set) {
+		case "core":
+			return t("GLOBAL_CARD_SET_CORE");
+		case "expert1":
+			return t("GLOBAL_CARD_SET_EXPERT1");
+		case "hof":
+			return t("GLOBAL_CARD_SET_HOF");
+		case "naxx":
+			return t("GLOBAL_CARD_SET_NAXX");
+		case "gvg":
+			return t("GLOBAL_CARD_SET_GVG");
+		case "brm":
+			return t("GLOBAL_CARD_SET_BRM");
+		case "tgt":
+			return t("GLOBAL_CARD_SET_TGT");
+		case "tb":
+			return t("GLOBAL_TAVERN_BRAWL");
+		case "loe":
+			return t("GLOBAL_CARD_SET_LOE");
+		case "og":
+			return t("GLOBAL_CARD_SET_OG");
+		case "kara":
+			return t("GLOBAL_CARD_SET_KARA");
+		case "gangs":
+			return t("GLOBAL_CARD_SET_GANGS");
+		case "ungoro":
+			return t("GLOBAL_CARD_SET_UNGORO");
+		case "icecrown":
+			return t("GLOBAL_CARD_SET_ICECROWN");
+		case "lootapalooza":
+			return t("GLOBAL_CARD_SET_LOOTAPALOOZA");
+		case "gilneas":
+			return t("GLOBAL_CARD_SET_GILNEAS");
+		case "taverns_of_time":
+			return t("Taverns of Time");
 	}
 }
 

@@ -21,7 +21,7 @@ import { RankRange, TimeRange } from "../filters";
 import {
 	cardSorting,
 	cleanText,
-	getSetNames,
+	getSetName,
 	image,
 	isArenaOnlyCard,
 	isCollectibleCard,
@@ -1359,7 +1359,7 @@ class Cards extends React.Component<Props, State> {
 		}
 		const getText = (item: string) => {
 			if (key === "set") {
-				return getSetNames(this.props.t)[item.toLowerCase()];
+				return getSetName(item.toLowerCase(), this.props.t);
 			} else if (key === "mechanics") {
 				return item
 					.split("_")
