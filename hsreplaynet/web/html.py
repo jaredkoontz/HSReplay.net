@@ -118,9 +118,9 @@ class HTMLHead:
 	def get_title(self):
 		title_parts = []
 		if self.title:
-			title_parts.append(self.title)
+			title_parts.append(str(self.title))
 		if self.base_title:
-			title_parts.append(self.base_title)
+			title_parts.append(str(self.base_title))
 
 		if title_parts:
 			return " - ".join(title_parts)

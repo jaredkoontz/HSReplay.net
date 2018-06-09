@@ -2,6 +2,8 @@ from django.conf import settings
 from django.http import Http404
 from django.utils import translation
 from django.utils.decorators import method_decorator
+from django.utils.text import format_lazy
+from django.utils.translation import gettext_lazy as _
 from django.views.generic import TemplateView
 from django_hearthstone.cards.models import Card
 from hearthstone.enums import CardSet, CardType, Locale, Rarity
@@ -14,8 +16,8 @@ from ..i18n import lang_to_blizzard
 
 
 class CardsView(SimpleReactView):
-	title = "Hearthstone Card Statistics"
-	description = (
+	title = _("Hearthstone Card Statistics")
+	description = _(
 		"Compare statistics about all collectible Hearthstone cards. "
 		"Find the cards that are played the most or have the highest winrate."
 	)
@@ -27,7 +29,7 @@ class CardsView(SimpleReactView):
 
 
 class MyCardsView(SimpleReactView):
-	title = "My Cards"
+	title = _("My Cards")
 	bundle = "cards"
 	bundles = ("stats", "cards")
 
@@ -93,19 +95,26 @@ class CardDetailView(SimpleReactView):
 		try:
 			obj = queryset.get()
 		except queryset.model.DoesNotExist:
-			raise Http404("No card found matching the query.")
+			raise Http404(_("No card found matching the query."))
 
 		locale = Locale[lang_to_blizzard(translation.get_language())]
 		name = obj.localized_name(locale=locale)
 
 		self.request.head.set_canonical_url(obj.get_absolute_url() + "/")
-		self.request.head.title = f"{name} - Hearthstone Card Statistics"
+		self.request.head.title = format_lazy(
+			"{name} - {title}",
+			name=name, title=_("Hearthstone Card Statistics")
+		)
 		self.request.head.opengraph["og:image"] = obj.get_card_art_url()
 		self.request.head.opengraph["og:image:width"] = 256
 		self.request.head.opengraph["og:image:height"] = 256
 
 		card_desc = self.get_card_snippet(obj)
-		description = f"{name} - {card_desc} - Statistics and decks!"
+		description = format_lazy(
+			"{name} - {card_desc} - {title}",
+			name=name, card_desc=card_desc,
+			title=_("Statistics and decks!")
+		)
 		self.request.head.add_meta(
 			{"name": "description", "content": description},
 			{"property": "og:description", "content": description},
@@ -124,7 +133,7 @@ class CardDetailView(SimpleReactView):
 @method_decorator(view_requires_feature_access("cardeditor"), name="dispatch")
 class CardEditorView(RequestMetaMixin, TemplateView):
 	template_name = "cards/card_editor.html"
-	title = "Hearthstone Card Editor"
+	title = _("Hearthstone Card Editor")
 	scripts = (
 		settings.SUNWELL_SCRIPT_URL,
 	)

@@ -4,6 +4,7 @@ from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
 from django.views.decorators.clickjacking import xframe_options_exempt
 from django.views.generic import View
 
@@ -14,7 +15,7 @@ from . import SimpleReactView
 
 
 class MyReplaysView(LoginRequiredMixin, SimpleReactView):
-	title = "My Replays"
+	title = _("My Replays")
 	bundle = "my_replays"
 
 	def get_react_context(self):
@@ -139,7 +140,7 @@ class AnnotatedReplayView(View):
 
 class UploadDetailView(SimpleReactView):
 	bundle = "upload_processing"
-	title = "Uploading replay…"
+	title = _("Uploading replay…")
 
 	def get(self, request, **kwargs):
 		shortid = kwargs["shortid"]

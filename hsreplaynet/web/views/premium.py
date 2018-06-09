@@ -1,6 +1,7 @@
 import random
 
 from django.conf import settings
+from django.utils.translation import gettext_lazy as _
 from django_reflinks.models import ReferralLink
 from shortuuid import ShortUUID
 
@@ -8,8 +9,8 @@ from . import SimpleReactView
 
 
 class PremiumDetailView(SimpleReactView):
-	title = "HSReplay.net Premium"
-	description = (
+	title = _("HSReplay.net Premium")
+	description = _(
 		"More filters, more features, more data: Gain access to advanced "
 		"Hearthstone statistics backed by millions of games with HSReplay.net Premium "
 		"for HSReplay.net."

@@ -1,5 +1,6 @@
 from django.http import Http404
 from django.shortcuts import get_object_or_404, render
+from django.utils.translation import gettext_lazy as _
 from django.views.generic import TemplateView, View
 
 from hsreplaynet.decks.models import Archetype
@@ -12,8 +13,8 @@ from ..html import RequestMetaMixin
 # Archetype pages
 
 class MetaOverviewView(SimpleReactView):
-	title = "Hearthstone Meta"
-	description = (
+	title = _("Hearthstone Meta")
+	description = _(
 		"Explore the Hearthstone meta game and find out "
 		"how the archetypes match up."
 	)
@@ -23,8 +24,8 @@ class MetaOverviewView(SimpleReactView):
 
 class DiscoverView(RequestMetaMixin, TemplateView):
 	template_name = "decks/discover.html"
-	title = "Discover"
-	description = (
+	title = _("Discover")
+	description = _(
 		"Engage with the up-and-coming Hearthstone meta game "
 		"to discover the newest archetypes and what's next."
 	)
@@ -37,12 +38,12 @@ class DiscoverView(RequestMetaMixin, TemplateView):
 
 class ArchetypeDetailView(RequestMetaMixin, View):
 	template_name = "archetypes/archetype_detail.html"
-	title = "Archetype"
+	title = _("Archetype")
 
 	def get(self, request, id, slug):
 		archetype = get_object_or_404(Archetype, id=id)
 		if archetype.deleted:
-			raise Http404("Archetype was deleted")
+			raise Http404(_("This archetype is no longer available."))
 
 		request.head.title = archetype.name
 		request.head.set_canonical_url(archetype.get_absolute_url())

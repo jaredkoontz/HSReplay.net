@@ -7,6 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 from django.views.generic import (
 	CreateView, DeleteView, ListView, TemplateView, UpdateView, View
 )
@@ -36,7 +37,7 @@ class EditAccountView(LoginRequiredMixin, UpdateView, SimpleReactView):
 		"default_replay_visibility", "joust_autoplay", "exclude_from_statistics"
 	]
 	success_url = "/account/"
-	title = "My Account"
+	title = _("My Account")
 	bundle = "account_edit"
 	base_template = "account/base.html"
 	object = None
@@ -69,7 +70,7 @@ class EditAccountView(LoginRequiredMixin, UpdateView, SimpleReactView):
 
 class APIAccountView(LoginRequiredMixin, RequestMetaMixin, View):
 	template_name = "account/api.html"
-	title = "API Access"
+	title = _("API Access")
 
 	def get(self, request):
 		context = {
@@ -81,7 +82,7 @@ class APIAccountView(LoginRequiredMixin, RequestMetaMixin, View):
 
 class DeleteAccountView(LoginRequiredMixin, SimpleReactView):
 	success_url = reverse_lazy("home")
-	title = "Delete Account"
+	title = _("Delete Account")
 	bundle = "account_delete"
 	base_template = "account/base.html"
 
@@ -106,7 +107,7 @@ class DeleteAccountView(LoginRequiredMixin, SimpleReactView):
 	def post(self, request):
 		# Prevent staff and current subscribers from deleting accounts
 		if not self.can_delete():
-			messages.error(request, "This account cannot be deleted.")
+			messages.error(request, _("This account cannot be deleted."))
 			return redirect("account_delete")
 
 		logger.info(f"Deleting account: {request.user}")
@@ -134,7 +135,7 @@ class DeleteReplaysView(LoginRequiredMixin, RequestMetaMixin, TemplateView):
 		influx_metric("hsreplaynet_replays_delete", {"count": 1})
 
 		request.user.replays.update(is_deleted=True)
-		messages.info(self.request, "Your replays have been deleted.")
+		messages.info(self.request, _("Your replays have been deleted."))
 
 		return redirect(self.success_url)
 
@@ -169,7 +170,7 @@ class MakePrimaryView(LoginRequiredMixin, View):
 	def error(self, id):
 		log.warning("%r got error %r when making account primary" % (self.request.user, id))
 		influx_metric("hsreplaynet_make_primary", {"count": 1}, error=id)
-		messages.error(self.request, "Could not make account primary.")
+		messages.error(self.request, _("Could not make account primary."))
 		return redirect(self.success_url)
 
 	def complete(self, success=True):
@@ -189,7 +190,7 @@ class EmailPreferencesView(LoginRequiredMixin, View):
 		}
 		request.user.save()
 
-		messages.info(request, "Your email preferences have been saved.")
+		messages.info(request, _("Your email preferences have been saved."))
 		return redirect(self.success_url)
 
 
@@ -205,7 +206,7 @@ class WebhookFormMixin(LoginRequiredMixin, RequestMetaMixin):
 
 
 class WebhookCreateView(WebhookFormMixin, CreateView):
-	title = "Create a webhook"
+	title = _("Create a webhook")
 
 	def form_valid(self, form):
 		form.instance.creator = self.request.user
@@ -216,7 +217,7 @@ class WebhookCreateView(WebhookFormMixin, CreateView):
 class WebhookUpdateView(WebhookFormMixin, UpdateView):
 	context_object_name = "webhook"
 	deliveries_limit = 25
-	title = "Update a webhook"
+	title = _("Update a webhook")
 
 	def get_queryset(self):
 		qs = super().get_queryset()
@@ -252,7 +253,7 @@ class ApplicationBaseView(LoginRequiredMixin, RequestMetaMixin, View):
 class ApplicationUpdateView(ApplicationBaseView, UpdateView):
 	template_name = "oauth2/application_update.html"
 	fields = ("name", "description", "homepage", "redirect_uris")
-	title = "Your OAuth Application"
+	title = _("Your OAuth Application")
 
 
 class ApplicationListView(ApplicationBaseView, ListView):
@@ -262,7 +263,7 @@ class ApplicationListView(ApplicationBaseView, ListView):
 	"""
 
 	template_name = "account/oauth_apps.html"
-	title = "OAuth Applications"
+	title = _("OAuth Applications")
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
@@ -301,5 +302,5 @@ class UserRevocationView(LoginRequiredMixin, View):
 		if token:
 			obj = get_object_or_404(self.model, token=token)
 			obj.delete()
-			messages.info(self.request, "Access has been revoked.")
+			messages.info(self.request, _("Access has been revoked."))
 		return redirect(self.next)
