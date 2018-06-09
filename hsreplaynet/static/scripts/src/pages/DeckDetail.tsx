@@ -532,10 +532,9 @@ class DeckDetail extends React.Component<Props, State> {
 
 		const { deckName, deckClass } = this.props;
 
-		// FIXME: i18n
 		const copyDeckName = deckName
 			? deckName.replace(/ Deck$/, "")
-			: getHeroClassName(this.props.deckClass);
+			: getHeroClassName(this.props.deckClass, t);
 
 		return (
 			<div className="deck-detail-container">

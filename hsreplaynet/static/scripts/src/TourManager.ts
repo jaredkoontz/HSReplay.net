@@ -1,5 +1,6 @@
 import { cookie } from "cookie_js";
 import Shepherd from "tether-shepherd";
+import { TranslationFunction} from "react-i18next";
 
 export interface StepDefinition {
 	id: string;
@@ -12,6 +13,7 @@ export default class TourManager {
 	public createTour(
 		name: string,
 		steps: StepDefinition[],
+		t: TranslationFunction,
 		customDefaults?: object,
 		force?: boolean,
 	): Shepherd.Tour {
@@ -50,20 +52,20 @@ export default class TourManager {
 
 			if (!first) {
 				buttons.push({
-					text: "Back",
+					text: t("Back"),
 					classes: "btn btn-default",
 					action: () => tour.back(),
 				});
 			}
 			if (last) {
 				buttons.push({
-					text: "Done",
+					text: t("Done"),
 					classes: "btn btn-success",
 					action: () => tour.complete(),
 				});
 			} else {
 				buttons.push({
-					text: "Next",
+					text: t("Next"),
 					classes: "btn btn-primary",
 					action: () => tour.next(),
 				});

@@ -190,7 +190,7 @@ class DeckTile extends React.Component<Props> {
 
 		const deckName = this.props.archetypeName
 			? this.props.archetypeName
-			: getHeroClassName(this.props.playerClass);
+			: getHeroClassName(this.props.playerClass, t);
 
 		let globalDataIndicator = null;
 		if (this.props.hasGlobalData) {

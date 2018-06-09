@@ -6,7 +6,7 @@ import {
 } from "react-i18next";
 import { CardClass } from "../../hearthstone";
 import { getCardClass } from "../../utils/enums";
-import { getCardClassName, getHeroClassName } from "../../helpers";
+import {getCardClassName, toTitleCase} from "../../helpers";
 import UserData from "../../UserData";
 
 interface Props extends InjectedTranslateProps, InjectedI18nProps {
@@ -22,7 +22,7 @@ class PrettyCardClass extends React.Component<Props> {
 			!i18n.hasResourceBundle(i18n.language, "hearthstone") ||
 			!UserData.hasFeature("frontend-translations")
 		) {
-			return getHeroClassName(getCardClassName(cardClass));
+			return toTitleCase(getCardClassName(cardClass));
 		}
 
 		switch (cardClass) {

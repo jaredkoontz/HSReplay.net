@@ -14,8 +14,12 @@ import { withLoading } from "../loading/Loading";
 import LowDataWarning from "./LowDataWarning";
 import ArchetypeMatrix from "./matchups/ArchetypeMatrix";
 import { isEligibleMatchup } from "./matchups/MatchupCell";
+import {
+	InjectedTranslateProps,
+	translate
+} from "react-i18next";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	archetypeData?: any;
 	cardData: CardData;
 	gameType: string;
@@ -435,7 +439,8 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 	}
 
 	getApiArchetype(id: number, archetypeData: any): Archetype {
-		return archetypeData.find(a => a.id === id) || getOtherArchetype(id);
+		const { t } = this.props;
+		return archetypeData.find(a => a.id === id) || getOtherArchetype(id, t);
 	}
 
 	getMatchup(
@@ -462,5 +467,5 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 }
 
 export default withLoading(["archetypeData", "matchupData", "popularityData"])(
-	ArchetypeMatchups,
+	translate()(ArchetypeMatchups),
 );

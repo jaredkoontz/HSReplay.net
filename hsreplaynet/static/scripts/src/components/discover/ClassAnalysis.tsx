@@ -124,6 +124,7 @@ class ClassAnalysis extends React.Component<Props, State> {
 					title: t("Interaction"),
 				},
 			],
+			t,
 			null,
 			force,
 		);

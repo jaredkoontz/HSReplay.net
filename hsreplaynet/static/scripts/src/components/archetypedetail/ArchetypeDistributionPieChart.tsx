@@ -1,14 +1,18 @@
 import React from "react";
 import {
-	getHeroClassName,
 	getHeroColor,
 	hexToHsl,
 	stringifyHsl,
 } from "../../helpers";
 import { VictoryLabel, VictoryLegend, VictoryPie } from "victory";
 import { Archetype } from "../../utils/api";
+import { getHeroClassName } from "../../helpers";
+import {
+	InjectedTranslateProps,
+	translate,
+} from "react-i18next";
 
-interface ArchetypeDistributionPieChartProps {
+interface ArchetypeDistributionPieChartProps extends InjectedTranslateProps {
 	matchupData?: any;
 	archetypeData?: any;
 	selectedArchetypeId?: number;
@@ -21,7 +25,7 @@ interface ArchetypeDistributionPieChartState {
 
 const pageBackground: string = "#fbf7f6";
 
-export default class ArchetypeDistributionPieChart extends React.Component<
+class ArchetypeDistributionPieChart extends React.Component<
 	ArchetypeDistributionPieChartProps,
 	ArchetypeDistributionPieChartState
 > {
@@ -40,9 +44,12 @@ export default class ArchetypeDistributionPieChart extends React.Component<
 	}
 
 	private getArchetypeName(archetype: Archetype): string {
+		const { t } = this.props;
 		return archetype
 			? archetype.name
-			: `Other ${getHeroClassName(this.props.playerClass)}`;
+			: t("Other {cardClass}", {
+				cardClass: getHeroClassName(this.props.playerClass, t)
+			});
 	}
 
 	private getChartData(): any {
@@ -94,6 +101,7 @@ export default class ArchetypeDistributionPieChart extends React.Component<
 	}
 
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		const data = this.getChartData();
 		const legendData = data.map(p => {
 			const hovering = p.archetypeId === this.state.hovering;
@@ -157,7 +165,7 @@ export default class ArchetypeDistributionPieChart extends React.Component<
 					x={200}
 					y={20}
 					text={`${getHeroClassName(
-						this.props.playerClass,
+						this.props.playerClass, t
 					)} Archetypes`}
 					style={{ fontSize: 20 }}
 				/>
@@ -212,3 +220,5 @@ export default class ArchetypeDistributionPieChart extends React.Component<
 		];
 	}
 }
+
+export default translate()(ArchetypeDistributionPieChart);

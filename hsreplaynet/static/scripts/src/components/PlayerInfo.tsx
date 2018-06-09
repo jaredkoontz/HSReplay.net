@@ -341,10 +341,11 @@ class PlayerInfo extends React.Component<Props, State> {
 	}
 
 	getDeckName(player: GlobalGamePlayer): string {
+		const { t } = this.props;
 		return (
 			this.pluralize(player.name) +
 			" " +
-			getHeroClassName(player.hero_class_name)
+			getHeroClassName(player.hero_class_name, t)
 		);
 	}
 

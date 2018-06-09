@@ -16,6 +16,9 @@ import {
 import { Archetype } from "./utils/api";
 import { getCardClass, getRarity } from "./utils/enums";
 import { CardData as HearthstoneJSONCardData } from "hearthstonejson-client";
+import {
+	TranslationFunction
+} from "react-i18next";
 
 export function staticFile(file: string) {
 	return STATIC_URL + file;
@@ -253,25 +256,27 @@ const classColorScheme: ChartScheme = {
 	},
 };
 
-export const setNames = {
-	core: "Basic",
-	expert1: "Classic",
-	hof: "Hall of Fame",
-	naxx: "Curse of Naxxramas",
-	gvg: "Goblins vs Gnomes",
-	brm: "Blackrock Mountain",
-	tgt: "The Grand Tournament",
-	tb: "Tavern Brawl",
-	loe: "League of Explorers",
-	og: "Whispers of the Old Gods",
-	kara: "One Night in Karazhan",
-	gangs: "Mean Streets of Gadgetzan",
-	ungoro: "Journey to Un'Goro",
-	icecrown: "Knights of the Frozen Throne",
-	lootapalooza: "Kobolds and Catacombs",
-	gilneas: "The Witchwood",
-	taverns_of_time: "Taverns of Time",
-};
+export function getSetNames(t: TranslationFunction) {
+	return {
+		core: t("GLOBAL_CARD_SET_CORE"),
+		expert1: t("GLOBAL_CARD_SET_EXPERT1"),
+		hof: t("GLOBAL_CARD_SET_HOF"),
+		naxx: t("GLOBAL_CARD_SET_NAXX"),
+		gvg: t("GLOBAL_CARD_SET_GVG"),
+		brm: t("GLOBAL_CARD_SET_BRM"),
+		tgt: t("GLOBAL_CARD_SET_TGT"),
+		tb: t("Tavern Brawl"),
+		loe: t("GLOBAL_CARD_SET_LOE"),
+		og: t("GLOBAL_CARD_SET_OG"),
+		kara: t("GLOBAL_CARD_SET_KARA"),
+		gangs: t("GLOBAL_CARD_SET_GANGS"),
+		ungoro: t("GLOBAL_CARD_SET_UNGORO"),
+		icecrown: t("GLOBAL_CARD_SET_ICECROWN"),
+		lootapalooza: t("GLOBAL_CARD_SET_LOOTAPALOOZA"),
+		gilneas: t("GLOBAL_CARD_SET_GILNEAS"),
+		taverns_of_time: t("Taverns of Time"),
+	}
+}
 
 export function isCollectibleCard(card: HearthstoneJSONCardData): boolean {
 	return card.collectible && isPlayableCard(card);
@@ -605,7 +610,33 @@ export function getHeroCardId(cardClass: CardClass | string): string | null {
 	return null;
 }
 
-export function getHeroClassName(cardClass: string): string {
+export function getHeroClassName(cardClass: string, t: TranslationFunction): string {
+	switch(cardClass) {
+		case "DEATHKNIGHT":
+			return t("GLOBAL_CLASS_DEATHKNIGHT");
+		case "DRUID":
+			return t("GLOBAL_CLASS_DRUID");
+		case "HUNTER":
+			return t("GLOBAL_CLASS_HUNTER");
+		case "MAGE":
+			return t("GLOBAL_CLASS_MAGE");
+		case "PALADIN":
+			return t("GLOBAL_CLASS_PALADIN");
+		case "PRIEST":
+			return t("GLOBAL_CLASS_PRIEST");
+		case "ROGUE":
+			return t("GLOBAL_CLASS_ROGUE");
+		case "SHAMAN":
+			return t("GLOBAL_CLASS_SHAMAN");
+		case "WARLOCK":
+			return t("GLOBAL_CLASS_WARLOCK");
+		case "WARRIOR":
+			return t("GLOBAL_CLASS_WARRIOR");
+		case "DREAM":
+			return t("Dream");
+		case "NEUTRAL":
+			return t("GLOBAL_CLASS_NEUTRAL");
+	}
 	return toTitleCase(cardClass);
 }
 
@@ -953,7 +984,7 @@ export function getCardClassName(cardClass: CardClass): string {
 	}
 }
 
-export function getOtherArchetype(archetypeId: number): Archetype {
+export function getOtherArchetype(archetypeId: number, t: TranslationFunction): Archetype {
 	if (archetypeId > 0) {
 		return undefined;
 	}
@@ -966,7 +997,7 @@ export function getOtherArchetype(archetypeId: number): Archetype {
 
 	return {
 		id: archetypeId,
-		name: "Other " + getHeroClassName(className),
+		name: t("Other {cardClass}", {cardClass: getHeroClassName(className, t)}),
 		player_class: -archetypeId,
 		player_class_name: className,
 		url: "",

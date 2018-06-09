@@ -4,7 +4,7 @@ import Table, { AnnotatedNumber } from "./Table";
 import { CardObj, SortableProps } from "../../interfaces";
 import { withLoading } from "../loading/Loading";
 import {
-	cardTableColumnData,
+	getCardTableColumnData,
 	CardTableColumnKey,
 } from "./cardtable/CardTableColumns";
 import {
@@ -13,8 +13,9 @@ import {
 } from "./cardtable/RowDataGenerator";
 import { isMissingCardFromCollection } from "../../utils/collection";
 import { Collection } from "../../utils/api";
+import { InjectedTranslateProps } from "react-i18next";
 
-interface Props extends SortableProps {
+interface Props extends SortableProps, InjectedTranslateProps{
 	baseWinrate?: number;
 	cards?: CardObj[];
 	columns: CardTableColumnKey[];
@@ -47,9 +48,10 @@ class CardTable extends React.Component<Props> {
 			numCards,
 			minColumnWidth,
 			headerWidth,
+			t,
 		} = this.props;
 		const columnKeys = ["card"].concat(this.props.columns);
-		const columns = columnKeys.map(key => cardTableColumnData[key]);
+		const columns = columnKeys.map(key => getCardTableColumnData(t)[key]);
 		let rowData = generateCardTableRowData(
 			cards,
 			data,
