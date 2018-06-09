@@ -436,7 +436,7 @@ class CardDetail extends React.Component<Props, State> {
 												<CardDetailPieChart
 													removeEmpty
 													scheme={getChartScheme(
-														"class",
+														"class", t
 													)}
 													sortByValue
 													groupSparseData

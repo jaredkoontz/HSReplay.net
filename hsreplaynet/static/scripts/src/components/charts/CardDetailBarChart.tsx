@@ -8,8 +8,12 @@ import {
 } from "victory";
 import { RenderData } from "../../interfaces";
 import { getChartScheme } from "../../helpers";
+import {
+	InjectedTranslateProps,
+	translate
+} from "react-i18next";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	data?: RenderData;
 	title?: string;
 	labelX?: string;
@@ -18,7 +22,7 @@ interface Props {
 	showYAxis?: boolean;
 }
 
-export default class CardDetailBarChart extends React.Component<Props> {
+class CardDetailBarChart extends React.Component<Props> {
 	public render(): React.ReactNode {
 		const width = 150 * (this.props.widthRatio || 3);
 		const series = this.props.data.series[0];
@@ -31,7 +35,7 @@ export default class CardDetailBarChart extends React.Component<Props> {
 		if (series.metadata) {
 			const schemeName = series.metadata["chart_scheme"];
 			if (schemeName) {
-				scheme = getChartScheme(schemeName);
+				scheme = getChartScheme(schemeName, this.props.t);
 				if (scheme) {
 					fill = prop => scheme[prop.xName.toLowerCase()].fill;
 					stroke = prop => scheme[prop.xName.toLowerCase()].stroke;
@@ -103,3 +107,5 @@ export default class CardDetailBarChart extends React.Component<Props> {
 		);
 	}
 }
+
+export default translate()(CardDetailBarChart)

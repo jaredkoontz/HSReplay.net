@@ -82,21 +82,21 @@ export function getHeroColor(cardClass: CardClass | string): string {
 	}
 }
 
-export function getChartScheme(theme: ChartSchemeType): ChartScheme {
+export function getChartScheme(theme: ChartSchemeType, t: TranslationFunction): ChartScheme {
 	let scheme: ChartScheme = null;
 	switch (theme) {
 		case "rarity":
-			scheme = rarityScheme;
+			scheme = getRarityScheme(t);
 			break;
 
 		case "cardtype":
-			scheme = cardtypeScheme;
+			scheme = getCardtypeScheme(t);
 			break;
 		case "cost":
 			scheme = costScheme;
 			break;
 		case "class":
-			scheme = classColorScheme;
+			scheme = getClassColorScheme(t);
 			break;
 	}
 	return Object.assign(
@@ -147,114 +147,120 @@ const costScheme: ChartScheme = {
 	},
 };
 
-const rarityScheme: ChartScheme = {
-	free: {
-		fill: "rgba(211, 211, 211, 0.5)",
-		stroke: "rgba(211, 211, 211, 0.9)",
-		name: "Free",
-	},
-	common: {
-		fill: "rgba(169, 169, 169, 0.5)",
-		stroke: "rgba(169, 169, 169, 0.9)",
-		name: "Common",
-	},
-	rare: {
-		fill: "rgba(0, 112, 221, 0.5)",
-		stroke: "rgba(0, 112, 221, 0.9)",
-		name: "Rare",
-	},
-	epic: {
-		fill: "rgba(163, 53, 238, 0.5)",
-		stroke: "rgba(163, 53, 238, 0.9)",
-		name: "Epic",
-	},
-	legendary: {
-		fill: "rgba(255, 128, 0, 0.5)",
-		stroke: "rgba(255, 128, 0, 0.9)",
-		name: "Legendary",
-	},
-};
+function getRarityScheme(t: TranslationFunction): ChartScheme {
+	return {
+		free: {
+			fill: "rgba(211, 211, 211, 0.5)",
+			stroke: "rgba(211, 211, 211, 0.9)",
+			name: t("GLOBAL_RARITY_FREE"),
+		},
+		common: {
+			fill: "rgba(169, 169, 169, 0.5)",
+			stroke: "rgba(169, 169, 169, 0.9)",
+			name: t("GLOBAL_RARITY_COMMON"),
+		},
+		rare: {
+			fill: "rgba(0, 112, 221, 0.5)",
+			stroke: "rgba(0, 112, 221, 0.9)",
+			name: t("GLOBAL_RARITY_RARE"),
+		},
+		epic: {
+			fill: "rgba(163, 53, 238, 0.5)",
+			stroke: "rgba(163, 53, 238, 0.9)",
+			name: t("GLOBAL_RARITY_EPIC"),
+		},
+		legendary: {
+			fill: "rgba(255, 128, 0, 0.5)",
+			stroke: "rgba(255, 128, 0, 0.9)",
+			name: t("GLOBAL_RARITY_LEGENDARY"),
+		},
+	}
+}
 
-const cardtypeScheme: ChartScheme = {
-	minion: {
-		fill: "rgba(171, 212, 115, 0.5)",
-		stroke: "rgba(171, 212, 115, 0.9)",
-		name: "Minion",
-	},
-	spell: {
-		fill: "rgba(0, 112, 222, 0.5)",
-		stroke: "rgba(0, 112, 222, 0.9)",
-		name: "Spell",
-	},
-	weapon: {
-		fill: "rgba(196, 30, 59, 0.5)",
-		stroke: "rgba(196, 30, 59, 0.9)",
-		name: "Weapon",
-	},
-};
+function getCardtypeScheme (t: TranslationFunction): ChartScheme {
+	return {
+		minion: {
+			fill: "rgba(171, 212, 115, 0.5)",
+			stroke: "rgba(171, 212, 115, 0.9)",
+			name: t("GLOBAL_CARDTYPE_MINION"),
+		},
+		spell: {
+			fill: "rgba(0, 112, 222, 0.5)",
+			stroke: "rgba(0, 112, 222, 0.9)",
+			name: t("GLOBAL_CARDTYPE_SPELL"),
+		},
+		weapon: {
+			fill: "rgba(196, 30, 59, 0.5)",
+			stroke: "rgba(196, 30, 59, 0.9)",
+			name: t("GLOBAL_CARDTYPE_WEAPON"),
+		},
+	}
+}
 
-const classColorScheme: ChartScheme = {
-	all: {
-		stroke: "rgba(169, 169, 169, 1)",
-		fill: "rgba(169, 169, 169, 0.7)",
-		name: "All",
-	},
-	neutral: {
-		stroke: "rgba(169, 169, 169, 1)",
-		fill: "rgba(169, 169, 169, 0.7)",
-		name: "Neutral",
-	},
-	druid: {
-		stroke: "rgba(255, 125, 10, 1)",
-		fill: "rgba(255, 125, 10, 0.7)",
-		name: "Druid",
-	},
-	hunter: {
-		stroke: "rgba(171, 212, 114, 1)",
-		fill: "rgba(171, 212, 114, 0.7)",
-		name: "Hunter",
-	},
-	mage: {
-		stroke: "rgba(105, 204, 240, 1)",
-		fill: "rgba(105, 204, 240, 0.7)",
-		name: "Mage",
-	},
-	paladin: {
-		stroke: "rgba(245, 140, 186, 1)",
-		fill: "rgba(245, 140, 186, 0.7)",
-		name: "Paladin",
-	},
-	priest: {
-		stroke: "rgba(210, 210, 210, 1)",
-		fill: "rgba(210, 210, 210, 0.7)",
-		name: "Priest",
-	},
-	rogue: {
-		stroke: "rgba(255, 217, 26, 1)",
-		fill: "rgba(255, 240, 26, 0.7)",
-		name: "Rogue",
-	},
-	shaman: {
-		stroke: "rgba(0, 122, 222, 1)",
-		fill: "rgba(0, 122, 222, 0.7)",
-		name: "Shaman",
-	},
-	warlock: {
-		stroke: "rgba(148, 130, 201, 1)",
-		fill: "rgba(148, 130, 201, 0.7)",
-		name: "Warlock",
-	},
-	warrior: {
-		stroke: "rgba(199, 156, 110, 1)",
-		fill: "rgba(199, 156, 110, 0.7)",
-		name: "Warrior",
-	},
-	other: {
-		stroke: "rgba(122, 122, 122, 1)",
-		fill: "rgba(122, 122, 122, 0.7)",
-		name: "Other",
-	},
-};
+function getClassColorScheme (t: TranslationFunction): ChartScheme {
+	return {
+		all: {
+			stroke: "rgba(169, 169, 169, 1)",
+			fill: "rgba(169, 169, 169, 0.7)",
+			name: t("All"),
+		},
+		neutral: {
+			stroke: "rgba(169, 169, 169, 1)",
+			fill: "rgba(169, 169, 169, 0.7)",
+			name: t("GLOBAL_CLASS_NEUTRAL"),
+		},
+		druid: {
+			stroke: "rgba(255, 125, 10, 1)",
+			fill: "rgba(255, 125, 10, 0.7)",
+			name: t("GLOBAL_CLASS_DRUID"),
+		},
+		hunter: {
+			stroke: "rgba(171, 212, 114, 1)",
+			fill: "rgba(171, 212, 114, 0.7)",
+			name: t("GLOBAL_CLASS_HUNTER"),
+		},
+		mage: {
+			stroke: "rgba(105, 204, 240, 1)",
+			fill: "rgba(105, 204, 240, 0.7)",
+			name: t("GLOBAL_CLASS_MAGE"),
+		},
+		paladin: {
+			stroke: "rgba(245, 140, 186, 1)",
+			fill: "rgba(245, 140, 186, 0.7)",
+			name: t("GLOBAL_CLASS_PALADIN"),
+		},
+		priest: {
+			stroke: "rgba(210, 210, 210, 1)",
+			fill: "rgba(210, 210, 210, 0.7)",
+			name: t("GLOBAL_CLASS_PRIEST"),
+		},
+		rogue: {
+			stroke: "rgba(255, 217, 26, 1)",
+			fill: "rgba(255, 240, 26, 0.7)",
+			name: t("GLOBAL_CLASS_ROGUE"),
+		},
+		shaman: {
+			stroke: "rgba(0, 122, 222, 1)",
+			fill: "rgba(0, 122, 222, 0.7)",
+			name: t("GLOBAL_CLASS_SHAMAN"),
+		},
+		warlock: {
+			stroke: "rgba(148, 130, 201, 1)",
+			fill: "rgba(148, 130, 201, 0.7)",
+			name: t("GLOBAL_CLASS_WARLOCK"),
+		},
+		warrior: {
+			stroke: "rgba(199, 156, 110, 1)",
+			fill: "rgba(199, 156, 110, 0.7)",
+			name: t("GLOBAL_CLASS_WARRIOR"),
+		},
+		other: {
+			stroke: "rgba(122, 122, 122, 1)",
+			fill: "rgba(122, 122, 122, 0.7)",
+			name: t("Other"),
+		},
+	}
+}
 
 export function getSetNames(t: TranslationFunction) {
 	return {
