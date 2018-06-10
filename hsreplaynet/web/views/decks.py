@@ -1,9 +1,9 @@
 from django.http import Http404
 from django.shortcuts import render
+from django.utils.text import format_lazy
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import TemplateView, View
 from hearthstone.enums import FormatType
-from django.utils.text import format_lazy
 
 from hsreplaynet.decks.models import Deck
 

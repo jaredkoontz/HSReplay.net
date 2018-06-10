@@ -15,5 +15,5 @@ numpy
 scikit-learn[alldeps]
 
 # stripe / paypal
-https://github.com/dj-stripe/dj-stripe/archive/hearthsim.tar.gz
+dj-stripe==1.2.0
 dj-paypal==0.8.1
