@@ -502,7 +502,7 @@ class Decks extends React.Component<Props, State> {
 				// prettier-ignore
 				<Trans>
 					Showing {deckTypes} with at least 10 unique pilots
-					and <a href="#" id="min-games-switch" onClick={onClickHelpMessage}>{curMinGames}</a> recorded
+					and <a href="#" id="min-games-switch" onClick={onClickHelpMessage}>{`${curMinGames}`}</a> recorded
 					games.
 				</Trans>;
 			content = (
