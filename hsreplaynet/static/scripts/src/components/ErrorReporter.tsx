@@ -55,26 +55,30 @@ class ErrorReporter extends React.Component<Props, State> {
 	renderMessage() {
 		if (!this.state.tracing) {
 			return (
-				<Trans>
-					<p>We were unable to report this issue automatically.</p>
+				<>
+					<p>
+						<Trans>
+							We were unable to report this issue automatically.
+						</Trans>
+					</p>
 					{this.renderError()}
-				</Trans>
+				</>
 			);
 		}
 		return (
-			<Trans>
-				<p>
-					We've been notified about this issue and will be looking
-					into it.
-				</p>
-				<p>
-					If you'd like to{" "}
-					<a href="/contact/" target="_blank">
-						contact us
-					</a>, please pass along the following event reference:
-				</p>
+			<>
+				<Trans
+					defaults="<0>We've been notified about this issue and will be looking into it.</0><1>If you'd like to <2>contact us</2>, please pass along the following event reference:</1>"
+					components={[
+						<p>1</p>,
+						<p>2</p>,
+						<a href="/contact/" target="_blank">
+							3
+						</a>,
+					]}
+				/>
 				<pre>{this.state.tracing}</pre>
-			</Trans>
+			</>
 		);
 	}
 
@@ -87,16 +91,19 @@ class ErrorReporter extends React.Component<Props, State> {
 			message += this.state.errorInfo.componentStack;
 		}
 		return (
-			<Trans>
-				<p>
-					If you keep seeing this message, please{" "}
-					<a href="/contact/" target="_blank">
-						contact us
-					</a>{" "}
-					with the following error:
-				</p>
+			<>
+				<Trans
+					defaults="<1>If you keep seeing this message, please <2>contact us</2> with the following error:</1>"
+					components={[
+						<p>1</p>,
+						<p>2</p>,
+						<a href="/contact/" target="_blank">
+							3
+						</a>,
+					]}
+				/>
 				<pre>{message}</pre>
-			</Trans>
+			</>
 		);
 	}
 }
