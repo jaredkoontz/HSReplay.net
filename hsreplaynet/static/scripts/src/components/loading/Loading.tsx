@@ -28,10 +28,10 @@ export const withLoading = (dataKeys?: string[]) => <T extends {}>(
 				case LoadingStatus.PROCESSING:
 					return (
 						<>
-							<h3>{t("Loading…")}</h3>,
+							<h3>{t("Loading…")}</h3>
 							<p>
 								<i>{t("This may take a few seconds")}</i>
-							</p>,
+							</p>
 						</>
 					);
 				case LoadingStatus.NO_DATA:
