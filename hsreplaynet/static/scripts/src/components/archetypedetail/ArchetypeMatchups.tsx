@@ -61,7 +61,7 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 			return (
 				<h3 className="message-wrapper">
 					{t(
-						"Not enough games for meaningful matchup data available.",
+						"Not enough games available for meaningful matchup data.",
 					)}
 				</h3>
 			);
