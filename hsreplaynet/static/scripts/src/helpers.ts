@@ -5,6 +5,7 @@ import Fragments from "./components/Fragments";
 import { wildSets } from "./contants";
 import { CardClass, Rarity } from "./hearthstone";
 import {
+	CardObj,
 	ChartMetaData,
 	ChartScheme,
 	ChartSchemeType,
@@ -14,6 +15,7 @@ import {
 } from "./interfaces";
 import { Archetype } from "./utils/api";
 import { getCardClass, getRarity } from "./utils/enums";
+import { CardData as HearthstoneJSONCardData } from "hearthstonejson-client";
 
 export function staticFile(file: string) {
 	return STATIC_URL + file;
@@ -271,15 +273,15 @@ export const setNames = {
 	taverns_of_time: "Taverns of Time",
 };
 
-export function isCollectibleCard(card: any) {
+export function isCollectibleCard(card: HearthstoneJSONCardData): boolean {
 	return card.collectible && isPlayableCard(card);
 }
 
-export function isArenaOnlyCard(card: any): boolean {
+export function isArenaOnlyCard(card: HearthstoneJSONCardData): boolean {
 	return card && card.id && card.id.startsWith("TOT_");
 }
 
-export function isPlayableCard(card: any) {
+export function isPlayableCard(card: HearthstoneJSONCardData): boolean {
 	if (card.type === "HERO") {
 		// default heroes/skins are not collectible
 		return ["CORE", "HERO_SKINS"].indexOf(card.set) === -1;
@@ -548,8 +550,8 @@ export function cardSorting(a: any, b: any, direction = 1): number {
 }
 
 export function cardObjSorting(
-	a: any,
-	b: any,
+	a: CardObj,
+	b: CardObj,
 	prop: string,
 	direction: number,
 ): number {
@@ -768,7 +770,7 @@ export function cloneComponent(component, props) {
 	return React.cloneElement(component, componentProps);
 }
 
-export function getCardUrl(card: any) {
+export function getCardUrl(card: HearthstoneJSONCardData): string {
 	return `/cards/${card.dbfId}/${slugify(card.name)}/`;
 }
 
@@ -898,7 +900,10 @@ export function pieScaleTransform(
 	return `translate(${origin.x}px, ${origin.y}px) scale(${+scale})`;
 }
 
-export function getHeroCard(cardData: CardData, player: GlobalGamePlayer): any {
+export function getHeroCard(
+	cardData: CardData,
+	player: GlobalGamePlayer,
+): HearthstoneJSONCardData {
 	const cardId = getHeroCardId(player.hero_class_name);
 	if (cardId === null) {
 		return null;
