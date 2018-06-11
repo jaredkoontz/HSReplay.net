@@ -785,18 +785,20 @@ class CardDetail extends React.Component<Props, State> {
 									)}
 							</span>
 						</li>
-						<li>
-							{t("Rarity")}
-							<span className="infobox-value">
-								{this.props.card &&
-									t(
-										`GLOBAL_RARITY_${
-											this.props.card.rarity
-										}`,
-										{ ns: I18N_NAMESPACE_HEARTHSTONE },
-									)}
-							</span>
-						</li>
+						{this.props.card && this.props.card.rarity ? (
+							<li>
+								{t("Rarity")}
+								<span className="infobox-value">
+									{this.props.card &&
+										t(
+											`GLOBAL_RARITY_${
+												this.props.card.rarity
+											}`,
+											{ ns: I18N_NAMESPACE_HEARTHSTONE },
+										)}
+								</span>
+							</li>
+						) : null}
 						<li>
 							{t("Set")}
 							<span className="infobox-value">
@@ -814,7 +816,8 @@ class CardDetail extends React.Component<Props, State> {
 						<li>
 							{t("Artist")}
 							<span className="infobox-value">
-								{this.props.card && this.props.card.artist}
+								{(this.props.card && this.props.card.artist) ||
+									t("Unknown")}
 							</span>
 						</li>
 					</ul>
