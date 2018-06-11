@@ -275,6 +275,10 @@ export function isCollectibleCard(card: any) {
 	return card.collectible && isPlayableCard(card);
 }
 
+export function isArenaOnlyCard(card: any): boolean {
+	return card && card.id && card.id.startsWith("TOT_");
+}
+
 export function isPlayableCard(card: any) {
 	if (card.type === "HERO") {
 		// default heroes/skins are not collectible

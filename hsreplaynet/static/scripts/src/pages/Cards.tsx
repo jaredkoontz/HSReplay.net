@@ -22,6 +22,7 @@ import {
 	cardSorting,
 	cleanText,
 	image,
+	isArenaOnlyCard,
 	isCollectibleCard,
 	isPlayableCard,
 	isWildSet,
@@ -357,7 +358,7 @@ class Cards extends React.Component<Props, State> {
 			: Promise.resolve([])
 		).then(sparseDict => {
 			this.state.cards.forEach(card => {
-				if (card.id.startsWith("BCON_")) {
+				if (isArenaOnlyCard(card)) {
 					if (
 						this.isStatsView() &&
 						(showUncollectible || this.props.gameType !== "ARENA")

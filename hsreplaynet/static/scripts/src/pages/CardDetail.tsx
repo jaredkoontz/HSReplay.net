@@ -33,6 +33,7 @@ import { RankRange, TimeRange } from "../filters";
 import {
 	getChartScheme,
 	getDustCost,
+	isArenaOnlyCard,
 	isCollectibleCard,
 	isWildSet,
 	toPrettyNumber,
@@ -148,7 +149,10 @@ class CardDetail extends React.Component<Props, State> {
 		const isPremium = UserData.isPremium();
 		let content = null;
 		if (this.props.card) {
-			if (!isCollectibleCard(this.props.card)) {
+			if (
+				!isCollectibleCard(this.props.card) &&
+				!isArenaOnlyCard(this.props.card)
+			) {
 				content = (
 					<div className="message-wrapper">
 						<h3>
@@ -632,13 +636,20 @@ class CardDetail extends React.Component<Props, State> {
 						<InfoboxFilter
 							disabled={
 								this.props.card &&
-								isWildSet(this.props.card.set)
+								(isWildSet(this.props.card.set) ||
+									isArenaOnlyCard(this.props.card))
 							}
 							value="RANKED_STANDARD"
 						>
 							{t("Ranked Standard")}
 						</InfoboxFilter>
-						<InfoboxFilter value="RANKED_WILD">
+						<InfoboxFilter
+							value="RANKED_WILD"
+							disabled={
+								this.props.card &&
+								isArenaOnlyCard(this.props.card)
+							}
+						>
 							{t("Ranked Wild")}
 						</InfoboxFilter>
 						<InfoboxFilter
@@ -652,42 +663,50 @@ class CardDetail extends React.Component<Props, State> {
 							{t("Arena")}
 						</InfoboxFilter>
 					</InfoboxFilterGroup>
-					<InfoboxFilterGroup
-						header={t("Rank range")}
-						infoHeader={t("Rank range")}
-						infoContent={t(
-							"Check out how this card performs at higher ranks!",
-						)}
-						selectedValue={!this.isArena() && this.props.rankRange}
-						onClick={value => this.props.setRankRange(value)}
-						disabled={this.isArena()}
-					>
-						<PremiumWrapper
-							analyticsLabel="Single Card Rank Range"
-							iconStyle={{ display: "none" }}
+					{!this.props.card || !isArenaOnlyCard(this.props.card) ? (
+						<InfoboxFilterGroup
+							header={t("Rank range")}
+							infoHeader={t("Rank range")}
+							infoContent={t(
+								"Check out how this card performs at higher ranks!",
+							)}
+							selectedValue={
+								!this.isArena() && this.props.rankRange
+							}
+							onClick={value => this.props.setRankRange(value)}
+							disabled={this.isArena()}
 						>
-							<InfoboxFilter value={RankRange.LEGEND_ONLY}>
-								<PrettyRankRange
-									rankRange={RankRange.LEGEND_ONLY}
-								/>
-							</InfoboxFilter>
-							<InfoboxFilter
-								value={RankRange.LEGEND_THROUGH_FIVE}
+							<PremiumWrapper
+								analyticsLabel="Single Card Rank Range"
+								iconStyle={{ display: "none" }}
 							>
-								<PrettyRankRange
-									rankRange={RankRange.LEGEND_THROUGH_FIVE}
-								/>
+								<InfoboxFilter value={RankRange.LEGEND_ONLY}>
+									<PrettyRankRange
+										rankRange={RankRange.LEGEND_ONLY}
+									/>
+								</InfoboxFilter>
+								<InfoboxFilter
+									value={RankRange.LEGEND_THROUGH_FIVE}
+								>
+									<PrettyRankRange
+										rankRange={
+											RankRange.LEGEND_THROUGH_FIVE
+										}
+									/>
+								</InfoboxFilter>
+								<InfoboxFilter
+									value={RankRange.LEGEND_THROUGH_TEN}
+								>
+									<PrettyRankRange
+										rankRange={RankRange.LEGEND_THROUGH_TEN}
+									/>
+								</InfoboxFilter>
+							</PremiumWrapper>
+							<InfoboxFilter value={RankRange.ALL}>
+								<PrettyRankRange rankRange={RankRange.ALL} />
 							</InfoboxFilter>
-							<InfoboxFilter value={RankRange.LEGEND_THROUGH_TEN}>
-								<PrettyRankRange
-									rankRange={RankRange.LEGEND_THROUGH_TEN}
-								/>
-							</InfoboxFilter>
-						</PremiumWrapper>
-						<InfoboxFilter value={RankRange.ALL}>
-							<PrettyRankRange rankRange={RankRange.ALL} />
-						</InfoboxFilter>
-					</InfoboxFilterGroup>
+						</InfoboxFilterGroup>
+					) : null}
 					<h2>{t("Data")}</h2>
 					<ul>
 						<li>
