@@ -498,13 +498,27 @@ class Decks extends React.Component<Props, State> {
 				];
 				this.props.setMinGames(minGames);
 			};
-			const helpMessage =
-				// prettier-ignore
-				<Trans>
-					Showing {deckTypes} with at least 10 unique pilots
-					and <a href="#" id="min-games-switch" onClick={onClickHelpMessage}>{`${curMinGames}`}</a> recorded
-					games.
-				</Trans>;
+			const helpMessage = (
+				<Trans
+					defaults="Showing <0>{deckTypes}</0> with at least <1>{minPilots}</1> unique pilots and <2>{minGames}</2> recorded games."
+					components={[
+						<span>0</span>,
+						<span>1</span>,
+						<a
+							href="#"
+							id="min-games-switch"
+							onClick={onClickHelpMessage}
+						>
+							3
+						</a>,
+					]}
+					tOptions={{
+						deckTypes,
+						minPilots: 10,
+						minGames: curMinGames,
+					}}
+				/>
+			);
 			content = (
 				<Fragments
 					defaults={{
