@@ -1115,6 +1115,11 @@ table .info-icon,
 			.text-premium {
 				color: inherit;
 			}
+
+			&:hover,
+			&:focus {
+				background-color: $blue;
+			}
 		}
 
 		&.highlight:not(.active) > a {
