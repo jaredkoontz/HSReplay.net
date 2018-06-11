@@ -223,9 +223,9 @@
     "@types/node" "*"
     "@types/react" "*"
 
-"@types/react-i18next@^7.3.2":
-  version "7.3.2"
-  resolved "https://registry.yarnpkg.com/@types/react-i18next/-/react-i18next-7.3.2.tgz#e1ae0de801e2ce5aff82191cf74949f2735920bc"
+"@types/react-i18next@^7.6.1":
+  version "7.6.1"
+  resolved "https://registry.yarnpkg.com/@types/react-i18next/-/react-i18next-7.6.1.tgz#62162cc796a78db4c11b3d82d76d3a0d94a9b6eb"
   dependencies:
     "@types/i18next" "*"
     "@types/react" "*"
@@ -2972,9 +2972,9 @@ i18next-icu@^0.3.0:
   dependencies:
     intl-messageformat "2.2.0"
 
-i18next-scanner@^2.4.6:
-  version "2.4.6"
-  resolved "https://registry.yarnpkg.com/i18next-scanner/-/i18next-scanner-2.4.6.tgz#c0433757c227cc3517d956cb15d8339deabba4c5"
+i18next-scanner@^2.5.0:
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/i18next-scanner/-/i18next-scanner-2.5.0.tgz#475f716e241f614f425e243698843572f6bae182"
   dependencies:
     chalk "^2.3.0"
     clone-deep "^3.0.1"
@@ -4611,9 +4611,9 @@ react-dom@^16.3.2:
     object-assign "^4.1.1"
     prop-types "^15.6.0"
 
-react-i18next@^7.6.0:
-  version "7.6.0"
-  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-7.6.0.tgz#abdb44b9dee5b43b4340590e25a6f7b04e2df6bc"
+react-i18next@^7.7.0:
+  version "7.7.0"
+  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-7.7.0.tgz#0cf044b9222179a6ddc5af248a2291ac580652fd"
   dependencies:
     hoist-non-react-statics "^2.3.1"
     html-parse-stringify2 "2.0.1"
