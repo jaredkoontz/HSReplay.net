@@ -26,6 +26,8 @@ class PrettyTimeRange extends React.Component<Props> {
 				return t("Latest expansion");
 			case TimeRange.CURRENT_PATCH:
 				return t("Latest patch");
+			case TimeRange.ARENA_EVENT:
+				return t("Arena event");
 		}
 
 		return timeRange;

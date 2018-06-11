@@ -1116,6 +1116,19 @@ class Cards extends React.Component<Props, State> {
 									</span>
 								</InfoboxFilter>
 							</Feature>
+							<Feature feature={"current-arena-event-filter"}>
+								<InfoboxFilter
+									value={TimeRange.ARENA_EVENT}
+									disabled={this.props.gameType !== "ARENA"}
+								>
+									<PrettyTimeRange
+										timeRange={TimeRange.ARENA_EVENT}
+									/>
+									<span className="infobox-value">
+										{t("New!")}
+									</span>
+								</InfoboxFilter>
+							</Feature>
 						</InfoboxFilterGroup>
 					</section>
 					<InfoboxFilterGroup
