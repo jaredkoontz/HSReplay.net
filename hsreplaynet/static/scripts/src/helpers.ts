@@ -153,27 +153,27 @@ function getRarityScheme(t: TranslationFunction): ChartScheme {
 		free: {
 			fill: "rgba(211, 211, 211, 0.5)",
 			stroke: "rgba(211, 211, 211, 0.9)",
-			name: t("GLOBAL_RARITY_FREE"),
+			name: t("GLOBAL_RARITY_FREE", { ns: "hearthstone" }),
 		},
 		common: {
 			fill: "rgba(169, 169, 169, 0.5)",
 			stroke: "rgba(169, 169, 169, 0.9)",
-			name: t("GLOBAL_RARITY_COMMON"),
+			name: t("GLOBAL_RARITY_COMMON", { ns: "hearthstone" }),
 		},
 		rare: {
 			fill: "rgba(0, 112, 221, 0.5)",
 			stroke: "rgba(0, 112, 221, 0.9)",
-			name: t("GLOBAL_RARITY_RARE"),
+			name: t("GLOBAL_RARITY_RARE", { ns: "hearthstone" }),
 		},
 		epic: {
 			fill: "rgba(163, 53, 238, 0.5)",
 			stroke: "rgba(163, 53, 238, 0.9)",
-			name: t("GLOBAL_RARITY_EPIC"),
+			name: t("GLOBAL_RARITY_EPIC", { ns: "hearthstone" }),
 		},
 		legendary: {
 			fill: "rgba(255, 128, 0, 0.5)",
 			stroke: "rgba(255, 128, 0, 0.9)",
-			name: t("GLOBAL_RARITY_LEGENDARY"),
+			name: t("GLOBAL_RARITY_LEGENDARY", { ns: "hearthstone" }),
 		},
 	};
 }
@@ -183,17 +183,17 @@ function getCardtypeScheme(t: TranslationFunction): ChartScheme {
 		minion: {
 			fill: "rgba(171, 212, 115, 0.5)",
 			stroke: "rgba(171, 212, 115, 0.9)",
-			name: t("GLOBAL_CARDTYPE_MINION"),
+			name: t("GLOBAL_CARDTYPE_MINION", { ns: "hearthstone" }),
 		},
 		spell: {
 			fill: "rgba(0, 112, 222, 0.5)",
 			stroke: "rgba(0, 112, 222, 0.9)",
-			name: t("GLOBAL_CARDTYPE_SPELL"),
+			name: t("GLOBAL_CARDTYPE_SPELL", { ns: "hearthstone" }),
 		},
 		weapon: {
 			fill: "rgba(196, 30, 59, 0.5)",
 			stroke: "rgba(196, 30, 59, 0.9)",
-			name: t("GLOBAL_CARDTYPE_WEAPON"),
+			name: t("GLOBAL_CARDTYPE_WEAPON", { ns: "hearthstone" }),
 		},
 	};
 }
@@ -266,37 +266,37 @@ function getClassColorScheme(t: TranslationFunction): ChartScheme {
 export function getSetName(set: string, t: TranslationFunction): string {
 	switch (set) {
 		case "core":
-			return t("GLOBAL_CARD_SET_CORE");
+			return t("GLOBAL_CARD_SET_CORE", { ns: "hearthstone" });
 		case "expert1":
-			return t("GLOBAL_CARD_SET_EXPERT1");
+			return t("GLOBAL_CARD_SET_EXPERT1", { ns: "hearthstone" });
 		case "hof":
-			return t("GLOBAL_CARD_SET_HOF");
+			return t("GLOBAL_CARD_SET_HOF", { ns: "hearthstone" });
 		case "naxx":
-			return t("GLOBAL_CARD_SET_NAXX");
+			return t("GLOBAL_CARD_SET_NAXX", { ns: "hearthstone" });
 		case "gvg":
-			return t("GLOBAL_CARD_SET_GVG");
+			return t("GLOBAL_CARD_SET_GVG", { ns: "hearthstone" });
 		case "brm":
-			return t("GLOBAL_CARD_SET_BRM");
+			return t("GLOBAL_CARD_SET_BRM", { ns: "hearthstone" });
 		case "tgt":
-			return t("GLOBAL_CARD_SET_TGT");
+			return t("GLOBAL_CARD_SET_TGT", { ns: "hearthstone" });
 		case "tb":
-			return t("GLOBAL_TAVERN_BRAWL");
+			return t("GLOBAL_TAVERN_BRAWL", { ns: "hearthstone" });
 		case "loe":
-			return t("GLOBAL_CARD_SET_LOE");
+			return t("GLOBAL_CARD_SET_LOE", { ns: "hearthstone" });
 		case "og":
-			return t("GLOBAL_CARD_SET_OG");
+			return t("GLOBAL_CARD_SET_OG", { ns: "hearthstone" });
 		case "kara":
-			return t("GLOBAL_CARD_SET_KARA");
+			return t("GLOBAL_CARD_SET_KARA", { ns: "hearthstone" });
 		case "gangs":
-			return t("GLOBAL_CARD_SET_GANGS");
+			return t("GLOBAL_CARD_SET_GANGS", { ns: "hearthstone" });
 		case "ungoro":
-			return t("GLOBAL_CARD_SET_UNGORO");
+			return t("GLOBAL_CARD_SET_UNGORO", { ns: "hearthstone" });
 		case "icecrown":
-			return t("GLOBAL_CARD_SET_ICECROWN");
+			return t("GLOBAL_CARD_SET_ICECROWN", { ns: "hearthstone" });
 		case "lootapalooza":
-			return t("GLOBAL_CARD_SET_LOOTAPALOOZA");
+			return t("GLOBAL_CARD_SET_LOOTAPALOOZA", { ns: "hearthstone" });
 		case "gilneas":
-			return t("GLOBAL_CARD_SET_GILNEAS");
+			return t("GLOBAL_CARD_SET_GILNEAS", { ns: "hearthstone" });
 		case "taverns_of_time":
 			return t("Taverns of Time");
 	}
@@ -641,29 +641,29 @@ export function getHeroClassName(
 ): string {
 	switch (cardClass) {
 		case "DEATHKNIGHT":
-			return t("GLOBAL_CLASS_DEATHKNIGHT");
+			return t("GLOBAL_CLASS_DEATHKNIGHT", { ns: "hearthstone" });
 		case "DRUID":
-			return t("GLOBAL_CLASS_DRUID");
+			return t("GLOBAL_CLASS_DRUID", { ns: "hearthstone" });
 		case "HUNTER":
-			return t("GLOBAL_CLASS_HUNTER");
+			return t("GLOBAL_CLASS_HUNTER", { ns: "hearthstone" });
 		case "MAGE":
-			return t("GLOBAL_CLASS_MAGE");
+			return t("GLOBAL_CLASS_MAGE", { ns: "hearthstone" });
 		case "PALADIN":
-			return t("GLOBAL_CLASS_PALADIN");
+			return t("GLOBAL_CLASS_PALADIN", { ns: "hearthstone" });
 		case "PRIEST":
-			return t("GLOBAL_CLASS_PRIEST");
+			return t("GLOBAL_CLASS_PRIEST", { ns: "hearthstone" });
 		case "ROGUE":
-			return t("GLOBAL_CLASS_ROGUE");
+			return t("GLOBAL_CLASS_ROGUE", { ns: "hearthstone" });
 		case "SHAMAN":
-			return t("GLOBAL_CLASS_SHAMAN");
+			return t("GLOBAL_CLASS_SHAMAN", { ns: "hearthstone" });
 		case "WARLOCK":
-			return t("GLOBAL_CLASS_WARLOCK");
+			return t("GLOBAL_CLASS_WARLOCK", { ns: "hearthstone" });
 		case "WARRIOR":
-			return t("GLOBAL_CLASS_WARRIOR");
+			return t("GLOBAL_CLASS_WARRIOR", { ns: "hearthstone" });
 		case "DREAM":
 			return t("Dream");
 		case "NEUTRAL":
-			return t("GLOBAL_CLASS_NEUTRAL");
+			return t("GLOBAL_CLASS_NEUTRAL", { ns: "hearthstone" });
 	}
 	return toTitleCase(cardClass);
 }
