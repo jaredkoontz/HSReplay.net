@@ -207,52 +207,52 @@ function getClassColorScheme (t: TranslationFunction): ChartScheme {
 		neutral: {
 			stroke: "rgba(169, 169, 169, 1)",
 			fill: "rgba(169, 169, 169, 0.7)",
-			name: t("GLOBAL_CLASS_NEUTRAL"),
+			name: getHeroClassName("NEUTRAL", t),
 		},
 		druid: {
 			stroke: "rgba(255, 125, 10, 1)",
 			fill: "rgba(255, 125, 10, 0.7)",
-			name: t("GLOBAL_CLASS_DRUID"),
+			name: getHeroClassName("DRUID", t),
 		},
 		hunter: {
 			stroke: "rgba(171, 212, 114, 1)",
 			fill: "rgba(171, 212, 114, 0.7)",
-			name: t("GLOBAL_CLASS_HUNTER"),
+			name: getHeroClassName("HUNTER", t)
 		},
 		mage: {
 			stroke: "rgba(105, 204, 240, 1)",
 			fill: "rgba(105, 204, 240, 0.7)",
-			name: t("GLOBAL_CLASS_MAGE"),
+			name: getHeroClassName("MAGE", t),
 		},
 		paladin: {
 			stroke: "rgba(245, 140, 186, 1)",
 			fill: "rgba(245, 140, 186, 0.7)",
-			name: t("GLOBAL_CLASS_PALADIN"),
+			name: getHeroClassName("PALADIN", t),
 		},
 		priest: {
 			stroke: "rgba(210, 210, 210, 1)",
 			fill: "rgba(210, 210, 210, 0.7)",
-			name: t("GLOBAL_CLASS_PRIEST"),
+			name: getHeroClassName("PRIEST", t),
 		},
 		rogue: {
 			stroke: "rgba(255, 217, 26, 1)",
 			fill: "rgba(255, 240, 26, 0.7)",
-			name: t("GLOBAL_CLASS_ROGUE"),
+			name: getHeroClassName("ROGUE", t),
 		},
 		shaman: {
 			stroke: "rgba(0, 122, 222, 1)",
 			fill: "rgba(0, 122, 222, 0.7)",
-			name: t("GLOBAL_CLASS_SHAMAN"),
+			name: getHeroClassName("SHAMAN", t),
 		},
 		warlock: {
 			stroke: "rgba(148, 130, 201, 1)",
 			fill: "rgba(148, 130, 201, 0.7)",
-			name: t("GLOBAL_CLASS_WARLOCK"),
+			name: getHeroClassName("WARLOCK", t),
 		},
 		warrior: {
 			stroke: "rgba(199, 156, 110, 1)",
 			fill: "rgba(199, 156, 110, 0.7)",
-			name: t("GLOBAL_CLASS_WARRIOR"),
+			name: getHeroClassName("WARRIOR", t),
 		},
 		other: {
 			stroke: "rgba(122, 122, 122, 1)",
