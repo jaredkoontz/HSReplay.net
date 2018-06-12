@@ -57,7 +57,10 @@ class DeckOverviewTable extends React.Component<Props> {
 			return (
 				<tr key={row.opponent}>
 					<td>
-						<Trans>vs. {playerClass}</Trans>
+						<Trans
+							defaults="vs. <0></0>"
+							components={[playerClass]}
+						/>
 					</td>
 					{winrateCell(row.winrate, deck.win_rate, true)}
 				</tr>

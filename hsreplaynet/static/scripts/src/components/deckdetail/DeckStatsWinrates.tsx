@@ -25,7 +25,7 @@ class DeckStatsWinrates extends React.Component<Props> {
 			);
 			winrates.push(
 				<li>
-					<Trans>vs. {playerClass}</Trans>
+					<Trans defaults="vs. <0></0>" components={[playerClass]} />
 					<span className="infobox-value">
 						{(+winrate).toFixed(1) + "%"}
 					</span>
