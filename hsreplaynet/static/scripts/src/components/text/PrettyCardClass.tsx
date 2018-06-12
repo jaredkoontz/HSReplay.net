@@ -6,7 +6,7 @@ import {
 } from "react-i18next";
 import { CardClass } from "../../hearthstone";
 import { getCardClass } from "../../utils/enums";
-import {getCardClassName, toTitleCase} from "../../helpers";
+import { getCardClassName, getHeroClassName, toTitleCase } from "../../helpers";
 import UserData from "../../UserData";
 
 interface Props extends InjectedTranslateProps, InjectedI18nProps {
@@ -24,33 +24,7 @@ class PrettyCardClass extends React.Component<Props> {
 		) {
 			return toTitleCase(getCardClassName(cardClass));
 		}
-
-		switch (cardClass) {
-			case CardClass.DEATHKNIGHT:
-				return t("GLOBAL_CLASS_DEATHKNIGHT");
-			case CardClass.DRUID:
-				return t("GLOBAL_CLASS_DRUID");
-			case CardClass.HUNTER:
-				return t("GLOBAL_CLASS_HUNTER");
-			case CardClass.MAGE:
-				return t("GLOBAL_CLASS_MAGE");
-			case CardClass.PALADIN:
-				return t("GLOBAL_CLASS_PALADIN");
-			case CardClass.PRIEST:
-				return t("GLOBAL_CLASS_PRIEST");
-			case CardClass.ROGUE:
-				return t("GLOBAL_CLASS_ROGUE");
-			case CardClass.SHAMAN:
-				return t("GLOBAL_CLASS_SHAMAN");
-			case CardClass.WARLOCK:
-				return t("GLOBAL_CLASS_WARLOCK");
-			case CardClass.WARRIOR:
-				return t("GLOBAL_CLASS_WARRIOR");
-			case CardClass.NEUTRAL:
-				return t("GLOBAL_CLASS_NEUTRAL");
-		}
-
-		return t("Unknown class");
+		return getHeroClassName(getCardClassName(cardClass), t);
 	}
 }
 
