@@ -43,9 +43,9 @@ class ColumnHeader extends React.Component<Props> {
 			<PrettyCardClass cardClass={archetypeData.playerClass} />
 		);
 		const tooltip = isIgnored ? (
-			<Trans>Include {playerClass}</Trans>
+			<Trans defaults="Include <0></0>" components={[playerClass]} />
 		) : (
-			<Trans>Ignore {playerClass}</Trans>
+			<Trans defaults="Ignore <0></0>" components={[playerClass]} />
 		);
 
 		return (
