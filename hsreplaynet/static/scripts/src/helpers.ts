@@ -299,6 +299,7 @@ export function getSetName(set: string, t: TranslationFunction): string {
 		case "taverns_of_time":
 			return t("Taverns of Time");
 	}
+	return t("Unknown Set");
 }
 
 export function isCollectibleCard(card: HearthstoneJSONCardData): boolean {
