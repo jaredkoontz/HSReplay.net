@@ -14,10 +14,7 @@ import { withLoading } from "../loading/Loading";
 import LowDataWarning from "./LowDataWarning";
 import ArchetypeMatrix from "./matchups/ArchetypeMatrix";
 import { isEligibleMatchup } from "./matchups/MatchupCell";
-import {
-	InjectedTranslateProps,
-	translate
-} from "react-i18next";
+import { InjectedTranslateProps, translate } from "react-i18next";
 
 interface Props extends InjectedTranslateProps {
 	archetypeData?: any;

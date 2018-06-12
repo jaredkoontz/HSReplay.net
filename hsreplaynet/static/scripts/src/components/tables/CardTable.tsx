@@ -4,8 +4,8 @@ import Table, { AnnotatedNumber } from "./Table";
 import { CardObj, SortableProps } from "../../interfaces";
 import { withLoading } from "../loading/Loading";
 import {
-	getCardTableColumnData,
 	CardTableColumnKey,
+	getCardTableColumnData,
 } from "./cardtable/CardTableColumns";
 import {
 	ApiCardStatsData,
@@ -15,7 +15,7 @@ import { isMissingCardFromCollection } from "../../utils/collection";
 import { Collection } from "../../utils/api";
 import { InjectedTranslateProps } from "react-i18next";
 
-interface Props extends SortableProps, InjectedTranslateProps{
+interface Props extends SortableProps, InjectedTranslateProps {
 	baseWinrate?: number;
 	cards?: CardObj[];
 	columns: CardTableColumnKey[];

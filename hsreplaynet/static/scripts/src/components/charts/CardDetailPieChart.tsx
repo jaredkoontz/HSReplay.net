@@ -7,10 +7,7 @@ import {
 } from "victory";
 import { getChartScheme, pieScaleTransform, toTitleCase } from "../../helpers";
 import { ChartScheme, RenderData } from "../../interfaces";
-import {
-	InjectedTranslateProps,
-	translate
-} from "react-i18next";
+import { InjectedTranslateProps, translate } from "react-i18next";
 
 interface Props extends InjectedTranslateProps {
 	data?: RenderData;
@@ -33,7 +30,10 @@ class CardDetailPieChart extends React.Component<Props> {
 		const legendData = [];
 
 		if (!scheme && series.metadata && series.metadata["chart_scheme"]) {
-			scheme = getChartScheme(series.metadata["chart_scheme"], this.props.t);
+			scheme = getChartScheme(
+				series.metadata["chart_scheme"],
+				this.props.t,
+			);
 		}
 
 		if (scheme) {
@@ -184,4 +184,4 @@ class CardDetailPieChart extends React.Component<Props> {
 	}
 }
 
-export default translate()(CardDetailPieChart)
+export default translate()(CardDetailPieChart);

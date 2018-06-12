@@ -1,16 +1,9 @@
 import React from "react";
-import {
-	getHeroColor,
-	hexToHsl,
-	stringifyHsl,
-} from "../../helpers";
+import { getHeroColor, hexToHsl, stringifyHsl } from "../../helpers";
 import { VictoryLabel, VictoryLegend, VictoryPie } from "victory";
 import { Archetype } from "../../utils/api";
 import { getHeroClassName } from "../../helpers";
-import {
-	InjectedTranslateProps,
-	translate,
-} from "react-i18next";
+import { InjectedTranslateProps, translate } from "react-i18next";
 
 interface ArchetypeDistributionPieChartProps extends InjectedTranslateProps {
 	matchupData?: any;
@@ -48,8 +41,8 @@ class ArchetypeDistributionPieChart extends React.Component<
 		return archetype
 			? archetype.name
 			: t("Other {cardClass}", {
-				cardClass: getHeroClassName(this.props.playerClass, t)
-			});
+					cardClass: getHeroClassName(this.props.playerClass, t),
+			  });
 	}
 
 	private getChartData(): any {
@@ -165,7 +158,8 @@ class ArchetypeDistributionPieChart extends React.Component<
 					x={200}
 					y={20}
 					text={`${getHeroClassName(
-						this.props.playerClass, t
+						this.props.playerClass,
+						t,
 					)} Archetypes`}
 					style={{ fontSize: 20 }}
 				/>

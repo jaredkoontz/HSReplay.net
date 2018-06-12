@@ -10,10 +10,7 @@ import { withLoading } from "../loading/Loading";
 import PopularityMatrix from "./popularity/PopularityMatrix";
 import { getOtherArchetype } from "../../helpers";
 import { Archetype } from "../../utils/api";
-import {
-	InjectedTranslateProps,
-	translate
-} from "react-i18next";
+import { InjectedTranslateProps, translate } from "react-i18next";
 
 interface Props extends InjectedTranslateProps {
 	archetypeData?: any;

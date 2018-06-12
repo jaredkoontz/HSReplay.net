@@ -6,7 +6,7 @@ import { InjectedTranslateProps, translate } from "react-i18next";
 import CardData from "../CardData";
 import { FormatType } from "../hearthstone";
 import Tooltip from "./Tooltip";
-import {getHeroClassName} from "../helpers";
+import { getHeroClassName } from "../helpers";
 
 interface Props extends InjectedTranslateProps {
 	cardData: CardData;
@@ -154,7 +154,10 @@ class CopyDeckButton extends React.Component<Props, State> {
 		}
 
 		const deckName = this.props.name || t("HSReplay.net Deck");
-		const className = getHeroClassName(this.props.deckClass || "NEUTRAL", t);
+		const className = getHeroClassName(
+			this.props.deckClass || "NEUTRAL",
+			t,
+		);
 		const deckUrl = this.props.sourceUrl || "https://hsreplay.net/decks/";
 		const formatName = format === 2 ? t("Standard") : t("Wild");
 

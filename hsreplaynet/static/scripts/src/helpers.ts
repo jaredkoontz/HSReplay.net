@@ -16,9 +16,7 @@ import {
 import { Archetype } from "./utils/api";
 import { getCardClass, getRarity } from "./utils/enums";
 import { CardData as HearthstoneJSONCardData } from "hearthstonejson-client";
-import {
-	TranslationFunction
-} from "react-i18next";
+import { TranslationFunction } from "react-i18next";
 
 export function staticFile(file: string) {
 	return STATIC_URL + file;
@@ -82,7 +80,10 @@ export function getHeroColor(cardClass: CardClass | string): string {
 	}
 }
 
-export function getChartScheme(theme: ChartSchemeType, t: TranslationFunction): ChartScheme {
+export function getChartScheme(
+	theme: ChartSchemeType,
+	t: TranslationFunction,
+): ChartScheme {
 	let scheme: ChartScheme = null;
 	switch (theme) {
 		case "rarity":
@@ -174,10 +175,10 @@ function getRarityScheme(t: TranslationFunction): ChartScheme {
 			stroke: "rgba(255, 128, 0, 0.9)",
 			name: t("GLOBAL_RARITY_LEGENDARY"),
 		},
-	}
+	};
 }
 
-function getCardtypeScheme (t: TranslationFunction): ChartScheme {
+function getCardtypeScheme(t: TranslationFunction): ChartScheme {
 	return {
 		minion: {
 			fill: "rgba(171, 212, 115, 0.5)",
@@ -194,10 +195,10 @@ function getCardtypeScheme (t: TranslationFunction): ChartScheme {
 			stroke: "rgba(196, 30, 59, 0.9)",
 			name: t("GLOBAL_CARDTYPE_WEAPON"),
 		},
-	}
+	};
 }
 
-function getClassColorScheme (t: TranslationFunction): ChartScheme {
+function getClassColorScheme(t: TranslationFunction): ChartScheme {
 	return {
 		all: {
 			stroke: "rgba(169, 169, 169, 1)",
@@ -217,7 +218,7 @@ function getClassColorScheme (t: TranslationFunction): ChartScheme {
 		hunter: {
 			stroke: "rgba(171, 212, 114, 1)",
 			fill: "rgba(171, 212, 114, 0.7)",
-			name: getHeroClassName("HUNTER", t)
+			name: getHeroClassName("HUNTER", t),
 		},
 		mage: {
 			stroke: "rgba(105, 204, 240, 1)",
@@ -259,11 +260,11 @@ function getClassColorScheme (t: TranslationFunction): ChartScheme {
 			fill: "rgba(122, 122, 122, 0.7)",
 			name: t("Other"),
 		},
-	}
+	};
 }
 
 export function getSetName(set: string, t: TranslationFunction): string {
-	switch(set) {
+	switch (set) {
 		case "core":
 			return t("GLOBAL_CARD_SET_CORE");
 		case "expert1":
@@ -634,8 +635,11 @@ export function getHeroCardId(cardClass: CardClass | string): string | null {
 	return null;
 }
 
-export function getHeroClassName(cardClass: string, t: TranslationFunction): string {
-	switch(cardClass) {
+export function getHeroClassName(
+	cardClass: string,
+	t: TranslationFunction,
+): string {
+	switch (cardClass) {
 		case "DEATHKNIGHT":
 			return t("GLOBAL_CLASS_DEATHKNIGHT");
 		case "DRUID":
@@ -1008,7 +1012,10 @@ export function getCardClassName(cardClass: CardClass): string {
 	}
 }
 
-export function getOtherArchetype(archetypeId: number, t: TranslationFunction): Archetype {
+export function getOtherArchetype(
+	archetypeId: number,
+	t: TranslationFunction,
+): Archetype {
 	if (archetypeId > 0) {
 		return undefined;
 	}
@@ -1021,7 +1028,9 @@ export function getOtherArchetype(archetypeId: number, t: TranslationFunction): 
 
 	return {
 		id: archetypeId,
-		name: t("Other {cardClass}", {cardClass: getHeroClassName(className, t)}),
+		name: t("Other {cardClass}", {
+			cardClass: getHeroClassName(className, t),
+		}),
 		player_class: -archetypeId,
 		player_class_name: className,
 		url: "",

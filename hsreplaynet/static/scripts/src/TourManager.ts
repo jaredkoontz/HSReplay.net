@@ -1,6 +1,6 @@
 import { cookie } from "cookie_js";
 import Shepherd from "tether-shepherd";
-import { TranslationFunction} from "react-i18next";
+import { TranslationFunction } from "react-i18next";
 
 export interface StepDefinition {
 	id: string;
