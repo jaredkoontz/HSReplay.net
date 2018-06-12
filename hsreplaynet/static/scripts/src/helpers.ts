@@ -262,7 +262,7 @@ function getClassColorScheme (t: TranslationFunction): ChartScheme {
 	}
 }
 
-export function getSetName(set: string, t: TranslationFunction) {
+export function getSetName(set: string, t: TranslationFunction): string {
 	switch(set) {
 		case "core":
 			return t("GLOBAL_CARD_SET_CORE");
