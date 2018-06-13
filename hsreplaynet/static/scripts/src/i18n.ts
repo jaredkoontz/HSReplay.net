@@ -1,4 +1,5 @@
 import i18n, { InitOptions } from "i18next";
+import { unset } from "lodash";
 import CustomCallbackBackend from "i18next-callback-backend";
 import ICU from "i18next-icu";
 import de from "i18next-icu/locale-data/de";
@@ -21,9 +22,12 @@ export const I18N_NAMESPACE_HEARTHSTONE = "hearthstone";
 // just used while we feature flag frontend translations
 UserData.create();
 
+// create icu as instance so we can clear memoization cache (see below)
+const icu = new ICU();
+
 i18n
 	.use(CustomCallbackBackend)
-	.use(ICU)
+	.use(icu)
 	.init({
 		// keys as strings
 		defaultNS: I18N_NAMESPACE_FRONTEND,
@@ -42,7 +46,6 @@ i18n
 			file names. There's not a lot data behind these though, so we just
 			hardcode the languages we support for now. */
 			localeData: [de, en, es, fr, it, ja, ko, pl, pt, ru, th, zh],
-			memoize: false,
 		},
 
 		// not required using i18next-react
@@ -89,6 +92,11 @@ i18n
 					console.error(e);
 				}
 			}
+			if (Object.keys(translations).length !== 0) {
+				// reset memoization until https://github.com/i18next/i18next-icu/issues/3 is fixed
+				unset(icu.mem, `${language}.${namespace}`);
+			}
+			// pass translations to i18next
 			callback(null, translations);
 		},
 	} as InitOptions);
