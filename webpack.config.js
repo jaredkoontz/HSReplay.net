@@ -71,12 +71,7 @@ module.exports = env => {
 		vendor: [
 			"babel-polyfill",
 			"whatwg-fetch",
-			"react",
-			"react-dom",
-			"prop-types",
-			"lodash",
 			makeEntry("export-react"),
-			"hearthstonejson-client",
 			makeEntry("polyfills"),
 		],
 		site: makeEntry("site"),
@@ -217,7 +212,7 @@ module.exports = env => {
 			extractSCSS,
 			new webpack.optimize.CommonsChunkPlugin({
 				name: "vendor",
-				minChunks: Infinity,
+				minChunks: module => /node_modules/.test(module.resource),
 			}),
 		]
 			.concat(commons)
