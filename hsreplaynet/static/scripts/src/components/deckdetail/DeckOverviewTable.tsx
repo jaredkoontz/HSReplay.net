@@ -3,6 +3,7 @@ import { InjectedTranslateProps, Trans, translate } from "react-i18next";
 import { winrateData } from "../../helpers";
 import { TableData } from "../../interfaces";
 import PrettyCardClass from "../text/PrettyCardClass";
+import { formatNumber } from "../../i18n";
 
 interface Props extends InjectedTranslateProps {
 	opponentWinrateData?: TableData;
@@ -27,7 +28,7 @@ class DeckOverviewTable extends React.Component<Props> {
 			return (
 				<td className="winrate-cell" style={{ color: wrData.color }}>
 					{tendency && wrData.tendencyStr}
-					{winrate.toFixed(2) + "%"}
+					{formatNumber(winrate, 1) + "%"}
 				</td>
 			);
 		};
@@ -83,7 +84,9 @@ class DeckOverviewTable extends React.Component<Props> {
 					</tr>
 					<tr>
 						<td>{t("Turns")}</td>
-						<td>{deck && deck.avg_num_player_turns}</td>
+						<td>
+							{deck && formatNumber(deck.avg_num_player_turns, 1)}
+						</td>
 					</tr>
 					<tr>
 						<td>{t("Turn duration")}</td>

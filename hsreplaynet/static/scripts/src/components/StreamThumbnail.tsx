@@ -1,9 +1,9 @@
 import React from "react";
-import { commaSeparate } from "../helpers";
 import { TwitchStreamPromotionEvents } from "../metrics/GoogleAnalytics";
 import { BnetGameType } from "../hearthstone";
 import RankIcon from "./RankIcon";
 import { InjectedTranslateProps, translate } from "react-i18next";
+import { formatNumber } from "../i18n";
 
 interface Props extends InjectedTranslateProps {
 	url?: string;
@@ -68,7 +68,7 @@ class StreamThumbnail extends React.Component<Props> {
 
 		let viewers = null;
 		if (this.props.viewerCount !== undefined) {
-			const viewerCount = commaSeparate(this.props.viewerCount);
+			const viewerCount = formatNumber(+this.props.viewerCount) as any;
 			viewers = (
 				<span>
 					{t(

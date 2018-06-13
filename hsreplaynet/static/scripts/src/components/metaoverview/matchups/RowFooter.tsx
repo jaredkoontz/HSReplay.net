@@ -3,6 +3,7 @@ import _ from "lodash";
 import { ArchetypeData } from "../../../interfaces";
 import { getColorString } from "../../../helpers";
 import { Colors } from "../../../Colors";
+import { formatNumber } from "../../../i18n";
 
 interface Props {
 	archetypeData?: ArchetypeData;
@@ -39,7 +40,7 @@ export default class RowFooter extends React.Component<Props> {
 			false,
 		);
 
-		const label = isNaN(winrate) ? "-" : winrate + "%";
+		const label = isNaN(winrate) ? "-" : formatNumber(winrate, 2) + "%";
 
 		style.backgroundColor = color;
 

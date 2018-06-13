@@ -21,6 +21,7 @@ import DataInjector from "./DataInjector";
 import ManaCurve from "./ManaCurve";
 import Tooltip from "./Tooltip";
 import SemanticAge from "./text/SemanticAge";
+import { formatNumber } from "../i18n";
 
 interface ExternalProps extends DeckObj, InjectedTranslateProps {
 	compareWith?: CardObj[];
@@ -283,7 +284,7 @@ class DeckTile extends React.Component<Props> {
 						</div>
 						<div className="col-lg-1 col-md-1 col-sm-1 col-xs-3">
 							<span className="win-rate">
-								{(+this.props.winrate).toFixed(1)}%
+								{formatNumber(+this.props.winrate, 1)}%
 							</span>
 						</div>
 						<div className="col-lg-1 col-md-1 col-sm-1 col-xs-3">

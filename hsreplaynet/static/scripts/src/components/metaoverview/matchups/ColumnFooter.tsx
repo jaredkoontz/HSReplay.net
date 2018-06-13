@@ -2,6 +2,7 @@ import React from "react";
 import _ from "lodash";
 import Bar, { BarDirection } from "./Bar";
 import { ArchetypeData } from "../../../interfaces";
+import { formatNumber } from "../../../i18n";
 
 interface Props {
 	archetypeData: ArchetypeData;
@@ -87,7 +88,10 @@ export default class ColumnFooter extends React.Component<Props, State> {
 					total={this.props.max ? this.props.max : 100}
 					value={value}
 					direction={BarDirection.VERTICAL}
-					label={`${this.props.archetypeData.popularityTotal}%`}
+					label={`${formatNumber(
+						this.props.archetypeData.popularityTotal,
+						2,
+					)}%`}
 					valueElement={element}
 				/>
 			</div>

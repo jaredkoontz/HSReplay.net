@@ -1,5 +1,5 @@
 import React from "react";
-import { commaSeparate } from "../../../helpers";
+import { formatNumber } from "../../../i18n";
 
 interface Props {
 	games: number;
@@ -26,7 +26,7 @@ export default class ColumnFooter extends React.Component<Props> {
 				className="matchup-column-footer matchup-column-footer-games popularity-column-footer"
 				style={{ color, backgroundColor, ...this.props.style }}
 			>
-				{commaSeparate(this.props.games)}
+				{formatNumber(this.props.games)}
 			</div>
 		);
 	}

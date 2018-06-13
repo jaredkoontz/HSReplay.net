@@ -2,7 +2,6 @@ import React from "react";
 import CardTable from "../tables/CardTable";
 import { SortDirection } from "../../interfaces";
 import CardData from "../../CardData";
-import { toDynamicFixed } from "../../helpers";
 import { ArchetypeSignature } from "../../utils/api";
 
 interface Props {
@@ -38,7 +37,7 @@ export default class ClusterSignature extends React.Component<Props, State> {
 			cards.push({ card: cardData.fromDbf(dbfId), count: 1 });
 			prevalences.push({
 				dbf_id: dbfId,
-				prevalence: toDynamicFixed(prevalence, 3),
+				prevalence,
 			});
 		});
 		return (

@@ -1,9 +1,10 @@
 import React from "react";
 import { InjectedTranslateProps, Trans, translate } from "react-i18next";
 import { AutoSizer } from "react-virtualized";
-import { commaSeparate, toDynamicFixed, winrateData } from "../../helpers";
+import { toDynamicFixed, winrateData } from "../../helpers";
 import { LoadingStatus } from "../../interfaces";
 import WinrateLineChart from "./WinrateLineChart";
+import { formatNumber } from "../../i18n";
 
 interface Props extends InjectedTranslateProps {
 	chartData?: any;
@@ -43,7 +44,7 @@ class WinrateBox extends React.Component<Props> {
 					{toDynamicFixed(this.props.winrate, 2)}%
 				</h1>
 			);
-			const gameCount = commaSeparate(this.props.games);
+			const gameCount = formatNumber(this.props.games);
 			content =
 				// prettier-ignore
 				<Trans>

@@ -2,13 +2,10 @@ import _ from "lodash";
 import React from "react";
 import { InjectedTranslateProps, translate } from "react-i18next";
 import { Colors } from "../../../Colors";
-import {
-	commaSeparate,
-	getColorString,
-	toDynamicFixed,
-} from "../../../helpers";
+import { getColorString, toDynamicFixed } from "../../../helpers";
 import { MatchupData } from "../../../interfaces";
 import Tooltip from "../../Tooltip";
+import { formatNumber } from "../../../i18n";
 
 interface Props extends InjectedTranslateProps {
 	highlightColumn?: boolean;
@@ -110,7 +107,7 @@ class MatchupCell extends React.Component<Props> {
 								<tr>
 									<th>{t("Games:")}</th>
 									<td>
-										{commaSeparate(
+										{formatNumber(
 											matchupData.totalGames || 0,
 										)}
 									</td>
@@ -119,7 +116,7 @@ class MatchupCell extends React.Component<Props> {
 						</div>
 					}
 				>
-					{`${winrate.toFixed(2)}%`}
+					{formatNumber(winrate, 2)}%
 				</Tooltip>
 			);
 		} else {

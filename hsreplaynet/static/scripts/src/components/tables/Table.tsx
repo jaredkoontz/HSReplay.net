@@ -4,7 +4,12 @@ import { AutoSizer, Grid, ScrollSync } from "react-virtualized";
 import { SortableProps, SortDirection } from "../../interfaces";
 import scrollbarSize from "dom-helpers/util/scrollbarSize";
 import SortHeader from "../SortHeader";
-import { toDynamicFixed, toPrettyNumber, winrateData } from "../../helpers";
+import {
+	sliceZeros,
+	toDynamicFixed,
+	toPrettyNumber,
+	winrateData,
+} from "../../helpers";
 import Tooltip from "../Tooltip";
 
 export interface TableColumn {
@@ -346,6 +351,8 @@ export default class Table extends React.Component<Props, State> {
 				content = toDynamicFixed(+content) + "%";
 			} else if (column.prettify) {
 				content = toPrettyNumber(+content);
+			} else {
+				content = sliceZeros(toDynamicFixed(+content));
 			}
 		}
 

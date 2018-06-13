@@ -3,11 +3,11 @@ import React, { Fragment } from "react";
 import { InjectedTranslateProps, translate } from "react-i18next";
 import CardData from "../../CardData";
 import UserData from "../../UserData";
-import { commaSeparate } from "../../helpers";
 import { ArchetypeSignature } from "../../utils/api";
 import CardList from "../CardList";
 import { ClusterData, DeckData } from "./ClassAnalysis";
 import ClusterSignature from "./ClusterSignature";
+import { formatNumber } from "../../i18n";
 
 interface Props extends InjectedTranslateProps {
 	cardData: CardData | null;
@@ -53,7 +53,7 @@ class ClusterDetail extends React.Component<Props> {
 						<tbody>
 							<tr>
 								<th>{t("Total games")}</th>
-								<td>{commaSeparate(totalGames)}</td>
+								<td>{formatNumber(totalGames)}</td>
 							</tr>
 							<tr>
 								<th>{t("Total decks")}</th>

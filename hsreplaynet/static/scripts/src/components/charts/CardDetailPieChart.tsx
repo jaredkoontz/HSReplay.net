@@ -8,6 +8,7 @@ import {
 import { getChartScheme, pieScaleTransform, toTitleCase } from "../../helpers";
 import { ChartScheme, RenderData } from "../../interfaces";
 import { InjectedTranslateProps, translate } from "react-i18next";
+import { formatNumber } from "../../i18n";
 
 interface Props extends InjectedTranslateProps {
 	data?: RenderData;
@@ -103,10 +104,10 @@ class CardDetailPieChart extends React.Component<Props> {
 					animate={{ duration: 300 }}
 					labels={d => {
 						if (d.x === "other" && this.props.percentage) {
-							return "<" + d.y.toFixed(0) + "%";
+							return "<" + formatNumber(d.y) + "%";
 						}
 						return this.props.percentage
-							? d.y.toFixed(1) + "%"
+							? formatNumber(d.y, 1) + "%"
 							: d.y;
 					}}
 					height={400}

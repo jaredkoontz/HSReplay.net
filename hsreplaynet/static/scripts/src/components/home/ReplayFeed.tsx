@@ -3,11 +3,12 @@ import React from "react";
 import { InjectedTranslateProps, translate } from "react-i18next";
 import DataManager from "../../DataManager";
 import { BnetGameType } from "../../hearthstone";
-import { commaSeparate, image } from "../../helpers";
+import { image } from "../../helpers";
 import { Archetype } from "../../utils/api";
 import RankIcon from "../RankIcon";
 import { withLoading } from "../loading/Loading";
 import ScrollingFeed from "./ScrollingFeed";
+import { formatNumber } from "../../i18n";
 
 interface ReplayData {
 	player1_rank: string;
@@ -85,7 +86,7 @@ class ReplayFeed extends React.Component<Props, State> {
 				const now = this.getMillisecondsOfDay();
 				const factor = now / this.state.startTime;
 				const games = Math.floor(this.getAdjustedGamesToday() * factor);
-				this.counterRef.innerHTML = commaSeparate(games);
+				this.counterRef.innerHTML = formatNumber(games);
 			});
 		}, 10);
 	}
@@ -173,7 +174,7 @@ class ReplayFeed extends React.Component<Props, State> {
 				<div id="replay-feed">
 					<h1>
 						{t("Games Last 7 Days:")}{" "}
-						{commaSeparate(this.props.gamesCountData.games_weekly)}
+						{formatNumber(this.props.gamesCountData.games_weekly)}
 					</h1>
 					<h4>
 						{t("Games Today:")}{" "}
@@ -181,7 +182,7 @@ class ReplayFeed extends React.Component<Props, State> {
 							id="games-count"
 							ref={ref => (this.counterRef = ref)}
 						>
-							{commaSeparate(
+							{formatNumber(
 								Math.floor(this.getAdjustedGamesToday()),
 							)}
 						</span>
@@ -199,7 +200,7 @@ class ReplayFeed extends React.Component<Props, State> {
 					/>
 					<div id="replay-contributors">
 						{t("Contributors:")}{" "}
-						{commaSeparate(
+						{formatNumber(
 							this.props.gamesCountData.contributors_weekly,
 						)}
 					</div>

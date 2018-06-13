@@ -20,8 +20,8 @@ import PremiumWrapper from "../components/premium/PremiumWrapper";
 import RankPicker from "../components/rankpicker/RankPicker";
 import PrettyTimeRange from "../components/text/PrettyTimeRange";
 import { TimeRange } from "../filters";
-import { commaSeparate } from "../helpers";
 import { SortDirection } from "../interfaces";
+import { formatNumber } from "../i18n";
 
 interface Props extends InjectedTranslateProps {
 	cardData: CardData;
@@ -257,11 +257,11 @@ class MetaOverview extends React.Component<Props, State> {
 								}}
 								extract={{
 									data: data => ({
-										contributors: commaSeparate(
+										contributors: formatNumber(
 											data.series.metadata.totals
 												.contributors,
 										),
-										games: commaSeparate(
+										games: formatNumber(
 											data.series.metadata.totals
 												.total_games,
 										),

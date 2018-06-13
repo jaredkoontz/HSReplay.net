@@ -1,7 +1,8 @@
 import React from "react";
 import CardTile from "./CardTile";
-import { winrateData } from "../helpers";
+import { toDynamicFixed, winrateData } from "../helpers";
 import { InjectedTranslateProps, translate } from "react-i18next";
+import { formatNumber } from "../i18n";
 
 interface Props extends InjectedTranslateProps {
 	card: any;
@@ -36,7 +37,7 @@ class CardRankingTableRow extends React.Component<Props> {
 			const wrData = winrateData(50, this.props.winrate, 2);
 			winrateCell = (
 				<td style={{ color: wrData.color }}>
-					{this.props.winrate + "%"}
+					{formatNumber(this.props.winrate, 1) + "%"}
 				</td>
 			);
 		}
@@ -56,12 +57,7 @@ class CardRankingTableRow extends React.Component<Props> {
 	}
 
 	getPopularity() {
-		const digits =
-			Math.min(
-				Math.max(0, Math.floor(Math.log10(1 / this.props.popularity))),
-				2,
-			) + 2;
-		return this.props.popularity.toFixed(digits) + "%";
+		return toDynamicFixed(this.props.popularity, 1) + "%";
 	}
 }
 

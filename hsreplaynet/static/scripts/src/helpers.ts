@@ -17,6 +17,7 @@ import { Archetype } from "./utils/api";
 import { getCardClass, getRarity } from "./utils/enums";
 import { CardData as HearthstoneJSONCardData } from "hearthstonejson-client";
 import { TranslationFunction } from "react-i18next";
+import { formatNumber } from "./i18n";
 
 export function staticFile(file: string) {
 	return STATIC_URL + file;
@@ -393,10 +394,7 @@ export function getChartMetaData(
 		seasonTicks: ticks,
 		midLinePosition,
 		toFixed: x => {
-			const fixed = x.toFixed(Math.max(-deltaMag, 0) + 1);
-			const split = fixed.split(".");
-			const precision = sliceZeros(split[1]);
-			return split[0] + (precision.length ? "." + precision : "");
+			return sliceZeros(toDynamicFixed(x, Math.max(-deltaMag, 0) + 1));
 		},
 	};
 }
@@ -405,13 +403,19 @@ export function sliceZeros(input: string): string {
 	if (!input) {
 		return "";
 	}
-	let index = -1;
 	const chars = input.split("");
+	if (chars.every(x => x === "0")) {
+		return "0";
+	}
+	let index = -1;
 	chars.reverse().forEach((char, i) => {
 		if (index === -1 && char !== "0") {
 			index = i;
 		}
 	});
+	if ("0123456789".indexOf(chars[index]) === -1) {
+		index++;
+	}
 	return index === -1
 		? ""
 		: chars
@@ -420,17 +424,10 @@ export function sliceZeros(input: string): string {
 				.join("");
 }
 
-/* FIXME i18n */
 export function toPrettyNumber(n: number): string {
 	const divisor = Math.max(10 ** (Math.floor(Math.log10(n)) - 1), 1);
 	n = Math.floor(n / divisor) * divisor;
-	return commaSeparate(n);
-}
-
-/* FIXME i18n */
-export function commaSeparate(n: number | string): string {
-	const str = typeof n === "string" ? n : n.toString();
-	return str.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	return formatNumber(n, 0);
 }
 
 export function toTimeSeries(series: ChartSeries): ChartSeries {
@@ -818,7 +815,7 @@ export function toDynamicFixed(
 			Math.max(0, Math.floor(Math.log10(1 / value))),
 			7 - fractionDigits,
 		) + fractionDigits;
-	return value.toFixed(digits);
+	return formatNumber(value, digits);
 }
 
 export function cloneComponent(component, props) {

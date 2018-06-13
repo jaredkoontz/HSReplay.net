@@ -3,6 +3,7 @@ import { VictoryContainer, VictoryPie } from "victory";
 import { getHeroColor, pieScaleTransform } from "../../helpers";
 import PrettyCardClass from "../text/PrettyCardClass";
 import { InjectedTranslateProps, Trans, translate } from "react-i18next";
+import { formatNumber } from "../../i18n";
 
 export interface Props extends InjectedTranslateProps {
 	data: any[];
@@ -85,7 +86,9 @@ class ClassDistributionPieChart extends React.Component<Props, State> {
 					labels={d =>
 						this.props.loading || !gameCount
 							? null
-							: Math.round(1000 / gameCount * d.y) / 10 + "%"
+							: formatNumber(
+									Math.round(1000 / gameCount * d.y) / 10,
+							  ) + "%"
 					}
 					events={[
 						{
