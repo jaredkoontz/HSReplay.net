@@ -2884,9 +2884,9 @@ hawk@~6.0.2:
     hoek "4.x.x"
     sntp "2.x.x"
 
-hearthstonejson-client@^0.8.1:
-  version "0.8.1"
-  resolved "https://registry.yarnpkg.com/hearthstonejson-client/-/hearthstonejson-client-0.8.1.tgz#2d2201d8b43697b53296defb4faf2101c01bbba6"
+hearthstonejson-client@^0.8.3:
+  version "0.8.3"
+  resolved "https://registry.yarnpkg.com/hearthstonejson-client/-/hearthstonejson-client-0.8.3.tgz#e53d0aec0d3c84591169c97ebcc813c61f82bacc"
 
 hmac-drbg@^1.0.0:
   version "1.0.1"
