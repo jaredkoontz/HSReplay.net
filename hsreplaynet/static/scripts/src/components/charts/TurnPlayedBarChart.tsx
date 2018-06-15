@@ -121,23 +121,6 @@ export default class TurnPlayedBarChart extends React.Component<Props> {
 			</VictoryChart>
 		);
 
-		if (this.props.premiumLocked) {
-			return (
-				<svg viewBox={"0 0 " + width + " " + height}>
-					<defs>
-						<filter id={blurId}>
-							<feGaussianBlur
-								in="SourceGraphic"
-								stdDeviation="2"
-							/>
-						</filter>
-					</defs>
-					<svg filter={this.props.premiumLocked && `url(#${blurId})`}>
-						{chart}
-					</svg>
-				</svg>
-			);
-		}
 		return chart;
 	}
 
