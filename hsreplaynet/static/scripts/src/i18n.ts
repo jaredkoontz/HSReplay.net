@@ -15,36 +15,36 @@ import ru from "i18next-icu/locale-data/ru";
 import th from "i18next-icu/locale-data/th";
 import zh from "i18next-icu/locale-data/zh";
 import numbro from "numbro";
-import * as numbroDe from "numbro/languages/de-DE";
-import * as numbroEn from "numbro/languages/en-GB";
-import * as numbroEs from "numbro/languages/es-ES";
-import * as numbroFr from "numbro/languages/fr-FR";
-import * as numbroIt from "numbro/languages/it-IT";
-import * as numbroJa from "numbro/languages/ja-JP";
-import * as numbroKo from "numbro/languages/ko-KR";
-import * as numbroPl from "numbro/languages/pl-PL";
-import * as numbroPt from "numbro/languages/pt-PT";
-import * as numbroRu from "numbro/languages/ru-RU";
-import * as numbroTh from "numbro/languages/th-TH";
-import * as numbroZh from "numbro/languages/zh-CN";
+import numbroDe from "numbro/languages/de-DE";
+import numbroEn from "numbro/languages/en-GB";
+import numbroEs from "numbro/languages/es-ES";
+import numbroFr from "numbro/languages/fr-FR";
+import numbroIt from "numbro/languages/it-IT";
+import numbroJa from "numbro/languages/ja-JP";
+import numbroKo from "numbro/languages/ko-KR";
+import numbroPl from "numbro/languages/pl-PL";
+import numbroPt from "numbro/languages/pt-PT";
+import numbroRu from "numbro/languages/ru-RU";
+import numbroTh from "numbro/languages/th-TH";
+import numbroZh from "numbro/languages/zh-CN";
 import UserData from "./UserData";
 
 export const I18N_NAMESPACE_FRONTEND = "frontend";
 export const I18N_NAMESPACE_HEARTHSTONE = "hearthstone";
 
-const supportedLocales = {
-	de: { numbro: "de-DE" },
-	en: { numbro: "en-GB" },
-	es: { numbro: "es-ES" },
-	fr: { numbro: "fr-FR" },
-	it: { numbro: "it-IT" },
-	ja: { numbro: "ja-JP" },
-	ko: { numbro: "ko-KR" },
-	pl: { numbro: "pl-PL" },
-	pt: { numbro: "pt-PT" },
-	ru: { numbro: "ru-RU" },
-	th: { numbro: "th-TH" },
-	zh: { numbro: "zh-CN" },
+const numbroLocales = {
+	de: "de-DE",
+	en: "en-GB",
+	es: "es-ES",
+	fr: "fr-FR",
+	it: "it-IT",
+	ja: "ja-JP",
+	ko: "ko-KR",
+	pl: "pl-PL",
+	pt: "pt-PT",
+	ru: "ru-RU",
+	th: "th-TH",
+	zh: "zh-CN",
 };
 
 // just used while we feature flag frontend translations
@@ -107,7 +107,7 @@ i18n
 
 		// CustomCallbackBackend
 		customLoad: async (language, namespace, callback) => {
-			numbro.setLanguage(supportedLocales[language].numbro);
+			numbro.setLanguage(numbroLocales[language]);
 			const translations = {};
 			if (namespace === "translation") {
 				// default fallback namespace, do not load
