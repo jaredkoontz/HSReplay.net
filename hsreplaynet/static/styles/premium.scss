@@ -10,6 +10,86 @@
 	width: 100%;
 }
 
+#premium-container {
+	max-width: 1540px;
+	margin: 0 auto;
+
+	> header {
+		background-image: url("https://s3.amazonaws.com/media.hearthsim.net/hsreplaynet/premium-banner.webp");
+		min-height: 600px;
+		position: relative;
+		background-repeat: no-repeat;
+		background-size: cover;
+		text-align: center;
+		color: black;
+
+		#header-background-fade {
+			background: linear-gradient(to bottom, rgba(251, 247, 246, 0.4) 0%, $offwhite 100%);
+			position: absolute;
+			height: 100%;
+			width: 100%;
+			z-index: 0;
+		}
+
+		#main-header {
+			font-family: "Montserrat", sans-serif;
+			padding: 100px 0;
+			text-transform: uppercase;
+
+			h1 {
+				font-size: 3em;
+			}
+
+			.premium-text {
+				color: $premium;
+			}
+		}
+
+		.testemonial {
+			max-width: 500px;
+			margin: 0 auto;
+			padding: 15px;
+
+			h1, h4 {
+				color: $red;
+			}
+
+			h1 {
+				font-weight: bold;
+			}
+		}
+	}
+
+	#feature-story {
+		>h1 {
+			font-family: "Montserrat", sans-serif;
+			text-transform: uppercase;
+			text-align: center;
+			padding: 50px 0;
+		}
+
+		.panel-card {
+			margin-top: 20px;
+		}
+
+		.panel-header {
+			font-size: 2em;
+			text-align: center;
+			padding: 16px 8px;
+		}
+
+		.panel-content {
+			padding: 10px;
+			height: 300px;
+		}
+
+		img {
+			display: block;
+			margin: 0 auto;
+		}
+	}
+}
+
 #premium-upgrade-page {
 	width: 100%;
 
