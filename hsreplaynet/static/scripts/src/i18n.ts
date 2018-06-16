@@ -92,10 +92,6 @@ i18n
 					console.error(e);
 				}
 			}
-			if (Object.keys(translations).length !== 0) {
-				// reset memoization until https://github.com/i18next/i18next-icu/issues/3 is fixed
-				unset(icu.mem, `${language}.${namespace}`);
-			}
 			// pass translations to i18next
 			callback(null, translations);
 		},

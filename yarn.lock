@@ -2966,9 +2966,9 @@ i18next-callback-backend@^1.0.0-alpha.1:
   dependencies:
     invariant "^2.2.0"
 
-i18next-icu@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/i18next-icu/-/i18next-icu-0.3.0.tgz#39887b63ac17b8c859928b8aaa7f624ba06ed964"
+i18next-icu@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/i18next-icu/-/i18next-icu-0.4.0.tgz#df39694f1522cebe1f94d33c9198b037069a9b32"
   dependencies:
     intl-messageformat "2.2.0"
 
@@ -2992,9 +2992,9 @@ i18next-scanner@^2.5.0:
     vinyl "^2.1.0"
     vinyl-fs "^3.0.1"
 
-i18next@^11.2.2:
-  version "11.2.2"
-  resolved "https://registry.yarnpkg.com/i18next/-/i18next-11.2.2.tgz#88b88bda08789841faa9c32b5266be63777be0cd"
+i18next@^11.3.3:
+  version "11.3.3"
+  resolved "https://registry.yarnpkg.com/i18next/-/i18next-11.3.3.tgz#a6ca3c2a93237c94e242bda7df3411588ac37ea1"
 
 iconv-lite@0.4, iconv-lite@~0.4.13:
   version "0.4.19"
