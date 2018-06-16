@@ -2,7 +2,10 @@
 {% load render_bundle from webpack_loader %}
 
 {% block fullcontent %}
-	<div id="home-container">
+	<div
+		id="home-container"
+		{% if promoted_streamer %}data-promoted-streamer="{{ promoted_streamer }}"{% endif %}
+	>
 	</div>
 	{% render_bundle "stats" %}
 	{% render_bundle "home" %}

@@ -18,9 +18,13 @@ import { BnetGameType } from "../hearthstone";
 import { image } from "../helpers";
 import MulliganGuidePreview from "../components/home/MulliganGuidePreview";
 import Panel from "../components/Panel";
+import { default as Twitch } from "../Twitch";
+import TwitchStream from "../components/TwitchStream";
+import { AutoSizer } from "react-virtualized";
 
 interface Props extends InjectedTranslateProps {
 	cardData: CardData | null;
+	promotedStreamer: string;
 }
 
 interface State {
@@ -31,6 +35,7 @@ interface State {
 	videoLoaded: boolean;
 	videoPlaying: boolean;
 	loadVideo: boolean;
+	promoStreamLive?: boolean;
 }
 
 class Home extends React.Component<Props, State> {
@@ -45,17 +50,60 @@ class Home extends React.Component<Props, State> {
 			videoLoaded: false,
 			videoPlaying: false,
 			loadVideo: false,
+			promoStreamLive: false,
 		};
 	}
 
 	componentDidMount() {
 		setTimeout(() => this.setState({ loadVideo: true }), 5000);
+		this.verifyStreamIsLive();
 	}
 
 	componentDidUpdate(prevProps: Props, prevState: State) {
 		if (!prevState.videoPlaying && this.state.videoPlaying && this.video) {
 			this.video.play();
 		}
+	}
+
+	verifyStreamIsLive(): void {
+		const { promotedStreamer } = this.props;
+		if (!promotedStreamer || !UserData.hasFeature("promo-stream")) {
+			return;
+		}
+		Twitch.fetchStreamMetadata([promotedStreamer]).then((result): void => {
+			if (Twitch.isLive(result[0])) {
+				this.setState({ promoStreamLive: true });
+			}
+		});
+	}
+
+	renderPromoPanel(): React.ReactNode {
+		if (this.state.promoStreamLive && UserData.hasFeature("promo-stream")) {
+			return (
+				<Panel className={"streamer-panel"}>
+					<AutoSizer>
+						{({ height, width }) => {
+							return (
+								<TwitchStream
+									channel={this.props.promotedStreamer}
+									width={width}
+									height={height}
+								/>
+							);
+						}}
+					</AutoSizer>
+				</Panel>
+			);
+		}
+		const { t } = this.props;
+		return (
+			<FeaturePanel
+				title={t("Replays")}
+				subtitle={t("Watch and share your games")}
+				backgroundCardId="PART_002"
+				href="/games/mine/"
+			/>
+		);
 	}
 
 	public render(): React.ReactNode {
@@ -122,12 +170,7 @@ class Home extends React.Component<Props, State> {
 								/>
 							</DataInjector>
 						</Panel>
-						<FeaturePanel
-							title={t("Replays")}
-							subtitle={t("Watch and share your games")}
-							backgroundCardId="PART_002"
-							href="/games/mine/"
-						/>
+						{this.renderPromoPanel()}
 					</div>
 					<div className="col-lg-4 col-md-6 col-sm-6 col-xs-12">
 						<Panel

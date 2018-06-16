@@ -1,7 +1,9 @@
+from datetime import date
+
 from allauth.account.views import LoginView as BaseLoginView
 from django.conf import settings
 from django.http import HttpResponse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.utils.http import is_safe_url
 from django.views.generic import RedirectView, TemplateView, View
 from hearthstone.enums import CardClass
@@ -27,7 +29,7 @@ HERO_IDS = {
 }
 
 
-class HomeView(TemplateView):
+class HomeView(View):
 	template_name = "home.html"
 
 	def get(self, request):
@@ -38,7 +40,15 @@ class HomeView(TemplateView):
 			{"property": "og:description", "content": SITE_DESCRIPTION},
 			{"name": "twitter:card", "content": "summary"},
 		)
-		return super().get(request)
+		try:
+			from hsreplaynet.settings import PROMOTED_STREAMER_BY_DAY
+			streamer = PROMOTED_STREAMER_BY_DAY.get(date.today().weekday(), None)
+			context = {
+				"promoted_streamer": streamer
+			} if streamer else None
+		except Exception:
+			context = None
+		return render(request, self.template_name, context)
 
 
 class ArticlesRedirectView(RedirectView):
