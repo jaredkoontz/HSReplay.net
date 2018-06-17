@@ -80,6 +80,15 @@ export class TwitchStreamPromotionEvents extends GoogleAnalytics {
 		);
 		return this.event("Twitch", "visit", stream, params);
 	}
+
+	public static onFrontpageStreamLoaded(streamer: string): Promise<void> {
+		INFLUX_CLIENT.writePoint(
+			"promo_stream_loaded",
+			{ count: "1i" },
+			{ streamer },
+		);
+		return this.event("Twitch Promo", "loaded", streamer);
+	}
 }
 
 export class ReferralEvents extends GoogleAnalytics {

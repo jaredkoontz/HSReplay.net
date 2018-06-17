@@ -21,6 +21,7 @@ import Panel from "../components/Panel";
 import { default as Twitch } from "../Twitch";
 import TwitchStream from "../components/TwitchStream";
 import { AutoSizer } from "react-virtualized";
+import { TwitchStreamPromotionEvents } from "../metrics/GoogleAnalytics";
 
 interface Props extends InjectedTranslateProps {
 	cardData: CardData | null;
@@ -73,6 +74,9 @@ class Home extends React.Component<Props, State> {
 		Twitch.fetchStreamMetadata([promotedStreamer]).then((result): void => {
 			if (Twitch.isLive(result[promotedStreamer])) {
 				this.setState({ promoStreamLive: true });
+				TwitchStreamPromotionEvents.onFrontpageStreamLoaded(
+					promotedStreamer,
+				);
 			}
 		});
 	}
