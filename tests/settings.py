@@ -1,8 +1,7 @@
-# flake8: noqa, isort:skip_file
+# isort:skip_file
 import os
 
-from hsreplaynet.settings import *
-
+from hsreplaynet.settings import *  # flake8: noqa
 
 SECRET_KEY = "hunter2"
 DEBUG = True
@@ -102,3 +101,5 @@ for c in additional_caches:
 
 JOUST_RAVEN_DSN_PUBLIC = ""
 JOUST_RAVEN_ENVIRONMENT = ""
+
+BOUNCY_VERIFY_CERTIFICATE = False

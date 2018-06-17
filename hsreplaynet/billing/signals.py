@@ -1,6 +1,10 @@
+from allauth.account.models import EmailAddress
 from allauth.account.signals import email_changed
+from django.contrib.auth import get_user_model
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django_bouncy.models import Bounce
+from django_bouncy.signals import feedback
 from djpaypal.models import webhooks as djpaypal_webhooks
 from djstripe import webhooks as djstripe_webhooks
 
@@ -54,3 +58,13 @@ def on_email_changed(request, user, from_email_address, to_email_address, **kwar
 	stripe_obj = customer.api_retrieve()
 	stripe_obj.email = to_email_address.email
 	Customer.sync_from_stripe_data(stripe_obj.save())
+
+
+@receiver(feedback, sender=Bounce)
+def process_feedback(sender, **kwargs):
+	bounce = kwargs["instance"]
+
+	if bounce.hard:
+		User = get_user_model()
+		User.objects.filter(email__iexact=bounce.address).update(email="")
+		EmailAddress.objects.filter(email__iexact=bounce.address).delete()
