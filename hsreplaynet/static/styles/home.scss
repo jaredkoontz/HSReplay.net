@@ -656,6 +656,26 @@
 
 			&.streamer-panel {
 				height: 230px;
+
+				.panel-content {
+					background: url("https://art.hearthstonejson.com/v1/512x/PART_002.jpg")
+						no-repeat;
+					background-position-x: center;
+					background-position-y: center;
+				}
+
+				@keyframes fadein {
+					from {
+						opacity: 0;
+					}
+					to {
+						opacity: 1;
+					}
+				}
+
+				iframe {
+					animation: fadein 2s;
+				}
 			}
 		}
 
