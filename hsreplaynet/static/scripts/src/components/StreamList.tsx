@@ -23,17 +23,18 @@ class StreamList extends React.Component<Props, State> {
 	}
 
 	public componentDidMount(): void {
+		const streamers = this.props.streams.map(stream => stream.twitch.name);
 		Promise.all([
-			Twitch.fetchStreamMetadata(
-				this.props.streams.map(stream => stream.twitch.name),
-			),
+			Twitch.fetchStreamMetadata(streamers),
 			this.props.verifyExtension
 				? Twitch.fetchEnabledTwitchExtensions()
 				: Promise.resolve(null),
 		]).then(([streamsForDeck, streamsWithExtension]): void => {
-			let eligibleStreams;
+			let eligibleStreams = streamers.map(
+				streamer => streamsForDeck[streamer],
+			);
 			if (streamsWithExtension !== null) {
-				eligibleStreams = streamsForDeck.filter(
+				eligibleStreams = eligibleStreams.filter(
 					streamForDeck =>
 						!!streamsWithExtension.find(
 							(streamWithExtension): boolean =>
@@ -41,9 +42,10 @@ class StreamList extends React.Component<Props, State> {
 								streamForDeck.user_id,
 						),
 				);
-			} else {
-				eligibleStreams = streamsForDeck;
 			}
+			eligibleStreams = eligibleStreams.sort(
+				(a, b) => b.viewer_count - a.viewer_count,
+			);
 			this.setState({ metadata: eligibleStreams });
 		});
 	}
@@ -66,6 +68,9 @@ class StreamList extends React.Component<Props, State> {
 						(toCompare: ApiStream) =>
 							"" + toCompare.twitch._id === twitchStream.user_id,
 					);
+					if (!stream) {
+						return null;
+					}
 					const url = `https://www.twitch.tv/${stream.twitch.name}`;
 					return (
 						<li key={twitchStream.user_id}>

@@ -1,3 +1,7 @@
+export interface TwitchStreamResponse {
+	[username: string]: TwitchStream;
+}
+
 export interface TwitchStream {
 	language: string;
 	thumbnail_url: string;
@@ -14,30 +18,12 @@ export default class Twitch {
 
 	public static async fetchStreamMetadata(
 		usernames: string[],
-	): Promise<TwitchStream[]> {
+	): Promise<TwitchStreamResponse> {
 		const userParams = usernames.map(stream => `user_login=${stream}`);
-		let resultSet = [];
-		let cursor = null;
-		do {
-			const params = userParams.slice();
-			if (cursor !== null) {
-				params.push(`after=${cursor}`);
-			}
-			const response = await fetch(
-				`${Twitch.BaseUrl}/helix/streams?${params.join("&")}`,
-				{
-					headers: {
-						"Client-ID": Twitch.ClientId,
-					},
-				},
-			);
-			const { pagination, data } = await response.json();
-			cursor = pagination ? pagination.cursor : null;
-			if (data) {
-				resultSet = resultSet.concat(data);
-			}
-		} while (resultSet.length < usernames.length && cursor);
-		return resultSet;
+		const response = await fetch(
+			`/api/v1/live/twitch/streams?${userParams.join("&")}`,
+		);
+		return await response.json();
 	}
 
 	public static async fetchEnabledTwitchExtensions(): Promise<
