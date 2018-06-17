@@ -54,6 +54,7 @@ urlpatterns = [
 	url(r"^api/", include("hsreplaynet.api.urls")),
 	url(r"^account/", include("hsreplaynet.web.account_urls")),
 	url(r"^account/billing/", include("hsreplaynet.billing.urls")),
+	url(r"^email/bounces/", include("django_bouncy.urls")),
 	url(r"^oauth2/", include("hearthsim.identity.oauth2.urls")),
 	url(r"^pages/", include("django.contrib.flatpages.urls")),
 	url(r"^ref/", include("django_reflinks.urls")),
