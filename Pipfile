@@ -50,6 +50,7 @@ pytest-mock = "*"
 fakeredis = "*"
 q = "*"
 tox = "*"
+moto = "*"
 
 [requires]
 python_version = "3.6"
