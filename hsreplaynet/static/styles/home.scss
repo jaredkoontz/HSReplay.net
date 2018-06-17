@@ -673,8 +673,24 @@
 					}
 				}
 
+				.panel-header {
+					animation: fadein 2s;
+					animation-delay: 8s;
+					animation-fill-mode: backwards;
+					position: absolute;
+					top: 150px;
+					background: rgba(29, 54, 87, 0.9);
+					transition: opacity 1s;
+				}
+
 				iframe {
 					animation: fadein 2s;
+				}
+
+				&:hover {
+					.panel-header {
+						opacity: 0;
+					}
 				}
 			}
 		}

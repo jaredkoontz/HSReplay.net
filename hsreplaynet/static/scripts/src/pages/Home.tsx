@@ -96,6 +96,7 @@ class Home extends React.Component<Props, State> {
 							);
 						}}
 					</AutoSizer>
+					<h1 className="panel-header">Watch Live Now!</h1>
 				</Panel>
 			);
 		}
