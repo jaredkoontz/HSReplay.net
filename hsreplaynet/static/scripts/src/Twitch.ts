@@ -21,7 +21,7 @@ export default class Twitch {
 	): Promise<TwitchStreamResponse> {
 		const userParams = usernames.map(stream => `user_login=${stream}`);
 		const response = await fetch(
-			`/api/v1/live/twitch/streams?${userParams.join("&")}`,
+			`/api/v1/live/twitch/streams/?${userParams.join("&")}`,
 		);
 		return await response.json();
 	}
