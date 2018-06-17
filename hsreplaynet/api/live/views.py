@@ -9,8 +9,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .distributions import (
-	get_daily_contributor_set, get_daily_game_counter, get_live_stats_redis,
-	get_played_cards_distribution, get_player_class_distribution, get_replay_feed
+	get_daily_contributor_set, get_daily_game_counter,
+	get_live_stats_redis, get_played_cards_distribution,
+	get_player_class_distribution, get_replay_feed, get_twitch_proxy
 )
 
 
@@ -18,6 +19,7 @@ _PLAYER_CLASS_CACHE = defaultdict(dict)
 _REPLAY_FEED_CACHE = defaultdict()
 _WEEKLY_GAMES_COUNT = defaultdict()
 _PLAYED_CARDS_CACHE = defaultdict(dict)
+_TWITCH_STREAM_CACHE = defaultdict(defaultdict)
 
 
 def _get_most_recent_tick_ts(tick=5):
@@ -227,3 +229,19 @@ class StreamingNowView(APIView):
 
 	def get(self, request):
 		return Response(data=self._get_data())
+
+
+class TwitchStreamsView(APIView):
+	def get(self, request):
+		current_ts = datetime.utcnow().timestamp()
+		user_logins = request.GET.getlist("user_login")
+		cache_key = ":".join(user_logins)
+		cache = _TWITCH_STREAM_CACHE.get(cache_key)
+		if not cache or cache.get("as_of", 0) + 10 < current_ts:
+			twitch = get_twitch_proxy()
+			streams = twitch.get(user_logins)
+			cache = {
+				"as_of": datetime.utcnow().timestamp(),
+				"payload": streams
+			}
+		return Response(data=cache.get("payload", []))

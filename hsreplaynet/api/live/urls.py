@@ -19,4 +19,5 @@ urlpatterns = [
 	path("games_count/weekly/", views.WeeklyGamesCountView.as_view()),
 	path("replay_feed/", views.LiveReplayFeedView.as_view()),
 	path("streaming-now/", views.StreamingNowView.as_view()),
+	path("twitch/streams/", views.TwitchStreamsView.as_view()),
 ]

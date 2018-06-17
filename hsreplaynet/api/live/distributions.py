@@ -1,9 +1,10 @@
 from datetime import timedelta
 
+import requests
 from django.core.cache import caches
 
 from hsreplaynet.utils.redis import (
-	CappedDataFeed, RedisCounter, RedisPopularityDistribution, RedisSet
+	CappedDataFeed, RedisCounter, RedisPopularityDistribution, RedisProxy, RedisSet
 )
 
 
@@ -108,4 +109,59 @@ def get_daily_contributor_set():
 		name="DAILY_CONTRIBUTORS",
 		bucket_size=int(timedelta(days=1).total_seconds()),
 		ttl=int(timedelta(days=14).total_seconds())
+	)
+
+
+def get_twitch_proxy(ttl=60):
+	def fetch(usernames):
+		headers = {
+			"Client-ID": "k0lqdqxso1o3knvydfheacq3jbqidg"
+		}
+
+		# Fetch user data so we can convert from name to id
+		# (Stream status responses only contain ids and are sorted
+		# by popularity)
+		response = requests.get(
+			url=(
+				"https://api.twitch.tv/helix/users?%s" % "&".join(
+					[("login=%s" % u) for u in usernames]
+				)
+			),
+			headers=headers
+		)
+		if response.status_code != requests.codes.ok:
+			return []
+		user_ids = dict()
+		for user in response.json()["data"]:
+			user_ids[user["id"]] = user["login"]
+
+		results = []
+		cursor = None
+		while True:
+			params = [("user_login=%s" % u) for u in usernames]
+			if cursor:
+				params.append("after=%s" % cursor)
+			response = requests.get(
+				url="https://api.twitch.tv/helix/streams?%s" % ("&".join(params)),
+				headers=headers
+			)
+			if response.status_code != requests.codes.ok:
+				return []
+			json = response.json()
+			cursor = json["pagination"]["cursor"] if json["pagination"] else None
+			if json["data"]:
+				for data in json["data"]:
+					results.append({
+						"key": user_ids[data["user_id"]],
+						"value": data
+					})
+			if len(results) >= len(usernames) or not cursor:
+				break
+		return results
+
+	return RedisProxy(
+		redis=get_live_stats_redis(),
+		name="TWITCH_STREAM_PROXY",
+		ttl=ttl,
+		fetch=fetch
 	)

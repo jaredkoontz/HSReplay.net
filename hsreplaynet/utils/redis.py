@@ -1,3 +1,4 @@
+import json
 from datetime import datetime, timedelta
 from itertools import chain
 
@@ -565,3 +566,54 @@ class RedisSet(RedisBucket):
 			pipe.sunionstore(temp_key, keys)
 			pipe.expire(temp_key, self.ttl)
 			return pipe.execute()[0]
+
+
+class RedisProxy(RedisNamespace):
+	def __init__(self, redis, name, ttl, fetch):
+		super().__init__(redis, name, "PROXY", ttl)
+		self.fetch = fetch
+
+	def get(self, keys):
+		values = self._get(keys)
+		data, missing = self._parse(keys, values)
+		if missing:
+			result = self.fetch(missing)
+			new_data = dict()
+			if result:
+				for x in result:
+					new_data[x["key"]] = x["value"]
+			for key in missing:
+				if key not in new_data:
+					new_data[key] = dict()
+			data.update(new_data)
+			self._set(new_data)
+		return data
+
+	def _get(self, keys):
+		pipe = self.redis.pipeline()
+		pipe.multi()
+		for key in keys:
+			pipe.get(self._get_key(key))
+		return pipe.execute()
+
+	def _parse(self, keys, values):
+		data = dict()
+		missing = []
+		for i in range(0, len(keys)):
+			if values[i]:
+				data[keys[i]] = json.loads(values[i])
+			else:
+				missing.append(keys[i])
+		return data, missing
+
+	def _set(self, new_data):
+		pipe = self.redis.pipeline()
+		pipe.multi()
+		for key, value in new_data.items():
+			redis_key = self._get_key(key)
+			pipe.set(redis_key, json.dumps(value))
+			pipe.expire(redis_key, self.ttl)
+		pipe.execute()
+
+	def _get_key(self, key):
+		return "%s:%s" % (self.key, key)
