@@ -1,4 +1,6 @@
 import JoustEmbedder from "../JoustEmbedder";
+import i18n from "../i18n";
+import UserData from "../UserData";
 
 // Joust
 const embedder = new JoustEmbedder();
@@ -21,4 +23,5 @@ if (location.hash) {
 	}
 }
 
-embedder.embed(container);
+UserData.create();
+embedder.embed(container, i18n.getFixedT(UserData.getLocale()));

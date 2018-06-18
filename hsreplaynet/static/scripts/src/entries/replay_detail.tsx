@@ -20,6 +20,8 @@ const context = JSON.parse(
 );
 UserData.create();
 
+const locale = UserData.getLocale();
+
 // Joust
 const embedder = new JoustEmbedder();
 
@@ -54,12 +56,12 @@ if (endpoint) {
 }
 const shared = {};
 
-embedder.prepare(container);
+embedder.prepare(container, i18n.getFixedT(UserData.getLocale()));
 
 // privacy dropodown
 const targetTmp1 = document.getElementById("replay-infobox-container");
 ReactDOM.render(
-	<I18nextProvider i18n={i18n} initialLanguage={UserData.getLocale()}>
+	<I18nextProvider i18n={i18n} initialLanguage={locale}>
 		<>
 			<h1>{context["format_name"] || "Replay"}</h1>
 
@@ -246,7 +248,7 @@ const renderPlayerInfo = (
 	}
 	const renderPlayerInfoComponent = (cards?) => {
 		ReactDOM.render(
-			<I18nextProvider i18n={i18n} initialLanguage={UserData.getLocale()}>
+			<I18nextProvider i18n={i18n} initialLanguage={locale}>
 				<PlayerInfo
 					gameId={context["shortid"]}
 					playerName={context["player_name"]}

@@ -10,6 +10,7 @@ import { cardArt, joustAsset, joustStaticFile } from "./helpers";
 import BatchingMiddleware from "./metrics/BatchingMiddleware";
 import InfluxMetricsBackend from "./metrics/InfluxMetricsBackend";
 import MetricsReporter from "./metrics/MetricsReporter";
+import { TranslationFunction } from "react-i18next";
 
 export default class JoustEmbedder {
 	public turn: number = null;
@@ -21,12 +22,12 @@ export default class JoustEmbedder {
 	public onToggleReveal: (reveal: boolean) => void = null;
 	private url: string = null;
 
-	public embed(target: HTMLElement) {
-		this.prepare(target);
+	public embed(target: HTMLElement, t: TranslationFunction) {
+		this.prepare(target, t);
 		this.render();
 	}
 
-	public prepare(target: HTMLElement) {
+	public prepare(target: HTMLElement, t: TranslationFunction) {
 		// find container
 		if (!target) {
 			throw new Error("No target specified");
@@ -37,10 +38,16 @@ export default class JoustEmbedder {
 			const joustUrl = joustStaticFile("joust.js");
 			target.innerHTML =
 				'<p class="alert alert-danger">' +
-				"<strong>Loading failed:</strong> " +
-				"Replay applet (Joust) could not be loaded. Please ensure you can access " +
-				`<a href="${joustUrl}">${joustUrl}</a>.</p>` +
-				"<p>Otherwise try clearing your cache and refreshing this page.</p>";
+				`<strong>${t("Loading failed:")}</strong> ` +
+				`<p>${t(
+					"Replay applet (Joust) could not be loaded. Please ensure you can access {joustUrl}.",
+					{
+						joustUrl: `<a href="${joustUrl}">${joustUrl}</a>`,
+					},
+				)}</p>` +
+				`<p>${t(
+					"Otherwise try clearing your cache and refreshing this page.",
+				)}</p>`;
 			// could also offer document.location.reload(true)
 			return;
 		}
