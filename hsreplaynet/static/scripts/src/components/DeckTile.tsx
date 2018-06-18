@@ -299,10 +299,10 @@ class DeckTile extends React.Component<Props> {
 							>
 								<span className="glyphicon glyphicon-time" />
 								{/* FIXME i18n (use date-fns) */}
-								{" " +
-									`${(this.props.duration / 60).toFixed(
-										1,
-									)} min`}
+								{` ${formatNumber(
+									this.props.duration / 60,
+									1,
+								)} min`}
 							</div>
 						</div>
 						<div className="col-lg-1 hidden-md hidden-sm hidden-xs">

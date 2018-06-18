@@ -747,7 +747,7 @@ export function winrateData(
 	const tendencyStr =
 		winrateDelta === 0 ? "    " : winrateDelta > 0 ? "▲" : "▼";
 	const color = getColorString(Colors.REDGREEN3, 75, colorWinrate / 100);
-	return { delta: winrateDelta.toFixed(1), color, tendencyStr };
+	return { delta: formatNumber(winrateDelta, 1), color, tendencyStr };
 }
 
 export function cleanText(text: string): string {

@@ -1,6 +1,7 @@
 import React from "react";
 import _ from "lodash";
 import { SelectableProps } from "../interfaces";
+import { formatNumber } from "../i18n";
 
 interface Props extends SelectableProps {
 	distributions: NumberDistribution;
@@ -53,7 +54,7 @@ export default class Distribution extends React.Component<Props> {
 				>
 					<th>{++count}</th>
 					<th>{key}</th>
-					<td>{(value * 100).toFixed(2)}%</td>
+					<td>{formatNumber(value * 100, 2)}%</td>
 				</tr>
 			);
 		});

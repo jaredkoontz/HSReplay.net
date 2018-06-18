@@ -2,6 +2,7 @@ import React from "react";
 import { TableData } from "../../interfaces";
 import PrettyCardClass from "../text/PrettyCardClass";
 import { InjectedTranslateProps, Trans, translate } from "react-i18next";
+import { formatNumber } from "../../i18n";
 
 interface Props extends InjectedTranslateProps {
 	data?: TableData;
@@ -27,7 +28,7 @@ class DeckStatsWinrates extends React.Component<Props> {
 				<li>
 					<Trans defaults="vs. <0></0>" components={[playerClass]} />
 					<span className="infobox-value">
-						{(+winrate).toFixed(1) + "%"}
+						{formatNumber(+winrate, 1) + "%"}
 					</span>
 				</li>,
 			);

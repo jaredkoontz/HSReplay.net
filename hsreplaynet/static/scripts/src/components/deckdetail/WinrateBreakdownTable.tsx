@@ -4,6 +4,7 @@ import { winrateData } from "../../helpers";
 import { SortDirection, TableData } from "../../interfaces";
 import SortableTable from "../SortableTable";
 import PrettyCardClass from "../text/PrettyCardClass";
+import { formatNumber } from "../../i18n";
 
 interface Props extends InjectedTranslateProps {
 	opponentWinrateData?: TableData;
@@ -38,7 +39,7 @@ class WinrateBreakdownTable extends React.Component<Props, State> {
 			return (
 				<td className="winrate-cell" style={{ color: wrData.color }}>
 					{wrData.tendencyStr}
-					{winrate.toFixed(2) + "%"}
+					{formatNumber(winrate, 2) + "%"}
 				</td>
 			);
 		};

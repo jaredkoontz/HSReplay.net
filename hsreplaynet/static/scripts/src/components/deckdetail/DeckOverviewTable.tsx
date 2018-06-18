@@ -76,9 +76,10 @@ class DeckOverviewTable extends React.Component<Props> {
 						<td>
 							{deck &&
 								t("{durationInMinutes} minutes", {
-									durationInMinutes: (
-										deck.avg_game_length_seconds / 60
-									).toFixed(1),
+									durationInMinutes: formatNumber(
+										deck.avg_game_length_seconds / 60,
+										1,
+									),
 								})}
 						</td>
 					</tr>

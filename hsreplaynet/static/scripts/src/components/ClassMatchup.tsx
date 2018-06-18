@@ -2,6 +2,7 @@ import React from "react";
 import { getArchetypeUrl, winrateData } from "../helpers";
 import { getCardClass } from "../utils/enums";
 import PrettyCardClass from "./text/PrettyCardClass";
+import { formatNumber } from "../i18n";
 
 export interface ArchetypeData {
 	id: string;
@@ -45,7 +46,7 @@ export default class ClassMatchup extends React.Component<Props> {
 					</span>
 					<span className="pull-right">
 						{this.props.totalWinrate &&
-							`${this.props.totalWinrate.toFixed(2)}%`}
+							`${formatNumber(this.props.totalWinrate, 2)}%`}
 					</span>
 				</div>
 				{archetypes}
@@ -61,7 +62,7 @@ export default class ClassMatchup extends React.Component<Props> {
 				style={{ color: wrData.color }}
 			>
 				{wrData.tendencyStr}
-				{winrate.toFixed(2) + "%"}
+				{formatNumber(winrate, 2) + "%"}
 			</span>
 		);
 	}
