@@ -63,14 +63,6 @@ DATABASES = {
 		"TEST": {
 			"NAME": "test_uploads"
 		}
-	},
-	"redshift": {
-		"ENGINE": "django.db.backends.postgresql",
-		"NAME": REDSHIFT_DATABASE["NAME"],
-		"USER": REDSHIFT_DATABASE["USER"],
-		"PASSWORD": REDSHIFT_DATABASE["PASSWORD"],
-		"HOST": REDSHIFT_DATABASE["HOST"],
-		"PORT": REDSHIFT_DATABASE["PORT"],
 	}
 }
 
