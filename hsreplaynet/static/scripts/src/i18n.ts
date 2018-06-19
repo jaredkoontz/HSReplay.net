@@ -73,8 +73,12 @@ export function formatNumber(n: number, mantissa: number = 0): string {
 	return numbro(n).format({ thousandSeparated: true, mantissa });
 }
 
+if (UserData.hasFeature("frontend-translations")) {
+	i18n.use(CustomCallbackBackend);
+}
+
+// prettier-ignore
 i18n
-	.use(CustomCallbackBackend)
 	.use(ICU)
 	.init({
 		// keys as strings
