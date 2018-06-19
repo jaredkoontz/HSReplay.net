@@ -44,19 +44,25 @@ REDSHIFT_DATABASE = {
 DATABASES = {
 	"default": {
 		"ENGINE": "django.db.backends.postgresql",
-		"NAME": "hsreplaynet",
+		"NAME": "test_hsreplaynet",
 		"USER": "postgres",
 		"PASSWORD": "",
 		"HOST": os.environ.get("PGHOST", "localhost"),
 		"PORT": "",
+		"TEST": {
+			"NAME": "test_hsreplaynet"
+		}
 	},
 	"uploads": {
 		"ENGINE": "django.db.backends.postgresql",
-		"NAME": "uploads",
+		"NAME": "test_uploads",
 		"USER": "postgres",
 		"PASSWORD": "",
 		"HOST": os.environ.get("PGHOST", "localhost"),
 		"PORT": "",
+		"TEST": {
+			"NAME": "test_uploads"
+		}
 	},
 	"redshift": {
 		"ENGINE": "django.db.backends.postgresql",
