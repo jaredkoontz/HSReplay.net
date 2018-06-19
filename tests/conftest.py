@@ -3,7 +3,6 @@ import os
 import subprocess
 
 import pytest
-from django.core.management import call_command
 
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -16,12 +15,6 @@ def pytest_configure(config):
 	if not os.path.exists(LOG_DATA_DIR):
 		proc = subprocess.Popen(["git", "clone", LOG_DATA_GIT, LOG_DATA_DIR])
 		assert proc.wait() == 0
-
-
-@pytest.fixture(scope="session")
-def django_db_setup(django_db_setup, django_db_blocker):
-	with django_db_blocker.unblock():
-		call_command("load_cards")
 
 
 @pytest.yield_fixture(scope="function")
