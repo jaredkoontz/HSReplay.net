@@ -1,5 +1,4 @@
 import i18n, { InitOptions } from "i18next";
-import { unset } from "lodash";
 import CustomCallbackBackend from "i18next-callback-backend";
 import ICU from "i18next-icu";
 import de from "i18next-icu/locale-data/de";
@@ -50,9 +49,6 @@ const numbroLocales = {
 // just used while we feature flag frontend translations
 UserData.create();
 
-// create icu as instance so we can clear memoization cache (see below)
-const icu = new ICU();
-
 [
 	numbroDe,
 	numbroEn,
@@ -79,7 +75,7 @@ export function formatNumber(n: number, mantissa: number = 0): string {
 
 i18n
 	.use(CustomCallbackBackend)
-	.use(icu)
+	.use(ICU)
 	.init({
 		// keys as strings
 		defaultNS: I18N_NAMESPACE_FRONTEND,
