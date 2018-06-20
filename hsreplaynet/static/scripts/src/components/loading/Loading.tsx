@@ -2,8 +2,9 @@ import _ from "lodash";
 import React from "react";
 import { InjectedTranslateProps, translate } from "react-i18next";
 import { LoadingStatus } from "../../interfaces";
+import LoadingSpinner from "../LoadingSpinner";
 
-type StringOrJSX = string | JSX.Element | JSX.Element[];
+type StringOrJSX = string | JSX.Element | JSX.Element[] | React.ReactNode;
 
 interface Props extends InjectedTranslateProps {
 	customNoDataMessage?: StringOrJSX;
@@ -30,11 +31,11 @@ export const withLoading = (dataKeys?: string[], className?: string) => <
 				case LoadingStatus.SUCCESS:
 					return null;
 				case LoadingStatus.LOADING:
-					return t("Loading…");
+					return <LoadingSpinner active />;
 				case LoadingStatus.PROCESSING:
 					return (
 						<>
-							<h3>{t("Loading…")}</h3>
+							<LoadingSpinner active />
 							<p>
 								<i>{t("This may take a few seconds")}</i>
 							</p>

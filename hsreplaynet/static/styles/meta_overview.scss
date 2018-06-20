@@ -551,13 +551,8 @@
 		width: 100%;
 	}
 
-	.loading-spinner {
-		padding: 10px;
-		justify-content: center;
-
-		.glyphicon {
-			color: #999;
-		}
+	.loading-spinner div {
+		background: white;
 	}
 
 	.archetype-signature {

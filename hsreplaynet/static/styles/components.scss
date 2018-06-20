@@ -1745,6 +1745,10 @@ ol.list-ltr {
 		.panel-content {
 			background: $spacegray;
 		}
+
+		.loading-spinner div {
+			background: white;
+		}
 	}
 
 	&.panel-accent-blue {
