@@ -388,14 +388,11 @@
 	}
 
 	#feature-meta > div {
-		background: $spacegray;
-		box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 		color: white;
 		display: flex;
 		height: 323px;
 		max-width: 533px;
 		overflow: hidden;
-		border: 1px solid $blue;
 		padding: 10px;
 
 		.archetype-matrix-container {
@@ -405,6 +402,10 @@
 			height: 100%;
 			width: 100%;
 			margin: 0;
+			background: $spacegray;
+			box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16),
+				0 3px 6px rgba(0, 0, 0, 0.23);
+			border: 1px solid $blue;
 
 			.gradient-right {
 				background: linear-gradient(to right, transparent, $spacegray);
