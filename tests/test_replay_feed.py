@@ -83,6 +83,40 @@ def test_period():
 	assert items[1]["id"] == data_2["id"]
 
 
+def test_fast_backfill():
+	redis = fakeredis.FakeStrictRedis()
+	redis.flushall()
+
+	data_1 = get_data("1")
+	data_2 = get_data("2")
+	feed = CappedDataFeed(
+		redis=redis,
+		name="TEST_FEED",
+		max_items=2,
+		period=1,
+		comparator=comparator,
+		fast_backfill=True
+	)
+
+	pushed = feed.push(data_1)
+	assert pushed
+	items = feed.get()
+	assert len(items) == 1
+	assert items[0]["id"] == data_1["id"]
+
+	pushed = feed.push(data_2)
+	assert pushed
+	items = feed.get()
+	assert len(items) == 2
+	assert items[1]["id"] == data_2["id"]
+
+	pushed = feed.push(data_1)
+	assert not pushed
+	items = feed.get()
+	assert len(items) == 2
+	assert items[1]["id"] == data_2["id"]
+
+
 def test_max_items():
 	redis = fakeredis.FakeStrictRedis()
 	redis.flushall()

@@ -396,12 +396,13 @@ class RedisTree:
 
 
 class CappedDataFeed(RedisNamespace):
-	def __init__(self, redis, name, max_items, period, comparator):
+	def __init__(self, redis, name, max_items, period, comparator, fast_backfill=False):
 		super().__init__(redis, name, "CAPPED_DATA_FEED")
 		self.max_items = max_items
 		self.period = period
 		self.last_added_key = "%s:LAST_ADDED" % self.key
 		self.comparator = comparator
+		self.fast_backfill = fast_backfill
 
 	def push(self, data):
 		if "id" not in data:
@@ -420,7 +421,9 @@ class CappedDataFeed(RedisNamespace):
 
 			pipe.multi()
 
-			if cancel:
+			if cancel and (
+				not self.fast_backfill or self._is_full()
+			):
 				return False
 
 			# add new item
@@ -465,6 +468,9 @@ class CappedDataFeed(RedisNamespace):
 		if val:
 			return float(val) + self.period < datetime.utcnow().timestamp()
 		return True
+
+	def _is_full(self):
+		return self.redis.llen(self.key) >= self.max_items
 
 
 class RedisBucket(RedisNamespace):
