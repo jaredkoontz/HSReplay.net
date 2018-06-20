@@ -10,11 +10,17 @@ interface Props extends InjectedTranslateProps {
 	status?: LoadingStatus;
 }
 
-export const withLoading = (dataKeys?: string[]) => <T extends {}>(
+export const withLoading = (dataKeys?: string[], className?: string) => <
+	T extends {}
+>(
 	// tslint:disable-next-line:variable-name
 	Component: React.ComponentClass<T>,
 ) => {
 	const cls = class Loading extends React.Component<T & Props> {
+		private getClassName(): string {
+			return "message-wrapper" + (className ? " " + className : "");
+		}
+
 		private getLoadingMessage(
 			status: LoadingStatus,
 			customNoDataMessage?: StringOrJSX,
@@ -50,13 +56,13 @@ export const withLoading = (dataKeys?: string[]) => <T extends {}>(
 				);
 				if (typeof message === "string") {
 					return (
-						<h3 className="message-wrapper" aria-busy="true">
+						<h3 className={this.getClassName()} aria-busy="true">
 							{message}
 						</h3>
 					);
 				} else if (message !== null) {
 					return (
-						<div className="message-wrapper" aria-busy="true">
+						<div className={this.getClassName()} aria-busy="true">
 							{message}
 						</div>
 					);
@@ -72,9 +78,9 @@ export const withLoading = (dataKeys?: string[]) => <T extends {}>(
 					customNoDataMessage,
 				);
 				if (typeof message === "string") {
-					return <h3 className="message-wrapper">{message}</h3>;
+					return <h3 className={this.getClassName()}>{message}</h3>;
 				} else if (message !== null) {
-					return <div className="message-wrapper">{message}</div>;
+					return <div className={this.getClassName()}>{message}</div>;
 				}
 			}
 			const props = _.omit(
