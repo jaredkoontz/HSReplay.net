@@ -78,7 +78,7 @@ class CheckoutForm extends React.Component<Props, State> {
 			label: (
 				<strong>
 					<span className="glyphicon glyphicon-credit-card" />&nbsp;{t(
-						"CreditCard",
+						"Credit Card",
 					)}
 				</strong>
 			),
