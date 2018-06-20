@@ -89,8 +89,9 @@ def get_replay_feed(comparator=None):
 		redis=get_live_stats_redis(),
 		name="REPLAY_FEED",
 		max_items=1000,
-		period=.5,
-		comparator=comparator
+		period=60,
+		comparator=comparator,
+		fast_backfill=True
 	)
 
 
