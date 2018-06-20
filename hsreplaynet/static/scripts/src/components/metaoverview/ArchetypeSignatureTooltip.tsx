@@ -58,7 +58,7 @@ export default class ArchetypeSignatureTooltip extends React.Component<
 
 	renderTooltip(): JSX.Element {
 		if (!this.state.signature || !this.props.cardData) {
-			return <LoadingSpinner active />;
+			return <LoadingSpinner active small />;
 		}
 		return (
 			<div>

@@ -2,7 +2,7 @@ import React from "react";
 
 interface Props {
 	active?: boolean;
-	glyphicon?: string;
+	small?: boolean;
 }
 
 export default class LoadingSpinner extends React.Component<Props> {
@@ -10,11 +10,13 @@ export default class LoadingSpinner extends React.Component<Props> {
 		if (!this.props.active) {
 			return null;
 		}
-		const glyphiconClassName =
-			"glyphicon " + (this.props.glyphicon || "glyphicon-refresh");
+		const className = ["loading-spinner"];
+		if (this.props.small) {
+			className.push("small");
+		}
 		return (
-			<div className="loading-spinner">
-				<span className={glyphiconClassName} />
+			<div className={className.join(" ")}>
+				{Array.apply(null, { length: 12 }).map(x => <div />)}
 			</div>
 		);
 	}
