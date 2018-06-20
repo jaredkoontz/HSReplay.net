@@ -15,7 +15,6 @@ class ArchetypeImage extends React.Component<Props> {
 		const archetype = this.props.archetypeData.find(
 			a => a.id === this.props.archetypeId,
 		);
-		console.log(this.props, archetype);
 		if (!archetype) {
 			return null;
 		}
@@ -36,4 +35,7 @@ class ArchetypeImage extends React.Component<Props> {
 	}
 }
 
-export default withLoading(["archetypeData", "cardData"])(ArchetypeImage);
+export default withLoading(
+	["archetypeData", "cardData"],
+	"archetype-image-container",
+)(ArchetypeImage);
