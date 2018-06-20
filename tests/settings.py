@@ -18,6 +18,8 @@ STRIPE_LIVE_MODE = False
 MONTHLY_PLAN_ID = "monthly-test-plan"
 SEMIANNUAL_PLAN_ID = "semiannual-test-plan"
 
+PAYPAL_CLIENT_ID = "foo"
+PAYPAL_CLIENT_SECRET = "bar"
 PAYPAL_MONTHLY_PLAN_ID = ""
 PAYPAL_SEMIANNUAL_PLAN_ID = ""
 PAYPAL_MODE = "sandbox"
