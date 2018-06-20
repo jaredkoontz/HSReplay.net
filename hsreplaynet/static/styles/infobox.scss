@@ -274,6 +274,34 @@
 			}
 		}
 	}
+
+	.archetype-image-container {
+		align-items: center;
+		display: flex;
+		height: 300px;
+		justify-content: center;
+		margin: 0 auto;
+		max-width: 500px;
+		padding: 10px;
+		position: relative;
+
+		h1 {
+			font-size: 2em;
+			font-weight: bold;
+			position: absolute;
+			text-shadow: 0 0.2em 0.3em #000;
+			z-index: 1;
+		}
+
+		.card-fade-container {
+			filter: brightness(80%);
+			border: 1px solid $darkblue;
+
+			.card-art {
+				background-position-y: 35%;
+			}
+		}
+	}
 }
 
 .infobox {

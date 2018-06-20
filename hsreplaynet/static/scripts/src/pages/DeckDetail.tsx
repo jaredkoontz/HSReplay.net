@@ -46,6 +46,7 @@ import { CardObj, RenderData, SortDirection } from "../interfaces";
 import { DeckEvents } from "../metrics/GoogleAnalytics";
 import { Collection } from "../utils/api";
 import { getDustCostForCollection } from "../utils/collection";
+import ArchetypeImage from "../components/archetypedetail/ArchetypeImage";
 
 interface InventoryGameType {
 	[gameType: string]: InventoryRegion[];
@@ -539,10 +540,27 @@ class DeckDetail extends React.Component<Props, State> {
 		return (
 			<div className="deck-detail-container">
 				<aside className="infobox">
-					<img
-						className="hero-image"
-						src={getHeroSkinCardUrl(this.props.deckClass)}
-					/>
+					{this.props.archetypeId ? (
+						<DataInjector
+							query={[
+								{
+									key: "archetypeData",
+									params: {},
+									url: "/api/v1/archetypes/",
+								},
+							]}
+						>
+							<ArchetypeImage
+								archetypeId={+this.props.archetypeId}
+								cardData={this.props.cardData}
+							/>
+						</DataInjector>
+					) : (
+						<img
+							className="hero-image"
+							src={getHeroSkinCardUrl(this.props.deckClass)}
+						/>
+					)}
 					<div className="text-center copy-deck-wrapper">
 						<CopyDeckButton
 							cardData={this.props.cardData}
