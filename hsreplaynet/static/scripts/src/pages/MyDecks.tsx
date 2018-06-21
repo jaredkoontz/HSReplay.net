@@ -28,6 +28,7 @@ import {
 	sortCards,
 } from "../helpers";
 import { DeckObj, FragmentChildProps, TableData } from "../interfaces";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 interface Props extends FragmentChildProps, InjectedTranslateProps {
 	account: Account | null;
@@ -377,7 +378,9 @@ class MyDecks extends React.Component<Props, State> {
 				</div>
 			);
 		} else if (this.state.loading) {
-			content = <h3 className="message-wrapper">{t("Loading…")}</h3>;
+			content = (
+				<h3 className="message-wrapper">{<LoadingSpinner active />}</h3>
+			);
 		} else if (this.state.filteredDecks.length === 0) {
 			let resetButton = null;
 			if (this.props.canBeReset) {

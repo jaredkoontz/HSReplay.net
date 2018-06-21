@@ -3,6 +3,7 @@ import CardTable from "../tables/CardTable";
 import { SortDirection } from "../../interfaces";
 import CardData from "../../CardData";
 import { ArchetypeSignature } from "../../utils/api";
+import LoadingSpinner from "../LoadingSpinner";
 
 interface Props {
 	cardData: CardData | null;
@@ -27,7 +28,7 @@ export default class ClusterSignature extends React.Component<Props, State> {
 		const { cardData, signature } = this.props;
 
 		if (!cardData) {
-			return <div className="text-center">Loading cards…</div>;
+			return <LoadingSpinner active />;
 		}
 
 		const cards = [];

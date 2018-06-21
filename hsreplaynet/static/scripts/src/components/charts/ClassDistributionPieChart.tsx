@@ -4,6 +4,7 @@ import { getHeroColor, pieScaleTransform } from "../../helpers";
 import PrettyCardClass from "../text/PrettyCardClass";
 import { InjectedTranslateProps, Trans, translate } from "react-i18next";
 import { formatNumber } from "../../i18n";
+import LoadingSpinner from "../LoadingSpinner";
 
 export interface Props extends InjectedTranslateProps {
 	data: any[];
@@ -153,7 +154,7 @@ class ClassDistributionPieChart extends React.Component<Props, State> {
 				/>
 				<h5 style={{ textAlign: "center", marginTop: "-20px" }}>
 					{this.props.loading ? (
-						t("Loading…")
+						<LoadingSpinner active small />
 					) : (
 						<Trans>
 							{cardClass}: {numGames} - {winrate} winrate

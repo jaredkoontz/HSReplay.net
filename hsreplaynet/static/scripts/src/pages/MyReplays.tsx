@@ -25,6 +25,7 @@ import {
 	GameReplay,
 	ImageProps,
 } from "../interfaces";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 type ViewType = "tiles" | "list";
 
@@ -338,7 +339,7 @@ class MyReplays extends React.Component<Props, State> {
 		} else {
 			let message = null;
 			if (this.state.working) {
-				message = <p>{t("Loading replays…")}</p>;
+				message = <LoadingSpinner active />;
 			} else {
 				message = (
 					<div>

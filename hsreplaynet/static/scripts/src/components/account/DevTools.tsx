@@ -3,6 +3,7 @@ import { Feature, Features } from "../../utils/api";
 import DataManager from "../../DataManager";
 import { cookie } from "cookie_js";
 import { InjectedTranslateProps, translate } from "react-i18next";
+import LoadingSpinner from "../LoadingSpinner";
 
 interface Props extends InjectedTranslateProps {
 	className?: string;
@@ -153,7 +154,9 @@ class DevTools extends React.Component<Props, State> {
 		if (!features) {
 			return (
 				<li className="disabled">
-					<a href="#">{t("Loading…")}</a>
+					<a href="#">
+						<LoadingSpinner active />
+					</a>
 				</li>
 			);
 		}

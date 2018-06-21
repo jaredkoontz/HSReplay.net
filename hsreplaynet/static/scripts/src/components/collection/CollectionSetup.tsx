@@ -7,6 +7,7 @@ import DataManager from "../../DataManager";
 import UserData from "../../UserData";
 import CollectionSetupDialog from "./modal/CollectionSetupDialog";
 import { Consumer as BlizzardAccountConsumer } from "../utils/hearthstone-account";
+import LoadingSpinner from "../LoadingSpinner";
 
 interface Props {}
 
@@ -77,7 +78,9 @@ export default class CollectionSetup extends React.Component<Props, State> {
 		if (this.state.hasTokens === null && authenticated) {
 			return (
 				<div className="collection-setup-modal">
-					<div className="modal-body">Loading…</div>
+					<div className="modal-body">
+						<LoadingSpinner active />
+					</div>
 				</div>
 			);
 		}

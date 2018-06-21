@@ -3,6 +3,7 @@ import { InjectedTranslateProps, translate } from "react-i18next";
 import CardData from "../../CardData";
 import { cloneComponent } from "../../helpers";
 import { LoadingStatus } from "../../interfaces";
+import LoadingSpinner from "../LoadingSpinner";
 
 interface Props extends InjectedTranslateProps {
 	cardData?: CardData;
@@ -22,11 +23,15 @@ class TableLoading extends React.Component<Props> {
 
 		switch (this.props.status) {
 			case LoadingStatus.LOADING:
-				return <h3 className="message-wrapper">{t("Loading…")}</h3>;
+				return (
+					<h3 className="message-wrapper">
+						<LoadingSpinner active />
+					</h3>
+				);
 			case LoadingStatus.PROCESSING:
 				return (
 					<div className="message-wrapper">
-						<h3>{t("Loading…")}</h3>
+						<LoadingSpinner active />
 						<p>
 							<i>{t("This may take a few seconds")}</i>
 						</p>
@@ -46,7 +51,11 @@ class TableLoading extends React.Component<Props> {
 				);
 		}
 		if (this.props.cardData === null) {
-			return <h3 className="message-wrapper">{t("Loading…")}</h3>;
+			return (
+				<h3 className="message-wrapper">
+					<LoadingSpinner active />
+				</h3>
+			);
 		}
 
 		const noData = (this.props.dataKeys || ["data"]).every(key => {

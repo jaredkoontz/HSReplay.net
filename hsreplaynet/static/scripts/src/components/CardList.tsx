@@ -6,6 +6,7 @@ import { Collection } from "../utils/api";
 import { isMissingCardFromCollection } from "../utils/collection";
 import CardTile from "./CardTile";
 import CopyDeckButton from "./CopyDeckButton";
+import LoadingSpinner from "./LoadingSpinner";
 
 type CardId = string | number;
 
@@ -41,7 +42,7 @@ class CardList extends React.Component<Props> {
 			return null;
 		}
 		if (!this.props.cardData) {
-			return <div className="text-center">{t("Loading cards…")}</div>;
+			return <LoadingSpinner active />;
 		}
 
 		const { cardData, cardList, customCounts, sortByCount } = this.props;

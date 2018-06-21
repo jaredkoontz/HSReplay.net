@@ -4,6 +4,7 @@ import StreamThumbnail from "./StreamThumbnail";
 import { Stream as ApiStream } from "../utils/api";
 import { InjectedTranslateProps, translate } from "react-i18next";
 import Twitch, { TwitchStream } from "../Twitch";
+import LoadingSpinner from "./LoadingSpinner";
 
 interface Props extends InjectedTranslateProps {
 	streams?: ApiStream[];
@@ -58,7 +59,11 @@ class StreamList extends React.Component<Props, State> {
 		}
 
 		if (this.state.metadata === null) {
-			return <h3 className="message-wrapper">{t("Loading…")}</h3>;
+			return (
+				<h3 className="message-wrapper">
+					<LoadingSpinner active />
+				</h3>
+			);
 		}
 
 		return (

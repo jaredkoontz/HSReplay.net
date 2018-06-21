@@ -37,6 +37,7 @@ import {
 } from "../utils/collection";
 import PrettyTimeRange from "../components/text/PrettyTimeRange";
 import PrettyRankRange from "../components/text/PrettyRankRange";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 interface Props extends InjectedTranslateProps, FragmentChildProps {
 	cardData: CardData | null;
@@ -467,7 +468,7 @@ class Decks extends React.Component<Props, State> {
 		if (this.state.loading) {
 			content = (
 				<h3 className="message-wrapper" aria-busy="true">
-					{t("Loading…")}
+					<LoadingSpinner active />
 				</h3>
 			);
 		} else if (this.state.filteredDecks.length === 0) {

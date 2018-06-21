@@ -41,6 +41,7 @@ import {
 import { I18N_NAMESPACE_HEARTHSTONE } from "../i18n";
 import { RenderData, TableData } from "../interfaces";
 import { Collection } from "../utils/api";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 interface Props extends InjectedTranslateProps {
 	card: any;
@@ -180,7 +181,9 @@ class CardDetail extends React.Component<Props, State> {
 					));
 				} else if (cardStatsLoading) {
 					utilization.push(
-						<h3 className="message-wrapper">{t("Loading…")}</h3>,
+						<h3 className="message-wrapper">
+							<LoadingSpinner active />
+						</h3>,
 					);
 				} else {
 					utilization.push(
@@ -582,7 +585,11 @@ class CardDetail extends React.Component<Props, State> {
 				];
 			}
 		} else {
-			content = <h3 className="message-wrapper">{t("Loading…")}</h3>;
+			content = (
+				<h3 className="message-wrapper">
+					<LoadingSpinner active />
+				</h3>
+			);
 		}
 
 		let tribe = null;

@@ -3,6 +3,7 @@ import { InjectedTranslateProps, translate } from "react-i18next";
 import CardData from "../../CardData";
 import { cloneComponent } from "../../helpers";
 import { LoadingStatus, RenderData } from "../../interfaces";
+import LoadingSpinner from "../LoadingSpinner";
 
 interface Props extends InjectedTranslateProps {
 	cardData?: CardData;
@@ -34,13 +35,13 @@ class ChartLoading extends React.Component<Props> {
 			case LoadingStatus.LOADING:
 				return (
 					<h3 className="chart-message-wrapper" aria-busy="true">
-						{t("Loading…")}
+						<LoadingSpinner active />
 					</h3>
 				);
 			case LoadingStatus.PROCESSING:
 				return (
 					<div className="chart-message-wrapper" aria-busy="true">
-						<h3>{t("Loading…")}</h3>
+						<LoadingSpinner active />
 						<p>
 							<i>{t("This may take a few seconds")}</i>
 						</p>
@@ -62,7 +63,7 @@ class ChartLoading extends React.Component<Props> {
 		if (this.props.cardData === null) {
 			return (
 				<h3 className="chart-message-wrapper" aria-busy="true">
-					{t("Loading…")}
+					<LoadingSpinner active />
 				</h3>
 			);
 		}
