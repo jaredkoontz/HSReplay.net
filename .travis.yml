@@ -31,6 +31,26 @@ jobs:
       env: TOXENV=flake8
       install: pip install tox
       script: tox
+
+    - stage: test
+      language: python
+      python: "3.6"
+      env:
+        - TOXENV=py36
+      services:
+        - postgresql
+        - redis-server
+      addons:
+        postgresql: "9.6"
+      install:
+        - pip install tox
+        - yarn --pure-lockfile
+        - scripts/get_vendor_static.sh
+        - git clone https://github.com/HearthSim/hsreplaynet-i18n locale
+      before_script:
+        - echo "DJSTRIPE_USE_NATIVE_JSONFIELD = True" > hsreplaynet/local_settings.py
+        - yarn run build
+      script: tox
 matrix:
   allow_failures:
     - env: SCRIPT=lint:tslint
