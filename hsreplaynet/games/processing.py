@@ -215,7 +215,6 @@ def find_or_create_replay(parser, entity_tree, meta, upload_event, global_game, 
 		"replay_xml": replay_xml_path,
 		"hsreplay_version": hsreplay_version,
 		"hslog_version": hslog_version,
-		"upload_ip": upload_event.upload_ip,
 		"user_agent": upload_event.user_agent,
 		"opponent_revealed_deck": opponent_revealed_deck,
 	}

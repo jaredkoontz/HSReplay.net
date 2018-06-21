@@ -370,7 +370,6 @@ class GameReplay(models.Model):
 		max_length=24, help_text="The python-hearthstone library version at processing",
 		null=True,  # TODO: Remove this once the table is clean of NULLs
 	)
-	upload_ip = models.GenericIPAddressField(null=True, help_text="Uploader IP address")
 	user_agent = models.CharField(max_length=100, null=True, help_text="Uploader User-Agent")
 
 	# The fields below capture the preferences of the user who uploaded it.
