@@ -3,7 +3,7 @@
 	"private": true,
 	"scripts": {
 		"build": "cross-env NODE_ENV=production webpack --bail",
-		"dev": "webpack -d --progress --watch",
+		"dev": "webpack-dev-server",
 		"lint": "yarn lint:prettier; yarn lint:tslint",
 		"lint:prettier": "prettier -l \"hsreplaynet/static/{scripts,styles}/**/*.{ts,tsx,js,scss}\"",
 		"lint:tslint": "tslint \"hsreplaynet/static/scripts/src/**/*\" --project tsconfig.json",
@@ -72,7 +72,8 @@
 		"prettier": "^1.12.1",
 		"tslint": "^5.10.0",
 		"tslint-config-prettier": "^1.12.0",
-		"tslint-react": "^3.5.1"
+		"tslint-react": "^3.5.1",
+		"webpack-dev-server": "^2"
 	},
 	"prettier": {
 		"useTabs": true,

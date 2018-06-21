@@ -118,7 +118,7 @@ module.exports = env => {
 			filename: isProduction ? "[name].[chunkhash].js" : "[name].js",
 			sourceMapFilename: "[file].map",
 			path: path.join(__dirname, "build", "generated", "webpack"),
-			publicPath: exportedSettings.STATIC_URL + "webpack/",
+			publicPath: isProduction ? exportedSettings.STATIC_URL + "webpack/" : "http://localhost:3000/",
 		},
 		resolve: {
 			extensions: [".ts", ".tsx", ".js"],
@@ -225,5 +225,10 @@ module.exports = env => {
 		stats: {
 			modules: false,
 		},
+		devServer: {
+			host: "0.0.0.0",
+			port: 3000,
+			publicPath: "http://localhost:3000/",
+		}
 	};
 };
