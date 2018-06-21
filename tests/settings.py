@@ -46,10 +46,10 @@ DATABASES = {
 	"default": {
 		"ENGINE": "django.db.backends.postgresql",
 		"NAME": "test_hsreplaynet",
-		"USER": "postgres",
+		"USER": os.environ.get("PGUSER", "postgres"),
 		"PASSWORD": "",
 		"HOST": os.environ.get("PGHOST", "localhost"),
-		"PORT": "",
+		"PORT": os.environ.get("PGPORT", 5432),
 		"TEST": {
 			"NAME": "test_hsreplaynet"
 		}
@@ -57,10 +57,10 @@ DATABASES = {
 	"uploads": {
 		"ENGINE": "django.db.backends.postgresql",
 		"NAME": "test_uploads",
-		"USER": "postgres",
+		"USER": os.environ.get("PGUSER", "postgres"),
 		"PASSWORD": "",
 		"HOST": os.environ.get("PGHOST", "localhost"),
-		"PORT": "",
+		"PORT": os.environ.get("PGPORT", 5432),
 		"TEST": {
 			"NAME": "test_uploads"
 		}
