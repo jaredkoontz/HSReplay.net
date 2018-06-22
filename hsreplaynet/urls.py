@@ -3,6 +3,7 @@ from django.conf.urls import include, url
 from django.contrib.flatpages.views import flatpage
 from django.contrib.sitemaps.views import sitemap
 from django.views.generic import RedirectView
+from oauth2_provider.views import TokenView
 
 from .decks.views import ClusterSnapshotUpdateView
 from .web.sitemap import SITEMAPS
@@ -12,6 +13,7 @@ from .web.views import (
 from .web.views.archetypes import ArchetypeDetailView, DiscoverView, MetaOverviewView
 from .web.views.cards import CardDetailView, CardEditorView, CardsView, MyCardsView
 from .web.views.decks import DeckDetailView, DecksView, MyDecksView, TrendingDecksView
+from .web.views.oauth2 import OAuth2AuthorizeView, OAuth2LoginView
 from .web.views.premium import PremiumDetailView
 from .web.views.profiles import PackListView
 from .web.views.redeem import RedeemCodeView
@@ -55,7 +57,6 @@ urlpatterns = [
 	url(r"^account/", include("hsreplaynet.web.account_urls")),
 	url(r"^account/billing/", include("hsreplaynet.billing.urls")),
 	url(r"^email/bounces/", include("django_bouncy.urls")),
-	url(r"^oauth2/", include("hearthsim.identity.oauth2.urls")),
 	url(r"^pages/", include("django.contrib.flatpages.urls")),
 	url(r"^ref/", include("django_reflinks.urls")),
 
@@ -90,6 +91,10 @@ urlpatterns = [
 		ClusterSnapshotUpdateView.as_view(), name="update_cluster_archetype"
 	),
 
+	# oauth2
+	url(r"^oauth2/login/$", OAuth2LoginView, name="oauth2_login"),
+	url(r"^oauth2/authorize/$", OAuth2AuthorizeView, name="authorize"),
+	url(r"^oauth2/token/$", TokenView, name="token"),
 
 	# profiles (currently unused)
 	url(r"^profile/packs/$", PackListView.as_view(), name="profile_packs"),
