@@ -1,10 +1,8 @@
 import json
 from datetime import date, timedelta
-from decimal import Decimal
 
 from django import template
 from django.conf import settings
-from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.core.serializers.json import DjangoJSONEncoder
 from django.urls import reverse
 from django.utils.safestring import mark_safe
@@ -52,24 +50,11 @@ def setting(name):
 
 
 @register.simple_tag(takes_context=True)
-def static_absolute(context, value):
-	return context.request.build_absolute_uri(static(value))
-
-
-@register.simple_tag(takes_context=True)
 def nav_active(context, name, css="active"):
 	request = context.request
 	if request.path == reverse(name):
 		return mark_safe(f' class="{css}"')
 	return ""
-
-
-@register.simple_tag
-def currency_amount(amount, currency):
-	from djstripe.utils import get_friendly_currency_amount
-
-	amount = Decimal(amount) / 100
-	return get_friendly_currency_amount(amount, currency)
 
 
 @register.filter
