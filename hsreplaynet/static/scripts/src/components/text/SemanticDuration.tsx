@@ -1,9 +1,9 @@
-import React from "react";
 import {
 	differenceInSeconds,
 	distanceInWords,
 	distanceInWordsStrict,
 } from "date-fns";
+import React from "react";
 
 interface Props {
 	from: Date;

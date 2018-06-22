@@ -17,6 +17,7 @@ import numbro from "numbro";
 import numbroDe from "numbro/languages/de-DE";
 import numbroEn from "numbro/languages/en-GB";
 import numbroEs from "numbro/languages/es-ES";
+import numbroEsMx from "numbro/languages/es-MX";
 import numbroFr from "numbro/languages/fr-FR";
 import numbroIt from "numbro/languages/it-IT";
 import numbroJa from "numbro/languages/ja-JP";
@@ -25,7 +26,8 @@ import numbroPl from "numbro/languages/pl-PL";
 import numbroPt from "numbro/languages/pt-PT";
 import numbroRu from "numbro/languages/ru-RU";
 import numbroTh from "numbro/languages/th-TH";
-import numbroZh from "numbro/languages/zh-CN";
+import numbroZhCn from "numbro/languages/zh-CN";
+import numbroZhTw from "numbro/languages/zh-TW";
 import UserData from "./UserData";
 
 export const I18N_NAMESPACE_FRONTEND = "frontend";
@@ -53,6 +55,7 @@ UserData.create();
 	numbroDe,
 	numbroEn,
 	numbroEs,
+	numbroEsMx,
 	numbroFr,
 	numbroIt,
 	numbroJa,
@@ -61,7 +64,8 @@ UserData.create();
 	numbroPt,
 	numbroRu,
 	numbroTh,
-	numbroZh,
+	numbroZhCn,
+	numbroZhTw,
 ].forEach(locale => {
 	numbro.registerLanguage(locale);
 });

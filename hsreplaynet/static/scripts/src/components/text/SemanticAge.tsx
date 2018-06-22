@@ -1,5 +1,5 @@
-import React from "react";
 import { distanceInWordsStrict, distanceInWordsToNow } from "date-fns";
+import React from "react";
 
 interface Props {
 	date?: Date | string;
