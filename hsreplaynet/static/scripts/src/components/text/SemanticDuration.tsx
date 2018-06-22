@@ -1,9 +1,6 @@
-import {
-	differenceInSeconds,
-	distanceInWords,
-	distanceInWordsStrict,
-} from "date-fns";
+import { differenceInSeconds } from "date-fns";
 import React from "react";
+import { i18nDistanceInWords, i18nDistanceInWordsStrict } from "../../i18n";
 
 interface Props {
 	from: Date;
@@ -20,8 +17,8 @@ export default class SemanticDuration extends React.Component<Props> {
 		// see https://www.w3.org/TR/2014/REC-html5-20141028/infrastructure.html#valid-duration-string
 
 		const humanReadable = strict
-			? distanceInWordsStrict(from, to)
-			: distanceInWords(from, to);
+			? i18nDistanceInWordsStrict(from, to)
+			: i18nDistanceInWords(from, to);
 
 		return <time dateTime={machineReadable}>{humanReadable}</time>;
 	}

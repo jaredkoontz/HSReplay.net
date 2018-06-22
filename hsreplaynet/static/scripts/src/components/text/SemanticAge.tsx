@@ -1,5 +1,8 @@
-import { distanceInWordsStrict, distanceInWordsToNow } from "date-fns";
 import React from "react";
+import {
+	i18nDistanceInWordsStrict,
+	i18nDistanceInWordsToNow,
+} from "../../i18n";
 
 interface Props {
 	date?: Date | string;
@@ -40,14 +43,13 @@ export default class SemanticAge extends React.Component<Props> {
 			date = new Date(date);
 		}
 
-		const machineReadable = date.toISOString();
 		const dateOpts = {
 			addSuffix: !noSuffix,
 		};
 		const phrasing = strict
-			? distanceInWordsStrict(new Date(), date, dateOpts)
-			: distanceInWordsToNow(date, dateOpts);
+			? i18nDistanceInWordsStrict(new Date(), date, dateOpts)
+			: i18nDistanceInWordsToNow(date, dateOpts);
 
-		return <time dateTime={machineReadable}>{phrasing}</time>;
+		return <time dateTime={date.toISOString()}>{phrasing}</time>;
 	}
 }

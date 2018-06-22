@@ -1,4 +1,4 @@
-import { addDays, format } from "date-fns";
+import { addDays } from "date-fns";
 import _ from "lodash";
 import React from "react";
 import { InjectedTranslateProps, translate } from "react-i18next";
@@ -16,6 +16,7 @@ import {
 	toDynamicFixed,
 	toTimeSeries,
 } from "../../helpers";
+import { i18nFormatDate } from "../../i18n";
 import { RenderData } from "../../interfaces";
 import ChartHighlighter from "./ChartHighlighter";
 
@@ -99,7 +100,9 @@ class PopularityLineChart extends React.Component<PopularityLineChartProps> {
 					<VictoryAxis
 						scale="time"
 						tickValues={metadata.seasonTicks}
-						tickFormat={tick => format(addDays(tick, 1), "MMMM")}
+						tickFormat={tick =>
+							i18nFormatDate(addDays(tick, 1), "MMMM")
+						}
 						style={{
 							axisLabel: { fontSize },
 							tickLabels: { fontSize },
@@ -173,7 +176,7 @@ class PopularityLineChart extends React.Component<PopularityLineChartProps> {
 							/>
 						}
 						labels={d =>
-							format(d.x, "YYYY-MM-DD") +
+							i18nFormatDate(d.x, "YYYY-MM-DD") +
 							": " +
 							sliceZeros(toDynamicFixed(d.y, 2)) +
 							"%"

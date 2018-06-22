@@ -1,3 +1,21 @@
+import {
+	distanceInWords,
+	distanceInWordsStrict,
+	distanceInWordsToNow,
+	format as fnsFormat,
+} from "date-fns";
+import fnsDe from "date-fns/locale/de";
+import fnsEn from "date-fns/locale/en";
+import fnsFr from "date-fns/locale/fr";
+import fnsIt from "date-fns/locale/it";
+import fnsJa from "date-fns/locale/ja";
+import fnsKo from "date-fns/locale/ko";
+import fnsPl from "date-fns/locale/pl";
+import fnsPt from "date-fns/locale/pt";
+import fnsRu from "date-fns/locale/ru";
+import fnsTh from "date-fns/locale/th";
+import fnsZhCn from "date-fns/locale/zh_cn";
+import fnsZhTw from "date-fns/locale/zh_tw";
 import i18n, { InitOptions } from "i18next";
 import CustomCallbackBackend from "i18next-callback-backend";
 import ICU from "i18next-icu";
@@ -69,6 +87,63 @@ UserData.create();
 ].forEach(locale => {
 	numbro.registerLanguage(locale);
 });
+
+function getFnsLocale(): string {
+	const locale = UserData.getLocale();
+
+	return (
+		{
+			de: fnsDe,
+			en: fnsEn,
+			fr: fnsFr,
+			it: fnsIt,
+			ja: fnsJa,
+			ko: fnsKo,
+			pl: fnsPl,
+			pt: fnsPt,
+			ru: fnsRu,
+			th: fnsTh,
+			"zh-hans": fnsZhCn,
+			"zh-hant": fnsZhTw,
+		}[locale] || fnsEn
+	);
+}
+
+export function i18nDistanceInWords(
+	dateToCompare: string | number | Date,
+	date: string | number | Date,
+	options?: object,
+): string {
+	options = options || {};
+	options["locale"] = getFnsLocale();
+	return distanceInWords(dateToCompare, date, options);
+}
+
+export function i18nDistanceInWordsStrict(
+	dateToCompare: string | number | Date,
+	date: string | number | Date,
+	options?: object,
+): string {
+	options = options || {};
+	options["locale"] = getFnsLocale();
+	return distanceInWordsStrict(dateToCompare, date, options);
+}
+
+export function i18nDistanceInWordsToNow(
+	dateToCompare: string | number | Date,
+	options?: object,
+): string {
+	options = options || {};
+	options["locale"] = getFnsLocale();
+	return distanceInWordsToNow(dateToCompare, options);
+}
+
+export function i18nFormatDate(
+	date: string | number | Date,
+	format?: string,
+): string {
+	return fnsFormat(date, format, { locale: getFnsLocale() });
+}
 
 export function formatNumber(n: number, mantissa: number = 0): string {
 	if (n === undefined || n === null) {
