@@ -2,6 +2,7 @@ from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib.flatpages.views import flatpage
 from django.contrib.sitemaps.views import sitemap
+from django.contrib.staticfiles.views import serve
 from django.views.generic import RedirectView
 from oauth2_provider.views import TokenView
 
@@ -114,11 +115,17 @@ urlpatterns = [
 	# redirects
 	url(r"^articles/(?P<pk>[^/]+)?", ArticlesRedirectView.as_view()),
 
+	# favicon (debug only)
+	url(
+		r"^favicon\.ico$", serve,
+		kwargs={"path": "images/favicon.ico"},
+	),
+
 	# sitemaps
 	url(
 		r"^sitemap\.xml", sitemap, {"sitemaps": SITEMAPS},
 		name="django.contrib.sitemaps.views.sitemap"
-	)
+	),
 ]
 
 
