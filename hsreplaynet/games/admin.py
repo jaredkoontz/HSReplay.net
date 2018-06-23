@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from hearthsim.identity.utils import EstimatedCountPaginator, admin_urlify as urlify
+from hsreplaynet.admin.utils import EstimatedCountPaginator, admin_urlify as urlify
 from hsreplaynet.uploads.models import UploadEvent
 from hsreplaynet.uploads.processing import queue_upload_event_for_reprocessing
 

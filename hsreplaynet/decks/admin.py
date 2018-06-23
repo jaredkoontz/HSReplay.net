@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from hearthsim.identity.utils import EstimatedCountPaginator, admin_urlify
+from hsreplaynet.admin.utils import EstimatedCountPaginator, admin_urlify
 
 from .models import (
 	Archetype, ArchetypeName, ArchetypeSuggestion, ClassClusterSnapshot,

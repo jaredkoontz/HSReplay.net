@@ -28,7 +28,6 @@
 					{% endif %}
 					<td>
 						{{ token }}
-						{% if user.is_staff %}(<a href="{% url 'admin:accounts_authtoken_change' token %}">Admin</a>){% endif %}
 					</td>
 					<td>{{ token.created|htmltime:"%F %X %Z" }}</td>
 				</tr>

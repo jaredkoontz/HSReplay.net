@@ -2,7 +2,7 @@
 
 hearthstone==4.3.10
 hearthstone_data
-hearthsim-identity==2.6.1
+hearthsim-identity==3.0.0
 https://github.com/HearthSim/hsarchetypes/archive/master.tar.gz
 https://github.com/HearthSim/hsredshift/archive/master.tar.gz
 
@@ -15,7 +15,7 @@ django-storages==1.6.6
 djangorestframework==3.8.2
 requests==2.18.4
 influxdb==5.0.0
-lxml==4.2.1
+lxml==4.2.2
 python-dateutil==2.7.3
 python-redis-lock[django]==3.2.0
 raven==6.9.0
