@@ -4,15 +4,12 @@ from allauth.socialaccount.models import SocialAccount
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from django.views.generic import (
-	CreateView, DeleteView, ListView, TemplateView, UpdateView, View
-)
+from django.views.generic import CreateView, DeleteView, TemplateView, UpdateView, View
 from django_reflinks.models import ReferralHit, ReferralLink
-from oauth2_provider.generators import generate_client_secret
 from oauth2_provider.models import AccessToken, get_application_model
 from shortuuid import ShortUUID
 
@@ -298,35 +295,3 @@ class ApplicationUpdateView(ApplicationBaseView, UpdateView):
 	template_name = "oauth2/application_update.html"
 	fields = ("name", "description", "homepage", "redirect_uris")
 	title = _("Your OAuth Application")
-
-
-class ResetSecretView(ApplicationBaseView):
-	def post(self, request, **kwargs):
-		app = get_object_or_404(self.get_queryset(), pk=kwargs["pk"])
-		app.client_secret = generate_client_secret()
-		if app.livemode:
-			app.client_secret = "sk_live_" + app.client_secret
-		else:
-			app.client_secret = "sk_test_" + app.client_secret
-		app.save()
-		return redirect(app)
-
-
-class RevokeAllTokensView(ApplicationBaseView):
-	def post(self, request, **kwargs):
-		app = get_object_or_404(self.get_queryset(), pk=kwargs["pk"])
-		app.accesstoken_set.all().delete()
-		return redirect(app)
-
-
-class UserRevocationView(LoginRequiredMixin, View):
-	model = AccessToken
-	next = reverse_lazy("oauth2_app_list")
-
-	def post(self, request):
-		token = request.POST.get("token")
-		if token:
-			obj = get_object_or_404(self.model, token=token)
-			obj.delete()
-			messages.info(self.request, _("Access has been revoked."))
-		return redirect(self.next)

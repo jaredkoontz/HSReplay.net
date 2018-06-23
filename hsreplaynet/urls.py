@@ -13,7 +13,10 @@ from .web.views import (
 from .web.views.archetypes import ArchetypeDetailView, DiscoverView, MetaOverviewView
 from .web.views.cards import CardDetailView, CardEditorView, CardsView, MyCardsView
 from .web.views.decks import DeckDetailView, DecksView, MyDecksView, TrendingDecksView
-from .web.views.oauth2 import OAuth2AuthorizeView, OAuth2LoginView
+from .web.views.oauth2 import (
+	OAuth2AuthorizeView, OAuth2LoginView, OAuth2ResetSecretView,
+	OAuth2RevokeAllTokensView, OAuth2RevokeView
+)
 from .web.views.premium import PremiumDetailView
 from .web.views.profiles import PackListView
 from .web.views.redeem import RedeemCodeView
@@ -95,6 +98,15 @@ urlpatterns = [
 	url(r"^oauth2/login/$", OAuth2LoginView, name="oauth2_login"),
 	url(r"^oauth2/authorize/$", OAuth2AuthorizeView, name="authorize"),
 	url(r"^oauth2/token/$", TokenView, name="token"),
+	url(
+		r"^oauth2/application/<int:pk>/reset_secret/$",
+		OAuth2ResetSecretView.as_view(), name="oauth2_reset_secret"
+	),
+	url(
+		r"^application/<int:pk>/revoke_all_tokens/$",
+		OAuth2RevokeAllTokensView.as_view(), name="oauth2_revoke_all_tokens"
+	),
+	url(r"^revoke/$", OAuth2RevokeView.as_view(), name="oauth2_revoke_access"),
 
 	# profiles (currently unused)
 	url(r"^profile/packs/$", PackListView.as_view(), name="profile_packs"),

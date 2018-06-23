@@ -38,15 +38,6 @@ urlpatterns = [
 		"application/<int:pk>/",
 		dashboard.ApplicationUpdateView.as_view(), name="oauth2_app_update"
 	),
-	path(
-		"application/<int:pk>/reset_secret/",
-		dashboard.ResetSecretView.as_view(), name="oauth2_reset_secret"
-	),
-	path(
-		"application/<int:pk>/revoke_all_tokens/",
-		dashboard.RevokeAllTokensView.as_view(), name="oauth2_revoke_all_tokens"
-	),
-	path("revoke/", dashboard.UserRevocationView.as_view(), name="oauth2_revoke_access"),
 
 	# Legacy
 	path("claim/<uuid:id>/", ClaimAccountView.as_view(), name="account_claim"),
