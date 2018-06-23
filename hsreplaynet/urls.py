@@ -96,10 +96,10 @@ urlpatterns = [
 	),
 
 	# oauth2
-	url(r"^oauth2/login/$", OAuth2LoginView, name="oauth2_login"),
-	url(r"^oauth2/authorize/$", OAuth2AuthorizeView, name="authorize"),
+	url(r"^oauth2/login/$", OAuth2LoginView.as_view(), name="oauth2_login"),
+	url(r"^oauth2/authorize/$", OAuth2AuthorizeView.as_view(), name="authorize"),
 	url(r"^oauth2/revoke/$", OAuth2RevokeView.as_view(), name="oauth2_revoke_access"),
-	url(r"^oauth2/token/$", TokenView, name="token"),
+	url(r"^oauth2/token/$", TokenView.as_view(), name="token"),
 	url(
 		r"^oauth2/application/reset_secret/$",
 		OAuth2ResetSecretView.as_view(), name="oauth2_reset_secret"
