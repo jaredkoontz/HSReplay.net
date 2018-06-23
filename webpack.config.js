@@ -43,6 +43,7 @@ module.exports = env => {
 	const makeEntry = name =>
 		path.join(__dirname, "hsreplaynet/static/scripts/src/entries/", name);
 	const entries = {
+		account_api: makeEntry("account_api"),
 		account_billing: makeEntry("account_billing"),
 		account_connections: makeEntry("account_connections"),
 		account_delete: makeEntry("account_delete"),
@@ -118,7 +119,9 @@ module.exports = env => {
 			filename: isProduction ? "[name].[chunkhash].js" : "[name].js",
 			sourceMapFilename: "[file].map",
 			path: path.join(__dirname, "build", "generated", "webpack"),
-			publicPath: isProduction ? exportedSettings.STATIC_URL + "webpack/" : "http://localhost:3000/",
+			publicPath: isProduction
+				? exportedSettings.STATIC_URL + "webpack/"
+				: "http://localhost:3000/",
 		},
 		resolve: {
 			extensions: [".ts", ".tsx", ".js"],
@@ -229,6 +232,6 @@ module.exports = env => {
 			host: "0.0.0.0",
 			port: 3000,
 			publicPath: "http://localhost:3000/",
-		}
+		},
 	};
 };

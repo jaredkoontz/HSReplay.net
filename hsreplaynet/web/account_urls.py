@@ -33,7 +33,7 @@ urlpatterns = [
 	),
 
 	# OAuth2
-	path("applications/", dashboard.ApplicationListView.as_view(), name="oauth2_app_list"),
+	path("applications/", dashboard.OAuth2ManageView.as_view(), name="oauth2_app_list"),
 	path(
 		"application/<int:pk>/",
 		dashboard.ApplicationUpdateView.as_view(), name="oauth2_app_update"

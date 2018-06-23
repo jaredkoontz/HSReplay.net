@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import (
@@ -243,6 +243,50 @@ class WebhookDeleteView(WebhookFormMixin, DeleteView):
 Application = get_application_model()
 
 
+class OAuth2ManageView(LoginRequiredMixin, SimpleReactView):
+	bundle = "account_api"
+	base_template = "account/base.html"
+	title = _("OAuth Applications")
+
+	def serialize_app(self, application) -> dict:
+		ret = {
+			"id": application.id,
+			"client_id": application.client_id,
+			"name": str(application),
+			"description": application.description,
+			"homepage": application.homepage,
+		}
+
+		if application.user == self.request.user:
+			ret["token_count"] = application.accesstoken_set.count()
+			ret["update_url"] = reverse("oauth2_app_update", kwargs={"pk": application.pk})
+
+		return ret
+
+	def get_react_context(self):
+		ret = {
+			"access_tokens": [],
+			"applications": [],
+			"urls": {
+				"revoke_access": reverse("oauth2_revoke_access"),
+			}
+		}
+
+		for token in AccessToken.objects.filter(user=self.request.user).order_by("-created"):
+			ret["access_tokens"].append({
+				"application": self.serialize_app(token.application),
+				"token": token.token,
+				"scopes": token.scopes,
+				"created": token.created,
+				"last_used": token.created,
+			})
+
+		for app in Application.objects.filter(user=self.request.user):
+			ret["applications"].append(self.serialize_app(app))
+
+		return ret
+
+
 class ApplicationBaseView(LoginRequiredMixin, RequestMetaMixin, View):
 	model = Application
 
@@ -254,24 +298,6 @@ class ApplicationUpdateView(ApplicationBaseView, UpdateView):
 	template_name = "oauth2/application_update.html"
 	fields = ("name", "description", "homepage", "redirect_uris")
 	title = _("Your OAuth Application")
-
-
-class ApplicationListView(ApplicationBaseView, ListView):
-	"""
-	Mixed view that lists both the authorized apps for the user,
-	as well as the application the user *owns*.
-	"""
-
-	template_name = "account/oauth_apps.html"
-	title = _("OAuth Applications")
-
-	def get_context_data(self, **kwargs):
-		context = super().get_context_data(**kwargs)
-		authorized_tokens = AccessToken.objects.filter(
-			user=self.request.user,
-		).order_by("-created")
-		context["authorized_tokens"] = authorized_tokens
-		return context
 
 
 class ResetSecretView(ApplicationBaseView):
