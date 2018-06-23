@@ -1,5 +1,3 @@
-import logging
-
 from allauth.socialaccount.models import SocialAccount
 from django.contrib import messages
 from django.contrib.auth import logout
@@ -20,9 +18,6 @@ from hsreplaynet.web.html import RequestMetaMixin
 from hsreplaynet.webhooks.models import WebhookDelivery, WebhookEndpoint
 
 from . import SimpleReactView
-
-
-logger = logging.getLogger("hsreplaynet")
 
 
 ##
@@ -107,7 +102,7 @@ class DeleteAccountView(LoginRequiredMixin, SimpleReactView):
 			messages.error(request, _("This account cannot be deleted."))
 			return redirect("account_delete")
 
-		logger.info(f"Deleting account: {request.user}")
+		log.info("Deleting account: %s", request.user)
 
 		# Record reason and message in influx
 		influx_metric("hsreplaynet_account_delete", {
