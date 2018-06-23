@@ -237,9 +237,6 @@ class WebhookDeleteView(WebhookFormMixin, DeleteView):
 ##
 # OAuth2 management
 
-Application = get_application_model()
-
-
 class OAuth2ManageView(LoginRequiredMixin, SimpleReactView):
 	bundle = "account_api"
 	base_template = "account/base.html"
@@ -278,20 +275,18 @@ class OAuth2ManageView(LoginRequiredMixin, SimpleReactView):
 				"last_used": token.created,
 			})
 
+		Application = get_application_model()
 		for app in Application.objects.filter(user=self.request.user):
 			ret["applications"].append(self.serialize_app(app))
 
 		return ret
 
 
-class ApplicationBaseView(LoginRequiredMixin, RequestMetaMixin, View):
-	model = Application
-
-	def get_queryset(self):
-		return self.model.objects.filter(user=self.request.user)
-
-
-class ApplicationUpdateView(ApplicationBaseView, UpdateView):
+class ApplicationUpdateView(LoginRequiredMixin, RequestMetaMixin, UpdateView):
 	template_name = "oauth2/application_update.html"
 	fields = ("name", "description", "homepage", "redirect_uris")
 	title = _("Your OAuth Application")
+	model = get_application_model()
+
+	def get_queryset(self):
+		return self.model.objects.filter(user=self.request.user)
