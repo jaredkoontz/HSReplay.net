@@ -2,7 +2,7 @@ from allauth.socialaccount.models import SocialAccount
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -248,7 +248,9 @@ class OAuth2ManageView(LoginRequiredMixin, SimpleReactView):
 
 		if application.user == self.request.user:
 			ret["token_count"] = application.accesstoken_set.count()
-			ret["update_url"] = reverse("oauth2_app_update", kwargs={"pk": application.pk})
+			ret["update_url"] = reverse(
+				"oauth2_app_update", kwargs={"client_id": application.client_id}
+			)
 
 		return ret
 
@@ -281,7 +283,12 @@ class ApplicationUpdateView(LoginRequiredMixin, RequestMetaMixin, UpdateView):
 	template_name = "oauth2/application_update.html"
 	fields = ("name", "description", "homepage", "redirect_uris")
 	title = _("Your OAuth Application")
-	model = get_application_model()
 
 	def get_queryset(self):
-		return self.model.objects.filter(user=self.request.user)
+		Application = get_application_model()
+		return Application.objects.filter(user=self.request.user)
+
+	def get_object(self):
+		return get_object_or_404(
+			self.get_queryset(), client_id=self.kwargs["client_id"],
+		)

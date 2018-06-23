@@ -9,10 +9,11 @@
 		<p>
 			<strong>{{ application.accesstoken_set.count }}</strong> access tokens.
 			<form
-				action="{% url 'oauth2_revoke_all_tokens' pk=application.pk %}" method="POST"
+				action="{% url 'oauth2_revoke_all_tokens' %}" method="POST"
 				onsubmit="return confirm('Are you sure? Your users will have to be re-authorized.')"
 			>
 				{% csrf_token %}
+				<input type="hidden" name="client_id" value="{{ application.client_id }}"/>
 				<input type="submit" class="btn btn-danger" value="Revoke all tokens"/>
 			</form>
 		</p>
@@ -26,10 +27,11 @@
 		<p>
 			If your secret has been compromised, you should reset it.
 			<form
-				action="{% url 'oauth2_reset_secret' pk=application.pk %}" method="POST"
+				action="{% url 'oauth2_reset_secret' %}" method="POST"
 				onsubmit="return confirm('This is immediate and there is no undo!')"
 			>
 				{% csrf_token %}
+				<input type="hidden" name="client_id" value="{{ application.client_id }}"/>
 				<input type="submit" class="btn btn-danger" value="Reset client secret"/>
 			</form>
 		</p>

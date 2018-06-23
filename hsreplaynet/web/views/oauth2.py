@@ -1,8 +1,10 @@
 from allauth.account.views import LoginView
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
+from django.utils.text import format_lazy
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import View
 from oauth2_provider.generators import generate_client_secret
@@ -48,28 +50,42 @@ class OAuth2RevokeView(LoginRequiredMixin, View):
 ##
 # Application admin views
 
-class OAuth2RevokeAllTokensView(LoginRequiredMixin, View):
+
+class BaseOAuth2ApplicationManageView(LoginRequiredMixin, View):
 	def get_queryset(self):
 		Application = get_application_model()
 		return Application.objects.filter(user=self.request.user)
 
-	def post(self, request, **kwargs):
-		app = get_object_or_404(self.get_queryset(), pk=kwargs["pk"])
-		app.accesstoken_set.all().delete()
-		return redirect(app)
+	def get_object(self):
+		return self.get_queryset().filter(
+			client_id=self.request.POST.get("client_id", "")
+		).first()
+
+	def post(self, request):
+		application = self.get_object()
+		if not application:
+			return HttpResponseBadRequest("No valid application found.")
+		self.handle(application)
+		return redirect(application)
+
+	def handle(self, application):
+		raise NotImplementedError
 
 
-class OAuth2ResetSecretView(LoginRequiredMixin, View):
-	def get_queryset(self):
-		Application = get_application_model()
-		return Application.objects.filter(user=self.request.user)
+class OAuth2RevokeAllTokensView(BaseOAuth2ApplicationManageView):
+	def handle(self, application):
+		count = application.accesstoken_set.all().delete()
+		messages.info(
+			self.request,
+			format_lazy(_("{count} access tokens deleted."), count=count)
+		)
 
-	def post(self, request, **kwargs):
-		app = get_object_or_404(self.get_queryset(), pk=kwargs["pk"])
-		app.client_secret = generate_client_secret()
-		if app.livemode:
-			app.client_secret = "sk_live_" + app.client_secret
+
+class OAuth2ResetSecretView(BaseOAuth2ApplicationManageView):
+	def handle(self, application):
+		application.client_secret = generate_client_secret()
+		if application.livemode:
+			application.client_secret = "sk_live_" + application.client_secret
 		else:
-			app.client_secret = "sk_test_" + app.client_secret
-		app.save()
-		return redirect(app)
+			application.client_secret = "sk_test_" + application.client_secret
+		application.save()

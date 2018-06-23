@@ -97,16 +97,16 @@ urlpatterns = [
 	# oauth2
 	url(r"^oauth2/login/$", OAuth2LoginView, name="oauth2_login"),
 	url(r"^oauth2/authorize/$", OAuth2AuthorizeView, name="authorize"),
+	url(r"^oauth2/revoke/$", OAuth2RevokeView.as_view(), name="oauth2_revoke_access"),
 	url(r"^oauth2/token/$", TokenView, name="token"),
 	url(
-		r"^oauth2/application/<int:pk>/reset_secret/$",
+		r"^oauth2/application/reset_secret/$",
 		OAuth2ResetSecretView.as_view(), name="oauth2_reset_secret"
 	),
 	url(
-		r"^application/<int:pk>/revoke_all_tokens/$",
+		r"^oauth2/revoke_all_tokens/$",
 		OAuth2RevokeAllTokensView.as_view(), name="oauth2_revoke_all_tokens"
 	),
-	url(r"^revoke/$", OAuth2RevokeView.as_view(), name="oauth2_revoke_access"),
 
 	# profiles (currently unused)
 	url(r"^profile/packs/$", PackListView.as_view(), name="profile_packs"),
