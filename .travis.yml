@@ -26,6 +26,15 @@ jobs:
       script: yarn run $SCRIPT
 
     - stage: test
+      language: node_js
+      node_js: "node"
+      env: SCRIPT=jest
+      install:
+        - yarn --pure-lockfile
+        - scripts/get_vendor_static.sh
+      script: yarn run $SCRIPT
+
+    - stage: test
       language: python
       python: "3.6"
       env: TOXENV=flake8
