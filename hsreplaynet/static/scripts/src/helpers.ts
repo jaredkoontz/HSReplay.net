@@ -1,3 +1,4 @@
+/// <reference path="./global.d.ts" />
 import React from "react";
 import CardData from "./CardData";
 import { Colors } from "./Colors";

@@ -1,0 +1,96 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ManaCurve renders correctly 1`] = `
+<ul
+  className="mana-curve"
+>
+  <li>
+    <span
+      data-cost={0}
+      data-count={2}
+      style={
+        Object {
+          "height": "28.571428571428573%",
+        }
+      }
+    />
+  </li>
+  <li>
+    <span
+      data-cost={1}
+      data-count=""
+      style={
+        Object {
+          "height": "0%",
+        }
+      }
+    />
+  </li>
+  <li>
+    <span
+      data-cost={2}
+      data-count={6}
+      style={
+        Object {
+          "height": "85.71428571428571%",
+        }
+      }
+    />
+  </li>
+  <li>
+    <span
+      data-cost={3}
+      data-count={4}
+      style={
+        Object {
+          "height": "57.142857142857146%",
+        }
+      }
+    />
+  </li>
+  <li>
+    <span
+      data-cost={4}
+      data-count={6}
+      style={
+        Object {
+          "height": "85.71428571428571%",
+        }
+      }
+    />
+  </li>
+  <li>
+    <span
+      data-cost={5}
+      data-count={7}
+      style={
+        Object {
+          "height": "100%",
+        }
+      }
+    />
+  </li>
+  <li>
+    <span
+      data-cost={6}
+      data-count={1}
+      style={
+        Object {
+          "height": "14.285714285714286%",
+        }
+      }
+    />
+  </li>
+  <li>
+    <span
+      data-cost="7+"
+      data-count={4}
+      style={
+        Object {
+          "height": "57.142857142857146%",
+        }
+      }
+    />
+  </li>
+</ul>
+`;
