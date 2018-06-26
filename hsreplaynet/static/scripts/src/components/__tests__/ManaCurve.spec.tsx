@@ -29,7 +29,7 @@ describe("ManaCurve", () => {
 		const component = renderer.create(
 			<ManaCurve cards={firebatDruidDeck} />,
 		);
-		let tree = component.toJSON();
+		const tree = component.toJSON();
 		expect(tree).toMatchSnapshot();
 	});
 
@@ -51,8 +51,8 @@ describe("ManaCurve", () => {
 			<ManaCurve cards={threeEightsDeck} />,
 		);
 
-		let threeSevensTree = threeSevensComponent.toJSON();
-		let threeEightsTree = threeEightsComponent.toJSON();
+		const threeSevensTree = threeSevensComponent.toJSON();
+		const threeEightsTree = threeEightsComponent.toJSON();
 		expect(threeSevensTree).toMatchObject(threeEightsTree);
 	});
 });

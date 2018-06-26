@@ -1,9 +1,9 @@
 import {
-	nameMatch,
-	modeMatch,
 	formatMatch,
-	resultMatch,
 	heroMatch,
+	modeMatch,
+	nameMatch,
+	resultMatch,
 } from "../GameFilters";
 import { GameReplay, GlobalGame, GlobalGamePlayer } from "../interfaces";
 import * as TypeMoq from "typemoq";
