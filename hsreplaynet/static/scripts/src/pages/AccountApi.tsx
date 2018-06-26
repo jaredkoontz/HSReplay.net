@@ -188,7 +188,7 @@ class AccountApi extends React.Component<Props, State> {
 					<h3>{t("Developer applications")}</h3>
 
 					<div className="inner">
-						{applications ? (
+						{applications && applications.length ? (
 							<table className="table table-bordered">
 								<thead>
 									<th>{t("Application")}</th>
