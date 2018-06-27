@@ -8,6 +8,7 @@ from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 from django.utils.http import is_safe_url
 from django.utils.timezone import now
+from django.utils.translation import gettext as _
 from django.views.generic import View
 from djstripe.enums import SubscriptionStatus
 from djstripe.settings import STRIPE_LIVE_MODE
@@ -254,11 +255,11 @@ class SubscribeView(LoginRequiredMixin, PaymentsMixin, View):
 		except InvalidRequestError:
 			# Most likely, we got a bad token (eg. bad request)
 			# This is logged by Stripe.
-			messages.error(self.request, "Error adding payment card")
+			messages.error(self.request, _("Error adding payment card"))
 			return False
 		except CardError:
 			# Card was declined.
-			messages.error(self.request, "Your card was declined. Please use a different card.")
+			messages.error(self.request, _("Your card was declined. Please use a different card."))
 			return False
 
 		# Stripe Checkout supports capturing email.
@@ -273,11 +274,10 @@ class SubscribeView(LoginRequiredMixin, PaymentsMixin, View):
 					self.request, self.request.user, email, confirm=True
 				)
 			except IntegrityError:
-				messages.error(
-					self.request,
+				messages.error(self.request, _(
 					"That email address is associated with another account. "
 					"If you'd like to merge accounts, please contact us!"
-				)
+				))
 				return False
 			# Then we set it on the account object itself
 			self.request.user.email = email
@@ -303,7 +303,7 @@ class SubscribeView(LoginRequiredMixin, PaymentsMixin, View):
 			if customer.valid_subscriptions.count() > 1:
 				# The customer is already in an error state -- this should not happen.
 				messages.error(
-					self.request, "You have multiple subscriptions. Please contact us."
+					self.request, _("You have multiple subscriptions. Please contact us.")
 				)
 				return False
 
@@ -317,18 +317,17 @@ class SubscribeView(LoginRequiredMixin, PaymentsMixin, View):
 					# Maybe the subscription already ran out.
 					# Sync the subscriptions and display an error.
 					customer._sync_subscriptions()
-					messages.error(self.request, "Your subscription has expired.")
+					messages.error(self.request, _("Your subscription has expired."))
 					return False
 				return True
 
 			if subscription.status == SubscriptionStatus.past_due:
-				messages.error(
-					self.request,
+				messages.error(self.request, _(
 					"Your current subscription is still active. "
 					"If you are having billing issues, please contact us!"
-				)
+				))
 
-			messages.error(self.request, "You are already subscribed!")
+			messages.error(self.request, _("You are already subscribed!"))
 			return False
 
 		lazy_discounts = customer.subscriber.lazy_discounts.filter(used=False)
@@ -356,7 +355,7 @@ class SubscribeView(LoginRequiredMixin, PaymentsMixin, View):
 			customer.subscribe(plan_id, charge_immediately=False)
 		except InvalidRequestError:
 			# Most likely, bad form data. This will be logged by Stripe.
-			messages.error(self.request, "Could not process subscription.")
+			messages.error(self.request, _("Could not process subscription."))
 			return False
 		except CardError as e:
 			return self.handle_card_error(e)
@@ -373,16 +372,16 @@ class SubscribeView(LoginRequiredMixin, PaymentsMixin, View):
 	def handle_card_error(self, e):
 		if e.code in ("do_not_honor", "transaction_not_allowed"):
 			# Generic unknown decline reason
-			message = "Your card declined the charge. Please contact your bank for information."
+			message = _("Your card declined the charge. Please contact your bank for information.")
 		elif e.code == "currency_not_supported":
-			message = "Your card does not support payments in USD. Please try a different card."
+			message = _("Your card does not support payments in USD. Please try a different card.")
 		elif e.code == "card_velocity_exceeded":
-			message = "Your card has exceeded its credit limit. Please use a different one."
+			message = _("Your card has exceeded its credit limit. Please use a different one.")
 		elif e.code == "insufficient_funds":
-			message = "Your card has insufficient funds to proceed."
+			message = _("Your card has insufficient funds to proceed.")
 		else:
 			# Card was declined for some other reason
-			message = (
+			message = _(
 				"Your card was declined, you have not been charged. "
 				"Please try a different card; contact us if this persists."
 			)
@@ -419,19 +418,19 @@ class CancelSubscriptionView(LoginRequiredMixin, PaymentsMixin, View):
 	success_url = reverse_lazy("billing_methods")
 
 	def fail(self, message):
-		message += " Please contact us if you are receiving this in error."
+		message += _(" Please contact us if you are receiving this in error.")
 		messages.error(self.request, message)
 		return False
 
 	def handle_form(self, request):
 		if self.customer.active_subscriptions.count() > 1:
-			return self.fail("You have multiple subscriptions - something is wrong.")
+			return self.fail(_("You have multiple subscriptions - something is wrong."))
 
 		subscription = self.customer.subscription
 
 		if not subscription:
 			# The customer is not subscribed
-			return self.fail("You are not subscribed.")
+			return self.fail(_("You are not subscribed."))
 
 		# Whether the cancellation has effect at the end of the period or immediately
 		# True by default (= the subscription remains, will cancel once it ends)
@@ -446,9 +445,9 @@ class CancelSubscriptionView(LoginRequiredMixin, PaymentsMixin, View):
 			if self.can_cancel_immediately(self.customer):
 				at_period_end = False
 			else:
-				return self.fail("Your subscription cannot be canceled immediately.")
+				return self.fail(_("Your subscription cannot be canceled immediately."))
 		else:
-			return self.fail("Could not cancel your subscription.")
+			return self.fail(_("Could not cancel your subscription."))
 
 		CancellationRequest.objects.create(
 			user=request.user,
@@ -457,7 +456,7 @@ class CancelSubscriptionView(LoginRequiredMixin, PaymentsMixin, View):
 				k: (True if v == "on" else v) for k, v in request.POST.items() if k.startswith("r-")
 			}
 		)
-		messages.info(self.request, "Your subscription has been cancelled.")
+		messages.info(self.request, _("Your subscription has been cancelled."))
 
 		self.customer.subscription.cancel(at_period_end=at_period_end)
 		return True
@@ -516,7 +515,7 @@ class UpdateCardView(LoginRequiredMixin, View):
 			try:
 				stripe_customer.save()
 			except InvalidRequestError:
-				messages.error(self.request, "Could not update default card.")
+				messages.error(self.request, _("Could not update default card."))
 				# This may happen if the card does not exist (attempt to save
 				# a default card that does not exist). Resync the customer's cards.
 				customer._sync_cards()
@@ -534,7 +533,7 @@ class BasePaypalView(View):
 	fail_url = reverse_lazy("premium")
 
 	def fail(self, message):
-		message = message + " Please contact us if you are seeing this in error."
+		message = message + _(" Please contact us if you are seeing this in error.")
 		messages.error(self.request, message)
 		return redirect(self.fail_url)
 
@@ -553,19 +552,19 @@ class PaypalSuccessView(BasePaypalView):
 
 		token = request.GET.get("token", "")
 		if not token:
-			return self.fail("Unable to complete subscription.")
+			return self.fail(_("Unable to complete subscription."))
 
 		try:
 			prepared_agreement = PreparedBillingAgreement.objects.get(id=token)
 		except PreparedBillingAgreement.DoesNotExist:
-			return self.fail("Invalid subscription token.")
+			return self.fail(_("Invalid subscription token."))
 
 		if prepared_agreement.user != self.request.user:
-			return self.fail("You are not logged in as the correct user.")
+			return self.fail(_("You are not logged in as the correct user."))
 
 		prepared_agreement.execute()
 
-		messages.info(self.request, "You are now subscribed with PayPal!")
+		messages.info(self.request, _("You are now subscribed with PayPal!"))
 		return redirect(self.get_success_url())
 
 
@@ -577,11 +576,11 @@ class PaypalCancelView(BasePaypalView):
 			try:
 				prepared_agreement = PreparedBillingAgreement.objects.get(id=token)
 			except PreparedBillingAgreement.DoesNotExist:
-				return self.fail("Invalid token while cancelling payment.")
+				return self.fail(_("Invalid token while cancelling payment."))
 
 			prepared_agreement.cancel()
 
-		return self.fail("Your payment was interrupted.")
+		return self.fail(_("Your payment was interrupted."))
 
 
 class PaypalSubscribeView(BasePaypalView):
@@ -589,12 +588,12 @@ class PaypalSubscribeView(BasePaypalView):
 		from djpaypal.models import BillingPlan
 		id = request.POST.get("plan", "")
 		if not id:
-			return self.fail("Could not determine your plan.")
+			return self.fail(_("Could not determine your plan."))
 
 		try:
 			plan = BillingPlan.objects.get(id=id)
 		except BillingPlan.DoesNotExist:
-			return self.fail("Invalid Paypal plan.")
+			return self.fail(_("Invalid Paypal plan."))
 
 		# The start date of the plan is equal to a full period of the plan's
 		# payment definition after now.
