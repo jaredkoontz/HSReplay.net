@@ -58,6 +58,7 @@ urlpatterns = [
 	url(r"^admin/", include("hsreplaynet.admin.urls")),
 	url(r"^analytics/", include("hsreplaynet.analytics.urls")),
 	url(r"^api/", include("hsreplaynet.api.urls")),
+	url(r"^partner-stats/", include("hsreplaynet.api.partner.urls")),
 	url(r"^account/", include("hsreplaynet.web.account_urls")),
 	url(r"^account/billing/", include("hsreplaynet.billing.urls")),
 	url(r"^email/bounces/", include("django_bouncy.urls")),

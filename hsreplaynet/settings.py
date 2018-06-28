@@ -312,6 +312,7 @@ OAUTH2_PROVIDER = {
 		"tournaments:write": "Write access to the tournaments service",
 		"webhooks:read": "View your webhooks",
 		"webhooks:write": "Create and delete webhooks on your behalf",
+		"partner.stats:read": "Access the Partner Stats API"
 	},
 	"ALLOWED_REDIRECT_URI_SCHEMES": ["https", "http"],
 	"CLIENT_ID_GENERATOR_CLASS": "hsreplaynet.api.generators.ClientIdGenerator",
