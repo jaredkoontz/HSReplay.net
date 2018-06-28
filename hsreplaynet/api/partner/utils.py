@@ -1,0 +1,2 @@
+class QueryDataNotAvailableException(Exception):
+	pass
