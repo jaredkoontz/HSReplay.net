@@ -112,6 +112,7 @@ MIDDLEWARE = [
 	"hsreplaynet.web.middleware.DoNotTrackMiddleware",
 	"hsreplaynet.web.middleware.SetRemoteAddrFromForwardedFor",
 	"hsreplaynet.web.middleware.UserLocaleMiddleware",
+	"hsreplaynet.web.middleware.HostLanguageMiddleware",
 	"hsreplaynet.web.middleware.MetaTagsMiddleware",
 ]
 

@@ -78,6 +78,22 @@ class UserLocaleMiddleware:
 		return response
 
 
+class HostLanguageMiddleware:
+	PARAM = "hl"
+
+	def __init__(self, get_response):
+		self.get_response = get_response
+
+	def __call__(self, request):
+		if request.method == "GET" and self.PARAM in request.GET:
+			request.host_language = request.GET.get(self.PARAM)
+			translation.activate(request.host_language)
+			request.LANGUAGE_CODE = translation.get_language()
+
+		response = self.get_response(request)
+		return response
+
+
 class SetRemoteAddrFromForwardedFor:
 	"""
 	Middleware that sets REMOTE_ADDR based on HTTP_X_FORWARDED_FOR, if the
