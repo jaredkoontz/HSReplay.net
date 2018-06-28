@@ -2,7 +2,7 @@ from io import StringIO
 
 import pytest
 from django.core.management import call_command
-from oauth2_provider.models import AccessToken, get_application_model
+from oauth2_provider.models import AccessToken
 
 
 @pytest.fixture
