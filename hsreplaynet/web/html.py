@@ -1,5 +1,8 @@
+from urllib.parse import urlparse
+
 from django.conf import settings
 from django.contrib.staticfiles.templatetags.staticfiles import static
+from django.http import QueryDict
 from django.utils.html import escape
 
 
@@ -101,6 +104,21 @@ class HTMLHead:
 		if self.canonical_url:
 			tags.append(HTMLTag("meta", attrs={"property": "og:url", "content": self.canonical_url}))
 			tags.append(HTMLTag("link", attrs={"rel": "canonical", "href": self.canonical_url}))
+
+		url = urlparse(self.request.build_absolute_uri(self.request.get_full_path()))
+		query_dict = QueryDict(url.query, mutable=True)
+		for language_code, _ in settings.LANGUAGES:
+			query_dict["hl"] = language_code
+			url = url._replace(query=query_dict.urlencode())
+			tags.append(HTMLTag("link", attrs={
+				"rel": "alternate", "hreflang": language_code, "href": url.geturl()
+			}))
+
+		del query_dict["hl"]
+		url = url._replace(query=query_dict.urlencode())
+		tags.append(HTMLTag("link", attrs={
+			"rel": "alternate", "hreflang": "x-default", "href": url.geturl(),
+		}))
 
 		for k, v in self.opengraph.items():
 			tags.append(HTMLTag("meta", attrs={"property": k, "content": v}))
