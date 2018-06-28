@@ -63,7 +63,8 @@ class ArchetypesView(ListAPIView):
 			return []
 		return [
 			archetype for archetype in Archetype.objects.live().all() if
-			archetype.standard_signature is not None
+			archetype.standard_ccp_signature and
+			archetype.standard_ccp_signature["components"]
 		]
 
 	def _get_decks(self, game_type):
