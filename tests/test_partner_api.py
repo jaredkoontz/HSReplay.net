@@ -128,7 +128,6 @@ def test_archetypes_serializer(archetypes_serializer_data):
 
 	mock_data = dict(
 		game_type="RANKED_STANDARD",
-		# archetype=archetypes_serializer_data["archetype"],
 		archetype=archetype,
 		decks=archetypes_serializer_data["decks"],
 		popularity=archetypes_serializer_data["popularity"],
@@ -189,6 +188,30 @@ def test_archetypes_serializer(archetypes_serializer_data):
 	assert ranked_standard["best_performing_deck"]["url"] == "https://hsreplay.net/decks/abc2/"
 	assert "winrate" in ranked_standard["best_performing_deck"]
 	assert ranked_standard["best_performing_deck"]["winrate"] == 51.51
+
+
+@pytest.mark.django_db
+def test_archetypes_serializer_low_data(archetypes_serializer_data):
+	archetype = Archetype.objects.create(
+		id=2,
+		name="Archetype 2",
+		player_class=enums.CardClass.DRUID,
+	)
+
+	matchups = archetypes_serializer_data["matchups"]
+	matchups["2"]["3"]["total_games"] = ArchetypesSerializer.MIN_GAMES_THRESHOLD - 1
+
+	mock_data = dict(
+		game_type="RANKED_STANDARD",
+		archetype=archetype,
+		decks=archetypes_serializer_data["decks"],
+		popularity=archetypes_serializer_data["popularity"],
+		matchups=matchups
+	)
+
+	serializer = ArchetypesSerializer(instance=mock_data)
+	data = serializer.data
+	assert not data
 
 
 def test_archetypes_view_no_redshift_data(client, mocker, partner_token):

@@ -2,11 +2,21 @@ from rest_framework.serializers import Serializer, SerializerMethodField
 
 
 class ArchetypesSerializer(Serializer):
+	MIN_GAMES_THRESHOLD = 100
+	game_types_data = None
+
 	id = SerializerMethodField()
 	name = SerializerMethodField()
 	player_class = SerializerMethodField()
 	url = SerializerMethodField()
 	game_types = SerializerMethodField()
+
+	def to_representation(self, instance):
+		data = self.get_game_types(instance)[instance["game_type"]]
+		for key in data.keys():
+			if not data[key]:
+				return {}
+		return super().to_representation(instance)
 
 	def get_id(self, instance):
 		return instance["archetype"].id
@@ -23,6 +33,8 @@ class ArchetypesSerializer(Serializer):
 		return "https://hsreplay.net%s" % instance["archetype"].get_absolute_url()
 
 	def get_game_types(self, instance):
+		if self.game_types_data:
+			return self.game_types_data
 		result = dict()
 		result[instance["game_type"]] = dict(
 			winrate=self._get_archetype_data(instance, "win_rate"),
@@ -33,6 +45,7 @@ class ArchetypesSerializer(Serializer):
 			most_popular_deck=self._get_sorted_deck(instance, "total_games", True),
 			best_performing_deck=self._get_sorted_deck(instance, "win_rate", True),
 		)
+		self.game_types_data = result
 		return result
 
 	def _get_sorted_deck(self, instance, key, reverse):
@@ -70,11 +83,10 @@ class ArchetypesSerializer(Serializer):
 		all_matchups = instance["matchups"]
 		if not all_matchups or archetype_id not in all_matchups:
 			return None
-		min_games_threshold = 100
 		matchups = sorted([
 			dict(id=int(id), winrate=data["win_rate"])
 			for id, data in all_matchups[archetype_id].items() if
-			data["total_games"] > min_games_threshold and int(id) > 0
+			data["total_games"] >= self.MIN_GAMES_THRESHOLD and int(id) > 0
 		], key=lambda x: x["winrate"], reverse=reverse)
 		if matchups:
 			return matchups[0]

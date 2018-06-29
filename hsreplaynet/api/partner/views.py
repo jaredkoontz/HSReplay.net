@@ -40,7 +40,7 @@ class ArchetypesView(ListAPIView):
 		except QueryDataNotAvailableException:
 			return Response(status=status.HTTP_202_ACCEPTED)
 		serializer = self.get_serializer(queryset, many=True)
-		return Response(serializer.data)
+		return Response(d for d in serializer.data if d)
 
 	def get_queryset(self):
 		queryset = []
@@ -49,11 +49,6 @@ class ArchetypesView(ListAPIView):
 			popularity = self._get_archetype_popularity(game_type)
 			matchups = self._get_archetype_matchups(game_type)
 			for archetype in self._get_archetypes(game_type):
-				if (
-					not self._archetype_has_popularity_data(archetype, popularity) or
-					not self._archetype_has_matchup_data(archetype, matchups)
-				):
-					continue
 				queryset.append(dict(
 					game_type=game_type,
 					archetype=archetype,
@@ -62,18 +57,6 @@ class ArchetypesView(ListAPIView):
 					matchups=matchups,
 				))
 		return queryset
-
-	def _archetype_has_popularity_data(self, archetype, popularity):
-		# Temporary workaround to ignore outdated archetypes
-		for key in popularity.keys():
-			for archetype_popularity in popularity[key]:
-				if archetype_popularity["archetype_id"] == archetype.id:
-					return True
-		return False
-
-	def _archetype_has_matchup_data(self, archetype, matchups):
-		# Temporary workaround to ignore outdated archetypes
-		return str(archetype.id) in matchups.keys()
 
 	def _get_archetypes(self, game_type):
 		if game_type is not "RANKED_STANDARD":
