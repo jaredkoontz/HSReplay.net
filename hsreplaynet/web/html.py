@@ -102,10 +102,13 @@ class HTMLHead:
 		tags += self._link_tags
 
 		if self.canonical_url:
+			base_url = self.canonical_url
 			tags.append(HTMLTag("meta", attrs={"property": "og:url", "content": self.canonical_url}))
 			tags.append(HTMLTag("link", attrs={"rel": "canonical", "href": self.canonical_url}))
+		else:
+			base_url = self.request.build_absolute_uri(self.request.get_full_path())
 
-		url = urlparse(self.request.build_absolute_uri(self.request.get_full_path()))
+		url = urlparse(base_url)
 		query_dict = QueryDict(url.query, mutable=True)
 		for language_code, _ in settings.LANGUAGES:
 			query_dict["hl"] = language_code
