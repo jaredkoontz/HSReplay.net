@@ -74,7 +74,7 @@ class ArchetypesSerializer(Serializer):
 		matchups = sorted([
 			dict(id=int(id), winrate=data["win_rate"])
 			for id, data in all_matchups[archetype_id].items() if
-			data["total_games"] > min_games_threshold
+			data["total_games"] > min_games_threshold and int(id) > 0
 		], key=lambda x: x["winrate"], reverse=reverse)
 		if matchups:
 			return matchups[0]
