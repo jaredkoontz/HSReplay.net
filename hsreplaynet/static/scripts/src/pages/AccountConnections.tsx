@@ -141,7 +141,10 @@ class AccountConnections extends React.Component<Props, State> {
 							<Trans>
 								Do you stream Hearthstone on Twitch? Check out
 								the{" "}
-								<a href="https://articles.hsreplay.net/2017/10/26/twitch-extension-for-hearthstone-deck-tracker/">
+								<a
+									href="https://articles.hsreplay.net/2017/10/26/twitch-extension-for-hearthstone-deck-tracker/"
+									rel="noopener"
+								>
 									Twitch Extension for Hearthstone Deck
 									Tracker
 								</a>. Connect your account here to set it up!

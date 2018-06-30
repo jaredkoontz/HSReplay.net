@@ -16,7 +16,7 @@
 		</div>
 		<ul class="horizontal-icons">
 			{% setting 'HSREPLAY_TWITTER_HANDLE' as twitter_handle %}
-			<li><a href="https://twitter.com/{{ twitter_handle }}" target="_blank" rel="me" class="social-button">
+			<li><a href="https://twitter.com/{{ twitter_handle }}" target="_blank" rel="noopener" class="social-button">
 				<span class="label">{% trans "Follow us on Twitter" %}</span>
 				{% include "snippets/twitter_button.svg" with fill="#9e9e9e" width=28 height=28 selector=".social-button" %}
 			</a></li>

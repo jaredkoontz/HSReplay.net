@@ -159,6 +159,7 @@ class AccountEdit extends React.Component<Props, State> {
 								<a
 									href="https://articles.hsreplay.net/"
 									target="_blank"
+									rel="noopener"
 								>
 									Articles
 								</a>{" "}
