@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from hsreplaynet.api.partner.serializers import ArchetypeSerializer
 from hsreplaynet.api.partner.utils import QueryDataNotAvailableException
 from hsreplaynet.decks.api import Archetype
+from hsreplaynet.utils import influx
 from hsreplaynet.utils.aws.redshift import get_redshift_query
 
 from .permissions import PartnerStatsPermission
@@ -35,12 +36,25 @@ class ArchetypesView(ListAPIView):
 	supported_game_types = ["RANKED_STANDARD"]
 
 	def list(self, request, *args, **kwargs):
+		error = None
 		try:
 			queryset = self.get_queryset()
 			serializer = self.get_serializer(queryset, many=True)
 			return Response(d for d in serializer.data if d)
-		except QueryDataNotAvailableException:
+		except QueryDataNotAvailableException as e:
+			error = type(e).__name__
 			return Response(status=status.HTTP_202_ACCEPTED)
+		except Exception as e:
+			error = type(e).__name__
+			raise e
+		finally:
+			influx.influx_metric(
+				"hsreplaynet_partner_api",
+				{"count": 1},
+				view="Archetypes",
+				application=request.auth.application,
+				error=error
+			)
 
 	def get_serializer_context(self):
 		context = super().get_serializer_context()
