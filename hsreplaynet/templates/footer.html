@@ -65,7 +65,7 @@
 			</div>
 		</div>
 		<div class="row copyright">
-			<p>&copy; {% now 'Y' %} &middot {% trans "This website is not affiliated with Blizzard Entertainment." %}</p>
+			<p>&copy; {% now 'Y' %} &middot; {% trans "This website is not affiliated with Blizzard Entertainment." %}</p>
 			{% if user.is_staff or debug %}
 			<p>
 				{% setting "RAVEN_CONFIG" as raven_config %}
