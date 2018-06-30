@@ -6,7 +6,7 @@ from hearthstone import enums
 from oauth2_provider.models import AccessToken
 from rest_framework import status
 
-from hsreplaynet.api.partner.serializers import ArchetypesSerializer
+from hsreplaynet.api.partner.serializers import ArchetypeDataSerializer, ArchetypeSerializer
 from hsreplaynet.api.partner.utils import QueryDataNotAvailableException
 from hsreplaynet.decks.models import Archetype
 
@@ -129,12 +129,16 @@ def test_archetypes_serializer(archetypes_serializer_data):
 	mock_data = dict(
 		game_type="RANKED_STANDARD",
 		archetype=archetype,
-		decks=archetypes_serializer_data["decks"],
-		popularity=archetypes_serializer_data["popularity"],
-		matchups=archetypes_serializer_data["matchups"]
+	)
+	context = dict(
+		RANKED_STANDARD=dict(
+			deck_data=archetypes_serializer_data["decks"],
+			popularity_data=archetypes_serializer_data["popularity"],
+			matchup_data=archetypes_serializer_data["matchups"]
+		)
 	)
 
-	serializer = ArchetypesSerializer(instance=mock_data)
+	serializer = ArchetypeSerializer(instance=mock_data, context=context)
 	data = serializer.data
 
 	assert "id" in data
@@ -199,17 +203,22 @@ def test_archetypes_serializer_low_data(archetypes_serializer_data):
 	)
 
 	matchups = archetypes_serializer_data["matchups"]
-	matchups["2"]["3"]["total_games"] = ArchetypesSerializer.MIN_GAMES_THRESHOLD - 1
+	matchups["2"]["3"]["total_games"] = ArchetypeDataSerializer.MIN_GAMES_THRESHOLD - 1
 
 	mock_data = dict(
 		game_type="RANKED_STANDARD",
 		archetype=archetype,
-		decks=archetypes_serializer_data["decks"],
-		popularity=archetypes_serializer_data["popularity"],
-		matchups=matchups
 	)
 
-	serializer = ArchetypesSerializer(instance=mock_data)
+	context = dict(
+		RANKED_STANDARD=dict(
+			deck_data=archetypes_serializer_data["decks"],
+			popularity_data=archetypes_serializer_data["popularity"],
+			matchup_data=matchups
+		)
+	)
+
+	serializer = ArchetypeSerializer(instance=mock_data, context=context)
 	data = serializer.data
 	assert not data
 
@@ -247,7 +256,7 @@ def test_archetypes_view_valid_data(
 			return archetypes_serializer_data["matchups"]
 		raise Exception()
 
-	def mock_get_archetypes(self, gametype):
+	def mock_get_archetypes(self):
 		return [archetype]
 	mocker.patch(
 		"hsreplaynet.api.partner.views.ArchetypesView._get_query_data",
