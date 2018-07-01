@@ -40,7 +40,7 @@ interface Redirect {
 
 class StripeElementsCheckoutForm extends React.Component<Props, State> {
 	private formRef: HTMLFormElement;
-	private cardElement: any; // CardElement
+	private cardElement: CardElement;
 
 	constructor(props: Props, context?: any) {
 		super(props, context);
