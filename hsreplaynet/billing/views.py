@@ -126,7 +126,7 @@ class BillingView(LoginRequiredMixin, PaymentsMixin, SimpleReactView):
 			"can_cancel_immediately": self.can_cancel_immediately(customer),
 			"can_remove_payment_methods": self.can_remove_payment_methods(customer),
 			"credits": customer.credits,
-			"currency": customer.currency,
+			"currency": customer.currency or "usd",
 			"pending_charges": customer.pending_charges,
 		}
 
