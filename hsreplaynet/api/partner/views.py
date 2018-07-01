@@ -1,3 +1,5 @@
+from functools import lru_cache
+
 from django_hearthstone.cards.models import Card
 from hearthstone import enums
 from oauth2_provider.contrib.rest_framework import OAuth2Authentication, TokenHasScope
@@ -5,7 +7,9 @@ from rest_framework import status, views
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 
-from hsreplaynet.api.partner.serializers import ArchetypeSerializer, ClassSerializer
+from hsreplaynet.api.partner.serializers import (
+	ArchetypeSerializer, CardSerializer, ClassSerializer
+)
 from hsreplaynet.api.partner.utils import QueryDataNotAvailableException
 from hsreplaynet.decks.api import Archetype
 from hsreplaynet.utils import influx
@@ -28,11 +32,82 @@ class ExampleView(PartnerStatsView):
 		return Response(content)
 
 
-class ArchetypesView(ListAPIView):
+class PartnerStatsListView(ListAPIView):
 	authentication_classes = (OAuth2Authentication, )
 	permission_classes = (TokenHasScope, PartnerStatsPermission)
 	required_scopes = ["stats.partner:read"]
 	pagination_class = None
+
+	def _get_query_data(self, query_name, game_type):
+		query = get_redshift_query(query_name)
+		parameterized_query = query.build_full_params(dict(
+			GameType=game_type
+		))
+		if not parameterized_query.result_available:
+			raise QueryDataNotAvailableException()
+		response = parameterized_query.response_payload
+		return response["series"]["data"]
+
+
+class CardsView(PartnerStatsListView):
+	serializer_class = CardSerializer
+
+	supported_game_types = ["ARENA", "RANKED_STANDARD", "RANKED_WILD"]
+	constructed_game_types = ["RANKED_STANDARD", "RANKED_WILD"]
+
+	def list(self, request, *args, **kwargs):
+		error = None
+		try:
+			queryset = self.get_queryset()
+			serializer = self.get_serializer(queryset, many=True)
+			return Response([d for d in serializer.data if d])
+		except QueryDataNotAvailableException as e:
+			error = type(e).__name__
+			return Response(status=status.HTTP_202_ACCEPTED)
+		except Exception as e:
+			error = type(e).__name__
+			raise e
+		finally:
+			influx.influx_metric(
+				"hsreplaynet_partner_api",
+				{"count": 1},
+				view="Cards",
+				application=request.auth.application,
+				error=error
+			)
+
+	def get_serializer_context(self):
+		context = super().get_serializer_context()
+		game_type_data = dict(
+			(game_type, dict(
+				deck_data=self._get_decks(game_type),
+				popularity_data=self._get_card_popularity(game_type),
+			)) for game_type in self.supported_game_types
+		)
+		context.update({
+			"game_type_data": game_type_data
+		})
+		return context
+
+	def get_queryset(self):
+		dbf_ids = set()
+		for game_type in self.supported_game_types:
+			for card in self._get_card_popularity(game_type):
+				dbf_ids.add(card["dbf_id"])
+		queryset = list(Card.objects.filter(dbf_id__in=dbf_ids))
+		return queryset
+
+	def _get_decks(self, game_type):
+		if game_type not in self.constructed_game_types:
+			return None
+		return self._get_query_data("list_decks_by_win_rate", game_type)
+
+	@lru_cache()
+	def _get_card_popularity(self, game_type):
+		return self._get_query_data("card_included_popularity_report", game_type)["ALL"]
+
+
+class ArchetypesView(PartnerStatsListView):
 	serializer_class = ArchetypeSerializer
 
 	supported_game_types = ["RANKED_STANDARD"]
@@ -42,7 +117,7 @@ class ArchetypesView(ListAPIView):
 		try:
 			queryset = self.get_queryset()
 			serializer = self.get_serializer(queryset, many=True)
-			return Response(d for d in serializer.data if d)
+			return Response([d for d in serializer.data if d])
 		except QueryDataNotAvailableException as e:
 			error = type(e).__name__
 			return Response(status=status.HTTP_202_ACCEPTED)
@@ -100,35 +175,34 @@ class ArchetypesView(ListAPIView):
 	def _get_archetype_matchups(self, game_type):
 		return self._get_query_data("head_to_head_archetype_matchups", game_type)
 
-	def _get_query_data(self, query_name, game_type):
-		query = get_redshift_query(query_name)
-		parameterized_query = query.build_full_params(dict(
-			GameType=game_type
-		))
-		if not parameterized_query.result_available:
-			raise QueryDataNotAvailableException()
-		response = parameterized_query.response_payload
-		return response["series"]["data"]
 
-
-class ClassesView(ListAPIView):
+class ClassesView(PartnerStatsListView):
 	"""View implementation for the partner API "classes" endpoint"""
 
-	authentication_classes = (OAuth2Authentication, )
-	permission_classes = (TokenHasScope, PartnerStatsPermission)
-	required_scopes = ["stats.partner:read"]
-	pagination_class = None
 	serializer_class = ClassSerializer
 
 	supported_game_types = ["RANKED_STANDARD"]
 
 	def list(self, request, *args, **kwargs):
+		error = None
 		try:
 			queryset = self.get_queryset()
 			serializer = self.get_serializer(queryset, many=True)
 			return Response(serializer.data)
-		except QueryDataNotAvailableException:
+		except QueryDataNotAvailableException as e:
+			error = type(e).__name__
 			return Response(status=status.HTTP_202_ACCEPTED)
+		except Exception as e:
+			error = type(e).__name__
+			raise e
+		finally:
+			influx.influx_metric(
+				"hsreplaynet_partner_api",
+				{"count": 1},
+				view="Classes",
+				application=request.auth.application,
+				error=error
+			)
 
 	def get_serializer_context(self):
 
@@ -175,13 +249,3 @@ class ClassesView(ListAPIView):
 
 	def _get_archetype_popularity(self, game_type):
 		return self._get_query_data("archetype_popularity_distribution_stats", game_type)
-
-	def _get_query_data(self, query_name, game_type):
-		query = get_redshift_query(query_name)
-		parameterized_query = query.build_full_params(dict(
-			GameType=game_type
-		))
-		if not parameterized_query.result_available:
-			raise QueryDataNotAvailableException()
-		response = parameterized_query.response_payload
-		return response["series"]["data"]

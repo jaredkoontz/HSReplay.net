@@ -2,11 +2,15 @@ from io import StringIO
 
 import pytest
 from django.core.management import call_command
+from django_hearthstone.cards.models import Card
 from hearthstone import enums
 from oauth2_provider.models import AccessToken
 from rest_framework import status
 
-from hsreplaynet.api.partner.serializers import ArchetypeDataSerializer, ArchetypeSerializer
+from hsreplaynet.api.partner.serializers import (
+	ArchetypeDataSerializer, ArchetypeSerializer, CardDataDeckSerializer,
+	CardDataSerializer, CardSerializer, InvalidCardException
+)
 from hsreplaynet.api.partner.utils import QueryDataNotAvailableException
 from hsreplaynet.decks.models import Archetype
 
@@ -276,4 +280,216 @@ def test_archetypes_view_valid_data(
 
 def test_archetypes_view_not_authorized(client):
 	response = client.get("/partner-stats/v1/archetypes/")
+	assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
+
+TEST_DRUID_DECK_WRATH_1 = {
+	"deck_id": "EKlKw4ILElCR1xS3abC65g",
+	"deck_list": "[[43417,1],[42656,2],[45828,2],[43483,1],[381,2],[1124,2],[40991,1],[47063,2],[836,2],[503,1],[1029,2],[42759,2],[95,2],[43294,2],[64,2],[43288,2],[742,2]]", # flake8: noqa
+	"archetype_id": 1,
+	"win_rate": 56.67,
+}
+
+TEST_DRUID_DECK_WRATH_2 = {
+	"deck_id": "dZbiSO2L9QQTwPj991OMz",
+	"deck_list": "[[43417,1],[42656,2],[45828,2],[43483,2],[381,2],[1124,2],[45945,1],[47063,2],[836,1],[503,1],[1029,2],[42759,2],[95,2],[43294,2],[64,2],[43288,2],[742,2]]", # flake8: noqa
+	"archetype_id": 2,
+	"win_rate": 57.52,
+}
+
+TEST_DRUID_DECK_WRATH_3 = {
+	"deck_id": "dZbIqtWpso2L9Qj991OMz",
+	"deck_list": "[[43417,1],[42656,2],[45828,2],[43483,2],[381,2],[1124,2],[45945,1],[47063,2],[836,1],[503,1],[1029,2],[42759,2],[95,2],[43294,2],[64,2],[43288,2],[742,2]]", # flake8: noqa
+	"archetype_id": 1,
+	"win_rate": 55.52,
+}
+
+TEST_DRUID_DECK_NO_WRATH = {
+	"deck_id": "qujK2o4dkGGEwNnXCNOU7g",
+	"deck_list": "[[43417,1],[46032,1],[41418,2],[45945,2],[46551,2],[43025,2],[754,2],[46859,2],[41323,2],[41111,2],[734,2],[42759,2],[42442,2],[45265,2],[45340,1],[42395,2],[42818,1]]", # flake8: noqa
+	"archetype_id": 205,
+	"win_rate": 57.54,
+}
+
+TEST_DRUID_ARCHETYPE = {
+	"id": 1,
+	"name": "Test Druid",
+	"player_class": enums.CardClass.DRUID,
+}
+
+TEST_DRUID_ARCHETYPE_2 = {
+	"id": 2,
+	"name": "Test Druid 2",
+	"player_class": enums.CardClass.DRUID,
+}
+
+EXPECTED_TEST_DRUID_DECK_DATA_1 = {
+	"name": {
+		"enUS": TEST_DRUID_ARCHETYPE["name"]
+	},
+	"player_class": TEST_DRUID_ARCHETYPE["player_class"].name,
+	"url": "https://hsreplay.net/decks/%s/" % TEST_DRUID_DECK_WRATH_1["deck_id"],
+	"winrate": TEST_DRUID_DECK_WRATH_1["win_rate"],
+}
+
+EXPECTED_TEST_DRUID_DECK_DATA_2 = {
+	"name": {
+		"enUS": TEST_DRUID_ARCHETYPE_2["name"]
+	},
+	"player_class": TEST_DRUID_ARCHETYPE_2["player_class"].name,
+	"url": "https://hsreplay.net/decks/%s/" % TEST_DRUID_DECK_WRATH_2["deck_id"],
+	"winrate": TEST_DRUID_DECK_WRATH_2["win_rate"],
+}
+
+WRATH_POPULARITY_DATA = {
+	"dbf_id": 836,
+	"popularity": 9.83,
+	"winrate": 52.60,
+}
+
+RAVENCALLER_POPULARITY_DATA = {
+	"dbf_id": 46661,
+	"popularity": 0.23,
+	"winrate": 44.51,
+}
+
+DECK_DATA = {
+	"DRUID": [
+		TEST_DRUID_DECK_WRATH_1,
+		TEST_DRUID_DECK_NO_WRATH,
+		TEST_DRUID_DECK_WRATH_2,
+		TEST_DRUID_DECK_WRATH_3
+	],
+}
+
+POPULARITY_DATA = [WRATH_POPULARITY_DATA, RAVENCALLER_POPULARITY_DATA]
+
+EXPECTED_WRATH_CARD_DATA = {
+	"url": "https://hsreplay.net/cards/836/wrath#gameType=RANKED_STANDARD",
+	"popularity": WRATH_POPULARITY_DATA["popularity"],
+	"deck_winrate": WRATH_POPULARITY_DATA["winrate"],
+	"top_decks": [EXPECTED_TEST_DRUID_DECK_DATA_2, EXPECTED_TEST_DRUID_DECK_DATA_1]
+}
+
+EXPECTED_WRATH_DATA = {
+	"card_id": "EX1_154",
+	"dbf_id": 836,
+	"game_types": {
+		"RANKED_STANDARD": EXPECTED_WRATH_CARD_DATA,
+	}
+}
+
+
+class TestCardDataDeckSerializer(object):
+	@pytest.mark.django_db
+	def test_serialized_data(self):
+		Archetype.objects.create(**TEST_DRUID_ARCHETYPE)
+		serializer = CardDataDeckSerializer(TEST_DRUID_DECK_WRATH_1)
+		assert serializer.data == EXPECTED_TEST_DRUID_DECK_DATA_1
+
+
+class TestCardDataSerializer(object):
+	@pytest.mark.django_db
+	def test_serialized_data(self):
+		Archetype.objects.create(**TEST_DRUID_ARCHETYPE)
+		Archetype.objects.create(**TEST_DRUID_ARCHETYPE_2)
+		data = {
+			"game_type": "RANKED_STANDARD",
+			"card": Card.objects.get(dbf_id=836)
+		}
+		context = {
+			"deck_data": DECK_DATA,
+			"popularity_data": POPULARITY_DATA
+		}
+		serializer = CardDataSerializer(data, context=context)
+		assert serializer.data == EXPECTED_WRATH_CARD_DATA
+
+	@pytest.mark.django_db
+	def test_missing_data(self):
+		data = {
+			"game_type": "RANKED_STANDARD",
+			"card": Card.objects.get(dbf_id=836)
+		}
+		data = CardDataSerializer(data, context={
+			"deck_data": {},
+			"popularity_data": POPULARITY_DATA
+		}).data
+		with pytest.raises(InvalidCardException):
+			data = CardDataSerializer(data, context={
+				"deck_data": DECK_DATA,
+				"popularity_data": {}
+			}).data
+
+	@pytest.mark.django_db
+	def test_missing_dbf_id(self):
+		data = {
+			"game_type": "RANKED_STANDARD",
+			"card": Card.objects.get(dbf_id=1050)
+		}
+		with pytest.raises(InvalidCardException):
+			data = CardDataSerializer(data, context={
+				"deck_data": DECK_DATA,
+				"popularity_data": POPULARITY_DATA
+			}).data
+
+
+class TestCardSerializer(object):
+	@pytest.mark.django_db
+	def test_serialized_data(self):
+		Archetype.objects.create(**TEST_DRUID_ARCHETYPE)
+		Archetype.objects.create(**TEST_DRUID_ARCHETYPE_2)
+
+		data = Card.objects.get(dbf_id=836)
+		context = {
+			"game_type_data": {
+				"RANKED_STANDARD": {
+					"deck_data": DECK_DATA,
+					"popularity_data": POPULARITY_DATA,
+				}
+			}
+		}
+
+		serializer = CardSerializer(data, context=context)
+		assert serializer.data == EXPECTED_WRATH_DATA
+
+
+def test_cards_view_no_redshift_data(client, mocker, partner_token):
+	def mock_get_query_data(self, query_name, game_type):
+		raise QueryDataNotAvailableException()
+	mocker.patch(
+		"hsreplaynet.api.partner.views.CardsView._get_query_data",
+		new=mock_get_query_data
+	)
+	response = client.get(
+		"/partner-stats/v1/cards/",
+		HTTP_AUTHORIZATION="Bearer %s" % partner_token
+	)
+	assert response.status_code == status.HTTP_202_ACCEPTED
+
+
+@pytest.mark.django_db
+def test_cards_view_valid_data(client, mocker, partner_token):
+	Archetype.objects.create(**TEST_DRUID_ARCHETYPE)
+	Archetype.objects.create(**TEST_DRUID_ARCHETYPE_2)
+	def mock_get_query_data(self, query_name, game_type):
+		if query_name == "list_decks_by_win_rate":
+			return DECK_DATA
+		elif query_name == "card_included_popularity_report":
+			return {"ALL": POPULARITY_DATA}
+		raise Exception()
+
+	mocker.patch(
+		"hsreplaynet.api.partner.views.CardsView._get_query_data",
+		new=mock_get_query_data
+	)
+	response = client.get(
+		"/partner-stats/v1/cards/",
+		HTTP_AUTHORIZATION="Bearer %s" % partner_token
+	)
+	assert response.status_code == status.HTTP_200_OK
+	assert response.data
+
+
+def test_cards_view_not_authorized(client):
+	response = client.get("/partner-stats/v1/cards/")
 	assert response.status_code == status.HTTP_401_UNAUTHORIZED

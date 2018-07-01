@@ -1,5 +1,148 @@
+import json
+from itertools import chain
+
 from hearthstone import enums
 from rest_framework.serializers import Serializer, SerializerMethodField
+
+from hsreplaynet.decks.models import Archetype
+
+
+class InvalidCardException(Exception):
+	pass
+
+
+class CardDataDeckSerializer(Serializer):
+	name = SerializerMethodField()
+	player_class = SerializerMethodField()
+	url = SerializerMethodField()
+	winrate = SerializerMethodField()
+
+	_archetype = None
+
+	def _get_archetype(self, instance):
+		if self._archetype:
+			return self._archetype
+		self._archetype = Archetype.objects.live().filter(
+			id=instance["archetype_id"]
+		).first()
+		return self._archetype
+
+	def get_name(self, instance):
+		return {
+			"enUS": self._get_archetype(instance).name
+		}
+
+	def get_player_class(self, instance):
+		return self._get_archetype(instance).player_class.name
+
+	def get_url(self, instance):
+		return "https://hsreplay.net/decks/%s/" % instance["deck_id"]
+
+	def get_winrate(self, instance):
+		return instance["win_rate"]
+
+
+class CardDataSerializer(Serializer):
+	url = SerializerMethodField()
+	popularity = SerializerMethodField()
+	deck_winrate = SerializerMethodField()
+	top_decks = SerializerMethodField()
+
+	NUM_TOP_DECKS = 3
+	CONSTRUCTED_GAME_TYPES = ["RANKED_STANDARD", "RANKED_WILD"]
+	_card_data = None
+
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self._deck_data = kwargs["context"]["deck_data"]
+		self._popularity_data = kwargs["context"]["popularity_data"]
+		if not self._popularity_data:
+			raise InvalidCardException()
+
+	def _get_card_data(self, instance):
+		if self._card_data:
+			return self._card_data
+		for data in self._popularity_data:
+			if data["dbf_id"] == instance["card"].dbf_id:
+				self._card_data = data
+				return data
+		raise InvalidCardException()
+
+	def _is_in_deck(self, instance, deck):
+		cards = json.loads(deck["deck_list"])
+		for dbf_id, count in cards:
+			if dbf_id == instance["card"].dbf_id:
+				return True
+		return False
+
+	def get_url(self, instance):
+		return "https://hsreplay.net%s#gameType=%s" % (
+			instance["card"].get_absolute_url(),
+			instance["game_type"]
+		)
+
+	def get_popularity(self, instance):
+		return self._get_card_data(instance)["popularity"]
+
+	def get_deck_winrate(self, instance):
+		return self._get_card_data(instance)["winrate"]
+
+	def get_top_decks(self, instance):
+		if (
+			instance["game_type"] not in self.CONSTRUCTED_GAME_TYPES or
+			not self._deck_data
+		):
+			return []
+		decks = dict()
+		player_class = instance["card"].card_class.name
+		keys = self._deck_data.keys()
+		all_decks = self._deck_data[player_class] if (
+			player_class in keys
+		) else list(chain(*(self._deck_data[key] for key in keys)))
+		for deck in all_decks:
+			if deck["archetype_id"] > 0 and self._is_in_deck(instance, deck):
+				id = deck["archetype_id"]
+				if id not in decks or deck["win_rate"] > decks[id]["win_rate"]:
+					decks[id] = deck
+		decks = sorted(
+			decks.values(), key=lambda x: x["win_rate"], reverse=True
+		)[:self.NUM_TOP_DECKS]
+		return [CardDataDeckSerializer(deck).data for deck in decks]
+
+
+class CardSerializer(Serializer):
+	card_id = SerializerMethodField()
+	dbf_id = SerializerMethodField()
+	game_types = SerializerMethodField()
+
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self._context = kwargs["context"]["game_type_data"]
+
+	def to_representation(self, instance):
+		try:
+			return super().to_representation(instance)
+		except InvalidCardException:
+			return {}
+
+	def get_card_id(self, instance):
+		return instance.id
+
+	def get_dbf_id(self, instance):
+		return instance.dbf_id
+
+	def get_game_types(self, instance):
+		result = dict()
+		for game_type in self._context.keys():
+			data = dict(
+				card=instance,
+				game_type=game_type
+			)
+			serializer = CardDataSerializer(data, context=self._context[game_type])
+			data = serializer.data
+			if data:
+				result[game_type] = data
+		return result
 
 
 class InvalidArchetypeException(Exception):
