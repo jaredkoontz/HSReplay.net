@@ -457,7 +457,7 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 						}
 						checked={this.props.useCustomWeights}
 					/>
-					&nbsp;Custom&nbsp;weights&nbsp;
+					<span className="text-nowrap">{t("Custom weights")}</span>
 					<InfoIcon
 						header={t("Custom weights")}
 						content={t(
