@@ -14,7 +14,12 @@ class PrettyBlizzardAccount extends React.Component<Props> {
 		return (
 			<Trans
 				defaults="{battletag} (<0></0>)"
-				components={[<PrettyRegion region={account.region} />]}
+				components={[
+					<PrettyRegion
+						region={account.region}
+						key={account.account_lo}
+					/>,
+				]}
 				tOptions={{ battletag }}
 			/>
 		);
