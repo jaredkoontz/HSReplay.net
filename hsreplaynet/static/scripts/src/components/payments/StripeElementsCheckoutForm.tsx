@@ -137,9 +137,10 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 		}
 
 		// finalize source
+		const { source } = result;
 		switch (method) {
 			case "card":
-				const { id: sourceId, card } = result;
+				const { id: sourceId, card } = source;
 
 				if (card.three_d_secure === "required") {
 					this.setState({
