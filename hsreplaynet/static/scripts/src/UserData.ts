@@ -17,6 +17,7 @@ interface UserDataProps {
 	languages: { [key: string]: string };
 	login?: string[];
 	premium: boolean;
+	stripe_pk: string;
 	userid: number;
 	username: string;
 	staff: boolean;
@@ -104,6 +105,10 @@ export default class UserData {
 
 	static getHearthstoneLocale(): string | null {
 		return this._instance ? UserData._instance.hearthstone_locale : null;
+	}
+
+	static getStripePublicKey(): string | null {
+		return this._instance ? UserData._instance.stripe_pk : null;
 	}
 
 	static getAccounts(): Account[] {

@@ -19,6 +19,7 @@ def userdata(request):
 		"locale": translation.get_language(),
 		"hearthstone_locale": lang_to_blizzard(translation.get_language()),
 		"languages": dict(settings.LANGUAGES),
+		"stripe_pk": settings.STRIPE_PUBLIC_KEY,
 	}
 
 	storage = get_messages(request)
