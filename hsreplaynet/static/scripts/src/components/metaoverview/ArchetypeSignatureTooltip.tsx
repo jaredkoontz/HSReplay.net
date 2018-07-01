@@ -5,8 +5,9 @@ import { ArchetypeSignature as ApiArchetypeSignature } from "../../utils/api";
 import LoadingSpinner from "../LoadingSpinner";
 import Tooltip from "../Tooltip";
 import ArchetypeSignature from "../archetypedetail/ArchetypeSignature";
+import { InjectedTranslateProps, translate } from "react-i18next";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	cardData: CardData;
 	archetypeName: string;
 	archetypeId: number;
@@ -17,10 +18,7 @@ interface State {
 	signature: ApiArchetypeSignature;
 }
 
-export default class ArchetypeSignatureTooltip extends React.Component<
-	Props,
-	State
-> {
+class ArchetypeSignatureTooltip extends React.Component<Props, State> {
 	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
@@ -60,6 +58,7 @@ export default class ArchetypeSignatureTooltip extends React.Component<
 		if (!this.state.signature || !this.props.cardData) {
 			return <LoadingSpinner active small />;
 		}
+		const { t } = this.props;
 		return (
 			<div>
 				<ArchetypeSignature
@@ -67,8 +66,10 @@ export default class ArchetypeSignatureTooltip extends React.Component<
 					signature={this.state.signature}
 					maxCards={20}
 				/>
-				<p>Click to view archetype details</p>
+				<p>{t("Click to view archetype details")}</p>
 			</div>
 		);
 	}
 }
+
+export default translate()(ArchetypeSignatureTooltip);
