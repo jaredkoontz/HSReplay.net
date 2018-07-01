@@ -1,5 +1,5 @@
 import React from "react";
-import { Trans, translate } from "react-i18next";
+import { Trans } from "react-i18next";
 import Tooltip from "../Tooltip";
 import PrettyCardClass from "../text/PrettyCardClass";
 
@@ -8,7 +8,7 @@ interface Props {
 	playerClass: string;
 }
 
-class OtherArchetype extends React.Component<Props> {
+export default class OtherArchetype extends React.Component<Props> {
 	public render(): React.ReactNode {
 		const { name, playerClass } = this.props;
 		return (
@@ -34,5 +34,3 @@ class OtherArchetype extends React.Component<Props> {
 		);
 	}
 }
-
-export default translate()(OtherArchetype);
