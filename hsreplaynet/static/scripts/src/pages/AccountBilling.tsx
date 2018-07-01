@@ -1,6 +1,8 @@
 import React from "react";
 import { InjectedTranslateProps, Trans, translate } from "react-i18next";
 import CSRFElement from "../components/CSRFElement";
+import StripeElementsAddCardForm from "../components/payments/StripeElementsAddCardForm";
+import StripeElementsProvider from "../components/payments/StripeElementsProvider";
 import SemanticAge from "../components/text/SemanticAge";
 
 interface BillingUrls {
@@ -266,7 +268,6 @@ class AccountBilling extends React.Component<Props, State> {
 								not ever see your credit card number.
 							</Trans>
 						</p>
-
 						{stripe.payment_methods ? (
 							<ul id="account-billing-creditcard-list">
 								{stripe.payment_methods.map(card => (
@@ -343,6 +344,14 @@ class AccountBilling extends React.Component<Props, State> {
 								))}
 							</ul>
 						) : null}
+						<hr />
+						<h4>{t("Add a payment method")}</h4>
+						<StripeElementsProvider>
+							<StripeElementsAddCardForm
+								action={urls.subscribe}
+								currency={stripe.currency}
+							/>
+						</StripeElementsProvider>
 					</div>
 				</section>
 
