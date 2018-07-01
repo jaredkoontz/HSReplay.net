@@ -5,8 +5,9 @@ import CardData from "../../CardData";
 import ArchetypeSignatureTooltip from "./ArchetypeSignatureTooltip";
 import OtherArchetype from "./OtherArchetype";
 import { Archetype } from "../../utils/api";
+import { InjectedTranslateProps, translate } from "react-i18next";
 
-interface Props extends SortableProps {
+interface Props extends SortableProps, InjectedTranslateProps {
 	data: ApiArchetypePopularity[];
 	archetypeData: Archetype[];
 	gameType: string;
@@ -20,9 +21,9 @@ const MIN_COLUMN_WIDTH = 100;
 const MAX_HEADER_WIDTH = 217;
 const MIN_HEADER_WIDTH = 150;
 
-export default class ArchetypeClassTable extends React.Component<Props> {
+class ArchetypeClassTable extends React.Component<Props> {
 	public render(): React.ReactNode {
-		const { data, playerClass, sortBy, sortDirection } = this.props;
+		const { data, playerClass, sortBy, sortDirection, t } = this.props;
 		const columns = this.getColumns();
 		const rows = [];
 		data.forEach(datum => {
@@ -39,10 +40,10 @@ export default class ArchetypeClassTable extends React.Component<Props> {
 				rows.push({
 					archetype: {
 						id: datum.archetype_id,
-						name: "Other",
+						name: t("Other"),
 						player_class_name: playerClass,
 					},
-					archetype_name: "Other",
+					archetype_name: t("Other"),
 					...datum,
 				});
 			}
@@ -115,7 +116,8 @@ export default class ArchetypeClassTable extends React.Component<Props> {
 		);
 	}
 
-	getColumns(): TableColumn[] {
+	private getColumns(): TableColumn[] {
+		const { t } = this.props;
 		const popularityKey = this.props.totalPopularity
 			? "pct_of_total"
 			: "pct_of_class";
@@ -123,26 +125,28 @@ export default class ArchetypeClassTable extends React.Component<Props> {
 			{
 				dataKey: "archetype_name",
 				sortKey: "archetype",
-				text: "Archetype",
+				text: t("Archetype"),
 			},
 			{
 				dataKey: "win_rate",
 				sortKey: "winrate",
-				text: "Winrate",
+				text: t("Winrate"),
 				winrateData: true,
 			},
 			{
 				dataKey: popularityKey,
 				percent: true,
 				sortKey: "games",
-				text: "Popularity",
+				text: t("Popularity"),
 			},
 			{
 				dataKey: "total_games",
 				prettify: true,
 				sortKey: "games",
-				text: "Games",
+				text: t("Games"),
 			},
 		];
 	}
 }
+
+export default translate()(ArchetypeClassTable);
