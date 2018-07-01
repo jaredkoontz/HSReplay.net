@@ -61,7 +61,7 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 			: null;
 	}
 
-	private async handleSubmit(event) {
+	private async handleSubmit(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
 
 		if (this.state.selectedPlan === null) {
@@ -137,10 +137,9 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 		}
 
 		// finalize source
-		const { source } = result;
 		switch (method) {
 			case "card":
-				const { id: sourceId, card } = source;
+				const { id: sourceId, card } = result;
 
 				if (card.three_d_secure === "required") {
 					this.setState({
@@ -167,11 +166,11 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 		}
 	}
 
-	private static redirect(redirect: Redirect) {
+	private static redirect(redirect: Redirect): void {
 		window.location.replace(redirect.url);
 	}
 
-	private reset() {
+	private reset(): void {
 		if (this.cardElement) {
 			this.cardElement.clear();
 		}
@@ -181,53 +180,56 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 		});
 	}
 
-	private submit() {
+	private submit(): void {
 		this.formRef.submit();
 	}
 
-	private static getButtonMessage(step: StripeCheckoutStep) {
-		switch (step) {
-			case StripeCheckoutStep.READY_TO_PAY:
-				return "Pay now";
-			case StripeCheckoutStep.CONFIRM_3D_SECURE:
-				return "Continue";
-			case StripeCheckoutStep.WORKING:
-				return "Working…";
-			case StripeCheckoutStep.SUBMIT:
-				return "Confirming…";
-		}
-	}
-
-	private getButtons() {
-		const buttons = [];
+	private getButtons(): React.ReactNode {
+		const { t } = this.props;
 		const submittables = [
 			StripeCheckoutStep.READY_TO_PAY,
 			StripeCheckoutStep.CONFIRM_3D_SECURE,
 		];
+		const is3dSecure =
+			this.state.step === StripeCheckoutStep.CONFIRM_3D_SECURE;
 
-		buttons.push(
-			<button
-				className="promo-button text-premium checkout-button"
-				type="submit"
-				disabled={submittables.indexOf(this.state.step) === -1}
-			>
-				{StripeElementsCheckoutForm.getButtonMessage(this.state.step)}
-			</button>,
-		);
+		let label: string;
 
-		if (this.state.step === StripeCheckoutStep.CONFIRM_3D_SECURE) {
-			buttons.push(
-				<button
-					className="promo-button checkout-button"
-					type="reset"
-					onClick={() => this.reset()}
-				>
-					Reset
-				</button>,
-			);
+		switch (this.state.step) {
+			case StripeCheckoutStep.READY_TO_PAY:
+				label = t("Pay now");
+				break;
+			case StripeCheckoutStep.CONFIRM_3D_SECURE:
+				label = t("Continue");
+				break;
+			case StripeCheckoutStep.WORKING:
+				label = t("Working…");
+				break;
+			case StripeCheckoutStep.SUBMIT:
+				label = t("Confirming…");
+				break;
 		}
 
-		return buttons;
+		return (
+			<>
+				<button
+					className="promo-button text-premium checkout-button"
+					type="submit"
+					disabled={submittables.indexOf(this.state.step) === -1}
+				>
+					{label}
+				</button>
+				{is3dSecure ? (
+					<button
+						className="promo-button checkout-button"
+						type="reset"
+						onClick={() => this.reset()}
+					>
+						{t("Reset")}
+					</button>
+				) : null}
+			</>
+		);
 	}
 
 	getPlanButtons() {
@@ -238,7 +240,7 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 		}));
 	}
 
-	getCouponMessage() {
+	getCouponMessage(): React.ReactNode {
 		if (!this.props.coupon) {
 			return null;
 		}
@@ -433,7 +435,7 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 					name="stripeToken"
 					value={this.state.sourceId}
 				/>
-				<input type="hidden" name="stripeTokenType" value={"source"} />
+				<input type="hidden" name="stripeTokenType" value="source" />
 				<input
 					type="hidden"
 					name="stripeEmail"

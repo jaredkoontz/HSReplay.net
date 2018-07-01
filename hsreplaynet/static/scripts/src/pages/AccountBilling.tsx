@@ -347,7 +347,7 @@ class AccountBilling extends React.Component<Props, State> {
 				</section>
 
 				<section id="account-payment-history" className="box-section">
-					<h3>Payment History</h3>
+					<h3>{t("Payment history")}</h3>
 					<div className="inner">
 						{this.props.stripe.invoices ? (
 							<>
