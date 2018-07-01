@@ -5,14 +5,15 @@ from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.utils.http import is_safe_url
+from django.utils.translation import gettext_lazy as _
 from django.views.generic import RedirectView, TemplateView, View
 from hearthstone.enums import CardClass
 
 from ..html import RequestMetaMixin
 
 
-SITE_DESCRIPTION = "Watch and share Hearthstone replays directly from your web browser. \
-Explore advanced statistics about decks and cards based on millions of games per week."
+SITE_DESCRIPTION = _("Watch and share Hearthstone replays directly from your web browser. \
+Explore advanced statistics about decks and cards based on millions of games per week.")
 
 CARD_IMAGE_URL = "https://art.hearthstonejson.com/v1/256x/%s.jpg"
 
@@ -34,7 +35,7 @@ class HomeView(View):
 
 	def get(self, request):
 		request.head.base_title = ""
-		request.head.title = "HSReplay.net - Unleash your potential"
+		request.head.title = _("HSReplay.net - Unleash your potential")
 		request.head.add_meta(
 			{"name": "description", "content": SITE_DESCRIPTION},
 			{"property": "og:description", "content": SITE_DESCRIPTION},
