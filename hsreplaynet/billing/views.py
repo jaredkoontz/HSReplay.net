@@ -215,9 +215,6 @@ class BillingView(LoginRequiredMixin, PaymentsMixin, SimpleReactView):
 			paypal["subscribed"] = True
 			paypal["end_of_period"] = self.request.user.paypal_end_of_cancellation_period
 
-		from pprint import pprint
-		pprint(stripe)
-
 		return {
 			"paypal": paypal,
 			"stripe": stripe,
