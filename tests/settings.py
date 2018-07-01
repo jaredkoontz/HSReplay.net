@@ -99,6 +99,18 @@ for c in additional_caches:
 	CACHES[c] = CACHES["redshift"].copy()
 
 
+# Override REST_FRAMEWORK *WITHOUT* throttling
+REST_FRAMEWORK = {
+	"DEFAULT_AUTHENTICATION_CLASSES": [
+		"rest_framework.authentication.SessionAuthentication",
+	],
+	"DEFAULT_PERMISSION_CLASSES": [
+		"rest_framework.permissions.IsAuthenticatedOrReadOnly",
+	],
+	"DEFAULT_PAGINATION_CLASS": "hsreplaynet.api.pagination.DefaultPagination",
+}
+
+
 JOUST_RAVEN_DSN_PUBLIC = ""
 JOUST_RAVEN_ENVIRONMENT = ""
 
