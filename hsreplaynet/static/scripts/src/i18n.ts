@@ -115,6 +115,9 @@ i18n
 						}
 						// handle locale-data
 						if (i === 0) {
+							// clear ICU memoization cache due to plural rules
+							icu.mem = {};
+							// register files
 							icu.addLocaleData(module.icu);
 							numbro.registerLanguage(module.numbro, true);
 							dateFnsGlobalState = module.dateFns;
