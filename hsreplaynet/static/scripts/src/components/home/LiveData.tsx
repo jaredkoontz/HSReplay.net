@@ -178,7 +178,7 @@ class LiveData extends React.Component<Props, State> {
 						"wild",
 						t("Ranked Wild"),
 					)}
-					{this.renderCardList("BGT_ARENA", "arena", "Arena")}
+					{this.renderCardList("BGT_ARENA", "arena", t("Arena"))}
 				</div>
 			</div>
 		);
