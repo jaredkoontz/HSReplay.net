@@ -141,7 +141,7 @@ class ClassAnalysis extends React.Component<Props, State> {
 	}
 
 	public render(): React.ReactNode {
-		const { data, maxGames, playerClass } = this.props;
+		const { data, maxGames, playerClass, t } = this.props;
 		const { selectedDeck } = this.state;
 		const clusterIds = Object.keys(data.cluster_map).sort();
 		const chartHeight = "calc(100vh - 125px)";
@@ -160,7 +160,7 @@ class ClassAnalysis extends React.Component<Props, State> {
 								className="btn btn-primary btn-help"
 								onClick={() => this.showTour(true)}
 							>
-								Info
+								{t("Help")}
 							</span>
 							<AutoSizer>
 								{({ height, width }) => {
