@@ -818,6 +818,9 @@ table .info-icon,
 	&.warrior {
 		background-image: url(/static/images/64x/class-icons/warrior.png);
 	}
+	&--space-around {
+		margin: 0 0.4em;
+	}
 }
 
 .class-matchup {

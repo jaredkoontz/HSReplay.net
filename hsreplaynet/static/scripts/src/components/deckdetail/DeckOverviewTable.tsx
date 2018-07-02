@@ -51,7 +51,13 @@ class DeckOverviewTable extends React.Component<Props> {
 		rows.sort((a, b) => (a.opponent > b.opponent ? 1 : -1));
 		const winrates = rows.map(row => {
 			const playerClass = (
-				<span className={"player-class " + row.opponent.toLowerCase()}>
+				<span
+					className={[
+						"player-class",
+						"player-class--space-around",
+						row.opponent.toLowerCase(),
+					].join(" ")}
+				>
 					<PrettyCardClass cardClass={row.opponent} />
 				</span>
 			);
