@@ -1,3 +1,4 @@
+from hearthstone import enums
 from rest_framework.serializers import Serializer, SerializerMethodField
 
 
@@ -171,4 +172,158 @@ class ArchetypeSerializer(Serializer):
 		serializer = ArchetypeDataSerializer(data, context=self._context[instance["game_type"]])
 		result[instance["game_type"]] = serializer.data
 		self.game_types_data = result
+		return result
+
+
+class ClassArchetypeStatsSerializer(Serializer):
+	"""Serializer for an individual archetype stats object
+
+	I.e., the contents of the "top_archetypes" and "popular_archetypes" lists
+	attached to each class summary.
+	"""
+
+	name = SerializerMethodField()
+	url = SerializerMethodField()
+	popularity = SerializerMethodField()
+	winrate = SerializerMethodField()
+
+	def get_name(self, instance):
+		return {
+			"enUS": instance["archetype"].name
+		}
+
+	def get_url(self, instance):
+		return "https://hsreplay.net%s" % instance["archetype"].get_absolute_url()
+
+	def get_popularity(self, instance):
+		return instance["stats"]["pct_of_total"]
+
+	def get_winrate(self, instance):
+		return instance["stats"]["win_rate"]
+
+
+class ClassArchetypeSummarySerializer(Serializer):
+	"""Serializer for a class summary scoped by game type
+
+	This implementation delegates to ClassArchetypeStatsSerializer for
+	rendering archetype stats.
+	"""
+
+	url = SerializerMethodField()
+	top_archetypes = SerializerMethodField()
+	popular_archetypes = SerializerMethodField()
+
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.game_type = kwargs["context"]["game_type"]
+		self.player_class = kwargs["context"]["player_class"]
+
+	def get_url(self, instance):
+		base_url = "https://hsreplay.net/decks/#playerClasses=%s" % self.player_class.name
+
+		# RANKED_STANDARD doesn't require a filter parameter in the URL
+
+		if self.game_type != "RANKED_STANDARD":
+			base_url += "&gameType=%s" % self.game_type
+
+		return base_url
+
+	def _format_archetype_stats(self, instance, sort_fn):
+		result = []
+		archetypes = sorted(instance.values(), key=sort_fn, reverse=True)
+
+		for archetype in archetypes[0:3]:
+			serializer = ClassArchetypeStatsSerializer(archetype)
+			result.append(serializer.data)
+
+		return result
+
+	def get_top_archetypes(self, instance):
+		return self._format_archetype_stats(instance, lambda x: x["stats"]["win_rate"])
+
+	def get_popular_archetypes(self, instance):
+		return self._format_archetype_stats(instance, lambda x: x["stats"]["pct_of_total"])
+
+
+class ClassSerializer(Serializer):
+	"""Serializer for the top-level class summaries in the "classes" endpoint
+
+	This implementation delegates to ClassArchetypeSummarySerializer for
+	rendering game type-scoped class summary stats.
+	"""
+
+	id = SerializerMethodField()
+	name = SerializerMethodField()
+	heroes = SerializerMethodField()
+	game_types = SerializerMethodField()
+
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.archetype_stats = kwargs["context"]["archetype_stats"]
+
+	def get_id(self, instance):
+		return instance["player_class"].name
+
+	def get_name(self, instance):
+		active_locales = filter(lambda locale: not locale.unused, enums.Locale)
+		return dict(
+			(locale.name, enums.get_localized_name(instance["player_class"], locale.name))
+			for locale in active_locales
+		)
+
+	def get_heroes(self, instance):
+		hero_cards = instance["hero_cards"]
+
+		return list(map(
+			lambda card: dict(card_id=card.card_id, dbf_id=card.dbf_id),
+			hero_cards
+		))
+
+	def _get_game_type_stats(self, player_class, game_type, archetypes, archetype_stats):
+
+		# Build up a map that looks like:
+		#  { archetype_id: { "archetype": ..., "stats": ... } }
+		# ...where "archetype" is the dimensional data about archetypes from
+		# our relational database, and "stats" is the statistical data from the
+		# data warehouse.
+		#
+		# First, add in all the dimensional data...
+
+		archetype_stats_map = dict(
+			(archetype.id, {"archetype": archetype})
+			for archetype in archetypes
+		)
+
+		# ...then add the stats...
+
+		for stats in archetype_stats:
+			archetype_id = stats["archetype_id"]
+			if archetype_id in archetype_stats_map:
+				archetype_stats_map[archetype_id]["stats"] = stats
+
+		# ...then scrub any entries we don't have stats for.
+
+		for archetype_id in archetype_stats_map.keys():
+			if "stats" not in archetype_stats_map[archetype_id]:
+				del archetype_stats_map[archetype_id]
+
+		serializer = ClassArchetypeSummarySerializer(archetype_stats_map, context={
+			"game_type": game_type,
+			"player_class": player_class
+		})
+		return serializer.data
+
+	def get_game_types(self, instance):
+		result = dict()
+
+		for game_type in self.archetype_stats.keys():
+			player_class = instance["player_class"]
+			archetype_stats = self.archetype_stats[game_type][player_class.name]
+			result[game_type] = self._get_game_type_stats(
+				player_class,
+				game_type,
+				instance["archetypes"],
+				archetype_stats
+			)
+
 		return result
