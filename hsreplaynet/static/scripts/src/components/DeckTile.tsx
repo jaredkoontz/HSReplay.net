@@ -245,8 +245,8 @@ class DeckTile extends React.Component<Props> {
 				>
 					<img src={image("socialauth/twitch.png")} />
 					&nbsp;{streamCount > 1
-						? `${streamCount} streams`
-						: "Live now"}
+						? t("{streamCount} streams", { streamCount })
+						: t("Live now")}
 				</a>,
 			);
 		}
