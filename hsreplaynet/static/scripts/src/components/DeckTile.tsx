@@ -293,16 +293,14 @@ class DeckTile extends React.Component<Props> {
 							</span>
 						</div>
 						<div className="col-lg-1 col-md-1 hidden-sm hidden-xs">
-							<div
-								className="duration"
-								title={t("Average game length")}
-							>
-								<span className="glyphicon glyphicon-time" />
-								{/* FIXME i18n (use date-fns) */}
-								{` ${formatNumber(
-									this.props.duration / 60,
-									1,
-								)} min`}
+							<div className="duration">
+								<span className="glyphicon glyphicon-time" />{" "}
+								{t("{minutes} min", {
+									minutes: formatNumber(
+										this.props.duration / 60,
+										1,
+									),
+								})}
 							</div>
 						</div>
 						<div className="col-lg-1 hidden-md hidden-sm hidden-xs">
