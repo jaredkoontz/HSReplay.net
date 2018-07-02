@@ -87,7 +87,7 @@ class ReplayDetailView(View):
 		if not self.replay:
 			return {"deleted": True}
 		autoplay = self.request.user.is_authenticated and self.request.user.joust_autoplay
-		return {
+		ret = {
 			"autoplay": autoplay,
 			"annotated_replay_url": reverse(
 				"annotated_replay", kwargs={"shortid": self.replay.shortid}
@@ -105,6 +105,12 @@ class ReplayDetailView(View):
 			"views": self.replay.views,
 			"visibility": self.replay.visibility.value,
 		}
+		if self.request.user.is_staff:
+			ret["admin_url"] = reverse(
+				"admin:games_gamereplay_change",
+				args=[self.replay.id]
+			)
+		return ret
 
 
 class ReplayEmbedView(View):
