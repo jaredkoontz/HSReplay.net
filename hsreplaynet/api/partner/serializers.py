@@ -303,7 +303,7 @@ class ClassSerializer(Serializer):
 
 		# ...then scrub any entries we don't have stats for.
 
-		for archetype_id in archetype_stats_map.keys():
+		for archetype_id in list(archetype_stats_map.keys()):
 			if "stats" not in archetype_stats_map[archetype_id]:
 				del archetype_stats_map[archetype_id]
 
