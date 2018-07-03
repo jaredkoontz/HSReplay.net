@@ -2,8 +2,9 @@ import React from "react";
 import { ArchetypeRankData, SortDirection } from "../../../interfaces";
 import SortIndicator from "../../SortIndicator";
 import { image } from "../../../helpers";
+import { InjectedTranslateProps, translate } from "react-i18next";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	active: boolean;
 	direction: SortDirection;
 	rankData: ArchetypeRankData;
@@ -12,8 +13,10 @@ interface Props {
 	onClick?: (key: string, direction: SortDirection) => void;
 }
 
-export default class ColumnHeader extends React.Component<Props> {
+class ColumnHeader extends React.Component<Props> {
 	public render(): React.ReactNode {
+		const { t } = this.props;
+
 		const imageName =
 			"Medal_Ranked_" + (this.props.rankData.rank || "Legend");
 		return (
@@ -43,8 +46,8 @@ export default class ColumnHeader extends React.Component<Props> {
 					src={image(`64x/ranked-medals/${imageName}.png`)}
 				/>
 				{this.props.rankData.rank
-					? "Rank " + this.props.rankData.rank
-					: "Legend"}
+					? t("Rank {rank}", { rank: this.props.rankData.rank })
+					: t("Legend")}
 				<SortIndicator
 					direction={this.props.active ? this.props.direction : null}
 				/>
@@ -61,3 +64,5 @@ export default class ColumnHeader extends React.Component<Props> {
 			: "ascending";
 	}
 }
+
+export default translate()(ColumnHeader);
