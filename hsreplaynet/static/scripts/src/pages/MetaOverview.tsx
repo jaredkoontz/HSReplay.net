@@ -220,17 +220,17 @@ class MetaOverview extends React.Component<Props, State> {
 									iconStyle={{ display: "none" }}
 								>
 									<InfoboxFilter value="REGION_US">
-										Americas
+										{t("Americas")}
 									</InfoboxFilter>
 									<InfoboxFilter value="REGION_EU">
-										Europe
+										{t("Europe")}
 									</InfoboxFilter>
 									<InfoboxFilter value="REGION_KR">
-										Asia
+										{t("Asia")}
 									</InfoboxFilter>
 									<Feature feature="region-filter-china">
 										<InfoboxFilter value="REGION_CN">
-											China
+											{t("China")}
 										</InfoboxFilter>
 									</Feature>
 								</PremiumWrapper>
