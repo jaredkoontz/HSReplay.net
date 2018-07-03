@@ -76,12 +76,15 @@ class TestClassesView(object):
 			lambda name: Mock(**attrs)
 		)
 
+		trigger_if_stale = mocker.patch("hsreplaynet.api.partner.views.trigger_if_stale")
+
 		response = client.get(
 			"/partner-stats/v1/classes/",
 			content_type="application/json",
 			HTTP_AUTHORIZATION="Bearer %s" % partner_token)
 
 		assert response.status_code == 200
+		trigger_if_stale.assert_called()
 
 		response_list = response.json()
 		response_classes = list(map(lambda x: x["id"], response_list))
@@ -128,9 +131,12 @@ class TestClassesView(object):
 			lambda name: Mock(**attrs)
 		)
 
+		trigger_if_stale = mocker.patch("hsreplaynet.api.partner.views.trigger_if_stale")
+
 		response = client.get(
 			"/partner-stats/v1/classes/",
 			content_type="application/json",
 			HTTP_AUTHORIZATION="Bearer %s" % partner_token)
 
 		assert response.status_code == 202
+		trigger_if_stale.assert_called()

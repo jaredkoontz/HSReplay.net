@@ -7,6 +7,7 @@ from rest_framework import status, views
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 
+from hsreplaynet.analytics.utils import trigger_if_stale
 from hsreplaynet.api.partner.serializers import (
 	ArchetypeSerializer, CardSerializer, ClassSerializer
 )
@@ -43,6 +44,7 @@ class PartnerStatsListView(ListAPIView):
 		parameterized_query = query.build_full_params(dict(
 			GameType=game_type
 		))
+		trigger_if_stale(parameterized_query)
 		if not parameterized_query.result_available:
 			raise QueryDataNotAvailableException()
 		response = parameterized_query.response_payload
