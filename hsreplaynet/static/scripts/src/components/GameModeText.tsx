@@ -31,10 +31,12 @@ class GameModeText extends React.Component<Props> {
 			case BnetGameType.BGT_RANKED_STANDARD:
 			case BnetGameType.BGT_RANKED_WILD:
 				if (this.props.player.rank) {
-					return t("Rank {n}", { n: this.props.player.rank });
+					return t("Rank {rank}", { rank: this.props.player.rank });
 				}
 				if (this.props.player.legend_rank) {
-					return t("Rank {n}", { n: this.props.player.legend_rank });
+					return t("Rank {rank}", {
+						rank: this.props.player.legend_rank,
+					});
 				}
 				return t("Ranked");
 			case BnetGameType.BGT_CASUAL_STANDARD:

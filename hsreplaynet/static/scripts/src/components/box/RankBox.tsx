@@ -52,7 +52,7 @@ class RankBox extends React.Component<Props> {
 					/>
 					<h2>
 						{this.props.rank
-							? t("Rank {n}", { n: this.props.rank })
+							? t("Rank {rank}", { rank: this.props.rank })
 							: t("Legend")}
 					</h2>
 					<div className="box-data">{data}</div>
