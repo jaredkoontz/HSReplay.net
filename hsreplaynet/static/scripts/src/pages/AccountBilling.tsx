@@ -246,7 +246,7 @@ class AccountBilling extends React.Component<Props, State> {
 				>
 					<h3>{t("Payment methods")}</h3>
 					<div className="inner">
-						{stripe.default_source ? (
+						{!stripe.default_source ? (
 							<p className="alert alert-info">
 								{t(
 									"You do not have a default payment method set up.",
