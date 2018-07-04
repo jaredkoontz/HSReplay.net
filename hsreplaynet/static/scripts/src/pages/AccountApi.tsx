@@ -222,13 +222,17 @@ class AccountApi extends React.Component<Props, State> {
 							</table>
 						) : (
 							<p>
-								<Trans>
-									Want to use our OAuth2 API in your own app?
-									<a href={`mailto:${SITE_EMAIL}`}>
-										Contact us
-									</a>{" "}
-									to apply for a token.
-								</Trans>
+								<Trans
+									defaults="Want to use our OAuth2 API in your own app? <0>Contact us</0> to apply for a token."
+									components={[
+										<a
+											href={`mailto:${SITE_EMAIL}`}
+											key={0}
+										>
+											0
+										</a>,
+									]}
+								/>
 							</p>
 						)}
 					</div>

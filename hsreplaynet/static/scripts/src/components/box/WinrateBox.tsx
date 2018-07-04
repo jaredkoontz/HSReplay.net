@@ -45,11 +45,16 @@ class WinrateBox extends React.Component<Props> {
 				</h1>
 			);
 			const gameCount = formatNumber(this.props.games);
-			content =
-				// prettier-ignore
-				<Trans>
-					{winrate} <h3>over {gameCount} games</h3>
-				</Trans>;
+			content = (
+				<Trans
+					defaults="{winrate} <0>over {gameCount} games</0>"
+					components={[<h3 key={0}>0</h3>]}
+					tOptions={{
+						winrate,
+						gameCount,
+					}}
+				/>
+			);
 		} else if (
 			this.props.status === LoadingStatus.NO_DATA ||
 			this.props.status === LoadingStatus.PROCESSING

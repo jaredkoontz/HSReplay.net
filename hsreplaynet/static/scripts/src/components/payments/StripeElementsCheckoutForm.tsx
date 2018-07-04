@@ -251,11 +251,13 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 				className="alert alert-success text-center"
 				style={{ marginTop: "20px" }}
 			>
-				<Trans>
-					You have an active coupon for{" "}
-					<strong>{this.props.coupon}</strong>.<br />
-					This amount will be deducted from your purchase.
-				</Trans>
+				<Trans
+					defaults="You have an active coupon for <0>{couponDescription}</0>.<1></1>This amount will be deducted from your purchase."
+					components={[<strong key={0}>0</strong>, <br key={1} />]}
+					tOptions={{
+						couponDescription: this.props.coupon,
+					}}
+				/>
 			</p>
 		);
 	}
