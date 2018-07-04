@@ -25,14 +25,6 @@ class PartnerStatsView(views.APIView):
 	required_scopes = ["stats.partner:read"]
 
 
-class ExampleView(PartnerStatsView):
-	def get(self, request, format=None):
-		content = {
-			"Hello": "World!"
-		}
-		return Response(content)
-
-
 class PartnerStatsListView(ListAPIView):
 	authentication_classes = (OAuth2Authentication, )
 	permission_classes = (TokenHasScope, PartnerStatsPermission)

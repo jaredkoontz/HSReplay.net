@@ -28,32 +28,6 @@ def partner_token(user):
 	return str(token.token)
 
 
-@pytest.mark.django_db
-def test_partner_api_example(partner_token, client):
-	url = "/partner-stats/v1/example/"
-
-	response = client.get(url, content_type="application/json")
-	assert response.status_code == 401
-
-	response = client.get(
-		url, content_type="application/json",
-		HTTP_AUTHORIZATION="Garbage"
-	)
-	assert response.status_code == 401
-
-	response = client.get(
-		url, content_type="application/json",
-		HTTP_AUTHORIZATION="Bearer Garbage"
-	)
-	assert response.status_code == 401
-
-	response = client.get(
-		url, content_type="application/json",
-		HTTP_AUTHORIZATION="Bearer %s" % partner_token
-	)
-	assert response.status_code == 200
-
-
 @pytest.fixture(scope="function")
 def archetypes_serializer_data():
 	decks = dict(
