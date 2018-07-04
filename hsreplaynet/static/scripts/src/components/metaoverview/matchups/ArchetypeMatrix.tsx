@@ -87,7 +87,7 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 					width: this.headerCellWidth,
 				}}
 			>
-				{this.getSortHeader("class", "Archetype", "ascending")}
+				{this.getSortHeader("class", t("Archetype"), "ascending")}
 				<ArchetypeSearch
 					availableArchetypes={this.props.allArchetypes
 						.slice()
