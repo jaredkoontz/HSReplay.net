@@ -417,13 +417,17 @@ class MyReplays extends React.Component<Props, State> {
 							this.onPiePieceClicked(hero)
 						}
 					/>
-					<h2>Display</h2>
+					<h2>{t("Display")}</h2>
 					<InfoboxFilterGroup
 						selectedValue={this.state.viewType}
 						onClick={value => this.setView(value as ViewType)}
 					>
-						<InfoboxFilter value="list">List view</InfoboxFilter>
-						<InfoboxFilter value="tiles">Tile view</InfoboxFilter>
+						<InfoboxFilter value="list">
+							{t("List view")}
+						</InfoboxFilter>
+						<InfoboxFilter value="tiles">
+							{t("Tile view")}
+						</InfoboxFilter>
 					</InfoboxFilterGroup>
 					<h2>{t("Player class")}</h2>
 					<ClassFilter
