@@ -38,7 +38,7 @@ class PopularityBox extends React.Component<Props> {
 			const popularity = `${toDynamicFixed(this.props.popularity, 2)}}%`;
 			content = (
 				<Trans
-					defaults="<0>{popularity}<0> <1>of <2></2> decks</2>"
+					defaults="<0>{popularity}<0> <1>of <2></2> decks</1>"
 					components={[
 						<h1 key={0}>0</h1>,
 						<h3 key={1}>1</h3>,
