@@ -398,7 +398,7 @@ class MyReplays extends React.Component<Props, State> {
 
 		return (
 			<div className="my-replays-content">
-				<div
+				<aside
 					className={filterClassNames.join(" ")}
 					id="myreplays-infobox"
 				>
@@ -518,7 +518,7 @@ class MyReplays extends React.Component<Props, State> {
 						<InfoboxFilter value="lost">{t("Lost")}</InfoboxFilter>
 					</InfoboxFilterGroup>
 					{backButton}
-				</div>
+				</aside>
 				<div className={contentClassNames.join(" ")}>
 					<div className="header-buttons">
 						<button
