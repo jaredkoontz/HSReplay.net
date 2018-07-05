@@ -209,7 +209,7 @@ def test_archetypes_view_no_redshift_data(client, mocker, partner_token):
 		new=mock_get_query_data
 	)
 	response = client.get(
-		"/partner-stats/v1/archetypes/",
+		"/api/v1/partner-stats/archetypes/",
 		HTTP_AUTHORIZATION="Bearer %s" % partner_token
 	)
 	assert response.status_code == status.HTTP_202_ACCEPTED
@@ -245,7 +245,7 @@ def test_archetypes_view_valid_data(
 		new=mock_get_archetypes
 	)
 	response = client.get(
-		"/partner-stats/v1/archetypes/",
+		"/api/v1/partner-stats/archetypes/",
 		HTTP_AUTHORIZATION="Bearer %s" % partner_token
 	)
 	assert response.status_code == status.HTTP_200_OK
@@ -253,7 +253,7 @@ def test_archetypes_view_valid_data(
 
 
 def test_archetypes_view_not_authorized(client):
-	response = client.get("/partner-stats/v1/archetypes/")
+	response = client.get("/api/v1/partner-stats/archetypes/")
 	assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
 
@@ -435,7 +435,7 @@ def test_cards_view_no_redshift_data(client, mocker, partner_token):
 		new=mock_get_query_data
 	)
 	response = client.get(
-		"/partner-stats/v1/cards/",
+		"/api/v1/partner-stats/cards/",
 		HTTP_AUTHORIZATION="Bearer %s" % partner_token
 	)
 	assert response.status_code == status.HTTP_202_ACCEPTED
@@ -457,7 +457,7 @@ def test_cards_view_valid_data(client, mocker, partner_token):
 		new=mock_get_query_data
 	)
 	response = client.get(
-		"/partner-stats/v1/cards/",
+		"/api/v1/partner-stats/cards/",
 		HTTP_AUTHORIZATION="Bearer %s" % partner_token
 	)
 	assert response.status_code == status.HTTP_200_OK
@@ -465,5 +465,5 @@ def test_cards_view_valid_data(client, mocker, partner_token):
 
 
 def test_cards_view_not_authorized(client):
-	response = client.get("/partner-stats/v1/cards/")
+	response = client.get("/api/v1/partner-stats/cards/")
 	assert response.status_code == status.HTTP_401_UNAUTHORIZED

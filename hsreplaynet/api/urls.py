@@ -9,6 +9,7 @@ from hsreplaynet.features.api import FeatureViewSet, SetFeatureView
 
 from . import views
 from .legacy import AuthTokenViewSet, CreateAccountClaimView
+from .partner import views as partner_views
 
 
 router = DefaultRouter()
@@ -45,6 +46,11 @@ urlpatterns = [
 	url(r"^v1/features/(?P<name>[\w-]+)/$", SetFeatureView.as_view()),
 	url(r"^v1/live/", include("hsreplaynet.api.live.urls")),
 	url(r"^api-auth/", include("rest_framework.urls", namespace="rest_framework")),
+
+	# Partner stats API
+	url(r"^v1/partner-stats/archetypes/$", partner_views.ArchetypesView.as_view()),
+	url(r"^v1/partner-stats/cards/$", partner_views.CardsView.as_view()),
+	url(r"^v1/partner-stats/classes/$", partner_views.ClassesView.as_view()),
 ]
 
 urlpatterns += analytics_urlpatterns

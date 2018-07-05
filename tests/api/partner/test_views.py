@@ -25,7 +25,8 @@ TOKEN_DRUID_SUMMARY = {
 @pytest.mark.django_db
 def user():
 	return User.objects.create_user(
-		username="bing", email="bing@microsoft.com", is_fake=True, password="password")
+		username="bing", email="bing@example.com", is_fake=True, password="password"
+	)
 
 
 @pytest.fixture
@@ -41,7 +42,7 @@ def partner_token(user):
 	return str(token.token)
 
 
-class TestClassesView(object):
+class TestClassesView:
 	view = ClassesView()
 
 	@pytest.mark.django_db
@@ -79,7 +80,7 @@ class TestClassesView(object):
 		trigger_if_stale = mocker.patch("hsreplaynet.api.partner.views.trigger_if_stale")
 
 		response = client.get(
-			"/partner-stats/v1/classes/",
+			"/api/v1/partner-stats/classes/",
 			content_type="application/json",
 			HTTP_AUTHORIZATION="Bearer %s" % partner_token)
 
@@ -110,11 +111,11 @@ class TestClassesView(object):
 
 	@pytest.mark.django_db
 	def test_list_unauthorized(self, client):
-		response = client.get("/partner-stats/v1/classes/", content_type="application/json")
+		response = client.get("/api/v1/partner-stats/classes/", content_type="application/json")
 		assert response.status_code == 401
 
 		response = client.get(
-			"/partner-stats/v1/classes/",
+			"/api/v1/partner-stats/classes/",
 			content_type="application/json",
 			HTTP_AUTHORIZATION="Bearer Not-A-Real-Access-Token")
 
@@ -134,7 +135,7 @@ class TestClassesView(object):
 		trigger_if_stale = mocker.patch("hsreplaynet.api.partner.views.trigger_if_stale")
 
 		response = client.get(
-			"/partner-stats/v1/classes/",
+			"/api/v1/partner-stats/classes/",
 			content_type="application/json",
 			HTTP_AUTHORIZATION="Bearer %s" % partner_token)
 
