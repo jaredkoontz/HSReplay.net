@@ -18,12 +18,12 @@ class Command(BaseCommand):
 
 	def add_arguments(self, parser):
 		parser.add_argument(
-			"user", nargs=1,
+			"user",
 			help="The partner's user account name."
 		)
 
 		parser.add_argument(
-			"--reuse-application", nargs=1, action="store", type=int,
+			"--reuse-application", action="store", type=int,
 			help="The numeric id of a preexisting application."
 		)
 
@@ -40,7 +40,7 @@ class Command(BaseCommand):
 
 	def handle(self, *args, **options):
 		User = get_user_model()
-		username = options["user"][0]
+		username = options["user"]
 		try:
 			user = User.objects.get(username=username)
 		except User.DoesNotExist as e:
