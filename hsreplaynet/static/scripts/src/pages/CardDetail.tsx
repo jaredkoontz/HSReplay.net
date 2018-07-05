@@ -775,9 +775,7 @@ class CardDetail extends React.Component<Props, State> {
 									<PrettyCardClass
 										cardClass={this.props.card.cardClass}
 									/>
-								) : (
-									<></>
-								)}
+								) : null}
 							</span>
 						</li>
 						<li>

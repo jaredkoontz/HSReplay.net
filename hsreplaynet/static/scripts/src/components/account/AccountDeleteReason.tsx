@@ -37,9 +37,7 @@ export default class AccountDeleteReason extends React.Component<Props, State> {
 				</label>
 				{this.props.children && this.state.checked ? (
 					<p className="alert alert-warning">{this.props.children}</p>
-				) : (
-					<></>
-				)}
+				) : null}
 			</li>
 		);
 	}
