@@ -79,6 +79,7 @@ class Command(BaseCommand):
 	def add_arguments(self, parser):
 		parser.add_argument("base_user", nargs=1)
 		parser.add_argument("user", nargs=1)
+		parser.add_argument("--yes", action="store_true", default=False)
 
 	def handle(self, *args, **options):
 		base_username = options["base_user"]
@@ -91,9 +92,9 @@ class Command(BaseCommand):
 		except User.DoesNotExist as e:
 			raise CommandError(e)
 
-		if input("Merge user %r into %r? [y/N] " % (user, base_user)).lower() != "y":
-			raise CommandError("Not merging users.")
-			return
+		if not options["yes"]:
+			if input("Merge user %r into %r? [y/N] " % (user, base_user)).lower() != "y":
+				raise CommandError("Not merging users.")
 
 		merge_users(base_user, user)
 
