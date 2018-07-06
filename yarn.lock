@@ -6320,9 +6320,9 @@ react-dom@^16.3.2:
     object-assign "^4.1.1"
     prop-types "^15.6.0"
 
-react-i18next@^7.7.0:
-  version "7.7.0"
-  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-7.7.0.tgz#0cf044b9222179a6ddc5af248a2291ac580652fd"
+"react-i18next@https://s3.amazonaws.com/libs.hearthsim.net/react-i18next-v7.7.1-mount-fix.tgz":
+  version "7.7.1-mount-fix"
+  resolved "https://s3.amazonaws.com/libs.hearthsim.net/react-i18next-v7.7.1-mount-fix.tgz#7c7fc9e27400f8571c9f86169bc8e6f23feaed08"
   dependencies:
     hoist-non-react-statics "^2.3.1"
     html-parse-stringify2 "2.0.1"
