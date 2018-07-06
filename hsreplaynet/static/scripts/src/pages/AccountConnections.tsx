@@ -59,7 +59,7 @@ class AccountConnections extends React.Component<Props, State> {
 									className="btn btn-default"
 								>
 									{t("1. Sign out of Blizzard")}
-								</a>
+								</a>{" "}
 								<button
 									type="submit"
 									className="btn btn-primary"

@@ -39,10 +39,10 @@
 						<form method="POST" action="{% url 'account_make_primary' %}">
 							{% csrf_token %}
 							<input type="hidden" name="account" value="{{ base_account.id }}"/>
-							<button type="submit" class="btn btn-xs btn-primary">Make primary</button>
+							<button type="submit" class="btn btn-xs btn-primary">{% trans "Make primary" %}</button>
 						</form>
 						{% else %}
-							<span class="label label-primary">✔ Primary account</span>
+							<span class="label label-primary">✔ {% trans "Primary account" %}</span>
 						{% endif %}
 					{% endif %}
 				</td>
@@ -51,7 +51,7 @@
 					<form method="POST" action="{% url 'socialaccount_connections' %}">
 						{% csrf_token %}
 						<input type="hidden" name="account" value="{{ base_account.id }}"/>
-						<button type="submit" class="btn btn-xs btn-danger">Remove</button>
+						<button type="submit" class="btn btn-xs btn-danger">{% trans "Remove" %}</button>
 					</form>
 					{% endif %}
 				</td>
