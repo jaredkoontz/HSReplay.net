@@ -1,4 +1,5 @@
 {% load web_extras %}
+{% load get_current_language from i18n %}
 {% if request.dnt %}
 // You are sending DNT. We won't serve you Analytics.
 {% else %}
@@ -23,6 +24,7 @@ if(typeof _userdata === "object" && typeof _userdata.userid !== "undefined") {
 ga("send", "pageview", {
 	page: location.pathname,
 });
+ga("set", "dimension1", "{% get_current_language as lang %}{{ lang }}");
 {% endif %}
 
 {% endif %}
