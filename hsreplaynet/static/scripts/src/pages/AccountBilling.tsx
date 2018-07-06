@@ -610,12 +610,13 @@ class AccountBilling extends React.Component<Props, State> {
 
 					{stripe.coupon ? (
 						<p className="alert alert-success">
-							<Trans>
-								You have an active coupon for{" "}
-								<strong>{stripe.coupon}</strong>. The amount
-								will automatically be deducted from your next
-								payment.
-							</Trans>
+							<Trans
+								defaults="You have an active coupon for <0>{couponDescription}</0>. The amount will automatically be deducted from your next payment."
+								components={[<strong key={0}>0</strong>]}
+								tOptions={{
+									couponDescription: stripe.coupon,
+								}}
+							/>
 						</p>
 					) : null}
 
@@ -660,11 +661,14 @@ class AccountBilling extends React.Component<Props, State> {
 
 					<hr />
 					<p>
-						<Trans>
-							Don't hesitate to{" "}
-							<a href={`mailto:${SITE_EMAIL}`}>contact us</a> if
-							you have issues or questions!
-						</Trans>
+						<Trans
+							defaults="Don't hesitate to <0>contact us</0> if you have issues or questions!"
+							components={[
+								<a href={`mailto:${SITE_EMAIL}`} key={0}>
+									0
+								</a>,
+							]}
+						/>
 					</p>
 				</div>
 			</section>

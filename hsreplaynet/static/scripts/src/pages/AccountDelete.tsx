@@ -32,17 +32,27 @@ class AccountDelete extends React.Component<Props, State> {
 				<h3>{t("Delete account")}</h3>
 				<div className="inner">
 					<p>
-						<Trans>
-							We're sorry to see you go. You can reach out to us
-							by email at{" "}
-							<a href={`mailto:${SITE_EMAIL}`}>{SITE_EMAIL}</a>,{" "}
-							<a href="https://discord.gg/hearthsim">
-								on Discord
-							</a>, or on Twitter{" "}
-							<a href="https://twitter.com/HSReplayNet">
-								@HSReplayNet
-							</a>.
-						</Trans>
+						<Trans
+							defaults="We're sorry to see you go. You can reach out to us by email at <0>{emailAddress}<0>, <1>on Discord<1> or on Twitter <2>{twitterHandle}</2>"
+							components={[
+								<a href={`mailto:${SITE_EMAIL}`} key={0}>
+									0
+								</a>,
+								<a href="https://discord.gg/hearthsim" key={1}>
+									on Discord
+								</a>,
+								<a
+									href="https://twitter.com/HSReplayNet"
+									key={2}
+								>
+									2
+								</a>,
+							]}
+							tOptions={{
+								emailAddress: SITE_EMAIL,
+								twitterHandle: "@HSReplayNet",
+							}}
+						/>
 					</p>
 					<Trans>
 						<p>Deleting your account will:</p>
@@ -106,17 +116,28 @@ class AccountDelete extends React.Component<Props, State> {
 								value="multiple-accounts"
 								reason={t("I have another Blizzard account")}
 							>
-								Please{" "}
-								<a href={`mailto:${SITE_EMAIL}`}>contact us</a>,
-								we can help you by merging your accounts!
+								<Trans
+									defaults="Please <0>contact us</0>, we can help you by merging your accounts!"
+									components={[
+										<a
+											href={`mailto:${SITE_EMAIL}`}
+											key={0}
+										>
+											0
+										</a>,
+									]}
+								/>
 							</AccountDeleteReason>
 							<AccountDeleteReason
 								value="dont-want-premium"
 								reason={t("I don't want to pay for Premium")}
 							>
-								HSReplay.net is entirely usable for free!
-								Although Premium is how the site stays afloat,
-								you do not have to pay to keep using it.
+								<Trans>
+									HSReplay.net is entirely usable for free!
+									Although Premium is how the site stays
+									afloat, you do not have to pay to keep using
+									it.
+								</Trans>
 							</AccountDeleteReason>
 							<AccountDeleteReason
 								value="reset-stats"
@@ -141,15 +162,24 @@ class AccountDelete extends React.Component<Props, State> {
 								value="site-problem"
 								reason={t("I have a problem with the site")}
 							>
-								If you're encountering issues, we want to know
-								about them. You can contact us at{" "}
-								<a href={`mailto:${SITE_EMAIL}`}>
-									{SITE_EMAIL}
-								</a>{" "}
-								or{" "}
-								<a href="https://discord.gg/hearthsim">
-									reach out on Discord
-								</a>. We answer every email.
+								<Trans
+									defaults="If you're encountering issues, we want to know about them. You can contact us at <0>{emailAddress}</0> or <1>reach out on Discord</1>. We answer every email."
+									components={[
+										<a
+											href={`mailto:${SITE_EMAIL}`}
+											key={0}
+										>
+											0
+										</a>,
+										<a
+											href="https://discord.gg/hearthsim"
+											key={1}
+										>
+											1
+										</a>,
+									]}
+									tOptions={{ emailAddress: SITE_EMAIL }}
+								/>
 							</AccountDeleteReason>
 							<AccountDeleteReason
 								value="other"

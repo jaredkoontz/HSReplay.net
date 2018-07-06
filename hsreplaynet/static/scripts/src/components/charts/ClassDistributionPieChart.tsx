@@ -2,7 +2,7 @@ import React from "react";
 import { VictoryContainer, VictoryPie } from "victory";
 import { getHeroColor, pieScaleTransform } from "../../helpers";
 import PrettyCardClass from "../text/PrettyCardClass";
-import { InjectedTranslateProps, Trans, translate } from "react-i18next";
+import { InjectedTranslateProps, translate } from "react-i18next";
 import { formatNumber } from "../../i18n";
 import LoadingSpinner from "../LoadingSpinner";
 
@@ -156,9 +156,11 @@ class ClassDistributionPieChart extends React.Component<Props, State> {
 					{this.props.loading ? (
 						<LoadingSpinner active small />
 					) : (
-						<Trans>
-							{cardClass}: {numGames} - {winrate} winrate
-						</Trans>
+						t("{cardClass}: {numGames} - {winrate} winrate", {
+							cardClass,
+							numGames,
+							winrate,
+						})
 					)}
 				</h5>
 			</div>
