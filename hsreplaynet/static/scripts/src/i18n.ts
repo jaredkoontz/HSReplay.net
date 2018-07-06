@@ -86,6 +86,12 @@ i18n
 		// initial namespaces to load
 		ns: ["frontend", "hearthstone"],
 
+		// improve react-i18next performance
+		react: {
+			bindStore: false,
+			bindI18n: "languageChanged"
+		},
+
 		// not required using i18next-react
 		interpolation: {
 			escapeValue: false,
