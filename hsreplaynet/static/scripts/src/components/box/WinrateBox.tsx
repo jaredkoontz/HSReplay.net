@@ -39,16 +39,17 @@ class WinrateBox extends React.Component<Props> {
 			this.props.games !== undefined
 		) {
 			const wrData = winrateData(50, this.props.winrate, 3);
-			const winrate = (
-				<h1 style={{ color: wrData.color }}>
-					{toDynamicFixed(this.props.winrate, 2)}%
-				</h1>
-			);
+			const winrate = `${toDynamicFixed(this.props.winrate, 2)}%`;
 			const gameCount = formatNumber(this.props.games);
 			content = (
 				<Trans
-					defaults="{winrate} <0>over {gameCount} games</0>"
-					components={[<h3 key={0}>0</h3>]}
+					defaults="<0>{winrate}</0> <1>over {gameCount} games</1>"
+					components={[
+						<h1 style={{ color: wrData.color }} key={0}>
+							0
+						</h1>,
+						<h3 key={1}>1</h3>,
+					]}
 					tOptions={{
 						winrate,
 						gameCount,
