@@ -1,12 +1,14 @@
 from django.conf import settings
 from django.http import Http404
+from django.urls import reverse
 from django.utils import translation
 from django.utils.decorators import method_decorator
-from django.utils.text import format_lazy
+from django.utils.text import format_lazy, slugify
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import TemplateView
 from django_hearthstone.cards.models import Card
 from hearthstone.enums import CardSet, CardType, Locale, Rarity
+from unidecode import unidecode
 
 from hsreplaynet.features.decorators import view_requires_feature_access
 
@@ -101,6 +103,7 @@ class CardDetailView(SimpleReactView):
 		name = obj.localized_name(locale=locale)
 
 		self.request.head.set_canonical_url(obj.get_absolute_url() + "/")
+		self.request.head.set_hreflang(lambda lang: self.get_hreflang(obj, lang))
 		self.request.head.title = format_lazy(
 			"{name} - {title}",
 			name=name, title=_("Hearthstone Card Statistics")
@@ -128,6 +131,12 @@ class CardDetailView(SimpleReactView):
 			"card_id": card.card_id,
 			"dbf_id": card.dbf_id,
 		}
+
+	def get_hreflang(self, card, lang):
+		locale = Locale[lang_to_blizzard(lang)]
+		name = card.localized_name(locale=locale)
+		slug = slugify(unidecode(name))
+		return reverse("card_detail", kwargs={"pk": card.dbf_id, "slug": slug})
 
 
 @method_decorator(view_requires_feature_access("cardeditor"), name="dispatch")

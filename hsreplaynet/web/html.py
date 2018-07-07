@@ -42,6 +42,7 @@ class HTMLHead:
 		self.base_title = "HSReplay.net"
 		self.title = ""
 		self.canonical_url = ""
+		self.hreflang = None
 		self.opengraph = {}
 		# self.favicon = ""
 		self.static_url = settings.STATIC_URL
@@ -111,10 +112,15 @@ class HTMLHead:
 		url = urlparse(base_url)
 		query_dict = QueryDict(url.query, mutable=True)
 		for language_code, _ in settings.LANGUAGES:
+			loc_url = url
 			query_dict["hl"] = language_code
-			url = url._replace(query=query_dict.urlencode())
+			if self.hreflang:
+				hreflang = self.hreflang(language_code)
+				base_url = self.request.build_absolute_uri(hreflang)
+				loc_url = urlparse(base_url)
+			loc_url = loc_url._replace(query=query_dict.urlencode())
 			tags.append(HTMLTag("link", attrs={
-				"rel": "alternate", "hreflang": language_code, "href": url.geturl()
+				"rel": "alternate", "hreflang": language_code, "href": loc_url.geturl()
 			}))
 
 		del query_dict["hl"]
@@ -182,6 +188,9 @@ class HTMLHead:
 
 	def set_canonical_url(self, url):
 		self.canonical_url = self.request.build_absolute_uri(url)
+
+	def set_hreflang(self, callback):
+		self.hreflang = callback
 
 
 class RequestMetaMixin:
