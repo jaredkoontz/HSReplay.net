@@ -35,6 +35,12 @@
 		color: black;
 	}
 
+	&.white-style {
+		border: solid 1px black;
+		background-color: white;
+		color: black;
+	}
+
 	.btn-group > &:first-child {
 		padding-left: 20px;
 		padding-right: 15px;
@@ -110,6 +116,12 @@
 		color: $premium;
 		background-color: white;
 		border-color: $premium;
+	}
+
+	&.white-style {
+		color: white;
+		background-color: black;
+		border-color: white;
 	}
 }
 

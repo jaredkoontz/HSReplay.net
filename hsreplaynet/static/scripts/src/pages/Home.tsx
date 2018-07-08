@@ -22,6 +22,7 @@ import { default as Twitch } from "../Twitch";
 import TwitchStream from "../components/TwitchStream";
 import { AutoSizer } from "react-virtualized";
 import { TwitchStreamPromotionEvents } from "../metrics/GoogleAnalytics";
+import HDTVideo from "../components/HDTVideo";
 
 interface Props extends InjectedTranslateProps {
 	cardData: CardData | null;
@@ -33,14 +34,10 @@ interface State {
 	fullReplaySpeed: boolean;
 	showPremiumModal: boolean;
 	showCollectionModal: boolean;
-	videoLoaded: boolean;
-	videoPlaying: boolean;
-	loadVideo: boolean;
 	promoStreamLive?: boolean;
 }
 
 class Home extends React.Component<Props, State> {
-	private video: HTMLVideoElement;
 	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
@@ -48,22 +45,12 @@ class Home extends React.Component<Props, State> {
 			fullReplaySpeed: false,
 			showCollectionModal: false,
 			showPremiumModal: false,
-			videoLoaded: false,
-			videoPlaying: false,
-			loadVideo: false,
 			promoStreamLive: false,
 		};
 	}
 
 	componentDidMount() {
-		setTimeout(() => this.setState({ loadVideo: true }), 5000);
 		this.verifyStreamIsLive();
-	}
-
-	componentDidUpdate(prevProps: Props, prevState: State) {
-		if (!prevState.videoPlaying && this.state.videoPlaying && this.video) {
-			this.video.play();
-		}
 	}
 
 	verifyStreamIsLive(): void {
@@ -273,35 +260,6 @@ class Home extends React.Component<Props, State> {
 
 	private renderBelowTheFold(): React.ReactNode {
 		const { t } = this.props;
-		const video = this.state.loadVideo ? (
-			<video
-				key="video"
-				ref={ref => (this.video = ref)}
-				muted
-				onLoadedData={() =>
-					this.setState({ videoLoaded: true, videoPlaying: true })
-				}
-				onEnded={() => this.setState({ videoPlaying: false })}
-			>
-				<source
-					src="https://s3.amazonaws.com/media.hearthsim.net/hsreplaynet/hdt-preview.webm"
-					type="video/webm"
-				/>
-				<source
-					src="https://s3.amazonaws.com/media.hearthsim.net/hsreplaynet/hdt-preview.mp4"
-					type="video/mp4"
-				/>
-			</video>
-		) : null;
-		const videoThumbnail = (
-			<img
-				key="thumbnail"
-				src={image("hdt-preview-stopthumb.jpg")}
-				onMouseEnter={() => {
-					this.setState({ videoPlaying: true, loadVideo: true });
-				}}
-			/>
-		);
 		return (
 			<>
 				<div className="row content-row info-content" id="pilot">
@@ -325,12 +283,7 @@ class Home extends React.Component<Props, State> {
 							</a>
 						</div>
 						<div className="panel-feature col-md-7 col-xs-12">
-							<div className="video-container">
-								{this.state.videoLoaded &&
-								this.state.videoPlaying
-									? [video, videoThumbnail]
-									: [videoThumbnail, video]}
-							</div>
+							<HDTVideo autoplay autoplayDelay={5000} />
 						</div>
 						<div className="panel-button col-xs-12 visible-sm visible-xs">
 							<a

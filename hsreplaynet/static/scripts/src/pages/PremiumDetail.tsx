@@ -7,6 +7,8 @@ import { image } from "../helpers";
 import { ReferralEvents } from "../metrics/GoogleAnalytics";
 import ReferralsPromo from "./ReferralsPromo";
 import Panel from "../components/Panel";
+import HDTVideo from "../components/HDTVideo";
+import PremiumFeaturePanel from "../components/premium/PremiumFeaturePanel";
 
 interface Props extends InjectedTranslateProps {
 	discount: string;
@@ -21,10 +23,9 @@ interface State {}
 
 class PremiumDetail extends React.Component<Props, State> {
 	public render(): React.ReactNode {
-		if(UserData.hasFeature("new-premium")) {
+		if (UserData.hasFeature("new-premium")) {
 			return this.renderNew();
-		}
-		else {
+		} else {
 			return this.renderOld();
 		}
 	}
@@ -35,162 +36,180 @@ class PremiumDetail extends React.Component<Props, State> {
 				Subscribe now
 			</a>
 		);
-		return <div id="premium-container">
-			<header>
-				<div id="header-background-fade"/>
-				<div className="col-sm-12">
-					<div id="main-header">
-						<h1>HSReplay.net <span className="premium-text">Premium</span></h1>
-						<h3>Subscribe for $4.99USD monthly</h3>
-						{subscribeButton}
+		return (
+			<div id="premium-container">
+				<header style={{
+					backgroundImage: `url(${image("premium/splash-bk.png")})`
+				}}>
+					<div id="header-background-fade" />
+					<div className="col-sm-12">
+						<div id="main-header">
+							<h1>
+								HSReplay.net{" "}
+								<span className="premium-text">Premium</span>
+							</h1>
+							<h3>
+								Subscribe for <strong>$4.99</strong>{" "}
+								<sup>USD</sup> monthly
+							</h3>
+							{subscribeButton}
+						</div>
 					</div>
-				</div>
-				<div className="col-lg-6 col-sm-12">
-					<div className="testemonial">
-					<h1>James "Firebat" Kostesich</h1>
-					<h4>Hearthstone World Champion</h4>
-					<p>
-						"I use HSReplay.net to try and figure out what emerging decks
-						have the best winrate. And, I live the data on mulligans,
-						keeping the right cards in the starting hand is one of the
-						most impactful things in a hearthstone game."
-					</p>
-				</div>
-				</div>
-				<div className="col-lg-6 col-sm-12">
-					<div className="testemonial">
-					<h1>Petar "Gaara" Stevanovic</h1>
-					<p>
-						"I Use HSReplay.net every day. Seeing the mulligan winrates
-						and best decks in the last 24 hours has become my
-						daily routine. My favorite thing to do is when my Twitch
-						chat says I missed lethal, I show them the replay with the
-						tool on the site to prove them wrong. It's a great site!"
-					</p>
+					<div className="col-lg-6 col-sm-12">
+						<div className="testemonial">
+							<h2>James "Firebat" Kostesich</h2>
+							<h4>Hearthstone World Champion</h4>
+							<p>
+								"I use HSReplay.net to try and figure out what
+								emerging decks have the best winrate. And, I
+								live the data on mulligans, keeping the right
+								cards in the starting hand is one of the most
+								impactful things in a hearthstone game."
+							</p>
+						</div>
 					</div>
-				</div>
-			</header>
-			<section id="feature-story">
-				<h1>Before you play, get prepared!</h1>
-				<div className="col-lg-4 col-sm-12">
-					<Panel
-						header="Find decks to play"
-						theme="light"
-						accent="blue"
-					>
-						<img src={image("brawl.png")}/>
-						<ul>
-							<li>Pick from rank 25 to Legend</li>
-							<li>Select region of play: NA, EU, AS, CH</li>
-							<li>Choose range of days: 1, 3, 7</li>
-						</ul>
-					</Panel>
-				</div>
+					<div className="col-lg-6 col-sm-12">
+						<div className="testemonial">
+							<h2>Petar "Gaara" Stevanovic</h2>
+							<h4>Pro Player and Streamer</h4>
+							<p>
+								"I Use HSReplay.net every day. Seeing the
+								mulligan winrates and best decks in the last 24
+								hours has become my daily routine. My favorite
+								thing to do is when my Twitch chat says I missed
+								lethal, I show them the replay with the tool on
+								the site to prove them wrong. It's a great
+								site!"
+							</p>
+						</div>
+					</div>
+				</header>
+				<section id="feature-story">
+					<div className="clearfix" />
+					<h1>Features</h1>
+					<h2>Before the game</h2>
 					<div className="col-lg-4 col-sm-12">
-					<Panel
-						header="Understand the meta"
-						theme="light"
-						accent="blue"
-					>
-						<img src={image("brawl.png")}/>
-						<ul>
-							<li>Find decks you want to play</li>
-							<li>Stay of top of who is favored</li>
-						</ul>
-					</Panel>
+						<PremiumFeaturePanel
+							title="Find decks to play"
+							image={image("premium/meta.png")}
+							subtitle="Search Filters"
+							bullets={[
+								"Select Ranks 25 - Legend",
+								"Choose regions: NA, EU, AS, CN",
+								"Set time range: 1, 3, 7 days",
+							]}
+						/>
 					</div>
-						<div className="col-lg-4 col-sm-12">
-					<Panel
-						header="Know your plays"
-						theme="light"
-						accent="blue"
-					>
-						<img src={image("brawl.png")}/>
-						<ul>
-							<li>Know when you're favored</li>
-							<li>Monitor overall winrate</li>
-						</ul>
-					</Panel>
-				</div>
-				<div className="col-lg-12">
-					<Panel
-						header="Play better from the start!"
-						theme="light"
-						accent="blue"
-					>
-						<div className="col-lg-4 col-sm-12">
-							<img src={image("brawl.png")}/>
-							<h1>Mulligan Guide</h1>
-							<p>
-								Learn the best cards to keep in your opening hand
-								against your oppponents class.
-							</p>
-							<ul>
-								<li>Mulligan stats by class matchup</li>
-							</ul>
-						</div>
-						<div className="col-lg-4 col-sm-12">
-							<img src={image("brawl.png")}/>
-							<h1>Turn Data</h1>
-							<p>Find the best turns to play a card most effectively</p>
-							<ul>
-								<li>Winrate when played on turn #</li>
-							</ul>
-						</div>
-						<div className="col-lg-4 col-sm-12">
-							<img src={image("brawl.png")}/>
-							<h1>In-game Overlay</h1>
-							<p>
-								Never lose track of whether you or your opponent
-								have played the second Brawl, Hex or Psychic Scream.
-							</p>
-							<a href="#" className="btn promo-button white-style">
-								Download
-							</a>
-						</div>
-					</Panel>
-				</div>
-				<div className="col-lg-6 col-sm-12">
-					<Panel
-						header="Personal stats"
-						theme="light"
-						accent="blue"
-					>
-						<img src={image("brawl.png")}/>
-						<p>
-							Analyze your overall results. Identify the
-							decks you are winning the most with over
-							multiple play sessions.
-						</p>
-					</Panel>
-				</div>
-				<div className="col-lg-6 col-sm-12">
-					<Panel
-						header="Replays"
-						theme="light"
-						accent="blue"
-					>
-						<img src={image("brawl.png")}/>
-						<p>
-							Review your games to identify any
-							improvements you can make in your
-							gameplay and learn more about a matchup.
-						</p>
-					</Panel>
-				</div>
-				<section id="subscribe">
-					<div className="col-lg-12">
+					<div className="col-lg-4 col-sm-12">
+						<PremiumFeaturePanel
+							title="Understand the meta"
+							image={image("premium/tier-graphic.png")}
+							subtitle="Meta Tier List"
+							bullets={[
+								"Find decks you want to play",
+								"Stay on top of the meta",
+							]}
+						/>
+					</div>
+					<div className="col-lg-4 col-sm-12">
+						<PremiumFeaturePanel
+							title="Know your plays"
+							image={image("premium/matchup.png")}
+							subtitle="Archetype Matchups"
+							text="Find out how a deck does against all the popular archetypes in the meta"
+							bullets={[
+								"Know when you're favored",
+								"Monitor overall winrate",
+							]}
+						/>
+					</div>
+					<div className="clearfix" />
+					<h2>During the game</h2>
+					<div className="col-lg-4 col-sm-12">
+						<PremiumFeaturePanel
+							title="Learn what to keep"
+							image={image("premium/mulligan.png")}
+							subtitle="Mulligan Guide"
+							text="Learn the best cards to keep in your opening hand against your opponent's class"
+							bullets={["Mulligan stats by class matchup"]}
+						/>
+					</div>
+					<div className="col-lg-4 col-sm-12">
+						<PremiumFeaturePanel
+							title="Analyze card details"
+							image={image("premium/turn.png")}
+							subtitle="Turn Data"
+							text="Find the best turns to play a card most effectively"
+							bullets={["Winrate when played on turn #"]}
+						/>
+					</div>
+					<div className="col-lg-4 col-sm-12">
+						<PremiumFeaturePanel
+							title="Visualize your game"
+							image={<HDTVideo />}
+							subtitle="In-game Overlay"
+							text={
+								<>
+									<p>
+										Never lose track when you or your
+										opponent have played the second Brawl,
+										Hex or Psychic Scream"
+									</p>
+									<a
+										href="#"
+										className="btn promo-button transparent-style"
+									>
+										Download
+									</a>
+								</>
+							}
+						/>
+					</div>
+					<div className="clearfix" />
+					<h2>After the game</h2>
+					<div className="col-lg-6 col-sm-12">
 						<Panel
+							header="Track your games"
 							theme="light"
 							accent="blue"
 						>
-							<h1>$4.99 USD monthly</h1>
-							{subscribeButton}
+							<img src={image("premium/history.png")} />
+							<h3>Search Filters</h3>
+							<p>
+								Analyze your overall results. Identify the decks
+								you are winning the most with over multiple play
+								sessions.
+							</p>
 						</Panel>
 					</div>
+					<div className="col-lg-6 col-sm-12">
+						<Panel
+							header="Study the past"
+							theme="light"
+							accent="blue"
+						>
+							<img src={image("premium/replay.png")} />
+							<h3>Search Filters</h3>
+							<p>
+								Review your games to identify any improvements
+								you can make in your gameplay and learn more
+								about a matchup.
+							</p>
+						</Panel>
+					</div>
+					<section id="subscribe">
+						<div className="col-lg-12">
+							<Panel theme="light" accent="blue" className="panel-subscribe">
+								<img src={image("premium/banner-bk.png")} className="subscribe-background"/>
+								<div className="subscribe-content">
+									{subscribeButton}
+								</div>
+							</Panel>
+						</div>
+					</section>
 				</section>
-			</section>
-		</div>;
+			</div>
+		);
 	}
 
 	private renderOld(): React.ReactNode {
