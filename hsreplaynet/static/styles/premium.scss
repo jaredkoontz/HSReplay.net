@@ -60,9 +60,15 @@
 		}
 
 		.testemonial {
-			max-width: 500px;
 			margin: 0 auto;
 			padding: 15px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
+			.testemonial-content {
+				max-width: 500px;
+			}
 
 			h2,
 			h4 {
