@@ -43,6 +43,7 @@ class PremiumDetail extends React.Component<Props, State> {
 					backgroundImage: `url(${image("premium/splash-bk.png")})`
 				}}>
 					<div id="header-background-fade" />
+					<div id="header-background-fade" className="fade-radial"/>
 					<div className="col-sm-12">
 						<div id="main-header">
 							<h1>
