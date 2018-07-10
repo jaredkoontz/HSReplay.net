@@ -171,16 +171,31 @@
 		}
 	}
 
-	.content-container {
+	.text-container {
 		flex: 1 0 0;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		max-width: 75%;
+		margin: 0 auto;
 
 		> p {
 			padding-bottom: 10px;
+			max-width: 75%;
+		}
+	}
+
+	&.wide {
+		@media(min-width: 576px) {
+			.panel-content {
+				display: flex;
+				flex-direction: row-reverse;
+				height: 250px;
+				align-items: center;
+			}
+			.content-container {
+				flex: 1 0 0;
+			}
 		}
 	}
 }

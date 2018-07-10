@@ -157,34 +157,22 @@ class PremiumDetail extends React.Component<Props, State> {
 					<div className="clearfix" />
 					<h2>After the game</h2>
 					<div className="col-lg-6 col-sm-12">
-						<Panel
-							header="Track your games"
-							theme="light"
-							accent="blue"
-						>
-							<img src={image("premium/history.png")} />
-							<h3>Search Filters</h3>
-							<p>
-								Analyze your overall results. Identify the decks
-								you are winning the most with over multiple play
-								sessions.
-							</p>
-						</Panel>
+						<PremiumFeaturePanel
+							title="Track your progress"
+							image={image("premium/history.png")}
+							subtitle="Personal Statistics"
+							text="Analyze your overall results. Identify the decks you are winning the most with over multiple play sessions"
+							wide
+						/>
 					</div>
 					<div className="col-lg-6 col-sm-12">
-						<Panel
-							header="Study the past"
-							theme="light"
-							accent="blue"
-						>
-							<img src={image("premium/replay.png")} />
-							<h3>Search Filters</h3>
-							<p>
-								Review your games to identify any improvements
-								you can make in your gameplay and learn more
-								about a matchup.
-							</p>
-						</Panel>
+						<PremiumFeaturePanel
+							title="Study the past"
+							image={image("premium/replay.png")}
+							subtitle="Recorded Matches"
+							text="Review your games to identify any improvements you can make in your game play and learn more about a matchup"
+							wide
+						/>
 					</div>
 					<section id="subscribe">
 						<div className="col-lg-12">
