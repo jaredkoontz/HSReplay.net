@@ -32,11 +32,10 @@ class PremiumDetail extends React.Component<Props, State> {
 	}
 
 	private renderNew(): React.ReactNode {
-		const subscribeButton = (
-			<a href="#" className="btn promo-button white-style">
-				Subscribe now
-			</a>
-		);
+		const { hasSubscriptionPastDue, t } = this.props;
+		const isPremium = UserData.isPremium();
+		const isAuthenticated = UserData.isAuthenticated();
+		const showCheckoutForm = !isPremium && !hasSubscriptionPastDue;
 		return (
 			<div id="premium-container">
 				<header style={{
@@ -48,13 +47,61 @@ class PremiumDetail extends React.Component<Props, State> {
 						<div id="main-header">
 							<h1>
 								HSReplay.net{" "}
-								<span className="premium-text">Premium</span>
+								<span className="text-premium">Premium</span>
 							</h1>
-							<h3>
-								Subscribe for <strong>$4.99</strong>{" "}
-								<sup>USD</sup> monthly
-							</h3>
-							{subscribeButton}
+							{isPremium ? (
+								<>
+									<h3 className="text-premium">
+										<span className="glyphicon glyphicon-ok" />{" "}
+										<strong>
+										{t(
+											"You've subscribed. Thanks for your support!",
+										)}
+										</strong>
+									</h3>
+									<a
+										href="/account/billing/"
+										className="btn promo-button white-style"
+									>
+										{t("Billing settings")}
+									</a>
+								</>
+							) : (
+								<>
+									{hasSubscriptionPastDue ? (
+										<>
+											<a href="/account/billing/" className="btn promo-button white-style">
+												{t("Subscription suspended")}
+											</a>
+											<h3>
+												{t(
+													"Your subscription was suspended due to an open payment.",
+												)}
+												<br />
+												<a
+													href="/account/billing/"
+													style={{
+														textDecoration: "underline",
+													}}
+												>
+													{t(
+														"Please visit the billing settings",
+													)}
+												</a>.
+											</h3>
+										</>
+									) : (
+										<>
+											<h3>
+												Subscribe for <strong>{this.props.premiumPrice}</strong>
+											</h3>
+											<a href="#checkout" className="btn promo-button white-style">
+												Subscribe now
+											</a>
+										</>
+									)}
+								</>
+							)}
 						</div>
 					</div>
 					<div className="col-lg-6 col-sm-12">
@@ -175,17 +222,59 @@ class PremiumDetail extends React.Component<Props, State> {
 							wide
 						/>
 					</div>
+					<div className="clearfix" />
 					<section id="subscribe">
 						<div className="col-lg-12">
 							<Panel theme="light" accent="blue" className="panel-subscribe">
 								<img src={image("premium/banner-bk.png")} className="subscribe-background"/>
 								<div className="subscribe-content">
-									{subscribeButton}
+									{
+										isAuthenticated ? (
+											<a href="#checkout" className="btn promo-button white-style">
+												Subscribe now
+											</a>
+										) : (
+											<LoginButton/>
+										)
+									}
 								</div>
 							</Panel>
 						</div>
 					</section>
+					<div className="clearfix" />
 				</section>
+				{showCheckoutForm ? (
+					<section id="checkout" className="promo">
+						<div className="container">
+							{isAuthenticated ? (
+								<>
+									<h3 className="text-center">
+										{this.props.randomQuote}
+									</h3>
+
+									<div className="form-group">
+										<PremiumCheckout
+											analyticsLabel={"Premium Detail"}
+											preselect
+										/>
+									</div>
+								</>
+							) : (
+								<>
+									<h3 className="text-center">
+										{t("Sign in to subscribe")}
+									</h3>
+									<div
+										className="text-center"
+										style={{ margin: "25px 0 10px 0" }}
+									>
+										<LoginButton next={"/premium#checkout"} />
+									</div>
+								</>
+							)}
+						</div>
+					</section>
+				) : null}
 			</div>
 		);
 	}
