@@ -104,23 +104,23 @@ class PremiumDetail extends React.Component<Props, State> {
 							)}
 						</div>
 					</div>
-					<div className="col-lg-6 col-sm-12">
-						<Testemonial
-							image={image("brawl.png")}
-							name={"James \"Firebat\" Kostesich"}
-							subtitle="Hearthstone World Champion"
-							text={"\"I use HSReplay.net to try and figure out what emerging decks have the best winrate. And, I live the data on mulligans, keeping the right cards in the starting hand is one of the most impactful things in a hearthstone game.\""}
-						/>
-					</div>
-					<div className="col-lg-6 col-sm-12">
-						<Testemonial
-							image={image("brawl.png")}
-							name={"Petar \"Gaara\" Stevanovic"}
-							subtitle="Pro Player and Streamer"
-							text={"\"I Use HSReplay.net every day. Seeing the mulligan winrates and best decks in the last 24 hours has become my daily routine. My favorite thing to do is when my Twitch chat says I missed lethal, I show them the replay with the tool on the site to prove them wrong. It's a great site!\""}
-						/>
-					</div>
 				</header>
+				<div className="col-lg-6 col-sm-12">
+					<Testemonial
+						image={image("brawl.png")}
+						name={"James \"Firebat\" Kostesich"}
+						subtitle="Hearthstone World Champion"
+						text={"\"I use HSReplay.net to try and figure out what emerging decks have the best winrate. And, I live the data on mulligans, keeping the right cards in the starting hand is one of the most impactful things in a hearthstone game.\""}
+					/>
+				</div>
+				<div className="col-lg-6 col-sm-12">
+					<Testemonial
+						image={image("brawl.png")}
+						name={"Petar \"Gaara\" Stevanovic"}
+						subtitle="Pro Player and Streamer"
+						text={"\"I Use HSReplay.net every day. Seeing the mulligan winrates and best decks in the last 24 hours has become my daily routine. My favorite thing to do is when my Twitch chat says I missed lethal, I show them the replay with the tool on the site to prove them wrong. It's a great site!\""}
+					/>
+				</div>
 				<section id="feature-story">
 					<div className="clearfix" />
 					<h1>Features</h1>

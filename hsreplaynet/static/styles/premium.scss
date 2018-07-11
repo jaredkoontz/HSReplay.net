@@ -28,6 +28,7 @@
 		color: black;
 		background-position-y: -10px;
 		background-position-x: center;
+		margin-bottom: -100px;
 
 		#header-background-fade {
 			background: linear-gradient(
@@ -71,31 +72,36 @@
 				margin-top: 20px;
 			}
 		}
+	}
 
-		.testemonial {
-			margin: 0 auto;
-			padding: 15px;
-			display: flex;
-			align-items: center;
-			justify-content: center;
+	.testemonial {
+		margin: 0 auto;
+		padding: 15px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 
-			.testemonial-content {
-				max-width: 400px;
-			}
+		@media(max-width: 576px) {
+			flex-direction: column;
+		}
 
-			h2,
-			h4 {
-				color: $red;
-			}
+		.testemonial-content {
+			max-width: 400px;
+		}
 
-			h2 {
-				font-weight: bold;
-			}
+		h2,
+		h4 {
+			color: $red;
+			text-align: center;
+		}
 
-			p {
-				text-align: left;
-				font-size: 1.2em;
-			}
+		h2 {
+			font-weight: bold;
+		}
+
+		p {
+			text-align: left;
+			font-size: 1.2em;
 		}
 	}
 
