@@ -81,7 +81,7 @@
 		align-items: center;
 		justify-content: center;
 
-		@media(max-width: 576px) {
+		@media (max-width: 576px) {
 			flex-direction: column;
 		}
 
@@ -122,6 +122,29 @@
 			text-transform: uppercase;
 			text-align: left;
 			margin: 50px 0 0 17px;
+		}
+	}
+
+	#testemonial-carousel {
+		margin-top: 10px;
+		.testemonial {
+			min-height: 450px;
+			padding: 25px;
+
+			.testemonial-content {
+				max-width: 600px;
+				margin: 0 auto;
+			}
+
+			h2 {
+				font-weight: bold;
+				font-size: 2.5em;
+			}
+
+			h4,
+			p {
+				font-size: 1.5em;
+			}
 		}
 	}
 
@@ -228,7 +251,7 @@
 	}
 
 	&.wide {
-		@media(min-width: 576px) {
+		@media (min-width: 576px) {
 			.panel-content {
 				display: flex;
 				flex-direction: row-reverse;

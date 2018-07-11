@@ -10,6 +10,7 @@ import Panel from "../components/Panel";
 import HDTVideo from "../components/HDTVideo";
 import PremiumFeaturePanel from "../components/premium/PremiumFeaturePanel";
 import Testemonial from "../components/premium/Testemonial";
+import TestemonialCarousel from "../components/premium/TestemonialCarousel";
 
 interface Props extends InjectedTranslateProps {
 	discount: string;
@@ -38,11 +39,15 @@ class PremiumDetail extends React.Component<Props, State> {
 		const showCheckoutForm = !isPremium && !hasSubscriptionPastDue;
 		return (
 			<div id="premium-container">
-				<header style={{
-					backgroundImage: `url(${image("premium/splash-bk.png")})`
-				}}>
+				<header
+					style={{
+						backgroundImage: `url(${image(
+							"premium/splash-bk.png",
+						)})`,
+					}}
+				>
 					<div id="header-background-fade" />
-					<div id="header-background-fade" className="fade-radial"/>
+					<div id="header-background-fade" className="fade-radial" />
 					<div className="col-sm-12">
 						<div id="main-header">
 							<h1>
@@ -54,9 +59,9 @@ class PremiumDetail extends React.Component<Props, State> {
 									<h3 className="text-premium">
 										<span className="glyphicon glyphicon-ok" />{" "}
 										<strong>
-										{t(
-											"You've subscribed. Thanks for your support!",
-										)}
+											{t(
+												"You've subscribed. Thanks for your support!",
+											)}
 										</strong>
 									</h3>
 									<a
@@ -70,7 +75,10 @@ class PremiumDetail extends React.Component<Props, State> {
 								<>
 									{hasSubscriptionPastDue ? (
 										<>
-											<a href="/account/billing/" className="btn promo-button white-style">
+											<a
+												href="/account/billing/"
+												className="btn promo-button white-style"
+											>
 												{t("Subscription suspended")}
 											</a>
 											<h3>
@@ -81,7 +89,8 @@ class PremiumDetail extends React.Component<Props, State> {
 												<a
 													href="/account/billing/"
 													style={{
-														textDecoration: "underline",
+														textDecoration:
+															"underline",
 													}}
 												>
 													{t(
@@ -93,9 +102,15 @@ class PremiumDetail extends React.Component<Props, State> {
 									) : (
 										<>
 											<h3>
-												Subscribe for <strong>{this.props.premiumPrice}</strong>
+												Subscribe for{" "}
+												<strong>
+													{this.props.premiumPrice}
+												</strong>
 											</h3>
-											<a href="#checkout" className="btn promo-button white-style">
+											<a
+												href="#checkout"
+												className="btn promo-button white-style"
+											>
 												Subscribe now
 											</a>
 										</>
@@ -108,17 +123,21 @@ class PremiumDetail extends React.Component<Props, State> {
 				<div className="col-lg-6 col-sm-12">
 					<Testemonial
 						image={image("brawl.png")}
-						name={"James \"Firebat\" Kostesich"}
+						name={'James "Firebat" Kostesich'}
 						subtitle="Hearthstone World Champion"
-						text={"\"I use HSReplay.net to try and figure out what emerging decks have the best winrate. And, I live the data on mulligans, keeping the right cards in the starting hand is one of the most impactful things in a hearthstone game.\""}
+						text={
+							'"I use HSReplay.net to try and figure out what emerging decks have the best winrate. And, I live the data on mulligans, keeping the right cards in the starting hand is one of the most impactful things in a hearthstone game."'
+						}
 					/>
 				</div>
 				<div className="col-lg-6 col-sm-12">
 					<Testemonial
 						image={image("brawl.png")}
-						name={"Petar \"Gaara\" Stevanovic"}
+						name={'Petar "Gaara" Stevanovic'}
 						subtitle="Pro Player and Streamer"
-						text={"\"I Use HSReplay.net every day. Seeing the mulligan winrates and best decks in the last 24 hours has become my daily routine. My favorite thing to do is when my Twitch chat says I missed lethal, I show them the replay with the tool on the site to prove them wrong. It's a great site!\""}
+						text={
+							'"I Use HSReplay.net every day. Seeing the mulligan winrates and best decks in the last 24 hours has become my daily routine. My favorite thing to do is when my Twitch chat says I missed lethal, I show them the replay with the tool on the site to prove them wrong. It\'s a great site!"'
+						}
 					/>
 				</div>
 				<section id="feature-story">
@@ -225,22 +244,34 @@ class PremiumDetail extends React.Component<Props, State> {
 					<div className="clearfix" />
 					<section id="subscribe">
 						<div className="col-lg-12">
-							<Panel theme="light" accent="blue" className="panel-subscribe">
-								<img src={image("premium/banner-bk.png")} className="subscribe-background"/>
+							<Panel
+								theme="light"
+								accent="blue"
+								className="panel-subscribe"
+							>
+								<img
+									src={image("premium/banner-bk.png")}
+									className="subscribe-background"
+								/>
 								<div className="subscribe-content">
-									{
-										isAuthenticated ? (
-											<a href="#checkout" className="btn promo-button white-style">
-												Subscribe now
-											</a>
-										) : (
-											<LoginButton/>
-										)
-									}
+									<a
+										href="#checkout"
+										className="btn promo-button white-style"
+									>
+										Subscribe now
+									</a>
 								</div>
 							</Panel>
 						</div>
 					</section>
+					<div className="clearfix" />
+				</section>
+				<section id="testemonial-carousel">
+					<div className="col-lg-12">
+						<Panel accent="blue" theme="light">
+							<TestemonialCarousel />
+						</Panel>
+					</div>
 					<div className="clearfix" />
 				</section>
 				{showCheckoutForm ? (
@@ -268,7 +299,9 @@ class PremiumDetail extends React.Component<Props, State> {
 										className="text-center"
 										style={{ margin: "25px 0 10px 0" }}
 									>
-										<LoginButton next={"/premium#checkout"} />
+										<LoginButton
+											next={"/premium#checkout"}
+										/>
 									</div>
 								</>
 							)}

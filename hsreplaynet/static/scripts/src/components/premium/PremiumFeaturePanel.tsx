@@ -14,13 +14,13 @@ export default class PremiumFeaturePanel extends React.Component<Props> {
 	public render(): React.ReactNode {
 		const className = ["premium-feature-panel"];
 		if (this.props.wide) {
-			className.push("wide")
+			className.push("wide");
 		}
 
 		let text = null;
 		if (this.props.text) {
 			text = this.props.text;
-			if (typeof(this.props.text) === "string") {
+			if (typeof this.props.text === "string") {
 				text = <p>{text}</p>;
 			}
 		}
@@ -45,7 +45,9 @@ export default class PremiumFeaturePanel extends React.Component<Props> {
 						{text}
 						{this.props.bullets ? (
 							<div className="list-container">
-								<ul>{this.props.bullets.map(x => <li>{x}</li>)}</ul>
+								<ul>
+									{this.props.bullets.map(x => <li>{x}</li>)}
+								</ul>
 							</div>
 						) : null}
 					</div>
