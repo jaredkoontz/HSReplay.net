@@ -62,3 +62,33 @@ def test_get_upload_url(client, mocker, collection_access):
 	assert result["account_lo"] == account_lo
 	assert result["region"] == int(region)
 	assert result["url"] == "https://example.com/put-collection-here"
+
+
+@pytest.mark.django_db
+def test_upload_user_agent_blacklist(client, mocker, settings, collection_access):
+	presign_url = mocker.patch("hsreplaynet.api.views.collections.S3.generate_presigned_url")
+	presign_url.return_value = "https://example.com/put-collection-here"
+
+	settings.COLLECTION_UPLOAD_USER_AGENT_BLACKLIST = (
+		"HDT/1.6.8.",
+	)
+
+	account_lo, region, access_token = collection_access
+
+	url = "/api/v1/collection/upload_request/?account_lo=%d&region=%d" % (
+		account_lo, int(region)
+	)
+
+	response = client.get(
+		url, content_type="application/json",
+		HTTP_AUTHORIZATION="Bearer %s" % access_token,
+		HTTP_USER_AGENT="HDT/1.6.8.3639"
+	)
+	assert response.status_code == 403
+
+	response = client.get(
+		url, content_type="application/json",
+		HTTP_AUTHORIZATION="Bearer %s" % access_token,
+		HTTP_USER_AGENT="HDT/1.6.9.3642"
+	)
+	assert response.status_code == 200

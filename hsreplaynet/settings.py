@@ -350,6 +350,7 @@ HDT_DOWNLOAD_URL = "https://hsdecktracker.net/download/?%s" % (HSREPLAY_CAMPAIGN
 HSTRACKER_DOWNLOAD_URL = "https://hsdecktracker.net/hstracker/download/?%s" % (HSREPLAY_CAMPAIGN)
 INFLUX_ENABLED = True
 UPLOAD_USER_AGENT_BLACKLIST = ()
+COLLECTION_UPLOAD_USER_AGENT_BLACKLIST = ()
 
 S3_DESCRIPTORS_BUCKET = "hsreplaynet-descriptors"
 S3_RAW_LOG_UPLOAD_BUCKET = "hsreplaynet-uploads"

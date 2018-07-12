@@ -1,4 +1,5 @@
 from botocore.exceptions import ClientError
+from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from oauth2_provider.contrib.rest_framework import OAuth2Authentication
 from rest_framework import status
@@ -67,6 +68,12 @@ class CollectionURLPresigner(BaseCollectionView):
 	)
 
 	def get(self, request, **kwargs):
+		# Prevent blacklisted clients from uploading an invalid collection
+		user_agent = request.META["HTTP_USER_AGENT"] or ""
+		is_bad_client = user_agent.startswith(settings.COLLECTION_UPLOAD_USER_AGENT_BLACKLIST)
+		if is_bad_client:
+			raise PermissionDenied("Your client is outdated. Please update to the latest version.")
+
 		expires_in = 180  # Seconds
 		self.s3_params["ContentType"] = "application/json"
 
