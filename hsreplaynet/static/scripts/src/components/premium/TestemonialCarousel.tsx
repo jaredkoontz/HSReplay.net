@@ -14,18 +14,18 @@ export default class TestemonialCarousel extends React.Component<Props, State> {
 	private interval: number | null;
 	private readonly data: TestemonialData[] = [
 		{
-			image: image("brawl.png"),
+			image: image("premium/RDU.jpg"),
 			name: 'Radu "RDU" Dima',
 			subtitle: "Pro Player and Streamer",
 			text:
 				'"I think both HSReplay.net and Hearthstone Deck Tracker are great tools. They are so good that they play a huge role right now in the competitive and casual side of Hearthstone. Everyone who likes the game should try these tools."',
 		},
 		{
-			image: image("brawl.png"),
-			name: 'Jeffrey "Trump" Shih',
-			subtitle: "Mayor of Value Town, Streamer",
+			image: image("premium/gaara.jpg"),
+			name: 'Petar "Gaara" Stevanovic',
+			subtitle: "Pro Player and Streamer",
 			text:
-				'"I use HSReplay.net to find all the hot up and coming decks. I comb through all the statistics to find out many things like which decks are performing the best, what matchups are good and bad, and all the cool tech choices people are using in their decks. Lets me nerd out on stats."',
+				'"I use HSReplay.net every day. Seeing the mulligan winrates and best decks in the last 24 hours has become my daily routine. My favorite thing to do is when my Twitch chat says I missed lethal, I show them the replay with the tool on the site to prove them wrong. It\'s a great site!"',
 		},
 	];
 
@@ -77,7 +77,7 @@ export default class TestemonialCarousel extends React.Component<Props, State> {
 		this.stopRotation();
 		this.interval = window.setTimeout(
 			() => this.rotate(this.startRotation),
-			7000,
+			12000,
 		);
 	};
 

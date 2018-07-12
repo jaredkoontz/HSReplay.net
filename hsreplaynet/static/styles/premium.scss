@@ -85,8 +85,16 @@
 			flex-direction: column;
 		}
 
+		> img {
+			border: 1px solid $blue;
+			box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16),
+				0 3px 6px rgba(0, 0, 0, 0.23);
+			max-width: 170px;
+			margin: 0 20px;
+		}
+
 		.testemonial-content {
-			max-width: 400px;
+			max-width: 480px;
 		}
 
 		h2,
@@ -129,6 +137,14 @@
 		margin-top: 10px;
 		margin-bottom: 10px;
 
+		.panel-content {
+			background: linear-gradient(
+				to left,
+				transparent 0%,
+				rgba(29, 54, 87, 0.2) 100%
+			) !important;
+		}
+
 		.testemonial {
 			min-height: 450px;
 			padding: 25px;
@@ -136,6 +152,11 @@
 			.testemonial-content {
 				max-width: 600px;
 				margin: 0 auto;
+			}
+
+			> img {
+				width: 400px;
+				max-width: 100%;
 			}
 
 			h2 {

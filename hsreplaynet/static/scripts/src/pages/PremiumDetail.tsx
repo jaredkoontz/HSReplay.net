@@ -122,7 +122,7 @@ class PremiumDetail extends React.Component<Props, State> {
 				</header>
 				<div className="col-lg-6 col-sm-12">
 					<Testemonial
-						image={image("brawl.png")}
+						image={image("premium/firebat.jpg")}
 						name={'James "Firebat" Kostesich'}
 						subtitle="Hearthstone World Champion"
 						text={
@@ -132,11 +132,11 @@ class PremiumDetail extends React.Component<Props, State> {
 				</div>
 				<div className="col-lg-6 col-sm-12">
 					<Testemonial
-						image={image("brawl.png")}
-						name={'Petar "Gaara" Stevanovic'}
-						subtitle="Pro Player and Streamer"
+						image={image("premium/trump.jpg")}
+						name={'Jeffrey "Trump" Shih'}
+						subtitle="Mayor of Value Town, Streamer"
 						text={
-							'"I use HSReplay.net every day. Seeing the mulligan winrates and best decks in the last 24 hours has become my daily routine. My favorite thing to do is when my Twitch chat says I missed lethal, I show them the replay with the tool on the site to prove them wrong. It\'s a great site!"'
+							'"I use HSReplay.net to find all the hot up and coming decks. I comb through all the statistics to find out many things like which decks are performing the best, what matchups are good and bad, and all the cool tech choices people are using in their decks. Lets me nerd out on stats."'
 						}
 					/>
 				</div>
