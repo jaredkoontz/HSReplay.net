@@ -717,6 +717,7 @@ class Decks extends React.Component<Props, State> {
 									)}
 								</p>
 							}
+							modalStyle="default"
 						>
 							<h2>{t("Opponent class")}</h2>
 							<ClassFilter
@@ -840,6 +841,7 @@ class Decks extends React.Component<Props, State> {
 							<PremiumWrapper
 								analyticsLabel="Deck List Time Frame"
 								iconStyle={{ display: "none" }}
+								modalStyle="TimeRankRegion"
 							>
 								<InfoboxFilter value={TimeRange.CURRENT_SEASON}>
 									<PrettyTimeRange
@@ -906,6 +908,7 @@ class Decks extends React.Component<Props, State> {
 							<PremiumWrapper
 								analyticsLabel="Deck List Rank Range"
 								iconStyle={{ display: "none" }}
+								modalStyle="TimeRankRegion"
 							>
 								<InfoboxFilter value={RankRange.LEGEND_ONLY}>
 									<PrettyRankRange
@@ -955,6 +958,7 @@ class Decks extends React.Component<Props, State> {
 								<PremiumWrapper
 									analyticsLabel="Deck List Region"
 									iconStyle={{ display: "none" }}
+									modalStyle="TimeRankRegion"
 								>
 									<InfoboxFilter value="REGION_US">
 										{t("Americas")}

@@ -422,6 +422,7 @@ class ArchetypeDetail extends React.Component<Props, State> {
 								</span>
 							}
 							id="mulligan-guide"
+							premiumModalOnClick="ArchetypeMulligan"
 						>
 							{this.renderMulliganGuide(params)}
 						</Tab>
@@ -593,6 +594,7 @@ class ArchetypeDetail extends React.Component<Props, State> {
 							<PremiumWrapper
 								analyticsLabel="Archetype Detail Rank Range"
 								iconStyle={{ display: "none" }}
+								modalStyle="TimeRankRegion"
 							>
 								<InfoboxFilter
 									value={RankRangeFilter.LEGEND_ONLY}

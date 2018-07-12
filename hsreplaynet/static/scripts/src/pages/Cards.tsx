@@ -1,6 +1,6 @@
 import _ from "lodash";
 import React, { Fragment } from "react";
-import { InjectedTranslateProps, Trans, translate } from "react-i18next";
+import { InjectedTranslateProps, translate } from "react-i18next";
 import CardData from "../CardData";
 import DataManager from "../DataManager";
 import UserData, { Account } from "../UserData";
@@ -42,6 +42,8 @@ import {
 } from "../utils/collection";
 import AllSet from "../components/onboarding/AllSet";
 import ConnectAccount from "../components/onboarding/ConnectAccount";
+import PremiumModal from "../components/premium/PremiumModal";
+import Modal from "../components/Modal";
 
 interface CardFilters {
 	cost: any;
@@ -493,40 +495,9 @@ class Cards extends React.Component<Props, State> {
 		if (this.props.personal) {
 			if (!UserData.isPremium()) {
 				return (
-					<div className="premium-promo">
-						<div className="premium-background">
-							<img
-								src={image(
-									"premium-promotional/mycards_full.png",
-								)}
-							/>
-						</div>
-						<div className="card">
-							<div className="container text-center">
-								<h2>
-									<Trans>
-										<span className="text-premium">
-											Premium
-										</span>{" "}
-										only
-									</Trans>
-								</h2>
-								<p className="big">
-									{t(
-										"View your card statistics across your replays right here.",
-									)}
-								</p>
-								<p>
-									<a
-										href="/premium/"
-										className="promo-button"
-									>
-										{t("Learn more")}
-									</a>
-								</p>
-							</div>
-						</div>
-					</div>
+					<Modal visible onClose={() => window.open("/", "_self")}>
+						<PremiumModal modalStyle="MyCards" />
+					</Modal>
 				);
 			}
 
@@ -1050,6 +1021,7 @@ class Cards extends React.Component<Props, State> {
 							<PremiumWrapper
 								analyticsLabel="Card List Time Frame"
 								iconStyle={{ display: "none" }}
+								modalStyle="TimeRankRegion"
 							>
 								<InfoboxFilter value={TimeRange.LAST_1_DAY}>
 									<PrettyTimeRange
@@ -1125,6 +1097,7 @@ class Cards extends React.Component<Props, State> {
 						<PremiumWrapper
 							analyticsLabel="Card List Rank Range"
 							iconStyle={{ display: "none" }}
+							modalStyle="TimeRankRegion"
 						>
 							<InfoboxFilter value={RankRange.LEGEND_ONLY}>
 								<PrettyRankRange

@@ -138,7 +138,10 @@ class AdaptDetail extends React.Component<Props, State> {
 			<div className="container-fluid">
 				<div className="row">
 					<div className="opponent-filter-wrapper">
-						<PremiumWrapper analyticsLabel="Single Card Adapt Opponent Selection">
+						<PremiumWrapper
+							analyticsLabel="Single Card Adapt Opponent Selection"
+							modalStyle="default"
+						>
 							<h3>{t("Opponent class")}</h3>
 							<ClassFilter
 								filters="All"

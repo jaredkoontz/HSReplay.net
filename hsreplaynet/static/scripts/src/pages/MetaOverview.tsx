@@ -101,7 +101,10 @@ class MetaOverview extends React.Component<Props, State> {
 		) {
 			rankRangeFilter = (
 				<section id="rank-range-filter">
-					<PremiumWrapper analyticsLabel="Meta Overview Rank Range">
+					<PremiumWrapper
+						analyticsLabel="Meta Overview Rank Range"
+						modalStyle="TimeRankRegion"
+					>
 						{({ disabled }) => (
 							<>
 								<h2>{t("Rank range")}</h2>
@@ -151,6 +154,7 @@ class MetaOverview extends React.Component<Props, State> {
 							<PremiumWrapper
 								analyticsLabel="Meta Overview Time Frame"
 								iconStyle={{ display: "none" }}
+								modalStyle="TimeRankRegion"
 							>
 								<InfoboxFilter value={TimeRange.LAST_1_DAY}>
 									<PrettyTimeRange
@@ -218,6 +222,7 @@ class MetaOverview extends React.Component<Props, State> {
 								<PremiumWrapper
 									analyticsLabel="Meta Overview Region"
 									iconStyle={{ display: "none" }}
+									modalStyle="TimeRankRegion"
 								>
 									<InfoboxFilter value="REGION_US">
 										{t("Americas")}
@@ -430,6 +435,7 @@ class MetaOverview extends React.Component<Props, State> {
 							}
 							id="popularity"
 							hidden={this.state.mobileView}
+							premiumModalOnClick="ArchetypePopulartiy"
 						>
 							{this.renderPopularity(popularityParams)}
 						</Tab>

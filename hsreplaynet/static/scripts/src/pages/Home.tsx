@@ -635,7 +635,7 @@ class Home extends React.Component<Props, State> {
 					visible={this.state.showPremiumModal}
 					onClose={this.closePremiumModal}
 				>
-					<PremiumModal />
+					<PremiumModal modalStyle="TimeRankRegion" />
 				</Modal>
 				<div className="feature-panel">
 					<div className="feature-content premium-feature">

@@ -1,4 +1,5 @@
 import React from "react";
+import { ModalStyle } from "../premium/PremiumModal";
 
 interface Props {
 	id: string;
@@ -6,6 +7,7 @@ interface Props {
 	disabled?: boolean;
 	label?: React.ReactNode;
 	highlight?: boolean;
+	premiumModalOnClick?: ModalStyle;
 }
 
 export default class Tab extends React.Component<Props> {

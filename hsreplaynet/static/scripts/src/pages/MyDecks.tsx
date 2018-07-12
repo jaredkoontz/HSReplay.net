@@ -22,7 +22,6 @@ import { TimeRange } from "../filters";
 import {
 	cardSorting,
 	getCardClassName,
-	image,
 	isCollectibleCard,
 	isWildSet,
 	sortCards,
@@ -31,6 +30,8 @@ import { DeckObj, FragmentChildProps, TableData } from "../interfaces";
 import LoadingSpinner from "../components/LoadingSpinner";
 import AllSet from "../components/onboarding/AllSet";
 import ConnectAccount from "../components/onboarding/ConnectAccount";
+import Modal from "../components/Modal";
+import PremiumModal from "../components/premium/PremiumModal";
 
 interface Props extends FragmentChildProps, InjectedTranslateProps {
 	account: Account | null;
@@ -324,35 +325,9 @@ class MyDecks extends React.Component<Props, State> {
 
 		if (!UserData.isPremium()) {
 			return (
-				<div className="premium-promo">
-					<div className="premium-background">
-						<img
-							src={image("premium-promotional/mydecks_full.png")}
-						/>
-					</div>
-					<div className="card">
-						<div className="container text-center">
-							<h2>
-								<Trans>
-									<span className="text-premium">
-										Premium
-									</span>{" "}
-									only
-								</Trans>
-							</h2>
-							<p className="big">
-								{t(
-									"View statistics for the decks you've played across your replays right here.",
-								)}
-							</p>
-							<p>
-								<a href="/premium" className="promo-button">
-									{t("Learn more")}
-								</a>
-							</p>
-						</div>
-					</div>
-				</div>
+				<Modal visible onClose={() => window.open("/", "_self")}>
+					<PremiumModal modalStyle="MyDecks" />
+				</Modal>
 			);
 		}
 

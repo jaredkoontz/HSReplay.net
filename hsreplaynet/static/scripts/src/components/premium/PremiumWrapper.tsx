@@ -5,10 +5,11 @@ import UserData from "../../UserData";
 import { image } from "../../helpers";
 import InfoIcon, { InfoIconProps } from "../InfoIcon";
 import Modal from "../Modal";
-import PremiumModal from "./PremiumModal";
+import PremiumModal, { ModalStyle } from "./PremiumModal";
 
 interface Props extends InjectedTranslateProps {
 	analyticsLabel: string;
+	modalStyle: ModalStyle;
 	iconStyle?: any;
 	infoHeader?: InfoIconProps["header"];
 	infoContent?: InfoIconProps["content"];
@@ -137,7 +138,10 @@ class PremiumWrapper extends React.Component<Props, State> {
 					visible={this.state.showModal}
 					onClose={() => this.setState({ showModal: false })}
 				>
-					<PremiumModal analyticsLabel={analyticsLabel} />
+					<PremiumModal
+						analyticsLabel={analyticsLabel}
+						modalStyle={this.props.modalStyle}
+					/>
 				</Modal>
 				<div
 					className={classNames.join(" ")}

@@ -414,10 +414,12 @@ class CardDetail extends React.Component<Props, State> {
 										</span>
 									}
 									id="turn-statistics"
+									premiumModalOnClick="CardTurn"
 								>
 									<PremiumWrapper
 										analyticsLabel="Single Card Turn Statistics"
 										iconStyle={{ display: "none" }}
+										modalStyle="CardTurn"
 									>
 										{turnCharts}
 									</PremiumWrapper>
@@ -686,6 +688,7 @@ class CardDetail extends React.Component<Props, State> {
 							<PremiumWrapper
 								analyticsLabel="Single Card Rank Range"
 								iconStyle={{ display: "none" }}
+								modalStyle="TimeRankRegion"
 							>
 								<InfoboxFilter value={RankRange.LEGEND_ONLY}>
 									<PrettyRankRange

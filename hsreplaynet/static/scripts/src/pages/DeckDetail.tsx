@@ -283,7 +283,10 @@ class DeckDetail extends React.Component<Props, State> {
 		);
 
 		const filters = [
-			<PremiumWrapper analyticsLabel="Single Deck Opponent Selection">
+			<PremiumWrapper
+				analyticsLabel="Single Deck Opponent Selection"
+				modalStyle="DeckMulligan"
+			>
 				<h2>
 					{t("Select your opponent")}
 					<InfoIcon
@@ -358,6 +361,7 @@ class DeckDetail extends React.Component<Props, State> {
 						<PremiumWrapper
 							analyticsLabel="Single Deck Rank Range"
 							iconStyle={{ display: "none" }}
+							modalStyle="TimeRankRegion"
 						>
 							{infoBoxFilter(
 								"rankRange",
@@ -416,6 +420,7 @@ class DeckDetail extends React.Component<Props, State> {
 						<PremiumWrapper
 							analyticsLabel="Single Deck Region"
 							iconStyle={{ display: "none" }}
+							modalStyle="TimeRankRegion"
 						>
 							{infoBoxFilter("region", "REGION_US", "Americas")}
 							{infoBoxFilter("region", "REGION_EU", "Europe")}
@@ -699,6 +704,7 @@ class DeckDetail extends React.Component<Props, State> {
 									</span>
 								}
 								id="my-statistics"
+								premiumModalOnClick="MyDeckMulligan"
 							>
 								{this.getMyStats()}
 							</Tab>
@@ -717,6 +723,7 @@ class DeckDetail extends React.Component<Props, State> {
 									this.state.hasData === false ||
 									this.isWildDeck()
 								}
+								premiumModalOnClick="DeckMatchups"
 							>
 								{this.renderMatchups(deckParams)}
 							</Tab>

@@ -1,5 +1,7 @@
 import React from "react";
 import Tab from "./Tab";
+import Modal from "../Modal";
+import PremiumModal, { ModalStyle } from "../premium/PremiumModal";
 
 interface Props {
 	tab: string;
@@ -7,7 +9,20 @@ interface Props {
 	tabFragment?: string;
 }
 
-export default class TabList extends React.Component<Props> {
+interface State {
+	showPremiumModal: boolean;
+	premiumModalStyle: ModalStyle;
+}
+
+export default class TabList extends React.Component<Props, State> {
+	constructor(props: Props, context: any) {
+		super(props, context);
+		this.state = {
+			showPremiumModal: false,
+			premiumModalStyle: "default",
+		};
+	}
+
 	public render(): React.ReactNode {
 		const children = TabList.getValidChildren(this.props.children);
 
@@ -18,7 +33,12 @@ export default class TabList extends React.Component<Props> {
 		const canSwitch = typeof this.props.setTab === "function";
 
 		const tabs = children.map((child: any) => {
-			const { id, disabled, highlight } = child.props;
+			const {
+				id,
+				disabled,
+				highlight,
+				premiumModalOnClick,
+			} = child.props;
 			const isActive = id === this.props.tab;
 
 			const label = (
@@ -28,6 +48,13 @@ export default class TabList extends React.Component<Props> {
 					onClick={event => {
 						event.preventDefault();
 						if (isActive || !canSwitch || disabled) {
+							return;
+						}
+						if (premiumModalOnClick) {
+							this.setState({
+								showPremiumModal: true,
+								premiumModalStyle: premiumModalOnClick,
+							});
 							return;
 						}
 						this.props.setTab(id);
@@ -83,14 +110,25 @@ export default class TabList extends React.Component<Props> {
 		});
 
 		return (
-			<div>
-				<ul className="nav nav-tabs content-tabs" role="tablist">
-					{tabs}
-				</ul>
-				<section className="tab-content">{body}</section>
-			</div>
+			<>
+				<Modal
+					visible={this.state.showPremiumModal}
+					onClose={this.closePremiumModal}
+				>
+					<PremiumModal modalStyle={this.state.premiumModalStyle} />
+				</Modal>
+				<div>
+					<ul className="nav nav-tabs content-tabs" role="tablist">
+						{tabs}
+					</ul>
+					<section className="tab-content">{body}</section>
+				</div>
+			</>
 		);
 	}
+
+	private closePremiumModal = (): void =>
+		this.setState({ showPremiumModal: false });
 
 	public componentDidMount(): void {
 		TabList.ensureVisibleTab(this.props);

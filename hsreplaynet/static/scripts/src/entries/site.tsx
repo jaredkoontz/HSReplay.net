@@ -95,6 +95,7 @@ function checkModal() {
 							>
 								<PremiumModal
 									analyticsLabel={"URL Parameter"}
+									modalStyle="default"
 								/>
 							</Modal>
 						</I18nextProvider>,
