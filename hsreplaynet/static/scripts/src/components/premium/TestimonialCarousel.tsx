@@ -1,7 +1,7 @@
 import React from "react";
 import Carousel from "../home/Carousel";
 import { image } from "../../helpers";
-import Testemonial, { TestemonialData } from "./Testemonial";
+import Testimonial, { TestimonialData } from "./Testimonial";
 
 interface Props {}
 
@@ -10,9 +10,9 @@ interface State {
 	lastIndex: number | null;
 }
 
-export default class TestemonialCarousel extends React.Component<Props, State> {
+export default class TestimonialCarousel extends React.Component<Props, State> {
 	private interval: number | null;
-	private readonly data: TestemonialData[] = [
+	private readonly data: TestimonialData[] = [
 		{
 			image: image("premium/RDU.jpg"),
 			name: 'Radu "RDU" Dima',
@@ -87,7 +87,7 @@ export default class TestemonialCarousel extends React.Component<Props, State> {
 		}
 		const { image, name, subtitle, text } = this.data[index];
 		return (
-			<Testemonial
+			<Testimonial
 				image={image}
 				name={name}
 				subtitle={subtitle}

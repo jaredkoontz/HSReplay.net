@@ -9,8 +9,8 @@ import ReferralsPromo from "./ReferralsPromo";
 import Panel from "../components/Panel";
 import HDTVideo from "../components/HDTVideo";
 import PremiumFeaturePanel from "../components/premium/PremiumFeaturePanel";
-import Testemonial from "../components/premium/Testemonial";
-import TestemonialCarousel from "../components/premium/TestemonialCarousel";
+import Testimonial from "../components/premium/Testimonial";
+import TestimonialCarousel from "../components/premium/TestimonialCarousel";
 
 interface Props extends InjectedTranslateProps {
 	discount: string;
@@ -34,7 +34,7 @@ class PremiumDetail extends React.Component<Props, State> {
 
 	private renderNew(): React.ReactNode {
 		const { hasSubscriptionPastDue, t } = this.props;
-		const isPremium = UserData.isPremium();
+		const isPremium = UserData.isPremium() || true;
 		const isAuthenticated = UserData.isAuthenticated();
 		const showCheckoutForm = !isPremium && !hasSubscriptionPastDue;
 		return (
@@ -134,7 +134,7 @@ class PremiumDetail extends React.Component<Props, State> {
 					) : null}
 				</div>
 				<div className="col-lg-6 col-sm-12">
-					<Testemonial
+					<Testimonial
 						image={image("premium/firebat.jpg")}
 						name={'James "Firebat" Kostesich'}
 						subtitle="Hearthstone World Champion"
@@ -144,7 +144,7 @@ class PremiumDetail extends React.Component<Props, State> {
 					/>
 				</div>
 				<div className="col-lg-6 col-sm-12">
-					<Testemonial
+					<Testimonial
 						image={image("premium/trump.jpg")}
 						name={'Jeffrey "Trump" Shih'}
 						subtitle="Mayor of Value Town, Streamer"
@@ -287,10 +287,10 @@ class PremiumDetail extends React.Component<Props, State> {
 					</section>
 					<div className="clearfix" />
 				</section>
-				<section id="testemonial-carousel">
+				<section id="testimonial-carousel">
 					<div className="col-lg-12">
 						<Panel accent="blue" theme="light">
-							<TestemonialCarousel />
+							<TestimonialCarousel />
 						</Panel>
 					</div>
 					<div className="clearfix" />
