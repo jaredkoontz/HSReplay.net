@@ -29,7 +29,11 @@ import {
 	sortCards,
 } from "../helpers";
 import { DeckObj, FragmentChildProps } from "../interfaces";
-import { CollectionEvents, DeckEvents } from "../metrics/GoogleAnalytics";
+import {
+	CollectionEvents,
+	DeckEvents,
+	FilterEvents,
+} from "../metrics/GoogleAnalytics";
 import { Collection } from "../utils/api";
 import {
 	getDustCostForCollection,
@@ -682,14 +686,24 @@ class Decks extends React.Component<Props, State> {
 							minimal
 							multiSelect
 							selectedClasses={this.props.playerClasses}
-							selectionChanged={selected =>
-								this.props.setPlayerClasses(selected)
-							}
+							selectionChanged={selected => {
+								this.props.setPlayerClasses(selected);
+								FilterEvents.onFilterInteraction(
+									"decks",
+									"player_class",
+									selected.join(","),
+								);
+							}}
 							archetypes={this.state.availableArchetypes}
 							selectedArchetypes={this.props.archetypes}
-							archetypesChanged={archetypes =>
-								this.props.setArchetypes(archetypes)
-							}
+							archetypesChanged={archetypes => {
+								this.props.setArchetypes(archetypes);
+								FilterEvents.onFilterInteraction(
+									"decks",
+									"player_class_archetypes",
+									archetypes.join(","),
+								);
+							}}
 						/>
 					</section>
 					<section id="opponent-class-filter">
@@ -712,9 +726,14 @@ class Decks extends React.Component<Props, State> {
 								multiSelect
 								tabIndex={premiumTabIndex}
 								selectedClasses={this.props.opponentClasses}
-								selectionChanged={selected =>
-									this.props.setOpponentClasses(selected)
-								}
+								selectionChanged={selected => {
+									this.props.setOpponentClasses(selected);
+									FilterEvents.onFilterInteraction(
+										"decks",
+										"opponent_class",
+										selected.join(","),
+									);
+								}}
 							/>
 						</PremiumWrapper>
 					</section>
@@ -809,7 +828,14 @@ class Decks extends React.Component<Props, State> {
 								"Want to see which decks are hot right now? Look at data from a time frame of your choosing!",
 							)}
 							selectedValue={this.props.timeRange}
-							onClick={value => this.props.setTimeRange(value)}
+							onClick={value => {
+								this.props.setTimeRange(value);
+								FilterEvents.onFilterInteraction(
+									"decks",
+									"time_frame",
+									value,
+								);
+							}}
 						>
 							<PremiumWrapper
 								analyticsLabel="Deck List Time Frame"
@@ -868,7 +894,14 @@ class Decks extends React.Component<Props, State> {
 								"Ready to climb the ladder? Check out how decks perform at certain rank ranges!",
 							)}
 							selectedValue={this.props.rankRange}
-							onClick={value => this.props.setRankRange(value)}
+							onClick={value => {
+								this.props.setRankRange(value);
+								FilterEvents.onFilterInteraction(
+									"decks",
+									"rank_range",
+									value,
+								);
+							}}
 						>
 							<PremiumWrapper
 								analyticsLabel="Deck List Rank Range"
@@ -906,7 +939,14 @@ class Decks extends React.Component<Props, State> {
 							<InfoboxFilterGroup
 								header={t("Region")}
 								selectedValue={this.props.region}
-								onClick={region => this.props.setRegion(region)}
+								onClick={region => {
+									this.props.setRegion(region);
+									FilterEvents.onFilterInteraction(
+										"decks",
+										"region",
+										region,
+									);
+								}}
 								infoHeader={t("Region")}
 								infoContent={t(
 									"Want to get more specific? Take a look at the decks played in your region!",
@@ -941,7 +981,14 @@ class Decks extends React.Component<Props, State> {
 						<h2>{t("Game mode")}</h2>
 						<InfoboxFilterGroup
 							selectedValue={this.props.gameType}
-							onClick={value => this.props.setGameType(value)}
+							onClick={value => {
+								this.props.setGameType(value);
+								FilterEvents.onFilterInteraction(
+									"decks",
+									"game_type",
+									value,
+								);
+							}}
 						>
 							<InfoboxFilter value="RANKED_STANDARD">
 								{t("Ranked Standard")}
@@ -959,9 +1006,14 @@ class Decks extends React.Component<Props, State> {
 							<InfoboxFilterGroup
 								deselectable
 								selectedValue={this.props.includedSet}
-								onClick={value =>
-									this.props.setIncludedSet(value || "ALL")
-								}
+								onClick={value => {
+									this.props.setIncludedSet(value || "ALL");
+									FilterEvents.onFilterInteraction(
+										"decks",
+										"include_cards_new",
+										value || "ALL",
+									);
+								}}
 							>
 								<InfoboxFilter value={this.props.latestSet}>
 									{t("Any new card")}
@@ -975,11 +1027,18 @@ class Decks extends React.Component<Props, State> {
 								"cardinclude" + this.state.cardSearchIncludeKey
 							}
 							availableCards={filteredCards}
-							onCardsChanged={cards =>
+							onCardsChanged={cards => {
 								this.props.setIncludedCards(
 									cards.map(card => card.dbfId),
-								)
-							}
+								);
+
+								// Omitting value for now
+								FilterEvents.onFilterInteraction(
+									"decks",
+									"include_cards_search",
+									"",
+								);
+							}}
 							selectedCards={selectedCards("includedCards")}
 							cardLimit={Limit.DOUBLE}
 							onPaste={e => {
@@ -1027,11 +1086,17 @@ class Decks extends React.Component<Props, State> {
 								"cardexclude" + this.state.cardSearchExcludeKey
 							}
 							availableCards={filteredCards}
-							onCardsChanged={cards =>
+							onCardsChanged={cards => {
 								this.props.setExcludedCards(
 									cards.map(card => card.dbfId),
-								)
-							}
+								);
+								// Omitting value for now
+								FilterEvents.onFilterInteraction(
+									"decks",
+									"exclude_cards_search",
+									"",
+								);
+							}}
 							selectedCards={selectedCards("excludedCards")}
 							cardLimit={Limit.SINGLE}
 						/>
@@ -1043,9 +1108,16 @@ class Decks extends React.Component<Props, State> {
 							selectedValue={
 								this.props.withStream ? "WITH_STREAM" : null
 							}
-							onClick={value =>
-								this.props.setWithStream(!this.props.withStream)
-							}
+							onClick={value => {
+								this.props.setWithStream(
+									!this.props.withStream,
+								);
+								FilterEvents.onFilterInteraction(
+									"decks",
+									"stream",
+									"" + this.props.withStream,
+								);
+							}}
 						>
 							<InfoboxFilter value="WITH_STREAM">
 								{t("Stream available")}

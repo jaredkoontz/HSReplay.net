@@ -138,6 +138,27 @@ export class CollectionEvents extends GoogleAnalytics {
 	}
 }
 
+export class FilterEvents extends GoogleAnalytics {
+	public static onFilterInteraction(
+		page: string,
+		filter: string,
+		value: string,
+	): Promise<void> {
+		INFLUX_CLIENT.writePoint(
+			"filter_interaction",
+			{
+				count: "1i",
+			},
+			{
+				page,
+				filter,
+				value,
+			},
+		);
+		return this.event("Filters", "interaction", filter);
+	}
+}
+
 export class DeckEvents extends GoogleAnalytics {
 	public static onViewDecks(
 		isAuthenticated: boolean,
