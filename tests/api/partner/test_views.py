@@ -5,20 +5,16 @@ import pytest
 from django.core.management import call_command
 from hearthstone import enums
 from oauth2_provider.admin import AccessToken
+from rest_framework import status
+from tests.api.partner.fixtures import (
+	DECK_DATA, POPULARITY_DATA, TEST_DRUID_ARCHETYPE,
+	TEST_DRUID_ARCHETYPE_2, TOKEN_DRUID_SUMMARY
+)
 
 from hearthsim.identity.accounts.models import User
+from hsreplaynet.api.partner.utils import QueryDataNotAvailableException
 from hsreplaynet.api.partner.views import ClassesView
 from hsreplaynet.decks.models import Archetype
-
-
-TOKEN_DRUID_SUMMARY = {
-	"name": {
-		"enUS": "Token Druid"
-	},
-	"url": "https://hsreplay.net/archetypes/7/token-druid",
-	"popularity": 3.37,
-	"winrate": 53.6
-}
 
 
 @pytest.fixture
@@ -40,6 +36,64 @@ def partner_token(user):
 
 	token = AccessToken.objects.get(user=user)
 	return str(token.token)
+
+
+@pytest.mark.django_db
+def test_archetypes_view_no_redshift_data(client, mocker, partner_token):
+	def mock_get_query_data(self, query_name, game_type):
+		raise QueryDataNotAvailableException()
+	mocker.patch(
+		"hsreplaynet.api.partner.views.ArchetypesView._get_query_data",
+		new=mock_get_query_data
+	)
+	response = client.get(
+		"/api/v1/partner-stats/archetypes/",
+		HTTP_AUTHORIZATION="Bearer %s" % partner_token
+	)
+	assert response.status_code == status.HTTP_202_ACCEPTED
+
+
+@pytest.mark.django_db
+@pytest.mark.usefixtures("archetypes_serializer_data")
+def test_archetypes_view_valid_data(
+	archetypes_serializer_data, client, mocker, partner_token
+):
+	archetype = Archetype.objects.create(
+		id=1,
+		name="Archetype 1",
+		player_class=enums.CardClass.DRUID,
+	)
+
+	def mock_get_query_data(self, query_name, game_type):
+		if query_name == "list_decks_by_win_rate":
+			return archetypes_serializer_data["decks"]
+		elif query_name == "archetype_popularity_distribution_stats":
+			return archetypes_serializer_data["popularity"]
+		elif query_name == "head_to_head_archetype_matchups":
+			return archetypes_serializer_data["matchups"]
+		raise Exception()
+
+	def mock_get_archetypes(self):
+		return [archetype]
+	mocker.patch(
+		"hsreplaynet.api.partner.views.ArchetypesView._get_query_data",
+		new=mock_get_query_data
+	)
+	mocker.patch(
+		"hsreplaynet.api.partner.views.ArchetypesView._get_archetypes",
+		new=mock_get_archetypes
+	)
+	response = client.get(
+		"/api/v1/partner-stats/archetypes/",
+		HTTP_AUTHORIZATION="Bearer %s" % partner_token
+	)
+	assert response.status_code == status.HTTP_200_OK
+	assert response.data
+
+
+def test_archetypes_view_not_authorized(client):
+	response = client.get("/api/v1/partner-stats/archetypes/")
+	assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
 
 class TestClassesView:
@@ -141,3 +195,47 @@ class TestClassesView:
 
 		assert response.status_code == 202
 		trigger_if_stale.assert_called()
+
+
+@pytest.mark.django_db
+def test_cards_view_no_redshift_data(client, mocker, partner_token):
+	def mock_get_query_data(self, query_name, game_type):
+		raise QueryDataNotAvailableException()
+	mocker.patch(
+		"hsreplaynet.api.partner.views.CardsView._get_query_data",
+		new=mock_get_query_data
+	)
+	response = client.get(
+		"/api/v1/partner-stats/cards/",
+		HTTP_AUTHORIZATION="Bearer %s" % partner_token
+	)
+	assert response.status_code == status.HTTP_202_ACCEPTED
+
+
+@pytest.mark.django_db
+def test_cards_view_valid_data(client, mocker, partner_token):
+	Archetype.objects.create(**TEST_DRUID_ARCHETYPE)
+	Archetype.objects.create(**TEST_DRUID_ARCHETYPE_2)
+
+	def mock_get_query_data(self, query_name, game_type):
+		if query_name == "list_decks_by_win_rate":
+			return DECK_DATA
+		elif query_name == "card_included_popularity_report":
+			return {"ALL": POPULARITY_DATA}
+		raise Exception()
+
+	mocker.patch(
+		"hsreplaynet.api.partner.views.CardsView._get_query_data",
+		new=mock_get_query_data
+	)
+	response = client.get(
+		"/api/v1/partner-stats/cards/",
+		HTTP_AUTHORIZATION="Bearer %s" % partner_token
+	)
+	assert response.status_code == status.HTTP_200_OK
+	assert response.data
+
+
+def test_cards_view_not_authorized(client):
+	response = client.get("/api/v1/partner-stats/cards/")
+	assert response.status_code == status.HTTP_401_UNAUTHORIZED

@@ -10,6 +10,8 @@ LOG_DATA_DIR = os.path.join(BASE_DIR, "logdata")
 LOG_DATA_GIT = "https://github.com/HearthSim/hsreplay-test-data"
 UPLOAD_SUITE = os.path.join(LOG_DATA_DIR, "hsreplaynet-tests", "uploads")
 
+pytest_plugins = ["tests.api.partner.fixtures"]
+
 
 def pytest_configure(config):
 	if not os.path.exists(LOG_DATA_DIR):
