@@ -26,7 +26,6 @@
 		background-size: cover;
 		text-align: center;
 		color: black;
-		background-position-y: -10px;
 		background-position-x: center;
 		margin-bottom: -100px;
 
@@ -306,11 +305,9 @@
 	}
 
 	.subscribe-background {
-		width: 106%;
-		margin: -3%;
+		width: 100%;
 		opacity: 0.6;
 		min-width: 800px;
-		background: $spacegray;
 	}
 
 	.subscribe-content {

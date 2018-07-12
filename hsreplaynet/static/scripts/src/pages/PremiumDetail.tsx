@@ -42,7 +42,7 @@ class PremiumDetail extends React.Component<Props, State> {
 				<header
 					style={{
 						backgroundImage: `url(${image(
-							"premium/splash-bk.png",
+							"premium/splash-bk.jpg",
 						)})`,
 					}}
 				>
@@ -270,7 +270,7 @@ class PremiumDetail extends React.Component<Props, State> {
 									className="panel-subscribe"
 								>
 									<img
-										src={image("premium/banner-bk.png")}
+										src={image("premium/banner-bk.jpg")}
 										className="subscribe-background"
 									/>
 									<div className="subscribe-content">
