@@ -120,6 +120,19 @@ class PremiumDetail extends React.Component<Props, State> {
 						</div>
 					</div>
 				</header>
+				<div className="col-sm-12">
+					{this.props.reflink ? (
+						<aside id="referrals">
+							<ReferralsPromo
+								discount={this.props.discount}
+								url={this.props.reflink}
+								onCopy={() =>
+									ReferralEvents.onCopyRefLink("Premium Page")
+								}
+							/>
+						</aside>
+					) : null}
+				</div>
 				<div className="col-lg-6 col-sm-12">
 					<Testemonial
 						image={image("premium/firebat.jpg")}

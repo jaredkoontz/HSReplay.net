@@ -326,6 +326,79 @@
 	}
 }
 
+#referrals {
+	font-size: 1.2em;
+	position: relative;
+	padding: 1.5em 14px;
+
+	.referrals-promo {
+		display: block;
+		text-align: center;
+		padding: 0 0;
+	}
+
+	section {
+		h1 {
+			font-size: 2.5rem;
+			font-weight: bold;
+		}
+
+		overflow: hidden;
+		position: relative;
+	}
+
+	a.referrals-promo-cta {
+		font-size: 2rem;
+		font-weight: bold;
+		margin: 0;
+		position: relative;
+		z-index: 99;
+
+		color: black;
+		text-decoration: none;
+
+		&:active,
+		&:hover {
+			color: $lightblue;
+		}
+
+		.show &,
+		.show &:active {
+			color: $lightblue;
+		}
+	}
+
+	.referrals-spread {
+		display: flex;
+		width: 100%;
+		margin: 0 auto;
+		flex-direction: row;
+		justify-content: center;
+
+		span:nth-child(2) {
+			max-width: 300px;
+			flex-grow: 1;
+			border-bottom: 1px;
+			border-image: linear-gradient(
+				to right,
+				transparent 0%,
+				black 50%,
+				transparent 100%
+			);
+		}
+	}
+
+	.input-group {
+		max-width: 500px;
+		margin: 1.2em auto 0.3em auto;
+
+		input {
+			color: black;
+			background-color: white;
+		}
+	}
+}
+
 #premium-upgrade-page {
 	width: 100%;
 
@@ -571,26 +644,11 @@
 	}
 
 	#referrals {
-		font-size: 1.2em;
-		position: relative;
 		background-color: $blue;
 
-		.referrals-promo {
-			display: block;
-			text-align: center;
-			padding: 0 0;
-		}
-
 		section {
-			h1 {
-				font-size: 2.5rem;
-				font-weight: bold;
-			}
-
 			background-color: $offwhite;
-			overflow: hidden;
 			padding: 1.5em 14px calc(3vw + 1.25em) 14px;
-			position: relative;
 
 			&:after {
 				background: $blue;
@@ -608,47 +666,7 @@
 		}
 
 		a.referrals-promo-cta {
-			font-size: 2rem;
-			font-weight: bold;
-			margin: 0;
-			position: relative;
-			z-index: 99;
-
 			color: white;
-			text-decoration: none;
-
-			&:active,
-			&:hover {
-				color: $lightblue;
-			}
-
-			.show &,
-			.show &:active {
-				color: $lightblue;
-			}
-		}
-
-		.referrals-spread {
-			display: flex;
-			width: 100%;
-			margin: 0 auto;
-			flex-direction: row;
-			justify-content: center;
-
-			span:nth-child(2) {
-				max-width: 300px;
-				flex-grow: 1;
-			}
-		}
-
-		.input-group {
-			max-width: 500px;
-			margin: 1.2em auto 0.3em auto;
-
-			input {
-				color: black;
-				background-color: white;
-			}
 		}
 	}
 
