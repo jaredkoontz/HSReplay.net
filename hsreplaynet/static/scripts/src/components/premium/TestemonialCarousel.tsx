@@ -23,9 +23,9 @@ export default class TestemonialCarousel extends React.Component<Props, State> {
 		{
 			image: image("brawl.png"),
 			name: 'Jeffrey "Trump" Shih',
-			subtitle: "Pro Player and Streamer",
+			subtitle: "Mayor of Value Town, Streamer",
 			text:
-				'"I use HSReplay.net to find all the hot up and coming decks, and I comb through all the statistics to find out many things like which decks are performing the best, what matchups are good and bad, and all the cool tech choices people are using in their decks. Lets me nerd out on stats."',
+				'"I use HSReplay.net to find all the hot up and coming decks. I comb through all the statistics to find out many things like which decks are performing the best, what matchups are good and bad, and all the cool tech choices people are using in their decks. Lets me nerd out on stats."',
 		},
 	];
 

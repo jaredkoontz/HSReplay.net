@@ -126,7 +126,7 @@ class PremiumDetail extends React.Component<Props, State> {
 						name={'James "Firebat" Kostesich'}
 						subtitle="Hearthstone World Champion"
 						text={
-							'"I use HSReplay.net to try and figure out what emerging decks have the best winrate. And, I live the data on mulligans, keeping the right cards in the starting hand is one of the most impactful things in a hearthstone game."'
+							'"I use HSReplay.net to try and figure out what emerging decks have the best winrates. And I love the data on mulligans. Keeping the right cards in the starting hand is one of the most impactful things in a Hearthstone game."'
 						}
 					/>
 				</div>
@@ -136,7 +136,7 @@ class PremiumDetail extends React.Component<Props, State> {
 						name={'Petar "Gaara" Stevanovic'}
 						subtitle="Pro Player and Streamer"
 						text={
-							'"I Use HSReplay.net every day. Seeing the mulligan winrates and best decks in the last 24 hours has become my daily routine. My favorite thing to do is when my Twitch chat says I missed lethal, I show them the replay with the tool on the site to prove them wrong. It\'s a great site!"'
+							'"I use HSReplay.net every day. Seeing the mulligan winrates and best decks in the last 24 hours has become my daily routine. My favorite thing to do is when my Twitch chat says I missed lethal, I show them the replay with the tool on the site to prove them wrong. It\'s a great site!"'
 						}
 					/>
 				</div>
@@ -148,11 +148,12 @@ class PremiumDetail extends React.Component<Props, State> {
 						<PremiumFeaturePanel
 							title="Find decks to play"
 							image={image("premium/meta.png")}
-							subtitle="Search Filters"
+							subtitle="Advanced Filters"
+							text="Use filters to find the best deck for your rank and region."
 							bullets={[
-								"Select Ranks 25 - Legend",
-								"Choose regions: NA, EU, AS, CN",
-								"Set time range: 1, 3, 7 days",
+								"Select ranks: 25 - Legend",
+								"Choose regions: US, EU, APAC, CN",
+								"Set time range: 1, 3 and 7 days",
 							]}
 						/>
 					</div>
@@ -161,9 +162,11 @@ class PremiumDetail extends React.Component<Props, State> {
 							title="Understand the meta"
 							image={image("premium/tier-graphic.png")}
 							subtitle="Meta Tier List"
+							text="Tried of waiting a week for generic meta snapshots?"
 							bullets={[
-								"Find decks you want to play",
-								"Stay on top of the meta",
+								"Daily power rankings",
+								"Deck popularity",
+								"Specific to your rank and region",
 							]}
 						/>
 					</div>
@@ -172,10 +175,10 @@ class PremiumDetail extends React.Component<Props, State> {
 							title="Know your plays"
 							image={image("premium/matchup.png")}
 							subtitle="Archetype Matchups"
-							text="Find out how a deck does against all the popular archetypes in the meta"
+							text="Find out how a deck does against all the popular archetypes in the meta."
 							bullets={[
 								"Know when you're favored",
-								"Monitor overall winrate",
+								"Monitor the overall effective winrate",
 							]}
 						/>
 					</div>
@@ -186,17 +189,20 @@ class PremiumDetail extends React.Component<Props, State> {
 							title="Learn what to keep"
 							image={image("premium/mulligan.png")}
 							subtitle="Mulligan Guide"
-							text="Learn the best cards to keep in your opening hand against your opponent's class"
+							text="Learn the best cards to keep in your opening hand against your opponent's class."
 							bullets={["Mulligan stats by class matchup"]}
 						/>
 					</div>
 					<div className="col-lg-4 col-sm-12">
 						<PremiumFeaturePanel
-							title="Analyze card details"
+							title="Analyze cards"
 							image={image("premium/turn.png")}
 							subtitle="Turn Data"
-							text="Find the best turns to play a card most effectively"
-							bullets={["Winrate when played on turn #"]}
+							text="Find the best turns to play a card most effectively."
+							bullets={[
+								"Winrates and play rates",
+								"Broken down by opponent class",
+							]}
 						/>
 					</div>
 					<div className="col-lg-4 col-sm-12">
@@ -208,8 +214,8 @@ class PremiumDetail extends React.Component<Props, State> {
 								<>
 									<p>
 										Never lose track when you or your
-										opponent have played the second Brawl,
-										Hex or Psychic Scream"
+										opponent has played the second Brawl,
+										Hex or Psychic Scream.
 									</p>
 									<a
 										href="#"
@@ -228,7 +234,7 @@ class PremiumDetail extends React.Component<Props, State> {
 							title="Track your progress"
 							image={image("premium/history.png")}
 							subtitle="Personal Statistics"
-							text="Analyze your overall results. Identify the decks you are winning the most with over multiple play sessions"
+							text="Analyze your overall results. Identify the decks you are winning the most with over multiple play sessions."
 							wide
 						/>
 					</div>
@@ -236,33 +242,35 @@ class PremiumDetail extends React.Component<Props, State> {
 						<PremiumFeaturePanel
 							title="Study the past"
 							image={image("premium/replay.png")}
-							subtitle="Recorded Matches"
-							text="Review your games to identify any improvements you can make in your game play and learn more about a matchup"
+							subtitle="Replays"
+							text="Review your games to identify any improvements you can make in your game play or just share them with a friend."
 							wide
 						/>
 					</div>
 					<div className="clearfix" />
 					<section id="subscribe">
-						<div className="col-lg-12">
-							<Panel
-								theme="light"
-								accent="blue"
-								className="panel-subscribe"
-							>
-								<img
-									src={image("premium/banner-bk.png")}
-									className="subscribe-background"
-								/>
-								<div className="subscribe-content">
-									<a
-										href="#checkout"
-										className="btn promo-button white-style"
-									>
-										Subscribe now
-									</a>
-								</div>
-							</Panel>
-						</div>
+						{isPremium ? null : (
+							<div className="col-lg-12">
+								<Panel
+									theme="light"
+									accent="blue"
+									className="panel-subscribe"
+								>
+									<img
+										src={image("premium/banner-bk.png")}
+										className="subscribe-background"
+									/>
+									<div className="subscribe-content">
+										<a
+											href="#checkout"
+											className="btn promo-button white-style"
+										>
+											Subscribe now
+										</a>
+									</div>
+								</Panel>
+							</div>
+						)}
 					</section>
 					<div className="clearfix" />
 				</section>
