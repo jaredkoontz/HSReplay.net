@@ -14,8 +14,8 @@ from ..html import RequestMetaMixin
 class DecksView(SimpleReactView):
 	title = _("Hearthstone Decks")
 	description = _(
-		"Dive into the Hearthstone meta and find new decks by class, cards or "
-		"game mode. Learn about their winrates and popularity on the ladder."
+		"Find popular Hearthstone decks for every class, card and game mode. "
+		"Compare winrates and find the deck for you!"
 	)
 	bundle = "decks"
 	bundles = ("stats", "decks")
