@@ -156,11 +156,9 @@ class ClassDistributionPieChart extends React.Component<Props, State> {
 					{this.props.loading ? (
 						<LoadingSpinner active small />
 					) : (
-						t("{cardClass}: {numGames} - {winrate} winrate", {
-							cardClass,
-							numGames,
-							winrate,
-						})
+						<>
+							{cardClass}: {numGames} - {winrate} winrate
+						</>
 					)}
 				</h5>
 			</div>
