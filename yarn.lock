@@ -206,9 +206,9 @@
   version "0.0.37"
   resolved "https://registry.yarnpkg.com/@types/google.analytics/-/google.analytics-0.0.37.tgz#43f14241ab2d70b528467136f14fbab778cddd25"
 
-"@types/i18next@*", "@types/i18next@^8.4.3":
-  version "8.4.3"
-  resolved "https://registry.yarnpkg.com/@types/i18next/-/i18next-8.4.3.tgz#9136a9551bf5bf7169aa9f3125c1743f1f8dd6de"
+"@types/i18next@*", "@types/i18next@^8.4.4":
+  version "8.4.4"
+  resolved "https://registry.yarnpkg.com/@types/i18next/-/i18next-8.4.4.tgz#76591ab5974b65910e44b8860202d4f544f39b9d"
 
 "@types/jest@^23.1.1":
   version "23.1.1"
@@ -241,9 +241,9 @@
     "@types/node" "*"
     "@types/react" "*"
 
-"@types/react-i18next@^7.6.1":
-  version "7.6.1"
-  resolved "https://registry.yarnpkg.com/@types/react-i18next/-/react-i18next-7.6.1.tgz#62162cc796a78db4c11b3d82d76d3a0d94a9b6eb"
+"@types/react-i18next@^7.8.0":
+  version "7.8.0"
+  resolved "https://registry.yarnpkg.com/@types/react-i18next/-/react-i18next-7.8.0.tgz#9e194babb9aa2a233905d05fb6638b2b40817193"
   dependencies:
     "@types/i18next" "*"
     "@types/react" "*"
@@ -255,13 +255,9 @@
     "@types/prop-types" "*"
     "@types/react" "*"
 
-"@types/react@*":
-  version "16.0.38"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.0.38.tgz#76617433ea10274505f60bb86eddfdd0476ffdc2"
-
-"@types/react@^16.3.11":
-  version "16.3.11"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.3.11.tgz#345a17f1c96420f10b9f0dc696c31091ff9d66ea"
+"@types/react@*", "@types/react@^16.4.6":
+  version "16.4.6"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.4.6.tgz#5024957c6bcef4f02823accf5974faba2e54fada"
   dependencies:
     csstype "^2.2.0"
 
@@ -281,9 +277,9 @@
   dependencies:
     "@types/node" "*"
 
-"@types/victory@^0.9.15":
-  version "0.9.15"
-  resolved "https://registry.yarnpkg.com/@types/victory/-/victory-0.9.15.tgz#964e41d4373da1157a0b4595bf96ac0523e5965e"
+"@types/victory@^0.9.18":
+  version "0.9.18"
+  resolved "https://registry.yarnpkg.com/@types/victory/-/victory-0.9.18.tgz#4b0919f4f1e9f16a054c1435053380499be578fd"
   dependencies:
     "@types/react" "*"
 

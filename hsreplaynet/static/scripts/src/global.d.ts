@@ -110,6 +110,17 @@ declare module "joust" {
 declare module "victory" {
 	import React from "react";
 
+	type Callback<T, K extends {}> = {
+		[K in keyof T]: T[K] | ((...K) => T[K])
+	};
+
+	export interface VictoryStyleInterface {
+		parent?: Callback<React.CSSProperties, any>;
+		data?: Callback<React.CSSProperties, any>;
+		labels?: Callback<React.CSSProperties, any>;
+		tickLabels?: Callback<React.CSSProperties, any>;
+	}
+
 	export interface VictoryAreaProps extends VictoryMultiLabeableProps {}
 
 	export class Flyout extends React.Component<any, any> {}
@@ -118,17 +129,21 @@ declare module "victory" {
 
 	export class VictoryClipContainer extends React.Component<any, any> {}
 
-	export class VictoryPortal extends React.Component<any, any> {}
+	interface VictoryAxisStyleInterface extends VictoryStyleInterface {
+		grid?: Callback<React.CSSProperties, any>;
+		axis?: Callback<React.CSSProperties, any>;
+		axisLabel?: Callback<React.CSSProperties, any>;
+	}
+
+	export interface VictoryAxisProps extends VictoryDatableProps {
+		style?: VictoryAxisStyleInterface;
+	}
 
 	export interface VictoryGroupProps extends VictoryDatableProps {}
 
 	export class VictoryTooltip extends React.Component<any, any> {}
 
 	export class VictoryVoronoiTooltip extends React.Component<any, any> {}
-
-	export class VictoryZoom extends React.Component<any, any> {}
-
-	export class VictoryZoomContainer extends React.Component<any, any> {}
 
 	export class VictoryLegend extends React.Component<any, any> {}
 
