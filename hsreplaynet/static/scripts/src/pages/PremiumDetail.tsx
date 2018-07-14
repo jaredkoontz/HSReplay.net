@@ -34,7 +34,7 @@ class PremiumDetail extends React.Component<Props, State> {
 
 	private renderNew(): React.ReactNode {
 		const { hasSubscriptionPastDue, t } = this.props;
-		const isPremium = UserData.isPremium() || true;
+		const isPremium = UserData.isPremium();
 		const isAuthenticated = UserData.isAuthenticated();
 		const showCheckoutForm = !isPremium && !hasSubscriptionPastDue;
 		return (
