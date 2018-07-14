@@ -2,39 +2,18 @@ import React from "react";
 import Carousel from "../home/Carousel";
 import { image } from "../../helpers";
 import Testimonial, { TestimonialData } from "./Testimonial";
+import { InjectedTranslateProps, translate } from "react-i18next";
 
-interface Props {}
+interface Props extends InjectedTranslateProps {}
 
 interface State {
 	index: number;
 	lastIndex: number | null;
 }
 
-export default class TestimonialCarousel extends React.Component<Props, State> {
+class TestimonialCarousel extends React.Component<Props, State> {
 	private interval: number | null;
-	private readonly data: TestimonialData[] = [
-		{
-			image: image("premium/RDU.jpg"),
-			name: 'Radu "RDU" Dima',
-			subtitle: "Pro Player and Streamer",
-			text:
-				'"I think both HSReplay.net and Hearthstone Deck Tracker are great tools. They are so good that they play a huge role right now in the competitive and casual side of Hearthstone. Everyone who likes the game should try these tools."',
-		},
-		{
-			image: image("premium/gaara.jpg"),
-			name: 'Petar "Gaara" Stevanovic',
-			subtitle: "Pro Player and Streamer",
-			text:
-				'"I use HSReplay.net every day. Seeing the mulligan winrates and best decks in the last 24 hours has become my daily routine. My favorite thing to do is when my Twitch chat says I missed lethal, I show them the replay with the tool on the site to prove them wrong. It\'s a great site!"',
-		},
-		{
-			image: image("premium/dog.jpg"),
-			name: 'David "Dog" Caero',
-			subtitle: "Everyone's Favorite Shirtless Pro Player",
-			text:
-				'"I use it for all my net decking needs and it helps me get a good picture of matchups I\'m not very familiar with."',
-		},
-	];
+	private readonly data: TestimonialData[] = [];
 
 	constructor(props: Props, context: any) {
 		super(props, context);
@@ -42,6 +21,42 @@ export default class TestimonialCarousel extends React.Component<Props, State> {
 			index: 0,
 			lastIndex: null,
 		};
+		const { t } = props;
+		this.data.push(
+			{
+				image: image("premium/RDU.jpg"),
+				name: 'Radu "RDU" Dima',
+				subtitle: t("Pro Player and Streamer"),
+				text:
+					'"' +
+					t(
+						"I think both HSReplay.net and Hearthstone Deck Tracker are great tools. They are so good that they play a huge role right now in the competitive and casual side of Hearthstone. Everyone who likes the game should try these tools.",
+					) +
+					'"',
+			},
+			{
+				image: image("premium/gaara.jpg"),
+				name: 'Petar "Gaara" Stevanovic',
+				subtitle: t("Pro Player and Streamer"),
+				text:
+					'"' +
+					t(
+						"I use HSReplay.net every day. Seeing the mulligan winrates and best decks in the last 24 hours has become my daily routine. My favorite thing to do is when my Twitch chat says I missed lethal, I show them the replay with the tool on the site to prove them wrong. It's a great site!",
+					) +
+					'"',
+			},
+			{
+				image: image("premium/dog.jpg"),
+				name: 'David "Dog" Caero',
+				subtitle: t("Everyone's Favorite Shirtless Pro Player"),
+				text:
+					'"' +
+					t(
+						"I use it for all my net decking needs and it helps me get a good picture of matchups I'm not very familiar with.",
+					) +
+					'"',
+			},
+		);
 	}
 
 	public componentDidMount() {
@@ -114,3 +129,5 @@ export default class TestimonialCarousel extends React.Component<Props, State> {
 		);
 	}
 }
+
+export default translate()(TestimonialCarousel);

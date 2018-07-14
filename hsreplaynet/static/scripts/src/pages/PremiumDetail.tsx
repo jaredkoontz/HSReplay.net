@@ -51,8 +51,12 @@ class PremiumDetail extends React.Component<Props, State> {
 					<div className="col-sm-12">
 						<div id="main-header">
 							<h1>
-								HSReplay.net{" "}
-								<span className="text-premium">Premium</span>
+								<Trans>
+									HSReplay.net{" "}
+									<span className="text-premium">
+										Premium
+									</span>
+								</Trans>
 							</h1>
 							{isPremium ? (
 								<>
@@ -102,16 +106,16 @@ class PremiumDetail extends React.Component<Props, State> {
 									) : (
 										<>
 											<h3>
-												Subscribe for{" "}
-												<strong>
-													{this.props.premiumPrice}
-												</strong>
+												{t("Subscribe for {price}", {
+													price: this.props
+														.premiumPrice,
+												})}
 											</h3>
 											<a
 												href="#checkout"
 												className="btn promo-button white-style"
 											>
-												Subscribe now
+												{t("Subscribe now")}
 											</a>
 										</>
 									)}
@@ -137,9 +141,13 @@ class PremiumDetail extends React.Component<Props, State> {
 					<Testimonial
 						image={image("premium/firebat.jpg")}
 						name={'James "Firebat" Kostesich'}
-						subtitle="Hearthstone World Champion"
+						subtitle={t("Hearthstone World Champion")}
 						text={
-							'"I use HSReplay.net to try and figure out what emerging decks have the best winrates. And I love the data on mulligans. Keeping the right cards in the starting hand is one of the most impactful things in a Hearthstone game."'
+							'"' +
+							t(
+								"I use HSReplay.net to try and figure out what emerging decks have the best winrates. And I love the data on mulligans. Keeping the right cards in the starting hand is one of the most impactful things in a Hearthstone game.",
+							) +
+							'"'
 						}
 					/>
 				</div>
@@ -147,116 +155,134 @@ class PremiumDetail extends React.Component<Props, State> {
 					<Testimonial
 						image={image("premium/trump.jpg")}
 						name={'Jeffrey "Trump" Shih'}
-						subtitle="Mayor of Value Town, Streamer"
+						subtitle={t("Mayor of Value Town, Streamer")}
 						text={
-							'"I use HSReplay.net to find all the hot up and coming decks. I comb through all the statistics to find out many things like which decks are performing the best, what matchups are good and bad, and all the cool tech choices people are using in their decks. Lets me nerd out on stats."'
+							'"' +
+							t(
+								"I use HSReplay.net to find all the hot up and coming decks. I comb through all the statistics to find out many things like which decks are performing the best, what matchups are good and bad, and all the cool tech choices people are using in their decks. Lets me nerd out on stats.",
+							) +
+							'"'
 						}
 					/>
 				</div>
 				<section id="feature-story">
 					<div className="clearfix" />
-					<h1>Features</h1>
-					<h2>Before the game</h2>
+					<h1>{t("Features")}</h1>
+					<h2>{t("Before the game")}</h2>
 					<div className="col-lg-4 col-sm-12">
 						<PremiumFeaturePanel
-							title="Find decks to play"
+							title={t("Find decks to play")}
 							image={image("premium/meta.png")}
-							subtitle="Advanced Filters"
-							text="Use filters to find the best deck for your rank and region."
+							subtitle={t("Advanced Filters")}
+							text={t(
+								"Use filters to find the best deck for your rank and region.",
+							)}
 							bullets={[
-								"Select ranks: 25 - Legend",
-								"Choose regions: US, EU, APAC, CN",
-								"Set time range: 1, 3 and 7 days",
+								t("Select ranks: 25 - Legend"),
+								t("Choose regions: US, EU, APAC, CN"),
+								t("Set time range: 1, 3 and 7 days"),
 							]}
 						/>
 					</div>
 					<div className="col-lg-4 col-sm-12">
 						<PremiumFeaturePanel
-							title="Understand the meta"
+							title={t("Understand the meta")}
 							image={image("premium/tier-graphic.png")}
-							subtitle="Meta Tier List"
-							text="Tried of waiting a week for generic meta snapshots?"
+							subtitle={t("Meta Tier List")}
+							text={t(
+								"Tried of waiting a week for generic meta snapshots?",
+							)}
 							bullets={[
-								"Daily power rankings",
-								"Deck popularity",
-								"Specific to your rank and region",
+								t("Daily power rankings"),
+								t("Deck popularity"),
+								t("Specific to your rank and region"),
 							]}
 						/>
 					</div>
 					<div className="col-lg-4 col-sm-12">
 						<PremiumFeaturePanel
-							title="Know your plays"
+							title={t("Know your plays")}
 							image={image("premium/matchup.png")}
-							subtitle="Archetype Matchups"
-							text="Find out how a deck does against all the popular archetypes in the meta."
+							subtitle={t("Archetype Matchups")}
+							text={t(
+								"Find out how a deck does against all the popular archetypes in the meta.",
+							)}
 							bullets={[
-								"Know when you're favored",
-								"Monitor the overall effective winrate",
+								t("Know when you're favored"),
+								t("Monitor the overall effective winrate"),
 							]}
 						/>
 					</div>
 					<div className="clearfix" />
-					<h2>During the game</h2>
+					<h2>{t("During the game")}</h2>
 					<div className="col-lg-4 col-sm-12">
 						<PremiumFeaturePanel
-							title="Learn what to keep"
+							title={t("Learn what to keep")}
 							image={image("premium/mulligan.png")}
-							subtitle="Mulligan Guide"
-							text="Learn the best cards to keep in your opening hand against your opponent's class."
-							bullets={["Mulligan stats by class matchup"]}
+							subtitle={t("Mulligan Guide")}
+							text={t(
+								"Learn the best cards to keep in your opening hand against your opponent's class.",
+							)}
+							bullets={[t("Mulligan stats by class matchup")]}
 						/>
 					</div>
 					<div className="col-lg-4 col-sm-12">
 						<PremiumFeaturePanel
-							title="Analyze cards"
+							title={t("Analyze cards")}
 							image={image("premium/turn.png")}
-							subtitle="Turn Data"
-							text="Find the best turns to play a card most effectively."
+							subtitle={t("Turn Data")}
+							text={t(
+								"Find the best turns to play a card most effectively.",
+							)}
 							bullets={[
-								"Winrates and play rates",
-								"Broken down by opponent class",
+								t("Winrates and play rates"),
+								t("Broken down by opponent class"),
 							]}
 						/>
 					</div>
 					<div className="col-lg-4 col-sm-12">
 						<PremiumFeaturePanel
-							title="Visualize your game"
+							title={t("Visualize your game")}
 							image={<HDTVideo />}
-							subtitle="In-game Overlay"
+							subtitle={t("In-game Overlay")}
 							text={
 								<>
 									<p>
-										Never lose track when you or your
-										opponent has played the second Brawl,
-										Hex or Psychic Scream.
+										{t(
+											"Never lose track when you or your opponent has played the second Brawl, Hex or Psychic Scream.",
+										)}
 									</p>
 									<a
 										href="#"
 										className="btn promo-button transparent-style"
 									>
-										Download
+										{t("Download")}
 									</a>
 								</>
 							}
 						/>
 					</div>
 					<div className="clearfix" />
-					<h2>After the game</h2>
+					<h2>{t("After the game")}</h2>
 					<div className="col-lg-6 col-sm-12">
 						<PremiumFeaturePanel
-							title="Track your progress"
+							title={t("Track your progress")}
 							image={image("premium/history.png")}
-							subtitle="Personal Statistics"
-							text="Analyze your overall results. Identify the decks you are winning the most with over multiple play sessions."
+							subtitle={t("Personal Statistics")}
+							text={t(
+								"Analyze your overall results. Identify the decks you are winning the most with over multiple play sessions.",
+							)}
 							wide
 						/>
 					</div>
 					<div className="col-lg-6 col-sm-12">
 						<PremiumFeaturePanel
-							title="Study the past"
+							title={t("Study the past")}
 							image={image("premium/replay.png")}
-							subtitle="Replays"
-							text="Review your games to identify any improvements you can make in your game play or just share them with a friend."
+							subtitle={t("Replays")}
+							text={t(
+								"Review your games to identify any improvements you can make in your game play or just share them with a friend.",
+							)}
 							wide
 						/>
 					</div>
@@ -278,7 +304,7 @@ class PremiumDetail extends React.Component<Props, State> {
 											href="#checkout"
 											className="btn promo-button white-style"
 										>
-											Subscribe now
+											{t("Subscribe now")}
 										</a>
 									</div>
 								</Panel>
