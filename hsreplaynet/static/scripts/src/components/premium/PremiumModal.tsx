@@ -42,72 +42,83 @@ class PremiumModal extends React.Component<Props, State> {
 	}
 
 	private getData(): ModalData {
+		const { t } = this.props;
 		switch (this.props.modalStyle) {
 			case "default":
 				return {
 					title: "",
-					description:
+					description: t(
 						"HSReplay.net Premium enables loads of cool new features and filters on the site. You get to improve your gameplay and support the continued development of HSReplay.net and Hearthstone Deck Tracker at the same time!",
+					),
 				};
 			case "TimeRankRegion":
 				return {
-					title: "Time, rank and region filters",
-					description:
+					title: t("Time, rank and region filters"),
+					description: t(
 						"Tired of generic weekly snapshots? Find the best deck you should be playing at your rank and region based on today’s data.",
+					),
 				};
 			case "ArchetypePopulartiy":
 				return {
-					title: "Archetype Popularity",
-					description:
+					title: t("Archetype Popularity"),
+					description: t(
 						"What’s everyone playing at my rank? See how the popularity of archetypes differ at each rank.",
+					),
 					image: image("premium/modal-archetype-popularity.jpg"),
 				};
 			case "ArchetypeMulligan":
 				return {
-					title: "Archetype Mulligan stats",
-					description:
+					title: t("Archetype Mulligan stats"),
+					description: t(
 						"Get an edge at the start of the game! Find the best cards to keep against your opponent’s archetype.",
+					),
 					image: image("premium/modal-archetype-mulligan.jpg"),
 				};
 			case "MyDeckMulligan":
 				return {
-					title: "My deck Mulligan stats",
-					description:
+					title: t("My deck Mulligan stats"),
+					description: t(
 						"See which cards have performed the best for you when keeping it during the mulligan.",
+					),
 					image: image("premium/modal-statistics.jpg"),
 				};
 			case "MyDecks":
 				return {
-					title: "My Deck stats",
-					description:
+					title: t("My Deck stats"),
+					description: t(
 						"Find out your performance with the decks you’ve been playing!",
+					),
 					image: image("premium/modal-my-decks.jpg"),
 				};
 			case "MyCards":
 				return {
-					title: "My Card stats",
-					description:
+					title: t("My Card stats"),
+					description: t(
 						"Find out what cards are having the most impact in your games! See if your cards are performing as expected.",
+					),
 					image: image("premium/modal-my-cards.jpg"),
 				};
 			case "DeckMatchups":
 				return {
-					title: "Deck Matchup stats",
-					description:
+					title: t("Deck Matchup stats"),
+					description: t(
 						"Figure out where a deck is favored! Get a break down of how a specific deck matches up against the popular archetypes in the meta.",
+					),
 					image: image("premium/modal-deck-matchups.jpg"),
 				};
 			case "DeckMulligan":
 				return {
-					title: "Deck Mulligan by Opponent's Class",
-					description:
+					title: t("Deck Mulligan by Opponent's Class"),
+					description: t(
 						"Optimize your mulligans based on your opponent’s class! Find out the best cards to keep in your hand to give you the best chance to beat your opponent.",
+					),
 				};
 			case "CardTurn":
 				return {
-					title: "Turn Details",
-					description:
+					title: t("Turn Details"),
+					description: t(
 						"Find out the best turn to play your cards to get winning results. Figure out  the right time to play Doomsayer.",
+					),
 					image: image("premium/modal-card-turn.jpg"),
 				};
 		}
@@ -122,6 +133,7 @@ class PremiumModal extends React.Component<Props, State> {
 	}
 
 	private renderNew(): React.ReactNode {
+		const { t } = this.props;
 		const element = document.getElementById("payment-details-data");
 		const paymentData = JSON.parse(element.textContent);
 		const premiumPrice = paymentData.stripe.plans[0].description;
@@ -141,7 +153,9 @@ class PremiumModal extends React.Component<Props, State> {
 					</h1>
 					{this.state.showCheckout ? null : (
 						<h4>
-							Subscribe for <strong>{premiumPrice}</strong>
+							{t("Subscribe for {price}", {
+								price: premiumPrice,
+							})}
 						</h4>
 					)}
 				</header>
@@ -173,7 +187,7 @@ class PremiumModal extends React.Component<Props, State> {
 								<h1>{data.title}</h1>
 								<p>{data.description}</p>
 								<a className="learn-more" href="/premium/">
-									See all features
+									{t("See all features")}
 								</a>
 							</div>
 							<img
@@ -207,7 +221,7 @@ class PremiumModal extends React.Component<Props, State> {
 									this.setState({ showCheckout: true });
 								}}
 							>
-								Subscribe now
+								{t("Subscribe now")}
 							</a>
 						)
 					) : (
