@@ -15,14 +15,14 @@
 	margin: 0 auto;
 
 	> header {
-		height: 690px;
+		height: calc(1540 / 2000 * 800px);
 		position: relative;
 		background-repeat: no-repeat;
 		background-size: cover;
 		text-align: center;
 		color: black;
 		background-position-x: center;
-		margin-bottom: -100px;
+		margin-bottom: -30px;
 
 		.btn {
 			box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16),
@@ -34,7 +34,7 @@
 			background: linear-gradient(
 				to bottom,
 				rgba(251, 247, 246, 0.4) 0%,
-				$offwhite 90%
+				$offwhite 97%
 			);
 			position: absolute;
 			height: 100%;
