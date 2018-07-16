@@ -495,7 +495,10 @@ class Cards extends React.Component<Props, State> {
 		if (this.props.personal) {
 			if (!UserData.isPremium()) {
 				return (
-					<Modal visible onClose={() => window.open("/", "_self")}>
+					<Modal
+						visible
+						onClose={() => window.open("/premium/", "_self")}
+					>
 						<PremiumModal modalStyle="MyCards" />
 					</Modal>
 				);
