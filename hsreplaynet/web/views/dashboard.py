@@ -37,6 +37,18 @@ class EditAccountView(LoginRequiredMixin, UpdateView, SimpleReactView):
 	def get_object(self, queryset=None):
 		return self.request.user
 
+	def form_valid(self, form):
+		ret = super().form_valid(form)
+
+		# Handle collection visibility
+		if self.request.POST.get("collection_visibility", "") == "public":
+			self.object.settings["collection-visibility"] = "public"
+		elif "collection-visibility" in self.object.settings:
+			del self.object.settings["collection-visibility"]
+		self.object.save()
+
+		return ret
+
 	def get_react_context(self):
 		reflink = ReferralLink.objects.filter(user=self.request.user).first()
 		if not reflink:
@@ -50,6 +62,9 @@ class EditAccountView(LoginRequiredMixin, UpdateView, SimpleReactView):
 			reflink_url = "https://hsreplay.net" + reflink.get_absolute_url()
 
 		return {
+			"collection_visibility": self.request.user.settings.get(
+				"collection-visibility", ""
+			),
 			"default_replay_visibility": self.request.user.default_replay_visibility,
 			"exclude_from_statistics": self.request.user.exclude_from_statistics,
 			"joust_autoplay": self.request.user.joust_autoplay,

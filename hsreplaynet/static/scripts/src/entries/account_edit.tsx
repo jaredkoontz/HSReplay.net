@@ -1,9 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import UserData from "../UserData";
 import Root from "../components/Root";
-import AccountEdit from "../pages/AccountEdit";
 import { Visibility } from "../interfaces";
+import AccountEdit from "../pages/AccountEdit";
+import UserData from "../UserData";
 
 UserData.create();
 const context = JSON.parse(
@@ -15,6 +15,7 @@ ReactDOM.render(
 		<AccountEdit
 			reflink={context["reflink"]}
 			hits={context["hits"]}
+			collectionVisibility={context["collection_visibility"]}
 			defaultReplayVisibility={
 				+context["default_replay_visibility"] as Visibility
 			}

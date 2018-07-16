@@ -1,12 +1,13 @@
 import React from "react";
 import { InjectedTranslateProps, Trans, translate } from "react-i18next";
 import CSRFElement from "../components/CSRFElement";
-import { isCollectionDisabled } from "../utils/collection";
 import { Visibility } from "../interfaces";
+import { isCollectionDisabled } from "../utils/collection";
 
 interface Props extends InjectedTranslateProps {
 	reflink: string;
 	hits: number;
+	collectionVisibility: string;
 	defaultReplayVisibility: Visibility;
 	excludeFromStatistics: boolean;
 	joustAutoplay: boolean;
@@ -142,6 +143,26 @@ class AccountEdit extends React.Component<Props, State> {
 								{t(
 									"Enable personal Hearthstone collection features on the site",
 								)}
+							</label>
+						</p>
+
+						<p>
+							{t(
+								"You may also make your collection available to other users and programs.",
+							)}
+						</p>
+						<p>
+							<label>
+								<input
+									name="collection_visibility"
+									type="checkbox"
+									value="public"
+									defaultChecked={
+										this.props.collectionVisibility ===
+										"public"
+									}
+								/>{" "}
+								{t("Make my Hearthstone collection public")}
 							</label>
 						</p>
 					</div>

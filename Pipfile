@@ -43,6 +43,7 @@ hsredshift = {file = "https://github.com/HearthSim/hsredshift/archive/master.tar
 hsarchetypes = {file = "https://github.com/HearthSim/hsarchetypes/archive/master.tar.gz"}
 django-bouncy = "*"
 unidecode = "*"
+pipenv = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"
