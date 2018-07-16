@@ -55,20 +55,20 @@ class PremiumModal extends React.Component<Props, State> {
 				return {
 					title: t("Time, rank and region filters"),
 					description: t(
-						"Tired of generic weekly snapshots? Find the best deck you should be playing at your rank and region based on today’s data.",
+						"Tired of generic weekly snapshots? Find the best deck you should be playing at your rank and region based on the latest data.",
 					),
 				};
 			case "ArchetypePopulartiy":
 				return {
 					title: t("Archetype Popularity"),
 					description: t(
-						"What’s everyone playing at my rank? See how the popularity of archetypes differ at each rank.",
+						"What’s everyone playing at your rank? See how the popularity of archetypes differ at each rank.",
 					),
 					image: image("premium/modal-archetype-popularity.jpg"),
 				};
 			case "ArchetypeMulligan":
 				return {
-					title: t("Archetype Mulligan stats"),
+					title: t("Archetype Mulligan"),
 					description: t(
 						"Get an edge at the start of the game! Find the best cards to keep against your opponent’s archetype.",
 					),
@@ -76,23 +76,23 @@ class PremiumModal extends React.Component<Props, State> {
 				};
 			case "MyDeckMulligan":
 				return {
-					title: t("My deck Mulligan stats"),
+					title: t("My Statistics"),
 					description: t(
-						"See which cards have performed the best for you when keeping it during the mulligan.",
+						"See how all the cards in this deck are performing for you. Mulligan winrates, number of turns held, and lots more!",
 					),
 					image: image("premium/modal-statistics.jpg"),
 				};
 			case "MyDecks":
 				return {
-					title: t("My Deck stats"),
+					title: t("My Decks"),
 					description: t(
-						"Find out your performance with the decks you’ve been playing!",
+						"See all the decks you are currently playing and how you are performing with each of them!",
 					),
 					image: image("premium/modal-my-decks.jpg"),
 				};
 			case "MyCards":
 				return {
-					title: t("My Card stats"),
+					title: t("My Cards"),
 					description: t(
 						"Find out what cards are having the most impact in your games! See if your cards are performing as expected.",
 					),
@@ -100,7 +100,7 @@ class PremiumModal extends React.Component<Props, State> {
 				};
 			case "DeckMatchups":
 				return {
-					title: t("Deck Matchup stats"),
+					title: t("Deck Matchups"),
 					description: t(
 						"Figure out where a deck is favored! Get a break down of how a specific deck matches up against the popular archetypes in the meta.",
 					),
@@ -108,16 +108,16 @@ class PremiumModal extends React.Component<Props, State> {
 				};
 			case "DeckMulligan":
 				return {
-					title: t("Deck Mulligan by Opponent's Class"),
+					title: t("Deck Mulligan by Opponent Class"),
 					description: t(
-						"Optimize your mulligans based on your opponent’s class! Find out the best cards to keep in your hand to give you the best chance to beat your opponent.",
+						"Optimize your mulligans based on your opponent! Find out the best cards to keep in your hand to give you the best chance to win.",
 					),
 				};
 			case "CardTurn":
 				return {
 					title: t("Turn Details"),
 					description: t(
-						"Find out the best turn to play your cards to get winning results. Figure out  the right time to play Doomsayer.",
+						"Have you ever wondered when the best time to play Doomsayer is?. Find out the best turn to play your cards to get winning results.",
 					),
 					image: image("premium/modal-card-turn.jpg"),
 				};
