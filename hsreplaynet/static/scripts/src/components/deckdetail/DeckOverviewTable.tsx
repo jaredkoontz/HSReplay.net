@@ -19,6 +19,11 @@ class DeckOverviewTable extends React.Component<Props> {
 			this.props.playerClass
 		].find(x => x.deck_id === this.props.deckId);
 
+		if (!deck) {
+			// can't show most of the data anyway
+			return null;
+		}
+
 		const winrateCell = (
 			winrate: number,
 			baseWinrate: number,
@@ -33,12 +38,9 @@ class DeckOverviewTable extends React.Component<Props> {
 			);
 		};
 
-		const secondsPerTurn =
-			deck &&
-			Math.round(
-				+deck.avg_game_length_seconds /
-					(+deck.avg_num_player_turns * 2),
-			);
+		const secondsPerTurn = Math.round(
+			+deck.avg_game_length_seconds / (+deck.avg_num_player_turns * 2),
+		);
 
 		const opponents = this.props.opponentWinrateData.series.data;
 		const rows = [];
@@ -80,33 +82,29 @@ class DeckOverviewTable extends React.Component<Props> {
 					<tr>
 						<td>{t("Match duration")}</td>
 						<td>
-							{deck &&
-								t("{durationInMinutes} minutes", {
-									durationInMinutes: formatNumber(
-										deck.avg_game_length_seconds / 60,
-										1,
-									),
-								})}
+							{t("{durationInMinutes} minutes", {
+								durationInMinutes: formatNumber(
+									deck.avg_game_length_seconds / 60,
+									1,
+								),
+							})}
 						</td>
 					</tr>
 					<tr>
 						<td>{t("Turns")}</td>
-						<td>
-							{deck && formatNumber(deck.avg_num_player_turns, 1)}
-						</td>
+						<td>{formatNumber(deck.avg_num_player_turns, 1)}</td>
 					</tr>
 					<tr>
 						<td>{t("Turn duration")}</td>
 						<td>
-							{deck &&
-								t("{secondsPerTurn} seconds", {
-									secondsPerTurn,
-								})}
+							{t("{secondsPerTurn} seconds", {
+								secondsPerTurn,
+							})}
 						</td>
 					</tr>
 					<tr>
 						<td>{t("Overall winrate")}</td>
-						{deck && winrateCell(deck.win_rate, 50, false)}
+						{winrateCell(deck.win_rate, 50, false)}
 					</tr>
 					{winrates}
 				</tbody>
