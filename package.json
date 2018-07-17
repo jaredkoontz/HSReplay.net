@@ -46,6 +46,7 @@
 		"i18next": "^11.3.5",
 		"i18next-callback-backend": "^1.0.0-alpha.1",
 		"i18next-icu": "^0.4.0",
+		"intl": "^1.2.5",
 		"lodash": "^4.17.4",
 		"node-sass": "^4.7.2",
 		"numbro": "^2.0.6",

@@ -107,6 +107,10 @@ i18n
 			}
 			if (namespace === I18N_NAMESPACE_HEARTHSTONE) {
 				try {
+					if (!global.Intl) {
+						await import(/* webpackChunkName: "i18n/intl-polyfill" */ "intl");
+					}
+
 					/* By specifying the same webpackChunkName, all the files for one language are
 				merged into a single module. This results in one network request per language */
 					const modules = await Promise.all([
