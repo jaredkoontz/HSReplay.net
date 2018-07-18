@@ -10,7 +10,8 @@
 		"format": "yarn format:tslint; yarn format:prettier",
 		"format:prettier": "prettier --write \"hsreplaynet/static/{scripts,styles}/**/*.{ts,tsx,js,scss}\"",
 		"format:tslint": "tslint \"hsreplaynet/static/scripts/src/**/*\" --project tsconfig.json --fix",
-		"i18n:extract": "i18next-scanner --config i18next-scanner.config.js --output locale/ \"hsreplaynet/static/scripts/src/**/*.ts{,x}\""
+		"i18n:build": "tsc --outDir \"build/generated/locale-extract\" --target es6 --sourceMap false --jsx preserve",
+		"i18n:extract": "i18next-scanner --config i18next-scanner.config.js --output locale/ \"build/generated/locale-extract/**/*.js{,x}\""
 	},
 	"dependencies": {
 		"@types/bootstrap": "^3.3",
@@ -70,7 +71,7 @@
 	"devDependencies": {
 		"@types/jest": "^23.1.1",
 		"hard-source-webpack-plugin": "^0.6.4",
-		"i18next-scanner": "^2.5.0",
+		"i18next-scanner": "^2.6.3",
 		"jest": "^23.1.0",
 		"prettier": "^1.12.1",
 		"react-test-renderer": "^16.4.1",

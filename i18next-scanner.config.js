@@ -47,7 +47,7 @@ module.exports = {
 		parser.parseTransFromString(
 			content,
 			{
-				component: ["Trans"],
+				component: "Trans",
 				i18nKey: false,
 			},
 			(key, options) => {
