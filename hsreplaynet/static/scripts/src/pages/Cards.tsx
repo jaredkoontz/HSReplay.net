@@ -41,6 +41,7 @@ import {
 	isCollectionDisabled,
 } from "../utils/collection";
 import AllSet from "../components/onboarding/AllSet";
+import ConnectAccount from "../components/onboarding/ConnectAccount";
 
 interface CardFilters {
 	cost: any;
@@ -583,20 +584,9 @@ class Cards extends React.Component<Props, State> {
 			} else {
 				content.push(
 					<div className="message-wrapper">
-						<h2>{t("Link your Hearthstone account")}</h2>
-						<p>
-							Play a game and{" "}
-							<a href="/games/mine/">upload the replay</a> for
-							your personal card statistics to start appearing
-							here.
-						</p>
-						<p className="text-muted">
-							Note: It may take a few hours for new data to appear
-							on this page.<br />
-							<a href="/contact/">
-								Contact us if you keep seeing this message.
-							</a>
-						</p>
+						<ConnectAccount
+							feature={t("personalized card statistics")}
+						/>
 					</div>,
 				);
 			}

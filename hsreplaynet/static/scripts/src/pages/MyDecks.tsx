@@ -30,6 +30,7 @@ import {
 import { DeckObj, FragmentChildProps, TableData } from "../interfaces";
 import LoadingSpinner from "../components/LoadingSpinner";
 import AllSet from "../components/onboarding/AllSet";
+import ConnectAccount from "../components/onboarding/ConnectAccount";
 
 interface Props extends FragmentChildProps, InjectedTranslateProps {
 	account: Account | null;
@@ -361,21 +362,9 @@ class MyDecks extends React.Component<Props, State> {
 		if (!userAccounts.length) {
 			content = (
 				<div className="message-wrapper">
-					<Trans>
-						<h2>Link your Hearthstone account</h2>
-						<p>
-							Play a game and{" "}
-							<a href="/games/mine/">upload the replay</a> for
-							your deck statistics to start appearing here.
-						</p>
-						<p className="text-muted">
-							Note: It may take a few hours for new data to appear
-							on this page.<br />
-							<a href="/contact/">
-								Contact us if you keep seeing this message.
-							</a>
-						</p>
-					</Trans>
+					<ConnectAccount
+						feature={t("personalized deck statistics")}
+					/>
 				</div>
 			);
 		} else if (this.state.loading) {
