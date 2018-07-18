@@ -413,15 +413,20 @@ class AccountBilling extends React.Component<Props, State> {
 													</td>
 													<td>
 														{invoice.total < 0 ? (
-															<Trans>
-																{this.currencyAmount(
-																	invoice.total,
-																	invoice.currency,
-																)}{" "}
-																<span className="label label-success">
-																	Credit
-																</span>
-															</Trans>
+															<Trans
+																defaults="{amountWithCurrency} <0>Credit</0>"
+																components={[
+																	<span className="label label-success">
+																		0
+																	</span>,
+																]}
+																tOptions={{
+																	amountWithCurrency: this.currencyAmount(
+																		invoice.total,
+																		invoice.currency,
+																	),
+																}}
+															/>
 														) : (
 															this.currencyAmount(
 																invoice.total,
@@ -625,16 +630,15 @@ class AccountBilling extends React.Component<Props, State> {
 							<hr />
 							<h4>{t("Pending charges")}</h4>
 							<p>
-								<Trans>
-									You have{" "}
-									{this.currencyAmount(
-										stripe.pending_charges,
-										stripe.currency,
-									)}{" "}
-									in pending charges.<br />
-									This may have been from a previous
-									unattempted charge.
-								</Trans>
+								<Trans
+									defaults="You have {amountWithCurrency} in pending charges.<0></0>These may be from a previous unattempted charge."
+									tOptions={{
+										amountWithCurrency: this.currencyAmount(
+											stripe.pending_charges,
+											stripe.currency,
+										),
+									}}
+								/>
 							</p>
 						</>
 					) : null}
@@ -644,11 +648,15 @@ class AccountBilling extends React.Component<Props, State> {
 							<hr />
 							<h4>{t("Credits")}</h4>
 							<p>
-								Your account balance is{" "}
-								{this.currencyAmount(
-									stripe.credits,
-									stripe.currency,
-								)}.
+								<Trans
+									defaults="Your account balance is {amountWithCurrency}"
+									tOptions={{
+										amountWithCurrency: this.currencyAmount(
+											stripe.credits,
+											stripe.currency,
+										),
+									}}
+								/>
 								<br />
 								<em className="text-muted">
 									{t(
@@ -689,12 +697,8 @@ class AccountBilling extends React.Component<Props, State> {
 		}
 	}
 
-	public currencyAmount(amount: number, currency: string): React.ReactNode {
-		return (
-			<>
-				${(amount / 100).toFixed(2)} {currency.toUpperCase()}
-			</>
-		);
+	public currencyAmount(amount: number, currency: string): string {
+		return `$${(amount / 100).toFixed(2)} ${currency.toUpperCase()}`;
 	}
 }
 
