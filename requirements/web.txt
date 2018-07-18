@@ -17,5 +17,5 @@ numpy
 scikit-learn[alldeps]
 
 # stripe / paypal
-dj-stripe==1.2.0
+dj-stripe==1.2.1
 dj-paypal==0.8.1
