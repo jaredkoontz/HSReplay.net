@@ -2,6 +2,7 @@ import React from "react";
 import Tab from "./Tab";
 import Modal from "../Modal";
 import PremiumModal, { ModalStyle } from "../premium/PremiumModal";
+import UserData from "../../UserData";
 
 interface Props {
 	tab: string;
@@ -50,7 +51,7 @@ export default class TabList extends React.Component<Props, State> {
 						if (isActive || !canSwitch || disabled) {
 							return;
 						}
-						if (premiumModalOnClick) {
+						if (premiumModalOnClick && !UserData.isPremium()) {
 							this.setState({
 								showPremiumModal: true,
 								premiumModalStyle: premiumModalOnClick,
