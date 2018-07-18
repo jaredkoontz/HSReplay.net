@@ -88,7 +88,7 @@ class LanguageSelector extends React.Component<Props, State> {
 
 				<li role="separator" className="divider" />
 				<li className="text-muted small">
-					<a href="/i18n/contribute/">
+					<a href="/i18n/contribute/" target="_blank" rel="noopener">
 						{t("Help translate HSReplay.net!")}
 					</a>
 				</li>
