@@ -255,9 +255,7 @@ class AccountConnections extends React.Component<Props, State> {
 						>
 							{t("Remove")}
 						</button>
-						<strong>
-							<PrettyBlizzardAccount account={accountList[key]} />
-						</strong>
+						<PrettyBlizzardAccount account={accountList[key]} />
 						<div className="clearfix" />
 					</li>
 				))}

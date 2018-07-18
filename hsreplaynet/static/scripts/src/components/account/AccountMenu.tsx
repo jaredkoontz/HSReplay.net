@@ -101,6 +101,7 @@ class AccountMenu extends React.Component<Props, State> {
 						<a href="#" onClick={this.selectAccount(key)}>
 							<PrettyBlizzardAccount
 								account={this.props.accounts[key]}
+								plain
 							/>
 						</a>
 					</li>
@@ -113,7 +114,7 @@ class AccountMenu extends React.Component<Props, State> {
 		if (typeof this.props.accounts === "object") {
 			const account = this.props.accounts[this.props.currentAccount];
 			if (account) {
-				return <PrettyBlizzardAccount account={account} />;
+				return <PrettyBlizzardAccount account={account} plain />;
 			}
 		}
 

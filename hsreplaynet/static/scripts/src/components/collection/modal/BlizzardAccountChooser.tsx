@@ -44,7 +44,10 @@ class BlizzardAccountChooser extends React.Component<Props> {
 							const account = this.props.accounts[key];
 							return (
 								<option value={key} key={key}>
-									<PrettyBlizzardAccount account={account} />
+									<PrettyBlizzardAccount
+										account={account}
+										plain
+									/>
 								</option>
 							);
 						})}

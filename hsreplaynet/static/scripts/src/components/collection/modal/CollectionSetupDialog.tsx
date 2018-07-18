@@ -195,9 +195,7 @@ class CollectionSetupDialog extends React.Component<Props, State> {
 		}
 
 		const accountName = blizzardAccount ? (
-			<strong>
-				<PrettyBlizzardAccount account={blizzardAccount} />
-			</strong>
+			<PrettyBlizzardAccount account={blizzardAccount} />
 		) : null;
 
 		switch (step) {
