@@ -504,6 +504,12 @@ ANALYTICS_CORS_HEADER_WHITELIST = [
 	"X-Twitch-Extension-Version"
 ]
 
+I18N_CONTRIBUTE_URL = (
+	"https://docs.google.com/document/u/1/d/e/"
+	"2PACX-1vQlM_o4zvUMzrecg-RkSINT4HMxSUpiYuWeUa3VCwHMS6mIkUmRZ884VXPZ0D8E6QQLrWtBmLyNP4_d"
+	"/pub?embedded=true"
+)
+
 try:
 	from hsreplaynet.local_settings import *
 except ImportError as e:

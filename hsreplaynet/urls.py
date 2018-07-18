@@ -35,6 +35,9 @@ urlpatterns = [
 	url(r"^about/tos/$", flatpage, {"url": "/about/tos/"}, name="terms_of_service"),
 	url(r"^contact/$", flatpage, {"url": "/contact/"}, name="contact_us"),
 	url(r"^downloads/", DownloadsView.as_view(), name="downloads"),
+	url(r"^i18n/contribute/$", RedirectView.as_view(
+		url=settings.I18N_CONTRIBUTE_URL, permanent=False
+	)),
 	url(r"^i18n/setprefs/$", SetLocaleView.as_view()),
 	url(r"^ping/$", PingView.as_view()),
 	url(r"^premium/$", PremiumDetailView.as_view(), name="premium"),
