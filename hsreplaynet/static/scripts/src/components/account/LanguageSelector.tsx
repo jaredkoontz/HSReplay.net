@@ -62,6 +62,8 @@ class LanguageSelector extends React.Component<Props, State> {
 	};
 
 	private renderDropdown(): React.ReactNode {
+		const { t } = this.props;
+
 		if (!this.state.expanded) {
 			return;
 		}
@@ -83,6 +85,13 @@ class LanguageSelector extends React.Component<Props, State> {
 						</a>
 					</li>
 				))}
+
+				<li role="separator" className="divider" />
+				<li className="text-muted small">
+					<a href="/i18n/contribute/">
+						{t("Help translate HSReplay.net!")}
+					</a>
+				</li>
 			</ul>
 		);
 	}
