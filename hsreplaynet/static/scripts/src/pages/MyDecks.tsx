@@ -431,7 +431,7 @@ class MyDecks extends React.Component<Props, State> {
 						sortDirection: "descending",
 						page: 1,
 					}}
-					ref={ref => this.deckListsFragmentsRef}
+					ref={ref => (this.deckListsFragmentsRef = ref)}
 				>
 					<DeckList
 						decks={this.state.filteredDecks}
