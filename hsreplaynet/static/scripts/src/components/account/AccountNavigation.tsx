@@ -7,6 +7,8 @@ import { Consumer as BlizzardAccountConsumer } from "../utils/hearthstone-accoun
 import AccountMenu from "./AccountMenu";
 import DevTools from "./DevTools";
 import LanguageSelector from "./LanguageSelector";
+import PremiumModal, { ModalStyle } from "../premium/PremiumModal";
+import Modal from "../Modal";
 
 interface Props extends InjectedTranslateProps {
 	isAuthenticated: boolean;
@@ -15,7 +17,18 @@ interface Props extends InjectedTranslateProps {
 	isPremium: boolean;
 }
 
-class AccountNavigation extends React.Component<Props> {
+interface State {
+	activePremiumModal: ModalStyle | null;
+}
+
+class AccountNavigation extends React.Component<Props, State> {
+	constructor(props: Props, context: any) {
+		super(props, context);
+		this.state = {
+			activePremiumModal: null,
+		};
+	}
+
 	private getClassName(path: string | RegExp, premium?: boolean): string {
 		if (!document || !document.location || !document.location.pathname) {
 			return "";
@@ -46,6 +59,18 @@ class AccountNavigation extends React.Component<Props> {
 
 		return (
 			<>
+				{this.props.isPremium ? null : (
+					<Modal
+						visible={this.state.activePremiumModal != null}
+						onClose={() =>
+							this.setState({ activePremiumModal: null })
+						}
+					>
+						<PremiumModal
+							modalStyle={this.state.activePremiumModal}
+						/>
+					</Modal>
+				)}
 				{(this.props.isAuthenticated ||
 					!!cookie.get("logged-out-mode", 0)) &&
 				this.props.isStaff ? (
@@ -57,6 +82,14 @@ class AccountNavigation extends React.Component<Props> {
 						href="/decks/mine/"
 						className={"text-premium"}
 						id="navbar-link-my-decks"
+						onClick={e => {
+							if (!this.props.isPremium) {
+								e.preventDefault();
+								this.setState({
+									activePremiumModal: "MyDecks",
+								});
+							}
+						}}
 					>
 						<span className="glyphicon glyphicon-th-list" />
 						<span className="hidden-sm">{t("My Decks")}</span>
@@ -68,6 +101,14 @@ class AccountNavigation extends React.Component<Props> {
 						href="/cards/mine/"
 						className="text-premium"
 						id="navbar-link-my-cards"
+						onClick={e => {
+							if (!this.props.isPremium) {
+								e.preventDefault();
+								this.setState({
+									activePremiumModal: "MyCards",
+								});
+							}
+						}}
 					>
 						<span className="glyphicon glyphicon-stats" />
 						<span className="hidden-sm">{t("My Cards")}</span>

@@ -1,7 +1,7 @@
 import { decode as decodeDeckstring } from "deckstrings";
 import _ from "lodash";
 import React from "react";
-import { InjectedTranslateProps, Trans, translate } from "react-i18next";
+import { InjectedTranslateProps, translate } from "react-i18next";
 import CardData from "../CardData";
 import DataManager from "../DataManager";
 import UserData, { Account } from "../UserData";
@@ -30,8 +30,6 @@ import { DeckObj, FragmentChildProps, TableData } from "../interfaces";
 import LoadingSpinner from "../components/LoadingSpinner";
 import AllSet from "../components/onboarding/AllSet";
 import ConnectAccount from "../components/onboarding/ConnectAccount";
-import Modal from "../components/Modal";
-import PremiumModal from "../components/premium/PremiumModal";
 
 interface Props extends FragmentChildProps, InjectedTranslateProps {
 	account: Account | null;
@@ -322,17 +320,6 @@ class MyDecks extends React.Component<Props, State> {
 
 	public render(): React.ReactNode {
 		const { t } = this.props;
-
-		if (!UserData.isPremium()) {
-			return (
-				<Modal
-					visible
-					onClose={() => window.open("/premium/", "_self")}
-				>
-					<PremiumModal modalStyle="MyDecks" />
-				</Modal>
-			);
-		}
 
 		let content = null;
 		const userAccounts = UserData.getAccounts();

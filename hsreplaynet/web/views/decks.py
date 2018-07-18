@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import Http404
 from django.shortcuts import render
 from django.utils.text import format_lazy
@@ -6,6 +7,7 @@ from django.views.generic import TemplateView, View
 from hearthstone.enums import FormatType
 
 from hsreplaynet.decks.models import Deck
+from hsreplaynet.web.views.premium import PremiumRequiredMixin
 
 from . import SimpleReactView
 from ..html import RequestMetaMixin
@@ -21,7 +23,7 @@ class DecksView(SimpleReactView):
 	bundles = ("stats", "decks")
 
 
-class MyDecksView(SimpleReactView):
+class MyDecksView(LoginRequiredMixin, PremiumRequiredMixin, SimpleReactView):
 	title = _("My Decks")
 	bundle = "my_decks"
 	bundles = ("stats", "my_decks")

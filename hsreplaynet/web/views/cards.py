@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import Http404
 from django.urls import reverse
 from django.utils import translation
@@ -11,6 +12,7 @@ from hearthstone.enums import CardSet, CardType, Locale, Rarity
 from unidecode import unidecode
 
 from hsreplaynet.features.decorators import view_requires_feature_access
+from hsreplaynet.web.views.premium import PremiumRequiredMixin
 
 from . import SimpleReactView
 from ..html import RequestMetaMixin
@@ -30,7 +32,7 @@ class CardsView(SimpleReactView):
 		return {"view": "statistics"}
 
 
-class MyCardsView(SimpleReactView):
+class MyCardsView(LoginRequiredMixin, PremiumRequiredMixin, SimpleReactView):
 	title = _("My Cards")
 	bundle = "cards"
 	bundles = ("stats", "cards")

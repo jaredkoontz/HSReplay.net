@@ -1,11 +1,20 @@
 import random
 
 from django.conf import settings
+from django.http import HttpResponseRedirect
 from django.utils.translation import gettext_lazy as _
 from django_reflinks.models import ReferralLink
 from shortuuid import ShortUUID
 
 from . import SimpleReactView
+
+
+class PremiumRequiredMixin:
+	"""Verify that the current user is premium"""
+	def dispatch(self, request, *args, **kwargs):
+		if not request.user.is_premium:
+			return HttpResponseRedirect("/premium/")
+		return super().dispatch(request, *args, **kwargs)
 
 
 class PremiumDetailView(SimpleReactView):

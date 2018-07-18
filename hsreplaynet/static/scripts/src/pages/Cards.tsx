@@ -42,8 +42,6 @@ import {
 } from "../utils/collection";
 import AllSet from "../components/onboarding/AllSet";
 import ConnectAccount from "../components/onboarding/ConnectAccount";
-import PremiumModal from "../components/premium/PremiumModal";
-import Modal from "../components/Modal";
 
 interface CardFilters {
 	cost: any;
@@ -493,17 +491,6 @@ class Cards extends React.Component<Props, State> {
 		}
 
 		if (this.props.personal) {
-			if (!UserData.isPremium()) {
-				return (
-					<Modal
-						visible
-						onClose={() => window.open("/premium/", "_self")}
-					>
-						<PremiumModal modalStyle="MyCards" />
-					</Modal>
-				);
-			}
-
 			if (this.props.account) {
 				content.push(
 					<div className="table-wrapper">
