@@ -88,14 +88,6 @@ class PaypalCheckoutForm extends React.Component<Props, State> {
 			case "DE":
 				return (
 					<p className="alert alert-danger">
-						<em>
-							PayPal-Zahlungen werden für deutsche PayPal-Konten
-							nicht unterstützt. Du wirst die Zahlung
-							möglicherweise nicht abschließen können. Andere
-							Zahlungsmethoden sind nicht betroffen.
-						</em>
-						<br />
-						<br />
 						{t(
 							"PayPal payments are not currently supported for German PayPal accounts. You may not be able to complete the payment. Consider using a different payment method.",
 						)}
@@ -104,13 +96,8 @@ class PaypalCheckoutForm extends React.Component<Props, State> {
 			case "CN":
 				return (
 					<p className="alert alert-danger">
-						<em>
-							目前我们的网站不支持中国PayPal账户。您可能无法完成付款。我们建议使用不同的付款方式。
-						</em>
-						<br />
-						<br />
 						{t(
-							" PayPal payments are not currently supported for Chinese PayPal accounts. You may not be able to complete the payment. Consider using a different payment method.",
+							"PayPal payments are not currently supported for Chinese PayPal accounts. You may not be able to complete the payment. Consider using a different payment method.",
 						)}
 					</p>
 				);
