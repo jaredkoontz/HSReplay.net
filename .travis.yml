@@ -4,48 +4,52 @@ stages:
 jobs:
   include:
     - stage: test
+      name: "Prettier"
       language: node_js
       node_js: "node"
-      env: SCRIPT=lint:prettier
-      script: yarn run $SCRIPT
+      script: yarn run lint:prettier
+      cache: yarn
 
     - stage: test
+      name: "TSLint"
       language: node_js
       node_js: "node"
-      env: SCRIPT=lint:tslint
-      script: yarn run $SCRIPT
+      script: yarn run lint:tslint
+      cache: yarn
 
     - stage: test
+      name: "Jest"
       language: node_js
       node_js: "node"
-      env: SCRIPT=build
+      install:
+        - yarn --pure-lockfile
+        - scripts/get_vendor_static.sh
+      script: yarn run jest
+      cache: yarn
+
+    - stage: test
+      name: "Webpack"
+      language: node_js
+      node_js: "node"
       install:
         - yarn --pure-lockfile
         - scripts/get_vendor_static.sh
         - git clone https://github.com/HearthSim/hsreplaynet-i18n locale
-      script: yarn run $SCRIPT
+      script: yarn run build
+      cache: yarn
 
     - stage: test
-      language: node_js
-      node_js: "node"
-      env: SCRIPT=jest
-      install:
-        - yarn --pure-lockfile
-        - scripts/get_vendor_static.sh
-      script: yarn run $SCRIPT
-
-    - stage: test
+      name: "Flake8"
       language: python
       python: "3.6"
-      env: TOXENV=flake8
       install: pip install tox
-      script: tox
+      script: tox -e flake8
+      cache: pip
 
     - stage: test
+      name: "pytest"
       language: python
       python: "3.6"
-      env:
-        - TOXENV=py36
       services:
         - postgresql
         - redis-server
@@ -59,11 +63,8 @@ jobs:
       before_script:
         - echo "DJSTRIPE_USE_NATIVE_JSONFIELD = True" > hsreplaynet/local_settings.py
         - yarn run build
-      script: tox
+      script: tox -e py36
+      cache: pip
 matrix:
   allow_failures:
-    - env: SCRIPT=lint:tslint
-cache:
-  yarn: true
-  directories:
-  - $HOME/.cache/pip
+    - script: yarn run lint:tslint
