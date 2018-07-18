@@ -190,7 +190,7 @@ class AccountConnections extends React.Component<Props, State> {
 		if (!accountList.length) {
 			return (
 				<Trans>
-					You do not have any connected Hearthstone account.
+					You do not have any connected Hearthstone accounts.{" "}
 					<a href="/downloads/">Download a Deck Tracker</a> and start
 					uploading games!
 				</Trans>

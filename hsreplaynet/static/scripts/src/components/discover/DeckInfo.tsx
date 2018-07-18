@@ -33,7 +33,7 @@ class DeckInfo extends React.Component<Props> {
 					<p>
 						<Trans>
 							<strong>Hover</strong> any deck for more details.<br />
-							<strong>Click</strong> any deck to focus/defocus it.
+							<strong>Click</strong> any deck to focus/unfocus it.
 						</Trans>
 					</p>
 				</div>

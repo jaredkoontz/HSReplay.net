@@ -326,7 +326,7 @@ class CollectionSetupDialog extends React.Component<Props, State> {
 							</h2>
 							<p className="text-center">
 								<Trans>
-									You have uploaded your collection for
+									You have uploaded your collection for{" "}
 									<PrettyBlizzardAccount
 										account={blizzardAccount}
 									/>. Hooray!

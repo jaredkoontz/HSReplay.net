@@ -17,7 +17,7 @@ export default class AllSet extends React.Component<Props> {
 				</h2>
 				<p>
 					<Trans
-						defaults="We found your Hearthstone account <0></0> and will analyize incoming replays."
+						defaults="We found your Hearthstone account <0></0> and will analyze incoming replays."
 						components={[
 							<PrettyBlizzardAccount
 								key={0}

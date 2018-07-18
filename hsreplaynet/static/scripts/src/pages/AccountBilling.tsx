@@ -586,14 +586,14 @@ class AccountBilling extends React.Component<Props, State> {
 							<p className="alert alert-info">
 								<Trans>
 									PayPal plans cannot be managed directly from
-									this page. To manage your subscription,
+									this page. To manage your subscription,{" "}
 									<a
 										href="https://paypal.com/"
 										target="_blank"
 									>
 										log in to PayPal
 									</a>{" "}
-									and go to
+									and go to{" "}
 									<a
 										href={urls.paypal_manage}
 										target="_blank"
@@ -649,7 +649,7 @@ class AccountBilling extends React.Component<Props, State> {
 							<h4>{t("Credits")}</h4>
 							<p>
 								<Trans
-									defaults="Your account balance is {amountWithCurrency}"
+									defaults="Your account balance is {amountWithCurrency}."
 									tOptions={{
 										amountWithCurrency: this.currencyAmount(
 											stripe.credits,
