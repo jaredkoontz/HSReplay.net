@@ -5,6 +5,7 @@ import PrettyCardClass from "../text/PrettyCardClass";
 import { InjectedTranslateProps, translate } from "react-i18next";
 import { formatNumber } from "../../i18n";
 import LoadingSpinner from "../LoadingSpinner";
+import { Trans } from "react-i18next";
 
 export interface Props extends InjectedTranslateProps {
 	data: any[];
@@ -32,15 +33,6 @@ class ClassDistributionPieChart extends React.Component<Props, State> {
 				: [{ x: " ", y: 1, color: "lightgrey" }];
 		const gameCount =
 			this.props.data && this.props.data.reduce((a, b) => a + b.y, 0);
-
-		let cardClass = null;
-		if (gameCount && this.state.hoveringSlice) {
-			cardClass = (
-				<PrettyCardClass cardClass={this.state.hoveringSlice.xName} />
-			);
-		} else {
-			cardClass = t("Total");
-		}
 
 		const numGamesInt = this.state.hoveringSlice
 			? +this.state.hoveringSlice.y
@@ -155,10 +147,27 @@ class ClassDistributionPieChart extends React.Component<Props, State> {
 				<h5 style={{ textAlign: "center", marginTop: "-20px" }}>
 					{this.props.loading ? (
 						<LoadingSpinner active small />
+					) : gameCount && this.state.hoveringSlice ? (
+						<Trans
+							defaults="<0></0>: {numGames} - {winrate} winrate"
+							components={[
+								<PrettyCardClass
+									cardClass={this.state.hoveringSlice.xName}
+								/>,
+							]}
+							tOptions={{
+								numGames,
+								winrate,
+							}}
+						/>
 					) : (
-						<>
-							{cardClass}: {numGames} - {winrate} winrate
-						</>
+						<Trans
+							defaults="Total: {numGames} - {winrate} winrate"
+							tOptions={{
+								numGames,
+								winrate,
+							}}
+						/>
 					)}
 				</h5>
 			</div>
