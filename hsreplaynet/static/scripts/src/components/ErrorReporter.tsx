@@ -68,13 +68,14 @@ class ErrorReporter extends React.Component<Props, State> {
 		return (
 			<>
 				<Trans
-					defaults="<0>We've been notified about this issue and will be looking into it.</0><1>If you'd like to <2>contact us</2>, please pass along the following event reference:</1>"
+					defaults="<0>We've been notified about this issue and will be looking into it.</0><1>If you'd like to <0>contact us</0>, please pass along the following event reference:</1>"
 					components={[
 						<p>1</p>,
-						<p>2</p>,
-						<a href="/contact/" target="_blank">
-							3
-						</a>,
+						<p>
+							<a href="/contact/" target="_blank">
+								0
+							</a>
+						</p>,
 					]}
 				/>
 				<pre>{this.state.tracing}</pre>
@@ -93,13 +94,13 @@ class ErrorReporter extends React.Component<Props, State> {
 		return (
 			<>
 				<Trans
-					defaults="<1>If you keep seeing this message, please <2>contact us</2> with the following error:</1>"
+					defaults="<0>If you keep seeing this message, please <0>contact us</0> with the following error:</0>"
 					components={[
-						<p>1</p>,
-						<p>2</p>,
-						<a href="/contact/" target="_blank">
-							3
-						</a>,
+						<p>
+							<a href="/contact/" target="_blank">
+								0
+							</a>,
+						</p>,
 					]}
 				/>
 				<pre>{message}</pre>
