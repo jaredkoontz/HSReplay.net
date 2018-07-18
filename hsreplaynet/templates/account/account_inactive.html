@@ -6,8 +6,10 @@
 	<h2>{% trans "Account inactive" %}</h2>
 
 	<p>
-		{% blocktrans %}This account is inactive or has been banned.
-		Please <a href="mailto:{{ site_email }}">contact us</a> if this is in error.{% endblocktrans %}
+		{% blocktrans trimmed %}
+			This account is inactive or has been banned.
+			Please <a href="mailto:{{ site_email }}">contact us</a> if this is in error.
+		{% endblocktrans %}
 	</p>
 </div>
 {% endblock %}

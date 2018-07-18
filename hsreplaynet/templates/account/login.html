@@ -16,8 +16,10 @@
 	{% endif %}
 
 	<p>
-		{% blocktrans %}We'll send you to the offical Blizzard site where you can securely log in.<br/>
-		Blizzard will redirect you back here once you're done.{% endblocktrans %}
+		{% blocktrans trimmed %}
+			We'll send you to the official Blizzard site where you can securely log in.<br/>
+			Blizzard will redirect you back here once you're done.
+		{% endblocktrans %}
 	</p>
 
 	<form method="GET" action="{% provider_login_url 'battlenet' %}" class="form-group">
