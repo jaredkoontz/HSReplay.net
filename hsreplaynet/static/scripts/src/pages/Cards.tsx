@@ -40,6 +40,7 @@ import {
 	getCollectionCardCount,
 	isCollectionDisabled,
 } from "../utils/collection";
+import AllSet from "../components/onboarding/AllSet";
 
 interface CardFilters {
 	cost: any;
@@ -561,27 +562,16 @@ class Cards extends React.Component<Props, State> {
 								}
 								numCards={this.state.numCards}
 								customNoDataMessage={
-									<>
-										<h2>{t("All set!")}</h2>,
-										<p>
-											We've successfully linked your
-											Hearthstone account{" "}
-											<strong>
-												{this.props.account.battletag}
-											</strong>{" "}
-											and will analyze incoming replays.
-										</p>
-										<p>
-											{t(
-												"After you've played some games you'll find statistics for all the cards you play right here.",
-											)}
-										</p>
-										<p className="text-muted">
-											{t(
-												"Note: It may take a few hours for new data to appear on this page. If you are missing data, make sure the filters in the sidebar are correct!",
-											)}
-										</p>
-									</>
+									<AllSet
+										account={this.props.account}
+										feature={t(
+											"personalized deck statistics",
+										)}
+									>
+										{t(
+											"After you've played some games you'll find statistics for all the cards you play right here.",
+										)}
+									</AllSet>
 								}
 							/>
 						</DataInjector>
