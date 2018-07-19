@@ -91,33 +91,21 @@ class TestimonialCarousel extends React.Component<Props, State> {
 				name: 'Radu "RDU" Dima',
 				subtitle: t("Pro Player and Streamer"),
 				text:
-					'"' +
-					t(
-						"I think both HSReplay.net and Hearthstone Deck Tracker are great tools. They are so good that they play a huge role right now in the competitive and casual side of Hearthstone. Everyone who likes the game should try these tools.",
-					) +
-					'"',
+					'"I think both HSReplay.net and Hearthstone Deck Tracker are great tools. They are so good that they play a huge role right now in the competitive and casual side of Hearthstone. Everyone who likes the game should try these tools."',
 			},
 			{
 				image: image("premium/gaara.jpg"),
 				name: 'Petar "Gaara" Stevanovic',
 				subtitle: t("Pro Player and Streamer"),
 				text:
-					'"' +
-					t(
-						"I use HSReplay.net every day. Seeing the mulligan winrates and best decks in the last 24 hours has become my daily routine. My favorite thing to do is when my Twitch chat says I missed lethal, I show them the replay with the tool on the site to prove them wrong. It's a great site!",
-					) +
-					'"',
+					'"I use HSReplay.net every day. Seeing the mulligan winrates and best decks in the last 24 hours has become my daily routine. My favorite thing to do is when my Twitch chat says I missed lethal, I show them the replay with the tool on the site to prove them wrong. It\'s a great site!"',
 			},
 			{
 				image: image("premium/dog.jpg"),
 				name: 'David "Dog" Caero',
 				subtitle: t("Everyone's Favorite Shirtless Pro Player"),
 				text:
-					'"' +
-					t(
-						"I use it for all my net decking needs and it helps me get a good picture of matchups I'm not very familiar with.",
-					) +
-					'"',
+					'"I use it for all my net decking needs and it helps me get a good picture of matchups I\'m not very familiar with."',
 			},
 		];
 	}

@@ -143,11 +143,7 @@ class PremiumDetail extends React.Component<Props, State> {
 						name={'James "Firebat" Kostesich'}
 						subtitle={t("Hearthstone World Champion")}
 						text={
-							'"' +
-							t(
-								"I use HSReplay.net to try and figure out what emerging decks have the best winrates. And I love the data on mulligans. Keeping the right cards in the starting hand is one of the most impactful things in a Hearthstone game.",
-							) +
-							'"'
+							'"I use HSReplay.net to try and figure out what emerging decks have the best winrates. And I love the data on mulligans. Keeping the right cards in the starting hand is one of the most impactful things in a Hearthstone game."'
 						}
 					/>
 				</div>
@@ -157,11 +153,7 @@ class PremiumDetail extends React.Component<Props, State> {
 						name={'Jeffrey "Trump" Shih'}
 						subtitle={t("Mayor of Value Town, Streamer")}
 						text={
-							'"' +
-							t(
-								"I use HSReplay.net to find all the hot up and coming decks. I comb through all the statistics to find out many things like which decks are performing the best, what matchups are good and bad, and all the cool tech choices people are using in their decks. Lets me nerd out on stats.",
-							) +
-							'"'
+							'"I use HSReplay.net to find all the hot up and coming decks. I comb through all the statistics to find out many things like which decks are performing the best, what matchups are good and bad, and all the cool tech choices people are using in their decks. Lets me nerd out on stats."'
 						}
 					/>
 				</div>
