@@ -11,6 +11,10 @@ import ICU from "i18next-icu";
 import numbro from "numbro";
 import UserData from "./UserData";
 
+// provide the polyfill synchronously for now
+import "intl";
+import "intl/locale-data/jsonp/en";
+
 export const I18N_NAMESPACE_FRONTEND = "frontend";
 export const I18N_NAMESPACE_HEARTHSTONE = "hearthstone";
 
@@ -60,11 +64,6 @@ export function formatNumber(n: number, mantissa: number = 0): string {
 		return null;
 	}
 	return numbro(n).format({ thousandSeparated: true, mantissa });
-}
-
-// polyfill Intl api
-if (window && !window["Intl"]) {
-	import(/* webpackChunkName: "i18n/intl-polyfill" */ "intl");
 }
 
 // just used while we feature flag frontend translations
