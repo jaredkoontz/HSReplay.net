@@ -1147,7 +1147,7 @@ table .info-icon,
 	padding: 0 5px;
 	border-bottom: 1px solid $blue;
 
-	li {
+	> li {
 		> a {
 			background: $blue;
 			border-radius: 0;
@@ -1160,7 +1160,8 @@ table .info-icon,
 				color: $premium;
 			}
 
-			&:hover {
+			&:hover,
+			&:focus {
 				background: $blue;
 				border-color: transparent;
 				color: $lightblue;
