@@ -757,7 +757,7 @@ export function cleanText(text: string): string {
 	}
 	return text
 		.replace(/[\u0300-\u036f]/g, "")
-		.replace(/[^\W]/, "")
+		.replace(/[^\w]/, "")
 		.toLowerCase();
 }
 
