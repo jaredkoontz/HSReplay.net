@@ -117,7 +117,7 @@ class PremiumModal extends React.Component<Props, State> {
 				return {
 					title: t("Turn Details"),
 					description: t(
-						"Have you ever wondered when the best time to play Doomsayer is?. Find out the best turn to play your cards to get winning results.",
+						"Have you ever wondered when the best time to play Doomsayer is? Find out the best turn to play your cards to get winning results.",
 					),
 					image: image("premium/modal-card-turn.jpg"),
 				};
