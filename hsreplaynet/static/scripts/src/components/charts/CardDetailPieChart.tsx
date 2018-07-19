@@ -5,7 +5,7 @@ import {
 	VictoryLegend,
 	VictoryPie,
 } from "victory";
-import { getChartScheme, pieScaleTransform, toTitleCase } from "../../helpers";
+import { getChartScheme, pieScaleTransform } from "../../helpers";
 import { ChartScheme, RenderData } from "../../interfaces";
 import { InjectedTranslateProps, translate } from "react-i18next";
 import { formatNumber } from "../../i18n";
@@ -19,10 +19,12 @@ interface Props extends InjectedTranslateProps {
 	groupSparseData?: boolean;
 	percentage?: boolean;
 	customViewbox?: string;
+	formatLabel?: (label: string) => string;
 }
 
 class CardDetailPieChart extends React.Component<Props> {
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		const series = this.props.data.series[0];
 		let data = series.data;
 		let fill = null;
@@ -87,7 +89,10 @@ class CardDetailPieChart extends React.Component<Props> {
 		if (scheme) {
 			data.forEach(d => {
 				legendData.push({
-					name: toTitleCase("" + d.x),
+					name:
+						d.x === "other"
+							? t("Other")
+							: this.formatLabel("" + d.x),
 					symbol: {
 						type: "circle",
 						fill: scheme[("" + d.x).toLowerCase()].stroke,
@@ -182,6 +187,13 @@ class CardDetailPieChart extends React.Component<Props> {
 				) : null}
 			</svg>
 		);
+	}
+
+	private formatLabel(label: string) {
+		if (this.props.formatLabel) {
+			return this.props.formatLabel(label);
+		}
+		return label;
 	}
 }
 

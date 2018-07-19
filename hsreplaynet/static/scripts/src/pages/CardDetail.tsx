@@ -33,6 +33,7 @@ import { RankRange, TimeRange } from "../filters";
 import {
 	getChartScheme,
 	getDustCost,
+	getHeroClassName,
 	isArenaOnlyCard,
 	isCollectibleCard,
 	isWildSet,
@@ -447,6 +448,12 @@ class CardDetail extends React.Component<Props, State> {
 													sortByValue
 													groupSparseData
 													percentage
+													formatLabel={label =>
+														getHeroClassName(
+															label,
+															t,
+														)
+													}
 												/>
 											</ChartLoading>
 										</DataInjector>
