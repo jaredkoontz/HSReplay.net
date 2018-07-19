@@ -16,7 +16,9 @@ export default class LoadingSpinner extends React.Component<Props> {
 		}
 		return (
 			<div className={className.join(" ")}>
-				{Array.apply(null, { length: 12 }).map(x => <div />)}
+				{Array.apply(null, { length: 12 }).map((x, i) => (
+					<div key={i} />
+				))}
 			</div>
 		);
 	}
