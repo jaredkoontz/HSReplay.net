@@ -111,7 +111,7 @@ class AccountDelete extends React.Component<Props, State> {
 						<CSRFElement />
 
 						<h4>{t("Reason for leaving")}</h4>
-						<ul>
+						<ul className="list-unstyled">
 							<AccountDeleteReason
 								value="multiple-accounts"
 								reason={t("I have another Blizzard account")}
@@ -145,14 +145,16 @@ class AccountDelete extends React.Component<Props, State> {
 									"I want to reset my replays or statistics",
 								)}
 							>
-								<strong>Wait!</strong> Deleting your account
-								will not currently reset your statistics. This
-								is because we track everyone's statistics
-								globally.<br />If you want to delete your
-								replays, you can simply do so by{" "}
-								<a href="/account/delete/replays/">
-									clicking here
-								</a>.{" "}
+								<Trans>
+									<strong>Wait!</strong> Deleting your account
+									will not currently reset your statistics.
+									This is because we track everyone's
+									statistics globally.<br />If you want to
+									delete your replays, you can simply do so by{" "}
+									<a href="/account/delete/replays/">
+										clicking here
+									</a>.
+								</Trans>
 							</AccountDeleteReason>
 							<AccountDeleteReason
 								value="stopped-hearthstone"

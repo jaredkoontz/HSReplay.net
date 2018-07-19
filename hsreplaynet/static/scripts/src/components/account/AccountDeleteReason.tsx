@@ -20,7 +20,7 @@ export default class AccountDeleteReason extends React.Component<Props, State> {
 	public render(): React.ReactNode {
 		return (
 			<li className="radio">
-				<label className="radio">
+				<label>
 					<input
 						type="radio"
 						name="reason"
