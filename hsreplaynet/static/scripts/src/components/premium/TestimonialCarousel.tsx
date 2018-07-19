@@ -13,7 +13,6 @@ interface State {
 
 class TestimonialCarousel extends React.Component<Props, State> {
 	private interval: number | null;
-	private readonly data: TestimonialData[] = [];
 
 	constructor(props: Props, context: any) {
 		super(props, context);
@@ -21,8 +20,72 @@ class TestimonialCarousel extends React.Component<Props, State> {
 			index: 0,
 			lastIndex: null,
 		};
-		const { t } = props;
-		this.data.push(
+	}
+
+	public componentDidMount() {
+		this.startRotation();
+	}
+
+	public componentWillUnmount() {
+		this.stopRotation();
+	}
+
+	public shouldComponentUpdate(
+		nextProps: Readonly<Props>,
+		nextState: Readonly<State>,
+		nextContext: any,
+	): boolean {
+		return (
+			this.state.index !== nextState.index ||
+			this.state.lastIndex !== nextState.lastIndex
+		);
+	}
+
+	private rotate = (callback: () => any) => {
+		this.setState(
+			state => ({
+				index: (state.index + 1) % this.getTestimonialData().length,
+				lastIndex: state.index,
+			}),
+			callback,
+		);
+	};
+
+	private stopRotation = () => {
+		if (this.interval !== null) {
+			window.clearTimeout(this.interval);
+		}
+		this.interval = null;
+	};
+
+	private startRotation = () => {
+		this.stopRotation();
+		this.interval = window.setTimeout(
+			() => this.rotate(this.startRotation),
+			12000,
+		);
+	};
+
+	private renderOutput(index: number | null): React.ReactNode {
+		if (index === null) {
+			return null;
+		}
+		const { image, name, subtitle, text } = this.getTestimonialData()[
+			index
+		];
+		return (
+			<Testimonial
+				image={image}
+				name={name}
+				subtitle={subtitle}
+				text={text}
+			/>
+		);
+	}
+
+	private getTestimonialData(): TestimonialData[] {
+		const { t } = this.props;
+		return [
 			{
 				image: image("premium/RDU.jpg"),
 				name: 'Radu "RDU" Dima',
@@ -56,66 +119,7 @@ class TestimonialCarousel extends React.Component<Props, State> {
 					) +
 					'"',
 			},
-		);
-	}
-
-	public componentDidMount() {
-		this.startRotation();
-	}
-
-	public componentWillUnmount() {
-		this.stopRotation();
-	}
-
-	public shouldComponentUpdate(
-		nextProps: Readonly<Props>,
-		nextState: Readonly<State>,
-		nextContext: any,
-	): boolean {
-		return (
-			this.state.index !== nextState.index ||
-			this.state.lastIndex !== nextState.lastIndex
-		);
-	}
-
-	private rotate = (callback: () => any) => {
-		this.setState(
-			state => ({
-				index: (state.index + 1) % this.data.length,
-				lastIndex: state.index,
-			}),
-			callback,
-		);
-	};
-
-	private stopRotation = () => {
-		if (this.interval !== null) {
-			window.clearTimeout(this.interval);
-		}
-		this.interval = null;
-	};
-
-	private startRotation = () => {
-		this.stopRotation();
-		this.interval = window.setTimeout(
-			() => this.rotate(this.startRotation),
-			12000,
-		);
-	};
-
-	private renderOutput(index: number | null): React.ReactNode {
-		if (index === null) {
-			return null;
-		}
-		const { image, name, subtitle, text } = this.data[index];
-		return (
-			<Testimonial
-				image={image}
-				name={name}
-				subtitle={subtitle}
-				text={text}
-			/>
-		);
+		];
 	}
 
 	public render(): React.ReactNode {
