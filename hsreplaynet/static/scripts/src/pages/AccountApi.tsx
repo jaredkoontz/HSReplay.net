@@ -77,7 +77,7 @@ class AccountApi extends React.Component<Props, State> {
 												<input
 													type="hidden"
 													name="token"
-													value="{{ token.token }}"
+													value={accessToken.token}
 												/>
 												<button
 													type="submit"
