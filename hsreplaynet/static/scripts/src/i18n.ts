@@ -62,6 +62,11 @@ export function formatNumber(n: number, mantissa: number = 0): string {
 	return numbro(n).format({ thousandSeparated: true, mantissa });
 }
 
+// polyfill Intl api
+if (window && !window["Intl"]) {
+	import(/* webpackChunkName: "i18n/intl-polyfill" */ "intl");
+}
+
 // just used while we feature flag frontend translations
 UserData.create();
 if (UserData.hasFeature("frontend-translations")) {
@@ -105,16 +110,34 @@ i18n
 				callback(null, translations);
 				return;
 			}
-			if (namespace === I18N_NAMESPACE_HEARTHSTONE) {
+			if (
+				namespace === I18N_NAMESPACE_FRONTEND &&
+				UserData.hasFeature("frontend-translations")
+			) {
 				try {
-					if (!global.Intl) {
-						await import(/* webpackChunkName: "i18n/intl-polyfill" */ "intl");
-					}
-
-					/* By specifying the same webpackChunkName, all the files for one language are
-				merged into a single module. This results in one network request per language */
 					const modules = await Promise.all([
+						import(/* webpackChunkName: "i18n/[index]" */ `i18n/${language}/frontend.json`),
 						import(/* webpackChunkName: "i18n/[index]" */ `./locale-data/${language}.ts`),
+					]);
+
+					// load primary frontend translations
+					Object.assign(translations, modules[0]);
+
+					// handle ICU, numbro, date-fns
+					const localeData = modules[1];
+					icu.mem = {}; // clear ICU memoization cache due to plural rules
+					icu.addLocaleData(localeData.icu);
+					numbro.registerLanguage(localeData.numbro, true);
+					dateFnsGlobalState = localeData.dateFns;
+				} catch (e) {
+					console.error(e);
+				}
+			}
+			else if (namespace === I18N_NAMESPACE_HEARTHSTONE) {
+				try {
+					/* By specifying the same webpackChunkName, all the files for one language are
+					merged into a single module. This results in one network request per language */
+					const modules = await Promise.all([
 						import(/* webpackChunkName: "i18n/[index]" */ `i18n/${language}/hearthstone/global.json`),
 						import(/* webpackChunkName: "i18n/[index]" */ `i18n/${language}/hearthstone/gameplay.json`),
 						import(/* webpackChunkName: "i18n/[index]" */ `i18n/${language}/hearthstone/presence.json`),
@@ -123,30 +146,8 @@ i18n
 						if (!module) {
 							continue;
 						}
-						// handle locale-data
-						if (i === 0) {
-							// clear ICU memoization cache due to plural rules
-							icu.mem = {};
-							// register files
-							icu.addLocaleData(module.icu);
-							numbro.registerLanguage(module.numbro, true);
-							dateFnsGlobalState = module.dateFns;
-							continue;
-						}
 						Object.assign(translations, module);
 					}
-				} catch (e) {
-					console.error(e);
-				}
-			} else if (
-				namespace === I18N_NAMESPACE_FRONTEND &&
-				UserData.hasFeature("frontend-translations")
-			) {
-				try {
-					Object.assign(
-						translations,
-						await import(/* webpackChunkName: "i18n/[index]" */ `i18n/${language}/frontend.json`),
-					);
 				} catch (e) {
 					console.error(e);
 				}
