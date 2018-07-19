@@ -178,7 +178,7 @@ class PremiumDetail extends React.Component<Props, State> {
 								"Use filters to find the best deck for your rank and region.",
 							)}
 							bullets={[
-								t("Select ranks: 25 - Legend"),
+								t("Select ranks: 25–Legend"),
 								t("Choose regions: US, EU, APAC, CN"),
 								t("Set time range: 1, 3 and 7 days"),
 							]}
