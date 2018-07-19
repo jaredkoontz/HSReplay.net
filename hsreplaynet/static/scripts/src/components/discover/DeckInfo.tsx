@@ -67,7 +67,7 @@ class DeckInfo extends React.Component<Props> {
 				>
 					{t("View deck details")}
 				</a>,
-				<h2 key="data-header">Data</h2>,
+				<h2 key="data-header">{t("Data")}</h2>,
 				<ul key="data-list">
 					<li>
 						{t("Games")}
