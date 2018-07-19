@@ -80,7 +80,7 @@ class PremiumModal extends React.Component<Props, State> {
 					description: t(
 						"See how all the cards in this deck are performing for you. Mulligan winrates, number of turns held, and lots more!",
 					),
-					image: image("premium/modal-statistics.jpg"),
+					image: image("premium/modal-my-statistics.jpg"),
 				};
 			case "MyDecks":
 				return {
