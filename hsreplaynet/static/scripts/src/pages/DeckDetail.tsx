@@ -713,8 +713,10 @@ class DeckDetail extends React.Component<Props, State> {
 									<span className="text-premium">
 										{t("Matchups")}
 										<InfoIcon
-											header="Archetype matchups"
-											content="See how this deck performs against specific archetypes."
+											header={t("Archetype matchups")}
+											content={t(
+												"See how this deck performs against specific archetypes.",
+											)}
 										/>
 									</span>
 								}

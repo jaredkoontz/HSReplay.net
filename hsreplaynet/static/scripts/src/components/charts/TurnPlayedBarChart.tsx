@@ -11,16 +11,19 @@ import { RenderData } from "../../interfaces";
 import { getChartMetaData } from "../../helpers";
 import { VictoryVoronoiContainer } from "victory";
 import ChartHighlighter from "./ChartHighlighter";
+import { InjectedTranslateProps, translate } from "react-i18next";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	data?: RenderData;
 	opponentClass?: string;
 	widthRatio?: number;
 	premiumLocked?: boolean;
 }
 
-export default class TurnPlayedBarChart extends React.Component<Props> {
+class TurnPlayedBarChart extends React.Component<Props> {
 	public render(): React.ReactNode {
+		const { t } = this.props;
+
 		const width = 150 * (this.props.widthRatio || 3);
 
 		const renderData = this.props.premiumLocked
@@ -54,7 +57,7 @@ export default class TurnPlayedBarChart extends React.Component<Props> {
 				}
 			>
 				<VictoryAxis
-					label="Turn"
+					label={t("Turn")}
 					tickCount={series.data.length}
 					tickFormat={tick => tick}
 					style={{
@@ -66,7 +69,7 @@ export default class TurnPlayedBarChart extends React.Component<Props> {
 				/>
 				<VictoryAxis
 					dependentAxis
-					label={"Popularity"}
+					label={t("Popularity")}
 					axisLabelComponent={
 						<VictoryLabel
 							textAnchor="middle"
@@ -144,3 +147,5 @@ export default class TurnPlayedBarChart extends React.Component<Props> {
 		],
 	};
 }
+
+export default translate()(TurnPlayedBarChart);

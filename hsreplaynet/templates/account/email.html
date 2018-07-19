@@ -95,6 +95,11 @@
 </section>
 
 <p class="alert alert-info">
-	Looking for a password setting? You can sign with any of <a href="{% url 'socialaccount_connections' %}">your connected Blizzard accounts</a>, there is no HSReplay.net password.
+	{% url 'socialaccount_connections' as connected_accounts_url %}
+	{% blocktrans trimmed %}
+		Looking for a password setting? You can sign with any of
+		<a href="{{ connected_accounts_url }}">your connected Blizzard accounts</a>,
+		there is no HSReplay.net password.
+	{% endblocktrans %}
 </p>
 {% endblock %}

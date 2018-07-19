@@ -652,7 +652,7 @@ class Decks extends React.Component<Props, State> {
 						onReset={() => this.props.reset()}
 						showReset={this.props.canBeReset}
 					>
-						Decks
+						{t("Decks")}
 					</ResetHeader>
 					<section id="player-class-filter">
 						<h2>
@@ -663,14 +663,15 @@ class Decks extends React.Component<Props, State> {
 								content={{
 									click: (
 										<p>
-											{t(
-												"Only show decks for specific classes.",
-											)}
-											&nbsp;
 											<span>
 												{t(
-													"Hold CTRL to select multiple classes.",
+													"Only show decks for specific classes.",
 												)}
+												&nbsp;
+												<Trans
+													defaults="Hold <0>Ctrl</0> to select multiple classes."
+													components={[<kbd>0</kbd>]}
+												/>
 											</span>
 										</p>
 									),

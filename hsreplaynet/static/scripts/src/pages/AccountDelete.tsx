@@ -33,7 +33,7 @@ class AccountDelete extends React.Component<Props, State> {
 				<div className="inner">
 					<p>
 						<Trans
-							defaults="We're sorry to see you go. You can reach out to us by email at <0>{emailAddress}<0>, <1>on Discord<1> or on Twitter <2>{twitterHandle}</2>"
+							defaults="We're sorry to see you go. You can reach out to us by email at <0>{emailAddress}</0>, <1>on Discord</1> or on Twitter <2>{twitterHandle}</2>"
 							components={[
 								<a href={`mailto:${SITE_EMAIL}`} key={0}>
 									0

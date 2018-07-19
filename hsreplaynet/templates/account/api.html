@@ -1,23 +1,27 @@
 {% extends "account/base.html" %}
 {% load htmltime from web_extras %}
+{% load i18n %}
 
 {% block content %}
 	<section id="account-api" class="box-section">
-		<h3>Authentication Tokens</h3>
+		<h3>{% trans "Authentication Tokens" %}</h3>
 		<div class="inner">
 		{% if not tokens.count %}
 			<p>
-				You do not have any upload client associated with your account.
-				<a href="{% url 'downloads' %}">Download Hearthstone Deck Tracker</a> and
-				claim your account from there!
+				{% url 'downloads' as downloads_url %}
+				{% blocktrans trimmed %}
+					You do not have any upload client associated with your account.
+					<a href="{{ downloads_url }}">Download Hearthstone Deck Tracker</a> and
+					claim your account from there!
+				{% endblocktrans %}
 			</p>
 		{% else %}
-			<p>The following tokens can be used to upload your games. Keep them private!</p>
+			<p>{% trans "The following tokens can be used to upload your games. Keep them private!" %}</p>
 			<table class="table table-bordered">
 				<thead>
-					<th>Application</th>
-					<th>Token</th>
-					<th>Created on</th>
+					<th>{% trans "Application" %}</th>
+					<th>{% trans "Token" %}</th>
+					<th>{% trans "Created on" %}</th>
 				</thead>
 			{% for token in tokens %}
 				<tr>
@@ -38,30 +42,34 @@
 	</section>
 
 	<section id="account-webhooks" class="box-section">
-		<h3>Webhooks</h3>
+		<h3>{% trans "Webhooks" %}</h3>
 		<div class="inner">
 			<p>
-				Webhooks allow you, or an authorized application, to automatically POST to a URL
-				whenever you complete a game and it is made available on HSReplay.net.
+				{% blocktrans trimmed %}
+					Webhooks allow you, or an authorized application, to automatically POST to a URL
+					whenever you complete a game and it is made available on HSReplay.net.
+				{% endblocktrans %}
 			</p>
 
 			<p class="alert alert-warning">
-				<strong>This feature is still in beta.</strong><br/>
-				The API objects are not final and the functionality is still being tested.
-				If you are interested in using them or have any questions,
-				<a href="mailto:{{ site_email }}">please contact us</a> so we can help!
+				<strong>{% trans "This feature is still in beta." %}</strong><br/>
+				{% blocktrans trimmed %}
+					The API objects are not final and the functionality is still being tested.
+					If you are interested in using them or have any questions,
+					<a href="mailto:{{ site_email }}">please contact us</a> so we can help!
+				{% endblocktrans %}
 			</p>
 
 			{% if not webhooks.count %}
 				<p>
-					You don't have any webhooks set up right now.
+					{% trans "You don't have any webhooks set up right now." %}
 				</p>
 			{% else %}
 				<table class="table table-bordered">
 					<thead>
-						<th>UUID</th>
-						<th>URL</th>
-						<th>Active</th>
+						<th>{% trans "UUID" %}</th>
+						<th>{% trans "URL" %}</th>
+						<th>{% trans "Active" %}</th>
 					</thead>
 					{% for webhook in webhooks %}
 						<tr>
@@ -77,7 +85,7 @@
 				</table>
 			{% endif %}
 
-			<a href="{% url 'account_new_webhook' %}" class="btn btn-info">New webhook…</a>
+			<a href="{% url 'account_new_webhook' %}" class="btn btn-info">{% trans "New webhook…" %}</a>
 		</div>
 	</section>
 {% endblock %}

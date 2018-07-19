@@ -1,7 +1,7 @@
 import { decode as decodeDeckstring } from "deckstrings";
 import _ from "lodash";
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { InjectedTranslateProps, Trans, translate } from "react-i18next";
 import CardData from "../CardData";
 import DataManager from "../DataManager";
 import UserData, { Account } from "../UserData";
@@ -448,11 +448,15 @@ class MyDecks extends React.Component<Props, State> {
 								content={{
 									click: (
 										<p>
-											Only show decks for specific
-											classes.&nbsp;
 											<span>
-												Hold <kbd>Ctrl</kbd> to select
-												multiple classes.
+												{t(
+													"Only show decks for specific classes.",
+												)}
+												&nbsp;
+												<Trans
+													defaults="Hold <0>Ctrl</0> to select multiple classes."
+													components={[<kbd>0</kbd>]}
+												/>
 											</span>
 										</p>
 									),

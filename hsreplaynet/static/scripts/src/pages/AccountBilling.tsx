@@ -488,10 +488,13 @@ class AccountBilling extends React.Component<Props, State> {
 			} else {
 				subDescription = (
 					<p>
-						Your subscription started{" "}
-						<SemanticAge date={sub.start} /> and will automatically
-						renew <SemanticAge date={sub.current_period_end} />.
-						Thanks for supporting us!
+						<Trans>
+							Your subscription started{" "}
+							<SemanticAge date={sub.start} /> and will
+							automatically renew{" "}
+							<SemanticAge date={sub.current_period_end} />.{" "}
+							Thanks for supporting us!
+						</Trans>
 					</p>
 				);
 			}

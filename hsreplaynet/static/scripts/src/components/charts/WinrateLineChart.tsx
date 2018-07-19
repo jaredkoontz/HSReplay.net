@@ -19,8 +19,9 @@ import { i18nFormatDate } from "../../i18n";
 import { RenderData } from "../../interfaces";
 import ChartHighlighter from "./ChartHighlighter";
 import WinLossGradient from "./gradients/WinLossGradient";
+import { InjectedTranslateProps, translate } from "react-i18next";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	data?: RenderData;
 	title?: string;
 	widthRatio?: number;
@@ -30,8 +31,9 @@ interface Props {
 	axisLabelY?: string;
 }
 
-export default class WinrateLineChart extends React.Component<Props> {
+class WinrateLineChart extends React.Component<Props> {
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		const height = this.props.height || 150;
 		const width =
 			Math.max(0, this.props.width) ||
@@ -115,7 +117,7 @@ export default class WinrateLineChart extends React.Component<Props> {
 					/>
 					<VictoryAxis
 						dependentAxis
-						label={this.props.axisLabelY || "Winrate"}
+						label={this.props.axisLabelY || t("Winrate")}
 						axisLabelComponent={
 							<VictoryLabel
 								textAnchor="middle"
@@ -190,3 +192,5 @@ export default class WinrateLineChart extends React.Component<Props> {
 		);
 	}
 }
+
+export default translate()(WinrateLineChart);
