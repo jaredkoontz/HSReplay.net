@@ -314,7 +314,7 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 					style={{ margin: "25px 0 10px 0" }}
 					className="text-center"
 				>
-					<label id="choose-plan">Choose your plan</label>
+					<label id="choose-plan">{t("Choose your plan")}</label>
 					<BtnGroup
 						className="btn-group btn-group-flex"
 						buttons={this.getPlanButtons()}

@@ -1,7 +1,7 @@
 {% extends "socialaccount/base.html" %}
 {% load socialaccount staticfiles %}
 {% load feature from features %}
-{% load blocktrans trans from i18n %}
+{% load trans from i18n %}
 {% load render_bundle from webpack_loader %}
 
 {% block content %}
@@ -11,10 +11,7 @@
 
 {% if form.accounts %}
 	<p>
-		{% blocktrans trimmed %}
-			The following social accounts are connected to your HSReplay.net account.
-			You may log in with any connected Blizzard account.
-		{% endblocktrans %}
+		{% trans "The following social accounts are connected to your HSReplay.net account. You may log in with any connected Blizzard account." %}
 	</p>
 	<table id="account-connections">
 		{% for base_account in form.accounts %}
