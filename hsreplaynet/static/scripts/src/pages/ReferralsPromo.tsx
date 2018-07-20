@@ -1,8 +1,9 @@
-import React from "react";
-import UserData from "../UserData";
 import clipboard from "clipboard-polyfill";
+import React from "react";
+import { InjectedTranslateProps, translate } from "react-i18next";
+import UserData from "../UserData";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	url: string;
 	discount: string;
 	onCopy?: () => any;
@@ -13,7 +14,7 @@ interface State {
 	copied: boolean;
 }
 
-export default class ReferralsPromo extends React.Component<Props, State> {
+class ReferralsPromo extends React.Component<Props, State> {
 	private timeout: number | null;
 	private urlBox: HTMLInputElement;
 
@@ -52,6 +53,7 @@ export default class ReferralsPromo extends React.Component<Props, State> {
 	};
 
 	public render(): React.ReactNode {
+		const { discount, t } = this.props;
 		return (
 			<div className="referrals-promo">
 				<div
@@ -61,14 +63,17 @@ export default class ReferralsPromo extends React.Component<Props, State> {
 					}
 				>
 					<section>
-						<h1>Refer a Friend</h1>
+						<h1>{t("Refer a Friend")}</h1>
 
 						<p>
-							Earn some credits for free Premium! Just refer your
-							friends using your referral link!<br />
-							For each of your friends that subscribes for the
-							first time, you'll get {this.props.discount} off
-							your next month's bill.
+							{t(
+								"Earn some credits for free Premium! Just refer your friends using your referral link!",
+							)}
+							<br />
+							{t(
+								"For each of your friends that subscribes for the first time, you'll get {discount} off your next month's bill.",
+								{ discount },
+							)}
 						</p>
 						<div className="input-group input-group-lg">
 							<input
@@ -94,13 +99,16 @@ export default class ReferralsPromo extends React.Component<Props, State> {
 									type="button"
 									onClick={this.copy}
 								>
-									{this.state.copied ? "Copied!" : "Copy"}
+									{this.state.copied
+										? t("Copied!")
+										: t("Copy")}
 								</button>
 							</span>
 						</div>
 						<p className="text-muted">
-							Note: Credits are not usable with PayPal
-							subscriptions.
+							{t(
+								"Note: Credits are not usable with PayPal subscriptions.",
+							)}
 						</p>
 					</section>
 				</div>
@@ -113,7 +121,7 @@ export default class ReferralsPromo extends React.Component<Props, State> {
 					{!this.state.expanded ? (
 						<>
 							<span>▾</span>
-							<span>Refer a Friend</span>
+							<span>{t("Refer a Friend")}</span>
 							<span>▾</span>
 						</>
 					) : null}
@@ -122,3 +130,5 @@ export default class ReferralsPromo extends React.Component<Props, State> {
 		);
 	}
 }
+
+export default translate()(ReferralsPromo);
