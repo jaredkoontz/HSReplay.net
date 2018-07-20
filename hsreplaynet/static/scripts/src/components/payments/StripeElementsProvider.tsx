@@ -37,9 +37,11 @@ export default class StripeElementsProvider extends React.Component<
 	}
 
 	public render(): React.ReactNode {
+		// If locale is unsupported, Stripe automatically falls back to browser locale.
+		const locale = UserData.getLocale();
 		return (
 			<StripeProvider stripe={this.state.stripe}>
-				<Elements>{this.props.children}</Elements>
+				<Elements locale={locale}>{this.props.children}</Elements>
 			</StripeProvider>
 		);
 	}
