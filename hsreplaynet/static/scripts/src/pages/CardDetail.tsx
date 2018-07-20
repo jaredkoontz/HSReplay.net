@@ -34,12 +34,13 @@ import {
 	getChartScheme,
 	getDustCost,
 	getHeroClassName,
+	getSetName,
 	isArenaOnlyCard,
 	isCollectibleCard,
 	isWildSet,
 	toPrettyNumber,
+	toTitleCase,
 } from "../helpers";
-import { I18N_NAMESPACE_HEARTHSTONE } from "../i18n";
 import { RenderData, TableData } from "../interfaces";
 import { Collection } from "../utils/api";
 import LoadingSpinner from "../components/LoadingSpinner";
@@ -607,9 +608,7 @@ class CardDetail extends React.Component<Props, State> {
 				<li>
 					{t("Tribe")}
 					<span className="infobox-value">
-						{t(`GLOBAL_RACE_${this.props.card.race}`, {
-							ns: I18N_NAMESPACE_HEARTHSTONE,
-						})}
+						{toTitleCase(this.props.card.race)}
 					</span>
 				</li>
 			);
@@ -793,12 +792,7 @@ class CardDetail extends React.Component<Props, State> {
 							{t("Type")}
 							<span className="infobox-value">
 								{this.props.card &&
-									t(
-										`GLOBAL_CARDTYPE_${
-											this.props.card.type
-										}`,
-										{ ns: I18N_NAMESPACE_HEARTHSTONE },
-									)}
+									toTitleCase(this.props.card.type)}
 							</span>
 						</li>
 						{this.props.card && this.props.card.rarity ? (
@@ -806,12 +800,7 @@ class CardDetail extends React.Component<Props, State> {
 								{t("Rarity")}
 								<span className="infobox-value">
 									{this.props.card &&
-										t(
-											`GLOBAL_RARITY_${
-												this.props.card.rarity
-											}`,
-											{ ns: I18N_NAMESPACE_HEARTHSTONE },
-										)}
+										toTitleCase(this.props.card.rarity)}
 								</span>
 							</li>
 						) : null}
@@ -819,12 +808,7 @@ class CardDetail extends React.Component<Props, State> {
 							{t("Set")}
 							<span className="infobox-value">
 								{this.props.card &&
-									t(
-										`GLOBAL_CARD_SET_${
-											this.props.card.set
-										}`,
-										{ ns: I18N_NAMESPACE_HEARTHSTONE },
-									)}
+									getSetName(this.props.card.set, t)}
 							</span>
 						</li>
 						{tribe}
