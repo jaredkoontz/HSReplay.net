@@ -169,17 +169,19 @@ def test_archetypes_serializer(archetypes_serializer_data):
 	assert "global_popularity" in ranked_standard
 	assert ranked_standard["global_popularity"] == 4.56
 
-	assert "best_matchup" in ranked_standard
-	assert "id" in ranked_standard["best_matchup"]
-	assert ranked_standard["best_matchup"]["id"] == 4
-	assert "winrate" in ranked_standard["best_matchup"]
-	assert ranked_standard["best_matchup"]["winrate"] == 52.52
+	assert "matchups" in ranked_standard
+	assert len(ranked_standard["matchups"]) == 3
 
-	assert "worst_matchup" in ranked_standard
-	assert "id" in ranked_standard["worst_matchup"]
-	assert ranked_standard["worst_matchup"]["id"] == 2
-	assert "winrate" in ranked_standard["worst_matchup"]
-	assert ranked_standard["worst_matchup"]["winrate"] == 50.50
+	for i in range(0, 3):
+		assert "id" in ranked_standard["matchups"][i]
+		assert "winrate" in ranked_standard["matchups"][i]
+
+	assert ranked_standard["matchups"][0]["id"] == 4
+	assert ranked_standard["matchups"][0]["winrate"] == 52.52
+	assert ranked_standard["matchups"][1]["id"] == 3
+	assert ranked_standard["matchups"][1]["winrate"] == 51.51
+	assert ranked_standard["matchups"][2]["id"] == 2
+	assert ranked_standard["matchups"][2]["winrate"] == 50.50
 
 	assert "most_popular_deck" in ranked_standard
 	assert "url" in ranked_standard["most_popular_deck"]

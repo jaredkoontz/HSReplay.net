@@ -177,14 +177,12 @@ class ArchetypeDataSerializer(Serializer):
 	winrate = SerializerMethodField()
 	class_popularity = SerializerMethodField()
 	global_popularity = SerializerMethodField()
-	best_matchup = SerializerMethodField()
-	worst_matchup = SerializerMethodField()
+	matchups = SerializerMethodField()
 	most_popular_deck = SerializerMethodField()
 	best_performing_deck = SerializerMethodField()
 
 	_archetype = None
 	_decks = None
-	_matchups = None
 
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
@@ -216,15 +214,19 @@ class ArchetypeDataSerializer(Serializer):
 	def get_global_popularity(self, instance):
 		return self._get_archetype(instance)["pct_of_total"]
 
-	def get_best_matchup(self, instance):
-		matchups = sorted(self._get_matchups(instance), key=lambda x: x["win_rate"])
-		serializer = ArchetypeMatchupDataSerializer(matchups[-1])
-		return serializer.data
-
-	def get_worst_matchup(self, instance):
-		matchups = sorted(self._get_matchups(instance), key=lambda x: x["win_rate"])
-		serializer = ArchetypeMatchupDataSerializer(matchups[0])
-		return serializer.data
+	def get_matchups(self, instance):
+		matchups = [
+			dict(id=int(id), **data) for id, data in
+			self._matchup_data[str(instance["id"])].items() if
+			data["total_games"] >= self.MIN_GAMES_THRESHOLD and int(id) > 0
+		]
+		if not matchups:
+			raise InvalidArchetypeException()
+		matchups = sorted(matchups, key=lambda x: x["win_rate"], reverse=True)
+		return [
+			ArchetypeMatchupDataSerializer(matchup).data
+			for matchup in matchups
+		]
 
 	def get_most_popular_deck(self, instance):
 		decks = sorted(self._get_decks(instance), key=lambda x: x["total_games"], reverse=True)
@@ -243,19 +245,6 @@ class ArchetypeDataSerializer(Serializer):
 			if archetype["archetype_id"] == instance["id"]:
 				self._archetype = archetype
 				return archetype
-		raise InvalidArchetypeException()
-
-	def _get_matchups(self, instance):
-		if self._matchups:
-			return self._matchups
-		matchups = [
-			dict(id=int(id), **data) for id, data in
-			self._matchup_data[str(instance["id"])].items() if
-			data["total_games"] >= self.MIN_GAMES_THRESHOLD and int(id) > 0
-		]
-		if matchups:
-			self._matchups = matchups
-			return matchups
 		raise InvalidArchetypeException()
 
 	def _get_decks(self, instance):
