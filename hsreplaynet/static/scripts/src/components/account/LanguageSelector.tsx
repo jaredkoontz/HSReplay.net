@@ -106,6 +106,7 @@ class LanguageSelector extends React.Component<Props, State> {
 				className={`${open}`}
 				onClick={this.toggleDropdown}
 				ref={ref => (this.ref = ref)}
+				id="navbar-language-selector"
 			>
 				<a
 					href="/admin/"

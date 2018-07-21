@@ -190,5 +190,17 @@ if (
 			"Refer a Friend!",
 			"Tell a friend about HSReplay.net for a cheaper Premium subscription!",
 		);
+
+		// Todo: Replace "fake-lang" with desired language codes
+		if (["fake-lang"].indexOf(UserData.getLocale()) !== -1) {
+			showPopover(
+				"navbar-language-selector",
+				"translation-popover",
+				false,
+				"translation-popup-closed",
+				"Help translate HSReplay.net",
+				"Want to see more of HSReplay.net in your native language? Click here to see how you can help translate the site...",
+			);
+		}
 	});
 }
