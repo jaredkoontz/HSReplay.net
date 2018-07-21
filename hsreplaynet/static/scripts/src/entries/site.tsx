@@ -117,53 +117,78 @@ if (document && document.body) {
 	});
 }
 
+function showPopover(
+	targetElementId,
+	requiredFeature,
+	requiresAuthentication,
+	cookieKey,
+	title,
+	content,
+	options = null,
+) {
+	const element = document.getElementById(targetElementId);
+	if (!element) {
+		return;
+	}
+
+	if (requiredFeature && !UserData.hasFeature(requiredFeature)) {
+		return;
+	}
+
+	if (requiresAuthentication && !UserData.isAuthenticated()) {
+		return;
+	}
+
+	if (cookie.get(cookieKey, "0") !== "0") {
+		return;
+	}
+
+	const defaultOptions = {
+		animation: true,
+		trigger: "manual",
+		placement: "bottom",
+		html: true,
+	};
+
+	if (options) {
+		Object.assign(defaultOptions, options);
+	}
+
+	const closeId = targetElementId + "-popover-close";
+	const closeBtn = `<a href="#" id="${closeId}" class="popover-close" aria-hidden="true">&times;</a>`;
+
+	Object.assign(defaultOptions, {
+		title: `${title} ${closeBtn}`,
+		content,
+	});
+
+	$(element).popover(defaultOptions);
+	$(element).on("shown.bs.popover", () => {
+		$("#" + closeId).click(evt => {
+			evt.preventDefault();
+			$(element).popover("destroy");
+			cookie.set(cookieKey, "1", {
+				path: "/",
+				expires: 90,
+			});
+		});
+	});
+	setTimeout(() => ($(element) as any).popover("show"), 500);
+}
+
 if (
 	window &&
 	window.location &&
 	window.location.pathname.match(/\/(replay|games|decks|cards)\//)
 ) {
 	document.addEventListener("DOMContentLoaded", () => {
-		// locate the premium navbar item
-		const premiumLink = document.getElementById("navbar-link-premium");
-		if (!premiumLink) {
-			return;
-		}
-
-		// do not show if feature is disabled
-		if (!UserData.hasFeature("reflinks")) {
-			return;
-		}
-
-		// do not show when logged out
-		if (!UserData.isAuthenticated()) {
-			return;
-		}
-
-		// do not show if hidden
-		if (cookie.get("refer-popup-closed", "0") !== "0") {
-			return;
-		}
-
-		$(premiumLink).popover({
-			animation: true,
-			trigger: "manual",
-			placement: "bottom",
-			html: true,
-			title:
-				'Refer a Friend! <a href="#" id="referral-popover-close" class="popover-close" aria-hidden="true">&times;</a>',
-			content:
-				"Tell a friend about HSReplay.net for a cheaper Premium subscription!",
-		});
-		$(premiumLink).on("shown.bs.popover", () => {
-			$("#referral-popover-close").click(evt => {
-				evt.preventDefault();
-				$(premiumLink).popover("destroy");
-				cookie.set("refer-popup-closed", "1", {
-					path: "/",
-					expires: 90,
-				});
-			});
-		});
-		setTimeout(() => ($(premiumLink) as any).popover("show"), 500);
+		showPopover(
+			"navbar-link-premium",
+			"reflinks",
+			true,
+			"refer-popup-closed",
+			"Refer a Friend!",
+			"Tell a friend about HSReplay.net for a cheaper Premium subscription!",
+		);
 	});
 }
