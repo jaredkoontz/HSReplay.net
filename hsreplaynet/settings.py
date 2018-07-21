@@ -8,6 +8,7 @@ import platform
 
 from django.contrib.staticfiles.apps import StaticFilesConfig
 from django.urls import reverse_lazy
+from django.utils.translation import gettext_lazy as _
 
 
 ##
@@ -311,17 +312,17 @@ REST_FRAMEWORK = {
 
 OAUTH2_PROVIDER = {
 	"SCOPES": {
-		"fullaccess": "Full access to your HSReplay.net account",
-		"account.social:read": "Access information about your connected social accounts",
-		"collection:read": "View your Hearthstone card collection",
-		"collection:write": "Upload your Hearthstone card collection to the site",
-		"games:read": "View your replays",
-		"games:write": "Update and delete your replays",
-		"tournaments:read": "Read access to the tournaments service",
-		"tournaments:write": "Write access to the tournaments service",
-		"webhooks:read": "View your webhooks",
-		"webhooks:write": "Create and delete webhooks on your behalf",
-		"partner.stats:read": "Access the Partner Stats API"
+		"fullaccess": _("Full access to your HSReplay.net account"),
+		"account.social:read": _("Access information about your connected social accounts"),
+		"collection:read": _("View your Hearthstone card collection"),
+		"collection:write": _("Upload your Hearthstone card collection to the site"),
+		"games:read": _("View your replays"),
+		"games:write": _("Update and delete your replays"),
+		"partner.stats:read": _("Access the Partner API"),
+		"tournaments:read": _("Read access to the tournaments service"),
+		"tournaments:write": _("Write access to the tournaments service"),
+		"webhooks:read": _("View your webhooks"),
+		"webhooks:write": _("Create and delete webhooks on your behalf"),
 	},
 	"ALLOWED_REDIRECT_URI_SCHEMES": ["https", "http"],
 	"CLIENT_ID_GENERATOR_CLASS": "hsreplaynet.api.generators.ClientIdGenerator",
