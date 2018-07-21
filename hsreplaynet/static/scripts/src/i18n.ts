@@ -68,9 +68,7 @@ export function formatNumber(n: number, mantissa: number = 0): string {
 
 // just used while we feature flag frontend translations
 UserData.create();
-if (UserData.hasFeature("frontend-translations")) {
-	i18n.use(CustomCallbackBackend);
-}
+i18n.use(CustomCallbackBackend);
 
 // create ICU so we can register locale-data later
 const icu = new ICU();
