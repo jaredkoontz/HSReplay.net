@@ -16,10 +16,9 @@
 	{% endif %}
 
 	<p>
-		{% blocktrans trimmed %}
-			We'll send you to the official Blizzard site where you can securely log in.<br/>
-			Blizzard will redirect you back here once you're done.
-		{% endblocktrans %}
+		{% trans "We'll send you to the official Blizzard site where you can securely log in." %}
+		<br/>
+		{% trans "Blizzard will redirect you back here once you're done." %}
 	</p>
 
 	<form method="GET" action="{% provider_login_url 'battlenet' %}" class="form-group">
@@ -34,12 +33,12 @@
 		<p>
 			<label for="id_region">{% trans "Region" %}</label>
 			<select name="region" id="id_region" class="sm">
-				<option value="us">US / EU / SEA</option>
+				<option value="us">{% trans "US / EU / SEA" %}</option>
 				<!-- <option value="eu">Europe (EU)</option>
 				<option value="kr">Korea (KR)</option>
 				<option value="sea">South East Asia (SEA)</option>
 				<option value="tw">Taiwan (TW)</option> -->
-				<option value="cn">China (CN)</option>
+				<option value="cn">{% trans "China (CN)" %}</option>
 			</select>
 			</label>
 		</p>
