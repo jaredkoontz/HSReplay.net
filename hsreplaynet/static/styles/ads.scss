@@ -1,0 +1,16 @@
+.ad-unit {
+	border: solid 1px black;
+	background-color: magenta;
+}
+
+.ad-unit--desktop {
+	@media (max-width: 767px) {
+		display: none;
+	}
+}
+
+.ad-unit--mobile {
+	@media (min-width: 768px) {
+		display: none;
+	}
+}

@@ -15,6 +15,7 @@ interface Props {
 	id: string;
 	size: AdUnitSize;
 	customOptions?: NitropayCreateAdOptions;
+	mobile?: boolean;
 }
 
 export default class AdUnit extends React.Component<Props> {
@@ -23,16 +24,19 @@ export default class AdUnit extends React.Component<Props> {
 			return null;
 		}
 
+		const classNames = ["ad-unit"];
+		classNames.push(
+			this.props.mobile ? "ad-unit--mobile" : "ad-unit--desktop",
+		);
+
 		const [width, height] = this.getPlaceholderSize();
 		return (
 			<div
 				id={this.props.id}
+				className={classNames.join(" ")}
 				style={{
 					width: `${width}px`,
 					height: `${height}px`,
-					border: "solid 1px black",
-					// placeholder color
-					background: "magenta",
 				}}
 			/>
 		);
