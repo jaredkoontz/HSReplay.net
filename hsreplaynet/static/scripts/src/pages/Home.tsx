@@ -133,8 +133,8 @@ class Home extends React.Component<Props, State> {
 					</div>
 				</div>
 				<div className="top-ads">
-					<AdUnit id="fp-d-1" size={[728, 90]} />
-					<AdUnit id="fp-d-2" size={[728, 90]} />
+					<AdUnit id="fp-d-1" size="728x90" />
+					<AdUnit id="fp-d-2" size="728x90" />
 				</div>
 				<div className="row content-row features">
 					<div className="col-lg-4 col-md-6 col-sm-6 col-xs-12">

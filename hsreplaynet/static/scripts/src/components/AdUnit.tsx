@@ -2,9 +2,18 @@ import React from "react";
 import UserData from "../UserData";
 import { NitropayCreateAdOptions } from "../interfaces";
 
+export type AdUnitSize =
+	| "300x250"
+	| "728x90"
+	| "320x50"
+	| "160x600"
+	| "300x600"
+	| "970x90"
+	| "970x250";
+
 interface Props {
 	id: string;
-	size: [number, number];
+	size: AdUnitSize;
 	customOptions?: NitropayCreateAdOptions;
 }
 
@@ -36,7 +45,8 @@ export default class AdUnit extends React.Component<Props> {
 	}
 
 	private getPlaceholderSize(): [number, number] {
-		return this.props.size;
+		const [width, height] = this.props.size.split("x").map(Number);
+		return [width, height];
 	}
 
 	private isVisible(): boolean {
