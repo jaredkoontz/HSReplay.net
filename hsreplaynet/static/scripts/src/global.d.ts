@@ -2,14 +2,14 @@
 // this file should be picked up automatically by the typescript compiler
 /* tslint:disable max-classes-per-file */
 
-declare var STATIC_URL: string;
-declare var HEARTHSTONE_ART_URL: string;
-declare var JOUST_STATIC_URL: string;
-declare var SUNWELL_URL: string;
-declare var JOUST_RAVEN_DSN_PUBLIC: string;
-declare var JOUST_RAVEN_ENVIRONMENT: string;
-declare var INFLUX_DATABASE_JOUST: string;
-declare var SITE_EMAIL: string;
+declare const STATIC_URL: string;
+declare const HEARTHSTONE_ART_URL: string;
+declare const JOUST_STATIC_URL: string;
+declare const SUNWELL_URL: string;
+declare const JOUST_RAVEN_DSN_PUBLIC: string;
+declare const JOUST_RAVEN_ENVIRONMENT: string;
+declare const INFLUX_DATABASE_JOUST: string;
+declare const SITE_EMAIL: string;
 
 declare module "*.json" {
 	const value: any;
