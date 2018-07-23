@@ -29,6 +29,13 @@
 		</script>
 	{% endif %}
 {% endblock %}
+{% block ads %}
+	{% feature "ads" as ads %}
+	{% setting "AD_NETWORK_URL" as ad_network_url %}
+	{% if ads.enabled and ad_network_url %}
+		<script src="{{ ad_network_url }}"></script>
+	{% endif %}
+{% endblock %}
 {% render_bundle "vendor" %}
 {% render_bundle "site" attrs="async" %}
 {% endblock %}
