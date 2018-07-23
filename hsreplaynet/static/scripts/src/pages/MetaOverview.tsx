@@ -22,6 +22,7 @@ import PrettyTimeRange from "../components/text/PrettyTimeRange";
 import { TimeRange } from "../filters";
 import { SortDirection } from "../interfaces";
 import { formatNumber } from "../i18n";
+import AdUnit from "../components/AdUnit";
 
 interface Props extends InjectedTranslateProps {
 	cardData: CardData;
@@ -289,6 +290,8 @@ class MetaOverview extends React.Component<Props, State> {
 						</ul>
 					</section>
 					{backButton}
+					<AdUnit id="mp-d-11" size="300x250" />
+					<AdUnit id="mp-d-12" size="300x250" />
 				</aside>
 				<main className={contentClassNames.join(" ")}>
 					<button
