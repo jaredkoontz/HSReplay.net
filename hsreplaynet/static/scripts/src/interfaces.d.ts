@@ -312,3 +312,29 @@ export interface SortableProps {
 	sortDirection: SortDirection;
 	onSortChanged: (sortBy: string, sortDirection: SortDirection) => void;
 }
+
+declare global {
+	interface Window {
+		nads: Nitropay;
+	}
+}
+
+export interface Nitropay {
+	createAd(id: string, options: NitropayCreateAdOptions): any;
+}
+
+export interface NitropayCreateAdOptions {
+	floor: number;
+	refreshLimit: number;
+	refreshTime: number;
+	sizes?: [number, number][];
+	adsenseSlot?: string;
+	report?: NitropayReportOptions;
+	format?: string;
+}
+
+export interface NitropayReportOptions {
+	enabled: boolean;
+	wording: string;
+	position: string;
+}
