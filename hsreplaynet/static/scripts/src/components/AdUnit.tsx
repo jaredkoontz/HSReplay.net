@@ -29,7 +29,8 @@ export default class AdUnit extends React.Component<Props> {
 			this.props.mobile ? "ad-unit--mobile" : "ad-unit--desktop",
 		);
 
-		const [width, height] = this.getPlaceholderSize();
+		const [width, height] = AdUnit.parsePlaceholderSize(this.props.size);
+
 		return (
 			<div
 				id={this.props.id}
@@ -48,8 +49,8 @@ export default class AdUnit extends React.Component<Props> {
 		}
 	}
 
-	private getPlaceholderSize(): [number, number] {
-		const [width, height] = this.props.size.split("x").map(Number);
+	public static parsePlaceholderSize(size: string): [number, number] {
+		const [width, height] = size.split("x").map(Number);
 		return [width, height];
 	}
 

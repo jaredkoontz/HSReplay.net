@@ -24,6 +24,7 @@ import { AutoSizer } from "react-virtualized";
 import { TwitchStreamPromotionEvents } from "../metrics/GoogleAnalytics";
 import HDTVideo from "../components/HDTVideo";
 import AdUnit from "../components/AdUnit";
+import AdContainer from "../components/AdContainer";
 
 interface Props extends InjectedTranslateProps {
 	cardData: CardData | null;
@@ -133,8 +134,10 @@ class Home extends React.Component<Props, State> {
 					</div>
 				</div>
 				<div className="top-ads">
-					<AdUnit id="fp-d-1" size="728x90" />
-					<AdUnit id="fp-d-2" size="728x90" />
+					<AdContainer>
+						<AdUnit id="fp-d-1" size="728x90" />
+						<AdUnit id="fp-d-2" size="728x90" />
+					</AdContainer>
 				</div>
 				<div className="row content-row features">
 					<div className="col-lg-4 col-md-6 col-sm-6 col-xs-12">
