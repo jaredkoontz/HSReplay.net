@@ -195,6 +195,8 @@ LOCALE_PATHS = [
 	os.path.join(BASE_DIR, "locale"),
 ]
 
+LANGUAGE_COOKIE_AGE = 86400 * 365  # 1 year
+
 USE_TZ = True
 TIME_ZONE = "UTC"
 
