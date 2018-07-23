@@ -166,6 +166,16 @@
 		height: 160px;
 	}
 
+	.top-ads {
+		margin: 10px auto 4px auto;
+		display: flex;
+		justify-content: center;
+
+		> * {
+			margin: 0 5px;
+		}
+	}
+
 	.content-row {
 		max-width: 1540px;
 		background-color: unset !important;
@@ -599,12 +609,16 @@
 		}
 	}
 
+	#banner + .features {
+		margin-top: 10px;
+	}
+
 	.features {
 		padding-bottom: 20px;
 
 		.panel-card {
 			height: 500px;
-			margin: 10px auto;
+			margin: 0 auto 10px auto;
 			max-width: 500px;
 			position: relative;
 
