@@ -33,7 +33,7 @@ export default class AdContainer extends React.Component<Props, State> {
 	}
 
 	public render(): React.ReactNode {
-		if (UserData.isPremium()) {
+		if (UserData.isPremium() && !UserData.hasFeature("ads-debug")) {
 			return null;
 		}
 

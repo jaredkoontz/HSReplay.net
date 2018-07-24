@@ -39,12 +39,25 @@ export default class AdUnit extends React.Component<Props> {
 					width: `${width}px`,
 					height: `${height}px`,
 				}}
-			/>
+				key={this.props.id}
+			>
+				{this.debugMode() ? (
+					<p
+						style={{
+							lineHeight: `${height}px`,
+							textAlign: "center",
+							fontWeight: "bold",
+						}}
+					>
+						{this.props.id}
+					</p>
+				) : null}
+			</div>
 		);
 	}
 
 	public componentDidMount(): void {
-		if (this.isVisible()) {
+		if (this.isVisible() && !this.debugMode()) {
 			this.loadExternalAd();
 		}
 	}
@@ -54,7 +67,15 @@ export default class AdUnit extends React.Component<Props> {
 		return [width, height];
 	}
 
+	private debugMode(): boolean {
+		return UserData.hasFeature("ads-debug");
+	}
+
 	private isVisible(): boolean {
+		// always render ads if in debug mode
+		if (this.debugMode()) {
+			return true;
+		}
 		// do not render for users outside of feature group
 		if (!UserData.hasFeature("ads")) {
 			return false;
