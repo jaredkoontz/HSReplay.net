@@ -29,9 +29,10 @@ export default class InfluxMetricsBackend implements MetricsBackend {
 								value = value ? "t" : "f";
 							}
 							if (
-								typeof value === "string" &&
-								!/^\d+i$/.exec(value) &&
-								!/^".*"$/.exec(value)
+								(typeof value === "string" &&
+									!/^\d+i$/.exec(value) &&
+									!/^".*"$/.exec(value)) ||
+								value === ""
 							) {
 								value = `"${value}"`;
 							}
