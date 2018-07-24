@@ -63,7 +63,7 @@ class AuthTokenAuthentication(TokenAuthentication):
 
 		if token.user:
 			if not token.user.is_active:
-				raise AuthenticationFailed("User %r cannot log in." % (token.user))
+				raise AuthenticationFailed("User %r cannot sign in." % (token.user))
 
 		return token.user, token
 

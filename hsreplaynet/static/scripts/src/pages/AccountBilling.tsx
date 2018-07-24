@@ -594,7 +594,7 @@ class AccountBilling extends React.Component<Props, State> {
 										href="https://paypal.com/"
 										target="_blank"
 									>
-										log in to PayPal
+										sign in to PayPal
 									</a>{" "}
 									and go to{" "}
 									<a

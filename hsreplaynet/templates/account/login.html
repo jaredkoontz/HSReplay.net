@@ -11,12 +11,12 @@
 <div class="account-login login-bnet">
 	{% if oauth2_client %}
 	<div class="account-login-oauth2-client">
-		<h3>{% blocktrans %}Log in to continue to {{ oauth2_client }}{% endblocktrans %}</h3>
+		<h3>{% blocktrans %}Sign in to continue to {{ oauth2_client }}{% endblocktrans %}</h3>
 	</div>
 	{% endif %}
 
 	<p>
-		{% trans "We'll send you to the official Blizzard site where you can securely log in." %}
+		{% trans "We'll send you to the official Blizzard site where you can securely sign in." %}
 		<br/>
 		{% trans "Blizzard will redirect you back here once you're done." %}
 	</p>
@@ -27,7 +27,7 @@
 		{% endif %}
 
 		<p>
-			<button type="submit" class="btn promo-button hero-button">{% trans "Log in with Blizzard" %}</button>
+			<button type="submit" class="btn promo-button hero-button">{% trans "Sign in with Blizzard" %}</button>
 		</p>
 
 		<p>
@@ -69,7 +69,7 @@
 	<label>{% trans "Password" %} <input type="password" name="password" id="id_password" class="form-control"/></label>
 
 	<p>
-		<button type="submit" class="btn btn-primary">{% trans "Log in" %}</button>
+		<button type="submit" class="btn btn-primary">{% trans "Sign in" %}</button>
 	</p>
 </form>
 

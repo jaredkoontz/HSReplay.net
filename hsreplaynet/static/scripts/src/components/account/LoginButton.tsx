@@ -67,7 +67,7 @@ class LoginButton extends React.Component<Props, State> {
 					className="btn promo-button hero-button"
 					rel="nofollow"
 				>
-					{label || t("Log in with Blizzard")}
+					{label || t("Sign in with Blizzard")}
 				</a>
 				{blizzard || china || password ? (
 					<>

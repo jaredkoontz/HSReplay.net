@@ -251,7 +251,7 @@ class MyReplays extends React.Component<Props, State> {
 					<section id="claim-account">
 						<p>
 							{t(
-								"From the Deck Tracker, log in to HSReplay.net.",
+								"From the Deck Tracker, sign in to HSReplay.net.",
 							)}
 						</p>
 

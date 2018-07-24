@@ -125,7 +125,7 @@ class DeleteAccountView(LoginRequiredMixin, SimpleReactView):
 			"message": request.POST.get("message", "")
 		}, reason=request.POST.get("reason", ""))
 
-		# Log out, then delete the account
+		# Sign out, then delete the account
 		user = request.user
 		logout(request)
 		user.delete()
