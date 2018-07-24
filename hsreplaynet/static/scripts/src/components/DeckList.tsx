@@ -15,6 +15,13 @@ import DeckTile from "./DeckTile";
 import InfoIcon from "./InfoIcon";
 import Pager from "./Pager";
 import SortIndicator from "./SortIndicator";
+import AdUnit from "./AdUnit";
+import AdContainer from "./AdContainer";
+
+interface AdInfo {
+	index: number;
+	ids: string[];
+}
 
 interface Props extends FragmentChildProps, InjectedTranslateProps {
 	decks: DeckObj[];
@@ -32,6 +39,7 @@ interface Props extends FragmentChildProps, InjectedTranslateProps {
 	lastPlayedColumn?: boolean;
 	showGlobalDataNotice?: boolean;
 	collection?: Collection | null;
+	ads?: AdInfo[];
 }
 
 interface State {
@@ -139,7 +147,7 @@ class DeckList extends React.Component<Props, State> {
 
 		const deckTiles = [];
 		const visibleDecks = decks.slice(pageOffset, nextPageOffset);
-		visibleDecks.forEach(deck => {
+		visibleDecks.forEach((deck, index) => {
 			const archetype = this.state.archetypeData.find(
 				x => x.id === deck.archetypeId,
 			);
@@ -163,6 +171,16 @@ class DeckList extends React.Component<Props, State> {
 					collection={this.props.collection}
 				/>,
 			);
+			if (this.props.ads) {
+				const ad = this.props.ads.find(x => x.index === index);
+				if (ad) {
+					deckTiles.push(
+						<AdContainer>
+							{ad.ids.map(id => <AdUnit id={id} size="728x90" />)}
+						</AdContainer>,
+					);
+				}
+			}
 		});
 
 		const pager = top => {
