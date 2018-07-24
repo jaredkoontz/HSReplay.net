@@ -25,6 +25,7 @@ import { TwitchStreamPromotionEvents } from "../metrics/GoogleAnalytics";
 import HDTVideo from "../components/HDTVideo";
 import AdUnit from "../components/AdUnit";
 import AdContainer from "../components/AdContainer";
+import GutterAdUnit from "../components/GutterAdUnit";
 
 interface Props extends InjectedTranslateProps {
 	cardData: CardData | null;
@@ -140,6 +141,8 @@ class Home extends React.Component<Props, State> {
 					</AdContainer>
 				</div>
 				<div className="row content-row features">
+					<GutterAdUnit position="left" id="fp-d-3" size="160x600" />
+					<GutterAdUnit position="right" id="fp-d-4" size="160x600" />
 					<div className="col-lg-4 col-md-6 col-sm-6 col-xs-12">
 						<Panel
 							header={
@@ -271,6 +274,8 @@ class Home extends React.Component<Props, State> {
 		return (
 			<>
 				<div className="row content-row info-content" id="pilot">
+					<GutterAdUnit position="left" id="fp-d-5" size="160x600" />
+					<GutterAdUnit position="right" id="fp-d-6" size="160x600" />
 					<Panel
 						header={t("Be a Better Deck Pilot")}
 						theme="light"
@@ -350,6 +355,14 @@ class Home extends React.Component<Props, State> {
 							</a>
 						</div>
 					</Panel>
+					<div className="center-ads">
+						<AdContainer>
+							<AdUnit id="fp-d-11" size="728x90" />
+							<AdUnit id="fp-d-12" size="728x90" />
+						</AdContainer>
+					</div>
+					<GutterAdUnit position="left" id="fp-d-7" size="160x600" />
+					<GutterAdUnit position="right" id="fp-d-8" size="160x600" />
 					<Panel
 						header={t("Master the Meta")}
 						theme="light"
@@ -473,6 +486,12 @@ class Home extends React.Component<Props, State> {
 							</a>
 						</div>
 					</Panel>
+					<GutterAdUnit position="left" id="fp-d-9" size="160x600" />
+					<GutterAdUnit
+						position="right"
+						id="fp-d-10"
+						size="160x600"
+					/>
 					<Panel
 						header={t("Live Data")}
 						theme="light"

@@ -43,3 +43,12 @@
 		margin: 0 5px;
 	}
 }
+
+.gutter-ad-container {
+	position: absolute;
+	margin-top: 5px;
+
+	@media (max-width: 1879px) {
+		display: none;
+	}
+}
