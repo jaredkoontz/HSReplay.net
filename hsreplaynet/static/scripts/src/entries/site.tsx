@@ -191,8 +191,7 @@ if (
 			"Tell a friend about HSReplay.net for a cheaper Premium subscription!",
 		);
 
-		// Todo: Replace "fake-lang" with desired language codes
-		if (["fake-lang"].indexOf(UserData.getLocale()) !== -1) {
+		if (["th"].indexOf(UserData.getLocale()) !== -1) {
 			showPopover(
 				"navbar-language-selector",
 				"translation-popover",
