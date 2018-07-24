@@ -42,6 +42,8 @@ import {
 import PrettyTimeRange from "../components/text/PrettyTimeRange";
 import PrettyRankRange from "../components/text/PrettyRankRange";
 import LoadingSpinner from "../components/LoadingSpinner";
+import AdContainer from "../components/AdContainer";
+import AdUnit from "../components/AdUnit";
 
 interface Props extends InjectedTranslateProps, FragmentChildProps {
 	cardData: CardData | null;
@@ -538,6 +540,7 @@ class Decks extends React.Component<Props, State> {
 						pageSize={12}
 						helpMessage={helpMessage}
 						collection={this.props.collection}
+						ads={[{ index: 5, ids: ["dl-d-3", "dl-d-4"] }]}
 					>
 						{!isCollectionDisabled() ? (
 							<CollectionBanner
@@ -1159,8 +1162,13 @@ class Decks extends React.Component<Props, State> {
 						</ul>
 					</section>
 					{backButton}
+					<AdUnit id="dl-d-5" size="300x250" />
 				</div>
 				<div className={contentClassNames.join(" ")}>
+					<AdContainer>
+						<AdUnit id="dl-d-1" size="728x90" />
+						<AdUnit id="dl-d-2" size="728x90" />
+					</AdContainer>
 					<button
 						className="btn btn-default pull-left visible-xs visible-sm"
 						type="button"
