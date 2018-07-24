@@ -1,5 +1,6 @@
 import React from "react";
 import AdUnit from "./AdUnit";
+import UserData from "../UserData";
 
 interface Props {}
 
@@ -32,6 +33,10 @@ export default class AdContainer extends React.Component<Props, State> {
 	}
 
 	public render(): React.ReactNode {
+		if (UserData.isPremium()) {
+			return null;
+		}
+
 		const { children } = this.props;
 
 		let maxHeight = null;
