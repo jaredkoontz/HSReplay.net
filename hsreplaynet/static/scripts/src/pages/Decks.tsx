@@ -702,7 +702,9 @@ class Decks extends React.Component<Props, State> {
 								FilterEvents.onFilterInteraction(
 									"decks",
 									"player_class_archetypes",
-									archetypes.join(","),
+									archetypes.length
+										? archetypes.join(",")
+										: "none",
 								);
 							}}
 						/>

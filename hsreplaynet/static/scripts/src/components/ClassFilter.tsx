@@ -1,4 +1,5 @@
 import React from "react";
+import { isEqual } from "lodash";
 import ArchetypeFilter from "./ArchetypeFilter";
 import ClassIcon from "./ClassIcon";
 import DataInjector from "./DataInjector";
@@ -58,14 +59,15 @@ export default class ClassFilter extends React.Component<Props> {
 		["ClassesOnly", filterOptionClasses],
 	]);
 
-	public componentWillReceiveProps(
-		nextProps: Readonly<Props>,
-		nextContext: any,
+	public componentDidUpdate(
+		prevProps: Readonly<Props>,
+		prevState: Readonly<{}>,
+		snapshot?: any,
 	): void {
-		if (nextProps.archetypes && nextProps.archetypes.length) {
-			const archetypes = nextProps.selectedArchetypes.map(
+		if (this.props.archetypes && this.props.archetypes.length) {
+			const archetypes = this.props.selectedArchetypes.map(
 				selectedArchetype => {
-					return nextProps.archetypes.find(
+					return this.props.archetypes.find(
 						a => a.id === selectedArchetype,
 					);
 				},
@@ -75,13 +77,13 @@ export default class ClassFilter extends React.Component<Props> {
 				.filter(archetype => {
 					return (
 						archetype &&
-						nextProps.selectedClasses.indexOf(
+						this.props.selectedClasses.indexOf(
 							archetype.playerClass,
 						) !== -1
 					);
 				})
 				.map(archetype => archetype.id);
-			if (newArchetypes !== nextProps.selectedArchetypes) {
+			if (!isEqual(newArchetypes, this.props.selectedArchetypes)) {
 				this.props.archetypesChanged(newArchetypes);
 			}
 		}
