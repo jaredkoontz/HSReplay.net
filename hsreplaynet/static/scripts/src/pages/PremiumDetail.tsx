@@ -21,9 +21,8 @@ interface Props extends InjectedTranslateProps {
 	premiumPrice: string;
 	hasSubscriptionPastDue: boolean;
 }
-interface State {}
 
-class PremiumDetail extends React.Component<Props, State> {
+class PremiumDetail extends React.Component<Props> {
 	public render(): React.ReactNode {
 		if (UserData.hasFeature("new-premium")) {
 			return this.renderNew();
@@ -279,32 +278,64 @@ class PremiumDetail extends React.Component<Props, State> {
 						/>
 					</div>
 					<div className="clearfix" />
-					<section id="subscribe">
-						{isPremium ? null : (
-							<div className="col-lg-12">
-								<Panel
-									theme="light"
-									accent="blue"
-									className="panel-subscribe"
-								>
-									<img
-										src={image("premium/banner-bk.jpg")}
-										className="subscribe-background"
-									/>
-									<div className="subscribe-content">
-										<a
-											href="#checkout"
-											className="btn promo-button white-style"
-										>
-											{t("Subscribe now")}
-										</a>
-									</div>
-								</Panel>
-							</div>
-						)}
-					</section>
-					<div className="clearfix" />
 				</section>
+				{UserData.hasFeature("ads") ? (
+					<>
+						<section id="more-features">
+							<div className="col-lg-4 col-sm-12">
+								<PremiumFeaturePanel
+									title={null}
+									image={image("premium/noad.png")}
+									subtitle={t("Remove ads from HSReplay.net")}
+								/>
+							</div>
+							<div className="col-lg-4 col-sm-12">
+								<PremiumFeaturePanel
+									title={null}
+									image={image("hearthsim_logo.png")}
+									subtitle={t("Support our development")}
+									text={t(
+										"Directly support HSReplay.net and Hearthstone Deck Tracker",
+									)}
+								/>
+							</div>
+							<div className="col-lg-4 col-sm-12">
+								<PremiumFeaturePanel
+									title={null}
+									image={image("premium/discord.png")}
+									subtitle={t("Receive special role")}
+									text={t("Show off in our discord!")}
+								/>
+							</div>
+						</section>
+						<div className="clearfix" />
+					</>
+				) : null}
+				<section id="subscribe">
+					{isPremium ? null : (
+						<div className="col-lg-12">
+							<Panel
+								theme="light"
+								accent="blue"
+								className="panel-subscribe"
+							>
+								<img
+									src={image("premium/banner-bk.jpg")}
+									className="subscribe-background"
+								/>
+								<div className="subscribe-content">
+									<a
+										href="#checkout"
+										className="btn promo-button white-style"
+									>
+										{t("Subscribe now")}
+									</a>
+								</div>
+							</Panel>
+						</div>
+					)}
+				</section>
+				<div className="clearfix" />
 				<section id="testimonial-carousel">
 					<div className="col-lg-12">
 						<Panel accent="blue" theme="light">

@@ -41,16 +41,20 @@ export default class PremiumFeaturePanel extends React.Component<Props> {
 				</div>
 				<div className="content-container">
 					<h3>{this.props.subtitle}</h3>
-					<div className="text-container">
-						{text}
-						{this.props.bullets ? (
-							<div className="list-container">
-								<ul>
-									{this.props.bullets.map(x => <li>{x}</li>)}
-								</ul>
-							</div>
-						) : null}
-					</div>
+					{text || this.props.bullets ? (
+						<div className="text-container">
+							{text}
+							{this.props.bullets ? (
+								<div className="list-container">
+									<ul>
+										{this.props.bullets.map(x => (
+											<li>{x}</li>
+										))}
+									</ul>
+								</div>
+							) : null}
+						</div>
+					) : null}
 				</div>
 			</Panel>
 		);

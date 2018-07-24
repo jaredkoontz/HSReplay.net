@@ -135,6 +135,47 @@
 		}
 	}
 
+	#more-features {
+		margin-top: 10px;
+
+		.panel-content {
+			height: 300px;
+
+			.image-container {
+				height: 60%;
+				max-width: 70%;
+
+				> img {
+					max-height: 140px;
+					max-width: 100%;
+				}
+			}
+
+			.content-container {
+				justify-content: center;
+				height: 40%;
+				margin: 0;
+
+				h3,
+				p {
+					padding-top: 0;
+					padding-bottom: 0;
+					margin-bottom: 0;
+				}
+
+				h3 {
+					font-size: 1.75em;
+				}
+			}
+
+			.text-container {
+				margin: unset;
+				flex: unset;
+				text-align: center;
+			}
+		}
+	}
+
 	#testimonial-carousel {
 		margin-top: 10px;
 		margin-bottom: 10px;
