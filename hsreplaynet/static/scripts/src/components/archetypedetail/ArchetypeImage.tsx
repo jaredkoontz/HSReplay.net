@@ -15,7 +15,7 @@ class ArchetypeImage extends React.Component<Props> {
 		const archetype = this.props.archetypeData.find(
 			a => a.id === this.props.archetypeId,
 		);
-		if (!archetype) {
+		if (!archetype || !archetype.standard_ccp_signature_core) {
 			return null;
 		}
 		return (
