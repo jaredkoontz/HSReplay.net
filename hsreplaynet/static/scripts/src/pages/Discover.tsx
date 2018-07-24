@@ -13,6 +13,8 @@ import ClassAnalysis, {
 	ClusterMetaData,
 } from "../components/discover/ClassAnalysis";
 import { cardSorting, isCollectibleCard, isWildSet } from "../helpers";
+import AdContainer from "../components/AdContainer";
+import AdUnit from "../components/AdUnit";
 
 interface Props extends InjectedTranslateProps {
 	cardData: CardData | null;
@@ -206,8 +208,13 @@ class Discover extends React.Component<Props, State> {
 							}
 						/>
 					</ul>
+					<AdUnit id="ds-d-3" size="300x250" />
 				</aside>
 				<main>
+					<AdContainer>
+						<AdUnit id="ds-d-1" size="728x90" />
+						<AdUnit id="ds-d-2" size="728x90" />
+					</AdContainer>
 					<DataInjector
 						query={{
 							url: dataUrl + "?" + this.state.key,
