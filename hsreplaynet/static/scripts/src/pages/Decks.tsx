@@ -692,7 +692,7 @@ class Decks extends React.Component<Props, State> {
 								FilterEvents.onFilterInteraction(
 									"decks",
 									"player_class",
-									selected.join(","),
+									selected.join(",") || "ALL",
 								);
 							}}
 							archetypes={this.state.availableArchetypes}
@@ -702,9 +702,7 @@ class Decks extends React.Component<Props, State> {
 								FilterEvents.onFilterInteraction(
 									"decks",
 									"player_class_archetypes",
-									archetypes.length
-										? archetypes.join(",")
-										: "none",
+									archetypes.join(",") || "NONE",
 								);
 							}}
 						/>
@@ -735,7 +733,7 @@ class Decks extends React.Component<Props, State> {
 									FilterEvents.onFilterInteraction(
 										"decks",
 										"opponent_class",
-										selected.join(","),
+										selected.join(",") || "ALL",
 									);
 								}}
 							/>
