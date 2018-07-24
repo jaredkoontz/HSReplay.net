@@ -1120,7 +1120,7 @@ class Decks extends React.Component<Props, State> {
 								FilterEvents.onFilterInteraction(
 									"decks",
 									"stream",
-									"" + this.props.withStream,
+									this.props.withStream ? "WITH_STREAM" : "",
 								);
 							}}
 						>
