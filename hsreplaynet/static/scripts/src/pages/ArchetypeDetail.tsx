@@ -35,6 +35,8 @@ import {
 import { isWildSet } from "../helpers";
 import { DeckObj, LoadingStatus, SortDirection } from "../interfaces";
 import { Archetype, Collection } from "../utils/api";
+import AdContainer from "../components/AdContainer";
+import AdUnit from "../components/AdUnit";
 
 interface Props extends InjectedTranslateProps {
 	archetypeId: number;
@@ -205,6 +207,10 @@ class ArchetypeDetail extends React.Component<Props, State> {
 		if (this.hasData()) {
 			content = [
 				<section id="content-header" key="content-header">
+					<AdContainer>
+						<AdUnit id="ad-d-1" size="728x90" />
+						<AdUnit id="ad-d-2" size="728x90" />
+					</AdContainer>
 					<div className="container-fluid">
 						<div className="row">
 							<DataInjector
@@ -652,6 +658,9 @@ class ArchetypeDetail extends React.Component<Props, State> {
 							</li>
 						</ul>
 					</section>
+					<AdUnit id="ad-d-3" size="300x250" />
+					<AdUnit id="ad-d-4" size="300x250" />
+					<AdUnit id="ad-d-5" size="300x250" />
 				</aside>
 				<main>{content}</main>
 			</div>
