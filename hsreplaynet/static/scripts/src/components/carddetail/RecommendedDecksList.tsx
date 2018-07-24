@@ -67,6 +67,7 @@ class RecommendedDecksList extends React.Component<Props> {
 					pageSize={10}
 					collection={this.props.collection}
 					hideTopPager
+					ads={[{ index: 4, ids: ["cd-d-4", "cd-d-5"] }]}
 				/>
 			</Fragments>
 		);

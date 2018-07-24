@@ -43,6 +43,8 @@ import { I18N_NAMESPACE_HEARTHSTONE } from "../i18n";
 import { RenderData, TableData } from "../interfaces";
 import { Collection } from "../utils/api";
 import LoadingSpinner from "../components/LoadingSpinner";
+import AdContainer from "../components/AdContainer";
+import AdUnit from "../components/AdUnit";
 
 interface Props extends InjectedTranslateProps {
 	card: any;
@@ -361,6 +363,12 @@ class CardDetail extends React.Component<Props, State> {
 								cardName: this.props.card.name,
 							})}
 						</h1>
+						<div className="top-ads">
+							<AdContainer>
+								<AdUnit id="cd-d-1" size="728x90" />
+								<AdUnit id="cd-d-2" size="728x90" />
+							</AdContainer>
+						</div>
 						{headerContent}
 					</section>,
 					<section id="page-content" key="page-content">
@@ -837,6 +845,7 @@ class CardDetail extends React.Component<Props, State> {
 							</span>
 						</li>
 					</ul>
+					<AdUnit id="cd-d-3" size="300x250" />
 				</aside>
 				<main>{content}</main>
 			</div>
