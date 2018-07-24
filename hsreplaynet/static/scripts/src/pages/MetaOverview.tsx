@@ -23,6 +23,7 @@ import { TimeRange } from "../filters";
 import { SortDirection } from "../interfaces";
 import { formatNumber } from "../i18n";
 import AdUnit from "../components/AdUnit";
+import AdContainer from "../components/AdContainer";
 
 interface Props extends InjectedTranslateProps {
 	cardData: CardData;
@@ -292,6 +293,8 @@ class MetaOverview extends React.Component<Props, State> {
 					{backButton}
 					<AdUnit id="mp-d-11" size="300x250" />
 					<AdUnit id="mp-d-12" size="300x250" />
+					<AdUnit id="mp-d-13" size="300x250" />
+					<AdUnit id="mp-d-14" size="300x250" />
 				</aside>
 				<main className={contentClassNames.join(" ")}>
 					<button
@@ -302,6 +305,10 @@ class MetaOverview extends React.Component<Props, State> {
 						<span className="glyphicon glyphicon-filter" />
 						{t("Filters")}
 					</button>
+					<AdContainer>
+						<AdUnit id="mp-d-1" size="728x90" />
+						<AdUnit id="mp-d-2" size="728x90" />
+					</AdContainer>
 					<TabList
 						tab={this.props.tab}
 						setTab={tab => this.props.setTab(tab)}

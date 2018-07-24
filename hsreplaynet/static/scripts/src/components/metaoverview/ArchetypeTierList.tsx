@@ -6,6 +6,8 @@ import { Archetype } from "../../utils/api";
 import InfoIcon from "../InfoIcon";
 import { withLoading } from "../loading/Loading";
 import ArchetypeListItem from "./ArchetypeListItem";
+import AdContainer from "../AdContainer";
+import AdUnit from "../AdUnit";
 
 interface ClassArchetypeData {
 	[playerClass: string]: ApiArchetypePopularity[];
@@ -74,6 +76,12 @@ class ArchetypeTierList extends React.Component<Props> {
 			t("Losing Archetypes"),
 		];
 
+		const adUnitIds = [
+			["mp-d-3", "mp-d-4"],
+			["mp-d-5", "mp-d-6"],
+			["mp-d-7", "mp-d-8"],
+		];
+
 		return (
 			<div className="archetype-tier-list">
 				{tiers.map((tier, index) => {
@@ -81,19 +89,33 @@ class ArchetypeTierList extends React.Component<Props> {
 						return;
 					}
 					return (
-						<div className="tier" key={"tier" + index}>
-							<div className="tier-header">
-								{t("Tier {n}", { n: index + 1 })}
-								<InfoIcon
-									header={t("Tier {n}: {description}", {
-										n: index + 1,
-										description: tierInfoHeader[index],
-									})}
-									content={tierInfo[index]}
-								/>
+						<>
+							<div className="tier" key={"tier" + index}>
+								<div className="tier-header">
+									{t("Tier {n}", { n: index + 1 })}
+									<InfoIcon
+										header={t("Tier {n}: {description}", {
+											n: index + 1,
+											description: tierInfoHeader[index],
+										})}
+										content={tierInfo[index]}
+									/>
+								</div>
+								{tier}
 							</div>
-							{tier}
-						</div>
+							{adUnitIds.length > index ? (
+								<AdContainer key={`ad-container-${index}`}>
+									<AdUnit
+										id={adUnitIds[index][0]}
+										size="728x90"
+									/>
+									<AdUnit
+										id={adUnitIds[index][1]}
+										size="728x90"
+									/>
+								</AdContainer>
+							) : null}
+						</>
 					);
 				})}
 			</div>
