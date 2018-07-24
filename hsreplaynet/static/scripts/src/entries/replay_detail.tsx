@@ -14,6 +14,7 @@ import { Visibility } from "../interfaces";
 import BatchingMiddleware from "../metrics/BatchingMiddleware";
 import InfluxMetricsBackend from "../metrics/InfluxMetricsBackend";
 import MetricsReporter from "../metrics/MetricsReporter";
+import AdUnit from "../components/AdUnit";
 
 const context = JSON.parse(
 	document.getElementById("react_context").textContent,
@@ -233,6 +234,7 @@ ReactDOM.render(
 					</a>
 				</li>
 			</ul>
+			<AdUnit id="rp-d-1" size="300x250" />
 		</>
 	</I18nextProvider>,
 	targetTmp1,
