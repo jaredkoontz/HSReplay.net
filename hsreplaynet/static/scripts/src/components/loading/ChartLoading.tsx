@@ -56,7 +56,7 @@ class ChartLoading extends React.Component<Props> {
 			case LoadingStatus.ERROR:
 				return (
 					<h3 className="chart-message-wrapper">
-						{t("Something went wrong")}
+						{t("Something went wrong!")}
 					</h3>
 				);
 		}
