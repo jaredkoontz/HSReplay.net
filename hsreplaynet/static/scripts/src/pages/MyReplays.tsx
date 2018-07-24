@@ -26,6 +26,8 @@ import {
 	ImageProps,
 } from "../interfaces";
 import LoadingSpinner from "../components/LoadingSpinner";
+import AdUnit from "../components/AdUnit";
+import AdContainer from "../components/AdContainer";
 
 type ViewType = "tiles" | "list";
 
@@ -518,8 +520,13 @@ class MyReplays extends React.Component<Props, State> {
 						<InfoboxFilter value="lost">{t("Lost")}</InfoboxFilter>
 					</InfoboxFilterGroup>
 					{backButton}
+					<AdUnit id="mr-d-3" size="300x250" />
 				</aside>
 				<div className={contentClassNames.join(" ")}>
+					<AdContainer>
+						<AdUnit id="ds-d-1" size="728x90" />
+						<AdUnit id="ds-d-2" size="728x90" />
+					</AdContainer>
 					<div className="header-buttons">
 						<button
 							className="btn btn-default pull-left visible-xs visible-sm"
