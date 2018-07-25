@@ -52,6 +52,10 @@ export default class AdContainer extends React.Component {
 				ads.push(children[index]);
 				used += width;
 			}
+
+			if (!ads.length) {
+				return null;
+			}
 		}
 
 		return (
