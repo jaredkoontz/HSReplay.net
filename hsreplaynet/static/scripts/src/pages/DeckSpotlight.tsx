@@ -9,6 +9,8 @@ import HideLoading from "../components/loading/HideLoading";
 import TableLoading from "../components/loading/TableLoading";
 import TrendingDecksList from "../components/trending/TrendingDecksList";
 import PropRemapper from "../components/utils/PropRemapper";
+import AdContainer from "../components/AdContainer";
+import AdUnit from "../components/AdUnit";
 
 interface Props extends InjectedTranslateProps {
 	cardData: CardData;
@@ -20,6 +22,10 @@ class DeckSpotlight extends React.Component<Props> {
 		const { t } = this.props;
 		return (
 			<div id="deck-spotlight">
+				<AdContainer>
+					<AdUnit id="tr-d-1" size="728x90" />
+					<AdUnit id="tr-d-2" size="728x90" />
+				</AdContainer>
 				<span className="pull-right">
 					<Tooltip
 						header={t("Automatic updates")}
