@@ -42,6 +42,8 @@ import {
 } from "../utils/collection";
 import AllSet from "../components/onboarding/AllSet";
 import ConnectAccount from "../components/onboarding/ConnectAccount";
+import AdContainer from "../components/AdContainer";
+import AdUnit from "../components/AdUnit";
 
 interface CardFilters {
 	cost: any;
@@ -811,8 +813,14 @@ class Cards extends React.Component<Props, State> {
 					{backButton}
 					{this.buildFilters()}
 					{backButton}
+					<AdUnit id="cl-d-3" size="300x250" />
+					<AdUnit id="cl-d-4" size="300x250" />
 				</aside>
 				<main className={contentClassNames.join(" ")}>
+					<AdContainer>
+						<AdUnit id="cl-d-1" size="728x90" />
+						<AdUnit id="cl-d-2" size="728x90" />
+					</AdContainer>
 					<button
 						className="btn btn-default visible-xs"
 						id="filter-button"
