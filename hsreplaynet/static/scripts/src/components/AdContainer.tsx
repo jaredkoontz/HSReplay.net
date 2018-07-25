@@ -2,34 +2,16 @@ import React from "react";
 import AdUnit from "./AdUnit";
 import UserData from "../UserData";
 
-interface Props {}
-
-interface State {
-	measured: boolean;
-}
-
-export default class AdContainer extends React.Component<Props, State> {
+export default class AdContainer extends React.Component {
 	private ref: HTMLDivElement;
-
-	constructor(props: Props, context: any) {
-		super(props, context);
-		this.state = {
-			measured: false,
-		};
-	}
 
 	public componentDidMount(): void {
 		window.addEventListener("resize", this.resize);
+		window.requestAnimationFrame(() => this.forceUpdate());
 	}
 
 	public componentWillUnmount(): void {
 		window.removeEventListener("resize", this.resize);
-	}
-
-	public componentDidUpdate(): void {
-		if (!this.state.measured) {
-			this.setState({ measured: true });
-		}
 	}
 
 	public render(): React.ReactNode {
