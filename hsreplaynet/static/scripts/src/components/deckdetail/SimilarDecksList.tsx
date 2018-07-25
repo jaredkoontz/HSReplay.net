@@ -97,6 +97,7 @@ export default class SimilarDecksList extends React.Component<Props> {
 					hideTopPager
 					compareWith={cards}
 					collection={this.props.collection}
+					ads={[{ index: 3, ids: ["dd-d-7", "dd-d-8"] }]}
 				/>
 			</Fragments>
 		);

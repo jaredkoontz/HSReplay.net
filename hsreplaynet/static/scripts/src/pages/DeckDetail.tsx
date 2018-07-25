@@ -47,6 +47,8 @@ import { DeckEvents } from "../metrics/GoogleAnalytics";
 import UserData, { Account } from "../UserData";
 import { Collection } from "../utils/api";
 import { getDustCostForCollection } from "../utils/collection";
+import AdContainer from "../components/AdContainer";
+import AdUnit from "../components/AdUnit";
 
 interface InventoryGameType {
 	[gameType: string]: InventoryRegion[];
@@ -670,15 +672,27 @@ class DeckDetail extends React.Component<Props, State> {
 						</HideLoading>
 					</DataInjector>
 					{this.renderAdminSettings()}
+					<AdUnit id="dd-d-9" size="300x250" />
+					<AdUnit id="dd-d-10" size="300x250" />
 				</aside>
 				<main>
-					<section id="content-header">{header}</section>
+					<section id="content-header">
+						<AdContainer>
+							<AdUnit id="dd-d-1" size="728x90" />
+							<AdUnit id="dd-d-2" size="728x90" />
+						</AdContainer>
+						{header}
+					</section>
 					<section id="page-content">
 						<TabList
 							tab={this.props.tab}
 							setTab={this.props.setTab}
 						>
 							<Tab label={t("Overview")} id="overview">
+								<AdContainer>
+									<AdUnit id="dd-d-3" size="728x90" />
+									<AdUnit id="dd-d-4" size="728x90" />
+								</AdContainer>
 								{overviewContent}
 							</Tab>
 							<Tab
@@ -818,6 +832,8 @@ class DeckDetail extends React.Component<Props, State> {
 			? this.props.selectedClasses[0]
 			: "ALL";
 
+		const cards = this.getCards();
+
 		return (
 			<DataInjector
 				fetchCondition={
@@ -851,7 +867,7 @@ class DeckDetail extends React.Component<Props, State> {
 				}}
 			>
 				<CardTable
-					cards={this.getCards()}
+					cards={cards}
 					columns={[
 						"mulliganWinrate",
 						"keepPercent",
@@ -869,6 +885,13 @@ class DeckDetail extends React.Component<Props, State> {
 					sortBy={this.state.sortBy}
 					sortDirection={this.state.sortDirection as SortDirection}
 					collection={this.props.collection}
+					adInterval={Math.floor(cards.length / 2)}
+					ads={[
+						<AdContainer>
+							<AdUnit id="dd-d-5" size="728x90" />
+							<AdUnit id="dd-d-6" size="728x90" />
+						</AdContainer>,
+					]}
 				/>
 			</DataInjector>
 		);
