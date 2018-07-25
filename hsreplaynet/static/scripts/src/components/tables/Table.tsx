@@ -37,6 +37,11 @@ export interface AnnotatedNumber {
 	annotation: Annotation;
 }
 
+interface InternalRowData {
+	type: "data" | "ad";
+	data: RowData | React.ReactNode;
+}
+
 interface RowData {
 	key?: string;
 	data: Array<number | AnnotatedNumber | string | React.ReactNode>;
@@ -58,15 +63,20 @@ interface Props extends BaseTableProps {
 	headerWidth: [number, number];
 	rowHighlighting?: boolean;
 	alternatingBackground?: string;
+	adInterval?: number;
+	ads?: React.ReactNode[];
 }
 
 interface State {
 	hoveringRow: number;
 	referenceId: string;
+	rowData: InternalRowData[];
 }
 
 const HEADER_WIDTH_RATIO = 0.33;
 const INFO_ROW_HEIGHT = 50;
+const AD_HEIGHT = 110;
+const AD_PADDING = 10;
 
 export default class Table extends React.Component<Props, State> {
 	constructor(props: Props, context?: any) {
@@ -74,7 +84,26 @@ export default class Table extends React.Component<Props, State> {
 		this.state = {
 			hoveringRow: -1,
 			referenceId: _.uniqueId("table"),
+			rowData: this.getRowData(props),
 		};
+	}
+
+	componentWillReceiveProps(nextProps: Props) {
+		this.setState({ rowData: this.getRowData(nextProps) });
+	}
+
+	private getRowData(props: Props): InternalRowData[] {
+		const data: InternalRowData[] = [];
+		props.rowData.forEach((row, index) => {
+			if (this.props.ads && index > 0 && index % props.adInterval === 0) {
+				const adIndex = Math.floor(index / props.adInterval) - 1;
+				if (adIndex < this.props.ads.length) {
+					data.push({ type: "ad", data: props.ads[adIndex] });
+				}
+			}
+			data.push({ type: "data", data: row });
+		});
+		return data;
 	}
 
 	public render(): React.ReactNode {
@@ -87,14 +116,22 @@ export default class Table extends React.Component<Props, State> {
 		} = this.props;
 		const [minHeaderWidth, maxHeaderWidth] = this.props.headerWidth;
 		const numColumns = this.props.columns.length - 1;
-		const numRows = this.props.rowData.length;
 		const topOffset = topInfoRow ? INFO_ROW_HEIGHT : 0;
 		const bottomOffset = bottomInfoRow ? INFO_ROW_HEIGHT : 0;
+
+		const numDataRows = this.props.rowData.length;
+		const numAds = this.state.rowData.filter(x => x.type === "ad").length;
+		const numRows = numDataRows + numAds;
+
+		const adHeight = AD_HEIGHT;
+
 		const totalHeight =
-			cellHeight * (numRows + 1) +
+			cellHeight * (numDataRows + 1) +
 			scrollbarSize() +
 			topOffset +
-			bottomOffset;
+			bottomOffset +
+			numAds * adHeight;
+
 		return (
 			<div className="table-container" style={{ height: totalHeight }}>
 				<AutoSizer>
@@ -156,6 +193,12 @@ export default class Table extends React.Component<Props, State> {
 												INFO_ROW_HEIGHT -
 												scrollbarSize(),
 										)}
+										{this.renderAdRows(
+											width,
+											cellHeight,
+											cellHeight,
+											adHeight,
+										)}
 										<div
 											className="grid-container grid-container-top"
 											style={{ left: headerWidth }}
@@ -186,11 +229,21 @@ export default class Table extends React.Component<Props, State> {
 													this.rowHeaderRenderer
 												}
 												width={headerWidth}
-												height={numRows * cellHeight}
+												height={
+													totalHeight -
+													cellHeight -
+													topOffset
+												}
 												columnCount={1}
 												columnWidth={headerWidth}
 												rowCount={numRows}
-												rowHeight={cellHeight}
+												rowHeight={row =>
+													this.getRowHeight(
+														row,
+														cellHeight,
+														adHeight,
+													)
+												}
 												className="table-grid"
 												style={{}}
 											/>
@@ -214,7 +267,13 @@ export default class Table extends React.Component<Props, State> {
 													topOffset
 												}
 												rowCount={numRows}
-												rowHeight={cellHeight}
+												rowHeight={row =>
+													this.getRowHeight(
+														row,
+														cellHeight,
+														adHeight,
+													)
+												}
 												width={width - headerWidth}
 												onScroll={onScroll}
 												scrollLeft={scrollLeft}
@@ -230,6 +289,45 @@ export default class Table extends React.Component<Props, State> {
 				</AutoSizer>
 			</div>
 		);
+	}
+
+	private getRowHeight(
+		row: any,
+		cellHeight: number,
+		adHeight: number,
+	): number {
+		const rowData = this.state.rowData[row.index];
+		return rowData ? (rowData.type === "ad" ? adHeight : cellHeight) : 0;
+	}
+
+	private renderAdRows(
+		width: number,
+		cellHeight: number,
+		headerHeight: number,
+		adHeight: number,
+	) {
+		return this.state.rowData
+			.filter(x => x.type === "ad")
+			.map((ad, adIndex) => {
+				return (
+					<div
+						key={`ad-${adIndex}`}
+						className="grid-container grid-container-ad"
+						style={{
+							width,
+							top:
+								headerHeight +
+								(adIndex + 1) *
+									this.props.adInterval *
+									cellHeight +
+								adIndex * adHeight +
+								AD_PADDING,
+						}}
+					>
+						{ad.data}
+					</div>
+				);
+			});
 	}
 
 	renderRowHighlighter(
@@ -275,7 +373,11 @@ export default class Table extends React.Component<Props, State> {
 		if (rowIndex % 2 === 0) {
 			style["background"] = this.props.alternatingBackground || "white";
 		}
-		const row = this.props.rowData[rowIndex];
+		const rowData = this.state.rowData[rowIndex];
+		if (!rowData || rowData.type === "ad") {
+			return null;
+		}
+		const row = rowData.data as RowData;
 		const props = {
 			id: this.getRowId(rowIndex),
 			className: "table-row-header",
@@ -321,7 +423,11 @@ export default class Table extends React.Component<Props, State> {
 
 	columnCellRenderer = ({ columnIndex, rowIndex, key, style }) => {
 		const column = this.props.columns[columnIndex + 1];
-		const row = this.props.rowData[rowIndex];
+		const rowData = this.state.rowData;
+		if (!rowData[rowIndex] || rowData[rowIndex].type === "ad") {
+			return null;
+		}
+		const row = rowData[rowIndex].data as RowData;
 		let content = row.data[columnIndex + 1];
 		if (content === null || content === undefined) {
 			content = column.winrateData ? "-" : 0;
@@ -366,6 +472,10 @@ export default class Table extends React.Component<Props, State> {
 			lineHeight: `${this.props.cellHeight}px`,
 			background,
 		});
+
+		if (rowIndex > 0 && rowData[rowIndex - 1].type === "ad") {
+			style["borderTop"] = "1px solid lightgray";
+		}
 
 		const props = {
 			className: "table-cell",
