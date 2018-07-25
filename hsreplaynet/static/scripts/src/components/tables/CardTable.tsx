@@ -30,6 +30,8 @@ interface Props extends SortableProps, InjectedTranslateProps {
 	showEmptyCollection?: boolean;
 	forceCardCounts?: boolean | ((count: number) => boolean);
 	alternatingBackground?: string;
+	adInterval?: number;
+	ads?: React.ReactNode[];
 }
 
 const CELL_HEIGHT = 36;
@@ -107,6 +109,8 @@ class CardTable extends React.Component<Props> {
 				bottomInfoRow={this.props.bottomInfoRow}
 				headerWidthRatio={this.props.headerWidthRatio}
 				alternatingBackground={this.props.alternatingBackground}
+				adInterval={this.props.adInterval}
+				ads={this.props.ads}
 			/>
 		);
 	}

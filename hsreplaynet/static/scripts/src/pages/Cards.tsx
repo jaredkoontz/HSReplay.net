@@ -722,6 +722,21 @@ class Cards extends React.Component<Props, State> {
 									? i => +i > 0
 									: false
 							}
+							adInterval={12}
+							ads={_.range(5, 100, 2).map(x => {
+								return (
+									<AdContainer key={`ads-${x}-${x + 1}`}>
+										<AdUnit
+											id={`cl-d-${x}`}
+											size="728x90"
+										/>
+										<AdUnit
+											id={`cl-d-${x + 1}`}
+											size="728x90"
+										/>
+									</AdContainer>
+								);
+							})}
 						/>
 					</DataInjector>
 				</div>,
