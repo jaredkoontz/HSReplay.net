@@ -15,7 +15,10 @@ export default class AdContainer extends React.Component {
 	}
 
 	public render(): React.ReactNode {
-		if (UserData.isPremium() && !UserData.hasFeature("ads-debug")) {
+		if (
+			(UserData.isPremium() && !UserData.hasFeature("ads-debug")) ||
+			!UserData.hasFeature("ads")
+		) {
 			return null;
 		}
 
