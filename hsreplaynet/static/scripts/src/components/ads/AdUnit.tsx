@@ -1,6 +1,6 @@
 import React from "react";
-import UserData from "../../UserData";
 import { NitropayCreateAdOptions } from "../../interfaces";
+import { debugAds, showAds } from "../../AdHelper";
 
 export type AdUnitSize =
 	| "300x250"
@@ -20,7 +20,7 @@ interface Props {
 
 export default class AdUnit extends React.Component<Props> {
 	public render(): React.ReactNode {
-		if (!this.isVisible()) {
+		if (!showAds()) {
 			return null;
 		}
 
@@ -41,7 +41,7 @@ export default class AdUnit extends React.Component<Props> {
 				}}
 				key={this.props.id}
 			>
-				{this.debugMode() ? (
+				{debugAds() ? (
 					<p
 						style={{
 							lineHeight: `${height}px`,
@@ -57,7 +57,7 @@ export default class AdUnit extends React.Component<Props> {
 	}
 
 	public componentDidMount(): void {
-		if (this.isVisible() && !this.debugMode()) {
+		if (showAds() && !debugAds()) {
 			this.loadExternalAd();
 		}
 	}
@@ -65,28 +65,6 @@ export default class AdUnit extends React.Component<Props> {
 	public static parsePlaceholderSize(size: string): [number, number] {
 		const [width, height] = size.split("x").map(Number);
 		return [width, height];
-	}
-
-	private debugMode(): boolean {
-		return UserData.hasFeature("ads-debug");
-	}
-
-	private isVisible(): boolean {
-		// always render ads if in debug mode
-		if (this.debugMode()) {
-			return true;
-		}
-		// do not render for users outside of feature group
-		if (!UserData.hasFeature("ads")) {
-			return false;
-		}
-
-		// do not render for Premium users
-		if (UserData.isPremium()) {
-			return false;
-		}
-
-		return true;
 	}
 
 	private loadExternalAd(): boolean {
