@@ -283,6 +283,19 @@ a.hsreplay-thumbnail:hover {
 				}
 			}
 		}
+
+		.ad-row {
+			background: $offwhite;
+		}
+
+		.ad-container {
+			max-width: calc(100vw - 326px);
+			margin: 10px 0;
+
+			@media (max-width: 991px) {
+				max-width: calc(100vw - 26px);
+			}
+		}
 	}
 
 	.match-table-row {
