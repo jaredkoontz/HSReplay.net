@@ -42,8 +42,8 @@ import {
 } from "../utils/collection";
 import AllSet from "../components/onboarding/AllSet";
 import ConnectAccount from "../components/onboarding/ConnectAccount";
-import AdContainer from "../components/AdContainer";
-import AdUnit from "../components/AdUnit";
+import AdContainer from "../components/ads/AdContainer";
+import AdUnit from "../components/ads/AdUnit";
 
 interface CardFilters {
 	cost: any;

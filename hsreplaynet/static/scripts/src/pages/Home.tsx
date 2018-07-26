@@ -23,9 +23,9 @@ import TwitchStream from "../components/TwitchStream";
 import { AutoSizer } from "react-virtualized";
 import { TwitchStreamPromotionEvents } from "../metrics/GoogleAnalytics";
 import HDTVideo from "../components/HDTVideo";
-import AdUnit from "../components/AdUnit";
-import AdContainer from "../components/AdContainer";
-import GutterAdUnit from "../components/GutterAdUnit";
+import AdUnit from "../components/ads/AdUnit";
+import AdContainer from "../components/ads/AdContainer";
+import GutterAdUnit from "../components/ads/GutterAdUnit";
 
 interface Props extends InjectedTranslateProps {
 	cardData: CardData | null;

@@ -3,8 +3,8 @@ import { InjectedTranslateProps, translate } from "react-i18next";
 import { CardArtProps, GameReplay, ImageProps } from "../../interfaces";
 import GameHistoryList from "./GameHistoryList";
 import GameHistoryTableRow from "./GameHistoryTableRow";
-import AdContainer from "../AdContainer";
-import AdUnit from "../AdUnit";
+import AdContainer from "../ads/AdContainer";
+import AdUnit from "../ads/AdUnit";
 import * as _ from "lodash";
 
 interface Props extends ImageProps, CardArtProps, InjectedTranslateProps {

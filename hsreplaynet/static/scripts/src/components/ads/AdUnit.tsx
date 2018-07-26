@@ -1,6 +1,6 @@
 import React from "react";
-import UserData from "../UserData";
-import { NitropayCreateAdOptions } from "../interfaces";
+import UserData from "../../UserData";
+import { NitropayCreateAdOptions } from "../../interfaces";
 
 export type AdUnitSize =
 	| "300x250"

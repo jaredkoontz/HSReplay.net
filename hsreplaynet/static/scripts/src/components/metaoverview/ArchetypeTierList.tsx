@@ -6,8 +6,8 @@ import { Archetype } from "../../utils/api";
 import InfoIcon from "../InfoIcon";
 import { withLoading } from "../loading/Loading";
 import ArchetypeListItem from "./ArchetypeListItem";
-import AdContainer from "../AdContainer";
-import AdUnit from "../AdUnit";
+import AdContainer from "../ads/AdContainer";
+import AdUnit from "../ads/AdUnit";
 
 interface ClassArchetypeData {
 	[playerClass: string]: ApiArchetypePopularity[];

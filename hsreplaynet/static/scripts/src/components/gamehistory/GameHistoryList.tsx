@@ -7,8 +7,8 @@ import {
 	ImageProps,
 } from "../../interfaces";
 import GameHistoryItem from "./GameHistoryItem";
-import AdContainer from "../AdContainer";
-import AdUnit from "../AdUnit";
+import AdContainer from "../ads/AdContainer";
+import AdUnit from "../ads/AdUnit";
 import * as _ from "lodash";
 
 interface Props extends ImageProps, CardArtProps {

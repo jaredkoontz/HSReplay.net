@@ -15,8 +15,8 @@ import DeckTile from "./DeckTile";
 import InfoIcon from "./InfoIcon";
 import Pager from "./Pager";
 import SortIndicator from "./SortIndicator";
-import AdUnit from "./AdUnit";
-import AdContainer from "./AdContainer";
+import AdUnit from "./ads/AdUnit";
+import AdContainer from "./ads/AdContainer";
 
 interface AdInfo {
 	index: number;

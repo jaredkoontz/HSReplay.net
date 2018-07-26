@@ -1,6 +1,6 @@
 import React from "react";
 import AdUnit from "./AdUnit";
-import UserData from "../UserData";
+import UserData from "../../UserData";
 
 export default class AdContainer extends React.Component {
 	private ref: HTMLDivElement;

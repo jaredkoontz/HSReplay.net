@@ -13,8 +13,8 @@ import ClassAnalysis, {
 	ClusterMetaData,
 } from "../components/discover/ClassAnalysis";
 import { cardSorting, isCollectibleCard, isWildSet } from "../helpers";
-import AdContainer from "../components/AdContainer";
-import AdUnit from "../components/AdUnit";
+import AdContainer from "../components/ads/AdContainer";
+import AdUnit from "../components/ads/AdUnit";
 
 interface Props extends InjectedTranslateProps {
 	cardData: CardData | null;

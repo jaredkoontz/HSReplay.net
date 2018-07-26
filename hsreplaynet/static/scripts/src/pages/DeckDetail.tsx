@@ -47,8 +47,8 @@ import { DeckEvents } from "../metrics/GoogleAnalytics";
 import UserData, { Account } from "../UserData";
 import { Collection } from "../utils/api";
 import { getDustCostForCollection } from "../utils/collection";
-import AdContainer from "../components/AdContainer";
-import AdUnit from "../components/AdUnit";
+import AdContainer from "../components/ads/AdContainer";
+import AdUnit from "../components/ads/AdUnit";
 
 interface InventoryGameType {
 	[gameType: string]: InventoryRegion[];

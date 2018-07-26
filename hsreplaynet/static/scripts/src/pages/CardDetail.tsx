@@ -43,8 +43,8 @@ import { I18N_NAMESPACE_HEARTHSTONE } from "../i18n";
 import { RenderData, TableData } from "../interfaces";
 import { Collection } from "../utils/api";
 import LoadingSpinner from "../components/LoadingSpinner";
-import AdContainer from "../components/AdContainer";
-import AdUnit from "../components/AdUnit";
+import AdContainer from "../components/ads/AdContainer";
+import AdUnit from "../components/ads/AdUnit";
 
 interface Props extends InjectedTranslateProps {
 	card: any;

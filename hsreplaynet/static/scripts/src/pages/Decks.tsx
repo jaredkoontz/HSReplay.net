@@ -42,8 +42,8 @@ import {
 import PrettyTimeRange from "../components/text/PrettyTimeRange";
 import PrettyRankRange from "../components/text/PrettyRankRange";
 import LoadingSpinner from "../components/LoadingSpinner";
-import AdContainer from "../components/AdContainer";
-import AdUnit from "../components/AdUnit";
+import AdContainer from "../components/ads/AdContainer";
+import AdUnit from "../components/ads/AdUnit";
 
 interface Props extends InjectedTranslateProps, FragmentChildProps {
 	cardData: CardData | null;

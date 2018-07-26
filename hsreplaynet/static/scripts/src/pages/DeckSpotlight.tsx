@@ -9,8 +9,8 @@ import HideLoading from "../components/loading/HideLoading";
 import TableLoading from "../components/loading/TableLoading";
 import TrendingDecksList from "../components/trending/TrendingDecksList";
 import PropRemapper from "../components/utils/PropRemapper";
-import AdContainer from "../components/AdContainer";
-import AdUnit from "../components/AdUnit";
+import AdContainer from "../components/ads/AdContainer";
+import AdUnit from "../components/ads/AdUnit";
 
 interface Props extends InjectedTranslateProps {
 	cardData: CardData;

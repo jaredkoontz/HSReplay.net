@@ -14,8 +14,8 @@ import { Visibility } from "../interfaces";
 import BatchingMiddleware from "../metrics/BatchingMiddleware";
 import InfluxMetricsBackend from "../metrics/InfluxMetricsBackend";
 import MetricsReporter from "../metrics/MetricsReporter";
-import AdUnit from "../components/AdUnit";
-import AdContainer from "../components/AdContainer";
+import AdUnit from "../components/ads/AdUnit";
+import AdContainer from "../components/ads/AdContainer";
 
 const context = JSON.parse(
 	document.getElementById("react_context").textContent,

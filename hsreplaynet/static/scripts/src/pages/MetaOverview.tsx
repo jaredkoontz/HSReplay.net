@@ -22,8 +22,8 @@ import PrettyTimeRange from "../components/text/PrettyTimeRange";
 import { TimeRange } from "../filters";
 import { SortDirection } from "../interfaces";
 import { formatNumber } from "../i18n";
-import AdUnit from "../components/AdUnit";
-import AdContainer from "../components/AdContainer";
+import AdUnit from "../components/ads/AdUnit";
+import AdContainer from "../components/ads/AdContainer";
 
 interface Props extends InjectedTranslateProps {
 	cardData: CardData;
