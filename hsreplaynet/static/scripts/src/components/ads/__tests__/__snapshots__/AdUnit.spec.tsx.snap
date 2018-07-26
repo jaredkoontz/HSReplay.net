@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AdUnit does render correctly in debug mode 1`] = `
+<div
+  className="ad-unit ad-unit--desktop"
+  id="ad-42"
+  style={
+    Object {
+      "height": "250px",
+      "width": "300px",
+    }
+  }
+>
+  <p
+    style={
+      Object {
+        "fontWeight": "bold",
+        "lineHeight": "250px",
+        "textAlign": "center",
+      }
+    }
+  >
+    ad-42
+  </p>
+</div>
+`;
+
+exports[`AdUnit does render when ad feature is enabled 1`] = `
+<div
+  className="ad-unit ad-unit--desktop"
+  id="ad-42"
+  style={
+    Object {
+      "height": "250px",
+      "width": "300px",
+    }
+  }
+/>
+`;
