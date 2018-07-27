@@ -85,7 +85,8 @@ class ArchetypeListSerializer(ArchetypeSerializer):
 		from django.core.serializers.json import DjangoJSONEncoder
 
 		cache = caches["redshift"]
-		key = "ArchetypeListSerializer::" + str(instance.pk)
+		lang = self.context["request"].LANGUAGE_CODE
+		key = f"ArchetypeListSerializer::{instance.pk}::{lang}"
 		cached = cache.get(key)
 		if cached:
 			return cached
