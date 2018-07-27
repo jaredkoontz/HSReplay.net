@@ -11,7 +11,7 @@
 		"format:prettier": "prettier --write \"hsreplaynet/static/{scripts,styles}/**/*.{ts,tsx,js,scss}\"",
 		"format:tslint": "tslint \"hsreplaynet/static/scripts/src/**/*\" --project tsconfig.json --fix",
 		"i18n:build": "tsc --outDir \"build/generated/locale-extract\" --target es6 --sourceMap false --jsx preserve",
-		"i18n:extract": "i18next-scanner --config i18next-scanner.config.js --output locale/ \"build/generated/locale-extract/**/*.js{,x}\""
+		"i18n:extract": "i18next-scanner --config locale/i18next-scanner.config.js --output locale/hsreplaynet/frontend/ \"build/generated/locale-extract/**/*.js{,x}\""
 	},
 	"dependencies": {
 		"@types/bootstrap": "^3.3",
