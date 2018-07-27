@@ -193,6 +193,7 @@ LANGUAGE_MAP = {
 LANGUAGE_MAP["en-us"] = LANGUAGE_MAP["en"]
 LOCALE_PATHS = [
 	os.path.join(BASE_DIR, "locale"),
+	os.path.join(BASE_DIR, "locale", "archetypes"),
 ]
 
 LANGUAGE_COOKIE_AGE = 86400 * 365  # 1 year
