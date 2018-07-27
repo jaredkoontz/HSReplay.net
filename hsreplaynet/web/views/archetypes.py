@@ -45,11 +45,13 @@ class ArchetypeDetailView(RequestMetaMixin, View):
 		if archetype.deleted:
 			raise Http404(_("This archetype is no longer available."))
 
-		request.head.title = archetype.name
+		request.head.title = _(archetype.name)
 		request.head.set_canonical_url(archetype.get_absolute_url())
 
 		context = {
-			"archetype": archetype,
+			"archetype_id": archetype.id,
+			"archetype_name": _(archetype.name),
+			"player_class_name": archetype.player_class.name,
 			"has_standard_data": archetype.standard_signature is not None,
 			"has_wild_data": archetype.wild_signature is not None,
 		}
