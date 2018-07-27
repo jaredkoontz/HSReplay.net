@@ -2,37 +2,37 @@ import _ from "lodash";
 import React from "react";
 import { InjectedTranslateProps, translate } from "react-i18next";
 import CardData from "../CardData";
-import DataManager from "../DataManager";
-import UserData, { Account } from "../UserData";
-import CardList from "../components/CardList";
-import ClassFilter, { FilterOption } from "../components/ClassFilter";
-import CopyDeckButton from "../components/CopyDeckButton";
-import DataInjector from "../components/DataInjector";
-import Feature from "../components/Feature";
-import InfoIcon from "../components/InfoIcon";
-import InfoboxFilter from "../components/InfoboxFilter";
-import InfoboxFilterGroup from "../components/InfoboxFilterGroup";
-import ManaCurve from "../components/ManaCurve";
-import StreamList from "../components/StreamList";
-import Tooltip from "../components/Tooltip";
+import ArchetypeImage from "../components/archetypedetail/ArchetypeImage";
 import ArchetypeMatchups from "../components/archetypedetail/ArchetypeMatchups";
+import CardList from "../components/CardList";
 import CardDetailPieChart from "../components/charts/CardDetailPieChart";
 import PopularityLineChart from "../components/charts/PopularityLineChart";
 import WinrateLineChart from "../components/charts/WinrateLineChart";
+import ClassFilter, { FilterOption } from "../components/ClassFilter";
 import CollectionBanner from "../components/collection/CollectionBanner";
+import CopyDeckButton from "../components/CopyDeckButton";
+import DataInjector from "../components/DataInjector";
 import DeckCountersList from "../components/deckdetail/DeckCountersList";
 import DeckOverviewTable from "../components/deckdetail/DeckOverviewTable";
 import DeckStats from "../components/deckdetail/DeckStats";
 import SimilarDecksList from "../components/deckdetail/SimilarDecksList";
+import Feature from "../components/Feature";
+import InfoboxFilter from "../components/InfoboxFilter";
+import InfoboxFilterGroup from "../components/InfoboxFilterGroup";
+import InfoIcon from "../components/InfoIcon";
 import Tab from "../components/layout/Tab";
 import TabList from "../components/layout/TabList";
 import ChartLoading from "../components/loading/ChartLoading";
 import HideLoading from "../components/loading/HideLoading";
 import TableLoading from "../components/loading/TableLoading";
+import ManaCurve from "../components/ManaCurve";
 import PremiumPromo from "../components/premium/PremiumPromo";
 import PremiumWrapper from "../components/premium/PremiumWrapper";
+import StreamList from "../components/StreamList";
 import CardTable from "../components/tables/CardTable";
 import PrettyCardClass from "../components/text/PrettyCardClass";
+import Tooltip from "../components/Tooltip";
+import DataManager from "../DataManager";
 import { RankRange } from "../filters";
 import {
 	compareDecks,
@@ -44,9 +44,9 @@ import {
 } from "../helpers";
 import { CardObj, RenderData, SortDirection } from "../interfaces";
 import { DeckEvents } from "../metrics/GoogleAnalytics";
+import UserData, { Account } from "../UserData";
 import { Collection } from "../utils/api";
 import { getDustCostForCollection } from "../utils/collection";
-import ArchetypeImage from "../components/archetypedetail/ArchetypeImage";
 
 interface InventoryGameType {
 	[gameType: string]: InventoryRegion[];
@@ -756,7 +756,7 @@ class DeckDetail extends React.Component<Props, State> {
 									<span className="text-premium">
 										{t("Deck Counters")}
 										<InfoIcon
-											header={t("Deck counters")}
+											header={t("Deck Counters")}
 											content={t(
 												"A list of archetypes and decks that this deck has trouble against.",
 											)}
