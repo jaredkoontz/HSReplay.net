@@ -4,8 +4,10 @@ import { Provider as HearthstoneAccountProvider } from "./utils/hearthstone-acco
 import { I18nextProvider } from "react-i18next";
 import i18n from "../i18n";
 import UserData from "../UserData";
+import AdHelper from "../AdHelper";
 
 UserData.create();
+AdHelper.create();
 
 export default class Root extends React.Component {
 	public render(): React.ReactNode {
