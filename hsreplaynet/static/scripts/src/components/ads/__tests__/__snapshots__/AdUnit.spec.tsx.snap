@@ -11,17 +11,27 @@ exports[`AdUnit does render correctly in debug mode 1`] = `
     }
   }
 >
-  <p
+  <div
+    className="ad-unit-debug"
+    onClick={[Function]}
     style={
       Object {
-        "fontWeight": "bold",
-        "lineHeight": "250px",
-        "textAlign": "center",
+        "background": "green",
       }
     }
   >
-    ad-42
-  </p>
+    <input
+      checked={true}
+      className="debug-checkbox"
+      type="checkbox"
+    />
+    <p>
+      ad-42
+    </p>
+    <p>
+      300x250
+    </p>
+  </div>
 </div>
 `;
 
