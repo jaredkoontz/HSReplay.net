@@ -1,5 +1,27 @@
 .ad-unit {
-	background-color: magenta;
+	position: relative;
+
+	.ad-unit-debug {
+		color: white;
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+		cursor: pointer;
+
+		p {
+			font-weight: bold;
+			margin: 0;
+		}
+	}
+
+	.debug-checkbox {
+		position: absolute;
+		top: 5px;
+		left: 5px;
+		margin: 0;
+	}
 }
 
 .ad-unit--desktop {
