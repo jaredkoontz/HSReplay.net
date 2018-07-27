@@ -4,6 +4,7 @@ from statistics import mean
 
 from django.db import connection
 from django.utils.timezone import now
+from django.utils.translation import gettext as _
 from django_hearthstone.cards.models import Card
 from hearthstone.enums import PlayState
 from rest_framework import serializers
@@ -29,6 +30,7 @@ from .models import Archetype, ArchetypeName, Deck
 
 
 class ArchetypeSerializer(serializers.ModelSerializer):
+	name = serializers.SerializerMethodField()
 	player_class_name = serializers.SerializerMethodField()
 	url = serializers.ReadOnlyField(source="get_absolute_url")
 
@@ -39,11 +41,15 @@ class ArchetypeSerializer(serializers.ModelSerializer):
 			"standard_signature", "wild_signature", "sankey_visualization"
 		)
 
+	def get_name(self, instance):
+		return _(instance.name)
+
 	def get_player_class_name(self, instance):
 		return instance.player_class.name
 
 
 class ArchetypeListSerializer(ArchetypeSerializer):
+	name = serializers.SerializerMethodField()
 	player_class_name = serializers.SerializerMethodField()
 	standard_ccp_signature_core = serializers.SerializerMethodField()
 	wild_ccp_signature_core = serializers.SerializerMethodField()
@@ -55,6 +61,9 @@ class ArchetypeListSerializer(ArchetypeSerializer):
 			"id", "name", "player_class", "player_class_name", "url",
 			"standard_ccp_signature_core", "wild_ccp_signature_core"
 		)
+
+	def get_name(self, instance):
+		return _(instance.name)
 
 	def get_player_class_name(self, instance):
 		return instance.player_class.name
