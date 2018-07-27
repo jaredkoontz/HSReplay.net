@@ -107,8 +107,7 @@ i18n
 				return;
 			}
 			if (
-				namespace === I18N_NAMESPACE_FRONTEND &&
-				UserData.hasFeature("frontend-translations")
+				namespace === I18N_NAMESPACE_FRONTEND
 			) {
 				try {
 					const modules = await Promise.all([
