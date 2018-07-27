@@ -1,6 +1,6 @@
 import React from "react";
 import AdUnit, { AdUnitSize } from "./AdUnit";
-import { showAds } from "../../AdHelper";
+import AdHelper, { showAds } from "../../AdHelper";
 
 interface Props {
 	id: string;
@@ -10,7 +10,7 @@ interface Props {
 
 export default class GutterAdUnit extends React.Component<Props> {
 	public render(): React.ReactNode {
-		if (!showAds()) {
+		if (!showAds() || !AdHelper.isAdEnabled(this.props.id)) {
 			return null;
 		}
 		const [width] = AdUnit.parsePlaceholderSize(this.props.size);

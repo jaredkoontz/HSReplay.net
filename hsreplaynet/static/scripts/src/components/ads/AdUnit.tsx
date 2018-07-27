@@ -1,6 +1,6 @@
 import React from "react";
 import { NitropayCreateAdOptions } from "../../interfaces";
-import { debugAds, showAds } from "../../AdHelper";
+import AdHelper, { debugAds, showAds } from "../../AdHelper";
 
 export type AdUnitSize =
 	| "300x250"
@@ -20,7 +20,7 @@ interface Props {
 
 export default class AdUnit extends React.Component<Props> {
 	public render(): React.ReactNode {
-		if (!showAds()) {
+		if (!showAds() || !AdHelper.isAdEnabled(this.props.id)) {
 			return null;
 		}
 
@@ -50,6 +50,9 @@ export default class AdUnit extends React.Component<Props> {
 						}}
 					>
 						{this.props.id}
+						{AdHelper.isAdEnabled(this.props.id, true)
+							? " - ACTIVE"
+							: null}
 					</p>
 				) : null}
 			</div>

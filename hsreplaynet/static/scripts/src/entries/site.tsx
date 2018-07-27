@@ -10,8 +10,10 @@ import AccountNavigation from "../components/account/AccountNavigation";
 import PremiumModal from "../components/premium/PremiumModal";
 import i18n from "../i18n";
 import { I18nextProvider } from "react-i18next";
+import AdHelper from "../AdHelper";
 
 UserData.create();
+AdHelper.create();
 
 function renderNavbar() {
 	const userNav = document.getElementById("user-nav");

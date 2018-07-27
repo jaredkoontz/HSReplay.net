@@ -15,6 +15,11 @@
 		<script type="text/javascript">_userdata = JSON.parse(document.getElementById("userdata").textContent);</script>
 	{% endblock %}
 
+	{% if ads %}
+		<script type="application/json" id="ads">{{ ads|json }}</script>
+		<script type="text/javascript">_ads = JSON.parse(document.getElementById("ads").textContent);</script>
+	{% endif %}
+
 	{% block javascript %}{% endblock %}
 	{% block footerjs %}
 		<script type="text/javascript">{% spaceless %}{% include "footerjs.js" %}{% endspaceless %}</script>

@@ -1,6 +1,6 @@
 import React from "react";
 import AdUnit from "./AdUnit";
-import { showAds } from "../../AdHelper";
+import AdHelper, { showAds } from "../../AdHelper";
 
 export default class AdContainer extends React.Component {
 	private ref: HTMLDivElement;
@@ -22,6 +22,7 @@ export default class AdContainer extends React.Component {
 		const { children } = this.props;
 
 		let maxHeight = null;
+		const ids = [];
 		const widths = React.Children.toArray(children).map((child: any) => {
 			if (child.type !== AdUnit) {
 				console.error("AdContainer expected AdUnit as child");
@@ -32,8 +33,13 @@ export default class AdContainer extends React.Component {
 			if (height > maxHeight) {
 				maxHeight = height;
 			}
+			ids.push(child.props.id);
 			return width;
 		});
+
+		if (!ids.some(id => AdHelper.isAdEnabled(id))) {
+			return null;
+		}
 
 		const ads = [];
 		const available = this.getAvailablePixels();

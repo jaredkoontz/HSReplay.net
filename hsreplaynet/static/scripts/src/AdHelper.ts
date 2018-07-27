@@ -21,3 +21,20 @@ export function showAds(): boolean {
 
 	return true;
 }
+
+export default class AdHelper {
+	private static _enabledAds: string[] | null = null;
+
+	static create() {
+		if (this._enabledAds === null) {
+			this._enabledAds = Object.assign([], window["_ads"]);
+		}
+	}
+
+	static isAdEnabled(adId: string, ignoreDebug?: boolean): boolean {
+		if (!ignoreDebug && debugAds()) {
+			return true;
+		}
+		return this._enabledAds && this._enabledAds.indexOf(adId) !== -1;
+	}
+}
