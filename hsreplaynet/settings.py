@@ -192,7 +192,7 @@ LANGUAGE_MAP = {
 }
 LANGUAGE_MAP["en-us"] = LANGUAGE_MAP["en"]
 LOCALE_PATHS = [
-	os.path.join(BASE_DIR, "locale"),
+	os.path.join(BASE_DIR, "locale", "hsreplaynet", "django"),
 	os.path.join(BASE_DIR, "locale", "archetypes"),
 ]
 

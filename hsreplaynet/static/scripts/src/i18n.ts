@@ -8,12 +8,11 @@ import fnsEn from "date-fns/locale/en";
 import i18n, { InitOptions } from "i18next";
 import CustomCallbackBackend from "i18next-callback-backend";
 import ICU from "i18next-icu";
-import numbro from "numbro";
-import UserData from "./UserData";
-
 // provide the polyfill synchronously for now
 import "intl";
 import "intl/locale-data/jsonp/en";
+import numbro from "numbro";
+import UserData from "./UserData";
 
 export const I18N_NAMESPACE_FRONTEND = "frontend";
 export const I18N_NAMESPACE_HEARTHSTONE = "hearthstone";
@@ -113,7 +112,7 @@ i18n
 			) {
 				try {
 					const modules = await Promise.all([
-						import(/* webpackChunkName: "i18n/[index]" */ `i18n/${language}/frontend.json`),
+						import(/* webpackChunkName: "i18n/[index]" */ `i18n/hsreplaynet/frontend/${language}/frontend.json`),
 						import(/* webpackChunkName: "i18n/[index]" */ `./locale-data/${language}.ts`),
 					]);
 
@@ -135,9 +134,9 @@ i18n
 					/* By specifying the same webpackChunkName, all the files for one language are
 					merged into a single module. This results in one network request per language */
 					const modules = await Promise.all([
-						import(/* webpackChunkName: "i18n/[index]" */ `i18n/${language}/hearthstone/global.json`),
-						import(/* webpackChunkName: "i18n/[index]" */ `i18n/${language}/hearthstone/gameplay.json`),
-						import(/* webpackChunkName: "i18n/[index]" */ `i18n/${language}/hearthstone/presence.json`),
+						import(/* webpackChunkName: "i18n/[index]" */ `i18n/hearthstone/${language}/global.json`),
+						import(/* webpackChunkName: "i18n/[index]" */ `i18n/hearthstone/${language}/gameplay.json`),
+						import(/* webpackChunkName: "i18n/[index]" */ `i18n/hearthstone/${language}/presence.json`),
 					]);
 					for (const [i, module] of modules.entries()) {
 						if (!module) {
