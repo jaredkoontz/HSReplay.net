@@ -8,7 +8,7 @@ from djstripe.enums import SubscriptionStatus
 from djstripe.models import Plan
 from djstripe.settings import STRIPE_LIVE_MODE, STRIPE_PUBLIC_KEY
 
-from hsreplaynet.ads.models import AdUnit
+from hsreplaynet.admin.models import AdUnit
 from hsreplaynet.features.models import Feature
 from hsreplaynet.features.utils import feature_enabled_for_user
 

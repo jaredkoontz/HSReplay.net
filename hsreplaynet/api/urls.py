@@ -1,7 +1,6 @@
 from django.conf.urls import include, url
 from rest_framework.routers import DefaultRouter
 
-from hsreplaynet.ads.views import AdUnitUpdateView
 from hsreplaynet.analytics.urls import api_urlpatterns as analytics_urlpatterns
 from hsreplaynet.decks.api import (
 	ArchetypeViewSet, DeckDetailView, DeckFeedbackView, GetOrCreateDeckView, MyDecksAPIView
@@ -26,6 +25,7 @@ urlpatterns = [
 	url(r"^v1/account/claim_token/$", views.accounts.ClaimTokenAPIView.as_view()),
 	url(r"^v1/account/social/twitch/$", views.accounts.TwitchSocialAccountListView.as_view()),
 	url(r"^v1/account/unlink/$", views.accounts.UnlinkBlizzardAccountView.as_view()),
+	url(r"^v1/ads/(?P<name>[\w\d-]+)/$", views.ads.AdUnitView.as_view()),
 	url(
 		r"^v1/blizzard_accounts/(?P<hi>\d+)/(?P<lo>\d+)/$",
 		views.accounts.UpdateBlizzardAccountView.as_view()
@@ -47,7 +47,6 @@ urlpatterns = [
 	url(r"^v1/features/(?P<name>[\w-]+)/$", SetFeatureView.as_view()),
 	url(r"^v1/live/", include("hsreplaynet.api.live.urls")),
 	url(r"^api-auth/", include("rest_framework.urls", namespace="rest_framework")),
-	url(r"v1/ads/(?P<name>[\w\d-]+)/$", AdUnitUpdateView.as_view()),
 
 	# Partner stats API
 	url(r"^v1/partner-stats/archetypes/$", partner_views.ArchetypesView.as_view()),

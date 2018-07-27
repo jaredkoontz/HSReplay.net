@@ -80,7 +80,6 @@ INSTALLED_APPS_WEB = [
 	"webpack_loader",
 	"hearthsim.identity.oauth2",
 	"hsreplaynet.admin",
-	"hsreplaynet.ads",
 	"hsreplaynet.billing",
 	"hsreplaynet.packs",
 	"hsreplaynet.web",
