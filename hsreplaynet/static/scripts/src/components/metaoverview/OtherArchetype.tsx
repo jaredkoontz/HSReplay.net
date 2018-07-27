@@ -1,16 +1,16 @@
 import React from "react";
-import { Trans } from "react-i18next";
-import Tooltip from "../Tooltip";
+import { InjectedTranslateProps, Trans, translate } from "react-i18next";
 import PrettyCardClass from "../text/PrettyCardClass";
+import Tooltip from "../Tooltip";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	name: string;
 	playerClass: string;
 }
 
-export default class OtherArchetype extends React.Component<Props> {
+class OtherArchetype extends React.Component<Props> {
 	public render(): React.ReactNode {
-		const { name, playerClass } = this.props;
+		const { name, playerClass, t } = this.props;
 		return (
 			<Tooltip
 				header={name}
@@ -25,7 +25,7 @@ export default class OtherArchetype extends React.Component<Props> {
 
 						<br />
 						<br />
-						<Trans>No archetype details are available.</Trans>
+						{t("No archetype details are available.")}
 					</p>
 				}
 			>
@@ -34,3 +34,5 @@ export default class OtherArchetype extends React.Component<Props> {
 		);
 	}
 }
+
+export default translate()(OtherArchetype);
