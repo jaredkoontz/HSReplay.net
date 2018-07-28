@@ -49,6 +49,7 @@ import { Collection } from "../utils/api";
 import { getDustCostForCollection } from "../utils/collection";
 import AdContainer from "../components/ads/AdContainer";
 import AdUnit from "../components/ads/AdUnit";
+import AdHelper from "../AdHelper";
 
 interface InventoryGameType {
 	[gameType: string]: InventoryRegion[];
@@ -886,12 +887,18 @@ class DeckDetail extends React.Component<Props, State> {
 					sortDirection={this.state.sortDirection as SortDirection}
 					collection={this.props.collection}
 					adInterval={Math.floor(cards.length / 2)}
-					ads={[
-						<AdContainer>
-							<AdUnit id="dd-d-5" size="728x90" />
-							<AdUnit id="dd-d-6" size="728x90" />
-						</AdContainer>,
-					]}
+					ads={
+						["dd-d-5", "dd-d-6"].some(ad =>
+							AdHelper.isAdEnabled(ad),
+						)
+							? [
+									<AdContainer>
+										<AdUnit id="dd-d-5" size="728x90" />
+										<AdUnit id="dd-d-6" size="728x90" />
+									</AdContainer>,
+							  ]
+							: null
+					}
 				/>
 			</DataInjector>
 		);

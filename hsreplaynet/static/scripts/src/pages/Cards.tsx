@@ -44,6 +44,7 @@ import AllSet from "../components/onboarding/AllSet";
 import ConnectAccount from "../components/onboarding/ConnectAccount";
 import AdContainer from "../components/ads/AdContainer";
 import AdUnit from "../components/ads/AdUnit";
+import AdHelper from "../AdHelper";
 
 interface CardFilters {
 	cost: any;
@@ -724,18 +725,16 @@ class Cards extends React.Component<Props, State> {
 							}
 							adInterval={12}
 							ads={_.range(5, 100, 2).map(x => {
-								return (
-									<AdContainer key={`ads-${x}-${x + 1}`}>
-										<AdUnit
-											id={`cl-d-${x}`}
-											size="728x90"
-										/>
-										<AdUnit
-											id={`cl-d-${x + 1}`}
-											size="728x90"
-										/>
-									</AdContainer>
+								const ads = [`cl-d-${x}`, `cl-d-${x + 1}`];
+								const showAds = ads.some(ad =>
+									AdHelper.isAdEnabled(ad),
 								);
+								return showAds ? (
+									<AdContainer key={`ads-${x}-${x + 1}`}>
+										<AdUnit id={ads[0]} size="728x90" />
+										<AdUnit id={ads[1]} size="728x90" />
+									</AdContainer>
+								) : null;
 							})}
 						/>
 					</DataInjector>

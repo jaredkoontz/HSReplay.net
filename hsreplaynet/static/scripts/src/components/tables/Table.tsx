@@ -120,8 +120,8 @@ export default class Table extends React.Component<Props, State> {
 		const bottomOffset = bottomInfoRow ? INFO_ROW_HEIGHT : 0;
 
 		const numDataRows = this.props.rowData.length;
-		const numAds = this.state.rowData.filter(x => x.type === "ad").length;
-		const numRows = numDataRows + numAds;
+		const adRows = this.state.rowData.filter(x => x.type === "ad");
+		const numRows = numDataRows + adRows.length;
 
 		const adHeight = AD_HEIGHT;
 
@@ -130,7 +130,7 @@ export default class Table extends React.Component<Props, State> {
 			scrollbarSize() +
 			topOffset +
 			bottomOffset +
-			numAds * adHeight;
+			adRows.filter(x => x.data).length * adHeight;
 
 		return (
 			<div className="table-container" style={{ height: totalHeight }}>
@@ -297,7 +297,11 @@ export default class Table extends React.Component<Props, State> {
 		adHeight: number,
 	): number {
 		const rowData = this.state.rowData[row.index];
-		return rowData ? (rowData.type === "ad" ? adHeight : cellHeight) : 0;
+		return rowData && rowData.data
+			? rowData.type === "ad"
+				? adHeight
+				: cellHeight
+			: 0;
 	}
 
 	private renderAdRows(
@@ -306,28 +310,34 @@ export default class Table extends React.Component<Props, State> {
 		headerHeight: number,
 		adHeight: number,
 	) {
-		return this.state.rowData
-			.filter(x => x.type === "ad")
-			.map((ad, adIndex) => {
-				return (
-					<div
-						key={`ad-${adIndex}`}
-						className="grid-container grid-container-ad"
-						style={{
-							width,
-							top:
-								headerHeight +
-								(adIndex + 1) *
-									this.props.adInterval *
-									cellHeight +
-								adIndex * adHeight +
-								AD_PADDING,
-						}}
-					>
-						{ad.data}
-					</div>
-				);
-			});
+		const ads = this.state.rowData.filter(x => x.type === "ad");
+		return ads.map((ad, adIndex) => {
+			if (!ad.data) {
+				return null;
+			}
+			const offset = _.range(0, adIndex)
+				.map(index => {
+					return ads[index].data ? adHeight : 0;
+				})
+				.reduce((a, b) => a + b, 0);
+			return (
+				<div
+					key={`ad-${adIndex}`}
+					className="grid-container grid-container-ad"
+					style={{
+						width,
+						top:
+							headerHeight +
+							(adIndex + 1) * this.props.adInterval * cellHeight +
+							offset +
+							AD_PADDING,
+						zIndex: 1,
+					}}
+				>
+					{ad.data}
+				</div>
+			);
+		});
 	}
 
 	renderRowHighlighter(
@@ -473,7 +483,11 @@ export default class Table extends React.Component<Props, State> {
 			background,
 		});
 
-		if (rowIndex > 0 && rowData[rowIndex - 1].type === "ad") {
+		if (
+			rowIndex > 0 &&
+			rowData[rowIndex - 1].type === "ad" &&
+			rowData[rowIndex - 1].data
+		) {
 			style["borderTop"] = "1px solid lightgray";
 		}
 
