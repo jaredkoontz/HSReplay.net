@@ -123,19 +123,10 @@
 	padding: 1em 0.5em 0;
 }
 
-#replay-container {
-	main {
-		height: calc(100vh - 50px); // subtract navbar
-		display: flex;
-		flex-direction: column;
-	}
-}
-
 #main-content-wrapper {
 	height: calc(100vh - 50px); // subtract navbar
 	display: flex;
 	padding: 10px;
-	flex: 1 1 0;
 }
 
 @media (max-width: 767px) {

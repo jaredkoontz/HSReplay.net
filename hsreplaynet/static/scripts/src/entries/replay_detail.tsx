@@ -15,7 +15,6 @@ import BatchingMiddleware from "../metrics/BatchingMiddleware";
 import InfluxMetricsBackend from "../metrics/InfluxMetricsBackend";
 import MetricsReporter from "../metrics/MetricsReporter";
 import AdUnit from "../components/ads/AdUnit";
-import AdContainer from "../components/ads/AdContainer";
 
 const context = JSON.parse(
 	document.getElementById("react_context").textContent,
@@ -239,15 +238,6 @@ ReactDOM.render(
 		</>
 	</I18nextProvider>,
 	targetTmp1,
-);
-
-const adContainer = document.getElementById("ad-container");
-ReactDOM.render(
-	<AdContainer>
-		<AdUnit id="rp-d-2" size="728x90" />
-		<AdUnit id="rp-d-3" size="728x90" />
-	</AdContainer>,
-	adContainer,
 );
 
 // Player info
