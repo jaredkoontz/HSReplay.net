@@ -12,6 +12,7 @@ interface Props extends InjectedTranslateProps {
 	setCurrentPage?: (page: number) => void;
 	pageCount?: number;
 	minimal?: boolean;
+	scrollTo?: HTMLElement;
 }
 
 class Pager extends React.Component<Props> {
@@ -60,6 +61,13 @@ class Pager extends React.Component<Props> {
 			}
 
 			this.props.setCurrentPage(pageNumber);
+
+			if (
+				this.props.scrollTo &&
+				typeof this.props.scrollTo.scrollIntoView === "function"
+			) {
+				this.props.scrollTo.scrollIntoView(true);
+			}
 		};
 
 		const previous = safeCurrentPage - 1;
