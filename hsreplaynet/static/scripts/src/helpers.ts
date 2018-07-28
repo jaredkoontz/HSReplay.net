@@ -91,7 +91,6 @@ export function getChartScheme(
 		case "rarity":
 			scheme = getRarityScheme(t);
 			break;
-
 		case "cardtype":
 			scheme = getCardtypeScheme(t);
 			break;
