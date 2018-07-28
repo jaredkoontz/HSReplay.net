@@ -61,184 +61,198 @@ embedder.prepare(container, i18n.getFixedT(UserData.getLocale()));
 
 // privacy dropodown
 const targetTmp1 = document.getElementById("replay-infobox-container");
-ReactDOM.render(
-	<I18nextProvider i18n={i18n} initialLanguage={locale}>
-		<>
-			<h1>{context["format_name"] || "Replay"}</h1>
 
-			{embedder.launcher ? (
-				<button
-					className="btn btn-primary btn-full visible-xs"
-					type="button"
-					onClick={() => {
-						if (embedder.launcher.fullscreenSupported) {
-							container.classList.remove("hidden-xs");
-							embedder.launcher.fullscreen(true);
-						} else {
-							container.scrollIntoView();
-						}
-					}}
-				>
-					Enter replay
-				</button>
-			) : (
-				<button
-					className="btn btn-danger btn-full visible-xs"
-					type="button"
-					onClick={() => {
-						alert(
-							"Something went wrong when trying to initialize the Replayer. Please try disabling browser extensions, or opening the replay in a different browser or device.",
-						);
-					}}
-				>
-					Something went wrong…
-				</button>
-			)}
+// we need to rerender the sidebar whenever the turn from the embedder changes
+const renderSidebar = () => {
+	ReactDOM.render(
+		<I18nextProvider i18n={i18n} initialLanguage={locale}>
+			<>
+				<h1>{context["format_name"] || "Replay"}</h1>
 
-			<h2 className="hidden-lg">Decks</h2>
-			<section
-				id="infobox-players-container-small"
-				className="hidden-lg"
-			/>
-			<h2>Game</h2>
-			<ul id="infobox-game">
-				<li>
-					Played{" "}
-					<span className="infobox-value">
-						<SemanticAge date={context["match_start"]} />
-					</span>
-				</li>
-				{context["build"] ? (
-					<li>
-						Build
-						<span className="infobox-value">
-							{context["build"]}
-						</span>
-					</li>
-				) : null}
-				{context["ladder_season"] ? (
-					<li>
-						Ranked Season
-						<span className="infobox-value">
-							{context["ladder_season"]}
-						</span>
-					</li>
-				) : null}
-				<li>
-					Turns{" "}
-					<span className="infobox-value">
-						{context["own_turns"]}
-					</span>
-				</li>
-				{context["spectator_mode"] ? (
-					<li>
-						Spectator mode
-						<span className="infobox-value">
-							POV: {context["player_name"]}
-						</span>
-					</li>
-				) : null}
-			</ul>
-			<h2>
-				Share{" "}
-				<strong className="pull-right">{context["views"]} views</strong>
-			</h2>
-			<div id="share-game-dialog">
-				<ShareGameDialog
-					url={
-						(document.querySelector(
-							"link[rel='canonical']",
-						) as HTMLLinkElement).href
-					}
-					showLinkToTurn
-					showPreservePerspective={false}
-					turn={embedder.turn}
-					reveal={embedder.reveal}
-					swap={embedder.swap}
-					onShare={(network: string, linkToTurn: boolean) => {
-						if (!metrics) {
-							return;
-						}
-						if (shared[network]) {
-							// deduplicate
-							return;
-						}
-						metrics.writePoint(
-							"shares",
-							{ count: 1, link_to_turn: linkToTurn },
-							{ network },
-						);
-						shared[network] = true;
-					}}
+				{embedder.launcher ? (
+					<button
+						className="btn btn-primary btn-full visible-xs"
+						type="button"
+						onClick={() => {
+							if (embedder.launcher.fullscreenSupported) {
+								container.classList.remove("hidden-xs");
+								embedder.launcher.fullscreen(true);
+							} else {
+								container.scrollIntoView();
+							}
+						}}
+					>
+						Enter replay
+					</button>
+				) : (
+					<button
+						className="btn btn-danger btn-full visible-xs"
+						type="button"
+						onClick={() => {
+							alert(
+								"Something went wrong when trying to initialize the Replayer. Please try disabling browser extensions, or opening the replay in a different browser or device.",
+							);
+						}}
+					>
+						Something went wrong…
+					</button>
+				)}
+
+				<h2 className="hidden-lg">Decks</h2>
+				<section
+					id="infobox-players-container-small"
+					className="hidden-lg"
 				/>
-			</div>
-
-			<h2>Controls</h2>
-			<ul className="infobox-settings hidden-sm">
-				{context["can_update"] ? (
-					<>
-						<li className="clearfix">
-							Visibility{" "}
-							<span
-								className="infobox-value"
-								id="replay-visibility"
-							>
-								<VisibilityDropdown
-									initial={
-										context["visibility"] as Visibility
-									}
-									shortid={context["shortid"]}
-								/>
-							</span>
-						</li>
-						<li className="clearfix">
-							Delete{" "}
-							<span className="infobox-value" id="replay-delete">
-								<DeleteReplayButton
-									shortid={context["shortid"]}
-									done={() =>
-										(window.location.href = "/games/mine/")
-									}
-								/>
-							</span>
-						</li>
-					</>
-				) : null}
-				{context["admin_url"] ? (
+				<h2>Game</h2>
+				<ul id="infobox-game">
 					<li>
-						View in Admin{" "}
+						Played{" "}
 						<span className="infobox-value">
-							<a href={context["admin_url"]}>Link</a>
+							<SemanticAge date={context["match_start"]} />
 						</span>
 					</li>
-				) : null}
-				{UserData.isStaff() ? (
+					{context["build"] ? (
+						<li>
+							Build
+							<span className="infobox-value">
+								{context["build"]}
+							</span>
+						</li>
+					) : null}
+					{context["ladder_season"] ? (
+						<li>
+							Ranked Season
+							<span className="infobox-value">
+								{context["ladder_season"]}
+							</span>
+						</li>
+					) : null}
+					<li>
+						Turns{" "}
+						<span className="infobox-value">
+							{context["own_turns"]}
+						</span>
+					</li>
+					{context["spectator_mode"] ? (
+						<li>
+							Spectator mode
+							<span className="infobox-value">
+								POV: {context["player_name"]}
+							</span>
+						</li>
+					) : null}
+				</ul>
+				<h2>
+					Share{" "}
+					<strong className="pull-right">
+						{context["views"]} views
+					</strong>
+				</h2>
+				<div id="share-game-dialog">
+					<ShareGameDialog
+						url={
+							(document.querySelector(
+								"link[rel='canonical']",
+							) as HTMLLinkElement).href
+						}
+						showLinkToTurn
+						showPreservePerspective={false}
+						turn={embedder.turn}
+						reveal={embedder.reveal}
+						swap={embedder.swap}
+						onShare={(network: string, linkToTurn: boolean) => {
+							if (!metrics) {
+								return;
+							}
+							if (shared[network]) {
+								// deduplicate
+								return;
+							}
+							metrics.writePoint(
+								"shares",
+								{ count: 1, link_to_turn: linkToTurn },
+								{ network },
+							);
+							shared[network] = true;
+						}}
+					/>
+				</div>
+
+				<h2>Controls</h2>
+				<ul className="infobox-settings hidden-sm">
+					{context["can_update"] ? (
+						<>
+							<li className="clearfix">
+								Visibility{" "}
+								<span
+									className="infobox-value"
+									id="replay-visibility"
+								>
+									<VisibilityDropdown
+										initial={
+											context["visibility"] as Visibility
+										}
+										shortid={context["shortid"]}
+									/>
+								</span>
+							</li>
+							<li className="clearfix">
+								Delete{" "}
+								<span
+									className="infobox-value"
+									id="replay-delete"
+								>
+									<DeleteReplayButton
+										shortid={context["shortid"]}
+										done={() =>
+											(window.location.href =
+												"/games/mine/")
+										}
+									/>
+								</span>
+							</li>
+						</>
+					) : null}
+					{context["admin_url"] ? (
+						<li>
+							View in Admin{" "}
+							<span className="infobox-value">
+								<a href={context["admin_url"]}>Link</a>
+							</span>
+						</li>
+					) : null}
+					{UserData.isStaff() ? (
+						<li>
+							<a
+								href={context["annotated_replay_url"]}
+								download={`${
+									context["shortid"]
+								}-annotated.hsreplay.xml`}
+							>
+								Download annotated replay
+							</a>
+						</li>
+					) : null}
+					{/* TODO: move replay download URL to joust*/}
 					<li>
 						<a
-							href={context["annotated_replay_url"]}
-							download={`${
-								context["shortid"]
-							}-annotated.hsreplay.xml`}
+							href={context["replay_url"]}
+							download={`${context["shortid"]}.hsreplay.xml"`}
 						>
-							Download annotated replay
+							Download Replay XML
 						</a>
 					</li>
-				) : null}
-				{/* TODO: move replay download URL to joust*/}
-				<li>
-					<a
-						href={context["replay_url"]}
-						download={`${context["shortid"]}.hsreplay.xml"`}
-					>
-						Download Replay XML
-					</a>
-				</li>
-			</ul>
-			<AdUnit id="rp-d-1" size="300x250" />
-		</>
-	</I18nextProvider>,
-	targetTmp1,
-);
+				</ul>
+				<AdUnit id="rp-d-1" size="300x250" />
+			</>
+		</I18nextProvider>,
+		targetTmp1,
+	);
+};
+renderSidebar();
+embedder.onTurn = () => renderSidebar();
+embedder.onToggleReveal = () => renderSidebar();
+embedder.onToggleSwap = () => renderSidebar();
 
 // Player info
 const renderPlayerInfo = (
