@@ -21,8 +21,6 @@ window.onload = () => {
 					discount={context["discount"]}
 					reflink={context["reflink"]}
 					randomQuote={context["random_quote"]}
-					featuredCard={context["featured_card"]}
-					featuredDeck={context["featured_deck"]}
 					premiumPrice={
 						paymentData["stripe"]["plans"][0]["description"]
 					}

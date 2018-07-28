@@ -1,6 +1,5 @@
 import random
 
-from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.utils.translation import gettext_lazy as _
 from django_reflinks.models import ReferralLink
@@ -47,8 +46,6 @@ class PremiumDetailView(SimpleReactView):
 	def get_react_context(self):
 		ret = {
 			"random_quote": random.choice(self.quotes),
-			"featured_card": getattr(settings, "FEATURED_CARD_ID", ""),
-			"featured_deck": getattr(settings, "FEATURED_DECK_ID", ""),
 		}
 
 		user = self.request.user
