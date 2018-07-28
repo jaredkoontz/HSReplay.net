@@ -75,8 +75,7 @@ interface State {
 
 const HEADER_WIDTH_RATIO = 0.33;
 const INFO_ROW_HEIGHT = 50;
-const AD_HEIGHT = 110;
-const AD_PADDING = 10;
+const AD_HEIGHT = 120;
 
 export default class Table extends React.Component<Props, State> {
 	constructor(props: Props, context?: any) {
@@ -329,8 +328,7 @@ export default class Table extends React.Component<Props, State> {
 						top:
 							headerHeight +
 							(adIndex + 1) * this.props.adInterval * cellHeight +
-							offset +
-							AD_PADDING,
+							offset,
 						zIndex: 1,
 					}}
 				>

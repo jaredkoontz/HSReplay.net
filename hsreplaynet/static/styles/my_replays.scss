@@ -21,10 +21,6 @@
 	@media (max-width: 992px) {
 		width: 100%;
 	}
-
-	> .ad-container {
-		margin-bottom: 10px;
-	}
 }
 
 .game-history-item {
@@ -290,7 +286,6 @@ a.hsreplay-thumbnail:hover {
 
 		.ad-container {
 			max-width: calc(100vw - 326px);
-			margin: 10px 0;
 
 			@media (max-width: 991px) {
 				max-width: calc(100vw - 26px);

@@ -167,8 +167,11 @@
 	}
 
 	.top-ads {
-		margin: 10px auto 4px auto;
 		padding: 0 9px;
+
+		.ad-container {
+			margin-bottom: 10px;
+		}
 	}
 
 	.center-ads {
