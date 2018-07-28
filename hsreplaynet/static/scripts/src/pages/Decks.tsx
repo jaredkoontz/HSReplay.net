@@ -95,6 +95,7 @@ class Decks extends React.Component<Props, State> {
 	private trackTimeout: number | null = null;
 	private hasTrackedView: boolean;
 	private readonly minGames: [number, number] = [1000, 400];
+	private mainRef: HTMLElement | null = null;
 
 	constructor(props: Props, context?: any) {
 		super(props, context);
@@ -541,6 +542,7 @@ class Decks extends React.Component<Props, State> {
 						helpMessage={helpMessage}
 						collection={this.props.collection}
 						ads={[{ index: 5, ids: ["dl-d-3", "dl-d-4"] }]}
+						pageTop={this.mainRef}
 					>
 						{!isCollectionDisabled() ? (
 							<CollectionBanner
@@ -1167,7 +1169,10 @@ class Decks extends React.Component<Props, State> {
 					{backButton}
 					<AdUnit id="dl-d-5" size="300x250" />
 				</aside>
-				<main className={contentClassNames.join(" ")}>
+				<main
+					className={contentClassNames.join(" ")}
+					ref={ref => (this.mainRef = ref)}
+				>
 					<AdContainer>
 						<AdUnit id="dl-d-1" size="728x90" />
 						<AdUnit id="dl-d-2" size="728x90" />

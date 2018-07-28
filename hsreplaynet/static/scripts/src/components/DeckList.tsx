@@ -40,6 +40,7 @@ interface Props extends FragmentChildProps, InjectedTranslateProps {
 	showGlobalDataNotice?: boolean;
 	collection?: Collection | null;
 	ads?: AdInfo[];
+	pageTop?: HTMLElement | null;
 }
 
 interface State {
@@ -201,6 +202,9 @@ class DeckList extends React.Component<Props, State> {
 						currentPage={this.props.page}
 						setCurrentPage={this.props.setPage}
 						pageCount={Math.ceil(deckCount / this.props.pageSize)}
+						scrollTo={
+							this.props.pageTop ? this.props.pageTop : undefined
+						}
 					/>
 				</div>
 			);
