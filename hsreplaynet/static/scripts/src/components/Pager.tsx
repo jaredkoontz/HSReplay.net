@@ -45,6 +45,10 @@ class Pager extends React.Component<Props> {
 			pageNumber: number,
 			keyboard?: boolean,
 		) => event => {
+			if (pageNumber === this.props.currentPage) {
+				return;
+			}
+
 			if (keyboard && event.which !== 13) {
 				return;
 			}
