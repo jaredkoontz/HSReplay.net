@@ -52,7 +52,7 @@ class LoginButton extends React.Component<Props, State> {
 
 	public render(): React.ReactNode {
 		const { next, label, t } = this.props;
-		const login = UserData.getLoginUrl("default");
+		const login = UserData.getLoginUrl("blizzard");
 		const blizzard = UserData.getLoginUrl("blizzard");
 		const china = UserData.getLoginUrl("blizzard_cn");
 		const password = UserData.getLoginUrl("password");
