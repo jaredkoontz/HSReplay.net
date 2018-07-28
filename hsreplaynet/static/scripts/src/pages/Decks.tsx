@@ -649,7 +649,10 @@ class Decks extends React.Component<Props, State> {
 
 		return (
 			<div className="decks">
-				<div className={filterClassNames.join(" ")} id="decks-infobox">
+				<aside
+					className={filterClassNames.join(" ")}
+					id="decks-infobox"
+				>
 					{backButton}
 					<ResetHeader
 						onReset={() => this.props.reset()}
@@ -1163,8 +1166,8 @@ class Decks extends React.Component<Props, State> {
 					</section>
 					{backButton}
 					<AdUnit id="dl-d-5" size="300x250" />
-				</div>
-				<div className={contentClassNames.join(" ")}>
+				</aside>
+				<main className={contentClassNames.join(" ")}>
 					<AdContainer>
 						<AdUnit id="dl-d-1" size="728x90" />
 						<AdUnit id="dl-d-2" size="728x90" />
@@ -1178,7 +1181,7 @@ class Decks extends React.Component<Props, State> {
 						{t("Filters")}
 					</button>
 					{content}
-				</div>
+				</main>
 			</div>
 		);
 	}
