@@ -130,6 +130,7 @@ export default class AdUnit extends React.Component<Props, State> {
 			floor: 0.05,
 			refreshLimit: 10,
 			refreshTime: 90,
+			sizes: [AdUnit.parsePlaceholderSize(this.props.size)],
 			report: {
 				enabled: true,
 				wording: "Report Ad",
