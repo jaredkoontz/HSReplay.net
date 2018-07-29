@@ -16,11 +16,13 @@ import BatchingMiddleware from "../metrics/BatchingMiddleware";
 import InfluxMetricsBackend from "../metrics/InfluxMetricsBackend";
 import MetricsReporter from "../metrics/MetricsReporter";
 import UserData from "../UserData";
+import AdHelper from "../AdHelper";
 
 const context = JSON.parse(
 	document.getElementById("react_context").textContent,
 );
 UserData.create();
+AdHelper.create();
 
 const locale = UserData.getLocale();
 
