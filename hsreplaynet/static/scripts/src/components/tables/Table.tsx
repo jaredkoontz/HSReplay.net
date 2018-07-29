@@ -11,6 +11,7 @@ import {
 	winrateData,
 } from "../../helpers";
 import Tooltip from "../Tooltip";
+import { showAds } from "../../AdHelper";
 
 export interface TableColumn {
 	dataKey: string;
@@ -93,8 +94,14 @@ export default class Table extends React.Component<Props, State> {
 
 	private getRowData(props: Props): InternalRowData[] {
 		const data: InternalRowData[] = [];
+		const adsEnabled = showAds();
 		props.rowData.forEach((row, index) => {
-			if (this.props.ads && index > 0 && index % props.adInterval === 0) {
+			if (
+				adsEnabled &&
+				this.props.ads &&
+				index > 0 &&
+				index % props.adInterval === 0
+			) {
 				const adIndex = Math.floor(index / props.adInterval) - 1;
 				if (adIndex < this.props.ads.length) {
 					data.push({ type: "ad", data: props.ads[adIndex] });
