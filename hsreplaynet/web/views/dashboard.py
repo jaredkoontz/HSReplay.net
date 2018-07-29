@@ -26,7 +26,7 @@ from . import SimpleReactView
 class EditAccountView(LoginRequiredMixin, UpdateView, SimpleReactView):
 	model = User
 	fields = [
-		"default_replay_visibility", "joust_autoplay", "exclude_from_statistics"
+		"default_replay_visibility", "exclude_from_statistics"
 	]
 	success_url = "/account/"
 	title = _("My Account")
@@ -67,7 +67,6 @@ class EditAccountView(LoginRequiredMixin, UpdateView, SimpleReactView):
 			),
 			"default_replay_visibility": self.request.user.default_replay_visibility,
 			"exclude_from_statistics": self.request.user.exclude_from_statistics,
-			"joust_autoplay": self.request.user.joust_autoplay,
 			"reflink": reflink_url,
 			"hits": ReferralHit.objects.filter(
 				referral_link=reflink

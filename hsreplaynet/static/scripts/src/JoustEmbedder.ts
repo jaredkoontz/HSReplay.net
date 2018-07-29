@@ -1,3 +1,4 @@
+import { cookie } from "cookie_js";
 import {
 	Launcher,
 	launcher as launchJoust,
@@ -5,12 +6,12 @@ import {
 } from "joust";
 import Raven from "raven-js";
 import React from "react";
-import UserData from "./UserData";
+import { TranslationFunction } from "react-i18next";
 import { cardArt, joustAsset, joustStaticFile } from "./helpers";
 import BatchingMiddleware from "./metrics/BatchingMiddleware";
 import InfluxMetricsBackend from "./metrics/InfluxMetricsBackend";
 import MetricsReporter from "./metrics/MetricsReporter";
-import { TranslationFunction } from "react-i18next";
+import UserData from "./UserData";
 
 export default class JoustEmbedder {
 	public turn: number = null;
@@ -174,13 +175,7 @@ export default class JoustEmbedder {
 		});
 
 		// autoplay
-		const autoplay = target.getAttribute("data-autoplay");
-		if (autoplay === "false") {
-			// Only disable autoplay if it's *specifically* set to "false"
-			launcher.startPaused(true);
-		} else {
-			launcher.startPaused(false);
-		}
+		launcher.startPaused(cookie.get("disable-autoplay", false));
 
 		// setup player names
 		if (typeof launcher.stripBattletags === "function") {

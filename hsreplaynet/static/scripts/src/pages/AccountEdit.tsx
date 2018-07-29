@@ -1,3 +1,4 @@
+import { cookie } from "cookie_js";
 import React from "react";
 import { InjectedTranslateProps, Trans, translate } from "react-i18next";
 import CSRFElement from "../components/CSRFElement";
@@ -10,7 +11,6 @@ interface Props extends InjectedTranslateProps {
 	collectionVisibility: string;
 	defaultReplayVisibility: Visibility;
 	excludeFromStatistics: boolean;
-	joustAutoplay: boolean;
 }
 
 interface State {
@@ -23,24 +23,38 @@ class AccountEdit extends React.Component<Props, State> {
 		super(props, context);
 		this.state = {
 			collectionSyncingEnabled: !isCollectionDisabled(),
-			joustAutoplayEnabled: this.props.joustAutoplay,
+			joustAutoplayEnabled: !cookie.get("disable-autoplay"),
 		};
 	}
 
 	componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>) {
-		const { collectionSyncingEnabled } = this.state;
+		const { collectionSyncingEnabled, joustAutoplayEnabled } = this.state;
+
 		if (prevState.collectionSyncingEnabled !== collectionSyncingEnabled) {
 			if (collectionSyncingEnabled) {
-				// delete cookie
-				document.cookie =
-					"disable-collection=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+				cookie.removeSpecific("disable-collection", { path: "/" });
 			} else {
-				// set "disabled" cookie
-				const d = new Date();
-				d.setFullYear(d.getFullYear() + 1);
-				document.cookie = `disable-collection=true; expires=${d.toUTCString()}; path=/`;
+				cookie.set("disable-collection", true, {
+					expires: 365,
+					path: "/",
+					secure: window.location.protocol === "https:",
+				});
 			}
 		}
+
+		if (prevState.joustAutoplayEnabled !== joustAutoplayEnabled) {
+			if (joustAutoplayEnabled) {
+				cookie.removeSpecific("disable-autoplay", { path: "/" });
+			} else {
+				cookie.set("disable-autoplay", true, {
+					expires: 365,
+					path: "/",
+					secure: window.location.protocol === "https:",
+				});
+			}
+		}
+
+		console.log("cookies", cookie.all());
 	}
 
 	public render(): React.ReactNode {
@@ -63,7 +77,6 @@ class AccountEdit extends React.Component<Props, State> {
 							<label>
 								<input
 									type="checkbox"
-									name="joust_autoplay"
 									checked={this.state.joustAutoplayEnabled}
 									onChange={e =>
 										this.setState({

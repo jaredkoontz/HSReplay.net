@@ -86,9 +86,7 @@ class ReplayDetailView(View):
 	def get_react_context(self):
 		if not self.replay:
 			return {"deleted": True}
-		autoplay = self.request.user.is_authenticated and self.request.user.joust_autoplay
 		ret = {
-			"autoplay": autoplay,
 			"annotated_replay_url": reverse(
 				"annotated_replay", kwargs={"shortid": self.replay.shortid}
 			),

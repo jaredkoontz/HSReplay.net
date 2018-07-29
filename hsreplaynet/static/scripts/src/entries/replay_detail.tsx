@@ -1,20 +1,21 @@
+import { cookie } from "cookie_js";
 import React from "react";
 import ReactDOM from "react-dom";
 import { I18nextProvider } from "react-i18next";
 import CardData from "../CardData";
-import JoustEmbedder from "../JoustEmbedder";
-import UserData from "../UserData";
+import AdUnit from "../components/ads/AdUnit";
 import DeleteReplayButton from "../components/DeleteReplayButton";
 import PlayerInfo from "../components/PlayerInfo";
 import ShareGameDialog from "../components/ShareGameDialog";
-import VisibilityDropdown from "../components/VisibilityDropdown";
 import SemanticAge from "../components/text/SemanticAge";
+import VisibilityDropdown from "../components/VisibilityDropdown";
 import i18n from "../i18n";
 import { Visibility } from "../interfaces";
+import JoustEmbedder from "../JoustEmbedder";
 import BatchingMiddleware from "../metrics/BatchingMiddleware";
 import InfluxMetricsBackend from "../metrics/InfluxMetricsBackend";
 import MetricsReporter from "../metrics/MetricsReporter";
-import AdUnit from "../components/ads/AdUnit";
+import UserData from "../UserData";
 
 const context = JSON.parse(
 	document.getElementById("react_context").textContent,
@@ -27,7 +28,7 @@ const locale = UserData.getLocale();
 const embedder = new JoustEmbedder();
 
 const container = document.getElementById("joust-container");
-const startPaused = !context["autoplay"];
+const startPaused = cookie.get("disable-autoplay", false);
 let wasPlaying = !startPaused;
 
 // shared url decoding

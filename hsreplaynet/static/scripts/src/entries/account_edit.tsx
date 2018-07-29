@@ -20,7 +20,6 @@ ReactDOM.render(
 				+context["default_replay_visibility"] as Visibility
 			}
 			excludeFromStatistics={context["exclude_from_statistics"]}
-			joustAutoplay={context["joust_autoplay"]}
 		/>
 	</Root>,
 	document.getElementById("account_edit-container"),
