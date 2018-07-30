@@ -251,6 +251,9 @@ header .navbar {
 	padding: 1em;
 	width: 100%;
 	border-top: 1px solid $darkblue;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
 
 	a {
 		color: inherit;
@@ -261,8 +264,14 @@ header .navbar {
 	}
 
 	.footer-content {
-		margin: 0 auto;
 		max-width: 930px;
+		flex: 1 1 0;
+	}
+
+	.footer-ad-container {
+		@media (max-width: 1529px) {
+			display: none;
+		}
 	}
 
 	.footer-brand {
