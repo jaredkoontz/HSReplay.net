@@ -172,6 +172,10 @@
 		.ad-container {
 			margin-bottom: 10px;
 		}
+
+		&:empty {
+			margin-top: 10px;
+		}
 	}
 
 	.center-ads {
