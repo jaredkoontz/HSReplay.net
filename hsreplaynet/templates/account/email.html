@@ -15,7 +15,7 @@
 					<th>{{ email.email }}</th>
 
 					<td>{% if email.verified %}
-						<span class="label label-success">✔ Verified</span>
+						<span class="label label-success">{% trans "✔ Verified" %}</span>
 					{% else %}
 						<form method="POST" action="{% url 'account_email' %}">
 							{% csrf_token %}
@@ -25,7 +25,7 @@
 					{% endif %}</td>
 
 					<td>{% if email.primary %}
-							<span class="label label-info">✔ Primary</span>
+							<span class="label label-info">{% trans "✔ Primary" %}</span>
 						{% elif email.verified %}
 							<form method="POST" action="{% url 'account_email' %}">
 								{% csrf_token %}
@@ -96,10 +96,6 @@
 
 <p class="alert alert-info">
 	{% url 'socialaccount_connections' as connected_accounts_url %}
-	{% blocktrans trimmed %}
-		Looking for a password setting? You can sign with any of
-		<a href="{{ connected_accounts_url }}">your connected Blizzard accounts</a>,
-		there is no HSReplay.net password.
-	{% endblocktrans %}
+	{% blocktrans %}Looking for a password setting? You can sign with any of <a href="{{ connected_accounts_url }}">your connected Blizzard accounts</a>, there is no HSReplay.net password.{% endblocktrans %}
 </p>
 {% endblock %}
