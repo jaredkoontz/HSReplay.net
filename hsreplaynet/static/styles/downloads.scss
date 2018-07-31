@@ -1,83 +1,330 @@
-#downloads {
+#downloads-container {
+	.downloads-container {
+		max-width: 1540px;
+		margin: 0 auto;
+	}
+
+	.btn {
+		box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+		border: 1px solid rgba(255, 255, 255, 0.2);
+	}
+
 	header {
-		padding: 2em 0 1.5em;
-		text-align: center;
+		position: relative;
+		background-size: cover;
+		background-repeat: no-repeat;
+		background-position-x: 45%;
+		padding: 4%;
+
+		.header-title {
+			z-index: 2;
+			position: relative;
+			display: inline-block;
+
+			p {
+				margin: 0;
+				font-size: 2em;
+				text-align: right;
+			}
+
+			h1 {
+				margin: 0;
+				font-weight: bold;
+				font-size: 4em;
+				font-family: "Montserrat", sans-serif;
+			}
+		}
+
+		.header-download {
+			z-index: 2;
+			position: relative;
+			text-align: center;
+			max-width: 800px;
+			margin-top: 60px;
+
+			h2 {
+				text-transform: uppercase;
+				margin: 0;
+				font-family: "Montserrat", sans-serif;
+				font-size: 2.2em;
+				color: #696969;
+			}
+
+			.download-buttons {
+				width: 100%;
+				display: flex;
+				justify-content: space-evenly;
+				flex-wrap: wrap;
+			}
+
+			.btn {
+				width: 350px;
+				padding: 10px 10px 0 10px;
+				margin: 10px 10px 0;
+				text-transform: none;
+
+				.fa {
+					margin-right: 8px;
+				}
+
+				h3 {
+					margin: 0;
+					font-size: 2em;
+					font-weight: bold;
+				}
+
+				p {
+					margin: 0;
+				}
+			}
+		}
+
+		#hdt-logo {
+			position: absolute;
+			top: -50px;
+			left: -70px;
+			z-index: 1;
+			opacity: 0.2;
+		}
+
+		.header-background {
+			height: 800px;
+			position: absolute;
+			top: 0;
+			left: 0;
+			background-size: cover;
+			background-repeat: no-repeat;
+			background-position-x: 45%;
+			height: 800px;
+			width: 100%;
+		}
+
+		.header-fade {
+			background: linear-gradient(
+				225deg,
+				transparent,
+				rgba(251, 247, 246, 0.75) 55%,
+				$offwhite 97%
+			);
+			position: absolute;
+			height: 800px;
+			width: 100%;
+			z-index: 0;
+			top: 0;
+			left: 0;
+
+			&.fade-vertical {
+				background: linear-gradient(
+					to bottom,
+					transparent 80%,
+					rgba(251, 247, 246, 0.2) 85%,
+					$offwhite 97%
+				);
+			}
+
+			&.fade-horizontal {
+				background: linear-gradient(
+					to left,
+					transparent 30%,
+					rgba(251, 247, 246, 0.1) 35%,
+					$offwhite 97%
+				);
+			}
+		}
+
+		.header-description {
+			position: relative;
+			display: flex;
+			z-index: 1;
+			margin-top: 60px;
+
+			.description-text {
+				font-size: 1.5em;
+				ul {
+					list-style: none;
+					margin: 0;
+					padding: 0;
+				}
+
+				li {
+					margin-top: 50px;
+					display: flex;
+					align-items: center;
+
+					img {
+						width: 40px;
+						height: 40px;
+						margin-right: 10px;
+					}
+
+					p {
+						margin: 0;
+					}
+				}
+			}
+
+			@media (max-width: 1199px) {
+				flex-direction: column-reverse;
+
+				.description-text {
+					margin-top: 20px;
+				}
+			}
+
+			.video-container {
+			}
+		}
 	}
 
-	.row {
-		height: 350px;
+	#features {
+		section {
+			margin-top: 50px;
+
+			> h1 {
+				text-transform: uppercase;
+				margin: 0 0 20px 0;
+				font-family: "Montserrat", sans-serif;
+				font-size: 3.5em;
+				color: #696969;
+				text-align: center;
+			}
+
+			.panel-card {
+				margin-top: 20px;
+			}
+
+			.panel-content {
+				height: 400px;
+
+				.image-container {
+					height: 60%;
+					max-width: 70%;
+
+					> img {
+						max-height: 140px;
+						max-width: 250px;
+					}
+				}
+
+				.content-container {
+					justify-content: center;
+					height: 40%;
+					margin: 0;
+
+					h3,
+					p {
+						padding-top: 0;
+						padding-bottom: 0;
+					}
+
+					p {
+						margin-bottom: 0;
+					}
+
+					h3 {
+						font-size: 1.75em;
+					}
+				}
+
+				.text-container {
+					margin: unset;
+					flex: unset;
+					text-align: center;
+				}
+			}
+		}
+
+		#overlay {
+			.panel-content {
+				.image-container {
+					> img {
+						max-height: 240px;
+					}
+				}
+			}
+		}
+
+		#stats {
+			@media (min-width: 1079px) {
+				.panel-content {
+					height: 300px;
+				}
+			}
+		}
 	}
-}
 
-.download-container {
-	height: 100%;
-	flex-grow: 1;
-	margin-bottom: 15px;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
+	.panel-twitch {
+		position: relative;
+		margin: 10px 15px 0;
+		color: white;
 
-	.fa {
-		font-size: 1.75em;
+		.panel-content {
+			background: linear-gradient(
+				to right,
+				hsla(261, 43%, 40%, 1),
+				hsla(261, 43%, 45%, 1) 100%
+			);
+			min-height: 350px;
+		}
+
+		h1 {
+			margin: 20px 20px 0 20px;
+			font-weight: bold;
+			display: flex;
+			align-items: center;
+			font-size: 2.2em;
+
+			.fa {
+				font-size: 2.5em;
+				margin-right: 30px;
+			}
+		}
+
+		p {
+			font-size: 2em;
+			max-width: 800px;
+			padding: 30px;
+			margin: 30px auto;
+		}
 	}
 
-	.download-link {
-		color: black;
-	}
-}
+	.panel-download {
+		position: relative;
+		margin: 10px 15px;
 
-.download-platform {
-	color: white;
-	background-color: $blue;
-	display: block;
-	width: 100%;
-	padding: 1.3em 0;
-	text-align: center;
-	text-decoration: none;
-	text-transform: uppercase;
-	font-size: 1.5em;
-	margin-right: 1em;
-	width: 100%;
+		.panel-content {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 150px;
+		}
 
-	&:hover,
-	&:active {
-		color: $lighterblue;
-		text-decoration: none;
-	}
+		.download-background {
+			width: 100%;
+			opacity: 0.3;
+			min-width: 800px;
+			max-width: 1540px;
+			height: 100%;
+			background-size: cover;
+			background-repeat: no-repeat;
+		}
 
-	p:last-child {
-		margin-bottom: 0;
-	}
-}
+		.download-content {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 1.5em;
 
-.download-description {
-	border: 1px solid #1d3657;
-	border-top: 0;
-	border-bottom: 0;
-	padding: 1em;
-	flex-grow: 1;
-}
-
-.download-clickme {
-	padding: 1em;
-	color: white;
-	background-color: $red;
-	border: 1px solid $red;
-	text-align: center;
-	display: block;
-	text-transform: uppercase;
-	font-weight: bold;
-
-	&:hover,
-	&:active {
-		color: $red;
-		background-color: white;
-		text-decoration: none;
-	}
-}
-
-@media (max-width: 767px) {
-	#downloads .row {
-		height: auto;
+			> .btn {
+				width: 300px;
+				max-width: 100%;
+				margin: 20px;
+			}
+		}
 	}
 }

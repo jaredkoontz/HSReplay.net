@@ -1,75 +1,327 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { image } from "../helpers";
+import { InjectedTranslateProps, Trans, translate } from "react-i18next";
+import HDTVideo from "../components/HDTVideo";
+import PremiumFeaturePanel from "../components/premium/PremiumFeaturePanel";
+import Panel from "../components/Panel";
 
-interface Props extends InjectedTranslateProps {
-	hdtDownloadUrl: string;
-	hstrackerDownloadUrl: string;
+interface Props extends InjectedTranslateProps {}
+
+interface State {
+	windowsUrl: string | null;
+	macUrl: string | null;
 }
-interface State {}
 
 class Downloads extends React.Component<Props, State> {
+	constructor(props: Props, context: any) {
+		super(props, context);
+		this.state = {
+			windowsUrl: null,
+			macUrl: null,
+		};
+	}
+
+	public componentDidMount() {
+		this.fetchUrls();
+	}
+
 	public render(): React.ReactNode {
 		const { t } = this.props;
-
+		const { windowsUrl, macUrl } = this.state;
 		return (
-			<div id="downloads" className="container-fluid">
+			<div className="downloads-container">
 				<header>
-					<h1>{t("Downloads")}</h1>
+					<div className="header-title">
+						<h1>{t("Hearthstone Deck Tracker")}</h1>
+						<p>{t("HSReplay.net Companion App")}</p>
+					</div>
+					<div className="header-download">
+						<h2>{t("Download now")}</h2>
+						<div className="download-buttons">
+							<a
+								href={windowsUrl}
+								className={`btn promo-button${
+									windowsUrl ? "" : " disabled"
+								}`}
+							>
+								<h3>
+									<i className="fa fa-windows" />
+									{t("Windows")}
+								</h3>
+								<p>{t("Hearthstone Deck Tracker")}</p>
+							</a>
+							<a
+								href={macUrl}
+								className={`btn promo-button${
+									macUrl ? "" : " disabled"
+								}`}
+							>
+								<h3>
+									<i className="fa fa-apple" />
+									{t("macOS")}
+								</h3>
+								<p>{t("HSTracker")}</p>
+							</a>
+						</div>
+					</div>
+					<div className="header-description">
+						<div className="description-text">
+							<p>
+								<Trans>
+									Hearthstone Deck Tracker is a{" "}
+									<strong>free</strong> app to help you play
+									like the pros. Download this now to get
+									these must-have features.
+								</Trans>
+							</p>
+							<ul>
+								<li>
+									<img src={image("hdt-logo.png")} />
+									<p>
+										<Trans>
+											<strong>In-game overlay</strong>:
+											Deck, hand, secret tracking & more
+										</Trans>
+									</p>
+								</li>
+								<li>
+									<img src={image("hdt-logo.png")} />
+									<p>
+										<Trans>
+											<strong>Companion app</strong>:
+											Replays and Collection uploading
+										</Trans>
+									</p>
+								</li>
+								<li>
+									<img src={image("hdt-logo.png")} />
+									<p>
+										<Trans>
+											<strong>
+												Personalized statistics
+											</strong>: Deck winrates and arena
+											runs
+										</Trans>
+									</p>
+								</li>
+							</ul>
+						</div>
+						<HDTVideo />
+					</div>
+					<img id="hdt-logo" src={image("hdt-logo.png")} />
+					<div
+						className="header-background"
+						style={{
+							backgroundImage: `url(${image(
+								"downloads/gameboard-bk.jpg",
+							)})`,
+						}}
+					/>
+					<div className="header-fade" />
+					<div className="header-fade fade-horizontal" />
+					<div className="header-fade fade-vertical" />
 				</header>
-
-				<div className="row">
-					<div className="col-lg-2 col-lg-offset-4 col-md-3 col-md-offset-3 col-sm-6 col-xs-12 download-container">
-						<a
-							href={this.props.hdtDownloadUrl}
-							className="download-platform"
-						>
-							<p>
-								<i className="fa fa-windows" />
-							</p>
-							<p>{t("Windows")}</p>
-						</a>
-						<div className="download-description">
-							<p>
-								{t(
-									"Our official client on Windows is Hearthstone Deck Tracker.",
+				<div id="features">
+					<section id="overlay">
+						<h1>{t("In-game overlay")}</h1>
+						<div className="col-lg-4 col-sm-12">
+							<PremiumFeaturePanel
+								title={null}
+								image={image("downloads/tracker.png")}
+								subtitle={t("Deck Tracking")}
+								text={t(
+									"Never second guess which cards are still in your deck.",
 								)}
-							</p>
+							/>
 						</div>
-						<a
-							href={this.props.hdtDownloadUrl}
-							className="download-clickme"
-						>
-							{t("Download")}
-						</a>
-					</div>
-
-					<div className="col-lg-2 col-md-3 col-md-3 col-sm-6 col-xs-12 download-container">
-						<a
-							href={this.props.hstrackerDownloadUrl}
-							className="download-platform"
-						>
-							<p>
-								<i className="fa fa-apple" />
-							</p>
-							<p>{t("macOS")}</p>
-						</a>
-						<div className="download-description">
-							<p>
-								{t(
-									"For macOS, download HSTracker, the official port of Hearthstone Deck Tracker.",
+						<div className="col-lg-4 col-sm-12">
+							<PremiumFeaturePanel
+								title={null}
+								image={image("downloads/played.png")}
+								subtitle={t("Opponent Card Tracking")}
+								text={t(
+									"Track what cards your opponent has revealed to far.",
 								)}
-							</p>
+							/>
 						</div>
-						<a
-							href={this.props.hstrackerDownloadUrl}
-							className="download-clickme"
-						>
-							{t("Download")}
-						</a>
-					</div>
+						<div className="col-lg-4 col-sm-12">
+							<PremiumFeaturePanel
+								title={null}
+								image={image("downloads/draw.png")}
+								subtitle={t("Opponent Hand Tracking")}
+								text={t(
+									"See what turns your opponent drew each of their cards.",
+								)}
+							/>
+						</div>
+						<div className="col-lg-4 col-sm-12">
+							<PremiumFeaturePanel
+								title={null}
+								image={image("downloads/secret.png")}
+								subtitle={t("Secret Helper")}
+								text={t(
+									"Keep track of which secrets your opponent might have in play.",
+								)}
+							/>
+						</div>
+						<div className="col-lg-4 col-sm-12">
+							<PremiumFeaturePanel
+								title={null}
+								image={image("downloads/fatigue.png")}
+								subtitle={t("Fatigue")}
+								text={t(
+									"Know how much fatigue damage will be taken on the next draw.",
+								)}
+							/>
+						</div>
+						<div className="col-lg-4 col-sm-12">
+							<PremiumFeaturePanel
+								title={null}
+								image={image("downloads/timer.png")}
+								subtitle={t("Turn Timer")}
+								text={t(
+									"See how much time is left in your turn to make the best decision.",
+								)}
+							/>
+						</div>
+						<div className="clearfix" />
+					</section>
+					<section id="companion">
+						<h1>Companion app</h1>
+						<div className="col-lg-4 col-sm-12">
+							<PremiumFeaturePanel
+								title={null}
+								image={image("premium/replay.png")}
+								subtitle={t("Replays")}
+								text={t(
+									"Review your games to improve your game play or just share them with a friend.",
+								)}
+							/>
+						</div>
+						<div className="col-lg-4 col-sm-12">
+							<PremiumFeaturePanel
+								title={null}
+								image={image("premium/history.png")}
+								subtitle={t("Match History")}
+								text={t(
+									"Upload your games to see your stats on HSReplay.net.",
+								)}
+							/>
+						</div>
+						<div className="col-lg-4 col-sm-12">
+							<PremiumFeaturePanel
+								title={null}
+								image={image("downloads/sync.png")}
+								subtitle={t("Collection Uploading")}
+								text={t(
+									"Upload your card collection and find the best decks for you.",
+								)}
+							/>
+						</div>
+						<div className="clearfix" />
+					</section>
+					<section id="stats">
+						<h1>Personalized stats</h1>
+						<div className="col-lg-6 col-sm-12">
+							<PremiumFeaturePanel
+								title={null}
+								image={image("downloads/breakdown.png")}
+								subtitle={t("Decks Statistics")}
+								text={t(
+									"Detailed stats for all your decks, arena runs & more.",
+								)}
+							/>
+						</div>
+						<div className="col-lg-6 col-sm-12">
+							<PremiumFeaturePanel
+								title={null}
+								image={image("downloads/build.png")}
+								subtitle={t("Build better decks")}
+								text={t(
+									"Manage your decks and keep track of all their changes.",
+								)}
+							/>
+						</div>
+						<div className="clearfix" />
+					</section>
 				</div>
+				<div id="twitch" />
+				<Panel theme="light" accent="blue" className="panel-twitch">
+					<h1>
+						<i className="fa fa-twitch" />
+						{t("The Twitch Connection")}
+					</h1>
+					<p>
+						<Trans>
+							Get more viewers by using our twitch extension and
+							making your <strong>stream</strong> available on
+							HSReplay.net deck pages.
+						</Trans>
+					</p>
+				</Panel>
+				<Panel theme="light" accent="blue" className="panel-download">
+					<div
+						className="download-background"
+						style={{
+							backgroundImage: `url(${image(
+								"downloads/gameboard-bk.jpg",
+							)})`,
+						}}
+					/>
+					<div className="download-content">
+						<a
+							className="btn promo-button"
+							href="#"
+							onClick={e => {
+								e.preventDefault();
+								window.scrollTo(0, 0);
+							}}
+						>
+							{t("Download")}
+						</a>
+					</div>
+				</Panel>
 			</div>
 		);
+	}
+
+	private fetchUrls() {
+		const hdt = this.fetchDownload(
+			"HearthSim/HDT-Releases",
+			"HDT-Installer.exe",
+		);
+		const hstracker = this.fetchDownload(
+			"HearthSim/HSTracker",
+			"HSTracker.app.zip",
+		);
+		Promise.all([hdt, hstracker]).then(values => {
+			this.setState({ windowsUrl: values[0], macUrl: values[1] });
+		});
+	}
+
+	private fetchDownload(repo, assetName): Promise<string> {
+		return fetch(`https://api.github.com/repos/${repo}/releases`, {
+			method: "GET",
+			headers: {
+				Accept: "application/json",
+			},
+		})
+			.then(async response => {
+				if (response.ok) {
+					const result = await response.json();
+					for (const release of result) {
+						const asset = release.assets.find(
+							x => x.name === assetName,
+						);
+						if (asset) {
+							return asset.browser_download_url;
+						}
+					}
+				}
+			})
+			.catch(error => {
+				console.error(error);
+			});
 	}
 }
 
