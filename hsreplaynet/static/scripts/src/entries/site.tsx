@@ -46,6 +46,7 @@ function renderFooterAds() {
 
 if (document.readyState === "loading") {
 	document.addEventListener("DOMContentLoaded", renderNavbar);
+	document.addEventListener("DOMContentLoaded", renderFooterAds);
 } else {
 	renderNavbar();
 	renderFooterAds();
