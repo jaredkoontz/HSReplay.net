@@ -56,6 +56,7 @@ class HTMLHead:
 			"https://fonts.googleapis.com/css?family=Montserrat:800",
 		)
 		self.add_opensearch(href="opensearch.xml", title="HSReplay.net")
+		self.add_meta({"name": "theme-color", "content": "#1d3657"})
 
 	def __str__(self):
 		return "".join(str(tag) for tag in self.get_tags())
