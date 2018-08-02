@@ -62,7 +62,7 @@ class Home extends React.Component<Props, State> {
 			return;
 		}
 		Twitch.fetchStreamMetadata([promotedStreamer]).then((result): void => {
-			if (Twitch.isLive(result[promotedStreamer])) {
+			if (Twitch.isStreamingHearthstone(result[promotedStreamer])) {
 				this.setState({ promoStreamLive: true });
 				TwitchStreamPromotionEvents.onFrontpageStreamLoaded(
 					promotedStreamer,

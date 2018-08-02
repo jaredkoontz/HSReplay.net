@@ -9,6 +9,7 @@ export interface TwitchStream {
 	user_id: string;
 	viewer_count: number;
 	type: string;
+	game_id: number;
 }
 
 export default class Twitch {
@@ -50,7 +51,14 @@ export default class Twitch {
 		return resultSet;
 	}
 
-	public static isLive(stream: TwitchStream): boolean {
-		return stream && stream.type === "live";
+	public static isStreamingHearthstone(stream: TwitchStream): boolean {
+		// The ID is unlikely to change but we might eventually
+		// want to pull it from the API instead.
+		const hearthstoneGameId = 138585;
+		return (
+			stream &&
+			stream.type === "live" &&
+			stream.game_id === hearthstoneGameId
+		);
 	}
 }
