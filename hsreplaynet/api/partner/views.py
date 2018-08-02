@@ -222,7 +222,7 @@ class ClassesView(PartnerStatsListView):
 		queryset = []
 
 		for hsclass in enums.CardClass:
-			if hsclass.is_playable:
+			if hsclass.is_playable and hsclass != enums.CardClass.WHIZBANG:
 
 				# This combination of criteria appears to correctly limit the
 				# resulting cards to HERO_* cards.
