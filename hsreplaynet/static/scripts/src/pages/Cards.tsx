@@ -152,6 +152,7 @@ class Cards extends React.Component<Props, State> {
 			"SECRET",
 			"ECHO",
 			"RUSH",
+			"MODULAR",
 		].sort(),
 		playerClass: [
 			"DRUID",
@@ -179,6 +180,7 @@ class Cards extends React.Component<Props, State> {
 		set: [
 			"CORE",
 			"EXPERT1",
+			"BOOMSDAY",
 			"GILNEAS",
 			"LOOTAPALOOZA",
 			"ICECROWN",
