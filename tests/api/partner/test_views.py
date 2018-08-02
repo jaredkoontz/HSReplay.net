@@ -144,9 +144,19 @@ class TestClassesView:
 		response_list = response.json()
 		response_classes = list(map(lambda x: x["id"], response_list))
 
-		for hsclass in enums.CardClass:
-			if hsclass.is_playable:
-				assert hsclass.name in response_classes
+		assert len(response_classes) == 9
+		for hsclass in [
+			enums.CardClass.DRUID,
+			enums.CardClass.HUNTER,
+			enums.CardClass.MAGE,
+			enums.CardClass.PALADIN,
+			enums.CardClass.PRIEST,
+			enums.CardClass.ROGUE,
+			enums.CardClass.SHAMAN,
+			enums.CardClass.WARLOCK,
+			enums.CardClass.WARRIOR,
+		]:
+			assert hsclass.name in response_classes
 
 		for response_obj in response_list:
 			assert response_obj["id"] in enums.CardClass.__members__
