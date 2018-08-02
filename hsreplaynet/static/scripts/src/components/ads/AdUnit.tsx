@@ -27,7 +27,6 @@ interface State {
 export default class AdUnit extends React.Component<Props, State> {
 	constructor(props: Props, context: any) {
 		super(props, context);
-		console.log(props);
 		this.state = {
 			enabled: AdHelper.isAdEnabled(props.id, true),
 			working: false,
