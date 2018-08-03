@@ -17,10 +17,9 @@ class OtherArchetype extends React.Component<Props> {
 				content={
 					<p>
 						<Trans>
-							This is a collection of all
-							<PrettyCardClass cardClass={playerClass} />
-							decks that do not fit into one of the popular
-							archetypes.
+							This is a collection of all{" "}
+							<PrettyCardClass cardClass={playerClass} /> decks
+							that do not fit into one of the popular archetypes.
 						</Trans>
 
 						<br />
