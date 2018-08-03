@@ -648,6 +648,8 @@
 			}
 
 			.panel-content {
+				flex-basis: 100%;
+
 				.btn {
 					border: 1px solid rgba(255, 255, 255, 0.2);
 				}
