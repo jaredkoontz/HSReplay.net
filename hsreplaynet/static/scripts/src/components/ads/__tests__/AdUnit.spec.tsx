@@ -31,7 +31,7 @@ describe("AdUnit", () => {
 
 	test("does render correctly in debug mode", () => {
 		UserData.hasFeature = feature =>
-			["ads", "ads-debug"].indexOf(feature) !== -1;
+			["ads", "ads-admin"].indexOf(feature) !== -1;
 		const component = renderer.create(<AdUnit id="ad-42" size="300x250" />);
 		const tree = component.toJSON();
 		expect(tree.children[0].children[1].children[0]).toBe("ad-42");

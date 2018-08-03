@@ -1,7 +1,7 @@
 import UserData from "./UserData";
 
 export function debugAds(): boolean {
-	return UserData.hasFeature("ads-debug");
+	return UserData.hasFeature("ads-admin");
 }
 
 export function showAds(): boolean {
