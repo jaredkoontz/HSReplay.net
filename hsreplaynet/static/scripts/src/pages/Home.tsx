@@ -290,7 +290,7 @@ class Home extends React.Component<Props, State> {
 							</p>
 							<a
 								className="btn promo-button transparent-style hidden-sm hidden-xs"
-								href="https://hsdecktracker.net/download/"
+								href="/downloads/"
 							>
 								{t("Download")}
 							</a>
@@ -301,7 +301,7 @@ class Home extends React.Component<Props, State> {
 						<div className="panel-button col-xs-12 visible-sm visible-xs">
 							<a
 								className="btn promo-button transparent-style"
-								href="https://hsdecktracker.net/download/"
+								href="/downloads/"
 							>
 								{t("Download")}
 							</a>

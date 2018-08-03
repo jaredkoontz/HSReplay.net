@@ -207,8 +207,7 @@ class ReplayFeed extends React.Component<Props, State> {
 					<div id="contributor-button-wrapper">
 						<a
 							className="btn promo-button blue-style"
-							href="https://hsdecktracker.net/"
-							target="_blank"
+							href="/downloads/"
 						>
 							{t("Become a Contributor")}
 						</a>

@@ -48,7 +48,7 @@ class DownloadSection extends React.Component<Props, State> {
 				</p>
 				<p className="text-center">
 					<a
-						href="https://hsdecktracker.net/download/"
+						href="/downloads/"
 						target="_blank"
 						className="btn promo-button"
 						rel="noopener"
