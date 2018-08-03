@@ -70,8 +70,8 @@ class Downloads extends React.Component<Props, State> {
 								<Trans>
 									Hearthstone Deck Tracker is a{" "}
 									<strong>free</strong> app to help you play
-									like the pros. Download this now to get
-									these must-have features.
+									like the pros. Download it now to get these
+									must-have features:
 								</Trans>
 							</p>
 							<ul>
@@ -226,7 +226,7 @@ class Downloads extends React.Component<Props, State> {
 							<PremiumFeaturePanel
 								title={null}
 								image={image("downloads/breakdown.png")}
-								subtitle={t("Decks Statistics")}
+								subtitle={t("Deck Statistics")}
 								text={t(
 									"Detailed stats for all your decks, arena runs & more.",
 								)}
@@ -253,7 +253,7 @@ class Downloads extends React.Component<Props, State> {
 					</h1>
 					<p>
 						<Trans>
-							Get more viewers by using our twitch extension and
+							Get more viewers by using our Twitch extension and
 							making your <strong>stream</strong> available on
 							HSReplay.net deck pages.
 						</Trans>
