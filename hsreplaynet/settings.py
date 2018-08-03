@@ -372,7 +372,7 @@ LAMBDA_PRIVATE_EXECUTION_ROLE_NAME = "iam_lambda_private_vpc_execution_role"
 
 # How much memory we give to Lambda processing instances by default
 # They only need 128MB but higher memory = better CPU (= less processing time)
-LAMBDA_PROCESSING_MEMORY_MB = 512
+LAMBDA_PROCESSING_MEMORY_MB = 1024
 
 SUCCESSFUL_UPLOAD_EVENT_REAPING_DELAY_DAYS = 5
 UNSUCCESSFUL_UPLOAD_EVENT_REAPING_DELAY_DAYS = 30
