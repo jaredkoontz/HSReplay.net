@@ -801,7 +801,7 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 				})
 				blizzard_account.user = defaults["user"]
 				blizzard_account.save()
-			elif "#" in name and "#" not in blizzard_account.battletag:
+			elif "#" in name and name != blizzard_account.battletag:
 				blizzard_account.battletag = name
 				blizzard_account.save()
 
