@@ -300,6 +300,8 @@ export function getSetName(set: string, t: TranslationFunction): string {
 			return t("GLOBAL_CARD_SET_GILNEAS", { ns: "hearthstone" });
 		case "taverns_of_time":
 			return t("Taverns of Time");
+		case "boomsday":
+			return t("GLOBAL_CARD_SET_BOOMSDAY", { ns: "hearthstone" });
 	}
 	return t("Unknown Set");
 }
