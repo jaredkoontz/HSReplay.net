@@ -258,7 +258,9 @@ class ClassAnalysis extends React.Component<Props, State> {
 						cardData={this.props.cardData}
 						clusterId={clusterId}
 						data={data}
+						format={format}
 						key={clusterId}
+						playerClass={playerClass}
 					/>
 				</Tab>
 			);

@@ -8,11 +8,14 @@ import CardList from "../CardList";
 import { ClusterData, DeckData } from "./ClassAnalysis";
 import ClusterSignature from "./ClusterSignature";
 import { formatNumber } from "../../i18n";
+import { fetchCSRF } from "../../helpers";
 
 interface Props extends InjectedTranslateProps {
 	cardData: CardData | null;
 	clusterId: string;
 	data?: ClusterData;
+	format: string;
+	playerClass: string;
 }
 
 class ClusterDetail extends React.Component<Props> {
@@ -26,6 +29,89 @@ class ClusterDetail extends React.Component<Props> {
 			nextProps.cardData !== this.props.cardData ||
 			nextProps.data !== this.props.data
 		);
+	}
+
+	private onArchetypeMergeClick(event: any, targetArchetypeId: number) {
+		event.preventDefault();
+		this.setState({ working: true });
+		const headers = new Headers();
+		const { clusterId, format, playerClass } = this.props;
+		headers.set("content-type", "application/json");
+		fetchCSRF(`/clusters/latest/${format}/${playerClass}/${clusterId}/`, {
+			body: JSON.stringify({ archetype_id: targetArchetypeId }),
+			credentials: "same-origin",
+			headers,
+			method: "PATCH",
+		})
+			.then((response: Response) => {
+				if (!response.ok) {
+					console.error(response.toString());
+				} else {
+					window.location.replace(
+						`/discover/#playerClass=${playerClass}`,
+					);
+				}
+				this.setState({ working: false });
+			})
+			.catch(reason => {
+				console.error(reason);
+				this.setState({ working: false });
+			});
+	}
+
+	// This similarity calculation is borrowed from the Python implementation
+	// in hsarchetypes.clustering.
+
+	private computeSimilarity(
+		c1: Array<[number, number]>,
+		c2: Array<[number, number]>,
+	) {
+		const similarityFilter = value => value[1] > 0.25;
+
+		const c1_card_map = new Map(c1.filter(similarityFilter));
+		const c2_card_map = new Map(c2.filter(similarityFilter));
+		const c1_cards = new Set(c1_card_map.keys());
+		const c2_cards = new Set(c2_card_map.keys());
+
+		const union = new Set([...c1_cards, ...c2_cards]);
+		const intersection = new Set(
+			[...c1_cards].filter(x => c2_cards.has(x)),
+		);
+
+		const values = new Map<number, number>();
+		const intersectionValues = new Map<number, number>();
+
+		union.forEach(c => {
+			if (c1_cards.has(c) && c2_cards.has(c)) {
+				const c1Value = c1_card_map.get(c);
+				const c2Value = c2_card_map.get(c);
+				const unionVal = (c1Value + c2Value) / 2;
+
+				values.set(c, unionVal);
+
+				const maxVal = Math.max(c1Value, c2Value);
+				const absDiff = Math.abs(c1Value - c2Value);
+				const intersectionModifier = (maxVal - absDiff) / maxVal;
+
+				intersectionValues.set(c, intersectionModifier * unionVal);
+			} else if (c1_cards.has(c)) {
+				values.set(c, c1_card_map.get(c));
+			} else {
+				values.set(c, c2_card_map.get(c));
+			}
+		});
+
+		let wIntersection = 0.0;
+		intersection.forEach(c => {
+			wIntersection += intersectionValues.get(c);
+		});
+
+		let wUnion = 0.0;
+		union.forEach(c => {
+			wUnion += values.get(c);
+		});
+
+		return wIntersection / wUnion;
 	}
 
 	public render(): React.ReactNode {
@@ -67,6 +153,10 @@ class ClusterDetail extends React.Component<Props> {
 					</table>
 				</Fragment>,
 			);
+
+			// Does the cluster have an archetype label? If so, render the
+			// weighted signature...
+
 			if (
 				!_.isEmpty(data.ccp_signatures) &&
 				!_.isEmpty(data.ccp_signatures[clusterId])
@@ -83,6 +173,72 @@ class ClusterDetail extends React.Component<Props> {
 							cardData={cardData}
 							signature={cppSignature}
 						/>
+					</Fragment>,
+				);
+			} else {
+				// Otherwise, render the table of labeled clusters so the
+				// archetype supervisor can choose to merge this cluster into
+				// one of them if appropriate.
+
+				const labeledClusters = [];
+				for (const k in data.cluster_names) {
+					const similarity = this.computeSimilarity(
+						data.signatures[clusterId],
+						data.signatures[k],
+					);
+
+					labeledClusters.push({
+						id: k,
+						similarity,
+					});
+				}
+
+				// Sort related clusters by similarity, descending.
+
+				labeledClusters.sort(
+					(a, b) => b["similarity"] - a["similarity"],
+				);
+
+				// Generate the list of table rows.
+
+				const tableRows = [];
+				labeledClusters
+					.slice(0, 4) // Limit table to four rows.
+					.forEach(labeledCluster => {
+						const similarity: number = labeledCluster["similarity"];
+						const targetArchetypeId: number =
+							data.cluster_map[labeledCluster["id"]];
+
+						tableRows.push(
+							<tr>
+								<td className="align-middle">
+									{data.cluster_names[labeledCluster["id"]]}
+								</td>
+								<td>{similarity.toPrecision(3)}</td>
+								<td>
+									<a
+										href="#"
+										className="btn btn-success"
+										onClick={e =>
+											this.onArchetypeMergeClick(
+												e,
+												targetArchetypeId,
+											)
+										}
+									>
+										{"Merge"}
+									</a>
+								</td>
+							</tr>,
+						);
+					});
+
+				content.push(
+					<Fragment key="labeled-clusters">
+						<h2>{"Labeled clusters"}</h2>
+						<table className="table">
+							<tbody>{tableRows}</tbody>
+						</table>
 					</Fragment>,
 				);
 			}
@@ -143,4 +299,5 @@ class ClusterDetail extends React.Component<Props> {
 		);
 	}
 }
+
 export default translate()(ClusterDetail);
