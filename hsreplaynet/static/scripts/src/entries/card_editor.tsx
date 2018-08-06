@@ -204,6 +204,7 @@ const CardSetOptions = [
 	[CardSet.ICECROWN, "Knigts of the Frozen Throne"],
 	[CardSet.LOOTAPALOOZA, "Kobolds and Catacombs"],
 	[CardSet.GILNEAS, "The Witchwood"],
+	[CardSet.BOOMSDAY, "The Boomsday Project"],
 ];
 
 const CardTypeOptions = [
