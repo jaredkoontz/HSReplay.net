@@ -126,7 +126,7 @@ export default class AdUnit extends React.Component<Props, State> {
 
 		// defaultOptions
 		const options = {
-			floor: 0.05,
+			floor: 0.2,
 			refreshLimit: 10,
 			refreshTime: 90,
 			sizes: [AdUnit.parsePlaceholderSize(this.props.size)],
