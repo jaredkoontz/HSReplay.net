@@ -29,11 +29,7 @@ import {
 	sortCards,
 } from "../helpers";
 import { DeckObj, FragmentChildProps } from "../interfaces";
-import {
-	CollectionEvents,
-	DeckEvents,
-	FilterEvents,
-} from "../metrics/GoogleAnalytics";
+import { CollectionEvents, DeckEvents, FilterEvents } from "../metrics/Events";
 import { Collection } from "../utils/api";
 import {
 	getDustCostForCollection,

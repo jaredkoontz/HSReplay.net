@@ -7,7 +7,7 @@ import Fragments from "../components/Fragments";
 import Root from "../components/Root";
 import { Consumer as AccountConsumer } from "../components/utils/hearthstone-account";
 import { TimeRange } from "../filters";
-import GoogleAnalytics from "../metrics/GoogleAnalytics";
+import Events from "../metrics/Events";
 import Cards from "../pages/Cards";
 import { isCollectionDisabled } from "../utils/collection";
 
@@ -21,7 +21,7 @@ UserData.create();
 const defaultAccount = UserData.getDefaultAccountKey();
 
 if (personal && !defaultAccount) {
-	GoogleAnalytics.event("Pegasus Account", "missing", "My Cards", {
+	Events.ga("Pegasus Account", "missing", "My Cards", {
 		nonInteraction: true,
 	});
 }

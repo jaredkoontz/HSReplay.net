@@ -21,7 +21,7 @@ import Panel from "../components/Panel";
 import { default as Twitch } from "../Twitch";
 import TwitchStream from "../components/TwitchStream";
 import { AutoSizer } from "react-virtualized";
-import { TwitchStreamPromotionEvents } from "../metrics/GoogleAnalytics";
+import { TwitchStreamPromotionEvents } from "../metrics/Events";
 import HDTVideo from "../components/HDTVideo";
 import AdUnit from "../components/ads/AdUnit";
 import AdContainer from "../components/ads/AdContainer";

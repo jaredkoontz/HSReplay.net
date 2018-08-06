@@ -13,7 +13,7 @@ import {
 	toPrettyNumber,
 } from "../helpers";
 import { CardObj, DeckObj } from "../interfaces";
-import { TwitchStreamPromotionEvents } from "../metrics/GoogleAnalytics";
+import { TwitchStreamPromotionEvents } from "../metrics/Events";
 import { Collection, Stream } from "../utils/api";
 import { getDustCostForCollection } from "../utils/collection";
 import CardIcon from "./CardIcon";

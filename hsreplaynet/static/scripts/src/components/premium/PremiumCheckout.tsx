@@ -1,6 +1,6 @@
 import React from "react";
 import CheckoutForm, { PaymentMethod } from "../payments/CheckoutForm";
-import { SubscriptionEvents } from "../../metrics/GoogleAnalytics";
+import { SubscriptionEvents } from "../../metrics/Events";
 
 interface Props {
 	analyticsLabel?: string;

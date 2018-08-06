@@ -1,7 +1,7 @@
 import React from "react";
 import DataInjector from "../DataInjector";
 import { Account, BlizzardAccount } from "../../utils/api";
-import { CollectionEvents } from "../../metrics/GoogleAnalytics";
+import { CollectionEvents } from "../../metrics/Events";
 import { getCollectionParams } from "../../utils/collection";
 import DataManager from "../../DataManager";
 import UserData from "../../UserData";

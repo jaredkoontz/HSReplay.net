@@ -2,7 +2,7 @@ import { cookie } from "cookie_js";
 import React from "react";
 import { InjectedTranslateProps, Trans, translate } from "react-i18next";
 import { image } from "../../../helpers";
-import { CollectionEvents } from "../../../metrics/GoogleAnalytics";
+import { CollectionEvents } from "../../../metrics/Events";
 import { getAccountKey } from "../../../utils/account";
 import { BlizzardAccount } from "../../../utils/api";
 import { isCollectionDisabled } from "../../../utils/collection";

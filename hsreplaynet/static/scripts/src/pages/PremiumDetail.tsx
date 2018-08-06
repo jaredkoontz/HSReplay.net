@@ -4,7 +4,7 @@ import UserData from "../UserData";
 import LoginButton from "../components/account/LoginButton";
 import PremiumCheckout from "../components/premium/PremiumCheckout";
 import { image } from "../helpers";
-import { ReferralEvents } from "../metrics/GoogleAnalytics";
+import { ReferralEvents } from "../metrics/Events";
 import ReferralsPromo from "./ReferralsPromo";
 import Panel from "../components/Panel";
 import HDTVideo from "../components/HDTVideo";

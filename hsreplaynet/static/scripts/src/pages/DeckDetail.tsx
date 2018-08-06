@@ -43,7 +43,7 @@ import {
 	isWildSet,
 } from "../helpers";
 import { CardObj, RenderData, SortDirection } from "../interfaces";
-import { DeckEvents } from "../metrics/GoogleAnalytics";
+import { DeckEvents } from "../metrics/Events";
 import UserData, { Account } from "../UserData";
 import { Collection } from "../utils/api";
 import { getDustCostForCollection } from "../utils/collection";

@@ -1,5 +1,5 @@
 import React from "react";
-import { TwitchStreamPromotionEvents } from "../metrics/GoogleAnalytics";
+import { TwitchStreamPromotionEvents } from "../metrics/Events";
 import { BnetGameType } from "../hearthstone";
 import RankIcon from "./RankIcon";
 import { InjectedTranslateProps, translate } from "react-i18next";

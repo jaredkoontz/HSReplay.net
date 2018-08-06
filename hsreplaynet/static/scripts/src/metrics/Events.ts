@@ -10,8 +10,8 @@ const INFLUX_CLIENT = new MetricsReporter(
 	(series: string): string => "hsreplaynet_" + series,
 );
 
-export default class GoogleAnalytics {
-	public static event(
+export default class Events {
+	public static ga(
 		category: string,
 		action: string,
 		label?: string,
@@ -31,7 +31,7 @@ export default class GoogleAnalytics {
 		ga("send", "event", { ...defaults, ...requiredParams, ...params });
 	}
 
-	public static trackPageView(url: string): void {
+	public static gaPageView(url: string): void {
 		if (typeof ga !== "function") {
 			return;
 		}
@@ -39,20 +39,20 @@ export default class GoogleAnalytics {
 	}
 }
 
-export class SubscriptionEvents extends GoogleAnalytics {
+export class SubscriptionEvents extends Events {
 	public static onSubscribe(
 		usdValue: number,
 		location: string,
 		params?: UniversalAnalytics.FieldsObject,
 	): void {
-		this.event("Checkout", "subscribe", location, {
+		this.ga("Checkout", "subscribe", location, {
 			...params,
 			eventValue: Math.ceil(+usdValue / 100),
 		});
 	}
 }
 
-export class TwitchStreamPromotionEvents extends GoogleAnalytics {
+export class TwitchStreamPromotionEvents extends Events {
 	public static onClickLiveNow(
 		deck: string,
 		params?: UniversalAnalytics.FieldsObject,
@@ -62,7 +62,7 @@ export class TwitchStreamPromotionEvents extends GoogleAnalytics {
 			{ count: "1i" },
 			{ deck },
 		);
-		this.event("Twitch", "view", deck, params);
+		this.ga("Twitch", "view", deck, params);
 	}
 
 	public static onVisitStream(
@@ -74,7 +74,7 @@ export class TwitchStreamPromotionEvents extends GoogleAnalytics {
 			{ count: "1i" },
 			{ stream },
 		);
-		this.event("Twitch", "visit", stream, params);
+		this.ga("Twitch", "visit", stream, params);
 	}
 
 	public static onFrontpageStreamLoaded(streamer: string): void {
@@ -83,29 +83,29 @@ export class TwitchStreamPromotionEvents extends GoogleAnalytics {
 			{ count: "1i" },
 			{ streamer },
 		);
-		this.event("Twitch Promo", "loaded", streamer);
+		this.ga("Twitch Promo", "loaded", streamer);
 	}
 }
 
-export class ReferralEvents extends GoogleAnalytics {
+export class ReferralEvents extends Events {
 	public static onCopyRefLink(which: string): void {
-		this.event("Referrals", "copy", which);
+		this.ga("Referrals", "copy", which);
 	}
 }
 
-export class CollectionEvents extends GoogleAnalytics {
+export class CollectionEvents extends Events {
 	public static onEnableDustWidget(): void {
 		INFLUX_CLIENT.writePoint("enable_dust_filter", {
 			count: "1i",
 		});
-		this.event("Dust Filter", "enable");
+		this.ga("Dust Filter", "enable");
 	}
 
 	public static onViewModal(): void {
 		INFLUX_CLIENT.writePoint("collection_modal_open", {
 			count: "1i",
 		});
-		this.event("Collection Modal", "open");
+		this.ga("Collection Modal", "open");
 	}
 
 	public static onEnterModalStep(step: Step): void {
@@ -129,12 +129,12 @@ export class CollectionEvents extends GoogleAnalytics {
 				step_number: "" + step,
 			},
 		);
-		this.event("Collection Modal", "step", stepValue);
-		this.trackPageView("/virtual/collection/step/" + stepValue);
+		this.ga("Collection Modal", "step", stepValue);
+		this.gaPageView("/virtual/collection/step/" + stepValue);
 	}
 }
 
-export class FilterEvents extends GoogleAnalytics {
+export class FilterEvents extends Events {
 	public static onFilterInteraction(
 		page: string,
 		filter: string,
@@ -151,11 +151,11 @@ export class FilterEvents extends GoogleAnalytics {
 				value,
 			},
 		);
-		this.event("Filters", "interaction", filter);
+		this.ga("Filters", "interaction", filter);
 	}
 }
 
-export class DeckEvents extends GoogleAnalytics {
+export class DeckEvents extends Events {
 	public static onViewDecks(
 		isAuthenticated: boolean,
 		blizzardAccountCount: number,
@@ -173,7 +173,7 @@ export class DeckEvents extends GoogleAnalytics {
 				has_collection: "" + +hasCollection,
 			},
 		);
-		this.event("Decks", "view");
+		this.ga("Decks", "view");
 	}
 
 	public static onCopyDeck(
@@ -191,6 +191,6 @@ export class DeckEvents extends GoogleAnalytics {
 				has_collection: "" + +hasCollection,
 			},
 		);
-		this.event("Deck", "copy", label);
+		this.ga("Deck", "copy", label);
 	}
 }
