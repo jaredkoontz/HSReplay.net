@@ -61,7 +61,8 @@ export class SubscriptionEvents extends Events {
 	): void {
 		this.ga("Checkout", "subscribe", location, {
 			...params,
-			eventValue: Math.ceil(+usdValue / 100),
+			// eventValue needs to be a positive Integer, so let's just ceil
+			eventValue: Math.ceil(usdValue),
 		});
 	}
 }
