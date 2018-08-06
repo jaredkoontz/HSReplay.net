@@ -64,6 +64,10 @@ export class SubscriptionEvents extends Events {
 			// eventValue needs to be a positive Integer, so let's just ceil
 			eventValue: Math.ceil(usdValue),
 		});
+		this.fb("Purchase", {
+			value: usdValue,
+			currency: "USD",
+		});
 	}
 }
 
@@ -207,5 +211,13 @@ export class DeckEvents extends Events {
 			},
 		);
 		this.ga("Deck", "copy", label);
+		this.fbCustom("CopyDeckString");
+	}
+}
+
+export class DeckTrackerEvents extends Events {
+	public static onDownload(): void {
+		this.ga("Deck Tracker", "download");
+		this.fbCustom("DownloadDeckTracker");
 	}
 }

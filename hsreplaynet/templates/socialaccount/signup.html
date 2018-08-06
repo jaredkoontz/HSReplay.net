@@ -1,5 +1,10 @@
 {% extends "account/signup.html" %}
 
+{% block footerjs %}
+	{{ block.super }}
+	<script type="text/javascript">fbq("track", "CompleteRegistration");</script>
+{% endblock %}
+
 {% block content %}
 	{% with request.session.socialaccount_sociallogin.account as account %}
 	<h2>Sign up</h2>

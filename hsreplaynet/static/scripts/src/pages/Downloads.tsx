@@ -4,6 +4,7 @@ import { InjectedTranslateProps, Trans, translate } from "react-i18next";
 import HDTVideo from "../components/HDTVideo";
 import PremiumFeaturePanel from "../components/premium/PremiumFeaturePanel";
 import Panel from "../components/Panel";
+import { DeckTrackerEvents } from "../metrics/Events";
 
 interface Props extends InjectedTranslateProps {}
 
@@ -43,6 +44,7 @@ class Downloads extends React.Component<Props, State> {
 								className={`btn promo-button${
 									windowsUrl ? "" : " disabled"
 								}`}
+								onClick={this.onDownload}
 							>
 								<h3>
 									<i className="fa fa-windows" />
@@ -55,6 +57,7 @@ class Downloads extends React.Component<Props, State> {
 								className={`btn promo-button${
 									macUrl ? "" : " disabled"
 								}`}
+								onClick={this.onDownload}
 							>
 								<h3>
 									<i className="fa fa-apple" />
@@ -323,6 +326,10 @@ class Downloads extends React.Component<Props, State> {
 				console.error(error);
 			});
 	}
+
+	private onDownload = (): void => {
+		DeckTrackerEvents.onDownload();
+	};
 }
 
 export default translate()(Downloads);
