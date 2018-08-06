@@ -90,6 +90,44 @@ MILL_DRUID_SUMMARY = {
 	"winrate": 49.78
 }
 
+BIG_DRUID_ARCHETYPE = Archetype(id=148, name="Big Druid", player_class=2)
+
+BIG_DRUID_STATS = {
+	"archetype_id": 148,
+	"pct_of_class": 12.71,
+	"pct_of_total": 1.61,
+	"total_games": 136787,
+	"win_rate": 52.84,
+}
+
+BIG_DRUID_SUMMARY = {
+	"name": {
+		"enUS": "Big Druid"
+	},
+	"url": "https://hsreplay.net/archetypes/148/big-druid",
+	"popularity": 1.61,
+	"winrate": 52.84,
+}
+
+TAUNT_DRUID_ARCHETYPE = Archetype(id=149, name="Taunt Druid", player_class=2)
+
+TAUNT_DRUID_STATS = {
+	"archetype_id": 149,
+	"pct_of_class": 22.11,
+	"pct_of_total": 2.8,
+	"total_games": 237963,
+	"win_rate": 50.24,
+}
+
+TAUNT_DRUID_SUMMARY = {
+	"name": {
+		"enUS": "Taunt Druid"
+	},
+	"url": "https://hsreplay.net/archetypes/149/taunt-druid",
+	"popularity": 2.8,
+	"winrate": 50.24,
+}
+
 EXPECTED_TEST_DRUID_DECK_DATA_1 = {
 	"name": {
 		"enUS": TEST_DRUID_ARCHETYPE["name"]
@@ -335,6 +373,14 @@ class TestClassArchetypeSummarySerializer(object):
 			226: {
 				"archetype": MILL_DRUID_ARCHETYPE,
 				"stats": MILL_DRUID_STATS
+			},
+			148: {
+				"archetype": BIG_DRUID_ARCHETYPE,
+				"stats": BIG_DRUID_STATS
+			},
+			149: {
+				"archetype": TAUNT_DRUID_ARCHETYPE,
+				"stats": TAUNT_DRUID_STATS
 			}
 		}, context={
 			"game_type": "RANKED_STANDARD",
@@ -345,13 +391,17 @@ class TestClassArchetypeSummarySerializer(object):
 			"url": "https://hsreplay.net/decks/#playerClasses=DRUID",
 			"top_archetypes": [
 				TOKEN_DRUID_SUMMARY,
+				BIG_DRUID_SUMMARY,
 				SPITEFUL_DRUID_SUMMARY,
-				MILL_DRUID_SUMMARY
+				TAUNT_DRUID_SUMMARY,
+				MILL_DRUID_SUMMARY,
 			],
 			"popular_archetypes": [
 				TOKEN_DRUID_SUMMARY,
+				TAUNT_DRUID_SUMMARY,
+				BIG_DRUID_SUMMARY,
 				QUEST_DRUID_SUMMARY,
-				SPITEFUL_DRUID_SUMMARY
+				SPITEFUL_DRUID_SUMMARY,
 			]
 		}
 
@@ -364,7 +414,9 @@ class TestClassSerializer(object):
 				MILL_DRUID_ARCHETYPE,
 				QUEST_DRUID_ARCHETYPE,
 				SPITEFUL_DRUID_ARCHETYPE,
-				TOKEN_DRUID_ARCHETYPE
+				TOKEN_DRUID_ARCHETYPE,
+				BIG_DRUID_ARCHETYPE,
+				TAUNT_DRUID_ARCHETYPE,
 			],
 			"player_class": CardClass.DRUID,
 			"hero_cards": [
@@ -378,7 +430,9 @@ class TestClassSerializer(object):
 						MILL_DRUID_STATS,
 						QUEST_DRUID_STATS,
 						SPITEFUL_DRUID_STATS,
-						TOKEN_DRUID_STATS
+						TOKEN_DRUID_STATS,
+						BIG_DRUID_STATS,
+						TAUNT_DRUID_STATS,
 					]
 				}
 			}
@@ -414,11 +468,15 @@ class TestClassSerializer(object):
 					"url": "https://hsreplay.net/decks/#playerClasses=DRUID",
 					"top_archetypes": [
 						TOKEN_DRUID_SUMMARY,
+						BIG_DRUID_SUMMARY,
 						SPITEFUL_DRUID_SUMMARY,
+						TAUNT_DRUID_SUMMARY,
 						MILL_DRUID_SUMMARY
 					],
 					"popular_archetypes": [
 						TOKEN_DRUID_SUMMARY,
+						TAUNT_DRUID_SUMMARY,
+						BIG_DRUID_SUMMARY,
 						QUEST_DRUID_SUMMARY,
 						SPITEFUL_DRUID_SUMMARY
 					]

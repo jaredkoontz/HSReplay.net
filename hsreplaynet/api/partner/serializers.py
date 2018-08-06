@@ -388,7 +388,7 @@ class ClassArchetypeSummarySerializer(Serializer):
 		result = []
 		archetypes = sorted(instance.values(), key=sort_fn, reverse=True)
 
-		for archetype in archetypes[0:3]:
+		for archetype in archetypes[0:5]:
 			serializer = ClassArchetypeStatsSerializer(archetype)
 			result.append(serializer.data)
 
