@@ -13,7 +13,7 @@ from hsreplaynet.api.partner.serializers import (
 )
 from hsreplaynet.api.partner.utils import QueryDataNotAvailableException
 from hsreplaynet.decks.api import Archetype
-from hsreplaynet.utils import influx
+from hsreplaynet.utils import get_logger, influx
 from hsreplaynet.utils.aws.redshift import get_redshift_query
 
 from .permissions import PartnerStatsPermission
@@ -36,7 +36,13 @@ class PartnerStatsListView(ListAPIView):
 		parameterized_query = query.build_full_params(dict(
 			GameType=game_type
 		))
-		trigger_if_stale(parameterized_query)
+		try:
+			trigger_if_stale(parameterized_query)
+		except OSError as err:
+			get_logger().warning(
+				"Failed to trigger stale query refresh: " + str(err)
+			)
+
 		if not parameterized_query.result_available:
 			raise QueryDataNotAvailableException()
 		response = parameterized_query.response_payload
