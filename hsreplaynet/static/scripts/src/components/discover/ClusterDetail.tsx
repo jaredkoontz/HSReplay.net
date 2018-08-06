@@ -175,7 +175,7 @@ class ClusterDetail extends React.Component<Props> {
 						/>
 					</Fragment>,
 				);
-			} else {
+			} else if (clusterId != "-1") {
 				// Otherwise, render the table of labeled clusters so the
 				// archetype supervisor can choose to merge this cluster into
 				// one of them if appropriate.
