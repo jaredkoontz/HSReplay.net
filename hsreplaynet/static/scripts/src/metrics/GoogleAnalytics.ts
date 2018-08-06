@@ -11,28 +11,24 @@ const INFLUX_CLIENT = new MetricsReporter(
 );
 
 export default class GoogleAnalytics {
-	public static async event(
+	public static event(
 		category: string,
 		action: string,
 		label?: string,
 		params?: UniversalAnalytics.FieldsObject,
-	): Promise<void> {
-		return new Promise<void>((resolve, reject) => {
-			if (typeof ga !== "function") {
-				resolve();
-				return;
-			}
-			const requiredParams: UniversalAnalytics.FieldsObject = {
-				eventCategory: category,
-				eventAction: action,
-				eventLabel: label,
-			};
-			const defaults: UniversalAnalytics.FieldsObject = {
-				hitType: "event",
-				hitCallback: () => resolve(),
-			};
-			ga("send", "event", { ...defaults, ...requiredParams, ...params });
-		});
+	): void {
+		if (typeof ga !== "function") {
+			return;
+		}
+		const requiredParams: UniversalAnalytics.FieldsObject = {
+			eventCategory: category,
+			eventAction: action,
+			eventLabel: label,
+		};
+		const defaults: UniversalAnalytics.FieldsObject = {
+			hitType: "event",
+		};
+		ga("send", "event", { ...defaults, ...requiredParams, ...params });
 	}
 
 	public static trackPageView(url: string): void {
@@ -48,8 +44,8 @@ export class SubscriptionEvents extends GoogleAnalytics {
 		usdValue: number,
 		location: string,
 		params?: UniversalAnalytics.FieldsObject,
-	): Promise<void> {
-		return this.event("Checkout", "subscribe", location, {
+	): void {
+		this.event("Checkout", "subscribe", location, {
 			...params,
 			eventValue: Math.ceil(+usdValue / 100),
 		});
@@ -60,56 +56,56 @@ export class TwitchStreamPromotionEvents extends GoogleAnalytics {
 	public static onClickLiveNow(
 		deck: string,
 		params?: UniversalAnalytics.FieldsObject,
-	): Promise<void> {
+	): void {
 		INFLUX_CLIENT.writePoint(
 			"twitch_click_live_now",
 			{ count: "1i" },
 			{ deck },
 		);
-		return this.event("Twitch", "view", deck, params);
+		this.event("Twitch", "view", deck, params);
 	}
 
 	public static onVisitStream(
 		stream: string,
 		params?: UniversalAnalytics.FieldsObject,
-	): Promise<void> {
+	): void {
 		INFLUX_CLIENT.writePoint(
 			"twitch_visit_stream",
 			{ count: "1i" },
 			{ stream },
 		);
-		return this.event("Twitch", "visit", stream, params);
+		this.event("Twitch", "visit", stream, params);
 	}
 
-	public static onFrontpageStreamLoaded(streamer: string): Promise<void> {
+	public static onFrontpageStreamLoaded(streamer: string): void {
 		INFLUX_CLIENT.writePoint(
 			"promo_stream_loaded",
 			{ count: "1i" },
 			{ streamer },
 		);
-		return this.event("Twitch Promo", "loaded", streamer);
+		this.event("Twitch Promo", "loaded", streamer);
 	}
 }
 
 export class ReferralEvents extends GoogleAnalytics {
-	public static onCopyRefLink(which: string): Promise<void> {
-		return this.event("Referrals", "copy", which);
+	public static onCopyRefLink(which: string): void {
+		this.event("Referrals", "copy", which);
 	}
 }
 
 export class CollectionEvents extends GoogleAnalytics {
-	public static onEnableDustWidget(): Promise<void> {
+	public static onEnableDustWidget(): void {
 		INFLUX_CLIENT.writePoint("enable_dust_filter", {
 			count: "1i",
 		});
-		return this.event("Dust Filter", "enable");
+		this.event("Dust Filter", "enable");
 	}
 
-	public static onViewModal(): Promise<void> {
+	public static onViewModal(): void {
 		INFLUX_CLIENT.writePoint("collection_modal_open", {
 			count: "1i",
 		});
-		return this.event("Collection Modal", "open");
+		this.event("Collection Modal", "open");
 	}
 
 	public static onEnterModalStep(step: Step): void {
@@ -143,7 +139,7 @@ export class FilterEvents extends GoogleAnalytics {
 		page: string,
 		filter: string,
 		value: string,
-	): Promise<void> {
+	): void {
 		INFLUX_CLIENT.writePoint(
 			"filter_interaction",
 			{
@@ -155,7 +151,7 @@ export class FilterEvents extends GoogleAnalytics {
 				value,
 			},
 		);
-		return this.event("Filters", "interaction", filter);
+		this.event("Filters", "interaction", filter);
 	}
 }
 
@@ -164,7 +160,7 @@ export class DeckEvents extends GoogleAnalytics {
 		isAuthenticated: boolean,
 		blizzardAccountCount: number,
 		hasCollection: boolean,
-	): Promise<void> {
+	): void {
 		INFLUX_CLIENT.writePoint(
 			"view_decks",
 			{
@@ -177,14 +173,14 @@ export class DeckEvents extends GoogleAnalytics {
 				has_collection: "" + +hasCollection,
 			},
 		);
-		return this.event("Decks", "view");
+		this.event("Decks", "view");
 	}
 
 	public static onCopyDeck(
 		label: string,
 		dustCost: number,
 		hasCollection: boolean,
-	): Promise<void> {
+	): void {
 		INFLUX_CLIENT.writePoint(
 			"copy_deck",
 			{
@@ -195,6 +191,6 @@ export class DeckEvents extends GoogleAnalytics {
 				has_collection: "" + +hasCollection,
 			},
 		);
-		return this.event("Deck", "copy", label);
+		this.event("Deck", "copy", label);
 	}
 }
