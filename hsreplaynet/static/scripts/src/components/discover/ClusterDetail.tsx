@@ -16,6 +16,7 @@ interface Props extends InjectedTranslateProps {
 	data?: ClusterData;
 	format: string;
 	playerClass: string;
+	requestReload: () => void;
 }
 
 class ClusterDetail extends React.Component<Props> {
@@ -47,9 +48,7 @@ class ClusterDetail extends React.Component<Props> {
 				if (!response.ok) {
 					console.error(response.toString());
 				} else {
-					window.location.replace(
-						`/discover/#playerClass=${playerClass}`,
-					);
+					this.props.requestReload();
 				}
 				this.setState({ working: false });
 			})

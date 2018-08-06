@@ -261,6 +261,7 @@ class ClassAnalysis extends React.Component<Props, State> {
 						format={format}
 						key={clusterId}
 						playerClass={playerClass}
+						requestReload={() => this.props.requestReload()}
 					/>
 				</Tab>
 			);
