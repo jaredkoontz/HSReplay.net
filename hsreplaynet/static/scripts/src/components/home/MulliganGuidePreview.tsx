@@ -45,7 +45,7 @@ class MulliganGuidePreview extends React.Component<Props, State> {
 		this.stopIterate();
 	}
 
-	private iterate = (callback: () => any) => {
+	private iterate = (callback: () => void) => {
 		this.setState(
 			state => ({
 				selectedClass:

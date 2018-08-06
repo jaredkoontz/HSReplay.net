@@ -8,7 +8,7 @@ interface Props {
 }
 
 interface Value {
-	onClose: () => any;
+	onClose: () => void;
 }
 
 export class Provider extends React.Component<Props> {

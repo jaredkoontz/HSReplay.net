@@ -10,7 +10,7 @@ interface Props {
 	header?: string;
 	infoHeader?: InfoIconProps["header"];
 	infoContent?: InfoIconProps["content"];
-	onClick: (value: string, sender: string) => any;
+	onClick: (value: string, sender: string) => void;
 	selectedValue: string | string[];
 	disabled?: boolean;
 }

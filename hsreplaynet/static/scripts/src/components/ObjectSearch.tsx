@@ -16,7 +16,7 @@ interface Props<T> {
 	placeholder: string;
 	sorting: (a: T, b: T) => number;
 	label?: string;
-	onPaste?: (e: any) => any;
+	onPaste?: (e: any) => void;
 	showOnFocus?: boolean;
 	selectedObjects?: T[];
 	onObjectsChanged?: (objects: T[]) => void;

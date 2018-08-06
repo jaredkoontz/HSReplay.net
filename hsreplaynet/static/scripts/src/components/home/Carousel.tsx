@@ -3,8 +3,8 @@ import React from "react";
 interface Props {
 	from: React.ReactNode;
 	to: React.ReactNode;
-	onHoverStart?: () => any;
-	onHoverEnd?: () => any;
+	onHoverStart?: () => void;
+	onHoverEnd?: () => void;
 }
 
 interface State {

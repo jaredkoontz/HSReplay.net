@@ -16,8 +16,8 @@ export const enum PaymentMethod {
 
 export interface CheckoutFormInstanceProps {
 	submitUrl: string;
-	onDisable: (disabled: boolean) => any;
-	onSubscribe: (value: number) => any;
+	onDisable: (disabled: boolean) => void;
+	onSubscribe: (value: number) => void;
 }
 
 interface Props extends InjectedTranslateProps {
@@ -31,7 +31,7 @@ interface Props extends InjectedTranslateProps {
 	stripeCheckoutSubmitUrl: string;
 	paypalPlans: PaypalPlan[];
 	paypalSubmitUrl: string;
-	onSubscribe: (value: number) => any;
+	onSubscribe: (value: number) => void;
 }
 
 interface State {

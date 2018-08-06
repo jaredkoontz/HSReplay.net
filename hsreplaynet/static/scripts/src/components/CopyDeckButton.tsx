@@ -10,7 +10,7 @@ import { getHeroClassName } from "../helpers";
 
 interface Props extends InjectedTranslateProps {
 	cardData: CardData;
-	onCopy?: () => any;
+	onCopy?: () => void;
 	name?: string;
 	deckClass?: string;
 	cards: number[] | string[];

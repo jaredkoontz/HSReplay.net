@@ -21,8 +21,8 @@ interface Props extends InjectedTranslateProps {
 	hasCollection: boolean;
 	hasTokens: boolean;
 	hasMultipleBlizzardAccounts: boolean;
-	refreshAccount: () => any;
-	refreshCollection: () => any;
+	refreshAccount: () => void;
+	refreshCollection: () => void;
 }
 
 export const enum Step {

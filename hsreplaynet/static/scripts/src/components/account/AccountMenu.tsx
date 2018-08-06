@@ -11,7 +11,7 @@ interface Props extends InjectedTranslateProps {
 	signoutUrl: string;
 	accounts: { [key: string]: Account };
 	currentAccount: string | null;
-	setCurrentAccount: (key: string) => any;
+	setCurrentAccount: (key: string) => void;
 	className?: string;
 }
 

@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 interface Props {
-	onClose: () => any;
+	onClose: () => void;
 }
 
 export default class ModalScroller extends React.Component<Props> {

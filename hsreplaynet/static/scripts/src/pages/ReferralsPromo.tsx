@@ -6,7 +6,7 @@ import UserData from "../UserData";
 interface Props extends InjectedTranslateProps {
 	url: string;
 	discount: string;
-	onCopy?: () => any;
+	onCopy?: () => void;
 }
 
 interface State {

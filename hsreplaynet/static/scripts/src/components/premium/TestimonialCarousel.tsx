@@ -41,7 +41,7 @@ class TestimonialCarousel extends React.Component<Props, State> {
 		);
 	}
 
-	private rotate = (callback: () => any) => {
+	private rotate = (callback: () => void) => {
 		this.setState(
 			state => ({
 				index: (state.index + 1) % this.getTestimonialData().length,

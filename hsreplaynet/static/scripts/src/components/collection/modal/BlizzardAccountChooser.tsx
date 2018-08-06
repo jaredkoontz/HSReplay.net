@@ -7,7 +7,7 @@ interface Props extends InjectedTranslateProps {
 	id?: string;
 	accounts: { [account: string]: BlizzardAccount };
 	account: string;
-	setAccount: (account: string) => any;
+	setAccount: (account: string) => void;
 	note?: React.ReactNode;
 }
 

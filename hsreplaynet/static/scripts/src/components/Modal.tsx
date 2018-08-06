@@ -4,7 +4,7 @@ import ModalScroller from "./modal/ModalScroller";
 
 interface Props {
 	visible: boolean;
-	onClose: () => any;
+	onClose: () => void;
 }
 
 export default class Modal extends React.Component<Props> {
