@@ -108,7 +108,7 @@ export default class AdUnit extends React.Component<Props, State> {
 	};
 
 	public componentDidMount(): void {
-		if (showAds() && !debugAds()) {
+		if (showAds() && !debugAds() && AdHelper.isAdEnabled(this.props.id)) {
 			this.loadExternalAd();
 		}
 	}
