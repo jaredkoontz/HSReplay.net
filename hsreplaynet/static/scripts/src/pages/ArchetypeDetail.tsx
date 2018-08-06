@@ -205,365 +205,392 @@ class ArchetypeDetail extends React.Component<Props, State> {
 
 		let content = null;
 		if (this.hasData()) {
-			content = [
-				<section id="content-header" key="content-header">
-					<AdContainer>
-						<AdUnit id="ad-d-1" size="728x90" />
-						<AdUnit id="ad-d-2" size="728x90" />
-					</AdContainer>
-					<div className="container-fluid">
-						<div className="row">
-							<DataInjector
-								query={[
-									{
-										key: "chartData",
-										url: "single_archetype_stats_over_time",
-										params: chartParams,
-									},
-									{
-										key: "matchupData",
-										params,
-										url: "head_to_head_archetype_matchups",
-									},
-								]}
-								extract={{
-									matchupData: this.extractMatchupData,
-									chartData: this.trimChartData("chartData"),
-								}}
-							>
-								<WinrateBox
-									href="#tab=overtime"
-									onClick={() =>
-										this.props.setTab("overtime")
-									}
-								/>
-							</DataInjector>
-							<DataInjector
-								query={[
-									{
-										key: "chartData",
-										url: "single_archetype_stats_over_time",
-										params: chartParams,
-									},
-									{
-										key: "popularityData",
-										params,
-										url:
-											"archetype_popularity_distribution_stats",
-									},
-								]}
-								extract={{
-									popularityData: this.extractPopularityData,
-									chartData: this.trimChartData("chartData"),
-								}}
-							>
-								<PopularityBox
-									href="#tab=overtime"
-									onClick={() =>
-										this.props.setTab("overtime")
-									}
-									playerClass={this.props.playerClass}
-								/>
-							</DataInjector>
-							<DataInjector
-								query={[
-									{
-										key: "matchupData",
-										params,
-										url: "head_to_head_archetype_matchups",
-									},
-									{
-										key: "archetypeData",
-										params: {},
-										url: "/api/v1/archetypes/",
-									},
-								]}
-								extract={{
-									matchupData: this.matchupTileExtractor(
-										true,
-									),
-								}}
-							>
-								<MatchupBox title={t("Best matchup")} />
-							</DataInjector>
-							<DataInjector
-								query={[
-									{
-										key: "matchupData",
-										params,
-										url: "head_to_head_archetype_matchups",
-									},
-									{
-										key: "archetypeData",
-										params: {},
-										url: "/api/v1/archetypes/",
-									},
-								]}
-								extract={{
-									matchupData: this.matchupTileExtractor(
-										false,
-									),
-								}}
-							>
-								<MatchupBox title={t("Worst matchup")} />
-							</DataInjector>
-							<DataInjector
-								query={[
-									{
-										key: "deckData",
-										params: listDecksParams,
-										url: "list_decks_by_win_rate",
-									},
-									{
-										key: "archetypeData",
-										params: {},
-										url: `/api/v1/archetypes/${
-											this.props.archetypeId
-										}/`,
-									},
-								]}
-								extract={{
-									deckData: this.deckTileExtractor(
-										"total_games",
-									),
-								}}
-							>
-								<DeckBox title={t("Most popular deck")} />
-							</DataInjector>
-							<DataInjector
-								query={[
-									{
-										key: "deckData",
-										params: listDecksParams,
-										url: "list_decks_by_win_rate",
-									},
-									{
-										key: "archetypeData",
-										params: {},
-										url: `/api/v1/archetypes/${
-											this.props.archetypeId
-										}/`,
-									},
-								]}
-								extract={{
-									deckData: this.deckTileExtractor(
-										"win_rate",
-									),
-								}}
-							>
-								<DeckBox title={t("Best performing deck")} />
-							</DataInjector>
-						</div>
-					</div>
-				</section>,
-				<section id="page-content" key="page-content">
-					<TabList tab={this.props.tab} setTab={this.props.setTab}>
-						<Tab label={t("Overview")} id="overview">
-							<div className="col-lg-8 col-md-6 col-sm-12 col-xs-12">
+			content = (
+				<>
+					<section id="content-header">
+						<AdContainer>
+							<AdUnit id="ad-d-1" size="728x90" />
+							<AdUnit id="ad-d-2" size="728x90" />
+						</AdContainer>
+						<div className="container-fluid">
+							<div className="row">
 								<DataInjector
-									query={{
-										key: "data",
-										params: {},
-										url: `/api/v1/archetypes/${
-											this.props.archetypeId
-										}/`,
-									}}
+									query={[
+										{
+											key: "chartData",
+											url:
+												"single_archetype_stats_over_time",
+											params: chartParams,
+										},
+										{
+											key: "matchupData",
+											params,
+											url:
+												"head_to_head_archetype_matchups",
+										},
+									]}
 									extract={{
-										data: data =>
-											extractSignature(data, gameType),
+										matchupData: this.extractMatchupData,
+										chartData: this.trimChartData(
+											"chartData",
+										),
 									}}
 								>
-									<ArchetypeSignature
-										cardData={this.props.cardData}
+									<WinrateBox
+										href="#tab=overtime"
+										onClick={() =>
+											this.props.setTab("overtime")
+										}
+									/>
+								</DataInjector>
+								<DataInjector
+									query={[
+										{
+											key: "chartData",
+											url:
+												"single_archetype_stats_over_time",
+											params: chartParams,
+										},
+										{
+											key: "popularityData",
+											params,
+											url:
+												"archetype_popularity_distribution_stats",
+										},
+									]}
+									extract={{
+										popularityData: this
+											.extractPopularityData,
+										chartData: this.trimChartData(
+											"chartData",
+										),
+									}}
+								>
+									<PopularityBox
+										href="#tab=overtime"
+										onClick={() =>
+											this.props.setTab("overtime")
+										}
+										playerClass={this.props.playerClass}
+									/>
+								</DataInjector>
+								<DataInjector
+									query={[
+										{
+											key: "matchupData",
+											params,
+											url:
+												"head_to_head_archetype_matchups",
+										},
+										{
+											key: "archetypeData",
+											params: {},
+											url: "/api/v1/archetypes/",
+										},
+									]}
+									extract={{
+										matchupData: this.matchupTileExtractor(
+											true,
+										),
+									}}
+								>
+									<MatchupBox title={t("Best matchup")} />
+								</DataInjector>
+								<DataInjector
+									query={[
+										{
+											key: "matchupData",
+											params,
+											url:
+												"head_to_head_archetype_matchups",
+										},
+										{
+											key: "archetypeData",
+											params: {},
+											url: "/api/v1/archetypes/",
+										},
+									]}
+									extract={{
+										matchupData: this.matchupTileExtractor(
+											false,
+										),
+									}}
+								>
+									<MatchupBox title={t("Worst matchup")} />
+								</DataInjector>
+								<DataInjector
+									query={[
+										{
+											key: "deckData",
+											params: listDecksParams,
+											url: "list_decks_by_win_rate",
+										},
+										{
+											key: "archetypeData",
+											params: {},
+											url: `/api/v1/archetypes/${
+												this.props.archetypeId
+											}/`,
+										},
+									]}
+									extract={{
+										deckData: this.deckTileExtractor(
+											"total_games",
+										),
+									}}
+								>
+									<DeckBox title={t("Most popular deck")} />
+								</DataInjector>
+								<DataInjector
+									query={[
+										{
+											key: "deckData",
+											params: listDecksParams,
+											url: "list_decks_by_win_rate",
+										},
+										{
+											key: "archetypeData",
+											params: {},
+											url: `/api/v1/archetypes/${
+												this.props.archetypeId
+											}/`,
+										},
+									]}
+									extract={{
+										deckData: this.deckTileExtractor(
+											"win_rate",
+										),
+									}}
+								>
+									<DeckBox
+										title={t("Best performing deck")}
 									/>
 								</DataInjector>
 							</div>
-							<div className="col-lg-4 col-md-6 col-sm-12 col-xs-12">
-								<div className="archetype-chart">
+						</div>
+					</section>
+					<section id="page-content">
+						<TabList
+							tab={this.props.tab}
+							setTab={this.props.setTab}
+						>
+							<Tab label={t("Overview")} id="overview">
+								<div className="col-lg-8 col-md-6 col-sm-12 col-xs-12">
 									<DataInjector
-										query={[
-											{
-												key: "matchupData",
-												params,
-												url:
-													"archetype_popularity_distribution_stats",
-											},
-											{
-												key: "archetypeData",
-												params: {},
-												url: "/api/v1/archetypes/",
-											},
-										]}
+										query={{
+											key: "data",
+											params: {},
+											url: `/api/v1/archetypes/${
+												this.props.archetypeId
+											}/`,
+										}}
+										extract={{
+											data: data =>
+												extractSignature(
+													data,
+													gameType,
+												),
+										}}
 									>
-										<ChartLoading
-											dataKeys={[
-												"matchupData",
-												"archetypeData",
-											]}
-											noDataCondition={data => !data}
-										>
-											<ArchetypeDistributionPieChart
-												playerClass={
-													this.props.playerClass
-												}
-												selectedArchetypeId={
-													this.props.archetypeId
-												}
-											/>
-										</ChartLoading>
+										<ArchetypeSignature
+											cardData={this.props.cardData}
+										/>
 									</DataInjector>
 								</div>
-							</div>
-						</Tab>
-						<Tab
-							label={
-								<span className="text-premium">
-									{t("Mulligan Guide")}
-									<InfoIcon
-										header={t("Archetype Mulligan Guide")}
-										content={t(
-											"See how the various cards perform in this archetype.",
-										)}
-									/>
-								</span>
-							}
-							id="mulligan-guide"
-							premiumModalOnClick="ArchetypeMulligan"
-						>
-							{this.renderMulliganGuide(params)}
-						</Tab>
-						<Tab label={t("Matchups")} id="matchups">
-							<DataInjector
-								query={[
-									{
-										key: "archetypeMatchupData",
-										params,
-										url: "head_to_head_archetype_matchups",
-									},
-									{
-										key: "archetypeData",
-										params: {},
-										url: "/api/v1/archetypes/",
-									},
-								]}
-								extract={{
-									archetypeMatchupData: data => ({
-										archetypeMatchupData:
-											data.series.data[
-												"" + this.props.archetypeId
-											],
-									}),
-								}}
+								<div className="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+									<div className="archetype-chart">
+										<DataInjector
+											query={[
+												{
+													key: "matchupData",
+													params,
+													url:
+														"archetype_popularity_distribution_stats",
+												},
+												{
+													key: "archetypeData",
+													params: {},
+													url: "/api/v1/archetypes/",
+												},
+											]}
+										>
+											<ChartLoading
+												dataKeys={[
+													"matchupData",
+													"archetypeData",
+												]}
+												noDataCondition={data => !data}
+											>
+												<ArchetypeDistributionPieChart
+													playerClass={
+														this.props.playerClass
+													}
+													selectedArchetypeId={
+														this.props.archetypeId
+													}
+												/>
+											</ChartLoading>
+										</DataInjector>
+									</div>
+								</div>
+							</Tab>
+							<Tab
+								label={
+									<span className="text-premium">
+										{t("Mulligan Guide")}
+										<InfoIcon
+											header={t(
+												"Archetype Mulligan Guide",
+											)}
+											content={t(
+												"See how the various cards perform in this archetype.",
+											)}
+										/>
+									</span>
+								}
+								id="mulligan-guide"
+								premiumModalOnClick="ArchetypeMulligan"
 							>
-								<ArchetypeMatchups
-									archetypeId={this.props.archetypeId}
-									cardData={this.props.cardData}
-									minGames={100}
+								{this.renderMulliganGuide(params)}
+							</Tab>
+							<Tab label={t("Matchups")} id="matchups">
+								<DataInjector
+									query={[
+										{
+											key: "archetypeMatchupData",
+											params,
+											url:
+												"head_to_head_archetype_matchups",
+										},
+										{
+											key: "archetypeData",
+											params: {},
+											url: "/api/v1/archetypes/",
+										},
+									]}
+									extract={{
+										archetypeMatchupData: data => ({
+											archetypeMatchupData:
+												data.series.data[
+													"" + this.props.archetypeId
+												],
+										}),
+									}}
+								>
+									<ArchetypeMatchups
+										archetypeId={this.props.archetypeId}
+										cardData={this.props.cardData}
+										minGames={100}
+									/>
+								</DataInjector>
+							</Tab>
+							<Tab label={t("Popular Decks")} id="similar">
+								<DeckList
+									decks={this.state.popularDecks}
+									pageSize={10}
+									hideTopPager
+									sortBy={this.state.popularDecksSortBy}
+									sortDirection={
+										this.state.popularDecksSortDirection
+									}
+									setSortBy={sortBy =>
+										this.setState({
+											popularDecksSortBy: sortBy,
+										})
+									}
+									setSortDirection={sortDirection =>
+										this.setState({
+											popularDecksSortDirection: sortDirection,
+										})
+									}
+									page={this.state.popularDecksPage}
+									setPage={page =>
+										this.setState({
+											popularDecksPage: page,
+										})
+									}
+									collection={this.props.collection}
 								/>
-							</DataInjector>
-						</Tab>
-						<Tab label={t("Popular Decks")} id="similar">
-							<DeckList
-								decks={this.state.popularDecks}
-								pageSize={10}
-								hideTopPager
-								sortBy={this.state.popularDecksSortBy}
-								sortDirection={
-									this.state.popularDecksSortDirection
-								}
-								setSortBy={sortBy =>
-									this.setState({
-										popularDecksSortBy: sortBy,
-									})
-								}
-								setSortDirection={sortDirection =>
-									this.setState({
-										popularDecksSortDirection: sortDirection,
-									})
-								}
-								page={this.state.popularDecksPage}
-								setPage={page =>
-									this.setState({ popularDecksPage: page })
-								}
-								collection={this.props.collection}
-							/>
-						</Tab>
-						<Tab label={t("Over Time")} id="overtime">
-							<div className="over-time-chart">
-								<AutoSizer>
-									{({ width }) => (
-										<div>
-											<DataInjector
-												query={{
-													url:
-														"single_archetype_stats_over_time",
-													params: chartParams,
-												}}
-												extract={{
-													data: this.trimChartData(
-														"data",
-													),
-												}}
-											>
-												<ChartLoading>
-													<PopularityLineChart
-														maxYDomain={10}
-														width={width}
-														height={300}
-														absolute
-													/>
-												</ChartLoading>
-											</DataInjector>
-											<InfoIcon
-												header={t(
-													"Popularity over time",
-												)}
-												content={t(
-													"Percentage of all decks that are classified as this archetype.",
-												)}
-											/>
-										</div>
-									)}
-								</AutoSizer>
-							</div>
-							<div className="over-time-chart">
-								<AutoSizer>
-									{({ width }) => (
-										<div>
-											<DataInjector
-												query={{
-													url:
-														"single_archetype_stats_over_time",
-													params: chartParams,
-												}}
-												extract={{
-													data: this.trimChartData(
-														"data",
-													),
-												}}
-											>
-												<ChartLoading>
-													<WinrateLineChart
-														width={width}
-														height={300}
-														absolute
-													/>
-												</ChartLoading>
-											</DataInjector>
-											<InfoIcon
-												header={t("Winrate over time")}
-												content={t(
-													"Percentage of games won with this archetype.",
-												)}
-											/>
-										</div>
-									)}
-								</AutoSizer>
-							</div>
-						</Tab>
-					</TabList>
-				</section>,
-			];
+							</Tab>
+							<Tab label={t("Over Time")} id="overtime">
+								<div className="over-time-chart">
+									<AutoSizer>
+										{({ width }) => (
+											<div>
+												<DataInjector
+													query={{
+														url:
+															"single_archetype_stats_over_time",
+														params: chartParams,
+													}}
+													extract={{
+														data: this.trimChartData(
+															"data",
+														),
+													}}
+												>
+													<ChartLoading>
+														<PopularityLineChart
+															maxYDomain={10}
+															width={width}
+															height={300}
+															absolute
+														/>
+													</ChartLoading>
+												</DataInjector>
+												<InfoIcon
+													header={t(
+														"Popularity over time",
+													)}
+													content={t(
+														"Percentage of all decks that are classified as this archetype.",
+													)}
+												/>
+											</div>
+										)}
+									</AutoSizer>
+								</div>
+								<div className="over-time-chart">
+									<AutoSizer>
+										{({ width }) => (
+											<div>
+												<DataInjector
+													query={{
+														url:
+															"single_archetype_stats_over_time",
+														params: chartParams,
+													}}
+													extract={{
+														data: this.trimChartData(
+															"data",
+														),
+													}}
+												>
+													<ChartLoading>
+														<WinrateLineChart
+															width={width}
+															height={300}
+															absolute
+														/>
+													</ChartLoading>
+												</DataInjector>
+												<InfoIcon
+													header={t(
+														"Winrate over time",
+													)}
+													content={t(
+														"Percentage of games won with this archetype.",
+													)}
+												/>
+											</div>
+										)}
+									</AutoSizer>
+								</div>
+							</Tab>
+						</TabList>
+					</section>
+				</>
+			);
 		} else {
 			content = (
 				<h3 className="message-wrapper">{t("No available data")}</h3>

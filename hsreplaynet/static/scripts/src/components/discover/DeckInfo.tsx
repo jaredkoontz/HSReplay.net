@@ -45,36 +45,36 @@ class DeckInfo extends React.Component<Props> {
 					cardList.push(c[0]);
 				}
 			});
-			content = [
-				<h1 key="title">
-					<span
-						className="signature-label"
-						style={{ backgroundColor: clusterColor }}
+			content = (
+				<>
+					<h1>
+						<span
+							className="signature-label"
+							style={{ backgroundColor: clusterColor }}
+						/>
+						{deck.cluster_name}
+					</h1>
+					<CardList
+						cardData={cardData}
+						cardList={cardList}
+						name=""
+						heroes={[]}
 					/>
-					{deck.cluster_name}
-				</h1>,
-				<CardList
-					key="decklist"
-					cardData={cardData}
-					cardList={cardList}
-					name=""
-					heroes={[]}
-				/>,
-				<a
-					key="deck-detail-link"
-					className="btn btn-primary btn-deck-details"
-					href={`/decks/${deck.shortid}/`}
-				>
-					{t("View deck details")}
-				</a>,
-				<h2 key="data-header">{t("Data")}</h2>,
-				<ul key="data-list">
-					<li>
-						{t("Games")}
-						<span className="infobox-value">{deck.games}</span>
-					</li>
-				</ul>,
-			];
+					<a
+						className="btn btn-primary btn-deck-details"
+						href={`/decks/${deck.shortid}/`}
+					>
+						{t("View deck details")}
+					</a>
+					<h2>{t("Data")}</h2>
+					<ul>
+						<li>
+							{t("Games")}
+							<span className="infobox-value">{deck.games}</span>
+						</li>
+					</ul>
+				</>
+			);
 		}
 
 		return (
