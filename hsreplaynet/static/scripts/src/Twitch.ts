@@ -58,7 +58,7 @@ export default class Twitch {
 		return (
 			stream &&
 			stream.type === "live" &&
-			stream.game_id === hearthstoneGameId
+			+stream.game_id === hearthstoneGameId
 		);
 	}
 }
