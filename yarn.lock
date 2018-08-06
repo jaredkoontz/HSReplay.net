@@ -198,6 +198,10 @@
     "@types/d3-voronoi" "*"
     "@types/d3-zoom" "*"
 
+"@types/facebook-pixel@^0.0.19":
+  version "0.0.19"
+  resolved "https://registry.yarnpkg.com/@types/facebook-pixel/-/facebook-pixel-0.0.19.tgz#37f6b8eeab00ff58b3d3b7a90d7c5d277ff5c5ae"
+
 "@types/geojson@*":
   version "7946.0.1"
   resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-7946.0.1.tgz#1fc41280e42f08f0d568401a556bc97c34f5262e"

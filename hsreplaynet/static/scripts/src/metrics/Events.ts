@@ -37,6 +37,20 @@ export default class Events {
 		}
 		ga("send", "pageview", url);
 	}
+
+	public static fb(eventName: string, params?: any): void {
+		if (typeof fbq !== "function") {
+			return;
+		}
+		fbq("track", eventName, { ...params });
+	}
+
+	public static fbCustom(eventName: string, params?: any): void {
+		if (typeof fbq !== "function") {
+			return;
+		}
+		fbq("trackCustom", eventName, { ...params });
+	}
 }
 
 export class SubscriptionEvents extends Events {
