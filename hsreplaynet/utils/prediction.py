@@ -57,7 +57,7 @@ class PredictionResult:
 		return stack
 
 
-DEFAULT_POPULARITY_TTL = 4 * SECONDS_PER_DAY
+DEFAULT_POPULARITY_TTL = 2 * SECONDS_PER_DAY
 
 
 class DeckPredictionTree:
