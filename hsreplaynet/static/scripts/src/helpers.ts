@@ -3,7 +3,7 @@ import React from "react";
 import CardData from "./CardData";
 import { Colors } from "./Colors";
 import Fragments from "./components/Fragments";
-import { wildSets } from "./contants";
+import { wildSets } from "./constants";
 import { CardClass, Rarity } from "./hearthstone";
 import {
 	CardObj,
