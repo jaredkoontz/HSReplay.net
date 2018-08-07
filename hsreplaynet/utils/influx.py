@@ -23,7 +23,6 @@ def create_influx_client(dbdict):
 		"password": dbdict["PASSWORD"],
 		"database": dbdict["NAME"],
 		"ssl": dbdict.get("SSL", False),
-		"verify_ssl": dbdict.get("VERIFY_SSL", True),
 		"timeout": dbdict.get("TIMEOUT", 2)
 	}
 
