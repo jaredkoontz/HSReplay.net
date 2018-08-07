@@ -70,7 +70,7 @@ const render = (cardData: CardData) => {
 								<Decks
 									cardData={cardData}
 									collection={collection}
-									latestSet="GILNEAS"
+									latestSet="BOOMSDAY"
 								/>
 							</Fragments>
 						)}
