@@ -68,13 +68,6 @@ class CardDataSerializer(Serializer):
 				return data
 		raise InvalidCardException()
 
-	def _is_in_deck(self, instance, deck):
-		cards = json.loads(deck["deck_list"])
-		for dbf_id, count in cards:
-			if dbf_id == instance["card"].dbf_id:
-				return True
-		return False
-
 	def get_url(self, instance):
 		return "https://hsreplay.net%s#gameType=%s" % (
 			instance["card"].get_absolute_url(),
@@ -90,23 +83,17 @@ class CardDataSerializer(Serializer):
 	def get_top_decks(self, instance):
 		if (
 			instance["game_type"] not in self.CONSTRUCTED_GAME_TYPES or
-			not self._deck_data
+			not self._deck_data or
+			instance["card"].dbf_id not in self._deck_data
 		):
 			return []
-		decks = dict()
-		player_class = instance["card"].card_class.name
-		keys = self._deck_data.keys()
-		all_decks = self._deck_data[player_class] if (
-			player_class in keys
-		) else list(chain(*(self._deck_data[key] for key in keys)))
-		for deck in all_decks:
-			if deck["archetype_id"] > 0 and self._is_in_deck(instance, deck):
-				id = deck["archetype_id"]
-				if id not in decks or deck["win_rate"] > decks[id]["win_rate"]:
-					decks[id] = deck
+
 		decks = sorted(
-			decks.values(), key=lambda x: x["win_rate"], reverse=True
+			self._deck_data[instance["card"].dbf_id].values(),
+			key=lambda x: x["win_rate"],
+			reverse=True
 		)[:self.NUM_TOP_DECKS]
+
 		return [CardDataDeckSerializer(deck).data for deck in decks]
 
 
@@ -115,9 +102,46 @@ class CardSerializer(Serializer):
 	dbf_id = SerializerMethodField()
 	game_types = SerializerMethodField()
 
+	# Generates a map of dbf_id -> archetype_id -> deck with best winrate
+
+	def _explode_by_card(self, decks_by_class):
+		cards = dict()
+
+		for deck in chain(*decks_by_class.values()):
+			archetype_id = deck["archetype_id"]
+
+			if archetype_id <= 0:
+				continue
+
+			for card_count in json.loads(deck["deck_list"]):
+				deck_card_dbf_id = card_count[0]
+				if deck_card_dbf_id not in cards:
+					cards[deck_card_dbf_id] = dict()
+
+				best_deck = cards[deck_card_dbf_id].get(archetype_id)
+
+				if not best_deck or best_deck["win_rate"] < deck["win_rate"]:
+					cards[deck_card_dbf_id][archetype_id] = deck
+
+		return cards
+
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
-		self._context = kwargs["context"]["game_type_data"]
+
+		self._context = dict()
+
+		data_by_game_type = kwargs["context"]["game_type_data"]
+		for game_type in data_by_game_type.keys():
+			src_data = data_by_game_type[game_type]
+			deck_data = src_data["deck_data"]
+
+			exploded_deck_data = self._explode_by_card(deck_data) \
+				if deck_data else None
+
+			self._context[game_type] = dict(
+				deck_data=exploded_deck_data,
+				popularity_data=src_data["popularity_data"]
+			)
 
 	def to_representation(self, instance):
 		try:

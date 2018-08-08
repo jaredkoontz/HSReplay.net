@@ -16,6 +16,13 @@ from hsreplaynet.api.partner.serializers import (
 from hsreplaynet.decks.models import Archetype
 
 
+EXPLODED_DECK_DATA = {
+	836: {
+		1: TEST_DRUID_DECK_WRATH_1,
+		2: TEST_DRUID_DECK_WRATH_2
+	}
+}
+
 TOKEN_DRUID_ARCHETYPE = Archetype(id=7, name="Token Druid", player_class=2)
 
 TOKEN_DRUID_STATS = {
@@ -244,7 +251,7 @@ class TestCardDataSerializer(object):
 			"card": Card.objects.get(dbf_id=836)
 		}
 		context = {
-			"deck_data": DECK_DATA,
+			"deck_data": EXPLODED_DECK_DATA,
 			"popularity_data": POPULARITY_DATA
 		}
 		serializer = CardDataSerializer(data, context=context)
@@ -262,7 +269,7 @@ class TestCardDataSerializer(object):
 		}).data
 		with pytest.raises(InvalidCardException):
 			data = CardDataSerializer(data, context={
-				"deck_data": DECK_DATA,
+				"deck_data": EXPLODED_DECK_DATA,
 				"popularity_data": {}
 			}).data
 
@@ -274,7 +281,7 @@ class TestCardDataSerializer(object):
 		}
 		with pytest.raises(InvalidCardException):
 			data = CardDataSerializer(data, context={
-				"deck_data": DECK_DATA,
+				"deck_data": EXPLODED_DECK_DATA,
 				"popularity_data": POPULARITY_DATA
 			}).data
 
