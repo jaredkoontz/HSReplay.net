@@ -18,6 +18,7 @@ import AllSet from "../components/onboarding/AllSet";
 import ConnectAccount from "../components/onboarding/ConnectAccount";
 import AdContainer from "../components/ads/AdContainer";
 import AdUnit from "../components/ads/AdUnit";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 interface Props extends FragmentChildProps, InjectedTranslateProps {
 	cardData: CardData;
@@ -43,9 +44,8 @@ interface Props extends FragmentChildProps, InjectedTranslateProps {
 }
 
 interface State {
-	cards: any[];
+	filteredCards: number[] | null;
 	hasPersonalData: boolean;
-	filteredCards: any[];
 	numCards: number;
 	showFilters: boolean;
 }
@@ -56,19 +56,32 @@ class Cards extends React.Component<Props, State> {
 	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
-			cards: null,
+			filteredCards: null,
 			hasPersonalData: false,
-			filteredCards: [],
-			numCards: 0,
+			numCards: 24,
 			showFilters: false,
 		};
+	}
+
+	public static getDerivedStateFromProps(nextProps: Props, prevState: State) {
+		if (prevState.filteredCards === null && nextProps.cardData) {
+			return {
+				filteredCards: nextProps.cardData
+					.collectible()
+					.map(card => card.dbfId),
+			};
+		}
+		return null;
 	}
 
 	onSearchScroll(): void {
 		if (!this.showMoreButton) {
 			return;
 		}
-		if (this.state.numCards >= this.state.filteredCards.length) {
+		if (
+			this.state.filteredCards !== null &&
+			this.state.numCards >= this.state.filteredCards.length
+		) {
 			return;
 		}
 		const rect = this.showMoreButton.getBoundingClientRect();
@@ -133,7 +146,10 @@ class Cards extends React.Component<Props, State> {
 
 		let showMoreButton = null;
 
-		if (this.state.filteredCards.length > this.state.numCards) {
+		if (
+			this.state.filteredCards !== null &&
+			this.state.filteredCards.length > this.state.numCards
+		) {
 			showMoreButton = (
 				<div
 					id="more-button-wrapper"
@@ -154,7 +170,15 @@ class Cards extends React.Component<Props, State> {
 			);
 		}
 
-		if (this.props.account) {
+		if (!this.props.cardData || !this.state.filteredCards) {
+			content.push(
+				<div className="table-wrapper">
+					<div className="message-wrapper">
+						<LoadingSpinner active />
+					</div>
+				</div>,
+			);
+		} else if (this.props.account) {
 			content.push(
 				<div className="table-wrapper">
 					<DataInjector
@@ -167,9 +191,10 @@ class Cards extends React.Component<Props, State> {
 						}}
 					>
 						<CardTable
-							cards={(this.state.filteredCards || []).map(
-								card => ({ card, count: 1 }),
-							)}
+							cards={this.state.filteredCards.map(dbfId => ({
+								card: this.props.cardData.fromDbf(dbfId),
+								count: 1,
+							}))}
 							columns={[
 								"totalGames",
 								"winrate",
