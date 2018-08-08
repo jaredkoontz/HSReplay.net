@@ -3,7 +3,7 @@ import React, { Fragment } from "react";
 import { InjectedTranslateProps, translate } from "react-i18next";
 import CardData from "../CardData";
 import DataManager from "../DataManager";
-import UserData, { Account } from "../UserData";
+import UserData from "../UserData";
 import CardImage from "../components/CardImage";
 import ClassFilter, { FilterOption } from "../components/ClassFilter";
 import DataInjector from "../components/DataInjector";
@@ -35,13 +35,6 @@ import {
 	LoadingStatus,
 	SortDirection,
 } from "../interfaces";
-import { Collection } from "../utils/api";
-import {
-	getCollectionCardCount,
-	isCollectionDisabled,
-} from "../utils/collection";
-import AllSet from "../components/onboarding/AllSet";
-import ConnectAccount from "../components/onboarding/ConnectAccount";
 import AdContainer from "../components/ads/AdContainer";
 import AdUnit from "../components/ads/AdUnit";
 import AdHelper from "../AdHelper";
@@ -59,9 +52,6 @@ interface CardFilters {
 
 interface Props extends FragmentChildProps, InjectedTranslateProps {
 	cardData: CardData;
-	personal: boolean;
-	collection: Collection | null;
-	account: Account | null;
 
 	text?: string;
 	setText?: (text: string, debounce?: boolean) => void;
@@ -113,7 +103,6 @@ interface State {
 	cards: any[];
 	filteredCards: any[];
 	filterCounts: CardFilters;
-	hasPersonalData: boolean;
 	hasStatisticsData: boolean;
 	numCards: number;
 	showFilters: boolean;
@@ -231,7 +220,6 @@ class Cards extends React.Component<Props, State> {
 			cards: null,
 			filterCounts: null,
 			filteredCards: [],
-			hasPersonalData: false,
 			hasStatisticsData: false,
 			numCards: 24,
 			showFilters: false,
@@ -254,17 +242,6 @@ class Cards extends React.Component<Props, State> {
 	private scrollCb;
 
 	public componentDidMount(): void {
-		if (this.props.personal && this.props.account) {
-			DataManager.get(
-				"single_account_lo_individual_card_stats",
-				this.getPersonalParams(),
-			).then(data =>
-				this.setState({
-					hasPersonalData: data && data.series.data.ALL.length > 0,
-				}),
-			);
-		}
-
 		this.scrollCb = () => this.onSearchScroll();
 		document.addEventListener("scroll", this.scrollCb);
 		if (this.props.display === "gallery") {
@@ -281,7 +258,7 @@ class Cards extends React.Component<Props, State> {
 		prevState: Readonly<State>,
 		prevContext: any,
 	): void {
-		if (!this.props.personal && prevProps.display !== this.props.display) {
+		if (prevProps.display !== this.props.display) {
 			if (this.props.display === "gallery") {
 				this.loadPlaceholders();
 			}
@@ -301,8 +278,7 @@ class Cards extends React.Component<Props, State> {
 		if (
 			!_.isEqual(_.omit(this.props, ignore), _.omit(prevProps, ignore)) ||
 			!this.state.filteredCards ||
-			!_.eq(prevState.cards, this.state.cards) ||
-			this.props.account !== prevProps.account
+			!_.eq(prevState.cards, this.state.cards)
 		) {
 			this.updateFilteredCards();
 		}
@@ -342,9 +318,7 @@ class Cards extends React.Component<Props, State> {
 
 		const { display, uncollectible } = this.props;
 		const showUncollectible =
-			display === "gallery" &&
-			uncollectible === "show" &&
-			!this.props.personal;
+			display === "gallery" && uncollectible === "show";
 
 		const viableUncollectibleCard = card =>
 			!card.collectible &&
@@ -417,23 +391,6 @@ class Cards extends React.Component<Props, State> {
 					return [];
 				},
 			);
-		} else if (this.props.personal && this.props.account) {
-			return DataManager.get(
-				"single_account_lo_individual_card_stats",
-				this.getPersonalParams(),
-			).then(
-				data => {
-					const sparseDict = {};
-					data.series.data.ALL.forEach(card => {
-						sparseDict[card.dbf_id] =
-							card.total_games || card.times_played;
-					});
-					return [sparseDict];
-				},
-				status => {
-					return [];
-				},
-			);
 		} else {
 			return Promise.resolve([]);
 		}
@@ -489,68 +446,7 @@ class Cards extends React.Component<Props, State> {
 			);
 		}
 
-		if (this.props.personal) {
-			if (this.props.account) {
-				content.push(
-					<div className="table-wrapper">
-						<DataInjector
-							query={{
-								params: this.getPersonalParams(),
-								url: "single_account_lo_individual_card_stats",
-							}}
-							extract={{
-								data: data => ({ data: data.series.data.ALL }),
-							}}
-						>
-							<CardTable
-								cards={(this.state.filteredCards || []).map(
-									card => ({ card, count: 1 }),
-								)}
-								columns={[
-									"totalGames",
-									"winrate",
-									"timesPlayedPersonal",
-									"distinctDecks",
-									"damageDone",
-									"healingDone",
-									"heroesKilled",
-									"minionsKilled",
-								]}
-								sortBy={this.props.sortBy}
-								sortDirection={this.props.sortDirection}
-								onSortChanged={(a, b) =>
-									this.onSortChanged(a, b)
-								}
-								numCards={this.state.numCards}
-								customNoDataMessage={
-									<AllSet
-										account={this.props.account}
-										feature={t(
-											"personalized deck statistics",
-										)}
-									>
-										{t(
-											"After you've played some games you'll find statistics for all the cards you play right here.",
-										)}
-									</AllSet>
-								}
-							/>
-						</DataInjector>
-					</div>,
-				);
-				if (showMoreButton && this.state.hasPersonalData) {
-					content.push(showMoreButton);
-				}
-			} else {
-				content.push(
-					<div className="message-wrapper">
-						<ConnectAccount
-							feature={t("personalized card statistics")}
-						/>
-					</div>,
-				);
-			}
-		} else if (isStatsView) {
+		if (isStatsView) {
 			const dataKey =
 				this.props.playerClass === "NEUTRAL"
 					? "ALL"
@@ -677,19 +573,7 @@ class Cards extends React.Component<Props, State> {
 					>
 						<CardTable
 							cards={(this.state.filteredCards || []).map(
-								card => {
-									let count = 1;
-									if (this.props.display === "crafting") {
-										count = getCollectionCardCount(
-											this.props.collection,
-											card.dbfId,
-										);
-										if (count === null) {
-											count = 0;
-										}
-									}
-									return { card, count };
-								},
+								card => ({ card, count: 1 }),
 							)}
 							columns={[
 								"includedPopularity",
@@ -705,20 +589,6 @@ class Cards extends React.Component<Props, State> {
 							numCards={this.state.numCards}
 							topInfoRow={topInfoMessage}
 							bottomInfoRow={bottomInfomessage}
-							collection={
-								this.props.display === "crafting" &&
-								!isCollectionDisabled()
-									? this.props.collection
-									: null
-							}
-							showEmptyCollection={
-								this.props.display === "crafting"
-							}
-							forceCardCounts={
-								this.props.display === "crafting"
-									? i => +i > 0
-									: false
-							}
 							adInterval={12}
 							ads={_.range(5, 100, 2).map(x => {
 								const ads = [`cl-d-${x}`, `cl-d-${x + 1}`];
@@ -922,11 +792,7 @@ class Cards extends React.Component<Props, State> {
 				onReset={() => this.resetFilters()}
 				showReset={showReset}
 			>
-				{this.props.personal
-					? t("My Cards")
-					: isStatsView
-						? t("Cards")
-						: t("Gallery")}
+				{isStatsView ? t("Cards") : t("Gallery")}
 			</ResetHeader>,
 		];
 
@@ -948,47 +814,23 @@ class Cards extends React.Component<Props, State> {
 			</section>
 		);
 
-		if (!this.props.personal) {
-			filters.push(
-				<InfoboxFilterGroup
-					header={t("Display")}
-					selectedValue={this.props.display}
-					onClick={value => this.props.setDisplay(value)}
-					key="display"
-				>
-					<InfoboxFilter value="statistics">
-						{t("Statistics view")}
-					</InfoboxFilter>
-					{!isCollectionDisabled() ? (
-						<InfoboxFilter value="crafting">
-							{t("Crafting view")}
-						</InfoboxFilter>
-					) : null}
-					<InfoboxFilter value="gallery">
-						{t("Gallery view")}
-					</InfoboxFilter>
-				</InfoboxFilterGroup>,
-			);
-		}
+		filters.push(
+			<InfoboxFilterGroup
+				header={t("Display")}
+				selectedValue={this.props.display}
+				onClick={value => this.props.setDisplay(value)}
+				key="display"
+			>
+				<InfoboxFilter value="statistics">
+					{t("Statistics view")}
+				</InfoboxFilter>
+				<InfoboxFilter value="gallery">
+					{t("Gallery view")}
+				</InfoboxFilter>
+			</InfoboxFilterGroup>,
+		);
 
-		if (this.props.personal || !isStatsView) {
-			filters.push(
-				<Fragment key="class">
-					<h2>{t("Class")}</h2>
-					<ClassFilter
-						filters="AllNeutral"
-						hideAll
-						minimal
-						selectedClasses={[
-							this.props.playerClass as FilterOption,
-						]}
-						selectionChanged={selected =>
-							this.props.setPlayerClass(selected[0])
-						}
-					/>
-				</Fragment>,
-			);
-		} else {
+		if (isStatsView) {
 			filters.push(
 				<Fragment key="class">
 					<h2>{t("Deck Class")}</h2>
@@ -1131,63 +973,33 @@ class Cards extends React.Component<Props, State> {
 					</InfoboxFilterGroup>
 				</Fragment>,
 			);
-		}
-
-		if (this.props.personal) {
-			filters.push(modeFilter);
+		} else {
 			filters.push(
-				<InfoboxFilterGroup
-					header={t("Time frame")}
-					selectedValue={this.props.timeRange}
-					onClick={value => this.props.setTimeRange(value)}
-					key="timeframe"
-				>
-					<InfoboxFilter value={TimeRange.LAST_3_DAYS}>
-						<PrettyTimeRange timeRange={TimeRange.LAST_3_DAYS} />
-					</InfoboxFilter>
-					<InfoboxFilter value={TimeRange.LAST_7_DAYS}>
-						<PrettyTimeRange timeRange={TimeRange.LAST_7_DAYS} />
-					</InfoboxFilter>
-					<InfoboxFilter value={TimeRange.LAST_30_DAYS}>
-						<PrettyTimeRange timeRange={TimeRange.LAST_30_DAYS} />
-					</InfoboxFilter>
-					<InfoboxFilter value={TimeRange.CURRENT_SEASON}>
-						<PrettyTimeRange timeRange={TimeRange.CURRENT_SEASON} />
-					</InfoboxFilter>
-					<Feature feature={"current-expansion-filter"}>
-						<InfoboxFilter value={TimeRange.CURRENT_EXPANSION}>
-							<PrettyTimeRange
-								timeRange={TimeRange.CURRENT_EXPANSION}
-							/>
-							<span className="infobox-value">New!</span>
-						</InfoboxFilter>
-					</Feature>
-					<Feature feature={"current-patch-filter"}>
-						<InfoboxFilter value={TimeRange.CURRENT_PATCH}>
-							<PrettyTimeRange
-								timeRange={TimeRange.CURRENT_PATCH}
-							/>
-							<span className="infobox-value">{t("New!")}</span>
-						</InfoboxFilter>
-					</Feature>
-				</InfoboxFilterGroup>,
+				<Fragment key="class">
+					<h2>{t("Class")}</h2>
+					<ClassFilter
+						filters="AllNeutral"
+						hideAll
+						minimal
+						selectedClasses={[
+							this.props.playerClass as FilterOption,
+						]}
+						selectionChanged={selected =>
+							this.props.setPlayerClass(selected[0])
+						}
+					/>
+				</Fragment>,
 			);
 		}
 
-		if (isStatsView || (this.props.personal && this.props.account)) {
-			const lastUpdatedUrl = isStatsView
-				? "card_played_popularity_report"
-				: "single_account_lo_individual_card_stats";
-			const lastUpdatedParams = isStatsView
-				? this.getParams()
-				: this.getPersonalParams();
+		if (isStatsView) {
 			filters.push(
 				<Fragment key="data">
 					<h2>{t("Data")}</h2>
 					<ul>
 						<InfoboxLastUpdated
-							url={lastUpdatedUrl}
-							params={lastUpdatedParams}
+							url={"card_played_popularity_report"}
+							params={this.getParams()}
 						/>
 					</ul>
 					<InfoboxFilterGroup
@@ -1293,7 +1105,7 @@ class Cards extends React.Component<Props, State> {
 			</InfoboxFilterGroup>,
 		);
 
-		if (this.props.display === "gallery" && !this.props.personal) {
+		if (this.props.display === "gallery") {
 			filters.push(
 				<InfoboxFilterGroup
 					key="uncollectible"
@@ -1462,13 +1274,6 @@ class Cards extends React.Component<Props, State> {
 			}
 		}
 
-		if (this.props.personal && sparseDicts.length) {
-			const playedOrIncluded = sparseDicts[0][card.dbfId];
-			if (!playedOrIncluded) {
-				return true;
-			}
-		}
-
 		if (isStatsView && sparseDicts.length) {
 			const included = sparseDicts[0][card.dbfId];
 			const played = sparseDicts[1][card.dbfId];
@@ -1533,25 +1338,13 @@ class Cards extends React.Component<Props, State> {
 		return params;
 	}
 
-	getPersonalParams(): any {
-		if (!this.props.account) {
-			return {};
-		}
-		return {
-			GameType: this.props.gameType,
-			Region: this.props.account.region,
-			account_lo: this.props.account.lo,
-			TimeRange: this.props.timeRange,
-		};
-	}
-
 	onSortChanged(sortBy, sortDirection): void {
 		this.props.setSortBy(sortBy);
 		this.props.setSortDirection(sortDirection);
 	}
 
 	isStatsView(): boolean {
-		return !this.props.personal && this.props.display !== "gallery";
+		return this.props.display !== "gallery";
 	}
 
 	private loadPlaceholders(): void {
