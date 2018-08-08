@@ -186,6 +186,11 @@ class ClassAnalysis extends React.Component<Props, State> {
 													);
 												}
 											}}
+											onPointRightClicked={cluster => {
+												this.props.setClusterTab(
+													cluster,
+												);
+											}}
 											includedCards={
 												this.props.includedCards
 											}

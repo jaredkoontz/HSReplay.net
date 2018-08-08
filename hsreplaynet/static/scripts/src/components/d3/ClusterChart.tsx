@@ -15,6 +15,7 @@ interface Props {
 	excludedCards: number[];
 	maxGames: number;
 	onPointClicked: (data) => void;
+	onPointRightClicked: (cluster) => void;
 	playerClass: string;
 	width: number;
 	cardData: CardData;
@@ -228,6 +229,12 @@ export default class ClusterChart extends React.Component<Props, State> {
 			);
 		};
 
+		const onRightClick = (d: any) => {
+			d3.event.preventDefault();
+			const datum = dataLookup[getKey(d.data)];
+			this.props.onPointRightClicked(datum.metadata.cluster_id);
+		};
+
 		const onClick = (d: any) => {
 			const datum = dataLookup[getKey(d.data)];
 			const { selectedDatum } = this.state;
@@ -285,6 +292,7 @@ export default class ClusterChart extends React.Component<Props, State> {
 			.on("mouseover", onHover)
 			.on("mouseleave", onExit)
 			.on("click", onClick)
+			.on("contextmenu", onRightClick)
 			.transition()
 			.delay(400)
 			.attr("stroke", (d: any) => this.strokeColor(findDatum(d.data)))
