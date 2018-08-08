@@ -19,6 +19,7 @@ import ConnectAccount from "../components/onboarding/ConnectAccount";
 import AdContainer from "../components/ads/AdContainer";
 import AdUnit from "../components/ads/AdUnit";
 import LoadingSpinner from "../components/LoadingSpinner";
+import CardFilterManager from "../components/cards/CardFilterManager";
 
 interface Props extends FragmentChildProps, InjectedTranslateProps {
 	cardData: CardData;
@@ -61,17 +62,6 @@ class Cards extends React.Component<Props, State> {
 			numCards: 24,
 			showFilters: false,
 		};
-	}
-
-	public static getDerivedStateFromProps(nextProps: Props, prevState: State) {
-		if (prevState.filteredCards === null && nextProps.cardData) {
-			return {
-				filteredCards: nextProps.cardData
-					.collectible()
-					.map(card => card.dbfId),
-			};
-		}
-		return null;
 	}
 
 	onSearchScroll(): void {
@@ -256,37 +246,42 @@ class Cards extends React.Component<Props, State> {
 
 		return (
 			<div className="cards">
-				<aside
-					className={filterClassNames.join(" ")}
-					id="cards-infobox"
+				<CardFilterManager
+					cardData={this.props.cardData}
+					onFilter={filteredCards => this.setState({ filteredCards })}
 				>
-					{backButton}
-					{this.buildFilters()}
-					{backButton}
-					<AdUnit id="cl-d-3" size="300x250" />
-					<AdUnit id="cl-d-4" size="300x250" />
-				</aside>
-				<main className={contentClassNames.join(" ")}>
-					<AdContainer>
-						<AdUnit id="cl-d-1" size="728x90" />
-						<AdUnit id="cl-d-2" size="728x90" />
-					</AdContainer>
-					<button
-						className="btn btn-default visible-xs"
-						id="filter-button"
-						type="button"
-						onClick={() =>
-							this.setState({
-								showFilters: !this.state.showFilters,
-							})
-						}
+					<aside
+						className={filterClassNames.join(" ")}
+						id="cards-infobox"
 					>
-						<span className="glyphicon glyphicon-filter" />
-						{t("Filters")}
-					</button>
-					{/*{search}*/}
-					{content}
-				</main>
+						{backButton}
+						{this.buildFilters()}
+						{backButton}
+						<AdUnit id="cl-d-3" size="300x250" />
+						<AdUnit id="cl-d-4" size="300x250" />
+					</aside>
+					<main className={contentClassNames.join(" ")}>
+						<AdContainer>
+							<AdUnit id="cl-d-1" size="728x90" />
+							<AdUnit id="cl-d-2" size="728x90" />
+						</AdContainer>
+						<button
+							className="btn btn-default visible-xs"
+							id="filter-button"
+							type="button"
+							onClick={() =>
+								this.setState({
+									showFilters: !this.state.showFilters,
+								})
+							}
+						>
+							<span className="glyphicon glyphicon-filter" />
+							{t("Filters")}
+						</button>
+						{/*{search}*/}
+						{content}
+					</main>
+				</CardFilterManager>
 			</div>
 		);
 	}
