@@ -34,11 +34,8 @@ class CardsView(SimpleReactView):
 
 class MyCardsView(LoginRequiredMixin, PremiumRequiredMixin, SimpleReactView):
 	title = _("My Cards")
-	bundle = "cards"
-	bundles = ("stats", "cards")
-
-	def get_react_context(self):
-		return {"view": "personal"}
+	bundle = "my_cards"
+	bundles = ("stats", "my_cards")
 
 
 class CardDetailView(SimpleReactView):

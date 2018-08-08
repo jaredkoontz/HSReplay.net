@@ -59,6 +59,7 @@ module.exports = env => {
 			cards: makeEntry("cards"),
 			deck_detail: makeEntry("deck_detail"),
 			decks: makeEntry("decks"),
+			my_cards: makeEntry("my_cards"),
 			my_decks: makeEntry("my_decks"),
 			meta_overview: makeEntry("meta_overview"),
 			trending: makeEntry("trending"),
