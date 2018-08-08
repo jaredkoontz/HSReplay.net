@@ -238,12 +238,6 @@ class Cards extends React.Component<Props, State> {
 		};
 	}
 
-	getAllowedValues(): any {
-		return UserData.isPremium()
-			? this.allowedValuesPremium
-			: this.allowedValues;
-	}
-
 	onSearchScroll(): void {
 		if (!this.showMoreButton) {
 			return;
