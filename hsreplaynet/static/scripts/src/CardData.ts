@@ -39,4 +39,8 @@ export default class CardData {
 	public all(): HearthstoneJSONCardData[] {
 		return this.cards;
 	}
+
+	public collectible(): HearthstoneJSONCardData[] {
+		return this.cards.filter(card => card.collectible);
+	}
 }
