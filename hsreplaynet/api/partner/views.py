@@ -1,6 +1,5 @@
 from functools import lru_cache
 
-from django_hearthstone.cards.models import Card
 from hearthstone import enums
 from oauth2_provider.contrib.rest_framework import OAuth2Authentication, TokenHasScope
 from rest_framework import status, views
@@ -13,7 +12,7 @@ from hsreplaynet.api.partner.serializers import (
 )
 from hsreplaynet.api.partner.utils import QueryDataNotAvailableException
 from hsreplaynet.decks.api import Archetype
-from hsreplaynet.utils import get_logger, influx
+from hsreplaynet.utils import card_db, get_logger, influx
 from hsreplaynet.utils.aws.redshift import get_redshift_query
 
 from .permissions import PartnerStatsPermission
@@ -55,6 +54,9 @@ class CardsView(PartnerStatsListView):
 	supported_game_types = ["ARENA", "RANKED_STANDARD", "RANKED_WILD"]
 	constructed_game_types = ["RANKED_STANDARD", "RANKED_WILD"]
 
+	def __init__(self, *args, **kwargs):
+		super(CardsView, self).__init__(*args, **kwargs)
+
 	def list(self, request, *args, **kwargs):
 		error = None
 		try:
@@ -90,11 +92,13 @@ class CardsView(PartnerStatsListView):
 		return context
 
 	def get_queryset(self):
-		dbf_ids = set()
+		cards = card_db()
+		queryset = []
+
 		for game_type in self.supported_game_types:
 			for card in self._get_card_popularity(game_type):
-				dbf_ids.add(card["dbf_id"])
-		queryset = list(Card.objects.filter(dbf_id__in=dbf_ids))
+				queryset.append(cards[card["dbf_id"]])
+
 		return queryset
 
 	def _get_decks(self, game_type):
@@ -233,12 +237,18 @@ class ClassesView(PartnerStatsListView):
 				# This combination of criteria appears to correctly limit the
 				# resulting cards to HERO_* cards.
 
-				hero_cards = Card.objects.filter(
-					card_class=hsclass,
-					card_set__in=[enums.CardSet.CORE, enums.CardSet.HERO_SKINS],
-					collectible=True,
-					type=enums.CardType.HERO
-				)
+				hero_cards = [
+					card for card in card_db().values()
+					if (
+						card.card_class == hsclass and
+						card.card_set in [
+							enums.CardSet.CORE,
+							enums.CardSet.HERO_SKINS
+						] and
+						card.collectible and
+						card.type == enums.CardType.HERO
+					)
+				]
 				queryset.append(dict(
 					archetypes=Archetype.objects.filter(player_class=hsclass),
 					player_class=hsclass,

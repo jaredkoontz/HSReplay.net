@@ -1,6 +1,7 @@
 import json
 from itertools import chain
 
+from django.utils.text import slugify
 from hearthstone import enums
 from rest_framework.serializers import Serializer, SerializerMethodField
 
@@ -76,8 +77,9 @@ class CardDataSerializer(Serializer):
 		return False
 
 	def get_url(self, instance):
-		return "https://hsreplay.net%s#gameType=%s" % (
-			instance["card"].get_absolute_url(),
+		return "https://hsreplay.net/cards/%s/%s#gameType=%s" % (
+			instance["card"].dbf_id,
+			slugify(instance["card"].name),
 			instance["game_type"]
 		)
 
