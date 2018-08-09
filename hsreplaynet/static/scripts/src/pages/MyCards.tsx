@@ -20,6 +20,9 @@ import AdContainer from "../components/ads/AdContainer";
 import AdUnit from "../components/ads/AdUnit";
 import LoadingSpinner from "../components/LoadingSpinner";
 import CardFilterManager from "../components/cards/CardFilterManager";
+import RarityFilter from "../components/cards/filters/RarityFilter";
+import TypeFilter from "../components/cards/filters/TypeFilter";
+import TribeFilter from "../components/cards/filters/TribeFilter";
 
 interface Props extends FragmentChildProps, InjectedTranslateProps {
 	cardData: CardData;
@@ -394,6 +397,10 @@ class Cards extends React.Component<Props, State> {
 				</Fragment>,
 			);
 		}
+
+		filters.push(<RarityFilter />);
+		filters.push(<TypeFilter />);
+		filters.push(<TribeFilter />);
 
 		return filters;
 	}

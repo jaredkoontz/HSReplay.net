@@ -2,7 +2,11 @@ import React from "react";
 import CardData from "../../CardData";
 import { CardData as Card } from "hearthstonejson-client";
 
-const { Provider, Consumer } = React.createContext({});
+const { Provider, Consumer } = React.createContext<FilterProps>({
+	cardData: null,
+	dbfIds: [],
+});
+export { Consumer as CardFilterConsumer };
 
 export type CardFilterFunction = <T extends keyof Card>(
 	card: Card,
@@ -10,7 +14,7 @@ export type CardFilterFunction = <T extends keyof Card>(
 ) => boolean;
 
 interface Props {
-	cardData: CardData;
+	cardData: CardData | null;
 	onFilter: (dbfIds: number[]) => void;
 }
 
@@ -19,6 +23,7 @@ interface State {
 }
 
 export interface FilterProps {
+	cardData: CardData | null;
 	dbfIds: number[];
 }
 
@@ -59,6 +64,19 @@ export default class CardFilterManager extends React.Component<Props, State> {
 	}
 
 	public render(): React.ReactNode {
-		return <Provider value={{}}>{this.props.children}</Provider>;
+		return (
+			<Provider
+				value={{
+					dbfIds: this.props.cardData
+						? this.props.cardData
+								.collectible()
+								.map(card => card.dbfId)
+						: [],
+					cardData: this.props.cardData,
+				}}
+			>
+				{this.props.children}
+			</Provider>
+		);
 	}
 }
