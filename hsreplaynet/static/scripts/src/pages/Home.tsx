@@ -82,6 +82,8 @@ class Home extends React.Component<Props, State> {
 									channel={this.props.promotedStreamer}
 									width={width}
 									height={height}
+									muted
+									autoplay
 								/>
 							);
 						}}
