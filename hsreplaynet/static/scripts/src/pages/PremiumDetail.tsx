@@ -171,7 +171,7 @@ class PremiumDetail extends React.Component<Props> {
 							image={image("premium/tier-graphic.png")}
 							subtitle={t("Meta Tier List")}
 							text={t(
-								"Tried of waiting a week for generic meta snapshots?",
+								"Tired of waiting a week for generic meta snapshots?",
 							)}
 							bullets={[
 								t("Daily power rankings"),
