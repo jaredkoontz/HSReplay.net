@@ -1006,18 +1006,30 @@ def do_process_upload_event(upload_event):
 	update_replay_feed(replay)
 	update_game_counter(replay)
 
-	can_attempt_redshift_load = False
-
-	if global_game.loaded_into_redshift is None:
-		log.debug("Global game has not been loaded into redshift.")
-		# Attempt to claim the advisory_lock, if successful:
-		can_attempt_redshift_load = global_game.acquire_redshift_lock()
-	else:
-		log.debug("Global game has already been loaded into Redshift")
-
 	# Defer flushing the exporter until after the UploadEvent is set to SUCCESS
 	# So that the player can start watching their replay sooner
 	def do_flush_exporter():
+		can_attempt_redshift_load = False
+
+		if global_game.loaded_into_redshift is None:
+			log.debug("Global game has not been loaded into redshift.")
+			# Attempt to claim the advisory_lock, if successful:
+			can_attempt_redshift_load = global_game.acquire_redshift_lock()
+			if can_attempt_redshift_load:
+				# We update GlobalGame to see whether another process might have updated
+				# loaded_into_redshift in the meantime
+				global_game.refresh_from_db()
+				if global_game.loaded_into_redshift is not None:
+					can_attempt_redshift_load = False
+					influx_metric(
+						"redshift_load_race_condition",
+						{
+							"count": 1,
+						},
+					)
+		else:
+			log.debug("Global game has already been loaded into Redshift")
+
 		# Only if we were able to claim the advisory lock do we proceed here.
 		if can_attempt_redshift_load:
 			log.debug("Redshift lock acquired. Will attempt to flush to redshift")
