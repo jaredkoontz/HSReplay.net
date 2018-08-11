@@ -1023,8 +1023,6 @@ def do_process_upload_event(upload_event):
 			log.debug("Redshift lock acquired. Will attempt to flush to redshift")
 
 			if should_load_into_redshift(upload_event, global_game):
-				influx_metric("load_game_into_redshift", {"count": 1}, global_game=str(global_game.id))
-
 				with influx_timer("generate_redshift_game_info_duration"):
 					game_info = get_game_info(global_game, replay)
 				exporter.set_game_info(game_info)
