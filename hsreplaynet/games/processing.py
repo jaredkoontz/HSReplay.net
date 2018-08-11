@@ -1023,6 +1023,16 @@ def do_process_upload_event(upload_event):
 			log.debug("Redshift lock acquired. Will attempt to flush to redshift")
 
 			if should_load_into_redshift(upload_event, global_game):
+				influx_metric(
+					"load_game_into_redshift",
+					{
+						"count": 1,
+						"global_game_id": global_game.id
+					},
+					global_game=str(global_game.id),
+					step="start_load",
+				)
+
 				with influx_timer("generate_redshift_game_info_duration"):
 					game_info = get_game_info(global_game, replay)
 				exporter.set_game_info(game_info)
@@ -1048,6 +1058,16 @@ def do_process_upload_event(upload_event):
 				except Exception:
 					raise
 				else:
+					influx_metric(
+						"load_game_into_redshift",
+						{
+							"count": 1,
+							"global_game_id": global_game.id
+						},
+						global_game=str(global_game.id),
+						step="commit_load",
+					)
+
 					global_game.loaded_into_redshift = timezone.now()
 					global_game.save()
 					# Okay to release the advisory lock once loaded_into_redshift is set
