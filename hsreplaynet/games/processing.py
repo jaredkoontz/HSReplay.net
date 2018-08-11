@@ -1074,6 +1074,16 @@ def do_process_upload_event(upload_event):
 					# It will also be released automatically when the lambda exits.
 					global_game.release_redshift_lock()
 		else:
+			influx_metric(
+				"load_game_into_redshift",
+				{
+					"count": 1,
+					"global_game_id": global_game.id
+				},
+				global_game=str(global_game.id),
+				step="fail_aquire_lock",
+			)
+
 			log.debug("Did not acquire redshift lock. Will not flush to redshift")
 
 	return replay, do_flush_exporter
