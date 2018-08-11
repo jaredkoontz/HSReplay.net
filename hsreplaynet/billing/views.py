@@ -387,7 +387,7 @@ class SubscribeView(LoginRequiredMixin, PaymentsMixin, View):
 
 	def get_success_url(self):
 		success_url = self.request.GET.get("next", "")
-		if success_url and is_safe_url(success_url):
+		if success_url and is_safe_url(success_url, allowed_hosts=None):
 			return success_url
 		return self.success_url
 
@@ -540,7 +540,7 @@ class PaypalSuccessView(BasePaypalView):
 
 	def get_success_url(self):
 		success_url = self.request.GET.get("next", "")
-		if success_url and is_safe_url(success_url):
+		if success_url and is_safe_url(success_url, allowed_hosts=None):
 			return success_url
 		return self.success_url
 

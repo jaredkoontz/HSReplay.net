@@ -40,7 +40,7 @@ class RedeemCodeView(LoginRequiredMixin, SimpleReactView, FormView):
 
 			next = self.request.GET.get(REDIRECT_FIELD_NAME)
 			# is_safe_url() will ensure we don't redirect to another domain
-			if next and is_safe_url(next):
+			if next and is_safe_url(next, allowed_hosts=None):
 				return redirect(next)
 
 		return super().form_valid(form)

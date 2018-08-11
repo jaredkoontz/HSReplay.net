@@ -15,7 +15,7 @@ from hsreplaynet.utils.influx import influx_metric
 class ClaimAccountView(LoginRequiredMixin, View):
 	def get_redirect_url(self, request):
 		url = request.GET.get("next", "")
-		if url and is_safe_url(url):
+		if url and is_safe_url(url, allowed_hosts=None):
 			return url
 		return settings.LOGIN_REDIRECT_URL
 

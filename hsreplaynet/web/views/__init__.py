@@ -153,7 +153,7 @@ class SetLocaleView(View):
 
 	def get_next(self):
 		next = self.request.GET.get("next", "")
-		if next and is_safe_url(next):
+		if next and is_safe_url(next, allowed_hosts=None):
 			return next
 		return self.success_url
 
