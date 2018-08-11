@@ -370,8 +370,8 @@ class UploadEvent(models.Model):
 	def cloudwatch_url(self):
 		baseurl = "https://console.aws.amazon.com/cloudwatch/home"
 		tpl = "?region=%s#logEventViewer:group=%s;stream=%s;start=%s;end=%s;tz=UTC"
-		start = self.updated
-		end = start + timedelta(minutes=3)
+		start = self.created
+		end = self.updated + timedelta(minutes=3)
 		return baseurl + tpl % (
 			os.environ.get("AWS_DEFAULT_REGION", "us-east-1"),
 			self.log_group_name,
