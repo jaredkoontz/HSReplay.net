@@ -398,6 +398,11 @@ class Decks extends React.Component<Props, State> {
 							}
 						}
 
+						// temporary hotfix to hide invalid deck
+						if (deck.deck_id === "fIxormAr3aDmnQ8uecyA6b") {
+							return;
+						}
+
 						deck.player_class = key;
 						pushDeck(deck, cards);
 					});
