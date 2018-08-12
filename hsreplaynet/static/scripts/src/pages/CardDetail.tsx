@@ -101,8 +101,10 @@ class CardDetail extends React.Component<Props, State> {
 			return false;
 		}
 		const hasDiscover =
-			this.props.card.referencedTags &&
-			this.props.card.referencedTags.some(t => t === "DISCOVER");
+			(this.props.card.referencedTags &&
+				this.props.card.referencedTags.some(t => t === "DISCOVER")) ||
+			(this.props.card.mechanics &&
+				this.props.card.mechanics.some(t => t === "DISCOVER"));
 		const implicit = [
 			41331, // Kalimos, Primal Lord
 			43329, // Kobold Hermit
