@@ -13,6 +13,7 @@ from .web.views import (
 )
 from .web.views.archetypes import ArchetypeDetailView, DiscoverView, MetaOverviewView
 from .web.views.cards import CardDetailView, CardEditorView, CardsView, MyCardsView
+from .web.views.collections import CollectionView, MyCollectionView
 from .web.views.decks import DeckDetailView, DecksView, MyDecksView, TrendingDecksView
 from .web.views.oauth2 import (
 	OAuth2AuthorizeView, OAuth2LoginView, OAuth2ResetSecretView,
@@ -85,6 +86,12 @@ urlpatterns = [
 	url(r"^cards/gallery/$", RedirectView.as_view(pattern_name="cards", permanent=True)),
 	url(r"^cards/mine/$", MyCardsView.as_view(), name="my_cards"),
 	url(r"^cards/(?P<pk>\w+)/(?P<slug>[\w-]+)?", CardDetailView.as_view(), name="card_detail"),
+	url(
+		r"^collection/(?P<region>\d+)/(?P<lo>\d+)/$",
+		CollectionView.as_view(),
+		name="collection"
+	),
+	url(r"^collection/mine/$", MyCollectionView.as_view(), name="collection"),
 
 	# decks
 	url(r"^decks/$", DecksView.as_view(), name="decks"),

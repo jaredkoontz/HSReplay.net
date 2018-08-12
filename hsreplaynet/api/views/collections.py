@@ -6,6 +6,7 @@ from rest_framework import status
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.exceptions import NotFound, PermissionDenied, ValidationError
 from rest_framework.response import Response
+from rest_framework.status import HTTP_200_OK
 from rest_framework.views import APIView
 
 from hearthsim.identity.accounts.models import BlizzardAccount
@@ -182,3 +183,20 @@ class CollectionView(BaseCollectionView):
 		S3.delete_object(**self.s3_params)
 
 		return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class CollectionVisibilityView(APIView):
+	authentication_classes = (SessionAuthentication, OAuth2Authentication)
+
+	def patch(self, request):
+		user = request.user
+		visibility = request.data.get("visibility", None)
+		key = "collection-visibility"
+
+		if visibility == "public":
+			user.settings[key] = "public"
+		elif key in user.settings:
+			del user.settings[key]
+		user.save()
+
+		return Response(status=HTTP_200_OK)

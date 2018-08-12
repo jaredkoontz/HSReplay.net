@@ -143,10 +143,60 @@
 					}
 				}
 			}
+
+			.collection-counts {
+				min-width: 50px;
+				border: 2px solid yellow;
+				text-align: center;
+				padding: 3px 8px;
+				position: absolute;
+				top: 10%;
+				right: 7%;
+				background: $spacegray;
+				color: white;
+				box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16),
+					0 2px 6px rgba(0, 0, 0, 0.23);
+				font-weight: bold;
+
+				> p {
+					margin: 0;
+				}
+
+				.count-golden {
+					color: $premium;
+				}
+			}
+
+			.collection-card {
+				position: relative;
+
+				&.missing {
+					.collection-counts {
+						border-color: red;
+					}
+					.card-image {
+						opacity: 0.5;
+					}
+				}
+
+				&.complete {
+					.collection-counts {
+						border-color: green;
+					}
+				}
+			}
 		}
 	}
 
 	.chart-list {
 		width: 250px;
+	}
+}
+
+#collection-container {
+	#visibility-setting {
+		.form-group {
+			margin: 5px;
+		}
 	}
 }

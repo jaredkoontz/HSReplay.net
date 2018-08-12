@@ -36,6 +36,7 @@ urlpatterns = [
 		r"^v1/collection/upload_request/$",
 		views.collections.CollectionURLPresigner.as_view()
 	),
+	url(r"^v1/collection/visibility/$", views.collections.CollectionVisibilityView.as_view()),
 	url(r"^v1/analytics/decks/summary/$", MyDecksAPIView.as_view()),
 	url(r"^v1/decks/$", GetOrCreateDeckView.as_view()),
 	url(r"^v1/decks/(?P<shortid>\w+)/$", DeckDetailView.as_view()),

@@ -1,6 +1,6 @@
-import clipboard from "clipboard-polyfill";
 import React from "react";
 import { InjectedTranslateProps, translate } from "react-i18next";
+import CopyText from "./CopyText";
 
 interface Props extends InjectedTranslateProps {
 	url: string;
@@ -77,21 +77,6 @@ class ShareGameDialog extends React.Component<Props, State> {
 		this.setState({ preservePerspective: !this.state.preservePerspective });
 	}
 
-	protected onCopy(e: React.MouseEvent<HTMLButtonElement>): void {
-		e.preventDefault();
-		clipboard.writeText(this.buildUrl()).then(() => {
-			this.setState({ confirming: true });
-			window.clearTimeout(this.timeout);
-			this.timeout = window.setTimeout(() => {
-				this.setState({ confirming: false });
-				this.timeout = null;
-			}, 1000);
-			if (this.props.onShare) {
-				this.props.onShare("copy", this.state.linkToTurn);
-			}
-		});
-	}
-
 	protected onExternalShare(e: React.MouseEvent<HTMLAnchorElement>): void {
 		e.preventDefault();
 		const target = e.currentTarget;
@@ -114,36 +99,17 @@ class ShareGameDialog extends React.Component<Props, State> {
 		return (
 			<form>
 				<fieldset>
-					<div className="form-group">
-						<div className="input-group">
-							<input
-								type="text"
-								readOnly
-								id="replay-share-url"
-								className="form-control"
-								value={url}
-								onSelect={e =>
-									this.input.setSelectionRange(
-										0,
-										this.input.value.length,
-									)
-								}
-								ref={node => (this.input = node)}
-							/>
-							<span className="input-group-btn">
-								<button
-									className="btn btn-default"
-									id="replay-share-copy-url"
-									type="button"
-									onClick={e => this.onCopy(e)}
-								>
-									{this.state.confirming
-										? t("Copied!")
-										: t("Copy")}
-								</button>
-							</span>
-						</div>
-					</div>
+					<CopyText
+						text={url}
+						onCopy={() => {
+							if (this.props.onShare) {
+								this.props.onShare(
+									"copy",
+									this.state.linkToTurn,
+								);
+							}
+						}}
+					/>
 					<a
 						href={
 							"https://www.reddit.com/r/hsreplay/submit?url=" +

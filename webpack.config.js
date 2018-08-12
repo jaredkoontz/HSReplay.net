@@ -57,6 +57,7 @@ module.exports = env => {
 			archetype_detail: makeEntry("archetype_detail"),
 			card_detail: makeEntry("card_detail"),
 			cards: makeEntry("cards"),
+			collection: makeEntry("collection"),
 			deck_detail: makeEntry("deck_detail"),
 			decks: makeEntry("decks"),
 			my_cards: makeEntry("my_cards"),
