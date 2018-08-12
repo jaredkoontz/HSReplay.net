@@ -782,7 +782,8 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 					defaults["user"] = user
 
 		blizzard_account, created = BlizzardAccount.objects.get_or_create(
-			account_hi=player.account_hi, account_lo=player.account_lo,
+			account_hi=player.account_hi,
+			account_lo=player.account_lo,
 			defaults=defaults
 		)
 		if not created:
@@ -801,7 +802,7 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 				})
 				blizzard_account.user = defaults["user"]
 				blizzard_account.save()
-			elif "#" in name and name != blizzard_account.battletag:
+			elif "#" in name and name != blizzard_account.battletag and not player.is_ai:
 				blizzard_account.battletag = name
 				blizzard_account.save()
 
