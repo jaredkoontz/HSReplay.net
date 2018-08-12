@@ -18,7 +18,7 @@ export type FilterOption =
 	| "WARRIOR"
 	| "NEUTRAL";
 
-type FilterPreset = "All" | "AllNeutral" | "Neutral" | "ClassesOnly";
+export type FilterPreset = "All" | "AllNeutral" | "Neutral" | "ClassesOnly";
 
 interface Props {
 	disabled?: boolean;

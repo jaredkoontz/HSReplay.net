@@ -1,36 +1,44 @@
 import React from "react";
 import { InjectedTranslateProps, translate } from "react-i18next";
-import { CardData as Card } from "hearthstonejson-client";
-import CardFilter from "../CardFilter";
-import CardFilterGroup from "../CardFilterGroup";
+import CardFilterItem from "../CardFilterItem";
+import CardFilterItemGroup from "../CardFilterItemGroup";
 
-class RarityFilter extends React.Component<InjectedTranslateProps> {
+interface Props extends InjectedTranslateProps {
+	value: string[];
+	onChange: (value: string[]) => void;
+}
+
+class RarityFilter extends React.Component<Props> {
 	public render(): React.ReactNode {
 		const { t } = this.props;
 
 		return (
-			<CardFilterGroup
+			<CardFilterItemGroup
 				title={t("Rarity")}
-				filter={(card: Card, value: string) => value === card.rarity}
+				filterFactory={this.filter}
+				value={this.props.value}
+				onChange={this.props.onChange}
 			>
-				<CardFilter value={"FREE"}>
+				<CardFilterItem value={"FREE"}>
 					{t("GLOBAL_RARITY_FREE")}
-				</CardFilter>
-				<CardFilter value={"COMMON"}>
+				</CardFilterItem>
+				<CardFilterItem value={"COMMON"}>
 					{t("GLOBAL_RARITY_COMMON")}
-				</CardFilter>
-				<CardFilter value={"RARE"}>
+				</CardFilterItem>
+				<CardFilterItem value={"RARE"}>
 					{t("GLOBAL_RARITY_RARE")}
-				</CardFilter>
-				<CardFilter value={"EPIC"}>
+				</CardFilterItem>
+				<CardFilterItem value={"EPIC"}>
 					{t("GLOBAL_RARITY_EPIC")}
-				</CardFilter>
-				<CardFilter value={"LEGENDARY"}>
+				</CardFilterItem>
+				<CardFilterItem value={"LEGENDARY"}>
 					{t("GLOBAL_RARITY_LEGENDARY")}
-				</CardFilter>
-			</CardFilterGroup>
+				</CardFilterItem>
+			</CardFilterItemGroup>
 		);
 	}
+
+	private filter = value => card => card.rarity === value;
 }
 
 export default translate("hearthstone")(RarityFilter);

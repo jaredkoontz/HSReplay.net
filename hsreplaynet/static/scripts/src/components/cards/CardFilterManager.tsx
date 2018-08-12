@@ -1,17 +1,26 @@
 import React from "react";
 import CardData from "../../CardData";
 import { CardData as Card } from "hearthstonejson-client";
+import memoize from "memoize-one";
 
-const { Provider, Consumer } = React.createContext<FilterProps>({
+const { Provider, Consumer } = React.createContext<CardFilterProps>({
 	cardData: null,
 	dbfIds: [],
+	addFilter: x => console.error("called addFilter out of context"),
+	removeFilter: x => console.error("called removeFilter out of context"),
+	filters: [],
 });
-export { Consumer as CardFilterConsumer };
+export { Provider as CardFilterProvider, Consumer as CardFilterConsumer };
 
-export type CardFilterFunction = <T extends keyof Card>(
-	card: Card,
-	value: Card[T],
-) => boolean;
+export type CardFilterFunction = <T extends keyof Card>(card: Card) => boolean;
+
+export interface CardFilterProps {
+	cardData: CardData | null;
+	dbfIds: number[];
+	addFilter: (filter: CardFilterFunction) => void;
+	removeFilter: (filter: CardFilterFunction) => void;
+	filters: CardFilterFunction[];
+}
 
 interface Props {
 	cardData: CardData | null;
@@ -19,24 +28,15 @@ interface Props {
 }
 
 interface State {
-	filteredCards: number[] | null;
-}
-
-export interface FilterProps {
-	cardData: CardData | null;
-	dbfIds: number[];
+	filters: CardFilterFunction[];
 }
 
 export default class CardFilterManager extends React.Component<Props, State> {
 	constructor(props: Props, context: any) {
 		super(props, context);
-		let filteredCards = null;
-		if (props.cardData) {
-			filteredCards = props.cardData
-				.collectible()
-				.map(card => card.dbfId);
-		}
-		this.state = { filteredCards };
+		this.state = {
+			filters: [],
+		};
 	}
 
 	public componentDidUpdate(
@@ -45,38 +45,77 @@ export default class CardFilterManager extends React.Component<Props, State> {
 		snapshot?: any,
 	): void {
 		if (
-			prevState.filteredCards !== this.state.filteredCards &&
-			this.state.filteredCards !== null
+			prevState.filters !== this.state.filters ||
+			prevProps.cardData !== this.props.cardData
 		) {
-			this.props.onFilter(this.state.filteredCards);
+			this.props.onFilter(
+				this.filter(this.props.cardData, this.state.filters),
+			);
 		}
-	}
-
-	public static getDerivedStateFromProps(nextProps: Props, prevState: State) {
-		if (prevState.filteredCards === null && nextProps.cardData) {
-			return {
-				filteredCards: nextProps.cardData
-					.collectible()
-					.map(card => card.dbfId),
-			};
-		}
-		return null;
 	}
 
 	public render(): React.ReactNode {
 		return (
 			<Provider
 				value={{
-					dbfIds: this.props.cardData
-						? this.props.cardData
-								.collectible()
-								.map(card => card.dbfId)
-						: [],
+					dbfIds: this.filter(
+						this.props.cardData,
+						this.state.filters,
+					),
 					cardData: this.props.cardData,
+					filters: this.state.filters,
+					addFilter: this.addFilter,
+					removeFilter: this.removeFilter,
 				}}
 			>
 				{this.props.children}
 			</Provider>
 		);
 	}
+
+	private static getInitialCards(cardData: CardData | null) {
+		if (!cardData) {
+			return null;
+		}
+		return cardData.collectible().map(card => card.dbfId);
+	}
+
+	private addFilter = (filter: CardFilterFunction) => {
+		this.setState(state => {
+			const filters = state.filters.concat(filter);
+			return {
+				filters,
+			};
+		});
+	};
+
+	private removeFilter = (filter: CardFilterFunction) => {
+		this.setState(state => {
+			const filters = state.filters.filter(
+				toRemove => filter !== toRemove,
+			);
+			return {
+				filters,
+			};
+		});
+	};
+
+	private filter = memoize(
+		(
+			cardData: CardData | null,
+			filters: CardFilterFunction[],
+		): number[] | null => {
+			const cards = CardFilterManager.getInitialCards(cardData);
+			if (!cards || !this.props.cardData) {
+				return null;
+			}
+			let cardsWithData = cards.map(dbfId =>
+				this.props.cardData.fromDbf(dbfId),
+			);
+			for (const filter of filters) {
+				cardsWithData = cardsWithData.filter(filter);
+			}
+			return cardsWithData.map(card => card.dbfId);
+		},
+	);
 }

@@ -1,34 +1,42 @@
 import React from "react";
 import { InjectedTranslateProps, translate } from "react-i18next";
-import { CardData as Card } from "hearthstonejson-client";
-import CardFilter from "../CardFilter";
-import CardFilterGroup from "../CardFilterGroup";
+import CardFilterItem from "../CardFilterItem";
+import CardFilterItemGroup from "../CardFilterItemGroup";
 
-class TypeFilter extends React.Component<InjectedTranslateProps> {
+interface Props extends InjectedTranslateProps {
+	value: string[];
+	onChange: (value: string[]) => void;
+}
+
+class TypeFilter extends React.Component<Props> {
 	public render(): React.ReactNode {
 		const { t } = this.props;
 
 		return (
-			<CardFilterGroup
+			<CardFilterItemGroup
 				title={t("Type")}
-				filter={(card: Card, value: string) => value === card.type}
-				collapsible
+				filterFactory={this.filter}
+				value={this.props.value}
+				onChange={this.props.onChange}
+				collapsible={false}
 			>
-				<CardFilter value={"MINION"}>
+				<CardFilterItem value={"MINION"}>
 					{t("GLOBAL_CARDTYPE_MINION")}
-				</CardFilter>
-				<CardFilter value={"SPELL"}>
+				</CardFilterItem>
+				<CardFilterItem value={"SPELL"}>
 					{t("GLOBAL_CARDTYPE_SPELL")}
-				</CardFilter>
-				<CardFilter value={"WEAPON"}>
+				</CardFilterItem>
+				<CardFilterItem value={"WEAPON"}>
 					{t("GLOBAL_CARDTYPE_WEAPON")}
-				</CardFilter>
-				<CardFilter value={"HERO"}>
+				</CardFilterItem>
+				<CardFilterItem value={"HERO"}>
 					{t("GLOBAL_CARDTYPE_HERO")}
-				</CardFilter>
-			</CardFilterGroup>
+				</CardFilterItem>
+			</CardFilterItemGroup>
 		);
 	}
+
+	private filter = value => card => card.type === value;
 }
 
 export default translate("hearthstone")(TypeFilter);

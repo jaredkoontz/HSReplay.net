@@ -1,44 +1,54 @@
 import React from "react";
 import { InjectedTranslateProps, translate } from "react-i18next";
-import { CardData as Card } from "hearthstonejson-client";
-import CardFilter from "../CardFilter";
-import CardFilterGroup from "../CardFilterGroup";
+import CardFilterItem from "../CardFilterItem";
+import CardFilterItemGroup from "../CardFilterItemGroup";
 
-class TribeFilter extends React.Component<InjectedTranslateProps> {
+interface Props extends InjectedTranslateProps {
+	value: string[];
+	onChange: (value: string[]) => void;
+}
+
+class TribeFilter extends React.Component<Props> {
 	public render(): React.ReactNode {
 		const { t } = this.props;
 
 		return (
-			<CardFilterGroup
+			<CardFilterItemGroup
 				title={t("Tribe")}
-				filter={(card: Card, value: string) => value === card.race}
+				filterFactory={this.filter}
+				value={this.props.value}
+				onChange={this.props.onChange}
 				collapsible
 			>
-				<CardFilter value={"BEAST"}>{t("GLOBAL_RACE_PET")}</CardFilter>
-				<CardFilter value={"DEMON"}>
+				<CardFilterItem value={"BEAST"}>
+					{t("GLOBAL_RACE_PET")}
+				</CardFilterItem>
+				<CardFilterItem value={"DEMON"}>
 					{t("GLOBAL_RACE_DEMON")}
-				</CardFilter>
-				<CardFilter value={"DRAGON"}>
+				</CardFilterItem>
+				<CardFilterItem value={"DRAGON"}>
 					{t("GLOBAL_RACE_DRAGON")}
-				</CardFilter>
-				<CardFilter value={"ELEMENTAL"}>
+				</CardFilterItem>
+				<CardFilterItem value={"ELEMENTAL"}>
 					{t("GLOBAL_RACE_ELEMENTAL")}
-				</CardFilter>
-				<CardFilter value={"MECHANICAL"}>
+				</CardFilterItem>
+				<CardFilterItem value={"MECHANICAL"}>
 					{t("GLOBAL_RACE_MECHANICAL")}
-				</CardFilter>
-				<CardFilter value={"MURLOC"}>
+				</CardFilterItem>
+				<CardFilterItem value={"MURLOC"}>
 					{t("GLOBAL_RACE_MURLOC")}
-				</CardFilter>
-				<CardFilter value={"PIRATE"}>
+				</CardFilterItem>
+				<CardFilterItem value={"PIRATE"}>
 					{t("GLOBAL_RACE_PIRATE")}
-				</CardFilter>
-				<CardFilter value={"TOTEM"}>
+				</CardFilterItem>
+				<CardFilterItem value={"TOTEM"}>
 					{t("GLOBAL_RACE_TOTEM")}
-				</CardFilter>
-			</CardFilterGroup>
+				</CardFilterItem>
+			</CardFilterItemGroup>
 		);
 	}
+
+	private filter = value => card => card.race === value;
 }
 
 export default translate("hearthstone")(TribeFilter);

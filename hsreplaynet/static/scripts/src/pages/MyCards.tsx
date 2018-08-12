@@ -3,7 +3,7 @@ import { InjectedTranslateProps, translate } from "react-i18next";
 import CardData from "../CardData";
 import DataManager from "../DataManager";
 import UserData, { Account } from "../UserData";
-import ClassFilter, { FilterOption } from "../components/ClassFilter";
+import { FilterOption } from "../components/ClassFilter";
 import DataInjector from "../components/DataInjector";
 import Feature from "../components/Feature";
 import InfoboxFilter from "../components/InfoboxFilter";
@@ -20,9 +20,14 @@ import AdContainer from "../components/ads/AdContainer";
 import AdUnit from "../components/ads/AdUnit";
 import LoadingSpinner from "../components/LoadingSpinner";
 import CardFilterManager from "../components/cards/CardFilterManager";
+import ClassFilter from "../components/cards/filters/ClassFilter";
+import CostFilter from "../components/cards/filters/CostFilter";
 import RarityFilter from "../components/cards/filters/RarityFilter";
+import SetFilter from "../components/cards/filters/SetFilter";
 import TypeFilter from "../components/cards/filters/TypeFilter";
 import TribeFilter from "../components/cards/filters/TribeFilter";
+import TextFilter from "../components/cards/filters/TextFilter";
+import MechanicsFilter from "../components/cards/filters/MechanicsFilter";
 
 interface Props extends FragmentChildProps, InjectedTranslateProps {
 	cardData: CardData;
@@ -34,12 +39,26 @@ interface Props extends FragmentChildProps, InjectedTranslateProps {
 	setFormat?: (format: string) => void;
 	gameType?: string;
 	setGameType?: (gameType: string) => void;
-	playerClass?: string;
-	setPlayerClass?: (playerClass: string) => void;
 	rankRange?: string;
 	setRankRange?: (rankRange: string) => void;
 	timeRange?: string;
 	setTimeRange?: (timeRange: string) => void;
+	text?: string;
+	setText?: (text: string) => void;
+	cardClass?: FilterOption[];
+	setCardClass?: (playerClass: string[]) => void;
+	cost?: string[];
+	setCost?: (cost: string[]) => void;
+	set?: string[];
+	setSet?: (set: string[]) => void;
+	rarity?: string[];
+	setRarity?: (rarity: string[]) => void;
+	type?: string[];
+	setType?: (type: string[]) => void;
+	tribe?: string[];
+	setTribe?: (tribe: string[]) => void;
+	mechanics?: string[];
+	setMechanics?: (mechanics: string[]) => void;
 
 	sortBy?: string;
 	setSortBy?: (sortBy: string) => void;
@@ -281,7 +300,11 @@ class Cards extends React.Component<Props, State> {
 							<span className="glyphicon glyphicon-filter" />
 							{t("Filters")}
 						</button>
-						{/*{search}*/}
+						<TextFilter
+							autofocus
+							value={this.props.text}
+							onChange={this.props.setText}
+						/>
 						{content}
 					</main>
 				</CardFilterManager>
@@ -304,18 +327,10 @@ class Cards extends React.Component<Props, State> {
 		];
 
 		filters.push(
-			<Fragment key="class">
-				<h2>{t("Class")}</h2>
-				<ClassFilter
-					filters="AllNeutral"
-					hideAll
-					minimal
-					selectedClasses={[this.props.playerClass as FilterOption]}
-					selectionChanged={selected =>
-						this.props.setPlayerClass(selected[0])
-					}
-				/>
-			</Fragment>,
+			<ClassFilter
+				value={this.props.cardClass}
+				onChange={this.props.setCardClass}
+			/>,
 		);
 
 		filters.push(
@@ -398,9 +413,40 @@ class Cards extends React.Component<Props, State> {
 			);
 		}
 
-		filters.push(<RarityFilter />);
-		filters.push(<TypeFilter />);
-		filters.push(<TribeFilter />);
+		filters.push(
+			<CostFilter
+				value={this.props.cost}
+				onChange={this.props.setCost}
+			/>,
+		);
+		filters.push(
+			<RarityFilter
+				value={this.props.rarity}
+				onChange={this.props.setRarity}
+			/>,
+		);
+		filters.push(
+			<SetFilter value={this.props.set} onChange={this.props.setSet} />,
+		);
+
+		filters.push(
+			<TypeFilter
+				value={this.props.type}
+				onChange={this.props.setType}
+			/>,
+		);
+		filters.push(
+			<TribeFilter
+				value={this.props.tribe}
+				onChange={this.props.setTribe}
+			/>,
+		);
+		filters.push(
+			<MechanicsFilter
+				value={this.props.mechanics}
+				onChange={this.props.setMechanics}
+			/>,
+		);
 
 		return filters;
 	}

@@ -34,6 +34,14 @@ const render = (cardData: CardData) => {
 							timeRange: TimeRange.LAST_30_DAYS,
 							sortBy: "timesPlayed",
 							sortDirection: "descending",
+							text: "",
+							cardClass: [],
+							cost: [],
+							rarity: [],
+							set: [],
+							type: [],
+							tribe: [],
+							mechanics: [],
 						}}
 						debounce="text"
 					>

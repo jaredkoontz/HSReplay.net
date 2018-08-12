@@ -1,57 +1,45 @@
 import React from "react";
-import InfoboxFilter from "../InfoboxFilter";
-import { CardData as Card } from "hearthstonejson-client";
-import { FilterConsumer } from "./CardFilterGroup";
-import { CardFilterConsumer } from "./CardFilterManager";
+import {
+	CardFilterConsumer,
+	CardFilterFunction,
+	CardFilterProps,
+} from "./CardFilterManager";
 
-interface Props {
-	value: any;
-	filter?: (card: Card, value: any) => boolean;
-	enabled?: boolean;
-	onChange?: boolean;
+interface Props extends CardFilterProps {
+	filter: CardFilterFunction | null;
 }
 
-export default class CardFilter extends React.Component<Props> {
+class CardFilter extends React.Component<Props> {
+	public componentDidMount(): void {
+		if (this.props.filter) {
+			this.props.addFilter(this.props.filter);
+		}
+	}
+
+	public componentDidUpdate(
+		prevProps: Readonly<Props>,
+		prevState: Readonly<{}>,
+		snapshot?: any,
+	): void {
+		if (prevProps.filter !== this.props.filter) {
+			if (prevProps.filter) {
+				this.props.removeFilter(prevProps.filter);
+			}
+			if (this.props.filter) {
+				this.props.addFilter(this.props.filter);
+			}
+		}
+	}
+
 	public render(): React.ReactNode {
-		return (
-			<CardFilterConsumer>
-				{({ dbfIds, cardData }) => {
-					const cards = cardData
-						? dbfIds.map(dbfId => cardData.fromDbf(dbfId))
-						: [];
-					return (
-						<FilterConsumer>
-							{filter => {
-								filter = this.props.filter || filter;
-								if (!filter) {
-									return (
-										<InfoboxFilter value={""}>
-											MISSING FILTER DEFINITION
-										</InfoboxFilter>
-									);
-								}
-								return (
-									<InfoboxFilter value={this.props.value}>
-										{this.props.children}
-										{cardData && (
-											<span className="infobox-value">
-												{
-													cards.filter(card =>
-														filter(
-															card,
-															this.props.value,
-														),
-													).length
-												}
-											</span>
-										)}
-									</InfoboxFilter>
-								);
-							}}
-						</FilterConsumer>
-					);
-				}}
-			</CardFilterConsumer>
-		);
+		return this.props.children || null;
 	}
 }
+
+export default props => (
+	<CardFilterConsumer>
+		{(filterProps: CardFilterProps) => (
+			<CardFilter {...filterProps} {...props} />
+		)}
+	</CardFilterConsumer>
+);
