@@ -72,6 +72,7 @@ class Home extends React.Component<Props, State> {
 	}
 
 	renderPromoPanel(): React.ReactNode {
+		const { t } = this.props;
 		if (this.state.promoStreamLive && UserData.hasFeature("promo-stream")) {
 			return (
 				<Panel className={"streamer-panel"}>
@@ -88,11 +89,10 @@ class Home extends React.Component<Props, State> {
 							);
 						}}
 					</AutoSizer>
-					<h1 className="panel-header">Watch Live Now!</h1>
+					<h1 className="panel-header">{t("Watch Live Now!")}</h1>
 				</Panel>
 			);
 		}
-		const { t } = this.props;
 		return (
 			<FeaturePanel
 				title={t("Replays")}
