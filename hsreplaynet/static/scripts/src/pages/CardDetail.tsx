@@ -499,7 +499,9 @@ class CardDetail extends React.Component<Props, State> {
 									</div>
 								</Tab>
 								<Tab
-									label={t("Discover")}
+									label={t("GLOBAL_KEYWORD_DISCOVER", {
+										ns: I18N_NAMESPACE_HEARTHSTONE,
+									})}
 									id="discover"
 									hidden={!this.cardHasDiscover()}
 								>
