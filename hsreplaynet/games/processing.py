@@ -167,7 +167,10 @@ def find_or_create_global_game(entity_tree, meta):
 def get_opponent_revealed_deck(entity_tree, friendly_player_id, game_type):
 	for player in entity_tree.players:
 		if player.player_id != friendly_player_id:
-			decklist = [c.initial_card_id for c in player.initial_deck if c.initial_card_id]
+			decklist = [
+				get_original_card_id(c.initial_card_id)
+				for c in player.initial_deck if c.initial_card_id
+			]
 
 			deck, created = Deck.objects.get_or_create_from_id_list(
 				decklist,
