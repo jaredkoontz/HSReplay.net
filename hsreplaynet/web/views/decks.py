@@ -42,6 +42,10 @@ class DeckDetailView(View):
 		if len(cards) != 30:
 			raise Http404(_("Deck list is too small."))
 
+		for card in deck.cards.all():
+			if not card.collectible:
+				raise Http404(_("Deck list contains uncollectible cards."))
+
 		deck_name = str(deck)
 		request.head.title = deck_name
 
