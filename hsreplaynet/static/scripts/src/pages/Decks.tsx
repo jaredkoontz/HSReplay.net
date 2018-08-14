@@ -398,8 +398,8 @@ class Decks extends React.Component<Props, State> {
 							}
 						}
 
-						// temporary hotfix to hide invalid deck
-						if (deck.deck_id === "fIxormAr3aDmnQ8uecyA6b") {
+						// temporary hotfix to hide invalid decks
+						if (cards.some(card => !card.card.collectible)) {
 							return;
 						}
 
