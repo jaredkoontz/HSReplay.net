@@ -146,6 +146,10 @@ def do_process_raw_upload(raw_upload, is_reprocessing):
 	validate_player_data(raw_upload, replay, 1)
 	validate_player_data(raw_upload, replay, 2)
 
+	for player_id in (1, 2):
+		for card in replay.global_game.players.get(player_id=player_id).deck_list:
+			assert card.collectible
+
 
 @mock_s3
 @pytest.mark.django_db

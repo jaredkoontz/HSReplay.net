@@ -13,6 +13,7 @@ from django_hearthstone.cards.models import Card
 from hearthstone.enums import (
 	BnetGameType, BnetRegion, CardClass, CardType, FormatType, GameTag, PlayState
 )
+from hearthstone.utils import get_original_card_id
 from hslog import LogParser, __version__ as hslog_version
 from hslog.exceptions import MissingPlayerData, ParsingError
 from hslog.export import EntityTreeExporter, FriendlyPlayerExporter
@@ -506,7 +507,10 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 		player_meta = meta.get("player%i" % (player.player_id), {})
 
 		decklist_from_meta = player_meta.get("deck")
-		replay_decklist = [c.initial_card_id for c in player.initial_deck if c.initial_card_id]
+		replay_decklist = [
+			get_original_card_id(c.initial_card_id)
+			for c in player.initial_deck if c.initial_card_id
+		]
 
 		meta_decklist_is_superset = _is_decklist_superset(decklist_from_meta, replay_decklist)
 
