@@ -29,7 +29,7 @@ class CollectionView(SimpleReactView):
 		lo = self.kwargs.get("lo", 0)
 		try:
 			account = BlizzardAccount.objects.get(region=region, account_lo=lo)
-		except:
+		except Exception:
 			return {}
 		return {
 			"region": region,
