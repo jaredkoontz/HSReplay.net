@@ -61,7 +61,7 @@ class CollectionVisibility extends React.Component<Props, State> {
 				<InfoboxFilter value={"public"}>
 					{this.state.visibility === "public"
 						? t("Public")
-						: t("Private")}
+						: t("Make my collection public")}
 				</InfoboxFilter>
 				{this.state.visibility === "public" && this.props.account ? (
 					<CopyText
