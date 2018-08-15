@@ -45,8 +45,9 @@ export default class CardFilterManager extends React.Component<Props, State> {
 		snapshot?: any,
 	): void {
 		if (
-			prevState.filters !== this.state.filters ||
-			prevProps.cardData !== this.props.cardData
+			this.props.cardData &&
+			(prevState.filters !== this.state.filters ||
+				prevProps.cardData !== this.props.cardData)
 		) {
 			this.props.onFilter(
 				this.filter(this.props.cardData, this.state.filters),
