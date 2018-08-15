@@ -31,6 +31,12 @@ class CardFilter extends React.Component<Props> {
 		}
 	}
 
+	public componentWillUnmount(): void {
+		if (this.props.filter) {
+			this.props.removeFilter(this.props.filter);
+		}
+	}
+
 	public render(): React.ReactNode {
 		return this.props.children || null;
 	}
