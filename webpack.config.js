@@ -232,6 +232,7 @@ module.exports = env => {
 			host: "0.0.0.0",
 			port: 3000,
 			publicPath: "http://localhost:3000/",
+			overlay: true,
 		},
 	};
 };
