@@ -73,13 +73,6 @@ export default class CardFilterManager extends React.Component<Props, State> {
 		);
 	}
 
-	private static getInitialCards(cardData: CardData | null) {
-		if (!cardData) {
-			return null;
-		}
-		return cardData.collectible().map(card => card.dbfId);
-	}
-
 	private addFilter = (filter: CardFilterFunction) => {
 		this.setState(state => {
 			const filters = state.filters.concat(filter);
@@ -100,22 +93,23 @@ export default class CardFilterManager extends React.Component<Props, State> {
 		});
 	};
 
+	private getInitialCards = memoize((cardData: CardData): Card[] => {
+		return cardData.collectible();
+	});
+
 	private filter = memoize(
 		(
 			cardData: CardData | null,
 			filters: CardFilterFunction[],
 		): number[] | null => {
-			const cards = CardFilterManager.getInitialCards(cardData);
-			if (!cards || !this.props.cardData) {
+			if (!this.props.cardData) {
 				return null;
 			}
-			let cardsWithData = cards.map(dbfId =>
-				this.props.cardData.fromDbf(dbfId),
-			);
+			let cards = this.getInitialCards(cardData);
 			for (const filter of filters) {
-				cardsWithData = cardsWithData.filter(filter);
+				cards = cards.filter(filter);
 			}
-			return cardsWithData.map(card => card.dbfId);
+			return cards.map(card => card.dbfId);
 		},
 	);
 }
