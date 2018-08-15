@@ -9,6 +9,7 @@ import DevTools from "./DevTools";
 import LanguageSelector from "./LanguageSelector";
 import PremiumModal, { ModalStyle } from "../premium/PremiumModal";
 import Modal from "../Modal";
+import DropdownMenu from "../layout/DropdownMenu";
 
 interface Props extends InjectedTranslateProps {
 	isAuthenticated: boolean;
@@ -77,50 +78,62 @@ class AccountNavigation extends React.Component<Props, State> {
 					<DevTools />
 				) : null}
 
-				<li className={this.getClassName("/decks/mine/", true)}>
-					<a
-						href="/decks/mine/"
-						className={"text-premium"}
-						id="navbar-link-my-decks"
-						onClick={e => {
-							if (!this.props.isPremium) {
-								e.preventDefault();
-								this.setState({
-									activePremiumModal: "MyDecks",
-								});
-							}
-						}}
+				<DropdownMenu
+					className=""
+					text={t("My Data")}
+					glyphicon="stats"
+				>
+					<li className={this.getClassName("/decks/mine/", true)}>
+						<a
+							href="/decks/mine/"
+							className={"text-premium"}
+							id="navbar-link-my-decks"
+							onClick={e => {
+								if (!this.props.isPremium) {
+									e.preventDefault();
+									this.setState({
+										activePremiumModal: "MyDecks",
+									});
+								}
+							}}
+						>
+							<span className="glyphicon glyphicon-th-list" />
+							{t("My Decks")}
+						</a>
+					</li>
+					<li className={this.getClassName("/cards/mine/", true)}>
+						<a
+							href="/cards/mine/"
+							className="text-premium"
+							id="navbar-link-my-cards"
+							onClick={e => {
+								if (!this.props.isPremium) {
+									e.preventDefault();
+									this.setState({
+										activePremiumModal: "MyCards",
+									});
+								}
+							}}
+						>
+							<span className="glyphicon glyphicon-stats" />
+							{t("My Cards")}
+						</a>
+					</li>
+					<li
+						className={this.getClassName("/collection/mine/", true)}
 					>
-						<span className="glyphicon glyphicon-th-list" />
-						<span className="hidden-sm">{t("My Decks")}</span>
-					</a>
-				</li>
-
-				<li className={this.getClassName("/cards/mine/", true)}>
-					<a
-						href="/cards/mine/"
-						className="text-premium"
-						id="navbar-link-my-cards"
-						onClick={e => {
-							if (!this.props.isPremium) {
-								e.preventDefault();
-								this.setState({
-									activePremiumModal: "MyCards",
-								});
-							}
-						}}
-					>
-						<span className="glyphicon glyphicon-stats" />
-						<span className="hidden-sm">{t("My Cards")}</span>
-					</a>
-				</li>
-
-				<li className={this.getClassName("/games/mine/")}>
-					<a href="/games/mine/" id="navbar-link-my-replays">
-						<span className="glyphicon glyphicon-play" />
-						<span className="hidden-sm">{t("My Replays")}</span>
-					</a>
-				</li>
+						<a href="/collection/mine/" id="navbar-link-my-cards">
+							<span className="glyphicon glyphicon-th-large" />
+							{t("My Collection")}
+						</a>
+					</li>
+					<li className={this.getClassName("/games/mine/")}>
+						<a href="/games/mine/" id="navbar-link-my-replays">
+							<span className="glyphicon glyphicon-play" />
+							{t("My Replays")}
+						</a>
+					</li>
+				</DropdownMenu>
 
 				<LanguageSelector next={next} />
 

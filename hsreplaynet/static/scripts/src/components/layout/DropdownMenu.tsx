@@ -1,35 +1,31 @@
 import React from "react";
 import { InjectedTranslateProps, translate } from "react-i18next";
-import { default as UserData } from "../../UserData";
 
 interface Props extends InjectedTranslateProps {
-	next: string;
+	className: string;
+	premium?: boolean;
+	text: string;
+	glyphicon?: string;
 }
 
 interface State {
 	expanded: boolean;
-	languages: { [key: string]: string };
-	activeLanguage: string;
 }
 
-class LanguageSelector extends React.Component<Props, State> {
+class DropdownMenu extends React.Component<Props, State> {
 	private ref: HTMLElement;
+	private linkRef: HTMLAnchorElement;
 	private dropdownRef: HTMLElement;
 
-	constructor(props: Props, context?: any) {
+	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
 			expanded: false,
-			languages: UserData.getLanguages(),
-			activeLanguage:
-				document.getElementsByTagName("html")[0].getAttribute("lang") ||
-				"en",
 		};
 	}
 
 	private clickAnywhere = (e: MouseEvent) => {
 		if (!this.state.expanded) {
-			// we don't care if we're not expanded
 			return;
 		}
 
@@ -53,7 +49,6 @@ class LanguageSelector extends React.Component<Props, State> {
 		) {
 			return;
 		}
-
 		event.preventDefault();
 		this.setState(({ expanded, ...state }) => ({
 			expanded: !expanded,
@@ -62,34 +57,12 @@ class LanguageSelector extends React.Component<Props, State> {
 	};
 
 	private renderDropdown(): React.ReactNode {
-		const { t } = this.props;
-
 		if (!this.state.expanded) {
-			return;
+			return null;
 		}
-
 		return (
 			<ul className="dropdown-menu" ref={ref => (this.dropdownRef = ref)}>
-				{Object.keys(this.state.languages).map(lang => (
-					<li
-						className={
-							lang === this.state.activeLanguage ? "active" : ""
-						}
-					>
-						<a
-							href={`/i18n/setprefs/?hl=${lang}&next=${
-								this.props.next
-							}`}
-						>
-							{this.state.languages[lang]}
-						</a>
-					</li>
-				))}
-				<li className="text-muted small">
-					<a href="/i18n/contribute/" target="_blank" rel="noopener">
-						{t("Help translate HSReplay.net!")}
-					</a>
-				</li>
+				{this.props.children}
 			</ul>
 		);
 	}
@@ -97,29 +70,33 @@ class LanguageSelector extends React.Component<Props, State> {
 	public render(): React.ReactNode {
 		const classNames = ["dropdown-toggle"];
 		const open = this.state.expanded ? " open" : "";
-		const { t } = this.props;
 
+		if (this.props.premium) {
+			classNames.push("text-premium");
+		}
 		return (
 			<li
-				className={`${open}`}
+				className={`${this.props.className || ""}${open}`}
 				onClick={this.toggleDropdown}
 				ref={ref => (this.ref = ref)}
-				id="navbar-language-selector"
 			>
 				<a
-					href="/admin/"
+					href="#"
 					className={classNames.join(" ")}
 					role="button"
 					aria-haspopup="true"
 					aria-expanded={this.state.expanded}
 					onClick={e => e.preventDefault()}
+					ref={ref => (this.linkRef = ref)}
 				>
-					<span className="glyphicon glyphicon-globe" />
-					<span>
-						{this.state.languages[this.state.activeLanguage] ||
-							t("Language")}
-					</span>{" "}
-					<span className="caret" />
+					{this.props.glyphicon ? (
+						<span
+							className={`glyphicon glyphicon-${
+								this.props.glyphicon
+							}`}
+						/>
+					) : null}
+					<span>{this.props.text}</span> <span className="caret" />
 				</a>
 				{this.renderDropdown()}
 			</li>
@@ -127,4 +104,4 @@ class LanguageSelector extends React.Component<Props, State> {
 	}
 }
 
-export default translate()(LanguageSelector);
+export default translate()(DropdownMenu);

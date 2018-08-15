@@ -87,7 +87,6 @@ class AccountMenu extends React.Component<Props, State> {
 
 		return (
 			<>
-				<li role="separator" className="divider" />
 				<li className="dropdown-header">Hearthstone</li>
 				{Object.keys(this.props.accounts).map(key => (
 					<li
@@ -132,11 +131,11 @@ class AccountMenu extends React.Component<Props, State> {
 				className="dropdown-menu account-dropdown"
 				ref={ref => (this.dropdownRef = ref)}
 			>
-				<li className="dropdown-header">{this.props.username}</li>
 				{this.renderAccounts()}
-				<li role="separator" className="divider" />
+				<li className="dropdown-header">{this.props.username}</li>
 				<li>
 					<a href={this.props.accountUrl} id="account-settings">
+						<span className="glyphicon glyphicon-cog" />
 						{t("Settings")}
 					</a>
 				</li>
@@ -146,6 +145,7 @@ class AccountMenu extends React.Component<Props, State> {
 						id="sign-out"
 						onClick={this.logout}
 					>
+						<span className="glyphicon glyphicon-log-out" />
 						{t("Sign out")}
 					</a>
 					<form

@@ -149,6 +149,14 @@ header .navbar {
 			&.active-premium > a {
 				border-bottom-color: $premium;
 			}
+
+			&.open > a {
+				border-bottom: 3px solid $lighterblue;
+
+				&.text-premium {
+					border-bottom-color: $premium;
+				}
+			}
 		}
 
 		> a:focus,
@@ -209,31 +217,54 @@ header .navbar {
 		color: black;
 	}
 
-	@media (max-width: 767px) {
-		.navbar-nav .open .dropdown-menu {
-			background-color: $lightblue1;
+	.navbar-nav .open .dropdown-menu {
+		background-color: $blue;
+		padding: 0;
+		border: 1px solid $darkblue;
+		border-radius: 0;
 
-			.dropdown-header {
-				color: #999;
-			}
+		.dropdown-header {
+			background: $darkblue;
+			color: $lightblue;
+			padding: 0.5em 1em;
+			font-size: 1em;
+		}
 
-			.active > a {
-				&,
-				&:focus,
-				&:hover {
-					color: white;
-					background-color: $lightblue;
-				}
-			}
-
-			> li > a {
+		.active > a {
+			&,
+			&:focus,
+			&:hover {
 				color: white;
+				background-color: $lightcyan;
+			}
+		}
+
+		> li {
+			border-bottom: 1px solid $darkblue;
+			&:last-of-type {
+				border-bottom: none;
+			}
+
+			> a {
+				color: white;
+				padding: 10px 20px;
+				font-weight: bold;
+
+				&.text-premium {
+					color: $premium;
+				}
 
 				&:focus,
 				&:hover {
-					color: white;
-					background-color: $lightblue;
+					background-color: $lightblue1;
 				}
+			}
+		}
+
+		.active > a {
+			&:focus,
+			&:hover {
+				background-color: $lightercyan;
 			}
 		}
 	}

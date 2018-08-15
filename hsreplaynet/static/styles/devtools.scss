@@ -5,11 +5,17 @@
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
-		align-items: baseline;
+		align-items: center;
+		padding: 3px 20px !important;
+	}
+
+	.feature-name {
+		margin-top: 5px;
 	}
 
 	.label {
 		font-family: sans-serif;
 		margin-left: 1em;
+		padding-top: 0.6em;
 	}
 }
