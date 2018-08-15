@@ -97,19 +97,17 @@ export default class CardFilterManager extends React.Component<Props, State> {
 		return cardData.collectible();
 	});
 
-	private filter = memoize(
-		(
-			cardData: CardData | null,
-			filters: CardFilterFunction[],
-		): number[] | null => {
-			if (!this.props.cardData) {
-				return null;
-			}
-			let cards = this.getInitialCards(cardData);
-			for (const filter of filters) {
-				cards = cards.filter(filter);
-			}
-			return cards.map(card => card.dbfId);
-		},
-	);
+	private filter = (
+		cardData: CardData | null,
+		filters: CardFilterFunction[],
+	): number[] | null => {
+		if (!this.props.cardData) {
+			return null;
+		}
+		let cards = this.getInitialCards(cardData);
+		for (const filter of filters) {
+			cards = cards.filter(filter);
+		}
+		return cards.map(card => card.dbfId);
+	};
 }
