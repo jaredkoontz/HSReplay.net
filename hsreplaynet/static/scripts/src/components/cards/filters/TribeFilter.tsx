@@ -2,15 +2,17 @@ import React from "react";
 import { InjectedTranslateProps, translate } from "react-i18next";
 import CardFilterItem from "../CardFilterItem";
 import CardFilterItemGroup from "../CardFilterItemGroup";
+import { Collection } from "../../../utils/api";
 
 interface Props extends InjectedTranslateProps {
 	value: string[];
 	onChange: (value: string[]) => void;
+	collection?: Collection;
 }
 
 class TribeFilter extends React.Component<Props> {
 	public render(): React.ReactNode {
-		const { t } = this.props;
+		const { t, collection } = this.props;
 
 		return (
 			<CardFilterItemGroup
@@ -20,6 +22,7 @@ class TribeFilter extends React.Component<Props> {
 				onChange={this.props.onChange}
 				collapsible
 				startCollapsed
+				collection={collection}
 			>
 				<CardFilterItem value={"BEAST"}>
 					{t("GLOBAL_RACE_PET")}

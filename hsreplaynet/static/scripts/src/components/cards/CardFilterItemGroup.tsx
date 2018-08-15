@@ -8,10 +8,20 @@ import {
 } from "./CardFilterManager";
 import InfoboxFilterGroup from "../InfoboxFilterGroup";
 import CardFilter from "./CardFilter";
-import { memoize, merge } from "lodash";
+import { memoize } from "lodash";
+import { Collection } from "../../utils/api";
 
-const { Provider, Consumer } = React.createContext(null);
+const { Provider, Consumer } = React.createContext<CardFilterItemGroupProps>({
+	filterFactory: () =>
+		console.error("filterFactory requested outside context") as any,
+	collection: null,
+});
 export { Consumer as CardFilterItemGroupConsumer };
+
+interface CardFilterItemGroupProps {
+	filterFactory: CardFilterGroupFunction;
+	collection: Collection | null;
+}
 
 export type CardFilterGroupFunction = (
 	value: string,
@@ -25,6 +35,7 @@ interface Props extends CardFilterProps {
 	value: string[];
 	onChange: (value: string[]) => void;
 	className?: string;
+	collection?: Collection;
 }
 
 interface State {
@@ -69,7 +80,12 @@ class CardFilterItemGroup extends React.Component<Props, State> {
 						}}
 					>
 						<Provider
-							value={this.filterFactory(this.props.filterFactory)}
+							value={{
+								filterFactory: this.filterFactory(
+									this.props.filterFactory,
+								),
+								collection: this.props.collection || null,
+							}}
 						>
 							{this.props.children}
 						</Provider>

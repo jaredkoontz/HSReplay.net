@@ -430,22 +430,27 @@ class Collection extends React.Component<Props, State> {
 			<RarityFilter
 				value={this.props.rarity}
 				onChange={value => this.props.setRarity(value)}
+				collection={collection}
 			/>,
 			<TypeFilter
 				value={this.props.type}
 				onChange={value => this.props.setType(value)}
+				collection={collection}
 			/>,
 			<SetFilter
 				onChange={value => this.props.setSet(value)}
 				value={this.props.set}
+				collection={collection}
 			/>,
 			<TribeFilter
 				value={this.props.tribe}
 				onChange={value => this.props.setTribe(value)}
+				collection={collection}
 			/>,
 			<MechanicsFilter
 				value={this.props.mechanics}
 				onChange={value => this.props.setMechanics(value)}
+				collection={collection}
 			/>,
 		);
 		return filters;
