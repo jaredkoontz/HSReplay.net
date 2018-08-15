@@ -20,6 +20,7 @@ export type CardFilterGroupFunction = (
 interface Props extends CardFilterProps {
 	title: string;
 	filterFactory: CardFilterGroupFunction;
+	startCollapsed: boolean;
 	collapsible?: boolean;
 	value: string[];
 	onChange: (value: string[]) => void;
@@ -39,7 +40,7 @@ class CardFilterItemGroup extends React.Component<Props, State> {
 	}
 
 	public render(): React.ReactNode {
-		const { collapsible } = this.props;
+		const { collapsible, startCollapsed } = this.props;
 
 		return (
 			<>
@@ -53,7 +54,7 @@ class CardFilterItemGroup extends React.Component<Props, State> {
 					header={this.props.title}
 					deselectable
 					selectedValue={this.props.value}
-					collapsed={collapsible}
+					collapsed={startCollapsed}
 					collapsible={collapsible}
 					onClick={this.onChange}
 					className={this.props.className}

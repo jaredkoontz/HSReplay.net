@@ -19,6 +19,8 @@ class CostFilter extends React.Component<Props> {
 				value={this.props.value}
 				onChange={this.props.onChange}
 				className="filter-list-cost"
+				collapsible={false}
+				startCollapsed={false}
 			>
 				{Array.from(Array(8).keys())
 					.map(i => "" + i)

@@ -18,6 +18,8 @@ class RarityFilter extends React.Component<Props> {
 				filterFactory={this.filter}
 				value={this.props.value}
 				onChange={this.props.onChange}
+				collapsible
+				startCollapsed={false}
 			>
 				<CardFilterItem value={"FREE"}>
 					{t("GLOBAL_RARITY_FREE")}

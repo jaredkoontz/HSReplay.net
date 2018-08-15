@@ -19,6 +19,7 @@ class TribeFilter extends React.Component<Props> {
 				value={this.props.value}
 				onChange={this.props.onChange}
 				collapsible
+				startCollapsed
 			>
 				<CardFilterItem value={"BEAST"}>
 					{t("GLOBAL_RACE_PET")}

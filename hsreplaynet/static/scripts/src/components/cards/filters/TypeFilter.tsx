@@ -18,7 +18,8 @@ class TypeFilter extends React.Component<Props> {
 				filterFactory={this.filter}
 				value={this.props.value}
 				onChange={this.props.onChange}
-				collapsible={false}
+				collapsible
+				startCollapsed
 			>
 				<CardFilterItem value={"MINION"}>
 					{t("GLOBAL_CARDTYPE_MINION")}

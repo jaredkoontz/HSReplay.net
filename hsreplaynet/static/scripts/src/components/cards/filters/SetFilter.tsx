@@ -19,6 +19,7 @@ class SetFilter extends React.Component<Props> {
 				value={this.props.value}
 				onChange={this.props.onChange}
 				collapsible
+				startCollapsed
 			>
 				<CardFilterItem value={"CORE"}>
 					{t("GLOBAL_CARD_SET_CORE")}

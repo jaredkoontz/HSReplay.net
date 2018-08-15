@@ -19,6 +19,7 @@ class MechanicsFilter extends React.Component<Props> {
 				value={this.props.value}
 				onChange={this.props.onChange}
 				collapsible
+				startCollapsed
 			>
 				<CardFilterItem value={"BATTLECRY"}>
 					{t("GLOBAL_KEYWORD_BATTLECRY")}
