@@ -32,6 +32,9 @@ export class Provider extends React.Component<Props, State> {
 	}
 
 	private setAccount = (event: CustomEvent<{ account: string }>) => {
+		if (!event.detail) {
+			return;
+		}
 		this.setState({ account: event.detail.account });
 	};
 
