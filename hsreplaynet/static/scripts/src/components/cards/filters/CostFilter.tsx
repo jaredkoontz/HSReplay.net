@@ -29,6 +29,7 @@ class CostFilter extends React.Component<Props> {
 							noCount
 							value={+cost < 7 ? cost : `${cost}+`}
 							className="mana-crystal"
+							key={cost}
 						>
 							<img
 								src={image("mana_crystal.png")}
