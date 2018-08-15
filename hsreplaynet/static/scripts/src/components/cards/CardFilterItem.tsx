@@ -34,14 +34,23 @@ class CardFilterItem extends React.Component<Props> {
 									);
 
 									collectionCount = matchingCards.reduce(
-										(count, card) =>
-											count +
-											(collection.collection[
-												card.dbfId
-											][0] +
-											collection.collection[card.dbfId][1]
-												? this.maxCount(card)
-												: 0),
+										(count, card) => {
+											const counts =
+												collection.collection[
+													card.dbfId
+												];
+											if (!counts) {
+												return count;
+											}
+											const [normal, golden] = counts;
+											return (
+												count +
+												Math.min(
+													normal + golden,
+													this.maxCount(card),
+												)
+											);
+										},
 										0,
 									);
 								} else {

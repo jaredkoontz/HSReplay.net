@@ -289,7 +289,12 @@ class Collection extends React.Component<Props, State> {
 		const cards = this.state.filteredCards.slice();
 		cards.sort(cardSorting);
 		return cards.slice(0, this.state.numCards).map(card => {
-			let [normal, golden] = this.props.collection.collection[card.dbfId];
+			const counts = this.props.collection.collection[card.dbfId];
+			let normal = 0;
+			let golden = 0;
+			if (counts) {
+				[normal, golden] = counts;
+			}
 			if (this.props.golden.indexOf("GOLDEN") !== -1) {
 				normal = 0;
 			}
@@ -385,8 +390,13 @@ class Collection extends React.Component<Props, State> {
 								{filteredCards.reduce(
 									(acc, curr) =>
 										acc +
-										(collection.collection[curr.dbfId][0]
-											? maxCount(curr)
+										(collection.collection[curr.dbfId]
+											? Math.min(
+													maxCount(curr),
+													collection.collection[
+														curr.dbfId
+													][0],
+											  )
 											: 0),
 									0,
 								)}{" "}
@@ -405,8 +415,13 @@ class Collection extends React.Component<Props, State> {
 								{filteredCards.reduce(
 									(acc, curr) =>
 										acc +
-										(collection.collection[curr.dbfId][1]
-											? maxCount(curr)
+										(collection.collection[curr.dbfId]
+											? Math.min(
+													maxCount(curr),
+													collection.collection[
+														curr.dbfId
+													][1],
+											  )
 											: 0),
 									0,
 								)}{" "}
