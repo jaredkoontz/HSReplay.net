@@ -84,9 +84,14 @@ class CardFilterItemGroup extends React.Component<Props, State> {
 		if (!this.props.cardData || !filter) {
 			return this.props.dbfIds;
 		}
+
 		const collectible = this.props.cardData.collectible();
-		const ours = collectible.filter(filter).map(x => x.dbfId);
-		return merge(this.props.dbfIds, ours);
+		const otherFilters = this.props.filters.filter(x => x !== filter);
+		let cards = collectible;
+		for (const otherFilter of otherFilters) {
+			cards = cards.filter(otherFilter);
+		}
+		return cards.map(x => x.dbfId);
 	};
 
 	private onChange = (value: string, sender: string) => {
