@@ -423,10 +423,6 @@ class Collection extends React.Component<Props, State> {
 				onChange={value => this.props.setCost(value)}
 				value={this.props.cost}
 			/>,
-			<SetFilter
-				onChange={value => this.props.setSet(value)}
-				value={this.props.set}
-			/>,
 			<RarityFilter
 				value={this.props.rarity}
 				onChange={value => this.props.setRarity(value)}
@@ -434,6 +430,10 @@ class Collection extends React.Component<Props, State> {
 			<TypeFilter
 				value={this.props.type}
 				onChange={value => this.props.setType(value)}
+			/>,
+			<SetFilter
+				onChange={value => this.props.setSet(value)}
+				value={this.props.set}
 			/>,
 			<TribeFilter
 				value={this.props.tribe}
