@@ -123,11 +123,11 @@ class Collection extends React.Component<Props, State> {
 	}
 
 	public render(): React.ReactNode {
-		const { t } = this.props;
+		const { t, collection } = this.props;
 
 		if (
 			!this.props.owner &&
-			!this.props.collection &&
+			!collection &&
 			this.props.collectionLoadingStatus !== LoadingStatus.LOADING
 		) {
 			return (
@@ -389,7 +389,9 @@ class Collection extends React.Component<Props, State> {
 											? maxCount(curr)
 											: 0),
 									0,
-								)}/{filteredCards.reduce(
+								)}{" "}
+								/{" "}
+								{filteredCards.reduce(
 									(acc, curr) => acc + maxCount(curr),
 									0,
 								)}
@@ -407,7 +409,9 @@ class Collection extends React.Component<Props, State> {
 											? maxCount(curr)
 											: 0),
 									0,
-								)}/{filteredCards.reduce(
+								)}{" "}
+								/{" "}
+								{filteredCards.reduce(
 									(acc, curr) => acc + maxCount(curr),
 									0,
 								)}
