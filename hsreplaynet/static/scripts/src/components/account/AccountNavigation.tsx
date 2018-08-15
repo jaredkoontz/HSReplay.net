@@ -78,6 +78,8 @@ class AccountNavigation extends React.Component<Props, State> {
 					<DevTools />
 				) : null}
 
+				<LanguageSelector next={next} />
+
 				<DropdownMenu
 					className=""
 					text={t("My Data")}
@@ -134,8 +136,6 @@ class AccountNavigation extends React.Component<Props, State> {
 						</a>
 					</li>
 				</DropdownMenu>
-
-				<LanguageSelector next={next} />
 
 				{this.props.isAuthenticated ? (
 					<BlizzardAccountConsumer>
