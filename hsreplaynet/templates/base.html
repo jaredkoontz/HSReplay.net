@@ -19,6 +19,7 @@
 					release: "{{ raven_config_frontend.release }}",
 					environment: "{% if debug %}development{% else %}production{% endif %}",
 					ignoreErrors: [/__firefox__/],
+					whitelistUrls: [/https:\/\/hsreplay\.net/],
 				}).install();
 				{% if user.is_authenticated %}
 				raven.setUserContext({
