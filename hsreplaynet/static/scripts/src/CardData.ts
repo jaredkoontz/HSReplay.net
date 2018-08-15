@@ -2,6 +2,7 @@ import HearthstoneJSON, {
 	CardData as HearthstoneJSONCardData,
 } from "hearthstonejson-client";
 import UserData from "./UserData";
+import { isPlayableCard } from "./helpers";
 
 export default class CardData {
 	private readonly byDbfId: { [dbfId: string]: HearthstoneJSONCardData } = {};
@@ -41,6 +42,8 @@ export default class CardData {
 	}
 
 	public collectible(): HearthstoneJSONCardData[] {
-		return this.cards.filter(card => card.collectible);
+		return this.cards.filter(
+			card => card.collectible && isPlayableCard(card),
+		);
 	}
 }
