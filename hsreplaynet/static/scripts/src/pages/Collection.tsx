@@ -132,7 +132,7 @@ class Collection extends React.Component<Props, State> {
 		) {
 			return (
 				<div className="message-container">
-					<h3>{t("This users collection is private.")}</h3>
+					<h3>{t("This user's collection is private.")}</h3>
 					<a href="/decks/">
 						{t("We can help you find a new deck though!")}
 					</a>
