@@ -25,10 +25,10 @@ const render = (cardData: CardData) => {
 							url: "/api/v1/collection/",
 							key: "collection",
 							params: {
-								region: account
+								region: context.owner
 									? account.region
 									: context.region,
-								account_lo: account
+								account_lo: context.owner
 									? account.account_lo
 									: context.account_lo,
 							},
@@ -42,7 +42,7 @@ const render = (cardData: CardData) => {
 								!!context.account_lo)
 						}
 					>
-						{({ collection }) => (
+						{({ collection, status }) => (
 							<Fragments
 								defaults={{
 									playerClass: "ALL",
@@ -62,6 +62,8 @@ const render = (cardData: CardData) => {
 									visibility={context.visibility}
 									account={account}
 									collection={collection}
+									collectionLoadingStatus={status}
+									owner={context.owner}
 								/>
 							</Fragments>
 						)}

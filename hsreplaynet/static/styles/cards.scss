@@ -199,4 +199,17 @@
 			margin: 5px;
 		}
 	}
+
+	.message-container {
+		min-height: 90vh;
+		min-width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+
+		.promo-button {
+			margin-top: 15px;
+		}
+	}
 }

@@ -5,7 +5,11 @@ import { Account } from "../UserData";
 import { CardData as HearthstoneJSONCardData } from "hearthstonejson-client";
 import ClassFilter, { FilterOption } from "../components/ClassFilter";
 import ResetHeader from "../components/ResetHeader";
-import { FragmentChildProps, SortDirection } from "../interfaces";
+import {
+	FragmentChildProps,
+	LoadingStatus,
+	SortDirection,
+} from "../interfaces";
 import CardFilterManager from "../components/cards/CardFilterManager";
 import { cardSorting, image, isCollectibleCard } from "../helpers";
 import CardImage from "../components/CardImage";
@@ -18,6 +22,10 @@ import InfoboxFilterGroup from "../components/InfoboxFilterGroup";
 import InfoboxFilter from "../components/InfoboxFilter";
 import TextFilter from "../components/cards/filters/TextFilter";
 import MechanicsFilter from "../components/cards/filters/MechanicsFilter";
+import LoadingSpinner from "../components/LoadingSpinner";
+import Modal from "../components/Modal";
+import CollectionSetup from "../components/collection/CollectionSetup";
+import PrettyBlizzardAccount from "../components/text/PrettyBlizzardAccount";
 
 interface Props extends FragmentChildProps, InjectedTranslateProps {
 	cardData: CardData;
@@ -25,6 +33,8 @@ interface Props extends FragmentChildProps, InjectedTranslateProps {
 	battleTag?: string;
 	visibility?: string;
 	account?: Account;
+	owner: boolean;
+	collectionLoadingStatus?: LoadingStatus;
 
 	format?: string;
 	setFormat?: (format: string) => void;
@@ -56,6 +66,7 @@ interface State {
 	hasPersonalData: boolean;
 	numCards: number;
 	showFilters: boolean;
+	showCollectionModal: boolean;
 }
 
 const PLACEHOLDER_MINION = image("loading_minion.png");
@@ -73,6 +84,7 @@ class Collection extends React.Component<Props, State> {
 			hasPersonalData: false,
 			numCards: 24,
 			showFilters: false,
+			showCollectionModal: false,
 		};
 	}
 
@@ -105,14 +117,23 @@ class Collection extends React.Component<Props, State> {
 		document.removeEventListener("scroll", this.scrollCb);
 	}
 
-	public componentDidUpdate(
-		prevProps: Readonly<Props>,
-		prevState: Readonly<State>,
-		prevContext: any,
-	): void {}
-
 	public render(): React.ReactNode {
 		const { t } = this.props;
+
+		if (
+			!this.props.owner &&
+			!this.props.collection &&
+			this.props.collectionLoadingStatus !== LoadingStatus.LOADING
+		) {
+			return (
+				<div className="message-container">
+					<h3>{t("This users collection is private.")}</h3>
+					<a href="/decks/">
+						{t("We can help you find a new deck though!")}
+					</a>
+				</div>
+			);
+		}
 
 		const backButton = (
 			<button
@@ -161,13 +182,52 @@ class Collection extends React.Component<Props, State> {
 	}
 
 	private renderContent(): React.ReactNode {
-		if (
-			this.state.filteredCards === null ||
-			this.props.collection == null
-		) {
-			return null;
-		}
 		const { t } = this.props;
+
+		if (
+			!this.props.cardData ||
+			this.props.collectionLoadingStatus === LoadingStatus.LOADING ||
+			this.state.filteredCards === null
+		) {
+			return <LoadingSpinner active />;
+		}
+		if (
+			this.props.collection == null &&
+			this.props.owner &&
+			this.props.collectionLoadingStatus !== LoadingStatus.LOADING
+		) {
+			return (
+				<div className="message-container">
+					<Modal
+						visible={this.state.showCollectionModal}
+						onClose={() =>
+							this.setState({ showCollectionModal: false })
+						}
+					>
+						<CollectionSetup />
+					</Modal>
+					<h2>Browse and share your collection!</h2>
+					<p>
+						{t("We couldn't find a collection for")}{" "}
+						<strong>
+							<PrettyBlizzardAccount
+								account={this.props.account}
+							/>
+						</strong>
+					</p>
+					<a
+						href="#"
+						className="btn promo-button"
+						onClick={e => {
+							e.preventDefault();
+							this.setState({ showCollectionModal: true });
+						}}
+					>
+						{t("Set up collection uploading")}
+					</a>
+				</div>
+			);
+		}
 		return (
 			<>
 				<button
@@ -281,13 +341,13 @@ class Collection extends React.Component<Props, State> {
 				onReset={() => this.props.reset()}
 				showReset={showReset}
 			>
-				{this.props.battleTag
-					? t(`${this.props.battleTag}'s Collection`)
-					: t("My Collection")}
+				{this.props.owner
+					? "My Collection"
+					: t(`${this.props.battleTag || t("Unknown")}'s Collection`)}
 			</ResetHeader>,
 		];
 
-		if (this.props.visibility) {
+		if (this.props.visibility && this.props.collection) {
 			filters.push(
 				<section id="visibility-setting">
 					<CollectionVisibility

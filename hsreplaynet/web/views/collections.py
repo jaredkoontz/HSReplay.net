@@ -27,7 +27,10 @@ class CollectionView(SimpleReactView):
 	def get_react_context(self):
 		region = self.kwargs.get("region", 0)
 		lo = self.kwargs.get("lo", 0)
-		account = BlizzardAccount.objects.get(region=region, account_lo=lo)
+		try:
+			account = BlizzardAccount.objects.get(region=region, account_lo=lo)
+		except:
+			return {}
 		return {
 			"region": region,
 			"account_lo": lo,

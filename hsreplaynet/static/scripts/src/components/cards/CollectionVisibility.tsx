@@ -63,7 +63,7 @@ class CollectionVisibility extends React.Component<Props, State> {
 						? t("Public")
 						: t("Private")}
 				</InfoboxFilter>
-				{this.state.visibility === "public" ? (
+				{this.state.visibility === "public" && this.props.account ? (
 					<CopyText
 						text={`https://hsreplay.net/collection/${
 							this.props.account.region
