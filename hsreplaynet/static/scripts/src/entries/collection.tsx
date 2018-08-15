@@ -45,8 +45,9 @@ const render = (cardData: CardData) => {
 						{({ collection, status }) => (
 							<Fragments
 								defaults={{
-									playerClass: "ALL",
+									playerClass: [],
 									golden: [],
+									cost: [],
 									rarity: [],
 									set: [],
 									type: [],

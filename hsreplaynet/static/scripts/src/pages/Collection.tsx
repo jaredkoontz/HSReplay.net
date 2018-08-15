@@ -1,9 +1,9 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { InjectedTranslateProps, translate } from "react-i18next";
 import CardData from "../CardData";
 import { Account } from "../UserData";
 import { CardData as HearthstoneJSONCardData } from "hearthstonejson-client";
-import ClassFilter, { FilterOption } from "../components/ClassFilter";
+import { FilterOption } from "../components/ClassFilter";
 import ResetHeader from "../components/ResetHeader";
 import {
 	FragmentChildProps,
@@ -26,6 +26,9 @@ import LoadingSpinner from "../components/LoadingSpinner";
 import Modal from "../components/Modal";
 import CollectionSetup from "../components/collection/CollectionSetup";
 import PrettyBlizzardAccount from "../components/text/PrettyBlizzardAccount";
+import CostFilter from "../components/cards/filters/CostFilter";
+import ClassFilter from "../components/cards/filters/ClassFilter";
+import SetFilter from "../components/cards/filters/SetFilter";
 
 interface Props extends FragmentChildProps, InjectedTranslateProps {
 	cardData: CardData;
@@ -38,10 +41,12 @@ interface Props extends FragmentChildProps, InjectedTranslateProps {
 
 	format?: string;
 	setFormat?: (format: string) => void;
-	playerClass?: string;
-	setPlayerClass?: (playerClass: string) => void;
+	playerClass?: string[];
+	setPlayerClass?: (playerClass: string[]) => void;
 	golden?: string;
 	setGolden?: (golden: string) => void;
+	cost?: string[];
+	setCost?: (cost: string[]) => void;
 	rarity?: string[];
 	setRarity?: (rarity: string[]) => void;
 	set?: string[];
@@ -359,18 +364,11 @@ class Collection extends React.Component<Props, State> {
 		}
 
 		filters.push(
-			<Fragment key="class">
-				<h2>{t("Class")}</h2>
-				<ClassFilter
-					filters="AllNeutral"
-					hideAll
-					minimal
-					selectedClasses={[this.props.playerClass as FilterOption]}
-					selectionChanged={selected =>
-						this.props.setPlayerClass(selected[0])
-					}
-				/>
-			</Fragment>,
+			<ClassFilter
+				filters="AllNeutral"
+				value={this.props.playerClass as FilterOption[]}
+				onChange={value => this.props.setPlayerClass(value)}
+			/>,
 			<section>
 				<InfoboxFilterGroup
 					onClick={value => {
@@ -421,6 +419,14 @@ class Collection extends React.Component<Props, State> {
 		);
 
 		filters.push(
+			<CostFilter
+				onChange={value => this.props.setCost(value)}
+				value={this.props.cost}
+			/>,
+			<SetFilter
+				onChange={value => this.props.setSet(value)}
+				value={this.props.set}
+			/>,
 			<RarityFilter
 				value={this.props.rarity}
 				onChange={value => this.props.setRarity(value)}
