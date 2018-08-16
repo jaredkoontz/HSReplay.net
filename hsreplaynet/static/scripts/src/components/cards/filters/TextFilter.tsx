@@ -63,12 +63,7 @@ class TextFilter extends React.Component<Props> {
 		}
 		const parts = value
 			.split(",")
-			.map(x => {
-				x = x.trim();
-				const isSearch = x.length > 0 ? x[0] === "^" : false;
-				x = cleanText(x);
-				return isSearch ? `^${x}` : x;
-			})
+			.map(x => cleanText(x).trim())
 			.filter(x => !!x);
 
 		let slangs = parts.map(slangToCardId).filter(x => !!x);

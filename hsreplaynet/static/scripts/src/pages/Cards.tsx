@@ -1204,11 +1204,7 @@ class Cards extends React.Component<Props, State> {
 		if (this.props.text) {
 			const cleanParts = this.props.text
 				.split(",")
-				.map(x => {
-					const isSearch = x[0].trim() === "^";
-					x = cleanText(x).trim();
-					return isSearch ? `^${x}` : x;
-				})
+				.map(x => cleanText(x).trim())
 				.filter(x => x.length > 0);
 			const slangs = cleanParts
 				.map(x => slangToCardId(x))
