@@ -22,14 +22,18 @@ interface Props {
 interface State {
 	enabled: boolean;
 	working: boolean;
+	loaded?: boolean;
 }
 
 export default class AdUnit extends React.Component<Props, State> {
+	private ref: HTMLElement | null = null;
+
 	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
 			enabled: AdHelper.isAdEnabled(props.id, true),
 			working: false,
+			loaded: false,
 		};
 	}
 
@@ -53,6 +57,7 @@ export default class AdUnit extends React.Component<Props, State> {
 					width: `${width}px`,
 					height: `${height}px`,
 				}}
+				ref={ref => (this.ref = ref)}
 				key={this.props.id}
 			>
 				{debugAds() ? (
@@ -108,9 +113,14 @@ export default class AdUnit extends React.Component<Props, State> {
 	};
 
 	public componentDidMount(): void {
-		if (showAds() && !debugAds() && AdHelper.isAdEnabled(this.props.id)) {
-			this.loadExternalAd();
-		}
+		this.loadExternalAd();
+		window.addEventListener("resize", this.resize);
+	}
+
+	private resize = () => this.loadExternalAd();
+
+	public componentWillUnmount(): void {
+		window.removeEventListener("resize", this.resize);
 	}
 
 	public static parsePlaceholderSize(size: string): [number, number] {
@@ -119,8 +129,22 @@ export default class AdUnit extends React.Component<Props, State> {
 	}
 
 	private loadExternalAd(): boolean {
+		if (this.state.loaded) {
+			// ad has already been loaded
+			return;
+		}
+
 		if (!window.nads) {
 			// Nitropay did not load properly or was blocked
+			return;
+		}
+
+		if (!showAds() || debugAds() || !AdHelper.isAdEnabled(this.props.id)) {
+			return;
+		}
+
+		if (this.ref && this.ref.offsetParent === null) {
+			// ad is not actually visibile
 			return;
 		}
 
@@ -144,5 +168,7 @@ export default class AdUnit extends React.Component<Props, State> {
 
 		// initialize ad
 		window.nads.createAd(this.props.id, options);
+
+		this.setState({ loaded: true });
 	}
 }
