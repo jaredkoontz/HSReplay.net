@@ -76,6 +76,17 @@ class DeckManager(models.Manager):
 		full_deck = deck.size == 30
 		if archetypes_enabled and classify_archetype and archetype_missing and full_deck:
 			player_class = self._convert_hero_id_to_player_class(hero_id)
+			if player_class != deck.deck_class:
+				influx_metric(
+					"deck_hero_mismatch",
+					{
+						"count": 1,
+						"deck_id": deck.id,
+						"hero_id": hero_id,
+					},
+					from_exporter=player_class.name,
+					from_cards=deck.deck_class.name,
+				)
 			deck.classify_into_archetype(player_class)
 
 		return deck, created
