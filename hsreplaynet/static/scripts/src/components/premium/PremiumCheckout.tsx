@@ -1,6 +1,6 @@
 import React from "react";
 import CheckoutForm, { PaymentMethod } from "../payments/CheckoutForm";
-import { SubscriptionEvents } from "../../metrics/Events";
+import { cookie } from "cookie_js";
 
 interface Props {
 	analyticsLabel?: string;
@@ -45,11 +45,14 @@ export default class PremiumCheckout extends React.Component<Props> {
 					}
 				}}
 				onSubscribe={(value: number) => {
-					SubscriptionEvents.onSubscribe(
-						value,
-						this.props.analyticsLabel,
+					cookie.set(
+						"just-subscribed",
+						JSON.stringify({
+							value,
+							label: this.props.analyticsLabel,
+						}),
 						{
-							transport: "beacon",
+							path: "/",
 						},
 					);
 				}}

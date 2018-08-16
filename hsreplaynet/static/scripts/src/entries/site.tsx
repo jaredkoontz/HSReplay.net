@@ -11,6 +11,7 @@ import PremiumModal from "../components/premium/PremiumModal";
 import i18n from "../i18n";
 import { I18nextProvider } from "react-i18next";
 import AdUnit from "../components/ads/AdUnit";
+import { SubscriptionEvents } from "../metrics/Events";
 
 UserData.create();
 
@@ -50,6 +51,15 @@ if (document.readyState === "loading") {
 } else {
 	renderNavbar();
 	renderFooterAds();
+}
+
+const justSubscribed = cookie.get("just-subscribed");
+if (justSubscribed) {
+	if (UserData.isPremium()) {
+		const { value, label } = JSON.parse(justSubscribed);
+		SubscriptionEvents.onSubscribe(value, label);
+	}
+	cookie.removeSpecific("just-subscribed", { path: "/" });
 }
 
 function checkModal() {
