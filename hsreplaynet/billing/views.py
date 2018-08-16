@@ -232,19 +232,12 @@ class BillingView(LoginRequiredMixin, PaymentsMixin, SimpleReactView):
 class SubscribeView(LoginRequiredMixin, PaymentsMixin, View):
 	success_url = reverse_lazy("billing_methods")
 
-	def process_elements_checkout_form(self, customer):
-		source_id = self.request.POST.get("stripeToken", "")
-		if not source_id:
-			raise SuspiciousOperation("Missing stripeToken")
-
-		return self.process_legacy_checkout_form(customer)
-
-	def process_legacy_checkout_form(self, customer):
+	def process_checkout_form(self, customer):
 		# The token represents the customer's payment method
 		token = self.request.POST.get("stripeToken", "")
 		if not token.startswith(("tok_", "src_")):
 			# We either didn't get a token, or it was malformed. Discard outright.
-			raise SuspiciousOperation("Invalid Stripe token")
+			raise SuspiciousOperation("Missing or invalid Stripe token")
 
 		try:
 			# Saving the token as a payment method will create the payment source for us.
@@ -397,16 +390,15 @@ class SubscribeView(LoginRequiredMixin, PaymentsMixin, View):
 		customer = self.get_customer()
 
 		token_type = request.POST.get("stripeTokenType", "")
-		if token_type == "card":
-			self.process_legacy_checkout_form(customer)
-		elif token_type == "source":
-			self.process_elements_checkout_form(customer)
+		if token_type == "source":
+			self.process_checkout_form(customer)
 		elif token_type:
 			raise NotImplementedError("Unknown token type: %r" % (token_type))
 
 		if "plan" in request.POST:
 			# Optionally, a plan can be specified. We attempt subscribing to it if there is one.
-			self.handle_subscribe(customer)
+			if self.handle_subscribe(customer):
+				messages.success(self.request, _("You are now subscribed!"))
 
 		return redirect(self.get_success_url())
 
@@ -561,7 +553,7 @@ class PaypalSuccessView(BasePaypalView):
 
 		prepared_agreement.execute()
 
-		messages.info(self.request, _("You are now subscribed with PayPal!"))
+		messages.success(self.request, _("You are now subscribed with PayPal!"))
 		return redirect(self.get_success_url())
 
 
