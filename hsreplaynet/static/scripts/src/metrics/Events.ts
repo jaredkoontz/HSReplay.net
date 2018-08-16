@@ -54,6 +54,11 @@ export default class Events {
 }
 
 export class SubscriptionEvents extends Events {
+	public static onInitiateCheckout(location: string): void {
+		this.ga("Checkout", "initiate");
+		this.fb("InitiateCheckout");
+	}
+
 	public static onSubscribe(
 		usdValue: number,
 		location: string,

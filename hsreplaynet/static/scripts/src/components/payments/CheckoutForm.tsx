@@ -17,6 +17,7 @@ export const enum PaymentMethod {
 export interface CheckoutFormInstanceProps {
 	submitUrl: string;
 	onDisable: (disabled: boolean) => void;
+	onInteract: () => void;
 	onSubscribe: (value: number) => void;
 }
 
@@ -31,6 +32,7 @@ interface Props extends InjectedTranslateProps {
 	stripeCheckoutSubmitUrl: string;
 	paypalPlans: PaypalPlan[];
 	paypalSubmitUrl: string;
+	onInteract: () => void;
 	onSubscribe: (value: number) => void;
 }
 
@@ -122,7 +124,10 @@ class CheckoutForm extends React.Component<Props, State> {
 					}))}
 					aria-describedby="payment-method"
 					value={this.state.paymentMethod}
-					onChange={paymentMethod => this.setState({ paymentMethod })}
+					onChange={paymentMethod => {
+						this.props.onInteract();
+						this.setState({ paymentMethod });
+					}}
 					disabled={this.state.disabled}
 				/>
 			</div>
@@ -143,6 +148,7 @@ class CheckoutForm extends React.Component<Props, State> {
 								onDisable={(disabled: boolean) =>
 									this.setState({ disabled })
 								}
+								onInteract={this.props.onInteract}
 								onSubscribe={this.props.onSubscribe}
 							/>
 						</Elements>
@@ -157,6 +163,7 @@ class CheckoutForm extends React.Component<Props, State> {
 						onDisable={(disabled: boolean) =>
 							this.setState({ disabled })
 						}
+						onInteract={this.props.onInteract}
 						onSubscribe={this.props.onSubscribe}
 					/>
 				);

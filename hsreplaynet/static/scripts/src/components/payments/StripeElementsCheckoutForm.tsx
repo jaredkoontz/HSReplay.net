@@ -305,7 +305,10 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 				ref={ref => (this.formRef = ref)}
 				method="post"
 				action={this.props.submitUrl}
-				onSubmit={evt => this.handleSubmit(evt)}
+				onSubmit={evt => {
+					this.props.onInteract();
+					this.handleSubmit(evt);
+				}}
 				style={{
 					width: "100%",
 				}}
@@ -320,9 +323,10 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 						buttons={this.getPlanButtons()}
 						id="stripe-plan"
 						name="plan"
-						onChange={selectedPlan =>
-							this.setState({ selectedPlan })
-						}
+						onChange={selectedPlan => {
+							this.props.onInteract();
+							this.setState({ selectedPlan });
+						}}
 						value={this.state.selectedPlan}
 						aria-labelledby="choose-plan"
 						disabled={disabled}
@@ -351,9 +355,11 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 							disabled={disabled}
 							required
 							value={this.state.email}
-							onChange={e =>
-								this.setState({ email: e.target.value })
-							}
+							onFocus={() => this.props.onInteract()}
+							onChange={e => {
+								this.props.onInteract();
+								this.setState({ email: e.target.value });
+							}}
 							autoComplete="email"
 							autoCorrect="off"
 							spellCheck={false}
@@ -408,7 +414,9 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 										? ref._element
 										: null)
 								}
+								onFocus={() => this.props.onInteract()}
 								onChange={e => {
+									this.props.onInteract();
 									if (e.error) {
 										this.setState({
 											errorMessage: e.error.message,

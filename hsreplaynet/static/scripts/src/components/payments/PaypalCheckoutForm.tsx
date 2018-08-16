@@ -55,6 +55,7 @@ class PaypalCheckoutForm extends React.Component<Props, State> {
 		}
 		this.props.onDisable(true);
 		const planData = this.getPlanData(this.state.selectedPlan);
+		this.props.onInteract();
 		if (planData) {
 			this.props.onSubscribe(+planData.amount);
 		}
@@ -125,9 +126,10 @@ class PaypalCheckoutForm extends React.Component<Props, State> {
 						buttons={this.getPlanButtons()}
 						name="plan"
 						id="paypal-plan"
-						onChange={selectedPlan =>
-							this.setState({ selectedPlan })
-						}
+						onChange={selectedPlan => {
+							this.props.onInteract();
+							this.setState({ selectedPlan });
+						}}
 						value={this.state.selectedPlan}
 						aria-labelledby="choose-plan"
 						disabled={working}

@@ -4,7 +4,7 @@ import UserData from "../UserData";
 import LoginButton from "../components/account/LoginButton";
 import PremiumCheckout from "../components/premium/PremiumCheckout";
 import { image } from "../helpers";
-import { ReferralEvents } from "../metrics/Events";
+import { ReferralEvents, SubscriptionEvents } from "../metrics/Events";
 import ReferralsPromo from "./ReferralsPromo";
 import Panel from "../components/Panel";
 import HDTVideo from "../components/HDTVideo";
@@ -20,7 +20,18 @@ interface Props extends InjectedTranslateProps {
 	hasSubscriptionPastDue: boolean;
 }
 
-class PremiumDetail extends React.Component<Props> {
+interface State {
+	hasStartedCheckout: boolean;
+}
+
+class PremiumDetail extends React.Component<Props, State> {
+	constructor(props: Props, context: any) {
+		super(props, context);
+		this.state = {
+			hasStartedCheckout: false,
+		};
+	}
+
 	public render(): React.ReactNode {
 		const { hasSubscriptionPastDue, t } = this.props;
 		const isPremium = UserData.isPremium();
@@ -347,6 +358,20 @@ class PremiumDetail extends React.Component<Props> {
 										<PremiumCheckout
 											analyticsLabel={"Premium Detail"}
 											preselect
+											onInteract={() => {
+												if (
+													this.state
+														.hasStartedCheckout
+												) {
+													return;
+												}
+												SubscriptionEvents.onInitiateCheckout(
+													"Premium Detail",
+												);
+												this.setState({
+													hasStartedCheckout: true,
+												});
+											}}
 										/>
 									</div>
 								</>

@@ -5,6 +5,7 @@ import { image } from "../../helpers";
 import LoginButton from "../account/LoginButton";
 import CloseModalButton from "../modal/CloseModalButton";
 import PremiumCheckout from "./PremiumCheckout";
+import { SubscriptionEvents } from "../../metrics/Events";
 
 interface Props extends InjectedTranslateProps {
 	analyticsLabel?: string;
@@ -210,6 +211,9 @@ class PremiumModal extends React.Component<Props, State> {
 								className="btn promo-button"
 								onClick={e => {
 									e.preventDefault();
+									SubscriptionEvents.onInitiateCheckout(
+										this.props.analyticsLabel,
+									);
 									this.setState({ showCheckout: true });
 								}}
 							>

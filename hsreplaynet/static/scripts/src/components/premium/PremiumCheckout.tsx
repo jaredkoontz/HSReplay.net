@@ -5,6 +5,7 @@ import { SubscriptionEvents } from "../../metrics/Events";
 interface Props {
 	analyticsLabel?: string;
 	preselect?: boolean;
+	onInteract?: () => void;
 }
 
 export default class PremiumCheckout extends React.Component<Props> {
@@ -38,6 +39,11 @@ export default class PremiumCheckout extends React.Component<Props> {
 				}
 				paypalPlans={paypalPlans}
 				paypalSubmitUrl={paypalSubmitUrl}
+				onInteract={() => {
+					if (this.props.onInteract) {
+						this.props.onInteract();
+					}
+				}}
 				onSubscribe={(value: number) => {
 					SubscriptionEvents.onSubscribe(
 						value,
