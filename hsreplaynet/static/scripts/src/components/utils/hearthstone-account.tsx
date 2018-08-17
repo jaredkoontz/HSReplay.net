@@ -57,7 +57,16 @@ export class Provider extends React.Component<Props, State> {
 	}
 }
 
-export class Consumer extends React.Component {
+interface HearthstoneAccountContext {
+	key: string | null;
+	account: Account | null;
+}
+
+interface ConsumerProps {
+	children: (context: HearthstoneAccountContext) => void;
+}
+
+export class Consumer extends React.Component<ConsumerProps> {
 	static contextTypes = {
 		hearthstoneAccount: PropTypes.string,
 	};
