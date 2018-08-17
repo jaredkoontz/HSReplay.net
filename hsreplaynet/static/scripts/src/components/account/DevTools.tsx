@@ -4,14 +4,13 @@ import DataManager from "../../DataManager";
 import { cookie } from "cookie_js";
 import { InjectedTranslateProps, translate } from "react-i18next";
 import LoadingSpinner from "../LoadingSpinner";
+import DropdownMenu from "../layout/DropdownMenu";
 
 interface Props extends InjectedTranslateProps {
-	className?: string;
 	lazyReload?: boolean;
 }
 
 interface State {
-	expanded: boolean;
 	features: Feature[] | null;
 	reload: boolean;
 	freeMode: boolean;
@@ -19,13 +18,9 @@ interface State {
 }
 
 class DevTools extends React.Component<Props, State> {
-	private ref: HTMLElement;
-	private dropdownRef: HTMLElement;
-
 	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
-			expanded: false,
 			features: [],
 			reload: false,
 			freeMode: cookie.get("free-mode", "") === "true",
@@ -33,19 +28,7 @@ class DevTools extends React.Component<Props, State> {
 		};
 	}
 
-	private clickAnywhere = (e: MouseEvent) => {
-		if (!this.state.expanded) {
-			// we don't care if we're not expanded
-			return;
-		}
-
-		if (this.ref && !this.ref.contains(e.target as any)) {
-			this.setState({ expanded: false });
-		}
-	};
-
 	public componentDidMount(): void {
-		document.addEventListener("mousedown", this.clickAnywhere);
 		DataManager.get("/api/v1/features/").then((payload: Features) => {
 			const features =
 				payload.results && Array.isArray(payload.results)
@@ -54,25 +37,6 @@ class DevTools extends React.Component<Props, State> {
 			this.setState({ features });
 		});
 	}
-
-	public componentWillUnmount(): void {
-		document.removeEventListener("mousedown", this.clickAnywhere);
-	}
-
-	private toggleDropdown = (event: React.MouseEvent<HTMLElement>) => {
-		if (
-			this.dropdownRef &&
-			this.dropdownRef.contains(event.target as any)
-		) {
-			return;
-		}
-
-		event.preventDefault();
-		this.setState(({ expanded, ...state }) => ({
-			expanded: !expanded,
-			...state,
-		}));
-	};
 
 	private toggleFreemode = (event: React.MouseEvent<HTMLElement>) => {
 		event.preventDefault();
@@ -205,15 +169,11 @@ class DevTools extends React.Component<Props, State> {
 		);
 	}
 
-	private renderDropdown(): React.ReactNode {
-		if (!this.state.expanded) {
-			return;
-		}
-
+	public render(): React.ReactNode {
 		const { t } = this.props;
 
 		return (
-			<ul className="dropdown-menu" ref={ref => (this.dropdownRef = ref)}>
+			<DropdownMenu label={t("DevTools")}>
 				<li>
 					<a href="/admin/">{t("Admin")}</a>
 				</li>
@@ -245,33 +205,7 @@ class DevTools extends React.Component<Props, State> {
 				<li>
 					<a href="/admin/features/feature/">{t("Edit features")}</a>
 				</li>
-			</ul>
-		);
-	}
-
-	public render(): React.ReactNode {
-		const classNames = ["dropdown-toggle"];
-		const { t } = this.props;
-		const open = this.state.expanded ? " open" : "";
-
-		return (
-			<li
-				className={`${this.props.className || ""}${open}`}
-				onClick={this.toggleDropdown}
-				ref={ref => (this.ref = ref)}
-			>
-				<a
-					href="/admin/"
-					className={classNames.join(" ")}
-					role="button"
-					aria-haspopup="true"
-					aria-expanded={this.state.expanded}
-					onClick={e => e.preventDefault()}
-				>
-					<span>{t("DevTools")}</span> <span className="caret" />
-				</a>
-				{this.renderDropdown()}
-			</li>
+			</DropdownMenu>
 		);
 	}
 }
