@@ -58,6 +58,6 @@
     // "emitDecoratorMetadata": true,         /* Enables experimental support for emitting type metadata for decorators. */
   },
   "exclude": [
-	 "./hsreplaynet/static/scripts/src/**/__tests__"
+    "./hsreplaynet/static/scripts/src/**/__tests__"
   ]
 }
