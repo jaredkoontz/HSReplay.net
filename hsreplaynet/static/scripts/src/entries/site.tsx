@@ -64,10 +64,14 @@ if (document.readyState === "loading") {
 	renderFooterAds();
 }
 
-if (document.readyState !== "complete") {
-	window.addEventListener("load", trackPurchase);
-} else {
-	trackPurchase();
+if (window) {
+	const waitForFbq = window.setInterval(() => {
+		if (typeof fbq !== "function") {
+			return;
+		}
+		trackPurchase();
+		window.clearInterval(waitForFbq);
+	}, 1000);
 }
 
 function checkModal() {
