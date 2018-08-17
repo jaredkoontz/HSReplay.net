@@ -82,7 +82,7 @@ class AccountNavigation extends React.Component<Props, State> {
 
 				<DropdownMenu
 					className=""
-					text={t("My Data")}
+					label={t("My Data")}
 					glyphicon="stats"
 				>
 					<li className={this.getClassName("/decks/mine/", true)}>

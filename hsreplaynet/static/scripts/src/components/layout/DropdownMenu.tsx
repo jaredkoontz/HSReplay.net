@@ -2,10 +2,11 @@ import React from "react";
 import { InjectedTranslateProps, translate } from "react-i18next";
 
 interface Props extends InjectedTranslateProps {
-	className: string;
-	premium?: boolean;
-	text: string;
+	label: React.ReactNode;
 	glyphicon?: string;
+	id?: string;
+	className?: string;
+	premium?: boolean;
 }
 
 interface State {
@@ -96,7 +97,7 @@ class DropdownMenu extends React.Component<Props, State> {
 							}`}
 						/>
 					) : null}
-					<span>{this.props.text}</span> <span className="caret" />
+					<span>{this.props.label}</span> <span className="caret" />
 				</a>
 				{this.renderDropdown()}
 			</li>
