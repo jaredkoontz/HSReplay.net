@@ -137,7 +137,7 @@ export default class ClusterChart extends React.Component<Props, State> {
 	renderChart() {
 		const container = d3.select(this.decks);
 
-		d3.select(this.svg).call(d3.zoom().transform, d3.zoomIdentity);
+		d3.select(this.svg).call(d3.zoom().transform as any, d3.zoomIdentity);
 		d3.select(this.container).attr("transform", null);
 
 		const decks = container
@@ -353,7 +353,7 @@ export default class ClusterChart extends React.Component<Props, State> {
 			})
 			.on("start", () => this.setState({ dragging: true }))
 			.on("end", () => this.setState({ dragging: false }));
-		d3.select(this.svg).call(zoom);
+		d3.select(this.svg).call(zoom as any);
 	}
 
 	updatePosition(selection: any): any {

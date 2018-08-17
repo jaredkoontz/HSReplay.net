@@ -128,7 +128,7 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 					ignoredColumns={this.state.ignoredColumns.filter(
 						id => this.state.sortedIds.indexOf(id) !== -1,
 					)}
-					onIgnoreChanged={(archetypeId: number, ignore: boolean) =>
+					onIgnoreChanged={(archetypeId, ignore) =>
 						this.onIgnoreChanged(archetypeId, ignore)
 					}
 					simple={this.props.simple}
@@ -386,7 +386,7 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 		UserData.setSetting("archetype-favorites", favorites);
 	}
 
-	onIgnoreChanged(archetypeId: number | number[], ignore: boolean) {
+	onIgnoreChanged(archetypeId: number | number[], ignore: boolean): void {
 		const archetypeIds = Array.isArray(archetypeId)
 			? archetypeId
 			: [archetypeId];
