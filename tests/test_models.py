@@ -81,3 +81,28 @@ def test_deck_deck_class():
 
 	deck, _ = Deck.objects.get_or_create_from_id_list([NEUTRAL_CARD, NEUTRAL_CARD])
 	assert deck.deck_class == CardClass.NEUTRAL
+
+
+def test_deck_pick_card_class():
+	DRUID = CardClass.DRUID
+	WARLOCK = CardClass.WARLOCK
+	NEUTRAL = CardClass.NEUTRAL
+	INVALID = CardClass.INVALID
+
+	# Druid hero
+	assert Deck.objects._pick_card_class(DRUID, DRUID) == DRUID
+	assert Deck.objects._pick_card_class(DRUID, NEUTRAL) == DRUID
+	assert Deck.objects._pick_card_class(DRUID, INVALID) == DRUID
+
+	# Druid Hero with wrong deck
+	assert Deck.objects._pick_card_class(DRUID, WARLOCK) == WARLOCK
+
+	# Neutral hero (adventure boss)
+	assert Deck.objects._pick_card_class(NEUTRAL, DRUID) == DRUID
+	assert Deck.objects._pick_card_class(NEUTRAL, NEUTRAL) == NEUTRAL
+	assert Deck.objects._pick_card_class(NEUTRAL, INVALID) == NEUTRAL
+
+	# Unknown hero should never be picked
+	assert Deck.objects._pick_card_class(INVALID, DRUID) == DRUID
+	assert Deck.objects._pick_card_class(INVALID, NEUTRAL) == NEUTRAL
+	assert Deck.objects._pick_card_class(INVALID, INVALID) == INVALID

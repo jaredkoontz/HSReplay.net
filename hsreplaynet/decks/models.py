@@ -76,6 +76,7 @@ class DeckManager(models.Manager):
 		full_deck = deck.size == 30
 		if archetypes_enabled and classify_archetype and archetype_missing and full_deck:
 			player_class = self._convert_hero_id_to_player_class(hero_id)
+			picked_class = self._pick_card_class(player_class, deck.deck_class)
 			if player_class != deck.deck_class:
 				influx_metric(
 					"deck_hero_mismatch",
@@ -83,11 +84,12 @@ class DeckManager(models.Manager):
 						"count": 1,
 						"deck_id": deck.id,
 						"hero_id": hero_id,
+						"outcome": picked_class.name,
 					},
 					from_exporter=player_class.name,
 					from_cards=deck.deck_class.name,
 				)
-			deck.classify_into_archetype(player_class)
+			deck.classify_into_archetype(picked_class)
 
 		return deck, created
 
@@ -107,6 +109,21 @@ class DeckManager(models.Manager):
 		cursor.close()
 		d = Deck.objects.get(id=deck_id)
 		return d, created
+
+	def _pick_card_class(self, player_class, deck_class):
+		if player_class == deck_class:
+			return player_class
+
+		# never pick an INVALID hero
+		if player_class == enums.CardClass.INVALID:
+			return deck_class
+
+		# don't pick mixed or neutral-only decks
+		if deck_class in (enums.CardClass.INVALID, enums.CardClass.NEUTRAL):
+			return player_class
+
+		# finally, fall back to deck
+		return deck_class
 
 	def _convert_hero_id_to_player_class(self, hero_id):
 		if isinstance(hero_id, int):
