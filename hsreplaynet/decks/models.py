@@ -223,13 +223,18 @@ class Deck(models.Model):
 	@cached_property
 	def deck_class(self):
 		has_seen_neutral = False
+		primary_card_class = None
 		for val in self.includes.values("card__card_class"):
 			card_class = val["card__card_class"]
-			if card_class not in (enums.CardClass.INVALID, enums.CardClass.NEUTRAL):
-				return card_class
 			if card_class == enums.CardClass.NEUTRAL:
 				has_seen_neutral = True
-		if has_seen_neutral:
+			if card_class not in (enums.CardClass.INVALID, enums.CardClass.NEUTRAL):
+				if primary_card_class and card_class != primary_card_class:
+					return enums.CardClass.INVALID
+				primary_card_class = card_class
+		if primary_card_class:
+			return primary_card_class
+		elif has_seen_neutral:
 			return enums.CardClass.NEUTRAL
 		else:
 			return enums.CardClass.INVALID

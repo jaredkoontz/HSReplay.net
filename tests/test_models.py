@@ -1,4 +1,5 @@
 import pytest
+from hearthstone.enums import CardClass
 
 from hsreplaynet.decks.models import Archetype, Deck
 
@@ -51,6 +52,7 @@ def test_deck_creation(mocker, settings):
 	)
 	assert created
 	assert deck.archetype is None
+	assert deck.deck_class == CardClass.HUNTER
 
 	assert deck.sync_archetype_to_firehose.call_count == 0, \
 		"The initial Archetype should not be synced to Firehose via signal"
@@ -60,3 +62,22 @@ def test_deck_creation(mocker, settings):
 
 	assert deck.sync_archetype_to_firehose.call_count == 1, \
 		"The new archetype was not synced to Firehose"
+
+
+@pytest.mark.django_db
+def test_deck_deck_class():
+	HUNTER_CARD = "EX1_534"
+	WARLOCK_CARD = "NEW1_003"
+	NEUTRAL_CARD = "CS2_231"
+
+	deck, _ = Deck.objects.get_or_create_from_id_list([HUNTER_CARD, HUNTER_CARD])
+	assert deck.deck_class == CardClass.HUNTER
+
+	deck, _ = Deck.objects.get_or_create_from_id_list([HUNTER_CARD, NEUTRAL_CARD])
+	assert deck.deck_class == CardClass.HUNTER
+
+	deck, _ = Deck.objects.get_or_create_from_id_list([HUNTER_CARD, WARLOCK_CARD])
+	assert deck.deck_class == CardClass.INVALID
+
+	deck, _ = Deck.objects.get_or_create_from_id_list([NEUTRAL_CARD, NEUTRAL_CARD])
+	assert deck.deck_class == CardClass.NEUTRAL
