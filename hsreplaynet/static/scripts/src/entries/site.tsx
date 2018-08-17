@@ -45,6 +45,17 @@ function renderFooterAds() {
 	}
 }
 
+function trackPurchase() {
+	const justSubscribed = cookie.get("just-subscribed");
+	if (justSubscribed) {
+		if (UserData.isPremium()) {
+			const { value, label } = JSON.parse(justSubscribed);
+			SubscriptionEvents.onSubscribe(value, label);
+		}
+		cookie.removeSpecific("just-subscribed", { path: "/" });
+	}
+}
+
 if (document.readyState === "loading") {
 	document.addEventListener("DOMContentLoaded", renderNavbar);
 	document.addEventListener("DOMContentLoaded", renderFooterAds);
@@ -53,13 +64,10 @@ if (document.readyState === "loading") {
 	renderFooterAds();
 }
 
-const justSubscribed = cookie.get("just-subscribed");
-if (justSubscribed) {
-	if (UserData.isPremium()) {
-		const { value, label } = JSON.parse(justSubscribed);
-		SubscriptionEvents.onSubscribe(value, label);
-	}
-	cookie.removeSpecific("just-subscribed", { path: "/" });
+if (document.readyState !== "complete") {
+	window.addEventListener("load", trackPurchase);
+} else {
+	trackPurchase();
 }
 
 function checkModal() {
