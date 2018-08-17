@@ -26,20 +26,19 @@ const render = (cardData: CardData) => {
 							key: "collection",
 							params: {
 								region: context.owner
-									? account.region
+									? account && account.region
 									: context.region,
 								account_lo: context.owner
-									? account.account_lo
+									? account && account.account_lo
 									: context.account_lo,
 							},
 						}}
 						fetchCondition={
-							(!!account &&
-								!!account.region &&
-								!!account.account_lo) ||
-							(!!context &&
-								!!context.region &&
-								!!context.account_lo)
+							context && !context.owner
+								? context.region && context.account_lo
+								: account &&
+								  account.region &&
+								  account.account_lo
 						}
 					>
 						{({ collection, status }) => (

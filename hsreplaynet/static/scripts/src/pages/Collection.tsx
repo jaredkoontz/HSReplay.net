@@ -1,5 +1,5 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { InjectedTranslateProps, Trans, translate } from "react-i18next";
 import CardData from "../CardData";
 import { Account } from "../UserData";
 import { CardData as HearthstoneJSONCardData } from "hearthstonejson-client";
@@ -32,10 +32,10 @@ import SetFilter from "../components/cards/filters/SetFilter";
 
 interface Props extends FragmentChildProps, InjectedTranslateProps {
 	cardData: CardData;
-	collection?: ApiCollection;
-	battleTag?: string;
-	visibility?: string;
-	account?: Account;
+	collection: ApiCollection | null;
+	battleTag: string;
+	visibility: string;
+	account: Account | null;
 	owner: boolean;
 	collectionLoadingStatus?: LoadingStatus;
 
@@ -212,14 +212,24 @@ class Collection extends React.Component<Props, State> {
 						<CollectionSetup />
 					</Modal>
 					<h2>Browse and share your collection!</h2>
-					<p>
-						{t("We couldn't find a collection for")}{" "}
-						<strong>
-							<PrettyBlizzardAccount
-								account={this.props.account}
-							/>
-						</strong>
-					</p>
+					{this.props.account ? (
+						<p>
+							<Trans>
+								We couldn't find a collection for{" "}
+								<strong>
+									<PrettyBlizzardAccount
+										account={this.props.account}
+									/>
+								</strong>.
+							</Trans>
+						</p>
+					) : (
+						<p>
+							{t(
+								"We couldn't find a collection for your account.",
+							)}
+						</p>
+					)}
 					<a
 						href="#"
 						className="btn promo-button"
