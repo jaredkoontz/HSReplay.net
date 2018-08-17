@@ -331,6 +331,7 @@ class CollectionSetupDialog extends React.Component<Props, State> {
 										account={blizzardAccount}
 									/>. Hooray!
 								</Trans>
+								<br />
 								<Trans>
 									The deck tracker will now keep your
 									collection up to date.
