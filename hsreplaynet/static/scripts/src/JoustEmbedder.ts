@@ -4,7 +4,7 @@ import {
 	launcher as launchJoust,
 	release as joustRelease,
 } from "joust";
-import Raven from "raven-js";
+import * as Sentry from "@sentry/browser";
 import React from "react";
 import { TranslationFunction } from "react-i18next";
 import { cardArt, joustAsset, joustStaticFile } from "./helpers";
@@ -63,24 +63,23 @@ export default class JoustEmbedder {
 		let logger = null;
 		const dsn = JOUST_RAVEN_DSN_PUBLIC;
 		if (dsn) {
-			const raven = Raven.config(dsn, {
+			Sentry.init({
+				dsn,
 				release,
 				environment: JOUST_RAVEN_ENVIRONMENT || "development",
-			}).install();
-			const username = UserData.getUsername();
-			if (username) {
-				raven.setUserContext({ username });
-			}
-			(raven as any).setTagsContext({
-				react: React.version,
+			});
+			Sentry.configureScope(scope => {
+				scope.setTag("react", React.version);
+				const username = UserData.getUsername();
+				if (username) {
+					scope.setUser({ username });
+				}
 			});
 			logger = (err: string | Error) => {
-				if (raven) {
-					if (typeof err === "string") {
-						raven.captureMessage(err);
-					} else {
-						raven.captureException(err);
-					}
+				if (typeof err === "string") {
+					Sentry.captureMessage(err);
+				} else {
+					Sentry.captureException(err);
 				}
 				const message = err["message"] ? err["message"] : err;
 				console.error(message);

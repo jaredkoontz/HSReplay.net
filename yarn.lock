@@ -16,6 +16,49 @@
     esutils "^2.0.2"
     js-tokens "^3.0.0"
 
+"@sentry/browser@^4.0.0-beta.12":
+  version "4.0.0-beta.12"
+  resolved "https://registry.yarnpkg.com/@sentry/browser/-/browser-4.0.0-beta.12.tgz#dff44c7a3732577057844b1643e0ba38c644138b"
+  dependencies:
+    "@sentry/core" "4.0.0-beta.12"
+    "@sentry/hub" "4.0.0-beta.12"
+    "@sentry/minimal" "4.0.0-beta.12"
+    "@sentry/types" "4.0.0-beta.12"
+    "@sentry/utils" "4.0.0-beta.12"
+
+"@sentry/core@4.0.0-beta.12":
+  version "4.0.0-beta.12"
+  resolved "https://registry.yarnpkg.com/@sentry/core/-/core-4.0.0-beta.12.tgz#c821e41b02c1d66e48fbef16da744f0173575558"
+  dependencies:
+    "@sentry/hub" "4.0.0-beta.12"
+    "@sentry/minimal" "4.0.0-beta.12"
+    "@sentry/types" "4.0.0-beta.12"
+    "@sentry/utils" "4.0.0-beta.12"
+
+"@sentry/hub@4.0.0-beta.12":
+  version "4.0.0-beta.12"
+  resolved "https://registry.yarnpkg.com/@sentry/hub/-/hub-4.0.0-beta.12.tgz#85267cec47c0bbf1094a537f7d14d19495c77234"
+  dependencies:
+    "@sentry/types" "4.0.0-beta.12"
+    "@sentry/utils" "4.0.0-beta.12"
+
+"@sentry/minimal@4.0.0-beta.12":
+  version "4.0.0-beta.12"
+  resolved "https://registry.yarnpkg.com/@sentry/minimal/-/minimal-4.0.0-beta.12.tgz#534e8edd065646e0e5f8d71443a63f6ce7187573"
+  dependencies:
+    "@sentry/hub" "4.0.0-beta.12"
+    "@sentry/types" "4.0.0-beta.12"
+
+"@sentry/types@4.0.0-beta.12":
+  version "4.0.0-beta.12"
+  resolved "https://registry.yarnpkg.com/@sentry/types/-/types-4.0.0-beta.12.tgz#0abd303692e48c0fc11afbfea8cbad87e625357a"
+
+"@sentry/utils@4.0.0-beta.12":
+  version "4.0.0-beta.12"
+  resolved "https://registry.yarnpkg.com/@sentry/utils/-/utils-4.0.0-beta.12.tgz#9d51e88634843232b6c6f0edb6df3d3fba83071e"
+  dependencies:
+    "@sentry/types" "4.0.0-beta.12"
+
 "@types/bootstrap@^3.3":
   version "3.3.39"
   resolved "https://registry.yarnpkg.com/@types/bootstrap/-/bootstrap-3.3.39.tgz#aa0d208999e4a4f941de9468ff928c05507830f8"
@@ -6306,10 +6349,6 @@ randomfill@^1.0.3:
 range-parser@^1.0.3, range-parser@~1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/range-parser/-/range-parser-1.2.0.tgz#f49be6b487894ddc40dcc94a322f611092e00d5e"
-
-raven-js@^3.20.1:
-  version "3.22.3"
-  resolved "https://registry.yarnpkg.com/raven-js/-/raven-js-3.22.3.tgz#8330dcc102b699ffbc2f48790978b997bf4d8f75"
 
 raw-body@2.3.2:
   version "2.3.2"
