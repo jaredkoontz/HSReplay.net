@@ -596,10 +596,17 @@ class Cards extends React.Component<Props, State> {
 									AdHelper.isAdEnabled(ad),
 								);
 								return showAds ? (
-									<AdContainer key={`ads-${x}-${x + 1}`}>
-										<AdUnit id={ads[0]} size="728x90" />
-										<AdUnit id={ads[1]} size="728x90" />
-									</AdContainer>
+									<>
+										<AdContainer key={`ads-${x}-${x + 1}`}>
+											<AdUnit id={ads[0]} size="728x90" />
+											<AdUnit id={ads[1]} size="728x90" />
+										</AdContainer>
+										<AdUnit
+											id={`cl-m-${Math.floor(x / 2)}`}
+											size="320x50"
+											mobile
+										/>
+									</>
 								) : null;
 							})}
 						/>
@@ -701,6 +708,7 @@ class Cards extends React.Component<Props, State> {
 						<AdUnit id="cl-d-1" size="728x90" />
 						<AdUnit id="cl-d-2" size="728x90" />
 					</AdContainer>
+					<AdUnit id="cl-m-1" size="320x50" mobile />
 					<button
 						className="btn btn-default visible-xs"
 						id="filter-button"

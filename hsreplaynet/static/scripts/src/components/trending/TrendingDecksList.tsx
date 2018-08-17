@@ -43,7 +43,10 @@ export default class TrendingDecksList extends React.Component<Props> {
 				pageSize={9}
 				collection={this.props.collection}
 				hideTopPager
-				ads={[{ index: 3, ids: ["tr-d-3", "tr-d-4"] }]}
+				ads={[
+					{ index: 3, ids: ["tr-d-3", "tr-d-4"] },
+					{ index: 3, ids: ["tr-m-2"], mobile: true },
+				]}
 			/>
 		);
 	}

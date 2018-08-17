@@ -22,6 +22,11 @@ class GameHistoryTable extends React.Component<Props> {
 						<AdUnit id={`mr-d-${x}`} size="728x90" />
 						<AdUnit id={`mr-d-${x + 1}`} size="728x90" />
 					</AdContainer>
+					<AdUnit
+						id={`mr-m-${Math.floor(x / 2)}`}
+						size="300x250"
+						mobile
+					/>
 				</td>
 			</tr>
 		));

@@ -19,10 +19,17 @@ export default class GameHistoryList extends React.Component<Props> {
 	public render(): React.ReactNode {
 		const columns = [];
 		const ads = _.range(4, 100, 2).map(x => (
-			<AdContainer>
-				<AdUnit id={`mr-d-${x}`} size="728x90" />
-				<AdUnit id={`mr-d-${x + 1}`} size="728x90" />
-			</AdContainer>
+			<>
+				<AdContainer>
+					<AdUnit id={`mr-d-${x}`} size="728x90" />
+					<AdUnit id={`mr-d-${x + 1}`} size="728x90" />
+				</AdContainer>
+				<AdUnit
+					id={`mr-m-${Math.floor(x / 2)}`}
+					size="300x250"
+					mobile
+				/>
+			</>
 		));
 		const getAd = id => {
 			return id < ads.length && id >= 0 ? ads[id] : null;
@@ -36,6 +43,14 @@ export default class GameHistoryList extends React.Component<Props> {
 					if (!(i % 4)) {
 						columns.push(
 							<div className="visible-sm">
+								{getAd(i / 4 - 1)}
+							</div>,
+						);
+						columns.push(
+							<div className="clearfix visible-xs-block" />,
+						);
+						columns.push(
+							<div className="visible-xs">
 								{getAd(i / 4 - 1)}
 							</div>,
 						);

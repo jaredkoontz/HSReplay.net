@@ -652,6 +652,7 @@ class DeckDetail extends React.Component<Props, State> {
 							</span>
 						</li>
 					</ul>
+					<AdUnit id="dd-m-1" size="320x50" mobile />
 					{filters}
 					<DataInjector
 						fetchCondition={
@@ -683,6 +684,7 @@ class DeckDetail extends React.Component<Props, State> {
 							<AdUnit id="dd-d-2" size="728x90" />
 						</AdContainer>
 						{header}
+						<AdUnit id="dd-m-2" size="300x250" mobile />
 					</section>
 					<section id="page-content">
 						<TabList
@@ -814,6 +816,7 @@ class DeckDetail extends React.Component<Props, State> {
 								{this.renderStreams()}
 							</Tab>
 						</TabList>
+						<AdUnit id="dd-m-3" size="320x50" mobile />
 					</section>
 				</main>
 			</div>

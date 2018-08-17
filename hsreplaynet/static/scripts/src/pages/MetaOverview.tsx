@@ -297,6 +297,7 @@ class MetaOverview extends React.Component<Props, State> {
 					<AdUnit id="mp-d-14" size="300x250" />
 				</aside>
 				<main className={contentClassNames.join(" ")}>
+					<AdUnit id="mp-m-1" size="320x50" mobile />
 					<button
 						className="btn btn-default btn-filters visible-xs visible-sm"
 						type="button"
@@ -450,6 +451,7 @@ class MetaOverview extends React.Component<Props, State> {
 							{this.renderPopularity(popularityParams)}
 						</Tab>
 					</TabList>
+					<AdUnit id="mp-m-5" size="320x50" mobile />
 				</main>
 			</div>
 		);

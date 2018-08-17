@@ -142,6 +142,7 @@ class Home extends React.Component<Props, State> {
 						<AdUnit id="fp-d-2" size="728x90" />
 					</AdContainer>
 				</div>
+				<AdUnit id="fp-m-1" size="320x50" mobile />
 				<div className="row content-row features">
 					<GutterAdUnit position="left" id="fp-d-3" size="160x600" />
 					<GutterAdUnit position="right" id="fp-d-4" size="160x600" />
@@ -207,6 +208,7 @@ class Home extends React.Component<Props, State> {
 								/>
 							</DataInjector>
 						</Panel>
+						<AdUnit id="fp-m-2" size="300x250" mobile />
 						{this.renderPremiumPanel()}
 					</div>
 					<div className="col-lg-4 col-xs-12">
@@ -254,6 +256,7 @@ class Home extends React.Component<Props, State> {
 						/>
 					</div>
 				</div>
+				<AdUnit id="fp-m-3" size="320x50" mobile />
 				{this.renderBelowTheFold()}
 			</div>
 		);
@@ -363,6 +366,7 @@ class Home extends React.Component<Props, State> {
 							<AdUnit id="fp-d-12" size="728x90" />
 						</AdContainer>
 					</div>
+					<AdUnit id="fp-m-4" size="320x50" mobile />
 					<GutterAdUnit position="left" id="fp-d-7" size="160x600" />
 					<GutterAdUnit position="right" id="fp-d-8" size="160x600" />
 					<Panel
@@ -494,6 +498,7 @@ class Home extends React.Component<Props, State> {
 						id="fp-d-10"
 						size="160x600"
 					/>
+					<AdUnit id="fp-m-5" size="320x50" mobile />
 					<Panel
 						header={t("Live Data")}
 						theme="light"
@@ -505,6 +510,7 @@ class Home extends React.Component<Props, State> {
 							numCards={12}
 						/>
 					</Panel>
+					<AdUnit id="fp-m-6" size="320x50" mobile />
 				</div>
 			</>
 		);

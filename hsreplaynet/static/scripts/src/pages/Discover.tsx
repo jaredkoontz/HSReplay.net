@@ -146,6 +146,7 @@ class Discover extends React.Component<Props, State> {
 							this.props.setIncludedCards([]);
 						}}
 					/>
+					<AdUnit id="ds-m-1" size="320x50" mobile />
 					<section id="include-cards-filter">
 						<h2 id="card-search-include-label">
 							{t("Included cards")}
@@ -263,6 +264,7 @@ class Discover extends React.Component<Props, State> {
 							}}
 						/>
 					</DataInjector>
+					<AdUnit id="ds-m-2" size="320x50" mobile />
 				</main>
 			</div>
 		);

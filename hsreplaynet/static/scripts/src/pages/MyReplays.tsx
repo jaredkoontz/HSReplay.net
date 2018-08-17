@@ -524,9 +524,10 @@ class MyReplays extends React.Component<Props, State> {
 				</aside>
 				<div className={contentClassNames.join(" ")}>
 					<AdContainer>
-						<AdUnit id="ds-d-1" size="728x90" />
-						<AdUnit id="ds-d-2" size="728x90" />
+						<AdUnit id="mr-d-1" size="728x90" />
+						<AdUnit id="mr-d-2" size="728x90" />
 					</AdContainer>
+					<AdUnit id="mr-m-1" size="320x50" mobile />
 					<div className="header-buttons">
 						<button
 							className="btn btn-default pull-left visible-xs visible-sm"

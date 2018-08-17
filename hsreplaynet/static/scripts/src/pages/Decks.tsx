@@ -542,7 +542,13 @@ class Decks extends React.Component<Props, State> {
 						pageSize={12}
 						helpMessage={helpMessage}
 						collection={this.props.collection}
-						ads={[{ index: 5, ids: ["dl-d-3", "dl-d-4"] }]}
+						ads={[
+							{
+								index: 5,
+								ids: ["dl-d-3", "dl-d-4"],
+							},
+							{ index: 5, ids: ["dl-m-2"], mobile: true },
+						]}
 						pageTop={this.mainRef}
 					>
 						{!isCollectionDisabled() ? (
@@ -1178,6 +1184,7 @@ class Decks extends React.Component<Props, State> {
 						<AdUnit id="dl-d-1" size="728x90" />
 						<AdUnit id="dl-d-2" size="728x90" />
 					</AdContainer>
+					<AdUnit id="dl-m-1" size="320x50" mobile />
 					<button
 						className="btn btn-default pull-left visible-xs visible-sm"
 						type="button"
@@ -1187,6 +1194,7 @@ class Decks extends React.Component<Props, State> {
 						{t("Filters")}
 					</button>
 					{content}
+					<AdUnit id="dl-m-3" size="300x250" mobile />
 				</main>
 			</div>
 		);

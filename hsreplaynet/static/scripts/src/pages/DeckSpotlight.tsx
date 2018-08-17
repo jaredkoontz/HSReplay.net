@@ -26,6 +26,7 @@ class DeckSpotlight extends React.Component<Props> {
 					<AdUnit id="tr-d-1" size="728x90" />
 					<AdUnit id="tr-d-2" size="728x90" />
 				</AdContainer>
+				<AdUnit id="tr-m-1" size="320x50" mobile />
 				<span className="pull-right">
 					<Tooltip
 						header={t("Automatic updates")}
@@ -70,6 +71,7 @@ class DeckSpotlight extends React.Component<Props> {
 						{t("Check out all the decks!")}
 					</a>
 				</section>
+				<AdUnit id="tr-m-3" size="300x250" mobile />
 			</div>
 		);
 	}

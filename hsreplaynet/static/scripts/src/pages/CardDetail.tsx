@@ -372,6 +372,7 @@ class CardDetail extends React.Component<Props, State> {
 							</AdContainer>
 						</div>
 						{headerContent}
+						<AdUnit id="cd-m-2" size="300x250" mobile />
 					</section>,
 					<section id="page-content" key="page-content">
 						<Fragments
@@ -603,6 +604,7 @@ class CardDetail extends React.Component<Props, State> {
 							</TabList>
 						</Fragments>
 					</section>,
+					<AdUnit id="cd-m-3" size="320x50" mobile />,
 				];
 			}
 		} else {
@@ -657,6 +659,7 @@ class CardDetail extends React.Component<Props, State> {
 						/>
 					</h1>
 					<p>{this.getCleanFlavorText()}</p>
+					<AdUnit id="cd-m-1" size="300x250" mobile />
 					<InfoboxFilterGroup
 						header={t("Game mode")}
 						selectedValue={this.props.gameType}

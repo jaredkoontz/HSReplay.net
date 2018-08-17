@@ -21,6 +21,7 @@ import AdContainer from "./ads/AdContainer";
 interface AdInfo {
 	index: number;
 	ids: string[];
+	mobile?: boolean;
 }
 
 interface Props extends FragmentChildProps, InjectedTranslateProps {
@@ -173,14 +174,19 @@ class DeckList extends React.Component<Props, State> {
 				/>,
 			);
 			if (this.props.ads) {
-				const ad = this.props.ads.find(x => x.index === index);
-				if (ad) {
+				this.props.ads.filter(x => x.index === index).forEach(ad => {
 					deckTiles.push(
-						<AdContainer>
-							{ad.ids.map(id => <AdUnit id={id} size="728x90" />)}
-						</AdContainer>,
+						ad.mobile ? (
+							<AdUnit id={ad.ids[0]} size="320x50" mobile />
+						) : (
+							<AdContainer>
+								{ad.ids.map(id => (
+									<AdUnit id={id} size="728x90" />
+								))}
+							</AdContainer>
+						),
 					);
-				}
+				});
 			}
 		});
 
