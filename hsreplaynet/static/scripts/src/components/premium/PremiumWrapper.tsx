@@ -7,12 +7,19 @@ import InfoIcon, { InfoIconProps } from "../InfoIcon";
 import Modal from "../Modal";
 import PremiumModal, { ModalStyle } from "./PremiumModal";
 
+export interface PremiumWrapperContext {
+	disabled: boolean;
+}
+
+type RenderProp = (context: PremiumWrapperContext) => React.ReactNode;
+
 interface Props extends InjectedTranslateProps {
 	analyticsLabel: string;
 	modalStyle: ModalStyle;
 	iconStyle?: any;
 	infoHeader?: InfoIconProps["header"];
 	infoContent?: InfoIconProps["content"];
+	children: React.ReactNode | RenderProp;
 }
 
 interface State {
@@ -194,10 +201,24 @@ class PremiumWrapper extends React.Component<Props, State> {
 							<span>{t("Tap for more details…")}</span>
 						) : null}
 					</div>
-					{children}
+					{this.renderChildren()}
 				</div>
 			</>
 		);
+	}
+
+	private isRenderProp(node: React.ReactNode): node is RenderProp {
+		return typeof node === "function";
+	}
+
+	private renderChildren(): React.ReactNode {
+		const { children } = this.props;
+		if (this.isRenderProp(children)) {
+			return children({
+				disabled: this.shouldAppear(),
+			});
+		}
+		return this.props.children;
 	}
 
 	protected shouldAppear(): boolean {
