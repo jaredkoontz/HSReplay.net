@@ -29,7 +29,8 @@ ga("set", "dimension1", "{% get_current_language as lang %}{{ lang }}");
 {% endif %}
 {% feature "facebook-pixel" as pixelft %}
 {% setting "FACEBOOK_PIXEL" as fbpixel %}
-{% if pixelft.enabled and fbpixel and not premium %}
+{% if pixelft.enabled and fbpixel %}
+{% if not premium or just_subscribed %}
 !function(f,b,e,v,n,t,s)
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
 	n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -39,6 +40,7 @@ ga("set", "dimension1", "{% get_current_language as lang %}{{ lang }}");
 	s.parentNode.insertBefore(t,s)}(window,document,"script",
 	"https://connect.facebook.net/en_US/fbevents.js");
 fbq("init", "{{ fbpixel }}");
+{% endif %}
 {% endif %}
 
 {% endif %}

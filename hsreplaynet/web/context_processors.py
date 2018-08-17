@@ -94,6 +94,7 @@ def debug(request):
 
 def premium(request):
 	is_premium = request.user.is_authenticated and request.user.is_premium
+	just_subscribed = False
 	has_subscription_past_due = False
 	if request.user.is_authenticated and request.user.stripe_customer:
 		customer = request.user.stripe_customer
@@ -106,9 +107,13 @@ def premium(request):
 	if is_premium and request.COOKIES.get("free-mode") == "true":
 		is_premium = False
 
+	if "just-subscribed" in request.COOKIES:
+		just_subscribed = True
+
 	return {
 		"site_email": settings.DEFAULT_FROM_EMAIL,
 		"premium": is_premium,
+		"just_subscribed": just_subscribed,
 		"has_subscription_past_due": has_subscription_past_due,
 		"stripe_monthly_plan": stripe_plans.filter(stripe_id=settings.MONTHLY_PLAN_ID).first(),
 		"stripe_semiannual_plan": stripe_plans.filter(
