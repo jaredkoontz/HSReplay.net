@@ -13,9 +13,9 @@ interface State {
 }
 
 class DropdownMenu extends React.Component<Props, State> {
-	private ref: HTMLElement;
-	private linkRef: HTMLAnchorElement;
-	private dropdownRef: HTMLElement;
+	private ref: HTMLElement | null = null;
+	private linkRef: HTMLAnchorElement | null = null;
+	private dropdownRef: HTMLElement | null = null;
 
 	constructor(props: Props, context: any) {
 		super(props, context);

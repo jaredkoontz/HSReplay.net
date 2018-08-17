@@ -13,7 +13,7 @@ interface State {
 }
 
 export default class Carousel extends React.Component<Props, State> {
-	private timeout: number | null;
+	private timeout: number | null = null;
 
 	constructor(props: Props, context?: any) {
 		super(props, context);
@@ -53,20 +53,12 @@ export default class Carousel extends React.Component<Props, State> {
 		}
 	}
 
-	render(): React.ReactNode {
+	public render(): React.ReactNode {
 		return (
 			<div
 				className="carousel"
-				onMouseOver={
-					this.props.onHoverStart
-						? () => this.props.onHoverStart()
-						: undefined
-				}
-				onMouseOut={
-					this.props.onHoverEnd
-						? () => this.props.onHoverEnd()
-						: undefined
-				}
+				onMouseOver={this.onMouseOver}
+				onMouseOut={this.onMouseOut}
 			>
 				<div
 					className="carousel-window"
@@ -79,4 +71,8 @@ export default class Carousel extends React.Component<Props, State> {
 			</div>
 		);
 	}
+
+	private onMouseOver = () =>
+		this.props.onHoverStart && this.props.onHoverStart();
+	private onMouseOut = () => this.props.onHoverEnd && this.props.onHoverEnd();
 }

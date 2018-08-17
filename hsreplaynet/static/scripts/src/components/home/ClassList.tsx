@@ -34,7 +34,7 @@ export default class ClassList extends React.Component<Props, State> {
 	}
 
 	render(): React.ReactNode {
-		const classes = [];
+		const classes: React.ReactNode[] = [];
 		this.props.data.forEach((datum, index) => {
 			const style = {
 				backgroundImage: `url(${getHeroSkinCardUrl(

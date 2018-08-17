@@ -33,7 +33,7 @@ export default class SlotMachine extends React.Component<Props, State> {
 				>
 					{this.props.slots.map((slot, index) => {
 						const key =
-							slot["key"] !== null
+							slot && slot["key"] !== null
 								? slot["key"]
 								: `slot-${index}`;
 						return (
