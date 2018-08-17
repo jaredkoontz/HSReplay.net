@@ -108,9 +108,9 @@ class PremiumWrapper extends React.Component<Props, State> {
 			iconStyle,
 			infoHeader,
 			infoContent,
+			modalStyle,
 			children,
 			t,
-			...childProps
 		} = this.props;
 
 		let infoIcon = null;
@@ -140,7 +140,7 @@ class PremiumWrapper extends React.Component<Props, State> {
 				>
 					<PremiumModal
 						analyticsLabel={analyticsLabel}
-						modalStyle={this.props.modalStyle}
+						modalStyle={modalStyle}
 					/>
 				</Modal>
 				<div
@@ -194,29 +194,10 @@ class PremiumWrapper extends React.Component<Props, State> {
 							<span>{t("Tap for more details…")}</span>
 						) : null}
 					</div>
-					{this.renderChildren(childProps)}
+					{children}
 				</div>
 			</>
 		);
-	}
-
-	private renderChildren(childProps): React.ReactNode {
-		const { children } = this.props;
-		if (typeof children === "function") {
-			return (children as any)({
-				disabled: this.shouldAppear(),
-				...childProps,
-			});
-		} else {
-			return React.Children.map(
-				children,
-				(child: React.ReactElement<any>) =>
-					React.cloneElement(
-						child,
-						Object.assign({}, childProps, child.props),
-					),
-			);
-		}
 	}
 
 	protected shouldAppear(): boolean {
