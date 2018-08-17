@@ -31,11 +31,20 @@ export class Provider extends React.Component<Props, State> {
 		return { hearthstoneAccount: this.state.account };
 	}
 
-	private setAccount = (event: CustomEvent<{ account: string }>) => {
-		if (!event.detail) {
+	private isValidEvent = (
+		event: Event | CustomEvent,
+	): event is CustomEvent<{ account: string }> => {
+		if (!("detail" in event)) {
 			return;
 		}
-		this.setState({ account: event.detail.account });
+		return !!event.detail["account"];
+	};
+
+	private setAccount: EventListener = (evt: Event): void => {
+		if (!this.isValidEvent(evt)) {
+			return;
+		}
+		this.setState({ account: evt.detail.account });
 	};
 
 	public componentDidMount(): void {
