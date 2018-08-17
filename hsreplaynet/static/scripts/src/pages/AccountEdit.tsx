@@ -53,8 +53,6 @@ class AccountEdit extends React.Component<Props, State> {
 				});
 			}
 		}
-
-		console.log("cookies", cookie.all());
 	}
 
 	public render(): React.ReactNode {
