@@ -40,6 +40,10 @@
 	width: 100%;
 	margin: 15px 0;
 
+	@media (max-width: 767px) {
+		display: none;
+	}
+
 	> .ad-unit {
 		margin: 0 5px;
 		display: inline-block;

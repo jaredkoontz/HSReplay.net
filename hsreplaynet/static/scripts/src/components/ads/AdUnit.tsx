@@ -23,7 +23,10 @@ interface State {
 	enabled: boolean;
 	working: boolean;
 	loaded?: boolean;
+	mobileView: boolean;
 }
+
+const MOBILE_WIDTH = 768;
 
 export default class AdUnit extends React.Component<Props, State> {
 	private ref: HTMLElement | null = null;
@@ -33,12 +36,17 @@ export default class AdUnit extends React.Component<Props, State> {
 		this.state = {
 			enabled: AdHelper.isAdEnabled(props.id, true),
 			working: false,
+			mobileView: window.innerWidth <= MOBILE_WIDTH,
 			loaded: false,
 		};
 	}
 
 	public render(): React.ReactNode {
-		if (!showAds() || !AdHelper.isAdEnabled(this.props.id)) {
+		if (
+			!showAds() ||
+			!AdHelper.isAdEnabled(this.props.id) ||
+			this.state.mobileView !== !!this.props.mobile
+		) {
 			return null;
 		}
 
@@ -117,7 +125,20 @@ export default class AdUnit extends React.Component<Props, State> {
 		window.addEventListener("resize", this.resize);
 	}
 
-	private resize = () => this.loadExternalAd();
+	private resize = () => {
+		let mobileView: boolean | null = null;
+		const width = window.innerWidth;
+		if (this.state.mobileView && width > MOBILE_WIDTH) {
+			mobileView = false;
+		} else if (!this.state.mobileView && width <= MOBILE_WIDTH) {
+			mobileView = true;
+		}
+		if (mobileView != null) {
+			this.setState({ mobileView }, () => this.loadExternalAd());
+		} else {
+			this.loadExternalAd();
+		}
+	};
 
 	public componentWillUnmount(): void {
 		window.removeEventListener("resize", this.resize);

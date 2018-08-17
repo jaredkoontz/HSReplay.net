@@ -2,8 +2,23 @@ import React from "react";
 import AdUnit from "./AdUnit";
 import AdHelper, { showAds } from "../../AdHelper";
 
-export default class AdContainer extends React.Component {
+interface Props {}
+
+interface State {
+	mobileView: boolean;
+}
+
+const MOBILE_WIDTH = 768;
+
+export default class AdContainer extends React.Component<Props, State> {
 	private ref: HTMLDivElement;
+
+	constructor(props: Props, context: any) {
+		super(props, context);
+		this.state = {
+			mobileView: window.innerWidth <= MOBILE_WIDTH,
+		};
+	}
 
 	public componentDidMount(): void {
 		window.addEventListener("resize", this.resize);
@@ -15,7 +30,7 @@ export default class AdContainer extends React.Component {
 	}
 
 	public render(): React.ReactNode {
-		if (!showAds()) {
+		if (!showAds() || this.state.mobileView) {
 			return null;
 		}
 
@@ -79,7 +94,20 @@ export default class AdContainer extends React.Component {
 	}
 
 	private resize = (e: any) => {
-		window.requestAnimationFrame(() => this.forceUpdate());
+		let mobileView: boolean | null = null;
+		const width = window.innerWidth;
+		if (this.state.mobileView && width > MOBILE_WIDTH) {
+			mobileView = false;
+		} else if (!this.state.mobileView && width <= MOBILE_WIDTH) {
+			mobileView = true;
+		}
+		if (mobileView != null) {
+			this.setState({ mobileView }, () => {
+				window.requestAnimationFrame(() => this.forceUpdate());
+			});
+		} else {
+			window.requestAnimationFrame(() => this.forceUpdate());
+		}
 	};
 
 	private getAvailablePixels(): number | null {
