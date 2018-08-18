@@ -1,7 +1,8 @@
 import React from "react";
 import { NitropayCreateAdOptions } from "../../interfaces";
 import AdHelper, { debugAds, showAds } from "../../AdHelper";
-import { fetchCSRF } from "../../helpers";
+import { fetchCSRF, image } from "../../helpers";
+import UserData from "../../UserData";
 
 export type AdUnitSize =
 	| "300x250"
@@ -24,9 +25,20 @@ interface State {
 	working: boolean;
 	loaded?: boolean;
 	mobileView: boolean;
+	loadFallback: boolean;
 }
 
 const MOBILE_WIDTH = 768;
+
+const fallbackImages = {
+	"300x250": "premium/fallbacks/fallback-1.jpg",
+	"728x90": "premium/fallbacks/fallback-2.jpg",
+	"320x50": "premium/fallbacks/fallback-3.jpg",
+	"160x600": "premium/fallbacks/fallback-4.jpg",
+	"300x600": "premium/fallbacks/fallback-5.jpg",
+	"970x90": "premium/fallbacks/fallback-6.jpg",
+	"970x250": "premium/fallbacks/fallback-7.jpg",
+};
 
 export default class AdUnit extends React.Component<Props, State> {
 	private ref: HTMLElement | null = null;
@@ -38,6 +50,7 @@ export default class AdUnit extends React.Component<Props, State> {
 			working: false,
 			mobileView: window.innerWidth <= MOBILE_WIDTH,
 			loaded: false,
+			loadFallback: false,
 		};
 	}
 
@@ -57,6 +70,24 @@ export default class AdUnit extends React.Component<Props, State> {
 
 		const [width, height] = AdUnit.parsePlaceholderSize(this.props.size);
 
+		if (this.state.loadFallback && UserData.hasFeature("ad-fallback")) {
+			const className =
+				"premium-fallback premium-fallback--" +
+				(this.props.mobile ? "mobile" : "desktop");
+			return (
+				<a
+					href="/premium/"
+					className={className}
+					style={{
+						width: `${width}px`,
+						height: `${height}px`,
+						backgroundImage: `url(${image(
+							fallbackImages[this.props.size],
+						)})`,
+					}}
+				/>
+			);
+		}
 		return (
 			<div
 				id={this.props.id}
@@ -157,6 +188,7 @@ export default class AdUnit extends React.Component<Props, State> {
 
 		if (!window.nads) {
 			// Nitropay did not load properly or was blocked
+			this.setState({ loadFallback: true });
 			return;
 		}
 

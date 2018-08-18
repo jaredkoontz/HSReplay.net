@@ -1,4 +1,5 @@
-.ad-unit {
+.ad-unit,
+.premium-fallback {
 	position: relative;
 
 	.ad-unit-debug {
@@ -24,13 +25,15 @@
 	}
 }
 
-.ad-unit--desktop {
+.ad-unit--desktop,
+.premium-fallback--desktop {
 	@media (max-width: 767px) {
 		display: none;
 	}
 }
 
-.ad-unit--mobile {
+.ad-unit--mobile,
+premium-fallback--mobile {
 	@media (min-width: 768px) {
 		display: none;
 	}
@@ -46,7 +49,8 @@
 		display: none;
 	}
 
-	> .ad-unit {
+	> .ad-unit,
+	.premium-fallback {
 		margin: 0 5px;
 		display: inline-block;
 
@@ -66,7 +70,8 @@
 	justify-content: center;
 	flex: 0;
 
-	> .ad-unit {
+	> .ad-unit,
+	.premium-fallback {
 		flex-shrink: 0;
 		margin: 0 5px;
 	}
@@ -81,6 +86,11 @@
 	}
 }
 
-aside > .ad-unit {
+aside > .ad-unit,
+aside > .premium-fallback {
 	margin: 10px auto;
+}
+
+.premium-fallback {
+	display: block;
 }
