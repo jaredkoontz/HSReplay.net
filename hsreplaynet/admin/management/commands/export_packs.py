@@ -6,9 +6,9 @@ from io import StringIO
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
-from hearthstone.enums import BnetRegion, Booster
+from hearthstone.enums import Booster
 
-from ...models import Pack, PackCard
+from hsreplaynet.packs.models import Pack, PackCard
 
 
 VALID_BOOSTERS = [bt.name for bt in Booster.__members__.values()]
@@ -34,11 +34,10 @@ class Command(BaseCommand):
 		rows = []
 		for pack in qs:
 			cards = PackCard.objects.filter(pack=pack)
-			region = BnetRegion.from_account_hi(pack.account_hi)
+			ba = pack.blizzard_account
 			row = [
-				pack.id, anonymize(pack.user_id), anonymize(pack.account_lo),
-				pack.booster_type.name, pack.date.isoformat(),
-				region.name
+				pack.id, ba.region.name, ba.account_hi, ba.account_lo,
+				pack.booster_type.name, pack.date.isoformat()
 			]
 			for card in cards:
 				row += [card.card_id, int(card.premium)]
