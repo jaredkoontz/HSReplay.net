@@ -1,20 +1,20 @@
 import React from "react";
 import { InjectedTranslateProps, translate } from "react-i18next";
 import CardData from "../CardData";
-import UserData from "../UserData";
+import AdContainer from "../components/ads/AdContainer";
+import AdUnit from "../components/ads/AdUnit";
 import CardSearch from "../components/CardSearch";
 import ClassFilter, { FilterOption } from "../components/ClassFilter";
 import DataInjector from "../components/DataInjector";
+import ClassAnalysis, {
+	ClusterMetaData,
+} from "../components/discover/ClassAnalysis";
 import InfoboxFilter from "../components/InfoboxFilter";
 import InfoboxFilterGroup from "../components/InfoboxFilterGroup";
 import InfoboxLastUpdated from "../components/InfoboxLastUpdated";
 import { Limit } from "../components/ObjectSearch";
-import ClassAnalysis, {
-	ClusterMetaData,
-} from "../components/discover/ClassAnalysis";
 import { cardSorting, isCollectibleCard, isWildSet } from "../helpers";
-import AdContainer from "../components/ads/AdContainer";
-import AdUnit from "../components/ads/AdUnit";
+import UserData from "../UserData";
 
 interface Props extends InjectedTranslateProps {
 	cardData: CardData | null;
@@ -94,9 +94,11 @@ class Discover extends React.Component<Props, State> {
 					collapsed
 				>
 					<InfoboxFilter value="FT_STANDARD">
-						{t("Standard")}
+						{t("GLOBAL_STANDARD", { ns: "hearthstone" })}
 					</InfoboxFilter>
-					<InfoboxFilter value="FT_WILD">{t("Wild")}</InfoboxFilter>
+					<InfoboxFilter value="FT_WILD">
+						{t("GLOBAL_WILD", { ns: "hearthstone" })}
+					</InfoboxFilter>
 				</InfoboxFilterGroup>,
 			);
 		}

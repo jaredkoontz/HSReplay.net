@@ -1,8 +1,8 @@
 import React from "react";
 import { InjectedTranslateProps, translate } from "react-i18next";
+import { image } from "../../../helpers";
 import CardFilterItem from "../CardFilterItem";
 import CardFilterItemGroup from "../CardFilterItemGroup";
-import { image } from "../../../helpers";
 
 interface Props extends InjectedTranslateProps {
 	value: string[];
@@ -14,7 +14,7 @@ class CostFilter extends React.Component<Props> {
 		const { t } = this.props;
 		return (
 			<CardFilterItemGroup
-				title={t("Cost")}
+				title={t("GLOBAL_COST", { ns: "hearthstone" })}
 				filterFactory={this.filter}
 				value={this.props.value}
 				onChange={this.props.onChange}

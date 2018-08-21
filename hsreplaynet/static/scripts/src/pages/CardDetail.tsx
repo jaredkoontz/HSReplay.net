@@ -1,30 +1,32 @@
 import React from "react";
 import { InjectedTranslateProps, translate } from "react-i18next";
 import CardData from "../CardData";
-import UserData from "../UserData";
-import CardRankingTable from "../components/CardRankingTable";
-import ClassFilter, { FilterOption } from "../components/ClassFilter";
-import DataInjector from "../components/DataInjector";
-import DataText from "../components/DataText";
-import Fragments from "../components/Fragments";
-import InfoIcon from "../components/InfoIcon";
-import InfoboxFilter from "../components/InfoboxFilter";
-import InfoboxFilterGroup from "../components/InfoboxFilterGroup";
-import InfoboxLastUpdated from "../components/InfoboxLastUpdated";
+import AdContainer from "../components/ads/AdContainer";
+import AdUnit from "../components/ads/AdUnit";
 import AdaptDetail from "../components/carddetail/AdaptDetail";
 import QuestCompletionDetail from "../components/carddetail/QuestCompletionDetail";
 import QuestContributors from "../components/carddetail/QuestContributors";
 import RecommendedDecksList from "../components/carddetail/RecommendedDecksList";
+import CardRankingTable from "../components/CardRankingTable";
 import CardDetailPieChart from "../components/charts/CardDetailPieChart";
 import PopularityLineChart from "../components/charts/PopularityLineChart";
 import TurnPlayedBarChart from "../components/charts/TurnPlayedBarChart";
 import WinrateByTurnLineChart from "../components/charts/WinrateByTurnLineChart";
 import WinrateLineChart from "../components/charts/WinrateLineChart";
+import ClassFilter, { FilterOption } from "../components/ClassFilter";
+import DataInjector from "../components/DataInjector";
+import DataText from "../components/DataText";
+import Fragments from "../components/Fragments";
+import InfoboxFilter from "../components/InfoboxFilter";
+import InfoboxFilterGroup from "../components/InfoboxFilterGroup";
+import InfoboxLastUpdated from "../components/InfoboxLastUpdated";
+import InfoIcon from "../components/InfoIcon";
 import Tab from "../components/layout/Tab";
 import TabList from "../components/layout/TabList";
 import ChartLoading from "../components/loading/ChartLoading";
 import HideLoading from "../components/loading/HideLoading";
 import TableLoading from "../components/loading/TableLoading";
+import LoadingSpinner from "../components/LoadingSpinner";
 import PremiumWrapper from "../components/premium/PremiumWrapper";
 import PrettyCardClass from "../components/text/PrettyCardClass";
 import PrettyRankRange from "../components/text/PrettyRankRange";
@@ -41,10 +43,8 @@ import {
 } from "../helpers";
 import { I18N_NAMESPACE_HEARTHSTONE } from "../i18n";
 import { RenderData, TableData } from "../interfaces";
+import UserData from "../UserData";
 import { Collection } from "../utils/api";
-import LoadingSpinner from "../components/LoadingSpinner";
-import AdContainer from "../components/ads/AdContainer";
-import AdUnit from "../components/ads/AdUnit";
 
 interface Props extends InjectedTranslateProps {
 	card: any;
@@ -632,7 +632,7 @@ class CardDetail extends React.Component<Props, State> {
 		const dustCost = getDustCost(this.props.card);
 		const craftingCost = (
 			<li>
-				{t("Cost")}
+				{t("GLOBAL_COST", { ns: "hearthstone" })}
 				{this.props.card ? (
 					<span className="infobox-value">
 						{dustCost > 0

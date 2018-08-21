@@ -1,7 +1,10 @@
 import _ from "lodash";
 import React from "react";
 import { InjectedTranslateProps, translate } from "react-i18next";
+import AdHelper from "../AdHelper";
 import CardData from "../CardData";
+import AdContainer from "../components/ads/AdContainer";
+import AdUnit from "../components/ads/AdUnit";
 import ArchetypeImage from "../components/archetypedetail/ArchetypeImage";
 import ArchetypeMatchups from "../components/archetypedetail/ArchetypeMatchups";
 import CardList from "../components/CardList";
@@ -47,9 +50,6 @@ import { DeckEvents } from "../metrics/Events";
 import UserData, { Account } from "../UserData";
 import { Collection } from "../utils/api";
 import { getDustCostForCollection } from "../utils/collection";
-import AdContainer from "../components/ads/AdContainer";
-import AdUnit from "../components/ads/AdUnit";
-import AdHelper from "../AdHelper";
 
 interface InventoryGameType {
 	[gameType: string]: InventoryRegion[];
@@ -644,7 +644,7 @@ class DeckDetail extends React.Component<Props, State> {
 						</li>
 						{archetypeInfo}
 						<li>
-							{t("Cost")}
+							{t("GLOBAL_COST", { ns: "hearthstone" })}
 							<span className="infobox-value">
 								{dustCost !== null
 									? t("{dustCost} Dust", { dustCost })

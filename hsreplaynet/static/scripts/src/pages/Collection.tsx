@@ -1,34 +1,34 @@
+import { CardData as HearthstoneJSONCardData } from "hearthstonejson-client";
 import React from "react";
 import { InjectedTranslateProps, Trans, translate } from "react-i18next";
 import CardData from "../CardData";
-import { Account } from "../UserData";
-import { CardData as HearthstoneJSONCardData } from "hearthstonejson-client";
+import CardImage from "../components/CardImage";
+import CardFilterManager from "../components/cards/CardFilterManager";
+import CollectionVisibility from "../components/cards/CollectionVisibility";
+import ClassFilter from "../components/cards/filters/ClassFilter";
+import CostFilter from "../components/cards/filters/CostFilter";
+import MechanicsFilter from "../components/cards/filters/MechanicsFilter";
+import RarityFilter from "../components/cards/filters/RarityFilter";
+import SetFilter from "../components/cards/filters/SetFilter";
+import TextFilter from "../components/cards/filters/TextFilter";
+import TribeFilter from "../components/cards/filters/TribeFilter";
+import TypeFilter from "../components/cards/filters/TypeFilter";
 import { FilterOption } from "../components/ClassFilter";
+import CollectionSetup from "../components/collection/CollectionSetup";
+import InfoboxFilter from "../components/InfoboxFilter";
+import InfoboxFilterGroup from "../components/InfoboxFilterGroup";
+import LoadingSpinner from "../components/LoadingSpinner";
+import Modal from "../components/Modal";
 import ResetHeader from "../components/ResetHeader";
+import PrettyBlizzardAccount from "../components/text/PrettyBlizzardAccount";
+import { cardSorting, image, isCollectibleCard } from "../helpers";
 import {
 	FragmentChildProps,
 	LoadingStatus,
 	SortDirection,
 } from "../interfaces";
-import CardFilterManager from "../components/cards/CardFilterManager";
-import { cardSorting, image, isCollectibleCard } from "../helpers";
-import CardImage from "../components/CardImage";
+import { Account } from "../UserData";
 import { Collection as ApiCollection } from "../utils/api";
-import RarityFilter from "../components/cards/filters/RarityFilter";
-import TypeFilter from "../components/cards/filters/TypeFilter";
-import TribeFilter from "../components/cards/filters/TribeFilter";
-import CollectionVisibility from "../components/cards/CollectionVisibility";
-import InfoboxFilterGroup from "../components/InfoboxFilterGroup";
-import InfoboxFilter from "../components/InfoboxFilter";
-import TextFilter from "../components/cards/filters/TextFilter";
-import MechanicsFilter from "../components/cards/filters/MechanicsFilter";
-import LoadingSpinner from "../components/LoadingSpinner";
-import Modal from "../components/Modal";
-import CollectionSetup from "../components/collection/CollectionSetup";
-import PrettyBlizzardAccount from "../components/text/PrettyBlizzardAccount";
-import CostFilter from "../components/cards/filters/CostFilter";
-import ClassFilter from "../components/cards/filters/ClassFilter";
-import SetFilter from "../components/cards/filters/SetFilter";
 
 interface Props extends FragmentChildProps, InjectedTranslateProps {
 	cardData: CardData;
@@ -390,11 +390,11 @@ class Collection extends React.Component<Props, State> {
 						this.props.setGolden(value);
 					}}
 					selectedValue={this.props.golden}
-					header={"Golden"}
+					header={t("Quality")}
 					deselectable
 				>
-					<InfoboxFilter value={"NORMAL"}>
-						Normal
+					<InfoboxFilter value="NORMAL">
+						{t("Normal")}
 						{filteredCards && collection ? (
 							<span className="infobox-value">
 								{filteredCards.reduce(
@@ -418,8 +418,8 @@ class Collection extends React.Component<Props, State> {
 							</span>
 						) : null}
 					</InfoboxFilter>
-					<InfoboxFilter value={"GOLDEN"}>
-						Golden
+					<InfoboxFilter value="GOLDEN">
+						{t("GLOBAL_GOLDEN", { ns: "hearthstone" })}
 						{filteredCards && collection ? (
 							<span className="infobox-value">
 								{filteredCards.reduce(

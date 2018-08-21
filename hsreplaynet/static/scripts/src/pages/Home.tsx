@@ -1,31 +1,31 @@
 import React from "react";
 import { InjectedTranslateProps, translate } from "react-i18next";
+import { AutoSizer } from "react-virtualized";
 import CardData from "../CardData";
-import UserData from "../UserData";
-import DataInjector from "../components/DataInjector";
-import Modal from "../components/Modal";
-import ModeSvg from "../components/ModeSvg";
+import AdContainer from "../components/ads/AdContainer";
+import AdUnit from "../components/ads/AdUnit";
+import GutterAdUnit from "../components/ads/GutterAdUnit";
 import CollectionSetup from "../components/collection/CollectionSetup";
+import DataInjector from "../components/DataInjector";
+import HDTVideo from "../components/HDTVideo";
 import ArchetypeHighlight from "../components/home/ArchetypeHighlight";
 import ClassRanking from "../components/home/ClassRanking";
 import FeaturePanel from "../components/home/FeaturePanel";
 import LiveData from "../components/home/LiveData";
+import MulliganGuidePreview from "../components/home/MulliganGuidePreview";
 import ReplayFeed from "../components/home/ReplayFeed";
 import TierListPreview from "../components/home/TierListPreview";
 import ArchetypeMatchups from "../components/metaoverview/ArchetypeMatchups";
+import Modal from "../components/Modal";
+import ModeSvg from "../components/ModeSvg";
+import Panel from "../components/Panel";
 import PremiumModal from "../components/premium/PremiumModal";
+import TwitchStream from "../components/TwitchStream";
 import { BnetGameType } from "../hearthstone";
 import { image } from "../helpers";
-import MulliganGuidePreview from "../components/home/MulliganGuidePreview";
-import Panel from "../components/Panel";
-import { default as Twitch } from "../Twitch";
-import TwitchStream from "../components/TwitchStream";
-import { AutoSizer } from "react-virtualized";
 import { TwitchStreamPromotionEvents } from "../metrics/Events";
-import HDTVideo from "../components/HDTVideo";
-import AdUnit from "../components/ads/AdUnit";
-import AdContainer from "../components/ads/AdContainer";
-import GutterAdUnit from "../components/ads/GutterAdUnit";
+import { default as Twitch } from "../Twitch";
+import UserData from "../UserData";
 
 interface Props extends InjectedTranslateProps {
 	cardData: CardData | null;
@@ -609,7 +609,7 @@ class Home extends React.Component<Props, State> {
 					}}
 				>
 					<ModeSvg type="standard" />
-					{t("Standard")}
+					{t("GLOBAL_STANDARD", { ns: "hearthstone" })}
 				</a>
 				<a
 					className={
@@ -626,7 +626,7 @@ class Home extends React.Component<Props, State> {
 					}}
 				>
 					<ModeSvg type="wild" />
-					{t("Wild")}
+					{t("GLOBAL_WILD", { ns: "hearthstone" })}
 				</a>
 				<a
 					className={

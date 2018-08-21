@@ -2,6 +2,18 @@ import { cookie } from "cookie_js";
 import React from "react";
 import { InjectedTranslateProps, Trans, translate } from "react-i18next";
 import CardData from "../CardData";
+import AdContainer from "../components/ads/AdContainer";
+import AdUnit from "../components/ads/AdUnit";
+import ClassDistributionPieChart from "../components/charts/ClassDistributionPieChart";
+import ClassFilter, { FilterOption } from "../components/ClassFilter";
+import GameHistoryList from "../components/gamehistory/GameHistoryList";
+import GameHistorySearch from "../components/gamehistory/GameHistorySearch";
+import GameHistoryTable from "../components/gamehistory/GameHistoryTable";
+import InfoboxFilter from "../components/InfoboxFilter";
+import InfoboxFilterGroup from "../components/InfoboxFilterGroup";
+import LoadingSpinner from "../components/LoadingSpinner";
+import Pager from "../components/Pager";
+import ResetHeader from "../components/ResetHeader";
 import {
 	formatMatch,
 	heroMatch,
@@ -9,15 +21,6 @@ import {
 	nameMatch,
 	resultMatch,
 } from "../GameFilters";
-import ClassFilter, { FilterOption } from "../components/ClassFilter";
-import InfoboxFilter from "../components/InfoboxFilter";
-import InfoboxFilterGroup from "../components/InfoboxFilterGroup";
-import Pager from "../components/Pager";
-import ResetHeader from "../components/ResetHeader";
-import ClassDistributionPieChart from "../components/charts/ClassDistributionPieChart";
-import GameHistoryList from "../components/gamehistory/GameHistoryList";
-import GameHistorySearch from "../components/gamehistory/GameHistorySearch";
-import GameHistoryTable from "../components/gamehistory/GameHistoryTable";
 import { getHeroCard, image } from "../helpers";
 import {
 	CardArtProps,
@@ -25,9 +28,6 @@ import {
 	GameReplay,
 	ImageProps,
 } from "../interfaces";
-import LoadingSpinner from "../components/LoadingSpinner";
-import AdUnit from "../components/ads/AdUnit";
-import AdContainer from "../components/ads/AdContainer";
 
 type ViewType = "tiles" | "list";
 
@@ -490,7 +490,7 @@ class MyReplays extends React.Component<Props, State> {
 							{t("Casual")}
 						</InfoboxFilter>
 						<InfoboxFilter value="brawl">
-							{t("Tavern Brawl")}
+							{t("GLOBAL_TAVERN_BRAWL", { ns: "hearthstone" })}
 						</InfoboxFilter>
 						<InfoboxFilter value="friendly">
 							{t("Friendly")}
@@ -506,9 +506,11 @@ class MyReplays extends React.Component<Props, State> {
 						onClick={format => this.props.setFormat(format)}
 					>
 						<InfoboxFilter value="standard">
-							{t("Standard")}
+							{t("GLOBAL_STANDARD", { ns: "hearthstone" })}
 						</InfoboxFilter>
-						<InfoboxFilter value="wild">{t("Wild")}</InfoboxFilter>
+						<InfoboxFilter value="wild">
+							{t("GLOBAL_WILD", { ns: "hearthstone" })}
+						</InfoboxFilter>
 					</InfoboxFilterGroup>
 					<h2>{t("Result")}</h2>
 					<InfoboxFilterGroup

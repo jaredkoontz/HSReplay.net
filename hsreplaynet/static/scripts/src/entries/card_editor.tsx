@@ -1,6 +1,8 @@
 /* tslint:disable */
 import React from "react";
 import ReactDOM from "react-dom";
+import Sunwell from "sunwell";
+import CSRFElement from "../components/CSRFElement";
 import {
 	CardClass,
 	CardSet,
@@ -8,8 +10,6 @@ import {
 	MultiClassGroup,
 	Rarity,
 } from "../hearthstone";
-import Sunwell from "sunwell";
-import CSRFElement from "../components/CSRFElement";
 
 class Fieldset extends React.Component<any> {
 	public render(): React.ReactNode {
