@@ -55,7 +55,7 @@ class UserDetailsSerializer(UserSerializer):
 		# This is a temporary field to support the oauth transition flow
 		tokens = AccessToken.objects.filter(
 			user=instance,
-			application=3
+			application__in=[3, 8]
 		)
 		return len(tokens) > 0
 

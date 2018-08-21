@@ -36,14 +36,14 @@ class DownloadSection extends React.Component<Props, State> {
 		const { t } = this.props;
 		return (
 			<section id={this.props.id}>
-				<h2>{t("Download Hearthstone Deck Tracker")}</h2>
+				<h2>{t("Download the Deck Tracker")}</h2>
 				<p className="text-center">
 					{this.props.hasLegacyClient
 						? t(
-								"Make sure you have the latest version of Hearthstone Deck Tracker:",
+								"Make sure you have the latest version of your deck tracker:",
 						  )
 						: t(
-								"Hearthstone Deck Tracker will upload your collection and keep it up to date:",
+								"The deck tracker will upload your collection and keep it up to date:",
 						  )}
 				</p>
 				<p className="text-center">
@@ -53,7 +53,7 @@ class DownloadSection extends React.Component<Props, State> {
 						className="btn promo-button"
 						rel="noopener"
 					>
-						{t("Download (Windows)")}
+						{t("Download")}
 					</a>
 				</p>
 				<p className="text-center">
@@ -67,7 +67,7 @@ class DownloadSection extends React.Component<Props, State> {
 					<>
 						<p className="text-center">
 							{t(
-								"You're on the latest version if you see this banner at the top:",
+								"You're on the latest version if you see this banner at the top (Windows only):",
 							)}
 						</p>
 						<div className="text-center">

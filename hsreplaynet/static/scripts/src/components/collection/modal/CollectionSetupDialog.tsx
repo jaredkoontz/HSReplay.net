@@ -207,15 +207,19 @@ class CollectionSetupDialog extends React.Component<Props, State> {
 								<li>
 									{this.props.hasTokens
 										? t(
-												"Run the latest version of Hearthstone Deck Tracker",
+												"Run the latest version of the Deck Tracker",
 										  )
 										: t(
-												"Download and install Hearthstone Deck Tracker",
+												"Download and install the Deck Tracker",
 										  )}
 								</li>
 								<li>
 									{t(
-										"Click on the blue HSReplay.net banner at the top of your deck tracker",
+										"Windows: Click on the blue HSReplay.net banner at the top of your deck tracker",
+									)}
+									<br />
+									{t(
+										"Mac: Open the tracker's preferences and select the HSReplay.net tab",
 									)}
 									{this.props.hasTokens ? (
 										<>
