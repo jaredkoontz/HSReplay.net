@@ -32,18 +32,18 @@
         },
         "boto3": {
             "hashes": [
-                "sha256:5132443d54cf20271261b6ca7292e8e1d0ed4357afc75ee7af41fd8ad177f90c",
-                "sha256:5e51c8bc058b60ce4aa0e30a30336867ff3cb0d4357a324623556c8103ea361c"
+                "sha256:48bfe5773e3ad2c295363963ca95152df6efd93b625b21bff257656a2394fb5a",
+                "sha256:649211bfdcc4b3cca55594132a3ed9845b2b62d0ebbd1320326f2d40d1edb335"
             ],
             "index": "pypi",
-            "version": "==1.7.81"
+            "version": "==1.7.82"
         },
         "botocore": {
             "hashes": [
-                "sha256:39cf8e3ec17d13482da8adb6e965ead925a4b57aa8d194b8fdc16e43898ea776",
-                "sha256:c8845c8ad82e4292636ad0ed93b73c15aa15dbf750fd92a1e65d126c755062d3"
+                "sha256:025cc8d76a1ef6b0b2794e38d0a3a9560f9fce0352db8f274210346da616dcdc",
+                "sha256:95657ce18ed2caf62b0effd8fa754460d894bde4d906e42bf81e816ef23d994b"
             ],
-            "version": "==1.10.81"
+            "version": "==1.10.82"
         },
         "certifi": {
             "hashes": [
@@ -270,11 +270,11 @@
         },
         "hslog": {
             "hashes": [
-                "sha256:83ef06e88e1a7854931e0b87d9e2b4878cad2534ae3be2c6f0ec88fbc9eba444",
-                "sha256:ee2c3bf44426b033d2d476eb62962b9cf879b51a6de30afb15d40d6b20c1d212"
+                "sha256:08aca35c2c9253585214bdb83f39db08506eaf05cc38b203b645f292a28a1b06",
+                "sha256:ae6f3e82b6c10e1338ad58499a9c698099a7b14a4a9ae587e4bf25d704128c1b"
             ],
             "index": "pypi",
-            "version": "==1.4.6"
+            "version": "==1.4.7"
         },
         "hsredshift": {
             "file": "https://github.com/HearthSim/hsredshift/archive/master.tar.gz"
@@ -730,18 +730,18 @@
         },
         "boto3": {
             "hashes": [
-                "sha256:5132443d54cf20271261b6ca7292e8e1d0ed4357afc75ee7af41fd8ad177f90c",
-                "sha256:5e51c8bc058b60ce4aa0e30a30336867ff3cb0d4357a324623556c8103ea361c"
+                "sha256:48bfe5773e3ad2c295363963ca95152df6efd93b625b21bff257656a2394fb5a",
+                "sha256:649211bfdcc4b3cca55594132a3ed9845b2b62d0ebbd1320326f2d40d1edb335"
             ],
             "index": "pypi",
-            "version": "==1.7.81"
+            "version": "==1.7.82"
         },
         "botocore": {
             "hashes": [
-                "sha256:39cf8e3ec17d13482da8adb6e965ead925a4b57aa8d194b8fdc16e43898ea776",
-                "sha256:c8845c8ad82e4292636ad0ed93b73c15aa15dbf750fd92a1e65d126c755062d3"
+                "sha256:025cc8d76a1ef6b0b2794e38d0a3a9560f9fce0352db8f274210346da616dcdc",
+                "sha256:95657ce18ed2caf62b0effd8fa754460d894bde4d906e42bf81e816ef23d994b"
             ],
-            "version": "==1.10.81"
+            "version": "==1.10.82"
         },
         "certifi": {
             "hashes": [
