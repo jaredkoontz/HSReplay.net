@@ -632,7 +632,7 @@ class CardDetail extends React.Component<Props, State> {
 		const dustCost = getDustCost(this.props.card);
 		const craftingCost = (
 			<li>
-				{t("GLOBAL_COST", { ns: "hearthstone" })}
+				{t("GLOBAL_COST")}
 				{this.props.card ? (
 					<span className="infobox-value">
 						{dustCost > 0

@@ -490,7 +490,7 @@ class MyReplays extends React.Component<Props, State> {
 							{t("Casual")}
 						</InfoboxFilter>
 						<InfoboxFilter value="brawl">
-							{t("GLOBAL_TAVERN_BRAWL", { ns: "hearthstone" })}
+							{t("GLOBAL_TAVERN_BRAWL")}
 						</InfoboxFilter>
 						<InfoboxFilter value="friendly">
 							{t("Friendly")}
@@ -506,10 +506,10 @@ class MyReplays extends React.Component<Props, State> {
 						onClick={format => this.props.setFormat(format)}
 					>
 						<InfoboxFilter value="standard">
-							{t("GLOBAL_STANDARD", { ns: "hearthstone" })}
+							{t("GLOBAL_STANDARD")}
 						</InfoboxFilter>
 						<InfoboxFilter value="wild">
-							{t("GLOBAL_WILD", { ns: "hearthstone" })}
+							{t("GLOBAL_WILD")}
 						</InfoboxFilter>
 					</InfoboxFilterGroup>
 					<h2>{t("Result")}</h2>

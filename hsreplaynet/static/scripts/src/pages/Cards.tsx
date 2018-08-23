@@ -1030,7 +1030,7 @@ class Cards extends React.Component<Props, State> {
 		filters.push(
 			<InfoboxFilterGroup
 				key="costs"
-				header={t("GLOBAL_COST", { ns: "hearthstone" })}
+				header={t("GLOBAL_COST")}
 				deselectable
 				className="filter-list-cost"
 				selectedValue={this.props.cost}

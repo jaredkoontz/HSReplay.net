@@ -644,7 +644,7 @@ class DeckDetail extends React.Component<Props, State> {
 						</li>
 						{archetypeInfo}
 						<li>
-							{t("GLOBAL_COST", { ns: "hearthstone" })}
+							{t("GLOBAL_COST")}
 							<span className="infobox-value">
 								{dustCost !== null
 									? t("{dustCost} Dust", { dustCost })

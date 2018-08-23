@@ -609,7 +609,7 @@ class Home extends React.Component<Props, State> {
 					}}
 				>
 					<ModeSvg type="standard" />
-					{t("GLOBAL_STANDARD", { ns: "hearthstone" })}
+					{t("GLOBAL_STANDARD")}
 				</a>
 				<a
 					className={
@@ -626,7 +626,7 @@ class Home extends React.Component<Props, State> {
 					}}
 				>
 					<ModeSvg type="wild" />
-					{t("GLOBAL_WILD", { ns: "hearthstone" })}
+					{t("GLOBAL_WILD")}
 				</a>
 				<a
 					className={

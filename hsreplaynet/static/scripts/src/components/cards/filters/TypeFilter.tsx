@@ -43,4 +43,4 @@ class TypeFilter extends React.Component<Props> {
 	private filter = value => card => card.type === value;
 }
 
-export default translate("hearthstone")(TypeFilter);
+export default translate()(TypeFilter);

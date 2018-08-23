@@ -73,7 +73,7 @@ class SetFilter extends React.Component<Props> {
 					{t("GLOBAL_CARD_SET_HOF")}
 				</CardFilterItem>
 				<CardFilterItem value={"TAVERNS_OF_TIME"}>
-					{t("Taverns of Time", { ns: "frontend" })}
+					{t("Taverns of Time")}
 				</CardFilterItem>
 			</CardFilterItemGroup>
 		);
@@ -82,4 +82,4 @@ class SetFilter extends React.Component<Props> {
 	private filter = value => card => card.set === value;
 }
 
-export default translate("hearthstone")(SetFilter);
+export default translate()(SetFilter);

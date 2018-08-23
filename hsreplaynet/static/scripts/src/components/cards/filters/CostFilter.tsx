@@ -14,7 +14,7 @@ class CostFilter extends React.Component<Props> {
 		const { t } = this.props;
 		return (
 			<CardFilterItemGroup
-				title={t("GLOBAL_COST", { ns: "hearthstone" })}
+				title={t("GLOBAL_COST")}
 				filterFactory={this.filter}
 				value={this.props.value}
 				onChange={this.props.onChange}

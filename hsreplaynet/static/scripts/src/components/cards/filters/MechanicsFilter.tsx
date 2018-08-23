@@ -28,7 +28,7 @@ class MechanicsFilter extends React.Component<Props> {
 					{t("GLOBAL_KEYWORD_BATTLECRY")}
 				</CardFilterItem>
 				<CardFilterItem value={"CHOOSE_ONE"}>
-					{t("Choose One", { ns: "frontend" })}
+					{t("Choose One")}
 				</CardFilterItem>
 				<CardFilterItem value={"COMBO"}>
 					{t("GLOBAL_KEYWORD_COMBO")}
@@ -40,7 +40,7 @@ class MechanicsFilter extends React.Component<Props> {
 					{t("GLOBAL_KEYWORD_DIVINE_SHIELD")}
 				</CardFilterItem>
 				<CardFilterItem value={"OVERLOAD"}>
-					{t("Overload", { ns: "frontend" })}
+					{t("Overload")}
 				</CardFilterItem>
 				<CardFilterItem value={"POISONOUS"}>
 					{t("GLOBAL_KEYWORD_POISONOUS")}
@@ -67,7 +67,7 @@ class MechanicsFilter extends React.Component<Props> {
 					{t("GLOBAL_KEYWORD_DISCOVER")}
 				</CardFilterItem>
 				<CardFilterItem value={"RITUAL"}>
-					{t("Ritual", { ns: "frontend" })}
+					{t("Ritual")}
 				</CardFilterItem>
 				<CardFilterItem value={"JADE_GOLEM"}>
 					{t("GLOBAL_KEYWORD_JADE_GOLEM")}
@@ -98,4 +98,4 @@ class MechanicsFilter extends React.Component<Props> {
 		card.mechanics && card.mechanics.indexOf(value) !== -1;
 }
 
-export default translate("hearthstone")(MechanicsFilter);
+export default translate()(MechanicsFilter);

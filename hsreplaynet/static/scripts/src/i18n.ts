@@ -78,7 +78,7 @@ i18n
 	.init({
 		// keys as strings
 		defaultNS: I18N_NAMESPACE_FRONTEND,
-		fallbackNS: false,
+		fallbackNS: I18N_NAMESPACE_HEARTHSTONE,
 		fallbackLng: false,
 		keySeparator: false,
 		lowerCaseLng: true,

@@ -24,4 +24,4 @@ class PrettyCardClass extends React.Component<Props> {
 	}
 }
 
-export default translate("hearthstone")(PrettyCardClass);
+export default translate()(PrettyCardClass);

@@ -46,4 +46,4 @@ class RarityFilter extends React.Component<Props> {
 	private filter = value => card => card.rarity === value;
 }
 
-export default translate("hearthstone")(RarityFilter);
+export default translate()(RarityFilter);

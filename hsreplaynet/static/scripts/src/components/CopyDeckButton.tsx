@@ -161,8 +161,8 @@ class CopyDeckButton extends React.Component<Props, State> {
 		const deckUrl = this.props.sourceUrl || "https://hsreplay.net/decks/";
 		const formatName =
 			format === 2
-				? t("GLOBAL_STANDARD", { ns: "hearthstone" })
-				: t("GLOBAL_WILD", { ns: "hearthstone" });
+				? t("GLOBAL_STANDARD")
+				: t("GLOBAL_WILD");
 
 		return (
 			[

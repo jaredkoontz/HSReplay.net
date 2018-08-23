@@ -94,10 +94,10 @@ class Discover extends React.Component<Props, State> {
 					collapsed
 				>
 					<InfoboxFilter value="FT_STANDARD">
-						{t("GLOBAL_STANDARD", { ns: "hearthstone" })}
+						{t("GLOBAL_STANDARD")}
 					</InfoboxFilter>
 					<InfoboxFilter value="FT_WILD">
-						{t("GLOBAL_WILD", { ns: "hearthstone" })}
+						{t("GLOBAL_WILD")}
 					</InfoboxFilter>
 				</InfoboxFilterGroup>,
 			);

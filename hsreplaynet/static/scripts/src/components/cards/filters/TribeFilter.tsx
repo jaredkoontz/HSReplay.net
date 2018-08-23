@@ -55,4 +55,4 @@ class TribeFilter extends React.Component<Props> {
 	private filter = value => card => card.race === value;
 }
 
-export default translate("hearthstone")(TribeFilter);
+export default translate()(TribeFilter);
