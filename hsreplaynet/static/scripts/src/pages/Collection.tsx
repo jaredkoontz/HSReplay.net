@@ -419,7 +419,7 @@ class Collection extends React.Component<Props, State> {
 						) : null}
 					</InfoboxFilter>
 					<InfoboxFilter value="GOLDEN">
-						{t("GLOBAL_GOLDEN")}
+						{t("Golden")}
 						{filteredCards && collection ? (
 							<span className="infobox-value">
 								{filteredCards.reduce(
