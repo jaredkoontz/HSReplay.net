@@ -113,6 +113,7 @@ export default class Tooltip extends React.Component<Props, State> {
 				className={classNames.join(" ")}
 				style={style}
 				ref={ref => (this.tooltip = ref)}
+				role="tooltip"
 			>
 				{this.props.header ? <h4>{this.props.header}</h4> : null}
 				{body}
@@ -166,7 +167,7 @@ export default class Tooltip extends React.Component<Props, State> {
 				{!this.props.noSrTooltip ? (
 					<section className="sr-only">
 						{this.props.header ? (
-							<h1>{this.props.header}</h1>
+							<h4>{this.props.header}</h4>
 						) : null}
 						{content}
 					</section>
