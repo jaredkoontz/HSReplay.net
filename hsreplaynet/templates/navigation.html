@@ -20,6 +20,7 @@
 
 	<div class="container-fluid">
 		<nav class="collapse navbar-collapse" id="navbar-collapse">
+			<h2 class="sr-only">Site navigation</h2>
 			{% with request.resolver_match.url_name as urlname %}
 				{% block navlinks %}
 					<ul class="nav navbar-nav">
