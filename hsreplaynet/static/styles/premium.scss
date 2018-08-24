@@ -488,8 +488,9 @@
 			width: 100%;
 			z-index: 100;
 
-			h4 {
-				font-weight: bold;
+			strong {
+				display: block;
+				font-size: 1.3em;
 			}
 		}
 

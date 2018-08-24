@@ -196,7 +196,7 @@ class PremiumWrapper extends React.Component<Props, State> {
 					/>
 					{infoIcon}
 					<div className="premium-info">
-						<h4>{premium}</h4>
+						<strong>{premium}</strong>
 						{this.state.touchCount > 0 ? (
 							<span>{t("Tap for more details…")}</span>
 						) : null}
