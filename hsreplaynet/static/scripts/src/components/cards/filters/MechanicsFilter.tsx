@@ -46,7 +46,7 @@ class MechanicsFilter extends React.Component<Props> {
 					{t("GLOBAL_KEYWORD_POISONOUS")}
 				</CardFilterItem>
 				<CardFilterItem value={"SECRET"}>
-					{t("GLOBAL_KEYWORD_RUSH")}
+					{t("GLOBAL_KEYWORD_SECRET")}
 				</CardFilterItem>
 				<CardFilterItem value={"SILENCE"}>
 					{t("GLOBAL_KEYWORD_SILENCE")}
