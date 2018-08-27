@@ -74,7 +74,14 @@ class DeckManager(models.Manager):
 		archetypes_enabled = settings.ARCHETYPE_CLASSIFICATION_ENABLED
 		archetype_missing = deck.archetype_id is None
 		full_deck = deck.size == 30
-		if archetypes_enabled and classify_archetype and archetype_missing and full_deck:
+		eligible_game_type = not game_type or game_type != enums.BnetGameType.BGT_ARENA
+		if (
+			archetypes_enabled and
+			classify_archetype and
+			archetype_missing and
+			full_deck and
+			eligible_game_type
+		):
 			player_class = self._convert_hero_id_to_player_class(hero_id)
 			picked_class = self._pick_card_class(player_class, deck.deck_class)
 			deck.classify_into_archetype(picked_class)
