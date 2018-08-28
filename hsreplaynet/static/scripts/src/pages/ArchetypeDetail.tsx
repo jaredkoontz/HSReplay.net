@@ -151,6 +151,10 @@ class ArchetypeDetail extends React.Component<Props, State> {
 			) {
 				return;
 			}
+			// temporary hotfix to hide invalid decks
+			if (cards.some(card => !card.card.collectible)) {
+				return;
+			}
 			decks.push({
 				archetypeId: deck.archetype_id,
 				cards,
@@ -832,23 +836,37 @@ class ArchetypeDetail extends React.Component<Props, State> {
 							(a.card.name > b.card.name ? 1 : -1)
 						);
 					});
-				const deckCards = JSON.parse(decks[0].deck_list).map(c => c[0]);
-				const dbfIds = [];
-				prevalences.forEach(({ card }) => {
+				for (const deck of decks) {
+					const deckCards = JSON.parse(deck.deck_list).map(c => c[0]);
+					const dbfIds = [];
+					prevalences.forEach(({ card }) => {
+						if (
+							deckCards.indexOf(card.dbfId) !== -1 &&
+							dbfIds.length < 4
+						) {
+							dbfIds.push(card.dbfId);
+						}
+					});
+					const cards = dbfIds.map(dbfId => cardData.fromDbf(dbfId));
+
+					console.log(cards);
+
+					// temporary hotfix to hide invalid decks
 					if (
-						deckCards.indexOf(card.dbfId) !== -1 &&
-						dbfIds.length < 4
+						deckCards
+							.map(dbfId => cardData.fromDbf(dbfId))
+							.some(card => !card.collectible)
 					) {
-						dbfIds.push(card.dbfId);
+						continue;
 					}
-				});
-				const cards = dbfIds.map(dbfId => cardData.fromDbf(dbfId));
-				return {
-					cards,
-					deckId: decks[0].deck_id,
-					games: decks[0].total_games,
-					winrate: decks[0].win_rate,
-				};
+
+					return {
+						cards,
+						deckId: deck.deck_id,
+						games: deck.total_games,
+						winrate: deck.win_rate,
+					};
+				}
 			}
 			return { status: LoadingStatus.NO_DATA };
 		};

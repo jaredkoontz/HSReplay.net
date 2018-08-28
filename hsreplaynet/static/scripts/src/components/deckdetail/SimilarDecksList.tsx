@@ -29,9 +29,9 @@ export default class SimilarDecksList extends React.Component<Props> {
 		// So a distance of 12 corresponds to 6 changed cards.
 		classDecks.forEach(deck => {
 			let distance = 0;
-			const cards = JSON.parse(deck["deck_list"]);
+			const cardList = JSON.parse(deck["deck_list"]);
 			const removed = Object.assign({}, deckList);
-			cards.forEach(dbfIdCountPair => {
+			cardList.forEach(dbfIdCountPair => {
 				distance += Math.abs(
 					dbfIdCountPair[1] - (deckList[dbfIdCountPair[0]] || 0),
 				);
@@ -40,7 +40,7 @@ export default class SimilarDecksList extends React.Component<Props> {
 			Object.keys(removed).forEach(dbfId => (distance += removed[dbfId]));
 			if (distance > 1 && distance <= 12) {
 				byDistance.push({
-					cards,
+					cards: cardList,
 					deck,
 					distance,
 					numGames: +deck["total_games"],
@@ -59,12 +59,16 @@ export default class SimilarDecksList extends React.Component<Props> {
 
 		const decks: DeckObj[] = [];
 		byDistance.forEach(deck => {
-			const cardData = deck.cards.map(c => {
+			const cards = deck.cards.map(c => {
 				return { card: this.props.cardData.fromDbf(c[0]), count: c[1] };
 			});
+			// temporary hotfix to hide invalid decks
+			if (cards.some(card => !card.card.collectible)) {
+				return;
+			}
 			decks.push({
 				archetypeId: deck.deck.archetype_id,
-				cards: cardData,
+				cards,
 				deckId: deck.deck["deck_id"],
 				duration: +deck.deck["avg_game_length_seconds"],
 				numGames: +deck.deck["total_games"],
@@ -73,14 +77,14 @@ export default class SimilarDecksList extends React.Component<Props> {
 			});
 		});
 
-		const cards: CardObj[] = [];
+		const baseCards: CardObj[] = [];
 		dbfIds.forEach(dbfId => {
 			const card = this.props.cardData.fromDbf(dbfId);
-			const existing = cards.find(c => c.card.dbfId === +dbfId);
+			const existing = baseCards.find(c => c.card.dbfId === +dbfId);
 			if (existing) {
 				existing.count += 1;
 			} else {
-				cards.push({ card, count: 1 });
+				baseCards.push({ card, count: 1 });
 			}
 		});
 
@@ -95,7 +99,7 @@ export default class SimilarDecksList extends React.Component<Props> {
 					decks={decks}
 					pageSize={10}
 					hideTopPager
-					compareWith={cards}
+					compareWith={baseCards}
 					collection={this.props.collection}
 					ads={[{ index: 3, ids: ["dd-d-7", "dd-d-8"] }]}
 				/>
