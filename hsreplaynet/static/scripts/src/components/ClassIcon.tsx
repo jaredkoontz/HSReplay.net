@@ -13,7 +13,7 @@ export interface ClassIconProps {
 
 export default class ClassIcon extends React.Component<ClassIconProps> {
 	public render(): React.ReactNode {
-		let fileName = "mode-icons/mode_ai.png";
+		let fileName = "class-icons/neutral.png";
 
 		const cardClass = getCardClass(this.props.cardClass);
 		const className = getCardClassName(cardClass);
