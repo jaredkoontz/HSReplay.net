@@ -6,7 +6,7 @@ import CardData from "../CardData";
 import AdContainer from "../components/ads/AdContainer";
 import AdUnit from "../components/ads/AdUnit";
 import CardImage from "../components/CardImage";
-import ClassFilter, { FilterOption } from "../components/ClassFilter";
+import { FilterOption } from "../components/ClassFilter";
 import DataInjector from "../components/DataInjector";
 import Feature from "../components/Feature";
 import InfoboxFilter from "../components/InfoboxFilter";
@@ -20,35 +20,29 @@ import PrettyRankRange from "../components/text/PrettyRankRange";
 import PrettyTimeRange from "../components/text/PrettyTimeRange";
 import DataManager from "../DataManager";
 import { RankRange, TimeRange } from "../filters";
-import {
-	cardSorting,
-	cleanText,
-	getSetName,
-	image,
-	isArenaOnlyCard,
-	isCollectibleCard,
-	isPlayableCard,
-	isWildSet,
-	slangToCardId,
-	toTitleCase,
-} from "../helpers";
+import { cardSorting, image, isWildSet } from "../helpers";
 import {
 	FragmentChildProps,
 	LoadingStatus,
 	SortDirection,
 } from "../interfaces";
 import UserData from "../UserData";
-
-interface CardFilters {
-	cost: any;
-	format: any;
-	mechanics: any;
-	playerClass: any;
-	race: any;
-	rarity: any;
-	set: any;
-	type: any;
-}
+import {
+	ClassFilter,
+	CostFilter,
+	MechanicsFilter,
+	RarityFilter,
+	SetFilter,
+	TextFilter,
+	TribeFilter,
+	TypeFilter,
+} from "../components/cards/filters";
+import CardFilterManager, {
+	CardFilterFunction,
+} from "../components/cards/CardFilterManager";
+import { CardData as HearthstoneJSONCardData } from "hearthstonejson-client";
+import CardFilter from "../components/cards/CardFilter";
+import memoize from "memoize-one";
 
 interface Props extends FragmentChildProps, InjectedTranslateProps {
 	cardData: CardData;
@@ -72,22 +66,16 @@ interface Props extends FragmentChildProps, InjectedTranslateProps {
 
 	cost?: string[];
 	setCost?: (cost: string[]) => void;
-	toggleCost?: (cost: string) => void;
 	rarity?: string[];
 	setRarity?: (rarity: string[]) => void;
-	toggleRarity?: (rarity: string) => void;
 	set?: string[];
 	setSet?: (set: string[]) => void;
-	toggleSet?: (set: string) => void;
 	type?: string[];
 	setType?: (type: string[]) => void;
-	toggleType?: (type: string) => void;
-	race?: string[];
-	setRace?: (races: string[]) => void;
-	toggleRace?: (race: string) => void;
+	tribe?: string[];
+	setTribe?: (tribes: string[]) => void;
 	mechanics?: string[];
 	setMechanics?: (mechanics: string[]) => void;
-	toggleMechanics?: (mechanic: string) => void;
 	uncollectible?: string;
 	setUncollectible?: (uncollectible: string) => void;
 
@@ -99,11 +87,13 @@ interface Props extends FragmentChildProps, InjectedTranslateProps {
 	setDisplay?: (display: string) => void;
 }
 
+interface SparseFilterDict {
+	[dbfId: number]: number;
+}
+
 interface State {
-	cards: any[];
-	filteredCards: any[];
-	filterCounts: CardFilters;
-	hasStatisticsData: boolean;
+	filteredCards: number[] | null;
+	sparseFilterDicts: [SparseFilterDict, SparseFilterDict] | null;
 	numCards: number;
 	showFilters: boolean;
 }
@@ -114,119 +104,19 @@ const PLACEHOLDER_WEAPON = image("loading_weapon.png");
 const PLACEHOLDER_HERO = image("loading_hero.png");
 
 class Cards extends React.Component<Props, State> {
-	static readonly FILTERS = {
-		cost: [0, 1, 2, 3, 4, 5, 6, 7],
-		format: ["standard"],
-		mechanics: [
-			"DEATHRATTLE",
-			"TAUNT",
-			"BATTLECRY",
-			"CHARGE",
-			"DIVINE_SHIELD",
-			"WINDFURY",
-			"CHOOSE_ONE",
-			"INSPIRE",
-			"JADE_GOLEM",
-			"COMBO",
-			"FREEZE",
-			"STEALTH",
-			"OVERLOAD",
-			"POISONOUS",
-			"DISCOVER",
-			"SILENCE",
-			"RITUAL",
-			"ADAPT",
-			"QUEST",
-			"LIFESTEAL",
-			"SECRET",
-			"ECHO",
-			"RUSH",
-			"MODULAR",
-		].sort(),
-		playerClass: [
-			"DRUID",
-			"HUNTER",
-			"MAGE",
-			"PALADIN",
-			"PRIEST",
-			"ROGUE",
-			"SHAMAN",
-			"WARLOCK",
-			"WARRIOR",
-			"NEUTRAL",
-		],
-		race: [
-			"BEAST",
-			"DEMON",
-			"DRAGON",
-			"ELEMENTAL",
-			"MECHANICAL",
-			"MURLOC",
-			"PIRATE",
-			"TOTEM",
-		],
-		rarity: ["FREE", "COMMON", "RARE", "EPIC", "LEGENDARY"],
-		set: [
-			"CORE",
-			"EXPERT1",
-			"BOOMSDAY",
-			"GILNEAS",
-			"LOOTAPALOOZA",
-			"ICECROWN",
-			"UNGORO",
-			"GANGS",
-			"KARA",
-			"OG",
-			"LOE",
-			"TGT",
-			"BRM",
-			"GVG",
-			"NAXX",
-			"HOF",
-			"TAVERNS_OF_TIME",
-		],
-		type: ["HERO", "MINION", "SPELL", "WEAPON"],
-	};
-	readonly multiClassGroups = {
-		GRIMY_GOONS: ["HUNTER", "PALADIN", "WARRIOR"],
-		JADE_LOTUS: ["DRUID", "ROGUE", "SHAMAN"],
-		KABAL: ["MAGE", "PRIEST", "WARLOCK"],
-	};
-
-	private readonly allowedValues = {
-		gameType: ["RANKED_STANDARD", "RANKED_WILD", "ARENA"],
-		rankRange: [],
-		region: [],
-		timeRange: [TimeRange.LAST_14_DAYS],
-	};
-
-	private readonly allowedValuesPremium = {
-		gameType: ["RANKED_STANDARD", "RANKED_WILD", "ARENA"],
-		rankRange: [RankRange.LEGEND_THROUGH_TEN],
-		region: [],
-		timeRange: [
-			TimeRange.LAST_1_DAY,
-			TimeRange.LAST_3_DAYS,
-			TimeRange.LAST_7_DAYS,
-			TimeRange.LAST_14_DAYS,
-		],
-	};
-
-	showMoreButton: HTMLDivElement;
+	showMoreButton: HTMLDivElement | null = null;
 
 	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
-			cards: null,
-			filterCounts: null,
-			filteredCards: [],
-			hasStatisticsData: false,
+			filteredCards: null,
+			sparseFilterDicts: null,
 			numCards: 24,
 			showFilters: false,
 		};
 	}
 
-	onSearchScroll(): void {
+	private onSearchScroll = (): void => {
 		if (!this.showMoreButton) {
 			return;
 		}
@@ -237,20 +127,18 @@ class Cards extends React.Component<Props, State> {
 		if (rect.top < window.innerHeight) {
 			this.setState({ numCards: this.state.numCards + 12 });
 		}
-	}
-
-	private scrollCb;
+	};
 
 	public componentDidMount(): void {
-		this.scrollCb = () => this.onSearchScroll();
-		document.addEventListener("scroll", this.scrollCb);
+		document.addEventListener("scroll", this.onSearchScroll);
 		if (this.props.display === "gallery") {
 			this.loadPlaceholders();
 		}
+		this.loadSparseFilterDicts();
 	}
 
 	public componentWillUnmount(): void {
-		document.removeEventListener("scroll", this.scrollCb);
+		document.removeEventListener("scroll", this.onSearchScroll);
 	}
 
 	public componentDidUpdate(
@@ -275,14 +163,6 @@ class Cards extends React.Component<Props, State> {
 			})
 			.concat(["reset"]);
 
-		if (
-			!_.isEqual(_.omit(this.props, ignore), _.omit(prevProps, ignore)) ||
-			!this.state.filteredCards ||
-			!_.eq(prevState.cards, this.state.cards)
-		) {
-			this.updateFilteredCards();
-		}
-
 		if (UserData.hasFeature("current-arena-event-filter")) {
 			if (
 				prevProps.timeRange !== "ARENA_EVENT" &&
@@ -304,382 +184,45 @@ class Cards extends React.Component<Props, State> {
 				this.props.reset("timeRange");
 			}
 		}
+		this.loadSparseFilterDicts();
 	}
 
-	updateFilteredCards(): void {
-		if (!this.state.cards) {
+	loadSparseFilterDicts(): void {
+		if (
+			!this.isStatsView() ||
+			this.props.showSparse ||
+			this.state.sparseFilterDicts
+		) {
 			return;
 		}
-
-		const filteredByProp = {};
-		const filterKeys = Object.keys(Cards.FILTERS);
-		filterKeys.forEach(key => (filteredByProp[key] = []));
-		const filteredCards = [];
-
-		const { display, uncollectible } = this.props;
-		const showUncollectible =
-			display === "gallery" && uncollectible === "show";
-
-		const viableUncollectibleCard = card =>
-			!card.collectible &&
-			Cards.FILTERS.set.indexOf(card.set) !== -1 &&
-			card.type !== "HERO" &&
-			isPlayableCard(card);
-
-		(!this.props.showSparse
-			? this.getSparseFilterDicts()
-			: Promise.resolve([])
-		).then(sparseDict => {
-			this.state.cards.forEach(card => {
-				if (isArenaOnlyCard(card)) {
-					if (
-						this.isStatsView() &&
-						(showUncollectible || this.props.gameType !== "ARENA")
-					) {
-						return;
-					}
-				} else if (
-					(showUncollectible && !viableUncollectibleCard(card)) ||
-					(!showUncollectible && !isCollectibleCard(card))
-				) {
-					return;
-				}
-				filterKeys.forEach(x => {
-					if (!this.filter(card, x, sparseDict)) {
-						filteredByProp[x].push(card);
-					}
+		const params = this.getParams();
+		const promises = [
+			DataManager.get("card_played_popularity_report", params),
+			DataManager.get("card_included_popularity_report", params),
+		];
+		Promise.all(promises).then(
+			data => {
+				const sparseDict: [SparseFilterDict, SparseFilterDict] = [
+					{},
+					{},
+				];
+				const playedData = data[0].series.data[this.props.playerClass];
+				playedData.forEach(card => {
+					sparseDict[0][card.dbf_id] = card.popularity;
 				});
-				if (!this.filter(card, undefined, sparseDict)) {
-					filteredCards.push(card);
-				}
-			});
-
-			this.setState({
-				filteredCards,
-				filterCounts: this.filterCounts(filteredByProp as CardFilters),
-				hasStatisticsData: true,
-			});
-		});
-	}
-
-	getSparseFilterDicts(): Promise<any> {
-		// build dictionaries from the tabledata to optimize lookup time when filtering
-		if (this.isStatsView()) {
-			const params = this.getParams();
-			const promises = [
-				DataManager.get("card_played_popularity_report", params),
-				DataManager.get("card_included_popularity_report", params),
-			];
-			return Promise.all(promises).then(
-				(data: any[]) => {
-					const sparseDict = [];
-					sparseDict[0] = {};
-					const playedData =
-						data[0].series.data[this.props.playerClass];
-					playedData.forEach(card => {
-						sparseDict[0][card.dbf_id] = card.popularity;
-					});
-					sparseDict[1] = {};
-					const includedData =
-						data[1].series.data[this.props.playerClass];
-					includedData.forEach(card => {
-						sparseDict[1][card.dbf_id] = card.popularity;
-					});
-					return sparseDict;
-				},
-				status => {
-					return [];
-				},
-			);
-		} else {
-			return Promise.resolve([]);
-		}
-	}
-
-	static getDerivedStateFromProps(
-		nextProps: Readonly<Props>,
-		prevState: State,
-	): Partial<State> | null {
-		if (!prevState.cards && nextProps.cardData) {
-			const cards = [];
-			const { set, type } = Cards.FILTERS;
-			nextProps.cardData.all().forEach(card => {
-				if (
-					card.name &&
-					set.indexOf(card.set) !== -1 &&
-					type.indexOf(card.type) !== -1
-				) {
-					cards.push(card);
-				}
-			});
-			cards.sort(cardSorting);
-			return { cards };
-		}
-		return null;
+				const includedData =
+					data[1].series.data[this.props.playerClass];
+				includedData.forEach(card => {
+					sparseDict[1][card.dbf_id] = card.popularity;
+				});
+				this.setState({ sparseFilterDicts: sparseDict });
+			},
+			status => {},
+		);
 	}
 
 	public render(): React.ReactNode {
 		const { t } = this.props;
-		const isStatsView = this.isStatsView();
-		const content = [];
-
-		let showMoreButton = null;
-
-		if (this.state.filteredCards.length > this.state.numCards) {
-			showMoreButton = (
-				<div
-					id="more-button-wrapper"
-					ref={ref => (this.showMoreButton = ref)}
-				>
-					<button
-						type="button"
-						className="btn btn-default"
-						onClick={() =>
-							this.setState({
-								numCards: this.state.numCards + 20,
-							})
-						}
-					>
-						Show more…
-					</button>
-				</div>
-			);
-		}
-
-		if (isStatsView) {
-			const dataKey =
-				this.props.playerClass === "NEUTRAL"
-					? "ALL"
-					: this.props.playerClass;
-			let topInfoMessage = null;
-			let bottomInfomessage = null;
-			const warnFields = [
-				"includedPopularity",
-				"timesPlayed",
-				"includedWinrate",
-				"playedWinrate",
-			];
-			if (!this.props.showSparse) {
-				const warning = (
-					<div className="info-row text-center">
-						<span className="hidden-xs hidden-sm">
-							{t(
-								"Some cards were hidden due to a low amount of data.",
-							)}&nbsp;&nbsp;
-						</span>
-						<a
-							href="#"
-							className="btn btn-primary"
-							onClick={event => {
-								event.preventDefault();
-								this.props.setShowSparse(true);
-							}}
-						>
-							{t("Show sparse data")}
-						</a>
-					</div>
-				);
-				if (
-					this.props.sortDirection === "ascending" &&
-					warnFields.indexOf(this.props.sortBy) !== -1
-				) {
-					topInfoMessage = warning;
-				} else {
-					bottomInfomessage = warning;
-				}
-			}
-			content.push(
-				<div className="table-wrapper">
-					<DataInjector
-						query={[
-							{
-								key: "played",
-								url: "card_played_popularity_report",
-								params: this.getParams(),
-							},
-							{
-								key: "included",
-								url: "card_included_popularity_report",
-								params: this.getParams(),
-							},
-						]}
-						extract={{
-							played: (played, props) => {
-								if (!props.included) {
-									return null;
-								}
-								const data = {};
-								const set = (
-									dbfId: number,
-									key: string,
-									value: number,
-								) => {
-									if (!data[dbfId]) {
-										data[dbfId] = { dbf_id: dbfId };
-									}
-									data[dbfId][key] = value;
-								};
-								played.series.data[dataKey].forEach(
-									playedData => {
-										const {
-											dbf_id,
-											popularity,
-											winrate,
-											total,
-										} = playedData;
-										set(
-											dbf_id,
-											"played_popularity",
-											+popularity,
-										);
-										set(
-											dbf_id,
-											"winrate_when_played",
-											winrate,
-										);
-										set(dbf_id, "times_played", total);
-									},
-								);
-								props.included.series.data[dataKey].forEach(
-									includedData => {
-										const {
-											count,
-											dbf_id,
-											decks,
-											popularity,
-											winrate,
-										} = includedData;
-										set(dbf_id, "included_count", count);
-										set(dbf_id, "included_decks", decks);
-										set(
-											dbf_id,
-											"included_popularity",
-											popularity,
-										);
-										set(
-											dbf_id,
-											"included_winrate",
-											winrate,
-										);
-									},
-								);
-								return {
-									data: Object.keys(data).map(
-										key => data[key],
-									),
-								};
-							},
-						}}
-					>
-						<CardTable
-							cards={(this.state.filteredCards || []).map(
-								card => ({ card, count: 1 }),
-							)}
-							columns={[
-								"includedPopularity",
-								"includedCount",
-								"includedWinrate",
-								"timesPlayedTotal",
-								"playedPopularity",
-								"playedWinrate",
-							]}
-							sortBy={this.props.sortBy}
-							sortDirection={this.props.sortDirection}
-							onSortChanged={(a, b) => this.onSortChanged(a, b)}
-							numCards={this.state.numCards}
-							topInfoRow={topInfoMessage}
-							bottomInfoRow={bottomInfomessage}
-							adInterval={12}
-							ads={_.range(5, 100, 2).map(x => {
-								const ads = [`cl-d-${x}`, `cl-d-${x + 1}`];
-								const showAds = ads.some(ad =>
-									AdHelper.isAdEnabled(ad),
-								);
-								return showAds ? (
-									<>
-										<AdContainer key={`ads-${x}-${x + 1}`}>
-											<AdUnit id={ads[0]} size="728x90" />
-											<AdUnit id={ads[1]} size="728x90" />
-										</AdContainer>
-										<AdUnit
-											id={`cl-m-${Math.floor(x / 2)}`}
-											size="320x50"
-											mobile
-										/>
-									</>
-								) : null;
-							})}
-						/>
-					</DataInjector>
-				</div>,
-			);
-			if (showMoreButton && this.state.hasStatisticsData) {
-				content.push(showMoreButton);
-			}
-		} else {
-			const tiles = [];
-			if (this.state.cards && this.state.cards.length) {
-				this.state.filteredCards.forEach(card => {
-					if (tiles.length < this.state.numCards) {
-						tiles.push(
-							<CardImage
-								card={card}
-								placeholder={this.getCardPlaceholder(card)}
-								key={card.id}
-							/>,
-						);
-					}
-				});
-				content.push(<div id="card-list">{tiles}</div>);
-				if (showMoreButton) {
-					content.push(showMoreButton);
-				}
-			} else {
-				content.push(
-					<TableLoading
-						cardData={this.props.cardData}
-						status={LoadingStatus.LOADING}
-					/>,
-				);
-			}
-		}
-
-		let search = null;
-
-		const filterClassNames = ["infobox full-xs"];
-		const contentClassNames = ["card-list-wrapper"];
-		if (!this.state.showFilters) {
-			filterClassNames.push("hidden-xs");
-			let clear = null;
-			if (this.props.text) {
-				clear = (
-					<span
-						className="glyphicon glyphicon-remove form-control-feedback"
-						onClick={() => this.props.setText("", false)}
-					/>
-				);
-			}
-			search = (
-				<div className="search-wrapper">
-					<div className="form-group has-feedback">
-						<input
-							autoFocus
-							placeholder={t("Search: Fireball, Magma Rager…")}
-							type="search"
-							className="form-control"
-							value={this.props.text}
-							onChange={x =>
-								this.props.setText(x.target["value"])
-							}
-						/>
-						<span className="glyphicon glyphicon-search form-control-feedback" />
-						{clear}
-					</div>
-				</div>
-			);
-		} else {
-			contentClassNames.push("hidden-xs");
-		}
 
 		const backButton = (
 			<button
@@ -691,105 +234,93 @@ class Cards extends React.Component<Props, State> {
 			</button>
 		);
 
-		return (
-			<div className="cards">
-				<aside
-					className={filterClassNames.join(" ")}
-					id="cards-infobox"
-				>
-					{backButton}
-					{this.buildFilters()}
-					{backButton}
-					<AdUnit id="cl-d-3" size="300x250" />
-					<AdUnit id="cl-d-4" size="300x250" />
-				</aside>
-				<main className={contentClassNames.join(" ")}>
-					<AdContainer>
-						<AdUnit id="cl-d-1" size="728x90" />
-						<AdUnit id="cl-d-2" size="728x90" />
-					</AdContainer>
-					<AdUnit id="cl-m-1" size="320x50" mobile />
-					<button
-						className="btn btn-default visible-xs"
-						id="filter-button"
-						type="button"
-						onClick={() =>
-							this.setState({
-								showFilters: !this.state.showFilters,
-							})
-						}
-					>
-						<span className="glyphicon glyphicon-filter" />
-						{t("Filters")}
-					</button>
-					{search}
-					{content}
-				</main>
-			</div>
-		);
-	}
+		const filterClassNames = ["infobox full-xs"];
+		const contentClassNames = ["card-list-wrapper"];
 
-	getCardPlaceholder(card: any): string {
-		switch (card.type) {
-			case "WEAPON":
-				return PLACEHOLDER_WEAPON;
-			case "SPELL":
-				return PLACEHOLDER_SPELL;
-			case "HERO":
-				return PLACEHOLDER_HERO;
-			default:
-				return PLACEHOLDER_MINION;
+		if (this.state.showFilters) {
+			contentClassNames.push("hidden-xs");
+		} else {
+			filterClassNames.push("hidden-xs");
 		}
-	}
 
-	filterCounts(cardFilters: CardFilters): CardFilters {
-		const filters = {
-			cost: {},
-			format: {},
-			mechanics: {},
-			playerClass: {},
-			race: {},
-			rarity: {},
-			set: {},
-			type: {},
-		};
-
-		Object.keys(filters).forEach(key => {
-			cardFilters[key].forEach(card => {
-				if (key === "mechanics") {
-					card.mechanics &&
-						card.mechanics.forEach(m => {
-							filters.mechanics[m] =
-								(filters.mechanics[m] || 0) + 1;
-						});
-				} else if (key === "format") {
-					if (!isWildSet(card.set)) {
-						filters.format["standard"] =
-							(filters.format["standard"] || 0) + 1;
-					}
-				} else if (key === "cost") {
-					if (card.cost !== undefined) {
-						const cost = "" + Math.min(card.cost, 7);
-						filters.cost[cost] = (filters.cost[cost] || 0) + 1;
-					}
-				} else {
-					const prop = card[key];
-					if (prop !== undefined) {
-						filters[key]["" + prop] =
-							(filters[key]["" + prop] || 0) + 1;
-					}
+		return (
+			<CardFilterManager
+				cardData={this.props.cardData}
+				onFilter={dbfs =>
+					this.setState({
+						filteredCards: dbfs /*dbfs
+							.map(dbf => this.props.cardData.fromDbf(dbf))
+							.filter(card => this.filter(card))*/,
+					})
 				}
-			});
-		});
-
-		return filters;
+				collectible={!this.props.uncollectible}
+			>
+				<div className="cards">
+					<aside
+						className={filterClassNames.join(" ")}
+						id="cards-infobox"
+					>
+						{backButton}
+						{this.renderFilters()}
+						{backButton}
+						<AdUnit id="cl-d-3" size="300x250" />
+						<AdUnit id="cl-d-4" size="300x250" />
+					</aside>
+					<main className={contentClassNames.join(" ")}>
+						<AdContainer>
+							<AdUnit id="cl-d-1" size="728x90" />
+							<AdUnit id="cl-d-2" size="728x90" />
+						</AdContainer>
+						<AdUnit id="cl-m-1" size="320x50" mobile />
+						<button
+							className="btn btn-default visible-xs"
+							id="filter-button"
+							type="button"
+							onClick={() =>
+								this.setState({
+									showFilters: !this.state.showFilters,
+								})
+							}
+						>
+							<span className="glyphicon glyphicon-filter" />
+							{t("Filters")}
+						</button>
+						{this.renderSearch()}
+						{this.renderContent()}
+					</main>
+				</div>
+			</CardFilterManager>
+		);
 	}
 
 	resetFilters(): void {
 		this.props.reset();
 	}
 
-	buildFilters(): JSX.Element[] {
+	private filterGameType = memoize(
+		(gameType: string): CardFilterFunction | null => {
+			if (gameType === "RANKED_WILD") {
+				return null;
+			}
+			return (card: HearthstoneJSONCardData) => !isWildSet(card.set);
+		},
+	);
+
+	private filterClass = memoize(
+		(exclude: string): CardFilterFunction | null => {
+			switch (exclude) {
+				case "class":
+					return (card: HearthstoneJSONCardData) =>
+						card.cardClass === "NEUTRAL";
+				case "neutral":
+					return (card: HearthstoneJSONCardData) =>
+						card.cardClass !== "NEUTRAL";
+			}
+			return null;
+		},
+	);
+
+	renderFilters(): React.ReactNode {
 		const showReset = this.props.canBeReset;
 		const isStatsView = this.isStatsView();
 		const { t } = this.props;
@@ -818,6 +349,9 @@ class Cards extends React.Component<Props, State> {
 						{t("Ranked Wild")}
 					</InfoboxFilter>
 					<InfoboxFilter value="ARENA">{t("Arena")}</InfoboxFilter>
+					<CardFilter
+						filter={this.filterGameType(this.props.gameType)}
+					/>
 				</InfoboxFilterGroup>
 			</section>
 		);
@@ -838,33 +372,45 @@ class Cards extends React.Component<Props, State> {
 			</InfoboxFilterGroup>,
 		);
 
+		const classFilter = (
+			<Fragment key="class-filter">
+				<ClassFilter
+					title={isStatsView ? t("Deck Class") : undefined}
+					filters="All"
+					value={
+						this.props.playerClass !== "ALL"
+							? // neutral cards will be filtered out by the exclude filter
+							  [this.props.playerClass as FilterOption]
+							: []
+					}
+					onChange={value =>
+						value.length > 0
+							? this.props.setPlayerClass(value[0])
+							: "ALL"
+					}
+					multiSelect={false}
+					includeNeutral
+				/>
+				<InfoboxFilterGroup
+					deselectable
+					selectedValue={this.props.exclude}
+					onClick={value => this.props.setExclude(value)}
+				>
+					<InfoboxFilter value="neutral">
+						{t("Class cards only")}
+					</InfoboxFilter>
+					<InfoboxFilter value="class">
+						{t("Neutral cards only")}
+					</InfoboxFilter>
+					<CardFilter filter={this.filterClass(this.props.exclude)} />
+				</InfoboxFilterGroup>
+			</Fragment>
+		);
+
 		if (isStatsView) {
 			filters.push(
 				<Fragment key="class">
-					<h2>{t("Deck Class")}</h2>
-					<ClassFilter
-						filters="All"
-						hideAll
-						minimal
-						selectedClasses={[
-							this.props.playerClass as FilterOption,
-						]}
-						selectionChanged={selected =>
-							this.props.setPlayerClass(selected[0])
-						}
-					/>
-					<InfoboxFilterGroup
-						deselectable
-						selectedValue={this.props.exclude}
-						onClick={value => this.props.setExclude(value)}
-					>
-						<InfoboxFilter value="neutral">
-							{t("Class cards only")}
-						</InfoboxFilter>
-						<InfoboxFilter value="class">
-							{t("Neutral cards only")}
-						</InfoboxFilter>
-					</InfoboxFilterGroup>
+					{classFilter}
 					{modeFilter}
 					<section>
 						<InfoboxFilterGroup
@@ -982,22 +528,7 @@ class Cards extends React.Component<Props, State> {
 				</Fragment>,
 			);
 		} else {
-			filters.push(
-				<Fragment key="class">
-					<h2>{t("Class")}</h2>
-					<ClassFilter
-						filters="AllNeutral"
-						hideAll
-						minimal
-						selectedClasses={[
-							this.props.playerClass as FilterOption,
-						]}
-						selectionChanged={selected =>
-							this.props.setPlayerClass(selected[0])
-						}
-					/>
-				</Fragment>,
-			);
+			filters.push(classFilter);
 		}
 
 		if (isStatsView) {
@@ -1028,89 +559,32 @@ class Cards extends React.Component<Props, State> {
 		}
 
 		filters.push(
-			<InfoboxFilterGroup
-				key="costs"
-				header={t("GLOBAL_COST")}
-				deselectable
-				className="filter-list-cost"
-				selectedValue={this.props.cost}
-				onClick={(newValue, cost) => this.props.toggleCost(cost)}
-			>
-				{this.buildCostFilters(
-					this.state.filterCounts && this.state.filterCounts.cost,
-				)}
-			</InfoboxFilterGroup>,
-			<InfoboxFilterGroup
-				key="rarities"
-				header={t("Rarity")}
-				deselectable
-				selectedValue={this.props.rarity}
-				onClick={(newValue, rarity) => this.props.toggleRarity(rarity)}
-			>
-				{this.buildFilterItems(
-					"rarity",
-					this.state.filterCounts && this.state.filterCounts.rarity,
-				)}
-			</InfoboxFilterGroup>,
-			<InfoboxFilterGroup
-				key="sets"
-				header={t("Set")}
-				collapsed
-				deselectable
-				selectedValue={this.props.set}
-				onClick={(newValue, set) => this.props.toggleSet(set)}
-			>
-				{this.buildFilterItems(
-					"set",
-					this.state.filterCounts && this.state.filterCounts.set,
-				)}
-				{this.buildFormatFilter(
-					this.state.filterCounts &&
-						this.state.filterCounts.format["standard"],
-				)}
-			</InfoboxFilterGroup>,
-			<InfoboxFilterGroup
-				key="types"
-				header={t("Type")}
-				collapsed
-				deselectable
-				selectedValue={this.props.type}
-				onClick={(newValue, type) => this.props.toggleType(type)}
-			>
-				{this.buildFilterItems(
-					"type",
-					this.state.filterCounts && this.state.filterCounts.type,
-				)}
-			</InfoboxFilterGroup>,
-			<InfoboxFilterGroup
-				key="tribes"
-				header={t("Tribe")}
-				collapsed
-				deselectable
-				selectedValue={this.props.race}
-				onClick={(newValue, race) => this.props.toggleRace(race)}
-			>
-				{this.buildFilterItems(
-					"race",
-					this.state.filterCounts && this.state.filterCounts.race,
-				)}
-			</InfoboxFilterGroup>,
-			<InfoboxFilterGroup
-				key="mechanics"
-				header={t("Mechanics")}
-				collapsed
-				deselectable
-				selectedValue={this.props.mechanics}
-				onClick={(newValue, mechanic) =>
-					this.props.toggleMechanics(mechanic)
-				}
-			>
-				{this.buildFilterItems(
-					"mechanics",
-					this.state.filterCounts &&
-						this.state.filterCounts.mechanics,
-				)}
-			</InfoboxFilterGroup>,
+			<Fragment key="card-filter">
+				<CostFilter
+					onChange={value => this.props.setCost(value)}
+					value={this.props.cost}
+				/>
+				<RarityFilter
+					value={this.props.rarity}
+					onChange={value => this.props.setRarity(value)}
+				/>
+				<TypeFilter
+					value={this.props.type}
+					onChange={value => this.props.setType(value)}
+				/>
+				<SetFilter
+					onChange={value => this.props.setSet(value)}
+					value={this.props.set}
+				/>
+				<TribeFilter
+					value={this.props.tribe}
+					onChange={value => this.props.setTribe(value)}
+				/>
+				<MechanicsFilter
+					value={this.props.mechanics}
+					onChange={value => this.props.setMechanics(value)}
+				/>
+			</Fragment>,
 		);
 
 		if (this.props.display === "gallery") {
@@ -1132,200 +606,298 @@ class Cards extends React.Component<Props, State> {
 		return filters;
 	}
 
-	buildFilterItems(key: string, counts: any): JSX.Element[] {
-		if (!counts) {
+	renderSearch(): React.ReactNode {
+		if (this.state.showFilters) {
 			return null;
 		}
-		const getText = (item: string) => {
-			if (key === "set") {
-				return getSetName(item.toLowerCase(), this.props.t);
-			} else if (key === "mechanics") {
-				return item
-					.split("_")
-					.map(x => toTitleCase(x))
-					.join(" ");
-			} else {
-				return toTitleCase(item);
-			}
-		};
-
-		return Cards.FILTERS[key].map(
-			item =>
-				getText("" + item) ? (
-					<InfoboxFilter value={item} disabled={!counts[item]}>
-						{getText("" + item)}
-						<span className="infobox-value">
-							{counts[item] || 0}
-						</span>
-					</InfoboxFilter>
-				) : null,
-		);
-	}
-
-	buildCostFilters(counts: any): JSX.Element[] {
 		return (
-			counts &&
-			Cards.FILTERS["cost"].map(item => (
-				<InfoboxFilter
-					value={"" + item}
-					disabled={!counts["" + item]}
-					className="mana-crystal"
-				>
-					<img
-						src={image("mana_crystal.png")}
-						height={28}
-						aria-hidden="true"
-					/>
-					<div>
-						{+item < 7 ? item : "7+"}
-						<span className="sr-only">{this.props.t("Mana")}</span>
-					</div>
-				</InfoboxFilter>
-			))
+			<TextFilter
+				value={this.props.text}
+				onChange={value => this.props.setText(value)}
+			/>
 		);
 	}
 
-	buildFormatFilter(count: number) {
-		const selected = this.props.format === "standard";
-		const classNames = ["selectable"];
-		if (!count) {
-			classNames.push("disabled");
-		}
-		if (selected) {
-			classNames.push("selected");
-		}
-
-		return (
-			<li
-				className={classNames.join(" ")}
-				onClick={() =>
-					count && this.props.setFormat(selected ? null : "standard")
-				}
-			>
-				{this.props.t("Standard only")}
-				<span className="infobox-value">{count || 0}</span>
-			</li>
-		);
-	}
-
-	filter(card: any, excludeFilter?: string, sparseDicts?: any[]): boolean {
-		if (this.props.text) {
-			const cleanParts = this.props.text
-				.split(",")
-				.map(x => cleanText(x).trim())
-				.filter(x => x.length > 0);
-			const slangs = cleanParts
-				.map(x => slangToCardId(x))
-				.filter(x => x !== null);
-
-			if (
-				slangs.length === 0 ||
-				slangs.every(slang => card.id !== slang)
-			) {
-				const cleanCardName = cleanText(card.name);
-				if (
-					cleanParts.every(
-						part =>
-							cleanCardName.indexOf(part) === -1 &&
-							(part[0] !== "^" ||
-								!cleanCardName.startsWith(part.substr(1))),
-					)
-				) {
-					const cleanCardtext = card.text && cleanText(card.text);
-					if (
-						!card.text ||
-						cleanParts.every(
-							part => cleanCardtext.indexOf(part) === -1,
-						)
-					) {
-						return true;
-					}
-				}
-			}
-		}
-
+	renderContent(): React.ReactNode {
+		const { t } = this.props;
 		const isStatsView = this.isStatsView();
 
-		if (isStatsView) {
-			const exclude = this.props.exclude;
-			if (exclude === "neutral" && card.cardClass === "NEUTRAL") {
-				return true;
-			} else if (exclude === "class" && card.cardClass !== "NEUTRAL") {
-				return true;
-			}
-			const playerClass = this.props.playerClass;
-			if (
-				playerClass !== "ALL" &&
-				card.multiClassGroup &&
-				this.multiClassGroups[card.multiClassGroup].indexOf(
-					playerClass,
-				) === -1
-			) {
-				return true;
-			}
-			if (
-				this.props.gameType === "RANKED_STANDARD" &&
-				isWildSet(card.set)
-			) {
-				return true;
-			}
-			if (
-				playerClass !== "ALL" &&
-				playerClass !== card.cardClass &&
-				card.cardClass !== "NEUTRAL"
-			) {
-				return true;
-			}
-		}
-
-		if (isStatsView && sparseDicts.length) {
-			const included = sparseDicts[0][card.dbfId];
-			const played = sparseDicts[1][card.dbfId];
-			if (!included || !played || +included < 0.01 || +played < 0.01) {
-				return true;
-			}
-		}
-
-		let filter = false;
-
-		Object.keys(Cards.FILTERS).forEach(key => {
-			if (key === "playerClass") {
-				if (isStatsView) {
-					return;
-				} else if (this.props["playerClass"] === card["cardClass"]) {
-					return true;
-				}
-			} else if (key === excludeFilter) {
-				return;
-			}
-			const values = this.props[key];
-			if (!values.length) {
-				return;
-			}
-
-			const available = Cards.FILTERS[key].filter(
-				x => values.indexOf("" + x) !== -1,
+		if (!this.props.cardData || this.state.filteredCards === null) {
+			return (
+				<TableLoading
+					cardData={this.props.cardData}
+					status={LoadingStatus.LOADING}
+				/>
 			);
-			if (!filter && available.length) {
-				const cardValue = card[key];
-				if (key === "format") {
-					if (values.indexOf("standard") !== -1) {
-						filter = isWildSet(card.set);
-					}
-				} else if (cardValue === undefined) {
-					filter = true;
-				} else if (key === "mechanics") {
-					filter = available.every(
-						val => cardValue.indexOf(val) === -1,
-					);
-				} else if (key === "cost") {
-					filter = available.indexOf(Math.min(cardValue, 7)) === -1;
+		}
+
+		let showMoreButton = null;
+		if (
+			this.state.filteredCards &&
+			this.state.filteredCards.length > this.state.numCards
+		) {
+			showMoreButton = (
+				<div
+					id="more-button-wrapper"
+					ref={ref => (this.showMoreButton = ref)}
+				>
+					<button
+						type="button"
+						className="btn btn-default"
+						onClick={() =>
+							this.setState({
+								numCards: this.state.numCards + 20,
+							})
+						}
+					>
+						Show more…
+					</button>
+				</div>
+			);
+		}
+
+		if (isStatsView) {
+			const dataKey =
+				this.props.playerClass === "NEUTRAL"
+					? "ALL"
+					: this.props.playerClass;
+			let topInfoMessage = null;
+			let bottomInfomessage = null;
+			const warnFields = [
+				"includedPopularity",
+				"timesPlayed",
+				"includedWinrate",
+				"playedWinrate",
+			];
+			const { cards, hasSparse } = this.filterSparse(
+				this.state.filteredCards.map(dbfId =>
+					this.props.cardData.fromDbf(dbfId),
+				),
+			);
+
+			if (!this.props.showSparse && hasSparse) {
+				const warning = (
+					<div className="info-row text-center">
+						<span className="hidden-xs hidden-sm">
+							{t(
+								"Some cards were hidden due to a low amount of data.",
+							)}&nbsp;&nbsp;
+						</span>
+						<a
+							href="#"
+							className="btn btn-primary"
+							onClick={event => {
+								event.preventDefault();
+								this.props.setShowSparse(true);
+							}}
+						>
+							{t("Show sparse data")}
+						</a>
+					</div>
+				);
+				if (
+					this.props.sortDirection === "ascending" &&
+					warnFields.indexOf(this.props.sortBy) !== -1
+				) {
+					topInfoMessage = warning;
 				} else {
-					filter = available.indexOf(cardValue) === -1;
+					bottomInfomessage = warning;
 				}
 			}
+			return (
+				<>
+					<div className="table-wrapper">
+						<DataInjector
+							query={[
+								{
+									key: "played",
+									url: "card_played_popularity_report",
+									params: this.getParams(),
+								},
+								{
+									key: "included",
+									url: "card_included_popularity_report",
+									params: this.getParams(),
+								},
+							]}
+							extract={{
+								played: (played, props) => {
+									if (!props.included) {
+										return null;
+									}
+									const data = {};
+									const set = (
+										dbfId: number,
+										key: string,
+										value: number,
+									) => {
+										if (!data[dbfId]) {
+											data[dbfId] = { dbf_id: dbfId };
+										}
+										data[dbfId][key] = value;
+									};
+									played.series.data[dataKey].forEach(
+										playedData => {
+											const {
+												dbf_id,
+												popularity,
+												winrate,
+												total,
+											} = playedData;
+											set(
+												dbf_id,
+												"played_popularity",
+												+popularity,
+											);
+											set(
+												dbf_id,
+												"winrate_when_played",
+												winrate,
+											);
+											set(dbf_id, "times_played", total);
+										},
+									);
+									props.included.series.data[dataKey].forEach(
+										includedData => {
+											const {
+												count,
+												dbf_id,
+												decks,
+												popularity,
+												winrate,
+											} = includedData;
+											set(
+												dbf_id,
+												"included_count",
+												count,
+											);
+											set(
+												dbf_id,
+												"included_decks",
+												decks,
+											);
+											set(
+												dbf_id,
+												"included_popularity",
+												popularity,
+											);
+											set(
+												dbf_id,
+												"included_winrate",
+												winrate,
+											);
+										},
+									);
+									return {
+										data: Object.keys(data).map(
+											key => data[key],
+										),
+									};
+								},
+							}}
+						>
+							<CardTable
+								cards={cards.map(card => ({
+									card,
+									count: 1,
+								}))}
+								columns={[
+									"includedPopularity",
+									"includedCount",
+									"includedWinrate",
+									"timesPlayedTotal",
+									"playedPopularity",
+									"playedWinrate",
+								]}
+								sortBy={this.props.sortBy}
+								sortDirection={this.props.sortDirection}
+								onSortChanged={(a, b) =>
+									this.onSortChanged(a, b)
+								}
+								numCards={this.state.numCards}
+								topInfoRow={topInfoMessage}
+								bottomInfoRow={bottomInfomessage}
+								adInterval={12}
+								ads={_.range(5, 100, 2).map(x => {
+									const ads = [`cl-d-${x}`, `cl-d-${x + 1}`];
+									const showAds = ads.some(ad =>
+										AdHelper.isAdEnabled(ad),
+									);
+									return showAds ? (
+										<>
+											<AdContainer
+												key={`ads-${x}-${x + 1}`}
+											>
+												<AdUnit
+													id={ads[0]}
+													size="728x90"
+												/>
+												<AdUnit
+													id={ads[1]}
+													size="728x90"
+												/>
+											</AdContainer>
+											<AdUnit
+												id={`cl-m-${Math.floor(x / 2)}`}
+												size="320x50"
+												mobile
+											/>
+										</>
+									) : null;
+								})}
+							/>
+						</DataInjector>
+					</div>
+					{showMoreButton}
+				</>
+			);
+		} else {
+			const cards = this.state.filteredCards.map(dbfId =>
+				this.props.cardData.fromDbf(dbfId),
+			);
+			cards.sort(cardSorting);
+			const tiles = [];
+			cards.forEach(card => {
+				if (tiles.length < this.state.numCards) {
+					tiles.push(
+						<CardImage
+							card={card}
+							placeholder={this.getCardPlaceholder(card)}
+							key={card.id}
+						/>,
+					);
+				}
+			});
+			return (
+				<>
+					<div id="card-list">{tiles}</div>
+					{showMoreButton}
+				</>
+			);
+		}
+	}
+
+	filterSparse(
+		cards: HearthstoneJSONCardData[],
+	): { cards: HearthstoneJSONCardData[]; hasSparse: boolean } {
+		if (this.props.showSparse || !this.state.sparseFilterDicts) {
+			return { cards, hasSparse: false };
+		}
+
+		let hasSparse = false;
+		const [allIncluded, allPlayed] = this.state.sparseFilterDicts;
+
+		cards = cards.filter(card => {
+			const included = allIncluded[card.dbfId];
+			const played = allPlayed[card.dbfId];
+			if (!included || !played || +included < 0.01 || +played < 0.01) {
+				hasSparse = true;
+				return false;
+			}
+			return true;
 		});
-		return filter;
+
+		return { cards, hasSparse };
 	}
 
 	getParams(): any {
@@ -1351,7 +923,20 @@ class Cards extends React.Component<Props, State> {
 		return this.props.display !== "gallery";
 	}
 
-	private loadPlaceholders(): void {
+	getCardPlaceholder(card: any): string {
+		switch (card.type) {
+			case "WEAPON":
+				return PLACEHOLDER_WEAPON;
+			case "SPELL":
+				return PLACEHOLDER_SPELL;
+			case "HERO":
+				return PLACEHOLDER_HERO;
+			default:
+				return PLACEHOLDER_MINION;
+		}
+	}
+
+	loadPlaceholders(): void {
 		const minion = new Image();
 		minion.src = PLACEHOLDER_MINION;
 		const spell = new Image();
