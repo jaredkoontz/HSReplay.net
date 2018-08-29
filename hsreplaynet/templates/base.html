@@ -4,6 +4,7 @@
 {% load web_extras %}
 {% load feature from features %}
 {% load render_bundle from webpack_loader %}
+{% load get_current_language from i18n %}
 
 {% block javascript %}
 {% include "premium/plan_data.html" %}
@@ -20,6 +21,9 @@
 					environment: "{% if debug %}development{% else %}production{% endif %}",
 					ignoreErrors: [/__firefox__/],
 					whitelistUrls: [/https:\/\/hsreplay\.net/],
+					tags: {
+						locale: "{% get_current_language as lang %}{{ lang }}",
+					},
 				}).install();
 				{% if user.is_authenticated %}
 				raven.setUserContext({
