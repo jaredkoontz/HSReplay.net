@@ -5,14 +5,16 @@ import CardData from "../CardData";
 import CardImage from "../components/CardImage";
 import CardFilterManager from "../components/cards/CardFilterManager";
 import CollectionVisibility from "../components/cards/CollectionVisibility";
-import ClassFilter from "../components/cards/filters/ClassFilter";
-import CostFilter from "../components/cards/filters/CostFilter";
-import MechanicsFilter from "../components/cards/filters/MechanicsFilter";
-import RarityFilter from "../components/cards/filters/RarityFilter";
-import SetFilter from "../components/cards/filters/SetFilter";
-import TextFilter from "../components/cards/filters/TextFilter";
-import TribeFilter from "../components/cards/filters/TribeFilter";
-import TypeFilter from "../components/cards/filters/TypeFilter";
+import {
+	ClassFilter,
+	CostFilter,
+	MechanicsFilter,
+	RarityFilter,
+	SetFilter,
+	TextFilter,
+	TribeFilter,
+	TypeFilter,
+} from "../components/cards/filters";
 import { FilterOption } from "../components/ClassFilter";
 import CollectionSetup from "../components/collection/CollectionSetup";
 import InfoboxFilter from "../components/InfoboxFilter";
