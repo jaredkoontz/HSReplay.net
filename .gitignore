@@ -4,6 +4,7 @@
 __pycache__/
 .venv/
 .tox/
+.pytest_cache/
 
 /hsreplaynet/static/fonts/
 /hsreplaynet/static/bundles/
