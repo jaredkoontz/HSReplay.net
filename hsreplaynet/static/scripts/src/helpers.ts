@@ -6,7 +6,6 @@ import Fragments from "./components/Fragments";
 import { wildSets } from "./constants";
 import { CardClass, Rarity } from "./hearthstone";
 import {
-	CardObj,
 	ChartMetaData,
 	ChartScheme,
 	ChartSchemeType,
@@ -576,20 +575,6 @@ export function cardSorting(a: any, b: any, direction = 1): number {
 		return -direction;
 	}
 	return 0;
-}
-
-export function cardObjSorting(
-	a: CardObj,
-	b: CardObj,
-	prop: string,
-	direction: number,
-): number {
-	const aVal = a[prop] || 0;
-	const bVal = b[prop] || 0;
-	if (aVal === bVal) {
-		return a.card.name > b.card.name ? -direction : direction;
-	}
-	return (bVal - aVal) * direction;
 }
 
 export function getHeroSkinCardUrl(cardClass: CardClass | string): string {
