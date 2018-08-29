@@ -16,8 +16,8 @@ export function getCollectionCardCount(
 		return null;
 	}
 	const inCollection = cards[dbfId];
-	if (!Array.isArray(inCollection)) {
-		return null;
+	if (!inCollection || !Array.isArray(inCollection)) {
+		return 0;
 	}
 	return +inCollection.reduce((a, b) => a + b, 0);
 }
