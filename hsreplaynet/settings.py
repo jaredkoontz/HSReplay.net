@@ -299,6 +299,14 @@ REST_FRAMEWORK = {
 		"rest_framework.permissions.IsAuthenticatedOrReadOnly",
 	],
 	"DEFAULT_PAGINATION_CLASS": "hsreplaynet.api.pagination.DefaultPagination",
+	"DEFAULT_THROTTLE_CLASSES": (
+		"hsreplaynet.api.throttles.PerViewUserBurstRateThrottle",
+		"hsreplaynet.api.throttles.PerViewUserSustainedRateThrottle"
+	),
+	"DEFAULT_THROTTLE_RATES": {
+		"per_view_user_burst": "10/sec",
+		"per_view_user_sustained": "120/min"
+	}
 }
 
 
@@ -460,9 +468,9 @@ KERAS_MODELS_BUCKET = "hsreplaynet-keras-models"
 USE_ARCHETYPE_PREDICTION_LAMBDA = False
 
 
-REDSHIFT_TRIGGER_CACHE_REFRESHES_FROM_QUERY_REQUESTS = False
-REDSHIFT_TRIGGER_PERSONALIZED_DATA_REFRESHES_FROM_QUERY_REQUESTS = False
-REDSHIFT_PRESCHEDULE_REFRESHES = False
+REDSHIFT_TRIGGER_CACHE_REFRESHES_FROM_QUERY_REQUESTS = True
+REDSHIFT_TRIGGER_PERSONALIZED_DATA_REFRESHES_FROM_QUERY_REQUESTS = True
+REDSHIFT_PRESCHEDULE_REFRESHES = True
 
 
 WEBHOOKS = {

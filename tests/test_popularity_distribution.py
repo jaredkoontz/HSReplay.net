@@ -4,7 +4,6 @@ from datetime import datetime, timedelta
 from math import ceil
 
 import fakeredis
-import pytest
 
 from hsreplaynet.utils.redis import RedisPopularityDistribution
 
@@ -38,7 +37,6 @@ DECKS = [
 ]
 
 
-@pytest.mark.skip
 def test_redis_popularity_distribution():
 	r = fakeredis.FakeStrictRedis()
 	distribution = RedisPopularityDistribution(r, "DECKS", namespace="test")
@@ -99,7 +97,6 @@ def test_one_second_buckets():
 		assert bucket[1] == bucket[0] + (bucket_size - 1)
 
 
-@pytest.mark.skip
 def test_bucket_sizes_and_ttls():
 	r = fakeredis.FakeStrictRedis()
 	distribution = RedisPopularityDistribution(

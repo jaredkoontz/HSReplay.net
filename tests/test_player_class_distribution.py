@@ -3,13 +3,11 @@ from datetime import datetime, timedelta
 from random import randrange
 
 import fakeredis
-import pytest
 from hearthstone.enums import CardClass
 
 from hsreplaynet.api.live.distributions import get_player_class_distribution
 
 
-@pytest.mark.skip
 def test_player_class_distribution():
 	redis = fakeredis.FakeStrictRedis()
 	distribution = get_player_class_distribution("FT_STANDARD", redis)

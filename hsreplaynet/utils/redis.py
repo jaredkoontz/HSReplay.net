@@ -103,8 +103,7 @@ class RedisPopularityDistribution:
 		if start_ts > end_ts:
 			raise ValueError("start_ts cannot be greater than end_ts")
 
-		# exists = self._ensure_exists(start_ts, end_ts)
-		exists = False
+		exists = self._ensure_exists(start_ts, end_ts)
 		if not exists:
 			# We have no distribution data for this time period
 			return {}
