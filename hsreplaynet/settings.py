@@ -299,14 +299,6 @@ REST_FRAMEWORK = {
 		"rest_framework.permissions.IsAuthenticatedOrReadOnly",
 	],
 	"DEFAULT_PAGINATION_CLASS": "hsreplaynet.api.pagination.DefaultPagination",
-	"DEFAULT_THROTTLE_CLASSES": (
-		"hsreplaynet.api.throttles.PerViewUserBurstRateThrottle",
-		"hsreplaynet.api.throttles.PerViewUserSustainedRateThrottle"
-	),
-	"DEFAULT_THROTTLE_RATES": {
-		"per_view_user_burst": "10/sec",
-		"per_view_user_sustained": "120/min"
-	}
 }
 
 
