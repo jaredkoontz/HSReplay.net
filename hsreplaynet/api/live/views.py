@@ -223,7 +223,7 @@ class StreamingNowView(APIView):
 
 			ret.append(details)
 
-		cache.set(cache_key, ret, timeout=30)
+		# cache.set(cache_key, ret, timeout=30)
 
 		return ret
 

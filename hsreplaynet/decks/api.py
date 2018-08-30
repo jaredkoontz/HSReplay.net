@@ -93,7 +93,7 @@ class ArchetypeListSerializer(ArchetypeSerializer):
 
 		ret = super().to_representation(instance)
 		ret = json.loads(json.dumps(ret, cls=DjangoJSONEncoder))
-		cache.set(key, ret, 600)
+		# cache.set(key, ret, 600)
 		return ret
 
 

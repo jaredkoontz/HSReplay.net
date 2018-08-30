@@ -19,7 +19,11 @@ def trigger_if_stale(parameterized_query, run_local=False, priority=None):
 	if parameterized_query.result_is_stale or run_local:
 		attempt_request_triggered_query_execution(parameterized_query, run_local, priority)
 		result = True
-	elif staleness and staleness > settings.MINIMUM_QUERY_REFRESH_INTERVAL:
+	elif (
+		staleness and
+		staleness > settings.MINIMUM_QUERY_REFRESH_INTERVAL and
+		settings.REDSHIFT_PRESCHEDULE_REFRESHES
+	):
 		did_preschedule = True
 		parameterized_query.preschedule_refresh()
 
