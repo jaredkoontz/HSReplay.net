@@ -468,12 +468,8 @@ KERAS_MODELS_BUCKET = "hsreplaynet-keras-models"
 USE_ARCHETYPE_PREDICTION_LAMBDA = False
 
 
-# When False the cached data will only get refreshed:
-# 1) At the end of each ETL Track Load
-# 2) Immediately when a new premium user subscribes
-# 3) When the daily cache warming Jenkins job runs
-REDSHIFT_TRIGGER_CACHE_REFRESHES_FROM_QUERY_REQUESTS = True
-REDSHIFT_TRIGGER_PERSONALIZED_DATA_REFRESHES_FROM_QUERY_REQUESTS = True
+REDSHIFT_TRIGGER_CACHE_REFRESHES_FROM_QUERY_REQUESTS = False
+REDSHIFT_TRIGGER_PERSONALIZED_DATA_REFRESHES_FROM_QUERY_REQUESTS = False
 
 
 WEBHOOKS = {
