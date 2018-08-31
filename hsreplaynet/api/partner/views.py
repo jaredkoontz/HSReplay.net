@@ -1,5 +1,3 @@
-from functools import lru_cache
-
 from django_hearthstone.cards.models import Card
 from hearthstone import enums
 from oauth2_provider.contrib.rest_framework import OAuth2Authentication, TokenHasScope
@@ -55,6 +53,11 @@ class CardsView(PartnerStatsListView):
 	supported_game_types = ["ARENA", "RANKED_STANDARD", "RANKED_WILD"]
 	constructed_game_types = ["RANKED_STANDARD", "RANKED_WILD"]
 
+	def __init__(self):
+		super().__init__()
+
+		self._query_data = dict()
+
 	def list(self, request, *args, **kwargs):
 		error = None
 		try:
@@ -102,9 +105,14 @@ class CardsView(PartnerStatsListView):
 			return None
 		return self._get_query_data("list_decks_by_win_rate", game_type)
 
-	@lru_cache()
 	def _get_card_popularity(self, game_type):
-		return self._get_query_data("card_included_popularity_report", game_type)["ALL"]
+		if game_type not in self._query_data:
+			self._query_data[game_type] = self._get_query_data(
+				"card_included_popularity_report",
+				game_type
+			)
+
+		return self._query_data[game_type]["ALL"]
 
 
 class ArchetypesView(PartnerStatsListView):
