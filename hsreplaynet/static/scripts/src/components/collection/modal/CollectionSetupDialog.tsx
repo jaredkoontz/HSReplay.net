@@ -443,10 +443,10 @@ class CollectionSetupDialog extends React.Component<Props, State> {
 							)}
 						</p>
 						<ul className="list-ltr list-ltr-2">
-							<li>{t("Find decks you can build right now")}</li>
+							<li>{t("Find decks you can build")}</li>
 							<li>{t("See missing cards at a glance")}</li>
 							<li>{t("Filter decks by dust cost")}</li>
-							<li>{t("Automatic uploading")}</li>
+							<li>{t("View and share your collection")}</li>
 						</ul>
 					</section>
 					{this.state.step !== Step.COLLECTION_DISABLED ? (
