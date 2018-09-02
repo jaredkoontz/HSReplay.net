@@ -43,9 +43,14 @@ import CardFilterManager, {
 import { CardData as HearthstoneJSONCardData } from "hearthstonejson-client";
 import CardFilter from "../components/cards/CardFilter";
 import memoize from "memoize-one";
+import { Collection } from "../utils/api";
+import { getCollectionCardCount } from "../utils/collection";
+import CollectionSetup from "../components/collection/CollectionSetup";
+import Modal from "../components/Modal";
 
 interface Props extends FragmentChildProps, InjectedTranslateProps {
 	cardData: CardData;
+	collection: Collection | null;
 
 	text?: string;
 	setText?: (text: string, debounce?: boolean) => void;
@@ -96,6 +101,7 @@ interface State {
 	sparseFilterDicts: [SparseFilterDict, SparseFilterDict] | null;
 	numCards: number;
 	showFilters: boolean;
+	showCollectionModal: boolean;
 }
 
 const PLACEHOLDER_MINION = image("loading_minion.png");
@@ -113,6 +119,7 @@ class Cards extends React.Component<Props, State> {
 			sparseFilterDicts: null,
 			numCards: 24,
 			showFilters: false,
+			showCollectionModal: false,
 		};
 	}
 
@@ -255,6 +262,14 @@ class Cards extends React.Component<Props, State> {
 				}
 				collectible={!this.props.uncollectible}
 			>
+				<Modal
+					visible={this.state.showCollectionModal}
+					onClose={() =>
+						this.setState({ showCollectionModal: false })
+					}
+				>
+					<CollectionSetup />
+				</Modal>
 				<div className="cards">
 					<aside
 						className={filterClassNames.join(" ")}
@@ -365,6 +380,16 @@ class Cards extends React.Component<Props, State> {
 			>
 				<InfoboxFilter value="statistics">
 					{t("Statistics view")}
+				</InfoboxFilter>
+				<InfoboxFilter
+					value="crafting"
+					onClick={
+						this.props.collection === null
+							? () => this.setState({ showCollectionModal: true })
+							: null
+					}
+				>
+					{t("Crafting view")}
 				</InfoboxFilter>
 				<InfoboxFilter value="gallery">
 					{t("Gallery view")}
@@ -799,7 +824,14 @@ class Cards extends React.Component<Props, State> {
 							<CardTable
 								cards={cards.map(card => ({
 									card,
-									count: 1,
+									count:
+										this.props.collection !== null &&
+										this.props.display === "crafting"
+											? getCollectionCardCount(
+													this.props.collection,
+													card.dbfId,
+											  )
+											: 1,
 								}))}
 								columns={[
 									"includedPopularity",
@@ -845,6 +877,11 @@ class Cards extends React.Component<Props, State> {
 										</>
 									) : null;
 								})}
+								collection={
+									this.props.display === "crafting"
+										? this.props.collection
+										: null
+								}
 							/>
 						</DataInjector>
 					</div>
