@@ -8,6 +8,7 @@ const { Provider, Consumer } = React.createContext<CardFilterProps>({
 	dbfIds: [],
 	addFilter: x => console.error("called addFilter out of context"),
 	removeFilter: x => console.error("called removeFilter out of context"),
+	collectible: true,
 	filters: [],
 });
 export { Provider as CardFilterProvider, Consumer as CardFilterConsumer };
@@ -20,11 +21,13 @@ export interface CardFilterProps {
 	addFilter: (filter: CardFilterFunction) => void;
 	removeFilter: (filter: CardFilterFunction) => void;
 	filters: CardFilterFunction[];
+	collectible: boolean;
 }
 
 interface Props {
 	cardData: CardData | null;
 	onFilter: (dbfIds: number[]) => void;
+	collectible?: boolean;
 }
 
 interface State {
@@ -32,6 +35,10 @@ interface State {
 }
 
 export default class CardFilterManager extends React.Component<Props, State> {
+	static defaultProps = {
+		collectible: true,
+	};
+
 	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
@@ -45,9 +52,10 @@ export default class CardFilterManager extends React.Component<Props, State> {
 		snapshot?: any,
 	): void {
 		if (
-			this.props.cardData &&
-			(prevState.filters !== this.state.filters ||
-				prevProps.cardData !== this.props.cardData)
+			(this.props.cardData &&
+				(prevState.filters !== this.state.filters ||
+					prevProps.cardData !== this.props.cardData)) ||
+			prevProps.collectible !== this.props.collectible
 		) {
 			this.props.onFilter(
 				this.filter(this.props.cardData, this.state.filters),
@@ -67,6 +75,7 @@ export default class CardFilterManager extends React.Component<Props, State> {
 					filters: this.state.filters,
 					addFilter: this.addFilter,
 					removeFilter: this.removeFilter,
+					collectible: this.props.collectible,
 				}}
 			>
 				{this.props.children}
@@ -94,9 +103,15 @@ export default class CardFilterManager extends React.Component<Props, State> {
 		});
 	};
 
-	private getInitialCards = memoize((cardData: CardData): Card[] => {
-		return cardData.collectible();
-	});
+	private getInitialCards = memoize(
+		(cardData: CardData, collectible: boolean): Card[] => {
+			if (collectible) {
+				return cardData.collectible();
+			} else {
+				return cardData.all().filter(x => !!x.dbfId && !x.collectible);
+			}
+		},
+	);
 
 	private filter = (
 		cardData: CardData | null,
@@ -105,7 +120,7 @@ export default class CardFilterManager extends React.Component<Props, State> {
 		if (!this.props.cardData) {
 			return null;
 		}
-		let cards = this.getInitialCards(cardData);
+		let cards = this.getInitialCards(cardData, this.props.collectible);
 		for (const filter of filters) {
 			cards = cards.filter(filter);
 		}

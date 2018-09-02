@@ -77,6 +77,7 @@ class CardFilterItemGroup extends React.Component<Props, State> {
 							addFilter: this.props.addFilter,
 							removeFilter: this.props.removeFilter,
 							filters: this.props.filters,
+							collectible: this.props.collectible,
 						}}
 					>
 						<Provider
@@ -101,9 +102,13 @@ class CardFilterItemGroup extends React.Component<Props, State> {
 			return this.props.dbfIds;
 		}
 
-		const collectible = this.props.cardData.collectible();
+		const initialCards = this.props.collectible
+			? this.props.cardData.collectible()
+			: this.props.cardData
+					.all()
+					.filter(x => !!x.dbfId && !x.collectible);
 		const otherFilters = this.props.filters.filter(x => x !== filter);
-		let cards = collectible;
+		let cards = initialCards;
 		for (const otherFilter of otherFilters) {
 			cards = cards.filter(otherFilter);
 		}

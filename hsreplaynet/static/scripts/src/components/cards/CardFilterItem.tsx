@@ -20,9 +20,9 @@ class CardFilterItem extends React.Component<Props> {
 							let collectionCount = null;
 							let total = null;
 							if (cardData) {
-								const cards = dbfIds.map(dbfId =>
-									cardData.fromDbf(dbfId),
-								);
+								const cards = dbfIds
+									.map(dbfId => cardData.fromDbf(dbfId))
+									.filter(x => !!x);
 								const matchingCards = cards.filter(
 									filterFactory(this.props.value),
 								);
