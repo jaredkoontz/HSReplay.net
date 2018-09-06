@@ -191,15 +191,18 @@ class Cards extends React.Component<Props, State> {
 				this.props.reset("timeRange");
 			}
 		}
-		this.loadSparseFilterDicts();
+
+		if (
+			prevProps.gameType !== this.props.gameType ||
+			prevProps.timeRange !== this.props.timeRange ||
+			prevProps.rankRange !== this.props.rankRange
+		) {
+			this.loadSparseFilterDicts();
+		}
 	}
 
 	loadSparseFilterDicts(): void {
-		if (
-			!this.isStatsView() ||
-			this.props.showSparse ||
-			this.state.sparseFilterDicts
-		) {
+		if (!this.isStatsView() || this.props.showSparse) {
 			return;
 		}
 		const params = this.getParams(this.props);
