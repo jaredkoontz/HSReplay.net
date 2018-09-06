@@ -18,7 +18,7 @@ import ResetHeader from "../components/ResetHeader";
 import CardTable from "../components/tables/CardTable";
 import PrettyRankRange from "../components/text/PrettyRankRange";
 import PrettyTimeRange from "../components/text/PrettyTimeRange";
-import DataManager from "../DataManager";
+import DataManager, { QueryParams } from "../DataManager";
 import { RankRange, TimeRange } from "../filters";
 import { cardSorting, image, isWildSet } from "../helpers";
 import {
@@ -202,7 +202,7 @@ class Cards extends React.Component<Props, State> {
 		) {
 			return;
 		}
-		const params = this.getParams();
+		const params = this.getParams(this.props);
 		const promises = [
 			DataManager.get("card_played_popularity_report", params),
 			DataManager.get("card_included_popularity_report", params),
@@ -563,7 +563,7 @@ class Cards extends React.Component<Props, State> {
 					<ul>
 						<InfoboxLastUpdated
 							url={"card_played_popularity_report"}
-							params={this.getParams()}
+							params={this.getParams(this.props)}
 						/>
 					</ul>
 					<InfoboxFilterGroup
@@ -737,12 +737,12 @@ class Cards extends React.Component<Props, State> {
 								{
 									key: "played",
 									url: "card_played_popularity_report",
-									params: this.getParams(),
+									params: this.getParams(this.props),
 								},
 								{
 									key: "included",
 									url: "card_included_popularity_report",
-									params: this.getParams(),
+									params: this.getParams(this.props),
 								},
 							]}
 							extract={{
@@ -937,15 +937,14 @@ class Cards extends React.Component<Props, State> {
 		return { cards, hasSparse };
 	}
 
-	getParams(): any {
+	getParams(props: Props): QueryParams {
 		const params = {
-			GameType: this.props.gameType,
-			TimeRange: this.props.timeRange,
-			// Region: this.props.region,
+			GameType: props.gameType,
+			TimeRange: props.timeRange,
 		};
-		if (this.props.gameType !== "ARENA") {
+		if (props.gameType !== "ARENA") {
 			Object.assign(params, {
-				RankRange: this.props.rankRange,
+				RankRange: props.rankRange,
 			});
 		}
 		return params;
