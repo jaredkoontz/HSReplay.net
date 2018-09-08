@@ -130,7 +130,13 @@ class SimpleReactView(RequestMetaMixin, TemplateView):
 
 
 class DownloadsView(SimpleReactView):
-	title = "Downloads"
+	title = _(
+		"Download Hearthstone Deck Tracker"
+	)
+	base_title = _("HSReplay.net Companion App")
+	description = _(
+		"Hearthstone Deck Tracker is a free app to help you play like the pros."
+	)
 	stylesheets = (
 		{"href": settings.FONTAWESOME_CSS_URL, "integrity": settings.FONTAWESOME_CSS_INTEGRITY},
 	)
