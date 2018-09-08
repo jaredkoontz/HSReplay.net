@@ -35,6 +35,7 @@ urlpatterns = [
 	url(r"^about/third-parties/$", flatpage, {"url": "/about/third-parties/"}),
 	url(r"^about/tos/$", flatpage, {"url": "/about/tos/"}, name="terms_of_service"),
 	url(r"^contact/$", flatpage, {"url": "/contact/"}, name="contact_us"),
+	url(r"^download/", RedirectView.as_view(pattern_name="downloads", permanent=False)),
 	url(r"^downloads/", DownloadsView.as_view(), name="downloads"),
 	url(r"^i18n/contribute/$", RedirectView.as_view(
 		url=settings.I18N_CONTRIBUTE_URL, permanent=False
