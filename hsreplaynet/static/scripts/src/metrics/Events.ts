@@ -53,6 +53,8 @@ export default class Events {
 	}
 }
 
+/* tslint:disable:max-classes-per-file */
+
 export class SubscriptionEvents extends Events {
 	public static onInitiateCheckout(location: string): void {
 		this.ga("Checkout", "initiate");
