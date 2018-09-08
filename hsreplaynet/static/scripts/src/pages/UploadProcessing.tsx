@@ -8,9 +8,7 @@ interface Props extends InjectedTranslateProps {
 	status: string;
 }
 
-interface State {}
-
-class UploadProcessing extends React.Component<Props, State> {
+class UploadProcessing extends React.Component<Props> {
 	public render(): React.ReactNode {
 		if (!status || status === "PROCESSING") {
 			setTimeout(() => {
