@@ -44,7 +44,7 @@ class Downloads extends React.Component<Props, State> {
 								className={`btn promo-button${
 									windowsUrl ? "" : " disabled"
 								}`}
-								onClick={this.onDownload}
+								onClick={this.onDownloadWindows}
 							>
 								<h3>
 									<i className="fa fa-windows" />
@@ -57,7 +57,7 @@ class Downloads extends React.Component<Props, State> {
 								className={`btn promo-button${
 									macUrl ? "" : " disabled"
 								}`}
-								onClick={this.onDownload}
+								onClick={this.onDownloadMac}
 							>
 								<h3>
 									<i className="fa fa-apple" />
@@ -327,9 +327,12 @@ class Downloads extends React.Component<Props, State> {
 			});
 	}
 
-	private onDownload = (): void => {
-		DeckTrackerEvents.onDownload();
+	private onDownload = (label: string): void => {
+		DeckTrackerEvents.onDownload(label);
 	};
+
+	private onDownloadWindows = (): void => this.onDownload("Windows");
+	private onDownloadMac = (): void => this.onDownload("macOS");
 }
 
 export default translate()(Downloads);

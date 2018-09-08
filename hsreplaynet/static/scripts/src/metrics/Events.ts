@@ -221,8 +221,8 @@ export class DeckEvents extends Events {
 }
 
 export class DeckTrackerEvents extends Events {
-	public static onDownload(): void {
-		this.ga("Deck Tracker", "download");
+	public static onDownload(label: string): void {
+		this.ga("Deck Tracker", "download", label);
 		this.fbCustom("DownloadDeckTracker");
 	}
 }
