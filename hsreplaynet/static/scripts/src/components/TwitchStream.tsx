@@ -1,4 +1,5 @@
 import React from "react";
+import { TwitchStreamPromotionEvents } from "../metrics/Events";
 
 interface Props {
 	channel: string;
@@ -10,6 +11,25 @@ interface Props {
 }
 
 export default class TwitchStream extends React.Component<Props> {
+	private ref: React.RefObject<HTMLIFrameElement> = React.createRef();
+
+	public componentDidMount(): void {
+		window.addEventListener("blur", this.onBlur);
+	}
+
+	public componentWillUnmount(): void {
+		window.removeEventListener("blur", this.onBlur);
+	}
+
+	private onBlur = () => {
+		if (document.activeElement !== this.ref.current) {
+			return;
+		}
+		TwitchStreamPromotionEvents.onFrontpageStreamInteraction(
+			this.props.channel,
+		);
+	};
+
 	public render(): React.ReactNode {
 		const {
 			channel,
@@ -27,6 +47,7 @@ export default class TwitchStream extends React.Component<Props> {
 				frameBorder="0"
 				scrolling="no"
 				allowFullScreen={allowFullScreen}
+				ref={this.ref}
 			/>
 		);
 	}

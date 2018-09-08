@@ -109,6 +109,10 @@ export class TwitchStreamPromotionEvents extends Events {
 		);
 		this.ga("Twitch Promo", "loaded", streamer);
 	}
+
+	public static onFrontpageStreamInteraction(streamer: string): void {
+		this.ga("Twitch Promo", "interaction", streamer);
+	}
 }
 
 export class ReferralEvents extends Events {
