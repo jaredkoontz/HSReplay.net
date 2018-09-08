@@ -4,7 +4,11 @@ import UserData from "../UserData";
 import LoginButton from "../components/account/LoginButton";
 import PremiumCheckout from "../components/premium/PremiumCheckout";
 import { image } from "../helpers";
-import { ReferralEvents, SubscriptionEvents } from "../metrics/Events";
+import {
+	PremiumEvents,
+	ReferralEvents,
+	SubscriptionEvents,
+} from "../metrics/Events";
 import ReferralsPromo from "./ReferralsPromo";
 import Panel from "../components/Panel";
 import HDTVideo from "../components/HDTVideo";
@@ -30,6 +34,10 @@ class PremiumDetail extends React.Component<Props, State> {
 		this.state = {
 			hasStartedCheckout: false,
 		};
+	}
+
+	public componentDidMount(): void {
+		PremiumEvents.onView();
 	}
 
 	public render(): React.ReactNode {

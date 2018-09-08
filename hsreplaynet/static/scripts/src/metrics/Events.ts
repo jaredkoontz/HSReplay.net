@@ -230,3 +230,9 @@ export class DeckTrackerEvents extends Events {
 		this.fbCustom("DownloadDeckTracker");
 	}
 }
+
+export class PremiumEvents extends Events {
+	public static onView(): void {
+		this.ga("Premium", "view");
+	}
+}

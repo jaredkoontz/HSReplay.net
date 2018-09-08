@@ -5,7 +5,7 @@ import { image } from "../../helpers";
 import LoginButton from "../account/LoginButton";
 import CloseModalButton from "../modal/CloseModalButton";
 import PremiumCheckout from "./PremiumCheckout";
-import { SubscriptionEvents } from "../../metrics/Events";
+import { PremiumEvents, SubscriptionEvents } from "../../metrics/Events";
 
 interface Props extends InjectedTranslateProps {
 	analyticsLabel?: string;
@@ -40,6 +40,10 @@ class PremiumModal extends React.Component<Props, State> {
 		this.state = {
 			showCheckout: false,
 		};
+	}
+
+	public componentDidMount(): void {
+		PremiumEvents.onView();
 	}
 
 	private getData(): ModalData {
