@@ -16,5 +16,5 @@ class Command(BaseCommand):
 			if agreement.user:
 				users.add(agreement.user)
 
-		self.stdout.write("Found %i users to sync", len(users))
+		self.stdout.write("Found %i users to sync" % len(users))
 		enable_premium_accounts_for_users_in_redshift(users)
