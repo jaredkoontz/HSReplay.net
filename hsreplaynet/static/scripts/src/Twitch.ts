@@ -13,9 +13,9 @@ export interface TwitchStream {
 }
 
 export default class Twitch {
-	private static readonly ClientId: string = "k0lqdqxso1o3knvydfheacq3jbqidg";
-	private static readonly HSReplaynetExtId: string = "apwln3g3ia45kk690tzabfp525h9e1";
-	private static readonly BaseUrl: string = "https://api.twitch.tv";
+	private static readonly CLIENT_ID: string = "k0lqdqxso1o3knvydfheacq3jbqidg";
+	private static readonly EXTENSION_ID: string = "apwln3g3ia45kk690tzabfp525h9e1";
+	private static readonly BASE_URL: string = "https://api.twitch.tv";
 
 	public static async fetchStreamMetadata(
 		usernames: string[],
@@ -33,15 +33,15 @@ export default class Twitch {
 		let resultSet = [];
 		let cursor = null;
 		do {
-			let url = `${Twitch.BaseUrl}/extensions/${
-				Twitch.HSReplaynetExtId
+			let url = `${Twitch.BASE_URL}/extensions/${
+				Twitch.EXTENSION_ID
 			}/live_activated_channels`;
 			if (cursor) {
 				url += `?cursor=${cursor}`;
 			}
 			const response = await fetch(url, {
 				headers: {
-					"Client-ID": Twitch.ClientId,
+					"Client-ID": Twitch.CLIENT_ID,
 				},
 			});
 			const json = await response.json();

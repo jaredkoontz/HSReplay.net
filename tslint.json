@@ -17,6 +17,7 @@
 		"member-access": false,
 		"member-ordering": false,
 		"no-console": false,
+		"no-empty-interface": false,
 		"no-require-imports": true,
 		"no-string-literal": false,
 		"no-unused-expression": [
@@ -25,7 +26,9 @@
 		],
 		"no-unused-variable": [
 			true,
-			"react"
+			{
+				"ignore-pattern": "^_$"
+			}
 		],
 		"ordered-imports": [
 			true,

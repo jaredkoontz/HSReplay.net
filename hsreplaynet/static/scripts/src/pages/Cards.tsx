@@ -159,17 +159,6 @@ class Cards extends React.Component<Props, State> {
 			}
 		}
 
-		// omit functions (not supported) and unused custom* props to prevent multiple update calls
-		const ignore = Object.keys(this.props)
-			.filter(key => {
-				return (
-					(key.startsWith("set") && key !== "set") ||
-					key.startsWith("toggle") ||
-					key.startsWith("custom")
-				);
-			})
-			.concat(["reset"]);
-
 		if (UserData.hasFeature("current-arena-event-filter")) {
 			if (
 				prevProps.timeRange !== "ARENA_EVENT" &&

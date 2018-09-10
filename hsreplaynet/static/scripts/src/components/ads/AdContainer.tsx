@@ -114,7 +114,7 @@ export default class AdContainer extends React.Component<Props, State> {
 		if (!this.ref) {
 			return null;
 		}
-		const { width, height } = this.ref.getBoundingClientRect();
+		const { width } = this.ref.getBoundingClientRect();
 		return width;
 	}
 }

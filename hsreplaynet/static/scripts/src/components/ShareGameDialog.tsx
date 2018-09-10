@@ -21,7 +21,6 @@ interface State {
 }
 
 class ShareGameDialog extends React.Component<Props, State> {
-	private input: HTMLInputElement;
 	private timeout: number = null;
 
 	constructor(props: Props, context?: any) {

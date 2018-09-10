@@ -60,7 +60,7 @@ declare module "joust" {
 		logger(logger: (message: string | Error) => void): Launcher;
 
 		events(
-			cb: (event: string, values: Object, tags?: Object) => void,
+			cb: (event: string, values: object, tags?: object) => void,
 		): Launcher;
 
 		debug(enable?: boolean): Launcher;

@@ -15,14 +15,7 @@ interface Props extends InjectedTranslateProps {
 
 class DeckInfo extends React.Component<Props> {
 	public render(): React.ReactNode {
-		const {
-			cardData,
-			clusterColor,
-			deck,
-			height,
-			playerClass,
-			t,
-		} = this.props;
+		const { cardData, clusterColor, deck, height, t } = this.props;
 		const infoboxClassNames = ["infobox"];
 
 		let content = null;

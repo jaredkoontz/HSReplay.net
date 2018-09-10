@@ -137,7 +137,7 @@ i18n
 						import(/* webpackChunkName: "i18n/[index]" */ `i18n/hearthstone/${language}/gameplay.json`),
 						import(/* webpackChunkName: "i18n/[index]" */ `i18n/hearthstone/${language}/presence.json`),
 					]);
-					for (const [i, module] of modules.entries()) {
+					for (const [_, module] of modules.entries()) {
 						if (!module) {
 							continue;
 						}

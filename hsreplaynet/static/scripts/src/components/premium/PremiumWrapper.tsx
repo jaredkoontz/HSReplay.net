@@ -116,7 +116,6 @@ class PremiumWrapper extends React.Component<Props, State> {
 			infoHeader,
 			infoContent,
 			modalStyle,
-			children,
 			t,
 		} = this.props;
 
