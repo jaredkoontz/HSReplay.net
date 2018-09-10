@@ -170,15 +170,7 @@ class AccountConnections extends React.Component<Props, State> {
 
 				<section id="account-blizzard-accounts" className="box-section">
 					<h3>{t("Hearthstone accounts")}</h3>
-					<div className="inner">
-						<p>
-							{t(
-								"We have automatically detected the following Hearthstone accounts and associated them with you. You can see statistics and upload your collection for any of these accounts.",
-							)}
-						</p>
-
-						{this.renderAccounts()}
-					</div>
+					<div className="inner">{this.renderAccounts()}</div>
 				</section>
 			</>
 		);
@@ -189,11 +181,13 @@ class AccountConnections extends React.Component<Props, State> {
 		const accountList = UserData.getAccounts();
 		if (!accountList.length) {
 			return (
-				<Trans>
-					You do not have any connected Hearthstone accounts.{" "}
-					<a href="/downloads/">Download a Deck Tracker</a> and start
-					uploading games!
-				</Trans>
+				<p>
+					<Trans>
+						You do not have any connected Hearthstone accounts.{" "}
+						<a href="/downloads/">Download a Deck Tracker</a> and
+						start uploading games!
+					</Trans>
+				</p>
 			);
 		}
 
@@ -201,6 +195,11 @@ class AccountConnections extends React.Component<Props, State> {
 
 		return (
 			<>
+				<p>
+					{t(
+						"We have found the following Hearthstone accounts belonging to you. You can see statistics and upload your collection for any of them.",
+					)}
+				</p>
 				{Object.keys(accountList).map(key => (
 					<li key={key} className="list-group-item">
 						<button
@@ -256,6 +255,8 @@ class AccountConnections extends React.Component<Props, State> {
 							{t("Remove")}
 						</button>
 						<PrettyBlizzardAccount account={accountList[key]} />
+						<br />
+						<em>Automatically detected</em>
 						<div className="clearfix" />
 					</li>
 				))}
