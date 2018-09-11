@@ -658,10 +658,7 @@ class Decks extends React.Component<Props, State> {
 
 		return (
 			<div className="decks">
-				<aside
-					className={filterClassNames.join(" ")}
-					id="decks-infobox"
-				>
+				<div className={filterClassNames.join(" ")} id="decks-infobox">
 					{backButton}
 					<ResetHeader
 						onReset={() => this.props.reset()}
@@ -669,513 +666,552 @@ class Decks extends React.Component<Props, State> {
 					>
 						{t("Decks")}
 					</ResetHeader>
-					<section id="player-class-filter">
-						<h2>
-							{t("Player class")}
-							<InfoIcon
-								className="pull-right"
-								header={t("Player class restriction")}
-								content={{
-									click: (
-										<p>
-											<span>
-												{t(
-													"Only show decks for specific classes.",
-												)}
-												&nbsp;
-												<Trans
-													defaults="Hold <0>Ctrl</0> to select multiple classes."
-													components={[<kbd>0</kbd>]}
-												/>
-											</span>
-										</p>
-									),
-									touch: t(
-										"Only show decks for specific classes.",
-									),
-								}}
-							/>
-						</h2>
-						<ClassFilter
-							filters="All"
-							hideAll
-							minimal
-							multiSelect
-							selectedClasses={this.props.playerClasses}
-							selectionChanged={selected => {
-								this.props.setPlayerClasses(selected);
-								FilterEvents.onFilterInteraction(
-									"decks",
-									"player_class",
-									selected.join(",") || "ALL",
-								);
-							}}
-							archetypes={this.state.availableArchetypes}
-							selectedArchetypes={this.props.archetypes}
-							archetypesChanged={archetypes => {
-								this.props.setArchetypes(archetypes);
-								FilterEvents.onFilterInteraction(
-									"decks",
-									"player_class_archetypes",
-									archetypes.join(",") || "NONE",
-								);
-							}}
-						/>
-					</section>
-					<section id="opponent-class-filter">
-						<PremiumWrapper
-							analyticsLabel="Deck List Opponent Selection"
-							infoHeader={t("Winrate by opponent")}
-							infoContent={
-								<p>
-									{t(
-										"See how various decks perform against a specific class at a glance!",
-									)}
-								</p>
-							}
-							modalStyle="default"
-						>
-							<h2>{t("Opponent class")}</h2>
+					<aside>
+						<section id="player-class-filter">
+							<h2>
+								{t("Player class")}
+								<InfoIcon
+									className="pull-right"
+									header={t("Player class restriction")}
+									content={{
+										click: (
+											<p>
+												<span>
+													{t(
+														"Only show decks for specific classes.",
+													)}
+													&nbsp;
+													<Trans
+														defaults="Hold <0>Ctrl</0> to select multiple classes."
+														components={[
+															<kbd>0</kbd>,
+														]}
+													/>
+												</span>
+											</p>
+										),
+										touch: t(
+											"Only show decks for specific classes.",
+										),
+									}}
+								/>
+							</h2>
 							<ClassFilter
 								filters="All"
 								hideAll
 								minimal
 								multiSelect
-								tabIndex={premiumTabIndex}
-								selectedClasses={this.props.opponentClasses}
+								selectedClasses={this.props.playerClasses}
 								selectionChanged={selected => {
-									this.props.setOpponentClasses(selected);
+									this.props.setPlayerClasses(selected);
 									FilterEvents.onFilterInteraction(
 										"decks",
-										"opponent_class",
+										"player_class",
 										selected.join(",") || "ALL",
 									);
 								}}
+								archetypes={this.state.availableArchetypes}
+								selectedArchetypes={this.props.archetypes}
+								archetypesChanged={archetypes => {
+									this.props.setArchetypes(archetypes);
+									FilterEvents.onFilterInteraction(
+										"decks",
+										"player_class_archetypes",
+										archetypes.join(",") || "NONE",
+									);
+								}}
 							/>
-						</PremiumWrapper>
-					</section>
-					<section id="max-dust-filter">
-						<h2>
-							{t("My collection")}
-							<InfoIcon
-								className="pull-right"
-								header={t("Maximum dust filter")}
-								content={t(
-									"See which decks you can build right now without spending any or some dust.",
-								)}
-							/>
-						</h2>
-						{this.props.collection ? (
-							<>
-								<InfoboxFilterGroup
-									deselectable
-									selectedValue={
-										this.props.maxDustCost < 0
-											? null
-											: "DUST_FILTER"
-									}
-									onClick={value => {
-										if (value) {
-											CollectionEvents.onEnableDustWidget();
-										}
-										this.props.setMaxDustCost(
-											value ? 0 : -1,
+						</section>
+						<section id="opponent-class-filter">
+							<PremiumWrapper
+								analyticsLabel="Deck List Opponent Selection"
+								infoHeader={t("Winrate by opponent")}
+								infoContent={
+									<p>
+										{t(
+											"See how various decks perform against a specific class at a glance!",
+										)}
+									</p>
+								}
+								modalStyle="default"
+							>
+								<h2>{t("Opponent class")}</h2>
+								<ClassFilter
+									filters="All"
+									hideAll
+									minimal
+									multiSelect
+									tabIndex={premiumTabIndex}
+									selectedClasses={this.props.opponentClasses}
+									selectionChanged={selected => {
+										this.props.setOpponentClasses(selected);
+										FilterEvents.onFilterInteraction(
+											"decks",
+											"opponent_class",
+											selected.join(",") || "ALL",
 										);
 									}}
-								>
-									<InfoboxFilter value="DUST_FILTER">
-										{t("Limit to my collection")}
-									</InfoboxFilter>
-								</InfoboxFilterGroup>
-								{this.props.maxDustCost < 0 ? null : (
-									<DustFilter
-										dust={this.props.maxDustCost}
-										setDust={(dust: number) =>
-											this.props.setMaxDustCost(
-												dust === Infinity ? -1 : dust,
-											)
+								/>
+							</PremiumWrapper>
+						</section>
+						<section id="max-dust-filter">
+							<h2>
+								{t("My collection")}
+								<InfoIcon
+									className="pull-right"
+									header={t("Maximum dust filter")}
+									content={t(
+										"See which decks you can build right now without spending any or some dust.",
+									)}
+								/>
+							</h2>
+							{this.props.collection ? (
+								<>
+									<InfoboxFilterGroup
+										deselectable
+										selectedValue={
+											this.props.maxDustCost < 0
+												? null
+												: "DUST_FILTER"
 										}
-										ownedDust={this.props.collection.dust}
-									/>
-								)}
-							</>
-						) : (
-							<CollectionBanner
-								hasCollection={!!this.props.collection}
-								wrapper={body => (
-									<div
-										className="infobox-banner"
-										style={{
-											backgroundImage: `url('${image(
-												"feature-promotional/collection-syncing-sidebar.png",
-											)}')`,
+										onClick={value => {
+											if (value) {
+												CollectionEvents.onEnableDustWidget();
+											}
+											this.props.setMaxDustCost(
+												value ? 0 : -1,
+											);
 										}}
 									>
-										{body}
-									</div>
-								)}
-							>
-								{authenticated =>
-									authenticated ? (
-										isCollectionDisabled() ? (
-											<>{t("Find decks you can build")}</>
+										<InfoboxFilter value="DUST_FILTER">
+											{t("Limit to my collection")}
+										</InfoboxFilter>
+									</InfoboxFilterGroup>
+									{this.props.maxDustCost < 0 ? null : (
+										<DustFilter
+											dust={this.props.maxDustCost}
+											setDust={(dust: number) =>
+												this.props.setMaxDustCost(
+													dust === Infinity
+														? -1
+														: dust,
+												)
+											}
+											ownedDust={
+												this.props.collection.dust
+											}
+										/>
+									)}
+								</>
+							) : (
+								<CollectionBanner
+									hasCollection={!!this.props.collection}
+									wrapper={body => (
+										<div
+											className="infobox-banner"
+											style={{
+												backgroundImage: `url('${image(
+													"feature-promotional/collection-syncing-sidebar.png",
+												)}')`,
+											}}
+										>
+											{body}
+										</div>
+									)}
+								>
+									{authenticated =>
+										authenticated ? (
+											isCollectionDisabled() ? (
+												<>
+													{t(
+														"Find decks you can build",
+													)}
+												</>
+											) : (
+												<>
+													{t(
+														"Want to find decks you can build with your collection?",
+													)}
+												</>
+											)
 										) : (
 											<>
 												{t(
-													"Want to find decks you can build with your collection?",
+													"Sign in to find decks for your collection",
 												)}
 											</>
 										)
-									) : (
-										<>
-											{t(
-												"Sign in to find decks for your collection",
-											)}
-										</>
-									)
-								}
-							</CollectionBanner>
-						)}
-					</section>
-					<section id="time-frame-filter">
-						<InfoboxFilterGroup
-							header={t("Time frame")}
-							infoHeader={t("Time frame")}
-							infoContent={t(
-								"Want to see which decks are hot right now? Look at data from a time frame of your choosing!",
+									}
+								</CollectionBanner>
 							)}
-							selectedValue={this.props.timeRange}
-							onClick={value => {
-								this.props.setTimeRange(value);
-								FilterEvents.onFilterInteraction(
-									"decks",
-									"time_frame",
-									value,
-								);
-							}}
-						>
-							<PremiumWrapper
-								analyticsLabel="Deck List Time Frame"
-								iconStyle={{ display: "none" }}
-								modalStyle="TimeRankRegion"
-							>
-								<InfoboxFilter value={TimeRange.CURRENT_SEASON}>
-									<PrettyTimeRange
-										timeRange={TimeRange.CURRENT_SEASON}
-									/>
-								</InfoboxFilter>
-								<InfoboxFilter value={TimeRange.LAST_3_DAYS}>
-									<PrettyTimeRange
-										timeRange={TimeRange.LAST_3_DAYS}
-									/>
-								</InfoboxFilter>
-								<InfoboxFilter value={TimeRange.LAST_7_DAYS}>
-									<PrettyTimeRange
-										timeRange={TimeRange.LAST_7_DAYS}
-									/>
-								</InfoboxFilter>
-							</PremiumWrapper>
-							<InfoboxFilter value={TimeRange.LAST_30_DAYS}>
-								<PrettyTimeRange
-									timeRange={TimeRange.LAST_30_DAYS}
-								/>
-							</InfoboxFilter>
-							<Feature feature={"current-expansion-filter"}>
-								<InfoboxFilter
-									value={TimeRange.CURRENT_EXPANSION}
-								>
-									<PrettyTimeRange
-										timeRange={TimeRange.CURRENT_EXPANSION}
-									/>
-									<span className="infobox-value">
-										{t("New!")}
-									</span>
-								</InfoboxFilter>
-							</Feature>
-							<Feature feature={"current-patch-filter"}>
-								<InfoboxFilter value={TimeRange.CURRENT_PATCH}>
-									<PrettyTimeRange
-										timeRange={TimeRange.CURRENT_PATCH}
-									/>
-									<span className="infobox-value">
-										{t("New!")}
-									</span>
-								</InfoboxFilter>
-							</Feature>
-						</InfoboxFilterGroup>
-					</section>
-					<section id="rank-range-filter">
-						<InfoboxFilterGroup
-							header={t("Rank range")}
-							infoHeader={t("Rank range")}
-							infoContent={t(
-								"Ready to climb the ladder? Check out how decks perform at certain rank ranges!",
-							)}
-							selectedValue={this.props.rankRange}
-							onClick={value => {
-								this.props.setRankRange(value);
-								FilterEvents.onFilterInteraction(
-									"decks",
-									"rank_range",
-									value,
-								);
-							}}
-						>
-							<PremiumWrapper
-								analyticsLabel="Deck List Rank Range"
-								iconStyle={{ display: "none" }}
-								modalStyle="TimeRankRegion"
-							>
-								<InfoboxFilter value={RankRange.LEGEND_ONLY}>
-									<PrettyRankRange
-										rankRange={RankRange.LEGEND_ONLY}
-									/>
-								</InfoboxFilter>
-								<InfoboxFilter
-									value={RankRange.LEGEND_THROUGH_FIVE}
-								>
-									<PrettyRankRange
-										rankRange={
-											RankRange.LEGEND_THROUGH_FIVE
-										}
-									/>
-								</InfoboxFilter>
-								<InfoboxFilter
-									value={RankRange.LEGEND_THROUGH_TEN}
-								>
-									<PrettyRankRange
-										rankRange={RankRange.LEGEND_THROUGH_TEN}
-									/>
-								</InfoboxFilter>
-							</PremiumWrapper>
-							<InfoboxFilter value={RankRange.ALL}>
-								<PrettyRankRange rankRange={RankRange.ALL} />
-							</InfoboxFilter>
-						</InfoboxFilterGroup>
-					</section>
-					<Feature feature="deck-region-filter">
-						<section id="region-filter">
+						</section>
+						<section id="time-frame-filter">
 							<InfoboxFilterGroup
-								header={t("Region")}
-								selectedValue={this.props.region}
-								onClick={region => {
-									this.props.setRegion(region);
+								header={t("Time frame")}
+								infoHeader={t("Time frame")}
+								infoContent={t(
+									"Want to see which decks are hot right now? Look at data from a time frame of your choosing!",
+								)}
+								selectedValue={this.props.timeRange}
+								onClick={value => {
+									this.props.setTimeRange(value);
 									FilterEvents.onFilterInteraction(
 										"decks",
-										"region",
-										region,
+										"time_frame",
+										value,
 									);
 								}}
-								infoHeader={t("Region")}
-								infoContent={t(
-									"Want to get more specific? Take a look at the decks played in your region!",
-								)}
 							>
 								<PremiumWrapper
-									analyticsLabel="Deck List Region"
+									analyticsLabel="Deck List Time Frame"
 									iconStyle={{ display: "none" }}
 									modalStyle="TimeRankRegion"
 								>
-									<InfoboxFilter value="REGION_US">
-										{t("Americas")}
+									<InfoboxFilter
+										value={TimeRange.CURRENT_SEASON}
+									>
+										<PrettyTimeRange
+											timeRange={TimeRange.CURRENT_SEASON}
+										/>
 									</InfoboxFilter>
-									<InfoboxFilter value="REGION_EU">
-										{t("Europe")}
+									<InfoboxFilter
+										value={TimeRange.LAST_3_DAYS}
+									>
+										<PrettyTimeRange
+											timeRange={TimeRange.LAST_3_DAYS}
+										/>
 									</InfoboxFilter>
-									<InfoboxFilter value="REGION_KR">
-										{t("Asia")}
+									<InfoboxFilter
+										value={TimeRange.LAST_7_DAYS}
+									>
+										<PrettyTimeRange
+											timeRange={TimeRange.LAST_7_DAYS}
+										/>
 									</InfoboxFilter>
-									<Feature feature="region-filter-china">
-										<InfoboxFilter value="REGION_CN">
-											{t("China")}
-										</InfoboxFilter>
-									</Feature>
 								</PremiumWrapper>
-								<InfoboxFilter value="ALL">
-									{t("All regions")}
+								<InfoboxFilter value={TimeRange.LAST_30_DAYS}>
+									<PrettyTimeRange
+										timeRange={TimeRange.LAST_30_DAYS}
+									/>
 								</InfoboxFilter>
+								<Feature feature={"current-expansion-filter"}>
+									<InfoboxFilter
+										value={TimeRange.CURRENT_EXPANSION}
+									>
+										<PrettyTimeRange
+											timeRange={
+												TimeRange.CURRENT_EXPANSION
+											}
+										/>
+										<span className="infobox-value">
+											{t("New!")}
+										</span>
+									</InfoboxFilter>
+								</Feature>
+								<Feature feature={"current-patch-filter"}>
+									<InfoboxFilter
+										value={TimeRange.CURRENT_PATCH}
+									>
+										<PrettyTimeRange
+											timeRange={TimeRange.CURRENT_PATCH}
+										/>
+										<span className="infobox-value">
+											{t("New!")}
+										</span>
+									</InfoboxFilter>
+								</Feature>
 							</InfoboxFilterGroup>
 						</section>
-					</Feature>
-					<section id="game-mode-filter">
-						<h2>{t("Game mode")}</h2>
-						<InfoboxFilterGroup
-							selectedValue={this.props.gameType}
-							onClick={value => {
-								this.props.setGameType(value);
-								FilterEvents.onFilterInteraction(
-									"decks",
-									"game_type",
-									value,
-								);
-							}}
-						>
-							<InfoboxFilter value="RANKED_STANDARD">
-								{t("Ranked Standard")}
-							</InfoboxFilter>
-							<InfoboxFilter value="RANKED_WILD">
-								{t("Ranked Wild")}
-							</InfoboxFilter>
-						</InfoboxFilterGroup>
-					</section>
-					<section id="include-cards-filter">
-						<h2 id="card-search-include-label">
-							{t("Included cards")}
-						</h2>
-						<Feature feature="new-card-filter">
+						<section id="rank-range-filter">
 							<InfoboxFilterGroup
-								deselectable
-								selectedValue={this.props.includedSet}
+								header={t("Rank range")}
+								infoHeader={t("Rank range")}
+								infoContent={t(
+									"Ready to climb the ladder? Check out how decks perform at certain rank ranges!",
+								)}
+								selectedValue={this.props.rankRange}
 								onClick={value => {
-									this.props.setIncludedSet(value || "ALL");
+									this.props.setRankRange(value);
 									FilterEvents.onFilterInteraction(
 										"decks",
-										"include_cards_new",
-										value || "ALL",
+										"rank_range",
+										value,
 									);
 								}}
 							>
-								<InfoboxFilter value={this.props.latestSet}>
-									{t("Any new card")}
+								<PremiumWrapper
+									analyticsLabel="Deck List Rank Range"
+									iconStyle={{ display: "none" }}
+									modalStyle="TimeRankRegion"
+								>
+									<InfoboxFilter
+										value={RankRange.LEGEND_ONLY}
+									>
+										<PrettyRankRange
+											rankRange={RankRange.LEGEND_ONLY}
+										/>
+									</InfoboxFilter>
+									<InfoboxFilter
+										value={RankRange.LEGEND_THROUGH_FIVE}
+									>
+										<PrettyRankRange
+											rankRange={
+												RankRange.LEGEND_THROUGH_FIVE
+											}
+										/>
+									</InfoboxFilter>
+									<InfoboxFilter
+										value={RankRange.LEGEND_THROUGH_TEN}
+									>
+										<PrettyRankRange
+											rankRange={
+												RankRange.LEGEND_THROUGH_TEN
+											}
+										/>
+									</InfoboxFilter>
+								</PremiumWrapper>
+								<InfoboxFilter value={RankRange.ALL}>
+									<PrettyRankRange
+										rankRange={RankRange.ALL}
+									/>
 								</InfoboxFilter>
 							</InfoboxFilterGroup>
-						</Feature>
-						<CardSearch
-							id="card-search-include"
-							label="card-search-include-label"
-							key={
-								"cardinclude" + this.state.cardSearchIncludeKey
-							}
-							availableCards={filteredCards}
-							onCardsChanged={cards => {
-								this.props.setIncludedCards(
-									cards.map(card => card.dbfId),
-								);
-
-								// Omitting value for now
-								FilterEvents.onFilterInteraction(
-									"decks",
-									"include_cards_search",
-									"",
-								);
-							}}
-							selectedCards={selectedCards("includedCards")}
-							cardLimit={Limit.DOUBLE}
-							onPaste={e => {
-								if (!this.props.cardData) {
-									return;
-								}
-								const input = e.clipboardData.getData(
-									"text/plain",
-								);
-								const lines = input
-									.trim()
-									.split("\n")
-									.filter(line => !line.startsWith("#"));
-								let result = null;
-								try {
-									result = decodeDeckstring(lines[0]);
-								} catch (e) {
-									return;
-								}
-								e.preventDefault();
-								const cards = [];
-								for (const tuple of result.cards) {
-									const [dbfId, count] = tuple;
-									for (let i = 0; i < count; i++) {
-										cards.push(
-											this.props.cardData.fromDbf(dbfId),
+						</section>
+						<Feature feature="deck-region-filter">
+							<section id="region-filter">
+								<InfoboxFilterGroup
+									header={t("Region")}
+									selectedValue={this.props.region}
+									onClick={region => {
+										this.props.setRegion(region);
+										FilterEvents.onFilterInteraction(
+											"decks",
+											"region",
+											region,
 										);
-									}
+									}}
+									infoHeader={t("Region")}
+									infoContent={t(
+										"Want to get more specific? Take a look at the decks played in your region!",
+									)}
+								>
+									<PremiumWrapper
+										analyticsLabel="Deck List Region"
+										iconStyle={{ display: "none" }}
+										modalStyle="TimeRankRegion"
+									>
+										<InfoboxFilter value="REGION_US">
+											{t("Americas")}
+										</InfoboxFilter>
+										<InfoboxFilter value="REGION_EU">
+											{t("Europe")}
+										</InfoboxFilter>
+										<InfoboxFilter value="REGION_KR">
+											{t("Asia")}
+										</InfoboxFilter>
+										<Feature feature="region-filter-china">
+											<InfoboxFilter value="REGION_CN">
+												{t("China")}
+											</InfoboxFilter>
+										</Feature>
+									</PremiumWrapper>
+									<InfoboxFilter value="ALL">
+										{t("All regions")}
+									</InfoboxFilter>
+								</InfoboxFilterGroup>
+							</section>
+						</Feature>
+						<section id="game-mode-filter">
+							<h2>{t("Game mode")}</h2>
+							<InfoboxFilterGroup
+								selectedValue={this.props.gameType}
+								onClick={value => {
+									this.props.setGameType(value);
+									FilterEvents.onFilterInteraction(
+										"decks",
+										"game_type",
+										value,
+									);
+								}}
+							>
+								<InfoboxFilter value="RANKED_STANDARD">
+									{t("Ranked Standard")}
+								</InfoboxFilter>
+								<InfoboxFilter value="RANKED_WILD">
+									{t("Ranked Wild")}
+								</InfoboxFilter>
+							</InfoboxFilterGroup>
+						</section>
+						<section id="include-cards-filter">
+							<h2 id="card-search-include-label">
+								{t("Included cards")}
+							</h2>
+							<Feature feature="new-card-filter">
+								<InfoboxFilterGroup
+									deselectable
+									selectedValue={this.props.includedSet}
+									onClick={value => {
+										this.props.setIncludedSet(
+											value || "ALL",
+										);
+										FilterEvents.onFilterInteraction(
+											"decks",
+											"include_cards_new",
+											value || "ALL",
+										);
+									}}
+								>
+									<InfoboxFilter value={this.props.latestSet}>
+										{t("Any new card")}
+									</InfoboxFilter>
+								</InfoboxFilterGroup>
+							</Feature>
+							<CardSearch
+								id="card-search-include"
+								label="card-search-include-label"
+								key={
+									"cardinclude" +
+									this.state.cardSearchIncludeKey
 								}
-								cards.sort(sortCards);
-								this.props.setIncludedCards(
-									cards.map(card => card.dbfId),
-								);
-							}}
-						/>
-					</section>
-					<section id="exclude-cards-filter">
-						<h2 id="card-search-exclude-label">
-							{t("Excluded cards")}
-						</h2>
-						<CardSearch
-							id="card-search-exclude"
-							label="card-search-exclude-label"
-							key={
-								"cardexclude" + this.state.cardSearchExcludeKey
-							}
-							availableCards={filteredCards}
-							onCardsChanged={cards => {
-								this.props.setExcludedCards(
-									cards.map(card => card.dbfId),
-								);
-								// Omitting value for now
-								FilterEvents.onFilterInteraction(
-									"decks",
-									"exclude_cards_search",
-									"",
-								);
-							}}
-							selectedCards={selectedCards("excludedCards")}
-							cardLimit={Limit.SINGLE}
-						/>
-					</section>
-					<section id="stream-filter">
-						<InfoboxFilterGroup
-							header={t("Community")}
-							deselectable
-							selectedValue={
-								this.props.withStream ? "WITH_STREAM" : null
-							}
-							onClick={value => {
-								this.props.setWithStream(
-									!this.props.withStream,
-								);
-								FilterEvents.onFilterInteraction(
-									"decks",
-									"stream",
-									this.props.withStream ? "WITH_STREAM" : "",
-								);
-							}}
-						>
-							<InfoboxFilter value="WITH_STREAM">
-								{t("Stream available")}
-							</InfoboxFilter>
-						</InfoboxFilterGroup>
-					</section>
-					<section id="side-bar-data">
-						<h2>{t("Data")}</h2>
-						<InfoboxFilterGroup
-							deselectable
-							selectedValue={
-								this.props.minGames >= this.minGames[0]
-									? "MIN_GAMES"
-									: null
-							}
-							onClick={value => {
-								const minGames = this.minGames[
-									+(this.props.minGames >= this.minGames[0])
-								];
-								this.props.setMinGames(minGames);
-							}}
-						>
-							<InfoboxFilter value="MIN_GAMES">
-								{t("At least {minGames} games", {
-									minGames: this.getMinGames()[0],
-								})}
-							</InfoboxFilter>
-						</InfoboxFilterGroup>
-						<ul>
-							<InfoboxLastUpdated
-								url={this.getQueryName()}
-								params={this.getParams()}
+								availableCards={filteredCards}
+								onCardsChanged={cards => {
+									this.props.setIncludedCards(
+										cards.map(card => card.dbfId),
+									);
+
+									// Omitting value for now
+									FilterEvents.onFilterInteraction(
+										"decks",
+										"include_cards_search",
+										"",
+									);
+								}}
+								selectedCards={selectedCards("includedCards")}
+								cardLimit={Limit.DOUBLE}
+								onPaste={e => {
+									if (!this.props.cardData) {
+										return;
+									}
+									const input = e.clipboardData.getData(
+										"text/plain",
+									);
+									const lines = input
+										.trim()
+										.split("\n")
+										.filter(line => !line.startsWith("#"));
+									let result = null;
+									try {
+										result = decodeDeckstring(lines[0]);
+									} catch (e) {
+										return;
+									}
+									e.preventDefault();
+									const cards = [];
+									for (const tuple of result.cards) {
+										const [dbfId, count] = tuple;
+										for (let i = 0; i < count; i++) {
+											cards.push(
+												this.props.cardData.fromDbf(
+													dbfId,
+												),
+											);
+										}
+									}
+									cards.sort(sortCards);
+									this.props.setIncludedCards(
+										cards.map(card => card.dbfId),
+									);
+								}}
 							/>
-						</ul>
-					</section>
-					{backButton}
-					<AdUnit id="dl-d-5" size="300x250" />
-				</aside>
+						</section>
+						<section id="exclude-cards-filter">
+							<h2 id="card-search-exclude-label">
+								{t("Excluded cards")}
+							</h2>
+							<CardSearch
+								id="card-search-exclude"
+								label="card-search-exclude-label"
+								key={
+									"cardexclude" +
+									this.state.cardSearchExcludeKey
+								}
+								availableCards={filteredCards}
+								onCardsChanged={cards => {
+									this.props.setExcludedCards(
+										cards.map(card => card.dbfId),
+									);
+									// Omitting value for now
+									FilterEvents.onFilterInteraction(
+										"decks",
+										"exclude_cards_search",
+										"",
+									);
+								}}
+								selectedCards={selectedCards("excludedCards")}
+								cardLimit={Limit.SINGLE}
+							/>
+						</section>
+						<section id="stream-filter">
+							<InfoboxFilterGroup
+								header={t("Community")}
+								deselectable
+								selectedValue={
+									this.props.withStream ? "WITH_STREAM" : null
+								}
+								onClick={value => {
+									this.props.setWithStream(
+										!this.props.withStream,
+									);
+									FilterEvents.onFilterInteraction(
+										"decks",
+										"stream",
+										this.props.withStream
+											? "WITH_STREAM"
+											: "",
+									);
+								}}
+							>
+								<InfoboxFilter value="WITH_STREAM">
+									{t("Stream available")}
+								</InfoboxFilter>
+							</InfoboxFilterGroup>
+						</section>
+						<section id="side-bar-data">
+							<h2>{t("Data")}</h2>
+							<InfoboxFilterGroup
+								deselectable
+								selectedValue={
+									this.props.minGames >= this.minGames[0]
+										? "MIN_GAMES"
+										: null
+								}
+								onClick={value => {
+									const minGames = this.minGames[
+										+(
+											this.props.minGames >=
+											this.minGames[0]
+										)
+									];
+									this.props.setMinGames(minGames);
+								}}
+							>
+								<InfoboxFilter value="MIN_GAMES">
+									{t("At least {minGames} games", {
+										minGames: this.getMinGames()[0],
+									})}
+								</InfoboxFilter>
+							</InfoboxFilterGroup>
+							<ul>
+								<InfoboxLastUpdated
+									url={this.getQueryName()}
+									params={this.getParams()}
+								/>
+							</ul>
+						</section>
+						{backButton}
+						<AdUnit id="dl-d-5" size="300x250" />
+					</aside>
+				</div>
 				<main
 					className={contentClassNames.join(" ")}
 					ref={ref => (this.mainRef = ref)}
