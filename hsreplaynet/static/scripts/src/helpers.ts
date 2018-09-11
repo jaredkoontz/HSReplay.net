@@ -814,11 +814,11 @@ export function cloneComponent(component, props) {
 }
 
 export function getCardUrl(card: HearthstoneJSONCardData): string {
-	return `/cards/${card.dbfId}/${slugify(card.name)}/`;
+	return `/cards/${card.dbfId}/${slugify(card.name)}`;
 }
 
 export function getArchetypeUrl(id: string | number, name: string): string {
-	return `/archetypes/${id}/${slugify(name)}/`;
+	return `/archetypes/${id}/${slugify(name)}`;
 }
 
 function slugify(str: string): string {

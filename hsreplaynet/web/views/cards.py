@@ -101,7 +101,7 @@ class CardDetailView(SimpleReactView):
 		locale = Locale[lang_to_blizzard(translation.get_language())]
 		name = obj.localized_name(locale=locale)
 
-		self.request.head.set_canonical_url(obj.get_absolute_url() + "/")
+		self.request.head.set_canonical_url(obj.get_absolute_url())
 		self.request.head.set_hreflang(lambda lang: self.get_hreflang(obj, lang))
 		self.request.head.title = format_lazy(
 			"{name} - {title}",
