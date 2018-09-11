@@ -26,6 +26,7 @@ influxdb = "*"
 lxml = "*"
 numpy = "*"
 "psycopg2" = "*"
+pynamodb = "*"
 python-dateutil = "*"
 python-redis-lock = {extras = ["django"]}
 raven = "*"

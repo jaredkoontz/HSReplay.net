@@ -1,4 +1,5 @@
 import json
+import re
 from hashlib import sha1
 from io import StringIO
 
@@ -19,6 +20,7 @@ from hslog.exceptions import MissingPlayerData, ParsingError
 from hslog.export import EntityTreeExporter, FriendlyPlayerExporter
 from hsreplay import __version__ as hsreplay_version
 from hsreplay.document import HSReplayDocument
+from pynamodb.exceptions import PynamoDBConnectionError
 
 from hearthsim.identity.accounts.models import AuthToken, BlizzardAccount, Visibility
 from hsredshift.etl.exceptions import CorruptReplayDataError, CorruptReplayPacketError
@@ -34,6 +36,7 @@ from hsreplaynet.utils import guess_ladder_season, log
 from hsreplaynet.utils.influx import influx_metric, influx_timer
 from hsreplaynet.utils.instrumentation import error_handler
 from hsreplaynet.utils.prediction import deck_prediction_tree
+from hsreplaynet.vods.models import TwitchVod
 
 from .models import (
 	GameReplay, GlobalGame, GlobalGamePlayer, ReplayAlias, _generate_upload_path
@@ -983,6 +986,97 @@ def update_game_meta(parser, meta):
 		meta["game_type"] = int(parser.game_meta["GameType"].as_bnet(wild=is_wild))
 
 
+TWITCH_VOD_URL_PATTERN = re.compile(r"^https://www\.twitch\.tv/twitch/v/\d+$")
+
+
+def has_twitch_vod_url(meta):
+	"""Returns true if the specified metadata contains Twitch VOD metadata, False otherwise.
+
+	:param meta: the upload metadata dict
+	:return: True if Twitch VOD metadata is present, False otherwise
+	"""
+
+	if (
+		"twitch_channel_name" not in meta or
+		"twitch_vod_thumbnail_url_template" not in meta or
+		"twitch_vod_url" not in meta
+	):
+		return False
+
+	# Does the VOD URL look like it came from Twitch?
+
+	return TWITCH_VOD_URL_PATTERN.fullmatch(meta["twitch_vod_url"]) is not None
+
+
+def record_twitch_vod(replay, meta):
+	"""Persist a Twitch VOD link to DynamoDB using the specified replay and upload metadata.
+
+	This function should be called only if a previous call to "has_twitch_vod_url" above
+	returns True.
+
+	:param replay: the GameReplay to use to generate the Twitch VOD link
+	:param meta: the metadata dict to use to look up Twitch metadata
+	:return:
+	"""
+
+	game = replay.global_game
+	game_length = game.match_end.timestamp() - game.match_start.timestamp()
+
+	friendly_player = replay.friendly_player
+	friendly_deck = friendly_player.deck_list
+
+	twitch_vod_url = meta["twitch_vod_url"]
+
+	try:
+		twitch_vod = TwitchVod(
+			twitch_channel_name=meta["twitch_channel_name"],
+			friendly_player_name=friendly_player.name,
+			hsreplaynet_user_id=replay.user.id,
+			replay_shortid=replay.shortid,
+			rank=friendly_player.rank,
+			won=bool(replay.won),
+			game_date=game.match_start.timestamp(),
+			game_length_seconds=game_length,
+			format_type=game.format.name,
+			game_type=game.game_type.name,
+			friendly_player_canonical_deck_string=friendly_deck.deckstring,
+			url=twitch_vod_url,
+			thumbnail_url_template=meta["twitch_vod_thumbnail_url_template"]
+		)
+
+		if friendly_deck.archetype:
+			twitch_vod.friendly_player_archetype_id = friendly_deck.archetype.id
+
+		# Generate the "combined rank" synthetic range key.
+
+		if friendly_player.legend_rank and friendly_player.legend_rank > 0:
+			twitch_vod.legend_rank = friendly_player.legend_rank
+			twitch_vod.combined_rank = "L%s" % friendly_player.legend_rank
+		else:
+			twitch_vod.combined_rank = "R%s" % friendly_player.rank
+
+		opposing_player = replay.opposing_player
+
+		if not opposing_player.is_ai:
+			opposing_deck = opposing_player.deck_list
+			if opposing_deck.archetype:
+				twitch_vod.opposing_player_archetype_id = opposing_deck.archetype.id
+
+		with influx_timer("twitch_vod_persist_duration"):
+			twitch_vod.save()
+
+		influx_metric("twitch_vods", {"count": 1})
+
+	except PynamoDBConnectionError as e:
+
+		# The most likely error we'll encounter is PutErrors stemming from an AWS
+		# "ProvisionedThroughputExceededException." We don't want those to block the rest
+		# of replay persistence, so just log a metric for now.
+
+		influx_metric("twitch_vod_persist_failures", {"count": 1})
+		log.debug("Failed to persist Twitch VOD %s: %s", twitch_vod_url, e)
+
+
 def do_process_upload_event(upload_event):
 	meta = json.loads(upload_event.metadata)
 
@@ -1013,6 +1107,11 @@ def do_process_upload_event(upload_event):
 	update_player_class_distribution(replay)
 	update_replay_feed(replay)
 	update_game_counter(replay)
+
+	# Persist Twitch VOD metadata to DynamoDB if present
+
+	if has_twitch_vod_url(meta):
+		record_twitch_vod(replay, meta)
 
 	# Defer flushing the exporter until after the UploadEvent is set to SUCCESS
 	# So that the player can start watching their replay sooner

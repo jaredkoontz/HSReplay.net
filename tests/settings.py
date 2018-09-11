@@ -42,6 +42,14 @@ REDSHIFT_DATABASE = {
 }
 
 
+DYNAMODB_TABLES = {
+	"twitch_vod": {
+		"MODEL": "hsreplaynet.vods.models.TwitchVod",
+		"NAME": "twitch_vod",
+		"HOST": "http://localhost:8000/"
+	}
+}
+
 DATABASES = {
 	"default": {
 		"ENGINE": "django.db.backends.postgresql",
