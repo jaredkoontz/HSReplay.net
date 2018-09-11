@@ -1,5 +1,6 @@
 from django.http import Http404
 from django.shortcuts import get_object_or_404, render
+from django.utils.text import format_lazy
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import TemplateView, View
 
@@ -47,6 +48,14 @@ class ArchetypeDetailView(RequestMetaMixin, View):
 
 		request.head.title = _(archetype.name)
 		request.head.set_canonical_url(archetype.get_absolute_url())
+
+		self.request.head.add_meta({
+			"name": "description",
+			"content": format_lazy(
+				_("Find stats and different {name} decklists."),
+				name=_(archetype.name)
+			),
+		})
 
 		context = {
 			"archetype_id": archetype.id,
