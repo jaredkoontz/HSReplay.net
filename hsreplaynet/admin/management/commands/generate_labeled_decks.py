@@ -1,8 +1,9 @@
 import csv
 import os.path
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 import pytz
+from dateutil.parser import parse
 from django.core.management import BaseCommand
 from sqlalchemy import Date, Integer, String
 from sqlalchemy.dialects.postgresql import ARRAY
@@ -161,8 +162,12 @@ class Command(BaseCommand):
 			help="Which file to write the archetype labels to."
 		)
 		parser.add_argument(
-			"--lookback", required=True, type=int,
-			metavar="DAYS", help="How many days back we look back from the present."
+			"--from", required=True,
+			metavar="DATE", help="The earliest date to pull data for."
+		)
+		parser.add_argument(
+			"--to", required=True,
+			metavar="DATE", help="The latest date to pull data for."
 		)
 		parser.add_argument(
 			"--resume", action="store_true",
@@ -185,8 +190,16 @@ class Command(BaseCommand):
 					self.stdout.write("Aborting.")
 					return
 
-		end_date = datetime.now(pytz.utc).replace(hour=0, minute=0, second=0, microsecond=0)
-		start_date = end_date - timedelta(days=options["lookback"])
+		from_ = options["from"]
+		to = options["to"]
+		if from_ > to:
+			to, from_ = from_, to
+
+		one_day = timedelta(days=1)
+		start_date = parse(from_) \
+			.replace(hour=0, minute=0, second=0, microsecond=0, tzinfo=pytz.utc)
+		end_date = parse(to) \
+			.replace(hour=0, minute=0, second=0, microsecond=0, tzinfo=pytz.utc)
 		self.stdout.write(
 			"Gathering data from %s to %s..." % (
 				start_date.date(),
@@ -216,9 +229,8 @@ class Command(BaseCommand):
 				writer.writeheader()
 
 			current_date = start_date
-			one_day = timedelta(days=1)
 			archetype_ids = set()
-			while current_date < end_date:
+			while current_date <= end_date:
 				self.stdout.write("Gathering decks from %s..." % current_date.date())
 
 				# For each day, let's grab the most recent snapshots for that day
@@ -232,6 +244,7 @@ class Command(BaseCommand):
 
 				if snapshot:
 					deck_ids, archetype_by_deck_id = _get_deck_ids_from_snapshot(snapshot)
+					self.stdout.write("Got %d decks" % len(deck_ids))
 
 					# Grab the instance rows from Redshift, based on the cluster deck ids
 					self.stdout.write("Gathering games from %s..." % current_date.date())
