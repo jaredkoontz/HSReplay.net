@@ -45,7 +45,6 @@ class HTMLHead:
 		self.hreflang = None
 		self.opengraph = {}
 		# self.favicon = ""
-		self.static_url = settings.STATIC_URL
 
 		self.favicon = "images/favicon.ico"
 		self.apple_touch_icon = "images/hsreplay-thumbnail.png"
@@ -73,11 +72,6 @@ class HTMLHead:
 			self.opengraph["og:title"] = title
 
 		tags += self._meta_tags
-
-		if self.static_url:
-			tags.append(
-				HTMLTag("link", attrs={"rel": "assets", "href": self.static_url})
-			)
 
 		if self.favicon:
 			url = static(self.favicon)
