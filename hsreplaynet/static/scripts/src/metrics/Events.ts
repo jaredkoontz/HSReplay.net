@@ -113,6 +113,11 @@ export class TwitchStreamPromotionEvents extends Events {
 	}
 
 	public static onFrontpageStreamInteraction(streamer: string): void {
+		INFLUX_CLIENT.writePoint(
+			"promo_stream_interaction",
+			{ count: "1i" },
+			{ streamer },
+		);
 		this.ga("Twitch Promo", "interaction", streamer);
 	}
 }
