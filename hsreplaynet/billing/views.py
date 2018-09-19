@@ -560,6 +560,7 @@ class PaypalSuccessView(BasePaypalView):
 class PaypalCancelView(BasePaypalView):
 	def get(self, request):
 		from djpaypal.models import PreparedBillingAgreement
+		from djpaypal.exceptions import AgreementAlreadyExecuted
 		token = request.GET.get("token", "")
 		if token:
 			try:
@@ -567,7 +568,10 @@ class PaypalCancelView(BasePaypalView):
 			except PreparedBillingAgreement.DoesNotExist:
 				return self.fail(_("Invalid token while cancelling payment."))
 
-			prepared_agreement.cancel()
+			try:
+				prepared_agreement.cancel()
+			except AgreementAlreadyExecuted:
+				return self.fail(_("Payment has already completed and cannot be cancelled."))
 
 		return self.fail(_("Your payment was interrupted."))
 
