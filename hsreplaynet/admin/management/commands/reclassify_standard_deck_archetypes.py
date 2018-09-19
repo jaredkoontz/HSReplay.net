@@ -69,6 +69,7 @@ class Command(BaseCommand):
 	def add_arguments(self, parser):
 		parser.add_argument("--lookback", nargs="?", type=int, default=7)
 		parser.add_argument("--dry-run", action="store_true", default=False)
+		parser.add_argument("--force", action="store_true", default=False)
 
 	def get_archetype_name(self, archetype_id):
 		if archetype_id in self.archetype_map:
@@ -146,7 +147,7 @@ class Command(BaseCommand):
 					dbf_map, self.signature_weights[format][player_class]
 				)
 
-				if new_archetype_id == current_archetype_id:
+				if new_archetype_id == current_archetype_id and not options["force"]:
 					if verbosity > 1:
 						self.stdout.write("Deck %r - Nothing to do." % (deck_id))
 					continue
