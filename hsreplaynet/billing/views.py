@@ -586,7 +586,7 @@ class PaypalCancelView(BasePaypalView):
 		return self.fail(_("Your payment was interrupted."))
 
 
-class PaypalSubscribeView(BasePaypalView):
+class PaypalSubscribeView(LoginRequiredMixin, BasePaypalView):
 	def post(self, request):
 		from djpaypal.models import BillingPlan
 		id = request.POST.get("plan", "")
