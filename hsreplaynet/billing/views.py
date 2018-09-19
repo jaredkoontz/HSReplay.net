@@ -558,6 +558,14 @@ class PaypalSuccessView(BasePaypalView):
 
 
 class PaypalCancelView(BasePaypalView):
+	success_url = reverse_lazy("premium")
+
+	def get_success_url(self):
+		success_url = self.request.GET.get("next", "")
+		if success_url and is_safe_url(success_url, allowed_hosts=None):
+			return success_url
+		return self.success_url
+
 	def get(self, request):
 		from djpaypal.models import PreparedBillingAgreement
 		from djpaypal.exceptions import AgreementAlreadyExecuted
@@ -572,6 +580,8 @@ class PaypalCancelView(BasePaypalView):
 				prepared_agreement.cancel()
 			except AgreementAlreadyExecuted:
 				return self.fail(_("Payment has already completed and cannot be cancelled."))
+
+			return redirect(self.get_success_url())
 
 		return self.fail(_("Your payment was interrupted."))
 
