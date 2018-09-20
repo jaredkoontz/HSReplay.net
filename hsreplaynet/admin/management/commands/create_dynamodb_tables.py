@@ -12,7 +12,11 @@ class Command(BaseCommand):
 			help="Logical DynamoDB table name (see settings)"
 		)
 
-		parser.add_argument("--wait", help="Wait until table is ready before returning")
+		parser.add_argument(
+			"--wait",
+			action="store_true",
+			help="Wait until table is ready before returning"
+		)
 
 	def _create_table(self, table_name, wait=True):
 		table_metadata = settings.DYNAMODB_TABLES[table_name]
