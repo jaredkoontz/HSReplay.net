@@ -47,6 +47,11 @@ DYNAMODB_TABLES = {
 		"MODEL": "hsreplaynet.vods.models.TwitchVod",
 		"NAME": "twitch_vod",
 		"HOST": "http://localhost:8000/"
+	},
+	"intenum_test": {
+		"MODEL": "tests.test_dynamodb.IntEnumTest",
+		"NAME": "intenum_test",
+		"HOST": "http://localhost:8000/"
 	}
 }
 
