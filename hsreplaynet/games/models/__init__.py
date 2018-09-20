@@ -476,8 +476,8 @@ class GameReplay(models.Model):
 		return self.friendly_player.pegasus_account.region
 
 	def serialize(self):
-		from .processing import get_replay_url
-		from .serializers import GameReplaySerializer
+		from ..processing import get_replay_url
+		from ..serializers import GameReplaySerializer
 
 		s = GameReplaySerializer(self)
 		serialized = s.data
