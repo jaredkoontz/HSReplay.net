@@ -112,11 +112,10 @@ def test_update_replay_feed_deleted_user(mocker, user):
 
 
 TEST_REPLAY_META = {
-	"twitch_channel_name": "My Hearthstone Channel",
-	"twitch_vod_thumbnail_url_template":
-		"https://static-cdn.jtvnw.net/s3_vods/twitch/106400740/f2979575-fa80-4ad9-9665"
-		"-a074d510a03a/thumb/index-0000000000-{width}x{height}.jpg",
-	"twitch_vod_url": "https://www.twitch.tv/twitch/v/106400740"
+	"twitch_vod": {
+		"channel_name": "My Hearthstone Channel",
+		"url": "https://www.twitch.tv/videos/106400740?t=0h1m2s"
+	}
 }
 
 TEST_TWITCH_DECK_STRING_1 = "AAECAa0GBggJxQTtBZAH0woMHu0BkAKXAqEE5QTJBtIK1QrWCtcK8gwA"
@@ -130,10 +129,9 @@ TEST_TWITCH_VOD_PARAMS = dict(
 	game_date=1531612800.0,
 	game_length_seconds=300.0,
 	game_type="BGT_RANKED_STANDARD",
-	thumbnail_url_template=TEST_REPLAY_META["twitch_vod_thumbnail_url_template"],
-	url=TEST_REPLAY_META["twitch_vod_url"],
+	url=TEST_REPLAY_META["twitch_vod"]["url"],
 	won=False,
-	twitch_channel_name=TEST_REPLAY_META["twitch_channel_name"]
+	twitch_channel_name=TEST_REPLAY_META["twitch_vod"]["channel_name"]
 )
 
 
@@ -236,7 +234,7 @@ def test_record_twitch_vod(user, twitch_vod_game):
 		**TEST_TWITCH_VOD_PARAMS
 	)
 
-	actual_vod = TwitchVod.get(TEST_REPLAY_META["twitch_channel_name"], "R25")
+	actual_vod = TwitchVod.get(TEST_REPLAY_META["twitch_vod"]["channel_name"], "R25")
 
 	# Patch the TTL
 
@@ -268,7 +266,7 @@ def test_record_twitch_vod_legend_rank(user, twitch_vod_game):
 		combined_rank="L50",
 		**TEST_TWITCH_VOD_PARAMS
 	)
-	actual_vod = TwitchVod.get(TEST_REPLAY_META["twitch_channel_name"], "L50")
+	actual_vod = TwitchVod.get(TEST_REPLAY_META["twitch_vod"]["channel_name"], "L50")
 
 	# Patch the TTL
 
@@ -296,7 +294,7 @@ def test_record_twitch_vod_ai(user, twitch_vod_game):
 		combined_rank="R25",
 		**TEST_TWITCH_VOD_PARAMS
 	)
-	actual_vod = TwitchVod.get(TEST_REPLAY_META["twitch_channel_name"], "R25")
+	actual_vod = TwitchVod.get(TEST_REPLAY_META["twitch_vod"]["channel_name"], "R25")
 
 	# Patch the TTL
 
@@ -333,7 +331,7 @@ def test_record_twitch_vod_arena(user):
 		combined_rank="R0",
 		**dict(TEST_TWITCH_VOD_PARAMS, game_type="BGT_ARENA")
 	)
-	actual_vod = TwitchVod.get(TEST_REPLAY_META["twitch_channel_name"], "R0")
+	actual_vod = TwitchVod.get(TEST_REPLAY_META["twitch_vod"]["channel_name"], "R0")
 
 	# Patch the TTL
 
@@ -359,12 +357,19 @@ def test_record_twitch_vod_dynamodb_exception(user, twitch_vod_game):
 		record_twitch_vod(replay, TEST_REPLAY_META)
 
 		with raises(DoesNotExist):
-			TwitchVod.get(TEST_REPLAY_META["twitch_channel_name"], "R25")
+			TwitchVod.get(TEST_REPLAY_META["twitch_vod"]["channel_name"], "R25")
 
 
 def test_has_twitch_vod_url():
 	assert not has_twitch_vod_url(dict())
+	assert not has_twitch_vod_url(dict(twitch_vod=dict()))
 	assert not has_twitch_vod_url(dict(
-		twitch_channel_name="My Hearthstone Channel"
+		twitch_vod=dict(channel_name="My Hearthstone Channel")
+	))
+	assert not has_twitch_vod_url(dict(
+		twitch_vod=dict(
+			channel_name="My Hearthstone Channel",
+			url="https://not/a/twitch/url/"
+		)
 	))
 	assert has_twitch_vod_url(TEST_REPLAY_META)

@@ -70,11 +70,6 @@ class TwitchVod(Model):
 
 	url = UnicodeAttribute()  # The URL of the VOD on Twitch
 
-	# The URL template for the VOD thumbnail image; see
-	# https://dev.twitch.tv/docs/v5/reference/videos/#get-video
-
-	thumbnail_url_template = UnicodeAttribute()
-
 	archetype_index = TwitchVodArchetypeIndex()
 	deck_index = TwitchVodDeckStringIndex()
 

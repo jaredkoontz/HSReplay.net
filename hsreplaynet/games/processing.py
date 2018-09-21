@@ -986,7 +986,9 @@ def update_game_meta(parser, meta):
 		meta["game_type"] = int(parser.game_meta["GameType"].as_bnet(wild=is_wild))
 
 
-TWITCH_VOD_URL_PATTERN = re.compile(r"^https://www\.twitch\.tv/twitch/v/\d+$")
+TWITCH_VOD_URL_PATTERN = re.compile(
+	r"^https://www\.twitch\.tv/videos/\d+\?t=\d+h\d{1,2}m\d{1,2}s$"
+)
 
 
 def has_twitch_vod_url(meta):
@@ -996,16 +998,20 @@ def has_twitch_vod_url(meta):
 	:return: True if Twitch VOD metadata is present, False otherwise
 	"""
 
-	if (
-		"twitch_channel_name" not in meta or
-		"twitch_vod_thumbnail_url_template" not in meta or
-		"twitch_vod_url" not in meta
-	):
+	if "twitch_vod" not in meta:
 		return False
 
-	# Does the VOD URL look like it came from Twitch?
+	vod_meta = meta["twitch_vod"]
 
-	return TWITCH_VOD_URL_PATTERN.fullmatch(meta["twitch_vod_url"]) is not None
+	if isinstance(vod_meta, dict):
+		if "channel_name" not in vod_meta or "url" not in vod_meta:
+			return False
+
+		# Does the VOD URL look like it came from Twitch?
+
+		return TWITCH_VOD_URL_PATTERN.fullmatch(vod_meta["url"]) is not None
+	else:
+		return False
 
 
 def record_twitch_vod(replay, meta):
@@ -1025,11 +1031,12 @@ def record_twitch_vod(replay, meta):
 	friendly_player = replay.friendly_player
 	friendly_deck = friendly_player.deck_list
 
-	twitch_vod_url = meta["twitch_vod_url"]
+	vod_meta = meta["twitch_vod"]
+	twitch_vod_url = vod_meta["url"]
 
 	try:
 		twitch_vod = TwitchVod(
-			twitch_channel_name=meta["twitch_channel_name"],
+			twitch_channel_name=vod_meta["channel_name"],
 			friendly_player_name=friendly_player.name,
 			hsreplaynet_user_id=replay.user.id,
 			replay_shortid=replay.shortid,
@@ -1040,8 +1047,7 @@ def record_twitch_vod(replay, meta):
 			format_type=game.format.name,
 			game_type=game.game_type.name,
 			friendly_player_canonical_deck_string=friendly_deck.deckstring,
-			url=twitch_vod_url,
-			thumbnail_url_template=meta["twitch_vod_thumbnail_url_template"]
+			url=twitch_vod_url
 		)
 
 		if friendly_deck.archetype:
