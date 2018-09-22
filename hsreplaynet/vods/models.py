@@ -93,5 +93,6 @@ class TwitchVod(Model):
 		return NotImplemented
 
 	def __init__(self, *args, ttl=None, **kwargs):
-		effective_ttl = ttl if ttl else time.time() + TwitchVod.Meta.ttl_days * 24 * 60 * 60
+		effective_ttl = ttl \
+			if ttl else int(time.time() + TwitchVod.Meta.ttl_days * 24 * 60 * 60)
 		super().__init__(*args, ttl=effective_ttl, **kwargs)
