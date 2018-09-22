@@ -1044,8 +1044,8 @@ def record_twitch_vod(replay, meta):
 			won=bool(replay.won),
 			game_date=game.match_start.timestamp(),
 			game_length_seconds=game_length,
-			format_type=game.format.name,
-			game_type=game.game_type.name,
+			format_type=FormatType(game.format).name,
+			game_type=BnetGameType(game.game_type).name,
 			friendly_player_canonical_deck_string=friendly_deck.deckstring,
 			url=twitch_vod_url
 		)
