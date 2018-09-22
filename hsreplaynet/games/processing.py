@@ -20,7 +20,7 @@ from hslog.exceptions import MissingPlayerData, ParsingError
 from hslog.export import EntityTreeExporter, FriendlyPlayerExporter
 from hsreplay import __version__ as hsreplay_version
 from hsreplay.document import HSReplayDocument
-from pynamodb.exceptions import PynamoDBConnectionError
+from pynamodb.exceptions import PynamoDBException
 
 from hearthsim.identity.accounts.models import AuthToken, BlizzardAccount, Visibility
 from hsredshift.etl.exceptions import CorruptReplayDataError, CorruptReplayPacketError
@@ -1073,14 +1073,14 @@ def record_twitch_vod(replay, meta):
 
 		influx_metric("twitch_vods", {"count": 1})
 
-	except PynamoDBConnectionError as e:
+	except PynamoDBException as e:
 
 		# The most likely error we'll encounter is PutErrors stemming from an AWS
 		# "ProvisionedThroughputExceededException." We don't want those to block the rest
 		# of replay persistence, so just log a metric for now.
 
 		influx_metric("twitch_vod_persist_failures", {"count": 1})
-		log.debug("Failed to persist Twitch VOD %s: %s", twitch_vod_url, e)
+		log.warn("Failed to persist Twitch VOD %s: %s", twitch_vod_url, e)
 
 
 def do_process_upload_event(upload_event):
