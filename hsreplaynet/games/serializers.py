@@ -37,6 +37,11 @@ class PlayerSerializer(serializers.Serializer):
 	cardback = serializers.IntegerField(required=False, min_value=1, write_only=True)
 
 
+class TwitchVodSerializer(serializers.Serializer):
+	channel_name = serializers.CharField(write_only=True)
+	url = serializers.CharField(write_only=True)
+
+
 class UploadEventSerializer(serializers.Serializer):
 	id = serializers.UUIDField(read_only=True)
 	shortid = serializers.CharField(read_only=True)
@@ -74,6 +79,8 @@ class UploadEventSerializer(serializers.Serializer):
 
 	player1 = PlayerSerializer(required=False, write_only=True)
 	player2 = PlayerSerializer(required=False, write_only=True)
+
+	twitch_vod = TwitchVodSerializer(required=False, write_only=True)
 
 	class Meta:
 		lookup_field = "shortid"
