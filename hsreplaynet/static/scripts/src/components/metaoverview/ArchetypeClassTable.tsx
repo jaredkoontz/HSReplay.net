@@ -133,6 +133,7 @@ class ArchetypeClassTable extends React.Component<Props> {
 				dataKey: "archetype_name",
 				sortKey: "archetype",
 				text: t("Archetype"),
+				defaultSortDirection: "ascending",
 			},
 			{
 				dataKey: "win_rate",
