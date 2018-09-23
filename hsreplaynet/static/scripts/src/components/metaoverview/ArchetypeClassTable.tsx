@@ -16,6 +16,11 @@ interface Props extends SortableProps, InjectedTranslateProps {
 	totalPopularity?: boolean;
 }
 
+interface Row extends ApiArchetypePopularity {
+	archetype: Partial<Archetype>;
+	is_other?: boolean;
+}
+
 const CELL_HEIGHT = 36;
 const MIN_COLUMN_WIDTH = 100;
 const MAX_HEADER_WIDTH = 217;
@@ -25,14 +30,13 @@ class ArchetypeClassTable extends React.Component<Props> {
 	public render(): React.ReactNode {
 		const { data, playerClass, sortBy, sortDirection, t } = this.props;
 		const columns = this.getColumns();
-		const rows = [];
+		const rows: Row[] = [];
 		data.forEach(datum => {
 			const archetype = this.props.archetypeData.find(
 				a => a.id === datum.archetype_id,
 			);
 			if (archetype) {
 				rows.push({
-					archetype_name: archetype.name,
 					archetype,
 					...datum,
 				});
@@ -43,7 +47,7 @@ class ArchetypeClassTable extends React.Component<Props> {
 						name: t("Other"),
 						player_class_name: playerClass,
 					},
-					archetype_name: t("Other"),
+					is_other: true,
 					...datum,
 				});
 			}
@@ -51,13 +55,16 @@ class ArchetypeClassTable extends React.Component<Props> {
 		const { dataKey } = columns.find(c => c.sortKey === sortBy);
 		const direction = sortDirection === "ascending" ? 1 : -1;
 		rows.sort((a, b) => {
+			if (typeof a["is_other"] !== "undefined" && a["is_other"]) {
+				return 1;
+			}
+			if (typeof b["is_other"] !== "undefined" && b["is_other"]) {
+				return -1;
+			}
 			if (dataKey === "archetype_name") {
-				if (a.archetype_id < 0) {
-					return direction;
-				}
-				if (b.archetype_id < 0) {
-					return -direction;
-				}
+				return a.archetype.name > b.archetype.name
+					? direction
+					: -direction;
 			}
 			return a[dataKey] > b[dataKey] ? direction : -direction;
 		});
@@ -87,7 +94,7 @@ class ArchetypeClassTable extends React.Component<Props> {
 		);
 	}
 
-	renderHeader(archetype: Archetype) {
+	renderHeader(archetype: Partial<Archetype>) {
 		const className =
 			"player-class " + archetype.player_class_name.toLowerCase();
 		if (archetype.id < 0) {
