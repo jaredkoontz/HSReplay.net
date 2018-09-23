@@ -1080,7 +1080,14 @@ def record_twitch_vod(replay, meta):
 		# of replay persistence, so just log a metric for now.
 
 		influx_metric("twitch_vod_persist_failures", {"count": 1})
-		log.warn("Failed to persist Twitch VOD %s: %s", twitch_vod_url, e)
+		log.warning("Failed to persist Twitch VOD %s: %s", twitch_vod_url, e)
+
+	except Exception as e:
+
+		# Temporarily catch all Exceptions coming out of DynamoDB persistence
+
+		influx_metric("twitch_vod_persist_exceptions", {"count": 1})
+		log.error("Failed to persist Twitch VOD %s: %s", twitch_vod_url, e)
 
 
 def do_process_upload_event(upload_event):

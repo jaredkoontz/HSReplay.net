@@ -1,7 +1,7 @@
 import time
 
 from django.conf import settings
-from pynamodb.attributes import NumberAttribute, UnicodeAttribute
+from pynamodb.attributes import BooleanAttribute, NumberAttribute, UnicodeAttribute
 from pynamodb.indexes import AllProjection, GlobalSecondaryIndex
 from pynamodb.models import Model
 
@@ -49,7 +49,7 @@ class TwitchVod(Model):
 
 	combined_rank = UnicodeAttribute(range_key=True)
 
-	won = NumberAttribute()  # 1 if the friendly player won the game, else 0
+	won = BooleanAttribute()  # True if the friendly player won the game, else False
 	game_date = NumberAttribute()  # The epoch second timestamp of the match start
 	game_length_seconds = NumberAttribute()  # The duration of the game in seconds
 
