@@ -5,15 +5,30 @@ from io import BytesIO
 import pytest
 from django.core.exceptions import ValidationError
 from django.core.files.storage import default_storage
-from moto import mock_s3
+from moto import mock_dynamodb2, mock_s3
 from storages.backends.s3boto3 import S3Boto3Storage
 
 from hearthsim.identity.accounts.models import AuthToken
 from hearthsim.identity.api.models import APIKey
+from hsreplaynet.games.models.dynamodb import GameReplay as DynamoDBGameReplay
 from hsreplaynet.lambdas.uploads import process_raw_upload
 from hsreplaynet.uploads.models import UploadEvent, UploadEventStatus, _generate_upload_key
 
 from .conftest import LOG_DATA_DIR, UPLOAD_SUITE
+
+
+@pytest.fixture
+def game_replay_dynamodb_table(mocker):
+	mocker.patch.multiple(
+		"hsreplaynet.games.models.dynamodb.GameReplay.Meta",
+		host=None,
+		aws_access_key_id="test",
+		aws_secret_access_key="test",
+	)
+	with mock_dynamodb2():
+		DynamoDBGameReplay.create_table(wait=True)
+		yield
+		DynamoDBGameReplay.delete_table()
 
 
 @pytest.fixture(scope="module")
@@ -49,6 +64,7 @@ class MockRawUpload(object):
 			key=auth_token_str,
 			creation_apikey=self._api_key
 		)[0]
+		self._auth_token.create_fake_user(save=True)
 		self._api_key.tokens.add(self._auth_token)
 
 		timestamp_str = self._descriptor["upload_metadata"]["match_start"][0:16]
@@ -280,3 +296,41 @@ def test_validate_upload_date():
 		# assert expected.tzinfo == match_start.tzinfo
 		assert ret.tzinfo == match_start.tzinfo
 		assert ret == expected
+
+
+@pytest.mark.django_db
+@pytest.mark.usefixtures("multi_db", "game_replay_dynamodb_table")
+def test_process_raw_upload_to_dynamodb(mocker, settings):
+	mocker.patch("hsreplaynet.games.processing.update_player_class_distribution")
+	mocker.patch("hsreplaynet.games.processing.update_replay_feed")
+	mocker.patch("hsreplaynet.games.processing.update_game_counter")
+	settings.LOAD_REPLAYS_INTO_DYNAMODB = True
+	settings.FULL_DECK_PREDICTION_ENABLED = False
+	settings.REDSHIFT_LOADING_ENABLED = False
+
+	raw_upload = MockRawUpload(os.path.join(
+		LOG_DATA_DIR,
+		"hsreplaynet-tests",
+		"uploads",
+		"u4HUJnBGVpytdFVWgNumfU"
+	), default_storage)
+
+	process_raw_upload(raw_upload)
+
+	user = raw_upload.auth_token.user
+	user_id = int(user.id)
+	rows = DynamoDBGameReplay.query(user_id)
+	replay = rows.next()
+
+	assert replay.user_id == user_id
+	assert replay.match_start == 1534252613613
+	assert replay.short_id == raw_upload.shortid
+
+	assert replay.game_type_match_start == "2:1534252613613"
+
+	assert replay.ladder_season == 58
+	assert replay.brawl_season is None
+	assert replay.scenario_id == 2
+	assert replay.num_turns == 33
+
+	assert replay.opponent_predicted_deck is None

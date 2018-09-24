@@ -49,7 +49,7 @@ DYNAMODB_TABLES = {
 		"HOST": "http://localhost:8000/"
 	},
 	"game_replay": {
-		"MODEL": "hsreplaynet.games.dynamo.GameReplay",
+		"MODEL": "hsreplaynet.games.models.dynamo.GameReplay",
 		"NAME": "game_replay",
 		"HOST": "http://localhost:8000/"
 	},
