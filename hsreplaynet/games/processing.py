@@ -1215,17 +1215,19 @@ def do_process_upload_event(upload_event):
 			log.debug("Did not acquire redshift lock. Will not flush to redshift")
 
 	def do_save_dynamodb():
-		predicted_deck = None
-		if replay.opponent_revealed_deck and replay.opponent_revealed_deck.guessed_full_deck:
-			predicted_deck = replay.opponent_revealed_deck.guessed_full_deck.deckstring
-		item = create_dynamodb_game_replay(
-			upload_event=upload_event,
-			meta=meta,
-			entity_tree=entity_tree,
-			replay_xml=str(replay.replay_xml),
-			predicted_deck=predicted_deck,
-		)
-		item.save()
+		load_replays_into_dynamodb = getattr(settings, "LOAD_REPLAYS_INTO_DYNAMODB", False)
+		if load_replays_into_dynamodb:
+			predicted_deck = None
+			if replay.opponent_revealed_deck and replay.opponent_revealed_deck.guessed_full_deck:
+				predicted_deck = replay.opponent_revealed_deck.guessed_full_deck.deckstring
+			item = create_dynamodb_game_replay(
+				upload_event=upload_event,
+				meta=meta,
+				entity_tree=entity_tree,
+				replay_xml=str(replay.replay_xml),
+				predicted_deck=predicted_deck,
+			)
+			item.save()
 
 	return replay, do_flush_exporter, do_save_dynamodb
 
