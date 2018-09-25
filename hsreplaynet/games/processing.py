@@ -1296,7 +1296,8 @@ def do_process_upload_event(upload_event):
 				replay_xml=str(replay.replay_xml),
 				predicted_cards=predicted_cards,
 			)
-			item.save()
+			if item:
+				item.save()
 
 	return replay, do_flush_exporter, do_save_dynamodb
 
