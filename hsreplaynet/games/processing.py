@@ -4,7 +4,6 @@ from collections import defaultdict
 from hashlib import sha1
 from io import StringIO
 
-from boto.dynamodb2.exceptions import ProvisionedThroughputExceededException
 from dateutil.parser import parse as dateutil_parse
 from django.conf import settings
 from django.core.exceptions import ValidationError
@@ -376,9 +375,9 @@ def process_upload_event(upload_event):
 	try:
 		with influx_timer("dynamodb_game_replay_save_duration"):
 			do_save_dynamodb()
-	except ProvisionedThroughputExceededException as e:
+	except PynamoDBException as e:
 		influx_metric(
-			"dynamodb_game_replay_throughput_exceeded",
+			"dynamodb_game_replay_save_failure",
 			{
 				"count": 1,
 			}
@@ -387,7 +386,7 @@ def process_upload_event(upload_event):
 		# Don't fail on this
 		error_handler(e)
 		influx_metric(
-			"dynamodb_game_replay_save_error",
+			"dynamodb_game_replay_save_exception",
 			{
 				"count": 1,
 				"error": str(e)
