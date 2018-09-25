@@ -1134,7 +1134,7 @@ def record_twitch_vod(replay, meta):
 		log.error("Failed to persist Twitch VOD %s: %s", twitch_vod_url, e)
 
 
-def get_globalgame_digest_v2_tags(packet_tree):
+def get_globalgame_digest_v2_tags(packet_tree, shortid=None):
 	"""Detect unifications and possible digest collisions for the specified packet tree
 
 	Generates a digest using the "v2" algorithm (see GameDigestExporter) and increments the
@@ -1156,12 +1156,13 @@ def get_globalgame_digest_v2_tags(packet_tree):
 			if digest_count >= 2:
 				tags["v2_unification"] = True
 
-				# If we've seen the same digest more than twice, it's possible - though not
-				# definitely - a digest collision. (It could also be a spectated replay that
-				# we've seen from both sides - or that has been spectated more than
-				# twice...)
+				# If we've seen the same digest more than twice, it's possibly - though not
+				# definitely - a digest collision.
 
 				if digest_count > 2:
+					error_handler(RuntimeError(
+						"Game digest collision for replay %s" % shortid
+					))
 					tags["v2_collision"] = True
 
 	except Exception as e:
@@ -1201,13 +1202,19 @@ def do_process_upload_event(upload_event):
 	product = user_agent_product(upload_event.user_agent) \
 		if upload_event.user_agent else None
 
-	if game_replay_created:
+	# Only record unification / digest collision stats if we haven't seen the replay before
+	# (i.e., we're not reprocessing) and it's not a spectated game.
+
+	if game_replay_created and not meta.get("spectator_mode", False):
 
 		# If this isn't a reprocessing of a replay we've already seen, compute the v2 digest
 		# for the game and record metrics to indicate where it's a unification and/or
 		# collision.
 
-		tags = dict(get_globalgame_digest_v2_tags(parser.games[0]))
+		tags = dict(get_globalgame_digest_v2_tags(
+			parser.games[0],
+			shortid=upload_event.shortid
+		))
 
 		if not global_game_created:
 
