@@ -6,6 +6,7 @@ from io import StringIO
 
 from dateutil.parser import parse as dateutil_parse
 from django.conf import settings
+from django.core.cache import caches
 from django.core.exceptions import ValidationError
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
@@ -33,7 +34,9 @@ from hsreplaynet.api.live.distributions import (
 	get_played_cards_distribution, get_player_class_distribution, get_replay_feed
 )
 from hsreplaynet.decks.models import Deck
+from hsreplaynet.games.exporters import GameDigestExporter
 from hsreplaynet.uploads.models import UploadEventStatus
+from hsreplaynet.uploads.utils import user_agent_product
 from hsreplaynet.utils import guess_ladder_season, log
 from hsreplaynet.utils.influx import influx_metric, influx_timer
 from hsreplaynet.utils.instrumentation import error_handler
@@ -124,6 +127,16 @@ def generate_globalgame_digest(meta, lo1, lo2):
 	values = (game_handle, server_address, lo1, lo2)
 	ret = "-".join(str(k) for k in values)
 	return sha1(ret.encode("utf-8")).hexdigest()
+
+
+def generate_globalgame_digest_v2(entity_tree):
+	digest_exporter = GameDigestExporter(entity_tree)
+	digest_exporter.export()
+	return digest_exporter.digest
+
+
+def get_game_digests_redis():
+	return caches["game_digests"].client.get_client()
 
 
 def find_or_create_global_game(entity_tree, meta):
@@ -1121,6 +1134,43 @@ def record_twitch_vod(replay, meta):
 		log.error("Failed to persist Twitch VOD %s: %s", twitch_vod_url, e)
 
 
+def get_globalgame_digest_v2_tags(packet_tree):
+	"""Detect unifications and possible digest collisions for the specified packet tree
+
+	Generates a digest using the "v2" algorithm (see GameDigestExporter) and increments the
+	observations for that digest's key in Redis.
+
+	:param packet_tree: The packet tree to digest
+	:return: A dictionary of tags indicating unifications and possible collisions
+	"""
+
+	tags = dict()
+
+	try:
+		with influx_timer("game_digest_exporter_duration"):
+			digest = generate_globalgame_digest_v2(packet_tree)
+			redis = get_game_digests_redis()
+			digest_count = redis.hincrby(digest, "count", 1)
+			redis.expire(digest, 21600)  # 6 hours
+
+			if digest_count >= 2:
+				tags["v2_unification"] = True
+
+				# If we've seen the same digest more than twice, it's possible - though not
+				# definitely - a digest collision. (It could also be a spectated replay that
+				# we've seen from both sides - or that has been spectated more than
+				# twice...)
+
+				if digest_count > 2:
+					tags["v2_collision"] = True
+
+	except Exception as e:
+		influx_metric("game_digest_exporter_failure", {"count": 1})
+		log.warning("Failed to compute or record digest for replay: %s" % e)
+
+	return tags
+
+
 def do_process_upload_event(upload_event):
 	meta = json.loads(upload_event.metadata)
 
@@ -1147,6 +1197,26 @@ def do_process_upload_event(upload_event):
 	replay, game_replay_created = find_or_create_replay(
 		parser, entity_tree, meta, upload_event, global_game, players
 	)
+
+	product = user_agent_product(upload_event.user_agent) \
+		if upload_event.user_agent else None
+
+	if game_replay_created:
+
+		# If this isn't a reprocessing of a replay we've already seen, compute the v2 digest
+		# for the game and record metrics to indicate where it's a unification and/or
+		# collision.
+
+		tags = dict(get_globalgame_digest_v2_tags(parser.games[0]))
+
+		if not global_game_created:
+
+			# If we've seen the game before, it's likely a unification via the "v1" version
+			# of the digest process.
+
+			tags["v1_unification"] = True
+
+		influx_metric("game_replays_uploaded", {"count": 1}, user_agent=product, **tags)
 
 	update_player_class_distribution(replay)
 	update_replay_feed(replay)

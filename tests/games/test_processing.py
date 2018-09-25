@@ -1,6 +1,7 @@
 from datetime import datetime
 from unittest.mock import ANY, Mock, patch
 
+import fakeredis
 import pytest
 import pytz
 from django.db.models import signals
@@ -19,7 +20,7 @@ from hearthsim.identity.accounts.models import BlizzardAccount, User
 from hsreplaynet.decks.models import Archetype, Deck, update_deck_archetype
 from hsreplaynet.games.models import GameReplay, GlobalGame, GlobalGamePlayer
 from hsreplaynet.games.processing import (
-	has_twitch_vod_url, record_twitch_vod, update_replay_feed
+	get_globalgame_digest_v2_tags, has_twitch_vod_url, record_twitch_vod, update_replay_feed
 )
 from hsreplaynet.vods.models import TwitchVod
 
@@ -373,3 +374,44 @@ def test_has_twitch_vod_url():
 		)
 	))
 	assert has_twitch_vod_url(TEST_REPLAY_META)
+
+
+@pytest.fixture
+def redis():
+	r = fakeredis.FakeStrictRedis(decode_responses=True)
+	yield r
+	r.flushall()
+
+
+@patch("hsreplaynet.games.processing.generate_globalgame_digest_v2", lambda x: "123abc")
+def test_get_globalgame_digest_v2_tags(redis):
+	with patch("hsreplaynet.games.processing.get_game_digests_redis", lambda: redis):
+		tags = get_globalgame_digest_v2_tags(Mock())
+
+		assert redis.hget("123abc", "count") == "1"
+		assert tags == {}
+
+
+@patch("hsreplaynet.games.processing.generate_globalgame_digest_v2", lambda x: "123abc")
+def test_get_globalgame_digest_v2_tags_unification(redis):
+	redis.hincrby("123abc", "count", 1)
+
+	with patch("hsreplaynet.games.processing.get_game_digests_redis", lambda: redis):
+		tags = get_globalgame_digest_v2_tags(Mock())
+
+		assert redis.hget("123abc", "count") == "2"
+		assert tags == {"v2_unification": True}
+
+
+@patch("hsreplaynet.games.processing.generate_globalgame_digest_v2", lambda x: "123abc")
+def test_get_globalgame_digest_v2_tags_collision(redis):
+	redis.hincrby("123abc", "count", 2)
+
+	with patch("hsreplaynet.games.processing.get_game_digests_redis", lambda: redis):
+		tags = get_globalgame_digest_v2_tags(Mock())
+
+		assert redis.hget("123abc", "count") == "3"
+		assert tags == {
+			"v2_collision": True,
+			"v2_unification": True
+		}
