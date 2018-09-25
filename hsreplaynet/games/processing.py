@@ -1216,15 +1216,15 @@ def do_process_upload_event(upload_event):
 	def do_save_dynamodb():
 		load_replays_into_dynamodb = getattr(settings, "LOAD_REPLAYS_INTO_DYNAMODB", False)
 		if load_replays_into_dynamodb:
-			predicted_deck = None
+			predicted_cards = None
 			if replay.opponent_revealed_deck and replay.opponent_revealed_deck.guessed_full_deck:
-				predicted_deck = replay.opponent_revealed_deck.guessed_full_deck.deckstring
+				predicted_cards = replay.opponent_revealed_deck.guessed_full_deck.card_id_list()
 			item = create_dynamodb_game_replay(
 				upload_event=upload_event,
 				meta=meta,
 				entity_tree=entity_tree,
 				replay_xml=str(replay.replay_xml),
-				predicted_deck=predicted_deck,
+				predicted_cards=predicted_cards,
 			)
 			item.save()
 
@@ -1385,7 +1385,7 @@ def create_dynamodb_game_replay(
 	meta,
 	entity_tree,
 	replay_xml,
-	predicted_deck=None
+	predicted_cards=None
 ):
 	auth_token = AuthToken.objects.filter(key=upload_event.token_uuid).first()
 	user = auth_token.user if auth_token else None
@@ -1443,6 +1443,13 @@ def create_dynamodb_game_replay(
 		[opponent_hero],
 		format_type
 	)
+	opponent_predicted_deck = None
+	if predicted_cards:
+		opponent_predicted_deck = write_deckstring(
+			_get_tuple_decklist(predicted_cards, db),
+			[opponent_hero],
+			format_type
+		)
 
 	replay = DynamoDBGameReplay(
 		user_id=int(user.id),
@@ -1488,7 +1495,7 @@ def create_dynamodb_game_replay(
 		opponent_class=opponent_class,
 		opponent_hero=opponent_hero,
 		opponent_revealed_deck=opponent_revealed_deck,
-		opponent_predicted_deck=predicted_deck,
+		opponent_predicted_deck=opponent_predicted_deck,
 		opponent_cardback_id=opponent_meta.get("cardback"),
 		opponent_final_state=PlayState(opponent.tags.get(GameTag.PLAYSTATE, 0)),
 
