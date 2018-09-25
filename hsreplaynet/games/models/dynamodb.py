@@ -58,7 +58,7 @@ class GameReplay(Model):
 	friendly_player_class = IntEnumAttribute(enums.CardClass)
 	friendly_player_hero = NumberAttribute()
 	friendly_player_deck = UnicodeAttribute()  # deckstring
-	friendly_player_blizzard_deck_id = NumberAttribute()
+	friendly_player_blizzard_deck_id = NumberAttribute(null=True)
 	friendly_player_cardback_id = NumberAttribute(null=True)
 	friendly_player_final_state = IntEnumAttribute(enums.PlayState)
 
