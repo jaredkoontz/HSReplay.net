@@ -544,13 +544,33 @@ def _can_claim(blizzard_account):
 	return True
 
 
+def _pick_decklist(meta, decklist_from_meta, replay_decklist, is_friendly_player=True):
+	is_spectated_replay = meta.get("spectator_mode", False)
+	is_dungeon_run = meta.get("scenario_id", 0) == 2663
+
+	meta_decklist_is_superset = _is_decklist_superset(decklist_from_meta, replay_decklist)
+
+	# We disregard the meta decklist if it's not matching the replay decklist
+	# We always want to use it in dungeon run though, since the initial deck is garbage
+	disregard_meta = not meta_decklist_is_superset and (
+		not is_dungeon_run or not is_friendly_player
+	)
+
+	if not decklist_from_meta or is_spectated_replay or disregard_meta:
+		# Spectated replays never know more than is in the replay data
+		# But may have erroneous data from the spectator's client's memory
+		# Read from before they entered the spectated game
+		return replay_decklist
+	else:
+		return decklist_from_meta
+
+
 def update_global_players(global_game, entity_tree, meta, upload_event, exporter):
 	# Fill the player metadata and objects
 	players = {}
 	played_cards = exporter.export_played_cards()
 
 	is_spectated_replay = meta.get("spectator_mode", False)
-	is_dungeon_run = meta.get("scenario_id", 0) == 2663
 
 	for player in entity_tree.players:
 		is_friendly_player = player.player_id == meta["friendly_player"]
@@ -561,22 +581,9 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 			get_original_card_id(c.initial_card_id)
 			for c in player.initial_deck if c.initial_card_id
 		]
-
-		meta_decklist_is_superset = _is_decklist_superset(decklist_from_meta, replay_decklist)
-
-		# We disregard the meta decklist if it's not matching the replay decklist
-		# We always want to use it in dungeon run though, since the initial deck is garbage
-		disregard_meta = not meta_decklist_is_superset and (
-			not is_dungeon_run or not is_friendly_player
+		decklist = _pick_decklist(
+			meta, decklist_from_meta, replay_decklist, is_friendly_player=is_friendly_player
 		)
-
-		if not decklist_from_meta or is_spectated_replay or disregard_meta:
-			# Spectated replays never know more than is in the replay data
-			# But may have erroneous data from the spectator's client's memory
-			# Read from before they entered the spectated game
-			decklist = replay_decklist
-		else:
-			decklist = decklist_from_meta
 
 		player_hero_id = player._hero.card_id
 
@@ -1499,8 +1506,15 @@ def create_dynamodb_game_replay(
 	friendly_player_hero = db[player_hero_id].dbf_id
 
 	friendly_decklist_from_meta = friendly_player_meta.get("deck")
+	friendly_replay_decklist = [
+		get_original_card_id(c.initial_card_id)
+		for c in friendly_player.initial_deck if c.initial_card_id
+	]
+	friendly_decklist = _pick_decklist(
+		meta, friendly_decklist_from_meta, friendly_replay_decklist, is_friendly_player=True
+	)
 	friendly_player_deck = write_deckstring(
-		_get_tuple_decklist(friendly_decklist_from_meta, db),
+		_get_tuple_decklist(friendly_decklist, db),
 		[friendly_player_hero],
 		format_type
 	)
