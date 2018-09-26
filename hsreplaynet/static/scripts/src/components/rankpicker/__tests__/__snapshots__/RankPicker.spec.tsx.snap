@@ -1,0 +1,2763 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RankPicker allows selecting a single Rank: all 1`] = `
+<RankPicker
+  onSelectionChanged={[MockFunction]}
+  selected="LEGEND_THROUGH_TWENTYFIVE"
+>
+  <div
+    className="rank-picker"
+  >
+    <RowSelector
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="0-row"
+      mode="set"
+      onClick={[Function]}
+    >
+      <button
+        className="row-selector selected"
+        onClick={[Function]}
+      >
+        <span
+          className="glyphicon glyphicon-arrow-right"
+        />
+      </button>
+    </RowSelector>
+    <Component
+      classNames={
+        Array [
+          "rank-selector-legend",
+          "selected",
+        ]
+      }
+      key="0"
+      onClick={[Function]}
+      rank={0}
+    >
+      <RankSelector
+        classNames={
+          Array [
+            "rank-selector-legend",
+            "selected",
+          ]
+        }
+        onClick={[Function]}
+        rank={0}
+        t={[Function]}
+      >
+        <button
+          className="rank-selector rank-selector-legend selected"
+          onClick={[Function]}
+        >
+          <img
+            alt="Legend"
+            src="/static/images/64x/ranked-medals/Medal_Ranked_Legend.png"
+          />
+          <span
+            aria-hidden="true"
+          >
+            Legend
+          </span>
+        </button>
+      </RankSelector>
+    </Component>
+    <RowSelector
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="1-row"
+      mode="set"
+      onClick={[Function]}
+    >
+      <button
+        className="row-selector selected"
+        onClick={[Function]}
+      >
+        <span
+          className="glyphicon glyphicon-arrow-right"
+        />
+      </button>
+    </RowSelector>
+    <Component
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="1"
+      onClick={[Function]}
+      rank={1}
+    >
+      <RankSelector
+        classNames={
+          Array [
+            "selected",
+          ]
+        }
+        onClick={[Function]}
+        rank={1}
+        t={[Function]}
+      >
+        <button
+          className="rank-selector selected"
+          onClick={[Function]}
+        >
+          <img
+            alt="Rank 1"
+            src="/static/images/64x/ranked-medals/Medal_Ranked_1.png"
+          />
+          <span
+            aria-hidden="true"
+          >
+            1
+          </span>
+        </button>
+      </RankSelector>
+    </Component>
+    <Component
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="2"
+      onClick={[Function]}
+      rank={2}
+    >
+      <RankSelector
+        classNames={
+          Array [
+            "selected",
+          ]
+        }
+        onClick={[Function]}
+        rank={2}
+        t={[Function]}
+      >
+        <button
+          className="rank-selector selected"
+          onClick={[Function]}
+        >
+          <img
+            alt="Rank 2"
+            src="/static/images/64x/ranked-medals/Medal_Ranked_2.png"
+          />
+          <span
+            aria-hidden="true"
+          >
+            2
+          </span>
+        </button>
+      </RankSelector>
+    </Component>
+    <Component
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="3"
+      onClick={[Function]}
+      rank={3}
+    >
+      <RankSelector
+        classNames={
+          Array [
+            "selected",
+          ]
+        }
+        onClick={[Function]}
+        rank={3}
+        t={[Function]}
+      >
+        <button
+          className="rank-selector selected"
+          onClick={[Function]}
+        >
+          <img
+            alt="Rank 3"
+            src="/static/images/64x/ranked-medals/Medal_Ranked_3.png"
+          />
+          <span
+            aria-hidden="true"
+          >
+            3
+          </span>
+        </button>
+      </RankSelector>
+    </Component>
+    <Component
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="4"
+      onClick={[Function]}
+      rank={4}
+    >
+      <RankSelector
+        classNames={
+          Array [
+            "selected",
+          ]
+        }
+        onClick={[Function]}
+        rank={4}
+        t={[Function]}
+      >
+        <button
+          className="rank-selector selected"
+          onClick={[Function]}
+        >
+          <img
+            alt="Rank 4"
+            src="/static/images/64x/ranked-medals/Medal_Ranked_4.png"
+          />
+          <span
+            aria-hidden="true"
+          >
+            4
+          </span>
+        </button>
+      </RankSelector>
+    </Component>
+    <Component
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="5"
+      onClick={[Function]}
+      rank={5}
+    >
+      <RankSelector
+        classNames={
+          Array [
+            "selected",
+          ]
+        }
+        onClick={[Function]}
+        rank={5}
+        t={[Function]}
+      >
+        <button
+          className="rank-selector selected"
+          onClick={[Function]}
+        >
+          <img
+            alt="Rank 5"
+            src="/static/images/64x/ranked-medals/Medal_Ranked_5.png"
+          />
+          <span
+            aria-hidden="true"
+          >
+            5
+          </span>
+        </button>
+      </RankSelector>
+    </Component>
+    <RowSelector
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="6-row"
+      mode="set"
+      onClick={[Function]}
+    >
+      <button
+        className="row-selector selected"
+        onClick={[Function]}
+      >
+        <span
+          className="glyphicon glyphicon-arrow-right"
+        />
+      </button>
+    </RowSelector>
+    <Component
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="6"
+      onClick={[Function]}
+      rank={6}
+    >
+      <RankSelector
+        classNames={
+          Array [
+            "selected",
+          ]
+        }
+        onClick={[Function]}
+        rank={6}
+        t={[Function]}
+      >
+        <button
+          className="rank-selector selected"
+          onClick={[Function]}
+        >
+          <img
+            alt="Rank 6"
+            src="/static/images/64x/ranked-medals/Medal_Ranked_6.png"
+          />
+          <span
+            aria-hidden="true"
+          >
+            6
+          </span>
+        </button>
+      </RankSelector>
+    </Component>
+    <Component
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="7"
+      onClick={[Function]}
+      rank={7}
+    >
+      <RankSelector
+        classNames={
+          Array [
+            "selected",
+          ]
+        }
+        onClick={[Function]}
+        rank={7}
+        t={[Function]}
+      >
+        <button
+          className="rank-selector selected"
+          onClick={[Function]}
+        >
+          <img
+            alt="Rank 7"
+            src="/static/images/64x/ranked-medals/Medal_Ranked_7.png"
+          />
+          <span
+            aria-hidden="true"
+          >
+            7
+          </span>
+        </button>
+      </RankSelector>
+    </Component>
+    <Component
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="8"
+      onClick={[Function]}
+      rank={8}
+    >
+      <RankSelector
+        classNames={
+          Array [
+            "selected",
+          ]
+        }
+        onClick={[Function]}
+        rank={8}
+        t={[Function]}
+      >
+        <button
+          className="rank-selector selected"
+          onClick={[Function]}
+        >
+          <img
+            alt="Rank 8"
+            src="/static/images/64x/ranked-medals/Medal_Ranked_8.png"
+          />
+          <span
+            aria-hidden="true"
+          >
+            8
+          </span>
+        </button>
+      </RankSelector>
+    </Component>
+    <Component
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="9"
+      onClick={[Function]}
+      rank={9}
+    >
+      <RankSelector
+        classNames={
+          Array [
+            "selected",
+          ]
+        }
+        onClick={[Function]}
+        rank={9}
+        t={[Function]}
+      >
+        <button
+          className="rank-selector selected"
+          onClick={[Function]}
+        >
+          <img
+            alt="Rank 9"
+            src="/static/images/64x/ranked-medals/Medal_Ranked_9.png"
+          />
+          <span
+            aria-hidden="true"
+          >
+            9
+          </span>
+        </button>
+      </RankSelector>
+    </Component>
+    <Component
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="10"
+      onClick={[Function]}
+      rank={10}
+    >
+      <RankSelector
+        classNames={
+          Array [
+            "selected",
+          ]
+        }
+        onClick={[Function]}
+        rank={10}
+        t={[Function]}
+      >
+        <button
+          className="rank-selector selected"
+          onClick={[Function]}
+        >
+          <img
+            alt="Rank 10"
+            src="/static/images/64x/ranked-medals/Medal_Ranked_10.png"
+          />
+          <span
+            aria-hidden="true"
+          >
+            10
+          </span>
+        </button>
+      </RankSelector>
+    </Component>
+    <RowSelector
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="11-row"
+      mode="set"
+      onClick={[Function]}
+    >
+      <button
+        className="row-selector selected"
+        onClick={[Function]}
+      >
+        <span
+          className="glyphicon glyphicon-arrow-right"
+        />
+      </button>
+    </RowSelector>
+    <Component
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="11"
+      onClick={[Function]}
+      rank={11}
+    >
+      <RankSelector
+        classNames={
+          Array [
+            "selected",
+          ]
+        }
+        onClick={[Function]}
+        rank={11}
+        t={[Function]}
+      >
+        <button
+          className="rank-selector selected"
+          onClick={[Function]}
+        >
+          <img
+            alt="Rank 11"
+            src="/static/images/64x/ranked-medals/Medal_Ranked_11.png"
+          />
+          <span
+            aria-hidden="true"
+          >
+            11
+          </span>
+        </button>
+      </RankSelector>
+    </Component>
+    <Component
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="12"
+      onClick={[Function]}
+      rank={12}
+    >
+      <RankSelector
+        classNames={
+          Array [
+            "selected",
+          ]
+        }
+        onClick={[Function]}
+        rank={12}
+        t={[Function]}
+      >
+        <button
+          className="rank-selector selected"
+          onClick={[Function]}
+        >
+          <img
+            alt="Rank 12"
+            src="/static/images/64x/ranked-medals/Medal_Ranked_12.png"
+          />
+          <span
+            aria-hidden="true"
+          >
+            12
+          </span>
+        </button>
+      </RankSelector>
+    </Component>
+    <Component
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="13"
+      onClick={[Function]}
+      rank={13}
+    >
+      <RankSelector
+        classNames={
+          Array [
+            "selected",
+          ]
+        }
+        onClick={[Function]}
+        rank={13}
+        t={[Function]}
+      >
+        <button
+          className="rank-selector selected"
+          onClick={[Function]}
+        >
+          <img
+            alt="Rank 13"
+            src="/static/images/64x/ranked-medals/Medal_Ranked_13.png"
+          />
+          <span
+            aria-hidden="true"
+          >
+            13
+          </span>
+        </button>
+      </RankSelector>
+    </Component>
+    <Component
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="14"
+      onClick={[Function]}
+      rank={14}
+    >
+      <RankSelector
+        classNames={
+          Array [
+            "selected",
+          ]
+        }
+        onClick={[Function]}
+        rank={14}
+        t={[Function]}
+      >
+        <button
+          className="rank-selector selected"
+          onClick={[Function]}
+        >
+          <img
+            alt="Rank 14"
+            src="/static/images/64x/ranked-medals/Medal_Ranked_14.png"
+          />
+          <span
+            aria-hidden="true"
+          >
+            14
+          </span>
+        </button>
+      </RankSelector>
+    </Component>
+    <Component
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="15"
+      onClick={[Function]}
+      rank={15}
+    >
+      <RankSelector
+        classNames={
+          Array [
+            "selected",
+          ]
+        }
+        onClick={[Function]}
+        rank={15}
+        t={[Function]}
+      >
+        <button
+          className="rank-selector selected"
+          onClick={[Function]}
+        >
+          <img
+            alt="Rank 15"
+            src="/static/images/64x/ranked-medals/Medal_Ranked_15.png"
+          />
+          <span
+            aria-hidden="true"
+          >
+            15
+          </span>
+        </button>
+      </RankSelector>
+    </Component>
+    <RowSelector
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="16-row"
+      mode="set"
+      onClick={[Function]}
+    >
+      <button
+        className="row-selector selected"
+        onClick={[Function]}
+      >
+        <span
+          className="glyphicon glyphicon-arrow-right"
+        />
+      </button>
+    </RowSelector>
+    <Component
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="16"
+      onClick={[Function]}
+      rank={16}
+    >
+      <RankSelector
+        classNames={
+          Array [
+            "selected",
+          ]
+        }
+        onClick={[Function]}
+        rank={16}
+        t={[Function]}
+      >
+        <button
+          className="rank-selector selected"
+          onClick={[Function]}
+        >
+          <img
+            alt="Rank 16"
+            src="/static/images/64x/ranked-medals/Medal_Ranked_16.png"
+          />
+          <span
+            aria-hidden="true"
+          >
+            16
+          </span>
+        </button>
+      </RankSelector>
+    </Component>
+    <Component
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="17"
+      onClick={[Function]}
+      rank={17}
+    >
+      <RankSelector
+        classNames={
+          Array [
+            "selected",
+          ]
+        }
+        onClick={[Function]}
+        rank={17}
+        t={[Function]}
+      >
+        <button
+          className="rank-selector selected"
+          onClick={[Function]}
+        >
+          <img
+            alt="Rank 17"
+            src="/static/images/64x/ranked-medals/Medal_Ranked_17.png"
+          />
+          <span
+            aria-hidden="true"
+          >
+            17
+          </span>
+        </button>
+      </RankSelector>
+    </Component>
+    <Component
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="18"
+      onClick={[Function]}
+      rank={18}
+    >
+      <RankSelector
+        classNames={
+          Array [
+            "selected",
+          ]
+        }
+        onClick={[Function]}
+        rank={18}
+        t={[Function]}
+      >
+        <button
+          className="rank-selector selected"
+          onClick={[Function]}
+        >
+          <img
+            alt="Rank 18"
+            src="/static/images/64x/ranked-medals/Medal_Ranked_18.png"
+          />
+          <span
+            aria-hidden="true"
+          >
+            18
+          </span>
+        </button>
+      </RankSelector>
+    </Component>
+    <Component
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="19"
+      onClick={[Function]}
+      rank={19}
+    >
+      <RankSelector
+        classNames={
+          Array [
+            "selected",
+          ]
+        }
+        onClick={[Function]}
+        rank={19}
+        t={[Function]}
+      >
+        <button
+          className="rank-selector selected"
+          onClick={[Function]}
+        >
+          <img
+            alt="Rank 19"
+            src="/static/images/64x/ranked-medals/Medal_Ranked_19.png"
+          />
+          <span
+            aria-hidden="true"
+          >
+            19
+          </span>
+        </button>
+      </RankSelector>
+    </Component>
+    <Component
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="20"
+      onClick={[Function]}
+      rank={20}
+    >
+      <RankSelector
+        classNames={
+          Array [
+            "selected",
+          ]
+        }
+        onClick={[Function]}
+        rank={20}
+        t={[Function]}
+      >
+        <button
+          className="rank-selector selected"
+          onClick={[Function]}
+        >
+          <img
+            alt="Rank 20"
+            src="/static/images/64x/ranked-medals/Medal_Ranked_20.png"
+          />
+          <span
+            aria-hidden="true"
+          >
+            20
+          </span>
+        </button>
+      </RankSelector>
+    </Component>
+  </div>
+</RankPicker>
+`;
+
+exports[`RankPicker allows selecting a single Rank: rank 17 1`] = `
+<RankPicker
+  onSelectionChanged={
+    [MockFunction] {
+      "calls": Array [
+        Array [
+          "SEVENTEEN",
+        ],
+      ],
+      "results": undefined,
+    }
+  }
+  selected="LEGEND_THROUGH_TWENTYFIVE"
+>
+  <div
+    className="rank-picker"
+  >
+    <RowSelector
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="0-row"
+      mode="set"
+      onClick={[Function]}
+    >
+      <button
+        className="row-selector selected"
+        onClick={[Function]}
+      >
+        <span
+          className="glyphicon glyphicon-arrow-right"
+        />
+      </button>
+    </RowSelector>
+    <Component
+      classNames={
+        Array [
+          "rank-selector-legend",
+          "selected",
+        ]
+      }
+      key="0"
+      onClick={[Function]}
+      rank={0}
+    >
+      <RankSelector
+        classNames={
+          Array [
+            "rank-selector-legend",
+            "selected",
+          ]
+        }
+        onClick={[Function]}
+        rank={0}
+        t={[Function]}
+      >
+        <button
+          className="rank-selector rank-selector-legend selected"
+          onClick={[Function]}
+        >
+          <img
+            alt="Legend"
+            src="/static/images/64x/ranked-medals/Medal_Ranked_Legend.png"
+          />
+          <span
+            aria-hidden="true"
+          >
+            Legend
+          </span>
+        </button>
+      </RankSelector>
+    </Component>
+    <RowSelector
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="1-row"
+      mode="set"
+      onClick={[Function]}
+    >
+      <button
+        className="row-selector selected"
+        onClick={[Function]}
+      >
+        <span
+          className="glyphicon glyphicon-arrow-right"
+        />
+      </button>
+    </RowSelector>
+    <Component
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="1"
+      onClick={[Function]}
+      rank={1}
+    >
+      <RankSelector
+        classNames={
+          Array [
+            "selected",
+          ]
+        }
+        onClick={[Function]}
+        rank={1}
+        t={[Function]}
+      >
+        <button
+          className="rank-selector selected"
+          onClick={[Function]}
+        >
+          <img
+            alt="Rank 1"
+            src="/static/images/64x/ranked-medals/Medal_Ranked_1.png"
+          />
+          <span
+            aria-hidden="true"
+          >
+            1
+          </span>
+        </button>
+      </RankSelector>
+    </Component>
+    <Component
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="2"
+      onClick={[Function]}
+      rank={2}
+    >
+      <RankSelector
+        classNames={
+          Array [
+            "selected",
+          ]
+        }
+        onClick={[Function]}
+        rank={2}
+        t={[Function]}
+      >
+        <button
+          className="rank-selector selected"
+          onClick={[Function]}
+        >
+          <img
+            alt="Rank 2"
+            src="/static/images/64x/ranked-medals/Medal_Ranked_2.png"
+          />
+          <span
+            aria-hidden="true"
+          >
+            2
+          </span>
+        </button>
+      </RankSelector>
+    </Component>
+    <Component
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="3"
+      onClick={[Function]}
+      rank={3}
+    >
+      <RankSelector
+        classNames={
+          Array [
+            "selected",
+          ]
+        }
+        onClick={[Function]}
+        rank={3}
+        t={[Function]}
+      >
+        <button
+          className="rank-selector selected"
+          onClick={[Function]}
+        >
+          <img
+            alt="Rank 3"
+            src="/static/images/64x/ranked-medals/Medal_Ranked_3.png"
+          />
+          <span
+            aria-hidden="true"
+          >
+            3
+          </span>
+        </button>
+      </RankSelector>
+    </Component>
+    <Component
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="4"
+      onClick={[Function]}
+      rank={4}
+    >
+      <RankSelector
+        classNames={
+          Array [
+            "selected",
+          ]
+        }
+        onClick={[Function]}
+        rank={4}
+        t={[Function]}
+      >
+        <button
+          className="rank-selector selected"
+          onClick={[Function]}
+        >
+          <img
+            alt="Rank 4"
+            src="/static/images/64x/ranked-medals/Medal_Ranked_4.png"
+          />
+          <span
+            aria-hidden="true"
+          >
+            4
+          </span>
+        </button>
+      </RankSelector>
+    </Component>
+    <Component
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="5"
+      onClick={[Function]}
+      rank={5}
+    >
+      <RankSelector
+        classNames={
+          Array [
+            "selected",
+          ]
+        }
+        onClick={[Function]}
+        rank={5}
+        t={[Function]}
+      >
+        <button
+          className="rank-selector selected"
+          onClick={[Function]}
+        >
+          <img
+            alt="Rank 5"
+            src="/static/images/64x/ranked-medals/Medal_Ranked_5.png"
+          />
+          <span
+            aria-hidden="true"
+          >
+            5
+          </span>
+        </button>
+      </RankSelector>
+    </Component>
+    <RowSelector
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="6-row"
+      mode="set"
+      onClick={[Function]}
+    >
+      <button
+        className="row-selector selected"
+        onClick={[Function]}
+      >
+        <span
+          className="glyphicon glyphicon-arrow-right"
+        />
+      </button>
+    </RowSelector>
+    <Component
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="6"
+      onClick={[Function]}
+      rank={6}
+    >
+      <RankSelector
+        classNames={
+          Array [
+            "selected",
+          ]
+        }
+        onClick={[Function]}
+        rank={6}
+        t={[Function]}
+      >
+        <button
+          className="rank-selector selected"
+          onClick={[Function]}
+        >
+          <img
+            alt="Rank 6"
+            src="/static/images/64x/ranked-medals/Medal_Ranked_6.png"
+          />
+          <span
+            aria-hidden="true"
+          >
+            6
+          </span>
+        </button>
+      </RankSelector>
+    </Component>
+    <Component
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="7"
+      onClick={[Function]}
+      rank={7}
+    >
+      <RankSelector
+        classNames={
+          Array [
+            "selected",
+          ]
+        }
+        onClick={[Function]}
+        rank={7}
+        t={[Function]}
+      >
+        <button
+          className="rank-selector selected"
+          onClick={[Function]}
+        >
+          <img
+            alt="Rank 7"
+            src="/static/images/64x/ranked-medals/Medal_Ranked_7.png"
+          />
+          <span
+            aria-hidden="true"
+          >
+            7
+          </span>
+        </button>
+      </RankSelector>
+    </Component>
+    <Component
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="8"
+      onClick={[Function]}
+      rank={8}
+    >
+      <RankSelector
+        classNames={
+          Array [
+            "selected",
+          ]
+        }
+        onClick={[Function]}
+        rank={8}
+        t={[Function]}
+      >
+        <button
+          className="rank-selector selected"
+          onClick={[Function]}
+        >
+          <img
+            alt="Rank 8"
+            src="/static/images/64x/ranked-medals/Medal_Ranked_8.png"
+          />
+          <span
+            aria-hidden="true"
+          >
+            8
+          </span>
+        </button>
+      </RankSelector>
+    </Component>
+    <Component
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="9"
+      onClick={[Function]}
+      rank={9}
+    >
+      <RankSelector
+        classNames={
+          Array [
+            "selected",
+          ]
+        }
+        onClick={[Function]}
+        rank={9}
+        t={[Function]}
+      >
+        <button
+          className="rank-selector selected"
+          onClick={[Function]}
+        >
+          <img
+            alt="Rank 9"
+            src="/static/images/64x/ranked-medals/Medal_Ranked_9.png"
+          />
+          <span
+            aria-hidden="true"
+          >
+            9
+          </span>
+        </button>
+      </RankSelector>
+    </Component>
+    <Component
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="10"
+      onClick={[Function]}
+      rank={10}
+    >
+      <RankSelector
+        classNames={
+          Array [
+            "selected",
+          ]
+        }
+        onClick={[Function]}
+        rank={10}
+        t={[Function]}
+      >
+        <button
+          className="rank-selector selected"
+          onClick={[Function]}
+        >
+          <img
+            alt="Rank 10"
+            src="/static/images/64x/ranked-medals/Medal_Ranked_10.png"
+          />
+          <span
+            aria-hidden="true"
+          >
+            10
+          </span>
+        </button>
+      </RankSelector>
+    </Component>
+    <RowSelector
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="11-row"
+      mode="set"
+      onClick={[Function]}
+    >
+      <button
+        className="row-selector selected"
+        onClick={[Function]}
+      >
+        <span
+          className="glyphicon glyphicon-arrow-right"
+        />
+      </button>
+    </RowSelector>
+    <Component
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="11"
+      onClick={[Function]}
+      rank={11}
+    >
+      <RankSelector
+        classNames={
+          Array [
+            "selected",
+          ]
+        }
+        onClick={[Function]}
+        rank={11}
+        t={[Function]}
+      >
+        <button
+          className="rank-selector selected"
+          onClick={[Function]}
+        >
+          <img
+            alt="Rank 11"
+            src="/static/images/64x/ranked-medals/Medal_Ranked_11.png"
+          />
+          <span
+            aria-hidden="true"
+          >
+            11
+          </span>
+        </button>
+      </RankSelector>
+    </Component>
+    <Component
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="12"
+      onClick={[Function]}
+      rank={12}
+    >
+      <RankSelector
+        classNames={
+          Array [
+            "selected",
+          ]
+        }
+        onClick={[Function]}
+        rank={12}
+        t={[Function]}
+      >
+        <button
+          className="rank-selector selected"
+          onClick={[Function]}
+        >
+          <img
+            alt="Rank 12"
+            src="/static/images/64x/ranked-medals/Medal_Ranked_12.png"
+          />
+          <span
+            aria-hidden="true"
+          >
+            12
+          </span>
+        </button>
+      </RankSelector>
+    </Component>
+    <Component
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="13"
+      onClick={[Function]}
+      rank={13}
+    >
+      <RankSelector
+        classNames={
+          Array [
+            "selected",
+          ]
+        }
+        onClick={[Function]}
+        rank={13}
+        t={[Function]}
+      >
+        <button
+          className="rank-selector selected"
+          onClick={[Function]}
+        >
+          <img
+            alt="Rank 13"
+            src="/static/images/64x/ranked-medals/Medal_Ranked_13.png"
+          />
+          <span
+            aria-hidden="true"
+          >
+            13
+          </span>
+        </button>
+      </RankSelector>
+    </Component>
+    <Component
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="14"
+      onClick={[Function]}
+      rank={14}
+    >
+      <RankSelector
+        classNames={
+          Array [
+            "selected",
+          ]
+        }
+        onClick={[Function]}
+        rank={14}
+        t={[Function]}
+      >
+        <button
+          className="rank-selector selected"
+          onClick={[Function]}
+        >
+          <img
+            alt="Rank 14"
+            src="/static/images/64x/ranked-medals/Medal_Ranked_14.png"
+          />
+          <span
+            aria-hidden="true"
+          >
+            14
+          </span>
+        </button>
+      </RankSelector>
+    </Component>
+    <Component
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="15"
+      onClick={[Function]}
+      rank={15}
+    >
+      <RankSelector
+        classNames={
+          Array [
+            "selected",
+          ]
+        }
+        onClick={[Function]}
+        rank={15}
+        t={[Function]}
+      >
+        <button
+          className="rank-selector selected"
+          onClick={[Function]}
+        >
+          <img
+            alt="Rank 15"
+            src="/static/images/64x/ranked-medals/Medal_Ranked_15.png"
+          />
+          <span
+            aria-hidden="true"
+          >
+            15
+          </span>
+        </button>
+      </RankSelector>
+    </Component>
+    <RowSelector
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="16-row"
+      mode="set"
+      onClick={[Function]}
+    >
+      <button
+        className="row-selector selected"
+        onClick={[Function]}
+      >
+        <span
+          className="glyphicon glyphicon-arrow-right"
+        />
+      </button>
+    </RowSelector>
+    <Component
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="16"
+      onClick={[Function]}
+      rank={16}
+    >
+      <RankSelector
+        classNames={
+          Array [
+            "selected",
+          ]
+        }
+        onClick={[Function]}
+        rank={16}
+        t={[Function]}
+      >
+        <button
+          className="rank-selector selected"
+          onClick={[Function]}
+        >
+          <img
+            alt="Rank 16"
+            src="/static/images/64x/ranked-medals/Medal_Ranked_16.png"
+          />
+          <span
+            aria-hidden="true"
+          >
+            16
+          </span>
+        </button>
+      </RankSelector>
+    </Component>
+    <Component
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="17"
+      onClick={[Function]}
+      rank={17}
+    >
+      <RankSelector
+        classNames={
+          Array [
+            "selected",
+          ]
+        }
+        onClick={[Function]}
+        rank={17}
+        t={[Function]}
+      >
+        <button
+          className="rank-selector selected"
+          onClick={[Function]}
+        >
+          <img
+            alt="Rank 17"
+            src="/static/images/64x/ranked-medals/Medal_Ranked_17.png"
+          />
+          <span
+            aria-hidden="true"
+          >
+            17
+          </span>
+        </button>
+      </RankSelector>
+    </Component>
+    <Component
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="18"
+      onClick={[Function]}
+      rank={18}
+    >
+      <RankSelector
+        classNames={
+          Array [
+            "selected",
+          ]
+        }
+        onClick={[Function]}
+        rank={18}
+        t={[Function]}
+      >
+        <button
+          className="rank-selector selected"
+          onClick={[Function]}
+        >
+          <img
+            alt="Rank 18"
+            src="/static/images/64x/ranked-medals/Medal_Ranked_18.png"
+          />
+          <span
+            aria-hidden="true"
+          >
+            18
+          </span>
+        </button>
+      </RankSelector>
+    </Component>
+    <Component
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="19"
+      onClick={[Function]}
+      rank={19}
+    >
+      <RankSelector
+        classNames={
+          Array [
+            "selected",
+          ]
+        }
+        onClick={[Function]}
+        rank={19}
+        t={[Function]}
+      >
+        <button
+          className="rank-selector selected"
+          onClick={[Function]}
+        >
+          <img
+            alt="Rank 19"
+            src="/static/images/64x/ranked-medals/Medal_Ranked_19.png"
+          />
+          <span
+            aria-hidden="true"
+          >
+            19
+          </span>
+        </button>
+      </RankSelector>
+    </Component>
+    <Component
+      classNames={
+        Array [
+          "selected",
+        ]
+      }
+      key="20"
+      onClick={[Function]}
+      rank={20}
+    >
+      <RankSelector
+        classNames={
+          Array [
+            "selected",
+          ]
+        }
+        onClick={[Function]}
+        rank={20}
+        t={[Function]}
+      >
+        <button
+          className="rank-selector selected"
+          onClick={[Function]}
+        >
+          <img
+            alt="Rank 20"
+            src="/static/images/64x/ranked-medals/Medal_Ranked_20.png"
+          />
+          <span
+            aria-hidden="true"
+          >
+            20
+          </span>
+        </button>
+      </RankSelector>
+    </Component>
+  </div>
+</RankPicker>
+`;
+
+exports[`RankPicker renders correctly 1`] = `
+<div
+  className="rank-picker"
+>
+  <button
+    className="row-selector selected"
+    onClick={[Function]}
+  >
+    <span
+      className="glyphicon glyphicon-arrow-right"
+    />
+  </button>
+  <button
+    className="rank-selector rank-selector-legend selected"
+    onClick={[Function]}
+  >
+    <img
+      alt="Legend"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_Legend.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      Legend
+    </span>
+  </button>
+  <button
+    className="row-selector selected"
+    onClick={[Function]}
+  >
+    <span
+      className="glyphicon glyphicon-arrow-right"
+    />
+  </button>
+  <button
+    className="rank-selector selected"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 1"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_1.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      1
+    </span>
+  </button>
+  <button
+    className="rank-selector selected"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 2"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_2.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      2
+    </span>
+  </button>
+  <button
+    className="rank-selector selected"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 3"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_3.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      3
+    </span>
+  </button>
+  <button
+    className="rank-selector selected"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 4"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_4.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      4
+    </span>
+  </button>
+  <button
+    className="rank-selector selected"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 5"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_5.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      5
+    </span>
+  </button>
+  <button
+    className="row-selector selected"
+    onClick={[Function]}
+  >
+    <span
+      className="glyphicon glyphicon-arrow-right"
+    />
+  </button>
+  <button
+    className="rank-selector selected"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 6"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_6.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      6
+    </span>
+  </button>
+  <button
+    className="rank-selector selected"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 7"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_7.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      7
+    </span>
+  </button>
+  <button
+    className="rank-selector selected"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 8"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_8.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      8
+    </span>
+  </button>
+  <button
+    className="rank-selector selected"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 9"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_9.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      9
+    </span>
+  </button>
+  <button
+    className="rank-selector selected"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 10"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_10.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      10
+    </span>
+  </button>
+  <button
+    className="row-selector selected"
+    onClick={[Function]}
+  >
+    <span
+      className="glyphicon glyphicon-arrow-right"
+    />
+  </button>
+  <button
+    className="rank-selector selected"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 11"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_11.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      11
+    </span>
+  </button>
+  <button
+    className="rank-selector selected"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 12"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_12.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      12
+    </span>
+  </button>
+  <button
+    className="rank-selector selected"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 13"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_13.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      13
+    </span>
+  </button>
+  <button
+    className="rank-selector selected"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 14"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_14.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      14
+    </span>
+  </button>
+  <button
+    className="rank-selector selected"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 15"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_15.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      15
+    </span>
+  </button>
+  <button
+    className="row-selector selected"
+    onClick={[Function]}
+  >
+    <span
+      className="glyphicon glyphicon-arrow-right"
+    />
+  </button>
+  <button
+    className="rank-selector selected"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 16"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_16.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      16
+    </span>
+  </button>
+  <button
+    className="rank-selector selected"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 17"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_17.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      17
+    </span>
+  </button>
+  <button
+    className="rank-selector selected"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 18"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_18.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      18
+    </span>
+  </button>
+  <button
+    className="rank-selector selected"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 19"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_19.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      19
+    </span>
+  </button>
+  <button
+    className="rank-selector selected"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 20"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_20.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      20
+    </span>
+  </button>
+</div>
+`;
+
+exports[`RankPicker shows selected ranks 1`] = `
+<div
+  className="rank-picker"
+>
+  <button
+    className="row-selector"
+    onClick={[Function]}
+  >
+    <span
+      className="glyphicon glyphicon-arrow-right"
+    />
+  </button>
+  <button
+    className="rank-selector rank-selector-legend"
+    onClick={[Function]}
+  >
+    <img
+      alt="Legend"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_Legend.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      Legend
+    </span>
+  </button>
+  <button
+    className="row-selector"
+    onClick={[Function]}
+  >
+    <span
+      className="glyphicon glyphicon-arrow-right"
+    />
+  </button>
+  <button
+    className="rank-selector"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 1"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_1.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      1
+    </span>
+  </button>
+  <button
+    className="rank-selector"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 2"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_2.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      2
+    </span>
+  </button>
+  <button
+    className="rank-selector"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 3"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_3.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      3
+    </span>
+  </button>
+  <button
+    className="rank-selector"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 4"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_4.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      4
+    </span>
+  </button>
+  <button
+    className="rank-selector selected"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 5"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_5.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      5
+    </span>
+  </button>
+  <button
+    className="row-selector"
+    onClick={[Function]}
+  >
+    <span
+      className="glyphicon glyphicon-arrow-right"
+    />
+  </button>
+  <button
+    className="rank-selector"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 6"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_6.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      6
+    </span>
+  </button>
+  <button
+    className="rank-selector"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 7"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_7.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      7
+    </span>
+  </button>
+  <button
+    className="rank-selector"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 8"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_8.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      8
+    </span>
+  </button>
+  <button
+    className="rank-selector"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 9"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_9.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      9
+    </span>
+  </button>
+  <button
+    className="rank-selector"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 10"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_10.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      10
+    </span>
+  </button>
+  <button
+    className="row-selector"
+    onClick={[Function]}
+  >
+    <span
+      className="glyphicon glyphicon-arrow-right"
+    />
+  </button>
+  <button
+    className="rank-selector"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 11"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_11.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      11
+    </span>
+  </button>
+  <button
+    className="rank-selector"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 12"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_12.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      12
+    </span>
+  </button>
+  <button
+    className="rank-selector"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 13"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_13.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      13
+    </span>
+  </button>
+  <button
+    className="rank-selector"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 14"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_14.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      14
+    </span>
+  </button>
+  <button
+    className="rank-selector"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 15"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_15.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      15
+    </span>
+  </button>
+  <button
+    className="row-selector"
+    onClick={[Function]}
+  >
+    <span
+      className="glyphicon glyphicon-arrow-right"
+    />
+  </button>
+  <button
+    className="rank-selector"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 16"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_16.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      16
+    </span>
+  </button>
+  <button
+    className="rank-selector"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 17"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_17.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      17
+    </span>
+  </button>
+  <button
+    className="rank-selector"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 18"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_18.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      18
+    </span>
+  </button>
+  <button
+    className="rank-selector"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 19"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_19.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      19
+    </span>
+  </button>
+  <button
+    className="rank-selector"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 20"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_20.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      20
+    </span>
+  </button>
+</div>
+`;
+
+exports[`RankPicker shows selected rows 1`] = `
+<div
+  className="rank-picker"
+>
+  <button
+    className="row-selector"
+    onClick={[Function]}
+  >
+    <span
+      className="glyphicon glyphicon-plus"
+    />
+  </button>
+  <button
+    className="rank-selector rank-selector-legend"
+    onClick={[Function]}
+  >
+    <img
+      alt="Legend"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_Legend.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      Legend
+    </span>
+  </button>
+  <button
+    className="row-selector selected only"
+    onClick={[Function]}
+  >
+    <span
+      className="glyphicon glyphicon-arrow-right"
+    />
+  </button>
+  <button
+    className="rank-selector selected"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 1"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_1.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      1
+    </span>
+  </button>
+  <button
+    className="rank-selector selected"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 2"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_2.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      2
+    </span>
+  </button>
+  <button
+    className="rank-selector selected"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 3"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_3.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      3
+    </span>
+  </button>
+  <button
+    className="rank-selector selected"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 4"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_4.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      4
+    </span>
+  </button>
+  <button
+    className="rank-selector selected"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 5"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_5.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      5
+    </span>
+  </button>
+  <button
+    className="row-selector"
+    onClick={[Function]}
+  >
+    <span
+      className="glyphicon glyphicon-plus"
+    />
+  </button>
+  <button
+    className="rank-selector"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 6"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_6.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      6
+    </span>
+  </button>
+  <button
+    className="rank-selector"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 7"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_7.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      7
+    </span>
+  </button>
+  <button
+    className="rank-selector"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 8"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_8.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      8
+    </span>
+  </button>
+  <button
+    className="rank-selector"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 9"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_9.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      9
+    </span>
+  </button>
+  <button
+    className="rank-selector"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 10"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_10.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      10
+    </span>
+  </button>
+  <button
+    className="row-selector"
+    onClick={[Function]}
+  >
+    <span
+      className="glyphicon glyphicon-arrow-right"
+    />
+  </button>
+  <button
+    className="rank-selector"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 11"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_11.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      11
+    </span>
+  </button>
+  <button
+    className="rank-selector"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 12"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_12.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      12
+    </span>
+  </button>
+  <button
+    className="rank-selector"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 13"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_13.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      13
+    </span>
+  </button>
+  <button
+    className="rank-selector"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 14"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_14.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      14
+    </span>
+  </button>
+  <button
+    className="rank-selector"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 15"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_15.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      15
+    </span>
+  </button>
+  <button
+    className="row-selector"
+    onClick={[Function]}
+  >
+    <span
+      className="glyphicon glyphicon-arrow-right"
+    />
+  </button>
+  <button
+    className="rank-selector"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 16"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_16.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      16
+    </span>
+  </button>
+  <button
+    className="rank-selector"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 17"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_17.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      17
+    </span>
+  </button>
+  <button
+    className="rank-selector"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 18"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_18.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      18
+    </span>
+  </button>
+  <button
+    className="rank-selector"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 19"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_19.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      19
+    </span>
+  </button>
+  <button
+    className="rank-selector"
+    onClick={[Function]}
+  >
+    <img
+      alt="Rank 20"
+      src="/static/images/64x/ranked-medals/Medal_Ranked_20.png"
+    />
+    <span
+      aria-hidden="true"
+    >
+      20
+    </span>
+  </button>
+</div>
+`;

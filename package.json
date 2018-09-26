@@ -109,7 +109,8 @@
 			"ts-jest": {
 				"skipBabel": true,
 				"useExperimentalLanguageServer": true
-			}
+			},
+			"STATIC_URL": "/static/"
 		},
 		"testMatch": [
 			"**/__tests__/*.+(ts|tsx|js)"
