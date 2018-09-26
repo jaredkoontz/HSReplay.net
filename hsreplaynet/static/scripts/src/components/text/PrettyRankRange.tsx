@@ -51,6 +51,8 @@ class PrettyRankRange extends React.Component<Props> {
 		}
 
 		switch (rankRange) {
+			case RankRange.TOP_1000_LEGEND:
+				return t("Legend (Top 1000)");
 			case RankRange.LEGEND_ONLY:
 				return t("Legend only");
 			case RankRange.ALL:

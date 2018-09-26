@@ -20,6 +20,7 @@ export const enum TimeRange {
 }
 
 export const enum RankRange {
+	TOP_1000_LEGEND = "TOP_1000_LEGEND",
 	LEGEND_ONLY = "LEGEND_ONLY",
 	LEGEND_THROUGH_FIVE = "LEGEND_THROUGH_FIVE",
 	LEGEND_THROUGH_TEN = "LEGEND_THROUGH_TEN",
