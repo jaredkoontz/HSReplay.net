@@ -213,10 +213,6 @@ header .navbar {
 		}
 	}
 
-	.popover {
-		color: black;
-	}
-
 	.navbar-nav .open .dropdown-menu {
 		background-color: $blue;
 		padding: 0;
@@ -448,6 +444,7 @@ header .navbar {
 }
 
 .popover {
+	color: black;
 	padding: 0;
 	border-color: $lightblue;
 }
@@ -472,6 +469,8 @@ header .navbar {
 	font-size: 1.7em;
 	display: block;
 	float: right;
+	color: white !important;
+	opacity: 0.8;
 
 	&:hover,
 	&:active {
