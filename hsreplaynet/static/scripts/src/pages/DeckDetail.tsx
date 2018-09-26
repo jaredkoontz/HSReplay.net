@@ -112,6 +112,9 @@ class DeckDetail extends React.Component<Props, State> {
 	}
 
 	public componentDidMount(): void {
+		if (this.props.rankRange === RankRange.TOP_1000_LEGEND) {
+			this.props.setRankRange(RankRange.LEGEND_ONLY);
+		}
 		this.fetchInventory();
 	}
 
