@@ -236,5 +236,20 @@ if (
 				"Want to see more of HSReplay.net in your native language? Click here to see how you can help translate the site...",
 			);
 		}
+
+		if (
+			window.location.pathname.indexOf("/decks/") !== -1 &&
+			window.innerWidth > 768
+		) {
+			showPopover(
+				"high-legend-filter",
+				"high-legend-filter-popover",
+				false,
+				"high-legend-filter-popup-closed",
+				"New Top Legend Filter!",
+				"Want to see what decks all the pros are winning with? Find out right here!",
+				{ placement: "right", container: "body" },
+			);
+		}
 	});
 }

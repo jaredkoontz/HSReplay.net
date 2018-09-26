@@ -947,6 +947,7 @@ class Decks extends React.Component<Props, State> {
 									<Feature feature="high-legend-filter">
 										<InfoboxFilter
 											value={RankRange.TOP_1000_LEGEND}
+											id="high-legend-filter"
 										>
 											<PrettyRankRange
 												rankRange={
