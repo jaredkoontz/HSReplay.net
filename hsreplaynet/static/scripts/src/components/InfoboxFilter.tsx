@@ -8,6 +8,7 @@ interface Props {
 	disabled?: boolean;
 	className?: string;
 	onClick?: (newValue: string, sender: string) => void;
+	id?: string;
 }
 
 export default class InfoboxFilter extends React.Component<Props> {
@@ -108,6 +109,7 @@ export default class InfoboxFilter extends React.Component<Props> {
 				role={this.isDeselectable() ? "checkbox" : "radio"}
 				aria-disabled={this.isDisabled()}
 				aria-checked={this.isSelected()}
+				id={this.props.id}
 			>
 				{this.isPremiumFilter() ? (
 					<img
