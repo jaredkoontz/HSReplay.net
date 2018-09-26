@@ -452,6 +452,9 @@ header .navbar {
 .popover-title {
 	background-color: $lightblue;
 	color: white;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 }
 
 .popover.bottom > .arrow:after {
