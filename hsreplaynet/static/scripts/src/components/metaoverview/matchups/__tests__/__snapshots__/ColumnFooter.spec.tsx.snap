@@ -1,0 +1,175 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ColumnFooter allows inputting a custom weight: 2 1`] = `
+<ColumnFooter
+  editable={true}
+  max={100}
+  onWeightChanged={
+    [MockFunction] {
+      "calls": Array [
+        Array [
+          2,
+        ],
+      ],
+      "results": undefined,
+    }
+  }
+  weight={25}
+>
+  <div
+    className="matchup-column-footer"
+  >
+    <Bar
+      direction={0}
+      label="25.00%"
+      total={100}
+      value={25}
+      valueElement={
+        <input
+          className="input-popularity"
+          min={0}
+          onBlur={[Function]}
+          onChange={[Function]}
+          type="number"
+          value="2"
+        />
+      }
+    >
+      <div
+        className="bar bar-vertical"
+      >
+        <div
+          className="bar-body"
+        >
+          <div
+            style={
+              Object {
+                "height": "25%",
+              }
+            }
+          />
+        </div>
+        <input
+          className="input-popularity"
+          min={0}
+          onBlur={[Function]}
+          onChange={[Function]}
+          type="number"
+          value="2"
+        />
+      </div>
+    </Bar>
+  </div>
+</ColumnFooter>
+`;
+
+exports[`ColumnFooter allows inputting a custom weight: 25 1`] = `
+<ColumnFooter
+  editable={true}
+  max={100}
+  onWeightChanged={[MockFunction]}
+  weight={25}
+>
+  <div
+    className="matchup-column-footer"
+  >
+    <Bar
+      direction={0}
+      label="25.00%"
+      total={100}
+      value={25}
+      valueElement={
+        <input
+          className="input-popularity"
+          min={0}
+          onBlur={[Function]}
+          onChange={[Function]}
+          type="number"
+          value="25"
+        />
+      }
+    >
+      <div
+        className="bar bar-vertical"
+      >
+        <div
+          className="bar-body"
+        >
+          <div
+            style={
+              Object {
+                "height": "25%",
+              }
+            }
+          />
+        </div>
+        <input
+          className="input-popularity"
+          min={0}
+          onBlur={[Function]}
+          onChange={[Function]}
+          type="number"
+          value="25"
+        />
+      </div>
+    </Bar>
+  </div>
+</ColumnFooter>
+`;
+
+exports[`ColumnFooter renders correctly 1`] = `
+<div
+  className="matchup-column-footer"
+>
+  <div
+    className="bar bar-vertical"
+  >
+    <div
+      className="bar-body"
+    >
+      <div
+        style={
+          Object {
+            "height": "25%",
+          }
+        }
+      />
+    </div>
+    <div
+      className="bar-label"
+    >
+      25.00%
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ColumnFooter renders correctly when editable 1`] = `
+<div
+  className="matchup-column-footer"
+>
+  <div
+    className="bar bar-vertical"
+  >
+    <div
+      className="bar-body"
+    >
+      <div
+        style={
+          Object {
+            "height": "25%",
+          }
+        }
+      />
+    </div>
+    <input
+      className="input-popularity"
+      min={0}
+      onBlur={[Function]}
+      onChange={[Function]}
+      type="number"
+      value="25"
+    />
+  </div>
+</div>
+`;

@@ -495,17 +495,20 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 						const archetype = archetypes[columnIndex];
 						return (
 							<ColumnFooter
-								archetypeData={archetype}
 								highlight={
 									this.state.highlightColumn === columnIndex
 								}
 								max={this.props.maxPopularity}
 								style={style}
-								customWeight={
-									this.props.customWeights[archetype.id] || 0
+								weight={
+									this.props.useCustomWeights
+										? this.props.customWeights[
+												archetype.id
+										  ] || 0
+										: archetype.popularityTotal
 								}
-								useCustomWeight={this.props.useCustomWeights}
-								onCustomWeightChanged={(popularity: number) => {
+								editable={this.props.useCustomWeights}
+								onWeightChanged={(popularity: number) => {
 									this.props.onCustomWeightsChanged(
 										archetype.id,
 										popularity,
