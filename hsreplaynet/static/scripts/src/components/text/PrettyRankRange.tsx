@@ -1,6 +1,7 @@
 import React from "react";
 import { InjectedTranslateProps, translate } from "react-i18next";
 import { RankRange } from "../../filters";
+import { formatNumber } from "../../i18n";
 
 interface Props extends InjectedTranslateProps {
 	rankRange: keyof typeof RankRange;
@@ -52,7 +53,7 @@ class PrettyRankRange extends React.Component<Props> {
 
 		switch (rankRange) {
 			case RankRange.TOP_1000_LEGEND:
-				return t("Legend (Top 1000)");
+				return t("Legend (Top {rank})", { rank: formatNumber(1000) });
 			case RankRange.LEGEND_ONLY:
 				return t("Legend only");
 			case RankRange.ALL:
