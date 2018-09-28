@@ -954,6 +954,9 @@ class Decks extends React.Component<Props, State> {
 													RankRange.TOP_1000_LEGEND
 												}
 											/>
+											<span className="infobox-value">
+												{t("New!")}
+											</span>
 										</InfoboxFilter>
 									</Feature>
 									<InfoboxFilter
