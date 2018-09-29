@@ -243,7 +243,7 @@ if (
 		) {
 			showPopover(
 				"high-legend-filter",
-				"high-legend-filter-popover",
+				"high-legend-filter-promo",
 				false,
 				"high-legend-filter-popup-closed",
 				"New Top Legend Filter!",

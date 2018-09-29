@@ -187,4 +187,8 @@ export default class UserData {
 		}
 		return urls[key];
 	}
+
+	static hasCookie(key, fallback): boolean {
+		return cookie.get(key, fallback) !== fallback;
+	}
 }

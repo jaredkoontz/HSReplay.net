@@ -136,6 +136,12 @@ class Home extends React.Component<Props, State> {
 						<div id="banner-ranks">{ranks}</div>
 					</div>
 				</div>
+				{UserData.hasFeature("high-legend-filter-promo") &&
+				!UserData.hasCookie("high-legend-filter-popup-closed", "0") ? (
+					<a href="/decks/" id="high-legend-filter-promo">
+						<img src="https://media.hearthsim.net/hsreplaynet/high-legend-filter.jpg" />
+					</a>
+				) : null}
 				<div className="top-ads">
 					<AdContainer>
 						<AdUnit id="fp-d-1" size="728x90" />
