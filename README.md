@@ -52,12 +52,7 @@ using the Python 3.6 runtime.
 
 ## Installation
 
-Prerequisites:
-
-- [Vagrant](https://vagrantup.com) must be installed
-- Virtualbox must be installed in order for the default provider to work
-
-Use the [HearthSim Vagrant Box](https://github.com/HearthSim/hearthsim-vagrant)
+Use [HSReplay.net Local Stack](https://github.com/HearthSim/hsreplaynet-localstack)
 to run the server locally.
 
 The Django server will then be available on `localhost:8000`.
