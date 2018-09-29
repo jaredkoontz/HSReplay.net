@@ -444,21 +444,33 @@ header .navbar {
 }
 
 .popover {
-	color: black;
+	color: white;
+	background: $blue;
 	padding: 0;
-	border-color: $lightblue;
+	border-color: $lightcyan;
 }
 
 .popover-title {
-	background-color: $lightblue;
-	color: white;
+	background-color: $darkblue;
+	color: $lighterblue;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	border-color: $lightcyan;
+	font-weight: bold;
 }
 
 .popover.bottom > .arrow:after {
-	border-bottom-color: $lightblue;
+	border-bottom-color: $blue;
+}
+.popover.top > .arrow:after {
+	border-top-color: $blue;
+}
+.popover.left > .arrow:after {
+	border-left-color: $blue;
+}
+.popover.right > .arrow:after {
+	border-right-color: $blue;
 }
 
 .navbar-hsreplay .popover {
@@ -472,7 +484,7 @@ header .navbar {
 	font-size: 1.7em;
 	display: block;
 	float: right;
-	color: white !important;
+	color: $lighterblue !important;
 	opacity: 0.8;
 
 	&:hover,
