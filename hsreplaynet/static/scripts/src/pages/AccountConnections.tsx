@@ -256,7 +256,7 @@ class AccountConnections extends React.Component<Props, State> {
 						</button>
 						<PrettyBlizzardAccount account={accountList[key]} />
 						<br />
-						<em>{t("Automatically detected")}</em>
+						{t("Automatically detected")}
 						<div className="clearfix" />
 					</li>
 				))}
