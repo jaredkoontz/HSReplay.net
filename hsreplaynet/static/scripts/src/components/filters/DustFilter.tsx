@@ -3,14 +3,14 @@ import DustPreset from "./DustPreset";
 
 interface Props {
 	dust: number | null;
-	setDust: (dust?: number) => void;
+	setDust: (dust: number) => void;
 	ownedDust: number;
 	maxDust?: number;
 	id?: string;
 }
 
 interface State {
-	input: string;
+	input: string | null;
 }
 
 export default class DustFilter extends React.Component<Props, State> {
@@ -21,20 +21,8 @@ export default class DustFilter extends React.Component<Props, State> {
 	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
-			input: this.props.dust !== null ? "" + this.props.dust : "0",
+			input: null,
 		};
-	}
-
-	public static getDerivedStateFromProps(
-		nextProps: Readonly<Props>,
-		prevState: State,
-	): Partial<State> | null {
-		if (nextProps.dust !== null) {
-			return {
-				input: "" + nextProps.dust,
-			};
-		}
-		return null;
 	}
 
 	public render(): React.ReactNode {
@@ -46,7 +34,7 @@ export default class DustFilter extends React.Component<Props, State> {
 		};
 
 		return (
-			<div className="dust-filter">
+			<form className="dust-filter" onSubmit={this.commit}>
 				<DustPreset
 					type="common"
 					onClick={onClick}
@@ -68,41 +56,49 @@ export default class DustFilter extends React.Component<Props, State> {
 				<input
 					id={this.props.id || undefined}
 					type="number"
-					step={100}
-					value={this.state.input}
+					step={5}
+					value={
+						this.state.input !== null
+							? this.state.input
+							: "" + this.props.dust
+					}
 					min={0}
 					max={this.maxDust}
 					onChange={this.onChange}
-					onKeyDown={this.onKeyDown}
 					onBlur={this.commit}
 					className="form-control"
 				/>
-			</div>
+			</form>
 		);
 	}
 
 	private onChange = (e): void => {
-		let input = e.target.value;
-		const num = +input;
-		if (!isNaN(num) && num > this.maxDust) {
-			input = "" + this.maxDust;
-		}
-		this.setState({ input }, () => {
-			if (this.state.input === "" + num) {
-				this.commit();
-			}
-		});
+		const input = e.target.value;
+		const n = this.getValidInputOrNull(input);
+		this.setState({ input });
 	};
 
-	private onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
-		if (e.key === "Enter") {
-			this.commit();
+	private getValidInputOrNull = (input: string | null): number | null => {
+		const n = +input;
+		if (isNaN(n) || !isFinite(n)) {
+			return null;
 		}
+		if (n > this.props.maxDust || n < 0) {
+			return null;
+		}
+		return Math.floor(n);
 	};
 
 	private commit = (): void => {
-		const num = Math.floor(+this.state.input);
-		this.props.setDust(Math.max(0, Math.min(this.maxDust, num)));
+		if (!this.state.input) {
+			return;
+		}
+		console.log("commit", this.state.input);
+		const n = this.getValidInputOrNull(this.state.input);
+		if (n !== null) {
+			this.props.setDust(n);
+		}
+		this.setState({ input: null });
 	};
 
 	private get ownedDust(): number {
