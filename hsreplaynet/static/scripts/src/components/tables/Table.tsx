@@ -84,26 +84,29 @@ export default class Table extends React.Component<Props, State> {
 		this.state = {
 			hoveringRow: -1,
 			referenceId: _.uniqueId("table"),
-			rowData: this.getRowData(props),
+			rowData: Table.getRowData(props),
 		};
 	}
 
-	componentWillReceiveProps(nextProps: Props) {
-		this.setState({ rowData: this.getRowData(nextProps) });
+	static getDerivedStateFromProps(
+		nextProps: Readonly<Props>,
+		prevState: State,
+	): Partial<State> | null {
+		return { rowData: Table.getRowData(nextProps) };
 	}
 
-	private getRowData(props: Props): InternalRowData[] {
+	static getRowData(props: Props): InternalRowData[] {
 		const data: InternalRowData[] = [];
 		const adsEnabled = showAds();
 		props.rowData.forEach((row, index) => {
 			if (
 				adsEnabled &&
-				this.props.ads &&
+				props.ads &&
 				index > 0 &&
 				index % props.adInterval === 0
 			) {
 				const adIndex = Math.floor(index / props.adInterval) - 1;
-				if (adIndex < this.props.ads.length) {
+				if (adIndex < props.ads.length) {
 					data.push({ type: "ad", data: props.ads[adIndex] });
 				}
 			}
