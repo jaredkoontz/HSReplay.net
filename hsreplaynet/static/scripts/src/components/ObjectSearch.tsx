@@ -175,7 +175,7 @@ export default class ObjectSearch<T> extends React.Component<Props<T>, State> {
 	): void {
 		if (prevState.searchText !== this.state.searchText) {
 			if (this.search) {
-				this.search["scrollTop"] = 0;
+				this.search.scrollTop = 0;
 			}
 		}
 	}
@@ -227,10 +227,10 @@ export default class ObjectSearch<T> extends React.Component<Props<T>, State> {
 						this.state.selectedIndex + 1,
 					),
 				});
-				if (this.search["scrollTop"] === 0) {
-					this.search["scrollTop"] += 5;
+				if (this.search.scrollTop === 0) {
+					this.search.scrollTop += 5;
 				}
-				this.search["scrollTop"] += height;
+				this.search.scrollTop += height;
 				break;
 			case "ArrowUp":
 				if (!this.search) {
@@ -240,7 +240,7 @@ export default class ObjectSearch<T> extends React.Component<Props<T>, State> {
 					showSearchResults: true,
 					selectedIndex: Math.max(0, this.state.selectedIndex - 1),
 				});
-				this.search["scrollTop"] -= height;
+				this.search.scrollTop -= height;
 				break;
 			case "Enter":
 				if (!this.state.showSearchResults) {
