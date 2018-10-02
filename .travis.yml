@@ -61,6 +61,7 @@ jobs:
         - scripts/get_vendor_static.sh
         - git clone https://github.com/HearthSim/hsreplaynet-i18n locale
       before_script:
+        - sudo rm -f /etc/boto.cfg # https://github.com/travis-ci/travis-ci/issues/7940
         - echo "DJSTRIPE_USE_NATIVE_JSONFIELD = True" > hsreplaynet/local_settings.py
         - yarn run build
       script: tox -e py36
