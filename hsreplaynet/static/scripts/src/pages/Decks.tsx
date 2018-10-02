@@ -19,7 +19,12 @@ import ResetHeader from "../components/ResetHeader";
 import CollectionBanner from "../components/collection/CollectionBanner";
 import DustFilter from "../components/filters/DustFilter";
 import PremiumWrapper from "../components/premium/PremiumWrapper";
-import { RankRange, TimeRange } from "../filters";
+import {
+	PilotExperience,
+	PilotPerformance,
+	RankRange,
+	TimeRange,
+} from "../filters";
 import {
 	cardSorting,
 	compareDecks,
@@ -40,6 +45,8 @@ import PrettyRankRange from "../components/text/PrettyRankRange";
 import LoadingSpinner from "../components/LoadingSpinner";
 import AdContainer from "../components/ads/AdContainer";
 import AdUnit from "../components/ads/AdUnit";
+import PrettyPilotExperience from "../components/text/PrettyPilotExperience";
+import PrettyPilotPerformance from "../components/text/PrettyPilotPerformance";
 
 interface Props extends InjectedTranslateProps, FragmentChildProps {
 	cardData: CardData | null;
@@ -74,6 +81,10 @@ interface Props extends InjectedTranslateProps, FragmentChildProps {
 	setWithStream?: (withStream: boolean) => void;
 	minGames?: number;
 	setMinGames?: (minGames: number) => void;
+	pilotExperience?: string;
+	setPilotExperience?: (playerExperience: string) => void;
+	pilotPerformance?: string;
+	setPilotPerformance?: (playerPerformance: string) => void;
 }
 
 interface State {
@@ -125,7 +136,9 @@ class Decks extends React.Component<Props, State> {
 			this.props.trainingData !== prevProps.trainingData ||
 			this.props.maxDustCost !== prevProps.maxDustCost ||
 			this.props.withStream !== prevProps.withStream ||
-			this.props.minGames !== prevProps.minGames
+			this.props.minGames !== prevProps.minGames ||
+			this.props.pilotExperience !== prevProps.pilotExperience ||
+			this.props.pilotPerformance !== prevProps.pilotPerformance
 		) {
 			this.updateFilteredDecks();
 			this.deckListsFragmentsRef &&
@@ -992,6 +1005,108 @@ class Decks extends React.Component<Props, State> {
 								</InfoboxFilter>
 							</InfoboxFilterGroup>
 						</section>
+						<Feature feature="pilot-performance">
+							<section id="pilot-experience-filter">
+								<InfoboxFilterGroup
+									header={t("Pilot Experience")}
+									infoHeader={t("Pilot Experience")}
+									infoContent={t(
+										"Only games from players who uploaded at least this many replays with a deck are included in the statistics for that deck.",
+									)}
+									selectedValue={this.props.pilotExperience}
+									onClick={value => {
+										this.props.setPilotExperience(value);
+										FilterEvents.onFilterInteraction(
+											"decks",
+											"pilot_experience",
+											value,
+										);
+									}}
+								>
+									<PremiumWrapper
+										analyticsLabel="Deck List Pilot Experience"
+										iconStyle={{ display: "none" }}
+										modalStyle="TimeRankRegion"
+									>
+										<InfoboxFilter
+											value={PilotExperience.TWENTY_GAMES}
+										>
+											<PrettyPilotExperience
+												value={
+													PilotExperience.TWENTY_GAMES
+												}
+											/>
+										</InfoboxFilter>
+										<InfoboxFilter
+											value={PilotExperience.TEN_GAMES}
+										>
+											<PrettyPilotExperience
+												value={
+													PilotExperience.TEN_GAMES
+												}
+											/>
+										</InfoboxFilter>
+									</PremiumWrapper>
+									<InfoboxFilter value={PilotExperience.ALL}>
+										<PrettyPilotExperience
+											value={PilotExperience.ALL}
+										/>
+									</InfoboxFilter>
+								</InfoboxFilterGroup>
+							</section>
+							<section id="pilot-performance-filter">
+								<InfoboxFilterGroup
+									header={t("Pilot Performance")}
+									infoHeader={t("Pilot Performance")}
+									infoContent={t(
+										"Only games from players within this percentile of the best pilots for a deck are included in the statistics for that deck.",
+									)}
+									selectedValue={this.props.pilotPerformance}
+									onClick={value => {
+										this.props.setPilotPerformance(value);
+										FilterEvents.onFilterInteraction(
+											"decks",
+											"pilot_performance",
+											value,
+										);
+									}}
+								>
+									<PremiumWrapper
+										analyticsLabel="Deck List Pilot Performance"
+										iconStyle={{ display: "none" }}
+										modalStyle="TimeRankRegion"
+									>
+										<InfoboxFilter
+											value={
+												PilotPerformance.TOP_20TH_PERCENTILE
+											}
+										>
+											<PrettyPilotPerformance
+												value={
+													PilotPerformance.TOP_20TH_PERCENTILE
+												}
+											/>
+										</InfoboxFilter>
+										<InfoboxFilter
+											value={
+												PilotPerformance.TOP_50TH_PERCENTILE
+											}
+										>
+											<PrettyPilotPerformance
+												value={
+													PilotPerformance.TOP_50TH_PERCENTILE
+												}
+											/>
+										</InfoboxFilter>
+									</PremiumWrapper>
+									<InfoboxFilter value={PilotPerformance.ALL}>
+										<PrettyPilotPerformance
+											value={PilotPerformance.ALL}
+										/>
+									</InfoboxFilter>
+								</InfoboxFilterGroup>
+							</section>
+						</Feature>
 						<Feature feature="deck-region-filter">
 							<section id="region-filter">
 								<InfoboxFilterGroup
@@ -1266,7 +1381,7 @@ class Decks extends React.Component<Props, State> {
 	}
 
 	getParams(): any {
-		return {
+		const params = {
 			GameType: this.props.gameType,
 			RankRange: this.props.rankRange,
 			Region: UserData.hasFeature("deck-region-filter")
@@ -1274,6 +1389,17 @@ class Decks extends React.Component<Props, State> {
 				: "ALL",
 			TimeRange: this.props.timeRange,
 		};
+		if (UserData.isPremium()) {
+			params["PilotExperience"] = UserData.hasFeature("pilot-performance")
+				? this.props.pilotExperience
+				: "ALL";
+			params["PilotPerformance"] = UserData.hasFeature(
+				"pilot-performance",
+			)
+				? this.props.pilotPerformance
+				: "ALL";
+		}
+		return params;
 	}
 }
 export default translate()(Decks);

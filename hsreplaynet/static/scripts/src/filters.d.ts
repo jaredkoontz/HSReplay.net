@@ -27,3 +27,15 @@ export const enum RankRange {
 	LEGEND_THROUGH_TWENTY = "LEGEND_THROUGH_TWENTY",
 	ALL = "ALL",
 }
+
+export const enum PilotExperience {
+	ALL = "ALL",
+	TEN_GAMES = "TEN_GAMES",
+	TWENTY_GAMES = "TWENTY_GAMES",
+}
+
+export const enum PilotPerformance {
+	ALL = "ALL",
+	TOP_50TH_PERCENTILE = "TOP_50TH_PERCENTILE",
+	TOP_20TH_PERCENTILE = "TOP_20TH_PERCENTILE",
+}

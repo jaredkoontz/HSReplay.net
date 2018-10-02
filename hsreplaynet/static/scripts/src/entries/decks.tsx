@@ -42,6 +42,8 @@ const render = (cardData: CardData) => {
 									minGames: 400,
 									opponentClasses: [],
 									playerClasses: [],
+									pilotExperience: "ALL",
+									pilotPerformance: "ALL",
 									rankRange: "ALL",
 									region: "ALL",
 									timeRange: UserData.hasFeature(
@@ -63,6 +65,8 @@ const render = (cardData: CardData) => {
 												"opponentClass",
 												"rankRange",
 												"region",
+												"playerExperience",
+												"playerPerformance",
 										  ]
 										: null
 								}
