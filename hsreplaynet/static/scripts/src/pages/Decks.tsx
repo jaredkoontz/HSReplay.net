@@ -1029,20 +1029,22 @@ class Decks extends React.Component<Props, State> {
 										modalStyle="TimeRankRegion"
 									>
 										<InfoboxFilter
-											value={PilotExperience.TWENTY_GAMES}
+											value={PilotExperience.FIFTY_GAMES}
 										>
 											<PrettyPilotExperience
 												value={
-													PilotExperience.TWENTY_GAMES
+													PilotExperience.FIFTY_GAMES
 												}
 											/>
 										</InfoboxFilter>
 										<InfoboxFilter
-											value={PilotExperience.TEN_GAMES}
+											value={
+												PilotExperience.TWENTYFIVE_GAMES
+											}
 										>
 											<PrettyPilotExperience
 												value={
-													PilotExperience.TEN_GAMES
+													PilotExperience.TWENTYFIVE_GAMES
 												}
 											/>
 										</InfoboxFilter>

@@ -32,6 +32,8 @@ export const enum PilotExperience {
 	ALL = "ALL",
 	TEN_GAMES = "TEN_GAMES",
 	TWENTY_GAMES = "TWENTY_GAMES",
+	TWENTYFIVE_GAMES = "TWENTYFIVE_GAMES",
+	FIFTY_GAMES = "FIFTY_GAMES",
 }
 
 export const enum PilotPerformance {
