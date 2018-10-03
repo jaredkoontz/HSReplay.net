@@ -47,6 +47,7 @@ import AdContainer from "../components/ads/AdContainer";
 import AdUnit from "../components/ads/AdUnit";
 import PrettyPilotExperience from "../components/text/PrettyPilotExperience";
 import PrettyPilotPerformance from "../components/text/PrettyPilotPerformance";
+import Tooltip from "../components/Tooltip";
 
 interface Props extends InjectedTranslateProps, FragmentChildProps {
 	cardData: CardData | null;
@@ -669,6 +670,29 @@ class Decks extends React.Component<Props, State> {
 		const isPremium = !!UserData.isPremium();
 		const premiumTabIndex = isPremium ? 0 : -1;
 
+		const pilotPerformanceFilterActive =
+			this.props.pilotPerformance !== PilotPerformance.ALL;
+		let allPilotExperienceFilter = (
+			<InfoboxFilter
+				value={PilotExperience.ALL}
+				disabled={pilotPerformanceFilterActive}
+			>
+				<PrettyPilotExperience value={PilotExperience.ALL} />
+			</InfoboxFilter>
+		);
+		if (pilotPerformanceFilterActive) {
+			allPilotExperienceFilter = (
+				<Tooltip
+					header={t("Disabled")}
+					content={t(
+						'"All Pilots" is disabled while a "Pilot Performance" filter is selected.',
+					)}
+				>
+					{allPilotExperienceFilter}
+				</Tooltip>
+			);
+		}
+
 		return (
 			<div className="decks">
 				<div className={filterClassNames.join(" ")} id="decks-infobox">
@@ -1049,11 +1073,7 @@ class Decks extends React.Component<Props, State> {
 											/>
 										</InfoboxFilter>
 									</PremiumWrapper>
-									<InfoboxFilter value={PilotExperience.ALL}>
-										<PrettyPilotExperience
-											value={PilotExperience.ALL}
-										/>
-									</InfoboxFilter>
+									{allPilotExperienceFilter}
 								</InfoboxFilterGroup>
 							</section>
 							<section id="pilot-performance-filter">
@@ -1066,6 +1086,14 @@ class Decks extends React.Component<Props, State> {
 									selectedValue={this.props.pilotPerformance}
 									onClick={value => {
 										this.props.setPilotPerformance(value);
+										if (
+											this.props.pilotExperience ===
+											PilotExperience.ALL
+										) {
+											this.props.setPilotExperience(
+												PilotExperience.TWENTYFIVE_GAMES,
+											);
+										}
 										FilterEvents.onFilterInteraction(
 											"decks",
 											"pilot_performance",
