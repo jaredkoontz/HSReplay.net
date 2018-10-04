@@ -173,23 +173,17 @@ def _create_deck(deckstring, archetype_id=None):
 
 
 @pytest.fixture
-def twitch_vod_dynamodb_table():
-	with (mock_dynamodb2()):
-		meta_values = {
-			k: TwitchVod.Meta.__dict__[k]
-			for k in ["host", "aws_access_key_id", "aws_secret_access_key"]
-		}
-
-		TwitchVod.Meta.host = None
-		TwitchVod.Meta.aws_access_key_id = "test"
-		TwitchVod.Meta.aws_secret_access_key = "test"
-
+def twitch_vod_dynamodb_table(mocker):
+	mocker.patch.multiple(
+		"hsreplaynet.vods.models.TwitchVod.Meta",
+		host=None,
+		aws_access_key_id="test",
+		aws_secret_access_key="test",
+	)
+	with mock_dynamodb2():
 		TwitchVod.create_table(wait=True)
 		yield
 		TwitchVod.delete_table()
-
-		for k, v in meta_values.items():
-			setattr(TwitchVod.Meta, k, v)
 
 
 @pytest.fixture
