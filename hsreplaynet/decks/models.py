@@ -59,7 +59,7 @@ class DeckManager(models.Manager):
 			)
 			deck.update_archetype(None)
 
-		if deck.size < 30 and deck.archetype_id is not None:
+		if not deck.is_full_deck and deck.archetype_id is not None:
 			# Earlier implementations of archetype assignment classified partial decks
 			# This creates an online cleanup of those archetype assignments
 			# This block can be removed once the cleanup metric is near enough to zero
@@ -73,7 +73,7 @@ class DeckManager(models.Manager):
 
 		archetypes_enabled = settings.ARCHETYPE_CLASSIFICATION_ENABLED
 		archetype_missing = deck.archetype_id is None
-		full_deck = deck.size == 30
+		full_deck = deck.is_full_deck
 		eligible_game_type = not game_type or game_type != enums.BnetGameType.BGT_ARENA
 		if (
 			archetypes_enabled and
@@ -289,8 +289,15 @@ class Deck(models.Model):
 		from hsreplaynet.analytics.processing import _get_global_stats_eligible_decks
 		return self.digest in _get_global_stats_eligible_decks()
 
+	@property
+	def is_full_deck(self):
+		size = self.size
+		if self.size is None:
+			size = sum(i.count for i in self.includes.all())
+		return size == 30
+
 	def get_absolute_url(self):
-		if self.size != 30:
+		if not self.is_full_deck:
 			return None
 		return reverse("deck_detail", kwargs={"id": self.shortid})
 

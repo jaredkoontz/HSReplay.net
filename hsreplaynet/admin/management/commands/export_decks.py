@@ -79,7 +79,7 @@ class Command(BaseCommand):
 		for row in execute_query(DECKS_QUERY % (date_from, date_to)):
 			d = Deck.objects.get(id=row["deck_id"])
 
-			if len(d.card_id_list()) == 30:
+			if d.is_full_deck:
 				player_class = d.deck_class
 
 				if player_class and (player_class.value not in result["decks"]):

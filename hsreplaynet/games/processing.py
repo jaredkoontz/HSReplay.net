@@ -1399,16 +1399,6 @@ def get_game_info(global_game, replay):
 	else:
 		game_date = timezone.now().date()
 
-	if player1.deck_list.size is None:
-		player1_deck_size = sum(i.count for i in player1.deck_list.includes.all())
-	else:
-		player1_deck_size = player1.deck_list.size
-
-	if player2.deck_list.size is None:
-		player2_deck_size = sum(i.count for i in player2.deck_list.includes.all())
-	else:
-		player2_deck_size = player2.deck_list.size
-
 	game_info = {
 		"game_id": int(global_game.id),
 		"shortid": replay.shortid,
@@ -1425,7 +1415,7 @@ def get_game_info(global_game, replay):
 				"deck_list": player1_decklist,
 				"rank": 0 if player1.legend_rank else player1.rank if player1.rank else -1,
 				"legend_rank": player1.legend_rank,
-				"full_deck_known": player1_deck_size == 30
+				"full_deck_known": player1.deck_list.is_full_deck
 			},
 			"2": {
 				"deck_id": int(player2.deck_list.id),
@@ -1433,7 +1423,7 @@ def get_game_info(global_game, replay):
 				"deck_list": player2_decklist,
 				"rank": 0 if player2.legend_rank else player2.rank if player2.rank else -1,
 				"legend_rank": player2.legend_rank,
-				"full_deck_known": player2_deck_size == 30,
+				"full_deck_known": player2.deck_list.is_full_deck
 			},
 		}
 	}
