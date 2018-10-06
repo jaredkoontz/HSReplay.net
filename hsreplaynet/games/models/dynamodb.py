@@ -87,5 +87,8 @@ class GameReplay(Model):
 	class Meta:
 		table_name = settings.DYNAMODB_TABLES["game_replay"]["NAME"]
 		host = settings.DYNAMODB_TABLES["game_replay"]["HOST"]
+		if hasattr(settings, "AWS_CREDENTIALS"):
+			aws_access_key_id = settings.AWS_CREDENTIALS["AWS_ACCESS_KEY_ID"]
+			aws_secret_access_key = settings.AWS_CREDENTIALS["AWS_SECRET_ACCESS_KEY"]
 		read_capacity_units = 16
 		write_capacity_units = 40

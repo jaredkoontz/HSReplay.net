@@ -81,6 +81,9 @@ class TwitchVod(Model):
 	class Meta:
 		table_name = settings.DYNAMODB_TABLES["twitch_vod"]["NAME"]
 		host = settings.DYNAMODB_TABLES["twitch_vod"]["HOST"]
+		if hasattr(settings, "AWS_CREDENTIALS"):
+			aws_access_key_id = settings.AWS_CREDENTIALS["AWS_ACCESS_KEY_ID"]
+			aws_secret_access_key = settings.AWS_CREDENTIALS["AWS_SECRET_ACCESS_KEY"]
 		read_capacity_units = 2
 		write_capacity_units = 5
 		ttl_days = 14
