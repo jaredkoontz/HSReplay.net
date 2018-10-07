@@ -1,4 +1,4 @@
-from . import ads, accounts, analytics, collections, games, packs, webhooks, vods
+from . import ads, accounts, analytics, collections, games, packs, replays, webhooks, vods
 
 __all__ = [
 	"ads",
@@ -7,6 +7,7 @@ __all__ = [
 	"collections",
 	"games",
 	"packs",
+	"replays",
 	"webhooks",
 	"vods",
 ]
