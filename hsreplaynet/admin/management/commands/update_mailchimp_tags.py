@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.core.management import BaseCommand
+from django.db.models import Count
 from mailchimp3.helpers import get_subscriber_hash
 
 from hearthsim.identity.accounts.models import User
@@ -77,11 +78,13 @@ class Command(BaseCommand):
 		return int(user_count / total_users * 100)
 
 	def handle(self, *args, **options):
-		users = User.objects.filter(is_active=True)
+		users = User.objects.prefetch_related("emailaddress_set", "group_set") \
+			.annotate(count=Count("emailaddress")) \
+			.filter(count__gt=0, is_active=True)
 
 		total_users = users.count()
 
-		print(f"Updating MailChimp tags for {total_users} user(s).")
+		print(f"Updating MailChimp tags for {total_users} user(s) with email addresses.")
 
 		user_count = 0
 		users_with_tag_changes = 0
