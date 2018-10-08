@@ -5,7 +5,7 @@ Miscellaneous middleware objects
 from ipaddress import ip_address
 
 from django.conf import settings
-from django.contrib.staticfiles.templatetags.staticfiles import static
+from django.templatetags.static import static
 from django.utils import translation
 
 from .html import HTMLHead
