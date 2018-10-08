@@ -71,7 +71,7 @@ class Command(BaseCommand):
 				influx_metric("mailchimp_requests", {"count": 1}, method="delete_tags")
 
 		except Exception as e:
-			print("Failed to contact MailChimp API: %s" % e)
+			print("Failed to contact MailChimp API: %s" % e, flush=True)
 
 	@staticmethod
 	def _percent(user_count, total_users):
@@ -84,7 +84,10 @@ class Command(BaseCommand):
 
 		total_users = users.count()
 
-		print(f"Updating MailChimp tags for {total_users} user(s) with email addresses.")
+		print(
+			f"Updating MailChimp tags for {total_users} user(s) with email addresses.",
+			flush=True
+		)
 
 		user_count = 0
 		users_with_tag_changes = 0
@@ -96,7 +99,7 @@ class Command(BaseCommand):
 			pct_after = self._percent(user_count, total_users)
 
 			if pct_before != pct_after:
-				print(f"Working... {pct_after}% complete.")
+				print(f"Working... {pct_after}% complete.", flush=True)
 
 			email = find_best_email_for_user(user)
 			if email:

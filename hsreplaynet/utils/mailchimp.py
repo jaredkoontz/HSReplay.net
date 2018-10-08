@@ -1,4 +1,3 @@
-from allauth.account.models import EmailAddress
 from django.conf import settings
 from mailchimp3 import MailChimp
 from mailchimp3.baseapi import BaseApi
@@ -95,7 +94,9 @@ def find_best_email_for_user(user):
 	:return: The best EmailAddress or None if the user has no EmailAddresses
 	"""
 
-	addresses = EmailAddress.objects.filter(user=user).order_by("id")
+	addresses = list(user.emailaddress_set.all())
+	addresses.sort(key=lambda a: a.pk)
+
 	target_address = None
 
 	for address in addresses:
