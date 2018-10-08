@@ -16,12 +16,15 @@ from pynamodb.exceptions import DoesNotExist, PutError
 from pytest import raises
 from shortuuid import ShortUUID
 
-from hearthsim.identity.accounts.models import BlizzardAccount, User
+from hearthsim.identity.accounts.models import AuthToken, BlizzardAccount, User
+from hearthsim.identity.api.models import APIKey
 from hsreplaynet.decks.models import Archetype, Deck, update_deck_archetype
 from hsreplaynet.games.models import GameReplay, GlobalGame, GlobalGamePlayer
 from hsreplaynet.games.processing import (
-	get_globalgame_digest_v2_tags, has_twitch_vod_url, record_twitch_vod, update_replay_feed
+	get_globalgame_digest_v2_tags, has_twitch_vod_url,
+	record_twitch_vod, update_last_replay_upload, update_replay_feed
 )
+from hsreplaynet.uploads.models import UploadEvent
 from hsreplaynet.vods.models import TwitchVod
 
 
@@ -409,3 +412,31 @@ def test_get_globalgame_digest_v2_tags_collision(redis):
 			"v2_collision": True,
 			"v2_unification": True
 		}
+
+
+@pytest.mark.django_db
+def test_update_last_replay_upload(user):
+	auth_token = AuthToken.objects.create(
+		creation_apikey=APIKey.objects.create(),
+		user=user
+	)
+	upload_event = UploadEvent(token_uuid=auth_token.key, user_agent="HDT/1.7.0")
+
+	update_last_replay_upload(upload_event)
+	user.refresh_from_db()
+
+	assert user.last_replay_upload is not None
+
+
+@pytest.mark.django_db
+def test_update_last_replay_upload_non_hdt(user):
+	auth_token = AuthToken.objects.create(
+		creation_apikey=APIKey.objects.create(),
+		user=user
+	)
+	upload_event = UploadEvent(token_uuid=auth_token.key, user_agent="RandoTracker.com")
+
+	update_last_replay_upload(upload_event)
+	user.refresh_from_db()
+
+	assert user.last_replay_upload is None

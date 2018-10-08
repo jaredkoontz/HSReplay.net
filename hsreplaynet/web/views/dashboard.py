@@ -1,4 +1,5 @@
 from allauth.socialaccount.models import SocialAccount
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -8,12 +9,16 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import CreateView, DeleteView, TemplateView, UpdateView, View
 from django_reflinks.models import ReferralHit, ReferralLink
+from mailchimp3.helpers import get_subscriber_hash
 from oauth2_provider.models import AccessToken, get_application_model
 from shortuuid import ShortUUID
 
 from hearthsim.identity.accounts.models import User
 from hsreplaynet.utils import log
 from hsreplaynet.utils.influx import influx_metric
+from hsreplaynet.utils.mailchimp import (
+	find_best_email_for_user, get_mailchimp_client, get_mailchimp_subscription_status
+)
 from hsreplaynet.web.html import RequestMetaMixin
 from hsreplaynet.webhooks.models import WebhookDelivery, WebhookEndpoint
 
@@ -195,6 +200,19 @@ class EmailPreferencesView(LoginRequiredMixin, View):
 			"updated": timezone.now().isoformat(),
 		}
 		request.user.save()
+
+		try:
+			client = get_mailchimp_client()
+			email = find_best_email_for_user(request.user)
+			client.lists.members.create_or_update(
+				settings.MAILCHIM_LIST_KEY_ID,
+				get_subscriber_hash(email.email), {
+					"email_address": email.email,
+					"status_if_new": get_mailchimp_subscription_status(request.user)
+				})
+		except Exception as e:
+			log.warning("Failed to contact MailChimp API: %s" % e)
+			influx_metric("mailchimp_request_failures", {"count": 1})
 
 		messages.info(request, _("Your email preferences have been saved."))
 		return redirect(self.success_url)

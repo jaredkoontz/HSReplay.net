@@ -115,6 +115,7 @@ MIDDLEWARE = [
 	"hsreplaynet.web.middleware.UserLocaleMiddleware",
 	"hsreplaynet.web.middleware.HostLanguageMiddleware",
 	"hsreplaynet.web.middleware.MetaTagsMiddleware",
+	"hsreplaynet.web.middleware.UserActivityMiddleware",
 ]
 
 

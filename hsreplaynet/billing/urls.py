@@ -8,6 +8,7 @@ billing_settings = views.BillingView.as_view()
 update_card = views.UpdateCardView.as_view()
 subscribe = views.SubscribeView.as_view()
 cancel_subscription = views.CancelSubscriptionView.as_view()
+notify_checkout = views.CheckoutNotificationView.as_view()
 
 urlpatterns = [
 	url(r"^$", billing_settings, name="billing_methods"),
@@ -19,4 +20,5 @@ urlpatterns = [
 	url(r"^paypal/subscribe/", views.PaypalSubscribeView.as_view(), name="pp_subscribe"),
 	url(r"^paypal/return/", views.PaypalSuccessView.as_view(), name="pp_success"),
 	url(r"^paypal/webhook/", ProcessWebhookView.as_view(), name="pp_webhook"),
+	url(r"^notify-checkout/$", notify_checkout, name="checkout_notification"),
 ]

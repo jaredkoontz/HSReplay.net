@@ -993,6 +993,24 @@ def update_game_counter(replay):
 		error_handler(e)
 
 
+def update_last_replay_upload(upload_event):
+	"""Update the last replay upload timestamp for the uploading user if user is known."""
+
+	product = user_agent_product(upload_event.user_agent) \
+		if upload_event.user_agent else None
+
+	if product in ("HDT", "HDTPortable", "HSTracker"):
+
+		# The purpose of setting the last replay upload timestamp is to be able to set the
+		# "HDT User" tag in MailChimp, so only bump the timestamp on certain user agents.
+
+		auth_token = AuthToken.objects.filter(key=upload_event.token_uuid).first()
+		user = auth_token.user if auth_token else None
+		if user:
+			user.last_replay_upload = timezone.now()
+			user.save()
+
+
 def update_player_class_distribution(replay):
 	try:
 		game_type_name = BnetGameType(replay.global_game.game_type).name
@@ -1231,6 +1249,8 @@ def do_process_upload_event(upload_event):
 			tags["v1_unification"] = True
 
 		influx_metric("game_replays_uploaded", {"count": 1}, user_agent=product, **tags)
+
+	update_last_replay_upload(upload_event)
 
 	update_player_class_distribution(replay)
 	update_replay_feed(replay)

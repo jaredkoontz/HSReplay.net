@@ -59,6 +59,10 @@ export class SubscriptionEvents extends Events {
 	public static onInitiateCheckout(location: string): void {
 		this.ga("Checkout", "initiate");
 		this.fb("InitiateCheckout");
+
+		// Update the user table timestamp for last premium checkout.
+
+		fetch("/accounts/billing/notify-checkout/", { method: "POST" });
 	}
 
 	public static onSubscribe(

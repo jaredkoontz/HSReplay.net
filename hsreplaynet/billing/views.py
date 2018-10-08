@@ -4,8 +4,10 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist, SuspiciousOperation
 from django.db import IntegrityError
+from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
+from django.utils import timezone
 from django.utils.http import is_safe_url
 from django.utils.timezone import now
 from django.utils.translation import gettext as _
@@ -398,6 +400,13 @@ class SubscribeView(LoginRequiredMixin, PaymentsMixin, View):
 		if "plan" in request.POST:
 			# Optionally, a plan can be specified. We attempt subscribing to it if there is one.
 			if self.handle_subscribe(customer):
+
+				# Null out the premium checkout timestamp so that we don't remind the user to
+				# complete the checkout process.
+
+				request.user.last_premium_checkout = None
+				request.user.save()
+
 				messages.success(self.request, _("You are now subscribed!"))
 
 		return redirect(self.get_success_url())
@@ -553,6 +562,12 @@ class PaypalSuccessView(BasePaypalView):
 
 		prepared_agreement.execute()
 
+		# Null out the premium checkout timestamp so that we don't remind the user to
+		# complete the checkout process.
+
+		request.user.last_premium_checkout = None
+		request.user.save()
+
 		messages.success(self.request, _("You are now subscribed with PayPal!"))
 		return redirect(self.get_success_url())
 
@@ -618,3 +633,18 @@ class PaypalSubscribeView(LoginRequiredMixin, BasePaypalView):
 		)
 
 		return redirect(prepared_agreement.approval_url)
+
+
+class CheckoutNotificationView(LoginRequiredMixin, View):
+	"""A handler for notifications that a user has started the premium checkout process."""
+
+	@staticmethod
+	def post(request):
+
+		# Set the premium checkout timestamp so that we can identify users that didn't
+		# complete the checkout process and remind them to finish.
+
+		request.user.last_premium_checkout = timezone.now()
+		request.user.save()
+
+		return HttpResponse()

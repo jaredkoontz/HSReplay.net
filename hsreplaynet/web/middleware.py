@@ -6,7 +6,7 @@ from ipaddress import ip_address
 
 from django.conf import settings
 from django.templatetags.static import static
-from django.utils import translation
+from django.utils import timezone, translation
 
 from .html import HTMLHead
 from .i18n import lang_to_opengraph
@@ -127,6 +127,21 @@ class SetRemoteAddrFromForwardedFor:
 					real_ip = request.META[header].split(",")[0].strip()
 					request.META["REMOTE_ADDR"] = real_ip
 					break
+
+		response = self.get_response(request)
+		return response
+
+
+class UserActivityMiddleware:
+	"""Middleware for updating last access time for authenticated users."""
+
+	def __init__(self, get_response):
+		self.get_response = get_response
+
+	def __call__(self, request):
+		if request.user.is_authenticated:
+			request.user.last_site_activity = timezone.now()
+			request.user.save()
 
 		response = self.get_response(request)
 		return response
