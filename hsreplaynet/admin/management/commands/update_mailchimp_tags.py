@@ -87,7 +87,7 @@ class Command(BaseCommand):
 		users_with_tag_changes = 0
 		mailchimp_api_requests = 0
 
-		for user in users:
+		for user in users.iterator():
 			pct_before = self._percent_mod_10(user_count, total_users)
 			user_count += 1
 			pct_after = self._percent_mod_10(user_count, total_users)
