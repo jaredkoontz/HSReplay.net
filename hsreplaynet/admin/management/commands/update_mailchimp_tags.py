@@ -73,8 +73,8 @@ class Command(BaseCommand):
 			print("Failed to contact MailChimp API: %s" % e)
 
 	@staticmethod
-	def _percent_mod_10(user_count, total_users):
-		return user_count / total_users * 100 % 10
+	def _percent(user_count, total_users):
+		return int(user_count / total_users * 100)
 
 	def handle(self, *args, **options):
 		users = User.objects.filter(is_active=True)
@@ -88,9 +88,9 @@ class Command(BaseCommand):
 		mailchimp_api_requests = 0
 
 		for user in users.iterator():
-			pct_before = self._percent_mod_10(user_count, total_users)
+			pct_before = self._percent(user_count, total_users)
 			user_count += 1
-			pct_after = self._percent_mod_10(user_count, total_users)
+			pct_after = self._percent(user_count, total_users)
 
 			if pct_before != pct_after:
 				print(f"Working... {pct_after}% complete.")
