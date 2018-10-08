@@ -138,7 +138,10 @@ class Home extends React.Component<Props, State> {
 				</div>
 				{UserData.hasFeature("high-legend-filter-promo") &&
 				!UserData.hasCookie("high-legend-filter-popup-closed", "0") ? (
-					<a href="/decks/" id="high-legend-filter-promo">
+					<a
+						href="/decks/#rankRange=TOP_1000_LEGEND"
+						id="high-legend-filter-promo"
+					>
 						<img src="https://media.hearthsim.net/hsreplaynet/high-legend-filter.jpg" />
 					</a>
 				) : null}
