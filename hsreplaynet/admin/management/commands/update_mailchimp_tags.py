@@ -1,11 +1,12 @@
 from django.conf import settings
 from django.core.management import BaseCommand
-from django.db.models import Count
+from django.db.models import Count, Prefetch
+from djstripe.models import Customer
 from mailchimp3.helpers import get_subscriber_hash
 
 from hearthsim.identity.accounts.models import User
 from hsreplaynet.admin.mailchimp import (
-	HearthstoneDeckTrackerUserTag, HSReplayNetUserTag, PremiumSubscriberTag
+	AbandonedCartTag, HearthstoneDeckTrackerUserTag, HSReplayNetUserTag, PremiumSubscriberTag
 )
 from hsreplaynet.utils.influx import influx_metric
 from hsreplaynet.utils.mailchimp import (
@@ -16,6 +17,7 @@ from hsreplaynet.utils.mailchimp import (
 # Set of tags to update.
 
 TAGS = [
+	AbandonedCartTag(),
 	HSReplayNetUserTag(),
 	HearthstoneDeckTrackerUserTag(),
 	PremiumSubscriberTag()
@@ -78,9 +80,16 @@ class Command(BaseCommand):
 		return int(user_count / total_users * 100)
 
 	def handle(self, *args, **options):
-		users = User.objects.prefetch_related("emailaddress_set", "group_set") \
-			.annotate(count=Count("emailaddress")) \
-			.filter(count__gt=0, is_active=True)
+
+		users = User.objects.prefetch_related(
+			"billingagreement_set",
+			Prefetch(
+				"djstripe_customers",
+				queryset=Customer.objects.prefetch_related("subscriptions")
+			),
+			"emailaddress_set",
+			"group_set"
+		).annotate(count=Count("emailaddress")).filter(count__gt=0, is_active=True)
 
 		total_users = users.count()
 

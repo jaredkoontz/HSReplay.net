@@ -1,5 +1,6 @@
 from datetime import timedelta
 
+from django.conf import settings
 from django.contrib.auth.models import Group
 from django.utils import timezone
 
@@ -107,8 +108,38 @@ class PremiumSubscriberTag(MailChimpTag):
 	def __init__(self):
 		super().__init__("Premium Subscriber")
 
+	@staticmethod
+	def _has_stripe_subscription(user):
+		for customer in user.djstripe_customers.all():
+			for subscription in customer.subscriptions.all():
+				if (
+					subscription.status in ("active", "trialing") and
+					subscription.current_period_end > timezone.now()
+				):
+					return True
+
+		return False
+
+	@staticmethod
+	def _has_paypal_subscription(user):
+		for billingagreement in user.billingagreement_set.all():
+			if (
+				billingagreement.state == "Active" and
+				billingagreement.end_of_period > timezone.now() - timedelta(days=15)
+			) or (
+				billingagreement.state in ("Cancelled", "Canceled") and
+				billingagreement.end_of_period > timezone.now()
+			):
+				return True
+
+		return False
+
 	def should_apply_to(self, user):
-		return user.is_premium
+		premium_override = getattr(settings, "PREMIUM_OVERRIDE", None)
+		if premium_override is not None:
+			return premium_override
+
+		return self._has_stripe_subscription(user) or self._has_paypal_subscription(user)
 
 
 class AbandonedCartTag(MailChimpTag):
