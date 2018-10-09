@@ -16,6 +16,10 @@ class Command(BaseCommand):
 			"--force-attach", type=str, metavar="USERNAME",
 			help="User to attach the resulting replays to."
 		)
+		group.add_argument(
+			"--pick-token", type=str, metavar="USERNAME",
+			help="Pick a token for the user to attach to."
+		)
 
 	def handle(self, *args, **options):
 		if options["force_attach"]:
@@ -24,6 +28,14 @@ class Command(BaseCommand):
 				raise CommandError(f"User {repr(options['force_attach'])} not found")
 		else:
 			user = None
+
+		if options["pick_token"]:
+			user = User.objects.get(username=options["pick_token"])
+			if not user:
+				raise CommandError(f"User {repr(options['pick_token'])} not found")
+			token = user.auth_tokens.first()
+		else:
+			token = None
 
 		for file in options["file"]:
 			self.stdout.write(f"Uploading {repr(file)}")
@@ -35,6 +47,7 @@ class Command(BaseCommand):
 			event = UploadEvent(
 				upload_ip="127.0.0.1",
 				metadata=json.dumps(metadata),
+				token_uuid=token.key if token else None,
 			)
 
 			event.file = file
