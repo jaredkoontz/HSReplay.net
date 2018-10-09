@@ -3,6 +3,7 @@ import json
 from django.core.files import File
 from django.core.management.base import BaseCommand, CommandError
 from django.utils.timezone import now
+from hearthstone import enums
 
 from hearthsim.identity.accounts.models import User
 from hsreplaynet.uploads.models import UploadEvent
@@ -42,6 +43,8 @@ class Command(BaseCommand):
 			metadata = {
 				"build": 0,
 				"match_start": now().isoformat(),
+				"game_type": enums.BnetGameType.BGT_RANKED_STANDARD,
+				"format": enums.FormatType.FT_STANDARD,
 			}
 
 			event = UploadEvent(
