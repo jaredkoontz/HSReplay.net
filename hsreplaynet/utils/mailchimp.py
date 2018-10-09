@@ -74,14 +74,20 @@ class ListMemberTags(BaseApi):
 		)
 
 
-_client = MailChimp(mc_api=settings.MAILCHIMP_API_KEY)
-_client.lists.members.tags = ListMemberTags(_client)
+if hasattr(settings, "MAILCHIMP_API_KEY") and hasattr(settings, "MAILCHIMP_LIST_KEY_ID"):
+	_client = MailChimp(mc_api=settings.MAILCHIMP_API_KEY)
+	_client.lists.members.tags = ListMemberTags(_client)
+else:
+	_client = None
 
 
 def get_mailchimp_client():
 	"""Return a configured instance of the MailChimp API client."""
 
-	return _client
+	if _client is not None:
+		return _client
+	else:
+		raise RuntimeError("MAILCHIMP_API_KEY and MAILCHIMP_LIST_KEY_ID must be set.")
 
 
 def find_best_email_for_user(user):
