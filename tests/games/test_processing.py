@@ -14,8 +14,7 @@ from pynamodb.exceptions import DoesNotExist, PutError
 from pytest import raises
 from tests.utils import create_deck_from_deckstring, create_player, create_replay
 
-from hearthsim.identity.accounts.models import AuthToken, User
-from hearthsim.identity.api.models import APIKey
+from hearthsim.identity.accounts.models import User
 from hsreplaynet.decks.models import Archetype, Deck, update_deck_archetype
 from hsreplaynet.games.models import GameReplay, GlobalGame
 from hsreplaynet.games.processing import (
@@ -350,11 +349,7 @@ def test_get_globalgame_digest_v2_tags_collision(redis):
 
 
 @pytest.mark.django_db
-def test_update_last_replay_upload(user):
-	auth_token = AuthToken.objects.create(
-		creation_apikey=APIKey.objects.create(),
-		user=user
-	)
+def test_update_last_replay_upload(user, auth_token):
 	upload_event = UploadEvent(token_uuid=auth_token.key, user_agent="HDT/1.7.0")
 
 	update_last_replay_upload(upload_event)
@@ -364,11 +359,7 @@ def test_update_last_replay_upload(user):
 
 
 @pytest.mark.django_db
-def test_update_last_replay_upload_non_hdt(user):
-	auth_token = AuthToken.objects.create(
-		creation_apikey=APIKey.objects.create(),
-		user=user
-	)
+def test_update_last_replay_upload_non_hdt(user, auth_token):
 	upload_event = UploadEvent(token_uuid=auth_token.key, user_agent="RandoTracker.com")
 
 	update_last_replay_upload(upload_event)
