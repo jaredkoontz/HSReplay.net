@@ -40,8 +40,7 @@ class Command(BaseCommand):
 		parser.add_argument("--batch-size", type=int)
 		parser.add_argument("--publish-remote", action="store_true", default=False)
 
-	@staticmethod
-	def _publish_tag_changes(user, email_str, tags_to_add, tags_to_remove):
+	def _publish_tag_changes(self, user, email_str, tags_to_add, tags_to_remove):
 		list_key_id = settings.MAILCHIMP_LIST_KEY_ID
 		email_hash = get_subscriber_hash(email_str)
 
@@ -59,6 +58,7 @@ class Command(BaseCommand):
 				})
 
 			influx_metric("mailchimp_requests", {"count": 1}, method="create_or_update")
+			self.mailchimp_api_requests += 1
 
 			# Tell MailChimp to add any tags that we added locally.
 
@@ -70,6 +70,7 @@ class Command(BaseCommand):
 				)
 
 				influx_metric("mailchimp_requests", {"count": 1}, method="add_tags")
+				self.mailchimp_api_requests += 1
 
 			# Tell MailChimp to remove any tags that we removed locally.
 
@@ -81,6 +82,7 @@ class Command(BaseCommand):
 				)
 
 				influx_metric("mailchimp_requests", {"count": 1}, method="delete_tags")
+				self.mailchimp_api_requests += 1
 
 		except Exception as e:
 			print("Failed to contact MailChimp API: %s" % e, flush=True)
@@ -90,6 +92,7 @@ class Command(BaseCommand):
 		return int(user_count / total_users * 100)
 
 	def _process_page(self, page, options):
+		user_tags = []
 		for user in page:
 			pct_before = self._percent(self.user_count, self.total_users)
 			self.user_count += 1
@@ -102,43 +105,43 @@ class Command(BaseCommand):
 			if email:
 				tags_to_add = []
 				tags_to_remove = []
-				needs_publish = False
 
 				for tag in TAGS:
 					if tag.should_apply_to(user):
-						if tag.add_user_to_tag_group(user):
-							tags_to_add.append(tag)
-							needs_publish = True
+						tags_to_add.append(tag)
 					else:
-						if tag.remove_user_from_tag_group(user):
-							tags_to_remove.append(tag)
-							needs_publish = True
+						tags_to_remove.append(tag)
 
-				if needs_publish:
-					self.users_with_tag_changes += 1
+				user_tags.append((user, email, tags_to_add, tags_to_remove))
 
-					if options["publish_remote"]:
-						self._publish_tag_changes(
-							user,
-							email.email,
-							tags_to_add,
-							tags_to_remove
-						)
+		# After we've read all the data from the page, go back and make modifications; this
+		# part clears the prefetch cache so it has to happen as a second pass.
 
-						# We'll always make at least one request to the API to create the
-						# user...
+		for user, email, tags_to_add, tags_to_remove in user_tags:
+			mailchimp_tags_to_add = []
+			mailchimp_tags_to_remove = []
+			needs_publish = False
 
-						self.mailchimp_api_requests += 1
+			for tag in tags_to_add:
+				if tag.add_user_to_tag_group(user):
+					mailchimp_tags_to_add.append(tag)
+					needs_publish = True
 
-						# ...plus a request if tags were added...
+			for tag in tags_to_remove:
+				if tag.remove_user_from_tag_group(user):
+					mailchimp_tags_to_remove.append(tag)
+					needs_publish = True
 
-						if len(tags_to_add) > 0:
-							self.mailchimp_api_requests += 1
+			if needs_publish:
+				self.users_with_tag_changes += 1
 
-						# ...plus a request if tags were removed.
-
-						if len(tags_to_remove) > 0:
-							self.mailchimp_api_requests += 1
+				if options["publish_remote"]:
+					self._publish_tag_changes(
+						user,
+						email.email,
+						mailchimp_tags_to_add,
+						mailchimp_tags_to_remove
+					)
 
 	def handle(self, *args, **options):
 		self.total_users = User.objects.prefetch_related("emailaddress_set").annotate(
@@ -162,10 +165,7 @@ class Command(BaseCommand):
 			count=Count("emailaddress")
 		).filter(count__gt=0, is_active=True).order_by("id")
 
-		if "batch_size" in options:
-			batch_size = options["batch_size"]
-		else:
-			batch_size = max(int(self.total_users / 10), 100)
+		batch_size = options["batch_size"] or max(int(self.total_users / 10), 100)
 
 		paginator = Paginator(users, batch_size)
 		for page_num in range(1, paginator.num_pages + 1):
