@@ -1134,6 +1134,8 @@ def record_twitch_vod(replay, meta):
 
 		if not opposing_player.is_ai:
 			opposing_deck = opposing_player.deck_list
+			if opposing_deck.guessed_full_deck:
+				opposing_deck = opposing_deck.guessed_full_deck
 			if opposing_deck.archetype:
 				twitch_vod.opposing_player_archetype_id = opposing_deck.archetype.id
 
