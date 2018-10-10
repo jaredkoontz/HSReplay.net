@@ -14,6 +14,7 @@ import AdUnit from "../components/ads/AdUnit";
 import { SubscriptionEvents } from "../metrics/Events";
 
 UserData.create();
+const t = i18n.getFixedT(UserData.getLocale());
 
 function renderNavbar() {
 	const userNav = document.getElementById("user-nav");
@@ -222,8 +223,10 @@ if (
 			"reflinks",
 			true,
 			"refer-popup-closed",
-			"Refer a Friend!",
-			"Tell a friend about HSReplay.net for a cheaper Premium subscription!",
+			t("Refer a Friend!"),
+			t(
+				"Tell a friend about HSReplay.net for a cheaper Premium subscription!",
+			),
 		);
 
 		if (["th"].indexOf(UserData.getLocale()) !== -1) {
@@ -232,8 +235,10 @@ if (
 				"translation-popover",
 				false,
 				"translation-popup-closed",
-				"Help translate HSReplay.net",
-				"Want to see more of HSReplay.net in your native language? Click here to see how you can help translate the site...",
+				t("Help translate HSReplay.net"),
+				t(
+					"Want to see more of HSReplay.net in your native language? Click here to see how you can help translate the site…",
+				),
 			);
 		}
 
@@ -246,8 +251,10 @@ if (
 				"high-legend-filter-promo",
 				false,
 				"high-legend-filter-popup-closed",
-				"New Top Legend Filter!",
-				"Want to see what decks all the pros are winning with? Find out right here!",
+				t("New Top Legend Filter!"),
+				t(
+					"Want to see what decks all the pros are winning with? Find out right here!",
+				),
 				{ placement: "right", container: "body" },
 			);
 		}
