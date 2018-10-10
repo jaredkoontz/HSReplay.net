@@ -46,6 +46,7 @@ def test_vod_list_view_by_deck_id(client, twitch_vod_game, user, mocker):
 		"rank": 24,
 		"legend_rank": None,
 		"friendly_player_archetype_id": 123,
+		"opposing_player_class": "PRIEST",
 		"opposing_player_archetype_id": None,
 		"won": False,
 		"game_length_seconds": 300,

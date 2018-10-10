@@ -64,6 +64,9 @@ class TwitchVod(Model):
 
 	friendly_player_archetype_id = NumberAttribute(null=True)
 
+	# The player class of the opposing player (as a CardClass enum name)
+	opposing_player_class = UnicodeAttribute()
+
 	# The archetype id for the opposing player's deck, if available, else NULL
 
 	opposing_player_archetype_id = NumberAttribute(null=True)

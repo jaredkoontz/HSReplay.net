@@ -100,6 +100,7 @@ TEST_TWITCH_VOD_PARAMS = dict(
 	format_type="FT_STANDARD",
 	friendly_player_canonical_deck_string=TEST_TWITCH_DECK_STRING_1,
 	friendly_player_name="Test Player 1",
+	opposing_player_class="PRIEST",
 	game_date=1531612800.0,
 	game_length_seconds=300.0,
 	game_type="BGT_RANKED_STANDARD",

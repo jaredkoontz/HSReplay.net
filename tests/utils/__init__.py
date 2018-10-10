@@ -47,7 +47,7 @@ def create_player(name, id, deck, game, rank=25, legend_rank=None, is_ai=False):
 		player_id=id,
 		deck_list=deck,
 		game=game,
-		hero=Card.objects.get(pk="HERO_01"),
+		hero=Card.objects.get(card_id=deck.hero or "HERO_01"),
 		is_ai=is_ai,
 		is_first=True,
 		pegasus_account=blizzard_account,

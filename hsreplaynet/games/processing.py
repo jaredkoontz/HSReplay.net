@@ -1132,6 +1132,8 @@ def record_twitch_vod(replay, meta):
 
 		opposing_player = replay.opposing_player
 
+		twitch_vod.opposing_player_class = opposing_player.hero_class_name
+
 		if not opposing_player.is_ai:
 			opposing_deck = opposing_player.deck_list
 			if opposing_deck.guessed_full_deck:

@@ -40,6 +40,7 @@ class VodSerializer(serializers.Serializer):
 	rank = fields.IntegerField()
 	legend_rank = fields.IntegerField(allow_null=True)
 	friendly_player_archetype_id = fields.IntegerField(allow_null=True)
+	opposing_player_class = fields.CharField()
 	opposing_player_archetype_id = fields.IntegerField(allow_null=True)
 	won = fields.BooleanField()
 	game_length_seconds = fields.IntegerField()
