@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.core.management import BaseCommand
+from django.core.paginator import Paginator
 from django.db.models import Count, Prefetch
 from djstripe.models import Customer
 from mailchimp3.helpers import get_subscriber_hash
@@ -26,6 +27,14 @@ TAGS = [
 
 class Command(BaseCommand):
 	help = "Update local state of MailChimp tags; optionally push changes to MailChimp API"
+
+	def __init__(self):
+		super().__init__()
+
+		self.mailchimp_api_requests = 0
+		self.total_users = 0
+		self.user_count = 0
+		self.users_with_tag_changes = 0
 
 	def add_arguments(self, parser):
 		parser.add_argument("--publish-remote", action="store_true", default=False)
@@ -79,33 +88,11 @@ class Command(BaseCommand):
 	def _percent(user_count, total_users):
 		return int(user_count / total_users * 100)
 
-	def handle(self, *args, **options):
-
-		users = User.objects.prefetch_related(
-			"billingagreement_set",
-			Prefetch(
-				"djstripe_customers",
-				queryset=Customer.objects.prefetch_related("subscriptions")
-			),
-			"emailaddress_set",
-			"group_set"
-		).annotate(count=Count("emailaddress")).filter(count__gt=0, is_active=True)
-
-		total_users = users.count()
-
-		print(
-			f"Updating MailChimp tags for {total_users} user(s) with email addresses.",
-			flush=True
-		)
-
-		user_count = 0
-		users_with_tag_changes = 0
-		mailchimp_api_requests = 0
-
-		for user in users.iterator():
-			pct_before = self._percent(user_count, total_users)
-			user_count += 1
-			pct_after = self._percent(user_count, total_users)
+	def _process_page(self, page, options):
+		for user in page:
+			pct_before = self._percent(self.user_count, self.total_users)
+			self.user_count += 1
+			pct_after = self._percent(self.user_count, self.total_users)
 
 			if pct_before != pct_after:
 				print(f"Working... {pct_after}% complete.", flush=True)
@@ -127,7 +114,7 @@ class Command(BaseCommand):
 							needs_publish = True
 
 				if needs_publish:
-					users_with_tag_changes += 1
+					self.users_with_tag_changes += 1
 
 					if options["publish_remote"]:
 						self._publish_tag_changes(
@@ -140,18 +127,42 @@ class Command(BaseCommand):
 						# We'll always make at least one request to the API to create the
 						# user...
 
-						mailchimp_api_requests += 1
+						self.mailchimp_api_requests += 1
 
 						# ...plus a request if tags were added...
 
 						if len(tags_to_add) > 0:
-							mailchimp_api_requests += 1
+							self.mailchimp_api_requests += 1
 
 						# ...plus a request if tags were removed.
 
 						if len(tags_to_remove) > 0:
-							mailchimp_api_requests += 1
+							self.mailchimp_api_requests += 1
+
+	def handle(self, *args, **options):
+		self.total_users = User.objects.prefetch_related("emailaddress_set").annotate(
+			count=Count("emailaddress")
+		).filter(count__gt=0, is_active=True).count()
+
+		print(
+			f"Updating MailChimp tags for {self.total_users} user(s) with email addresses.",
+			flush=True
+		)
+
+		users = User.objects.prefetch_related(
+			"billingagreement_set",
+			Prefetch(
+				"djstripe_customers",
+				queryset=Customer.objects.prefetch_related("subscriptions")
+			),
+			"emailaddress_set",
+			"groups"
+		)
+
+		paginator = Paginator(users, 7000)
+		for page_num in range(1, paginator.num_pages + 1):
+			self._process_page(paginator.page(page_num), options)
 
 		print("Done.")
-		print(f"Updated tags for {users_with_tag_changes} user(s).")
-		print(f"Executed {mailchimp_api_requests} request(s) to MailChimp API.")
+		print(f"Updated tags for {self.users_with_tag_changes} user(s).")
+		print(f"Executed {self.mailchimp_api_requests} request(s) to MailChimp API.")
