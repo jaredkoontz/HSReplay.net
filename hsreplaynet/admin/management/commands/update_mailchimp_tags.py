@@ -37,6 +37,7 @@ class Command(BaseCommand):
 		self.users_with_tag_changes = 0
 
 	def add_arguments(self, parser):
+		parser.add_argument("--batch-size", type=int)
 		parser.add_argument("--publish-remote", action="store_true", default=False)
 
 	@staticmethod
@@ -161,7 +162,12 @@ class Command(BaseCommand):
 			count=Count("emailaddress")
 		).filter(count__gt=0, is_active=True).order_by("id")
 
-		paginator = Paginator(users, max(int(self.total_users / 100), 100))
+		if "batch_size" in options:
+			batch_size = options["batch_size"]
+		else:
+			batch_size = max(int(self.total_users / 10), 100)
+
+		paginator = Paginator(users, batch_size)
 		for page_num in range(1, paginator.num_pages + 1):
 			self._process_page(paginator.page(page_num), options)
 
