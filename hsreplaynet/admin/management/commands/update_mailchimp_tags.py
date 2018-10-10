@@ -157,9 +157,11 @@ class Command(BaseCommand):
 			),
 			"emailaddress_set",
 			"groups"
-		)
+		).annotate(
+			count=Count("emailaddress")
+		).filter(count__gt=0, is_active=True).order_by("id")
 
-		paginator = Paginator(users, 7000)
+		paginator = Paginator(users, max(int(self.total_users / 100), 100))
 		for page_num in range(1, paginator.num_pages + 1):
 			self._process_page(paginator.page(page_num), options)
 
