@@ -43,6 +43,7 @@ class VodSerializer(serializers.Serializer):
 	opposing_player_class = fields.CharField()
 	opposing_player_archetype_id = fields.IntegerField(allow_null=True)
 	won = fields.BooleanField()
+	went_first = fields.BooleanField()
 	game_length_seconds = fields.IntegerField()
 
 

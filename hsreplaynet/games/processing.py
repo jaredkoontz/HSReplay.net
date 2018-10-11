@@ -1111,6 +1111,7 @@ def record_twitch_vod(replay, meta):
 			replay_shortid=replay.shortid,
 			rank=friendly_player.rank,
 			won=bool(replay.won),
+			went_first=bool(friendly_player.is_first),
 			game_date=game.match_start.timestamp(),
 			game_length_seconds=game_length,
 			format_type=FormatType(game.format).name,

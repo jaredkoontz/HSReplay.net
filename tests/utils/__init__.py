@@ -34,7 +34,7 @@ def create_deck_from_deckstring(deckstring, archetype_id=None):
 	return deck_list
 
 
-def create_player(name, id, deck, game, rank=25, legend_rank=None, is_ai=False):
+def create_player(name, id, deck, game, rank=25, legend_rank=None, is_ai=False, is_first=True):
 	blizzard_account = BlizzardAccount(
 		account_hi=id,
 		account_lo=id,
@@ -49,7 +49,7 @@ def create_player(name, id, deck, game, rank=25, legend_rank=None, is_ai=False):
 		game=game,
 		hero=Card.objects.get(card_id=deck.hero or "HERO_01"),
 		is_ai=is_ai,
-		is_first=True,
+		is_first=is_first,
 		pegasus_account=blizzard_account,
 		rank=rank
 	)

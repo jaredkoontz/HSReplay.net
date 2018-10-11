@@ -106,6 +106,7 @@ TEST_TWITCH_VOD_PARAMS = dict(
 	game_type="BGT_RANKED_STANDARD",
 	url=TEST_REPLAY_META["twitch_vod"]["url"],
 	won=False,
+	went_first=True,
 	twitch_channel_name=TEST_REPLAY_META["twitch_vod"]["channel_name"]
 )
 

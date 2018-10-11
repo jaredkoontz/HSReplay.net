@@ -50,6 +50,8 @@ class TwitchVod(Model):
 	combined_rank = UnicodeAttribute(range_key=True)
 
 	won = BooleanAttribute()  # True if the friendly player won the game, else False
+	went_first = BooleanAttribute()  # True if the friendly player went first, else False
+
 	game_date = NumberAttribute()  # The epoch second timestamp of the match start
 	game_length_seconds = NumberAttribute()  # The duration of the game in seconds
 
@@ -57,18 +59,15 @@ class TwitchVod(Model):
 	game_type = UnicodeAttribute()  # The game type (as a BnetGameType enum name)
 
 	# The full, canonicalized deck string for the friendly player
-
 	friendly_player_canonical_deck_string = UnicodeAttribute()
 
 	# The archetype id for the friendly player's deck, if available, else NULL
-
 	friendly_player_archetype_id = NumberAttribute(null=True)
 
 	# The player class of the opposing player (as a CardClass enum name)
 	opposing_player_class = UnicodeAttribute()
 
 	# The archetype id for the opposing player's deck, if available, else NULL
-
 	opposing_player_archetype_id = NumberAttribute(null=True)
 
 	url = UnicodeAttribute()  # The URL of the VOD on Twitch
