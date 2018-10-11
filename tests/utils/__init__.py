@@ -34,7 +34,16 @@ def create_deck_from_deckstring(deckstring, archetype_id=None):
 	return deck_list
 
 
-def create_player(name, id, deck, game, rank=25, legend_rank=None, is_ai=False, is_first=True):
+def create_player(
+	name,
+	id,
+	deck,
+	game,
+	rank=25,
+	legend_rank=None,
+	is_ai=False,
+	is_first=True
+):
 	blizzard_account = BlizzardAccount(
 		account_hi=id,
 		account_lo=id,
