@@ -1,5 +1,8 @@
+import time
+
 from django.core.management.base import BaseCommand
 from hearthstone.deckstrings import write_deckstring
+from pynamodb.exceptions import PynamoDBException
 
 from hsreplaynet.games.models import GameReplay
 from hsreplaynet.games.models.dynamodb import GameReplay as DynamoDBGameReplay
@@ -35,12 +38,17 @@ class Command(BaseCommand):
 			print("Game %s/%s: %s" % (index + 1, num_games, game.global_game.id))
 			try:
 				self._save_to_dynamo(game)
+			except PynamoDBException as e:
+				time.sleep(10)
+				self._save_to_dynamo(game)
 			except Exception as e:
 				if options["continue_on_error"]:
 					print(e)
 					errored_games.append(game)
 				else:
 					raise e
+			if index % 5 == 0:
+				time.sleep(1)
 
 		if errored_games:
 			print("The following games could not be copied successfully:")
