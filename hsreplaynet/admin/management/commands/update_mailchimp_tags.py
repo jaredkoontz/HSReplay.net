@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.core.management import BaseCommand
 from django.core.paginator import Paginator
+from django.db import transaction
 from django.db.models import Count, Prefetch
 from djstripe.models import Customer
 from mailchimp3.helpers import get_subscriber_hash
@@ -117,31 +118,32 @@ class Command(BaseCommand):
 		# After we've read all the data from the page, go back and make modifications; this
 		# part clears the prefetch cache so it has to happen as a second pass.
 
-		for user, email, tags_to_add, tags_to_remove in user_tags:
-			mailchimp_tags_to_add = []
-			mailchimp_tags_to_remove = []
-			needs_publish = False
+		with transaction.atomic():
+			for user, email, tags_to_add, tags_to_remove in user_tags:
+				mailchimp_tags_to_add = []
+				mailchimp_tags_to_remove = []
+				needs_publish = False
 
-			for tag in tags_to_add:
-				if tag.add_user_to_tag_group(user):
-					mailchimp_tags_to_add.append(tag)
-					needs_publish = True
+				for tag in tags_to_add:
+					if tag.add_user_to_tag_group(user):
+						mailchimp_tags_to_add.append(tag)
+						needs_publish = True
 
-			for tag in tags_to_remove:
-				if tag.remove_user_from_tag_group(user):
-					mailchimp_tags_to_remove.append(tag)
-					needs_publish = True
+				for tag in tags_to_remove:
+					if tag.remove_user_from_tag_group(user):
+						mailchimp_tags_to_remove.append(tag)
+						needs_publish = True
 
-			if needs_publish:
-				self.users_with_tag_changes += 1
+				if needs_publish:
+					self.users_with_tag_changes += 1
 
-				if options["publish_remote"]:
-					self._publish_tag_changes(
-						user,
-						email.email,
-						mailchimp_tags_to_add,
-						mailchimp_tags_to_remove
-					)
+					if options["publish_remote"]:
+						self._publish_tag_changes(
+							user,
+							email.email,
+							mailchimp_tags_to_add,
+							mailchimp_tags_to_remove
+						)
 
 	def handle(self, *args, **options):
 		self.total_users = User.objects.prefetch_related("emailaddress_set").annotate(
