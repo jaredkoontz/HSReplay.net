@@ -40,8 +40,16 @@ class Command(BaseCommand):
 	def add_arguments(self, parser):
 		parser.add_argument("--batch-size", type=int)
 		parser.add_argument("--publish-remote", action="store_true", default=False)
+		parser.add_argument("--verbose", action="store_true", default=False)
 
-	def _publish_tag_changes(self, user, email_str, tags_to_add, tags_to_remove):
+	def _publish_tag_changes(
+		self,
+		user,
+		email_str,
+		tags_to_add,
+		tags_to_remove,
+		verbose=False
+	):
 		list_key_id = settings.MAILCHIMP_LIST_KEY_ID
 		email_hash = get_subscriber_hash(email_str)
 
@@ -64,11 +72,10 @@ class Command(BaseCommand):
 			# Tell MailChimp to add any tags that we added locally.
 
 			if len(tags_to_add) > 0:
-				client.lists.members.tags.add(
-					list_key_id,
-					email_hash,
-					map(lambda tag: tag.name, tags_to_add)
-				)
+				tag_names = list(map(lambda tag: tag.name, tags_to_add))
+				if verbose:
+					print(f"Sending request to add tags {tag_names} to {email_str}")
+				client.lists.members.tags.add(list_key_id, email_hash, tag_names)
 
 				influx_metric("mailchimp_requests", {"count": 1}, method="add_tags")
 				self.mailchimp_api_requests += 1
@@ -76,11 +83,10 @@ class Command(BaseCommand):
 			# Tell MailChimp to remove any tags that we removed locally.
 
 			if len(tags_to_remove) > 0:
-				client.lists.members.tags.delete(
-					list_key_id,
-					email_hash,
-					map(lambda tag: tag.name, tags_to_remove)
-				)
+				tag_names = list(map(lambda tag: tag.name, tags_to_remove))
+				if verbose:
+					print(f"Sending request to remove tags {tag_names} from {email_str}")
+				client.lists.members.tags.delete(list_key_id, email_hash, tag_names)
 
 				influx_metric("mailchimp_requests", {"count": 1}, method="delete_tags")
 				self.mailchimp_api_requests += 1
@@ -142,7 +148,8 @@ class Command(BaseCommand):
 							user,
 							email.email,
 							mailchimp_tags_to_add,
-							mailchimp_tags_to_remove
+							mailchimp_tags_to_remove,
+							verbose=options["verbose"]
 						)
 
 	def handle(self, *args, **options):
