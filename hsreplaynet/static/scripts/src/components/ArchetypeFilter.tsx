@@ -9,6 +9,7 @@ interface Props extends InjectedTranslateProps {
 	selectedArchetypes: string[];
 	archetypesChanged: (archetypes: string[]) => void;
 	data?: any;
+	multiSelect?: boolean;
 }
 
 class ArchetypeFilter extends React.Component<Props> {
@@ -73,14 +74,17 @@ class ArchetypeFilter extends React.Component<Props> {
 					deselectable
 					selectedValue={selectedArchetypes.map(String)}
 					onClick={(value, sender) => {
-						if (
-							value !== null &&
-							selectedArchetypes.indexOf(value) === -1
-						) {
-							archetypesChanged(
-								selectedArchetypes.concat([value]),
-							);
-						} else if (value === null) {
+						if (value !== null) {
+							if (!this.props.multiSelect) {
+								archetypesChanged([value]);
+							} else if (
+								selectedArchetypes.indexOf(value) === -1
+							) {
+								archetypesChanged(
+									selectedArchetypes.concat([value]),
+								);
+							}
+						} else {
 							archetypesChanged(
 								selectedArchetypes.filter(x => x !== sender),
 							);

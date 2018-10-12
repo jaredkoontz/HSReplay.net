@@ -1,0 +1,140 @@
+#leaderboards-container {
+	display: flex;
+
+	@media (max-width: 768px) {
+		flex-direction: column;
+	}
+
+	> main {
+		min-height: calc(100vh - 50px);
+		padding: 30px;
+		width: calc(100% - 300px);
+
+		@media (max-width: 768px) {
+			max-width: 100%;
+			width: 100%;
+		}
+
+		h1 {
+			font-size: 2em;
+			font-weight: bold;
+		}
+
+		h3 {
+			font-size: 1.3em;
+			font-weight: bold;
+			margin: 5px 0;
+		}
+
+		header {
+			max-width: 1000px;
+			display: flex;
+			align-items: flex-end;
+			justify-content: space-between;
+			flex-wrap: wrap;
+			margin-bottom: 10px;
+
+			.pagination {
+				margin: 0;
+			}
+		}
+
+		.pagination-container {
+			max-width: 1000px;
+			width: 100%;
+
+			> nav {
+				display: block;
+				text-align: center;
+			}
+		}
+
+		.table {
+			max-width: 1000px;
+			font-weight: bold;
+			border: 1px solid #ddd;
+
+			thead {
+				th {
+					border: none;
+				}
+				tr {
+					background: $blue;
+					color: white;
+				}
+			}
+
+			tbody {
+				tr {
+					height: 70px;
+					cursor: pointer;
+				}
+
+				td {
+					line-height: 70px;
+					background: transparent;
+
+					p {
+						display: inline-block;
+						margin: 0 5px 0;
+
+						@media (max-width: 767px) {
+							display: block;
+							margin: 0;
+							line-height: 20px;
+						}
+					}
+				}
+
+				.leaderboard-rank-1 {
+					td {
+						color: white;
+						background: rgba(42, 91, 102, 0.8);
+					}
+				}
+
+				.leaderboard-rank-2 {
+					td {
+						background: rgba(42, 91, 102, 0.6);
+					}
+				}
+
+				.leaderboard-rank-3 {
+					td {
+						background: rgba(42, 91, 102, 0.4);
+					}
+				}
+
+				tr:hover {
+					background: rgba(79, 103, 134, 0.2);
+				}
+			}
+
+			.class-icon {
+				height: 50px;
+			}
+		}
+	}
+
+	> aside {
+		@media (max-width: 768px) {
+			max-width: 100%;
+			width: 100%;
+			padding-bottom: 0;
+		}
+
+		> h1 {
+			border-bottom: 1px solid $blue;
+
+			> .info-icon {
+				margin-left: 10px;
+				color: white;
+			}
+		}
+
+		h3 {
+			font-size: 1em;
+			margin: 10px 10px 5px 10px;
+		}
+	}
+}

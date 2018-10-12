@@ -15,6 +15,7 @@ from .web.views.archetypes import ArchetypeDetailView, DiscoverView, MetaOvervie
 from .web.views.cards import CardDetailView, CardEditorView, CardsView, MyCardsView
 from .web.views.collections import CollectionView, MyCollectionView
 from .web.views.decks import DeckDetailView, DecksView, MyDecksView, TrendingDecksView
+from .web.views.leaderboards import LeaderboardsView
 from .web.views.oauth2 import (
 	OAuth2AuthorizeView, OAuth2LoginView, OAuth2ResetSecretView,
 	OAuth2RevokeAllTokensView, OAuth2RevokeView
@@ -122,6 +123,7 @@ urlpatterns = [
 
 	# profiles (currently unused)
 	url(r"^profile/packs/$", PackListView.as_view(), name="profile_packs"),
+	url(r"^leaderboards/$", LeaderboardsView.as_view(), name="profile_packs"),
 
 	# redirects
 	url(r"^articles/(?P<pk>[^/]+)?", ArticlesRedirectView.as_view()),

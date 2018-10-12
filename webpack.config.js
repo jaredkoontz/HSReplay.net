@@ -70,6 +70,7 @@ module.exports = env => {
 		discover: makeEntry("discover"),
 		card_editor: makeEntry("card_editor"),
 		home: makeEntry("home"),
+		leaderboards: makeEntry("leaderboards"),
 		upload_processing: makeEntry("upload_processing"),
 		vendor: [
 			"babel-polyfill",

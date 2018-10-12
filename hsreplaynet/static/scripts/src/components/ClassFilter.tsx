@@ -32,6 +32,7 @@ interface Props {
 	archetypes?: any[];
 	selectedArchetypes?: string[];
 	archetypesChanged?: (archetypes: string[]) => void;
+	archetypeMulitSelect?: boolean;
 }
 
 export const filterOptionClasses: FilterOption[] = [
@@ -115,6 +116,11 @@ export default class ClassFilter extends React.Component<Props> {
 						playerClasses={this.props.selectedClasses}
 						archetypesChanged={this.props.archetypesChanged}
 						selectedArchetypes={this.props.selectedArchetypes}
+						multiSelect={
+							this.props.archetypeMulitSelect === undefined
+								? true
+								: this.props.archetypeMulitSelect
+						}
 					/>
 				</DataInjector>
 			);
