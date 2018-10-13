@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProfileHighlight does render with component highlight 1`] = `
+<div
+  className="profile-highlight"
+>
+  <div
+    className="profile-highlight-content"
+  >
+    <div>
+      <figure
+        id="TEST_ID"
+      />
+    </div>
+  </div>
+  <div
+    className="profile-highlight-text"
+  >
+    <div>
+      <h4>
+        HEADER
+      </h4>
+      <p>
+        SUBTITLE
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ProfileHighlight does render with string highlight 1`] = `
+<div
+  className="profile-highlight"
+>
+  <div
+    className="profile-highlight-content"
+  >
+    <div>
+      <p>
+        HIGHLIGHT
+      </p>
+    </div>
+  </div>
+  <div
+    className="profile-highlight-text"
+  >
+    <div>
+      <h4>
+        HEADER
+      </h4>
+      <p>
+        SUBTITLE
+      </p>
+    </div>
+  </div>
+</div>
+`;

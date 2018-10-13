@@ -21,7 +21,7 @@ from .web.views.oauth2 import (
 	OAuth2RevokeAllTokensView, OAuth2RevokeView
 )
 from .web.views.premium import PremiumDetailView
-from .web.views.profiles import PackListView
+from .web.views.profiles import PackListView, ProfileView
 from .web.views.redeem import RedeemCodeView
 from .web.views.replays import (
 	AnnotatedReplayView, MyReplaysView, ReplayDetailView, ReplayEmbedView, UploadDetailView
@@ -124,6 +124,7 @@ urlpatterns = [
 	# profiles (currently unused)
 	url(r"^profile/packs/$", PackListView.as_view(), name="profile_packs"),
 	url(r"^leaderboards/$", LeaderboardsView.as_view(), name="profile_packs"),
+	url(r"^profiles/(?P<user_id>\d+)/$", ProfileView.as_view(), name="profile_packs"),
 
 	# redirects
 	url(r"^articles/(?P<pk>[^/]+)?", ArticlesRedirectView.as_view()),

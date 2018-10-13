@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProfileHero does render with name 1`] = `
+<figure
+  className="profile-hero"
+>
+  <div>
+    <img
+      className="profile-hero-art"
+      src="https://art.hearthstonejson.com/v1/256x/HERO_07.jpg"
+    />
+    <img
+      className="profile-hero-frame"
+      src="/static/images/profile-hero-frame.png"
+    />
+  </div>
+  <figcaption>
+    Test Name
+  </figcaption>
+</figure>
+`;
+
+exports[`ProfileHero does render with without name 1`] = `
+<figure
+  className="profile-hero"
+>
+  <div>
+    <img
+      className="profile-hero-art"
+      src="https://art.hearthstonejson.com/v1/256x/HERO_07.jpg"
+    />
+    <img
+      className="profile-hero-frame"
+      src="/static/images/profile-hero-frame.png"
+    />
+  </div>
+</figure>
+`;
