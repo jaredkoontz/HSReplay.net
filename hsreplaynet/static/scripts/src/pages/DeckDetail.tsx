@@ -1218,28 +1218,23 @@ class DeckDetail extends React.Component<Props, State> {
 	}
 
 	renderAdminSettings(): React.ReactNode {
-		const items = [];
-		if (UserData.isStaff() && this.props.adminUrl) {
-			items.push(
-				<li>
-					<span>{this.props.t("View in Admin")}</span>
-					<span className="infobox-value">
-						<a href={this.props.adminUrl}>
-							{this.props.t("Admin link")}
-						</a>
-					</span>
-				</li>,
-			);
-		}
-
-		if (items.length === 0) {
-			return null;
+		if (!UserData.isStaff() || !this.props.adminUrl) {
+			return;
 		}
 
 		return (
 			<div>
 				<h2>{this.props.t("Admin")}</h2>
-				<ul>{items}</ul>
+				<ul>
+					<li>
+						<span>{this.props.t("View in Admin")}</span>
+						<span className="infobox-value">
+							<a href={this.props.adminUrl}>
+								{this.props.t("Admin link")}
+							</a>
+						</span>
+					</li>
+				</ul>
 			</div>
 		);
 	}
