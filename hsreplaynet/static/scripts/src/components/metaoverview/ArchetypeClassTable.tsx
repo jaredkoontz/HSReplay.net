@@ -1,6 +1,6 @@
 import React from "react";
 import { ApiArchetypePopularity, SortableProps } from "../../interfaces";
-import Table, { TableColumn } from "../tables/Table";
+import Table, { RowData, TableColumn } from "../tables/Table";
 import CardData from "../../CardData";
 import ArchetypeSignatureTooltip from "./ArchetypeSignatureTooltip";
 import OtherArchetype from "./OtherArchetype";
@@ -75,8 +75,11 @@ class ArchetypeClassTable extends React.Component<Props> {
 					this.renderHeader(row.archetype),
 					...columns.slice(1).map(c => row[c.dataKey]),
 				],
-				href: row.archetype.url,
-			};
+				component: "a",
+				props: {
+					href: row.archetype.url,
+				},
+			} as RowData;
 		});
 
 		return (

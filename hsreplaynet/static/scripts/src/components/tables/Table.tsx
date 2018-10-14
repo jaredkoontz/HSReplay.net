@@ -43,10 +43,11 @@ interface InternalRowData {
 	data: RowData | React.ReactNode;
 }
 
-interface RowData {
+export interface RowData {
 	key?: string;
 	data: Array<number | AnnotatedNumber | string | React.ReactNode>;
-	href?: string;
+	component?: keyof React.ReactHTML;
+	props?: React.HTMLAttributes<HTMLElement>;
 }
 
 export interface BaseTableProps extends SortableProps {
@@ -403,15 +404,10 @@ export default class Table extends React.Component<Props, State> {
 			style,
 			role: "rowheader",
 			...this.rowHighlighting(rowIndex),
+			...(row.props || []),
 		};
-		if (row.href) {
-			return (
-				<a {...props} href={row.href}>
-					{row.data[0]}
-				</a>
-			);
-		}
-		return <div {...props}>{row.data[0]}</div>;
+		const Component = row.component || "div";
+		return <Component {...props}>{row.data[0]}</Component>;
 	};
 
 	columnHeaderRenderer = ({ columnIndex, key, style }) => {
@@ -508,6 +504,7 @@ export default class Table extends React.Component<Props, State> {
 				columnIndex,
 			)}`,
 			...this.rowHighlighting(rowIndex),
+			...(row.props || []),
 		};
 
 		let annotation = null;
@@ -529,20 +526,12 @@ export default class Table extends React.Component<Props, State> {
 			);
 		}
 
-		if (row.href) {
-			return (
-				<a {...props} href={row.href}>
-					{content}
-					{annotation}
-				</a>
-			);
-		}
-
+		const Component = row.component || "div";
 		return (
-			<div {...props}>
+			<Component {...props}>
 				{content}
 				{annotation}
-			</div>
+			</Component>
 		);
 	};
 
