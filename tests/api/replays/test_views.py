@@ -52,7 +52,8 @@ def test_replays_api_empty(client, user):
 
 @pytest.mark.django_db
 @pytest.mark.usefixtures("multi_db", "game_replay_dynamodb_table", "public_replay_api")
-def test_replays_api(auth_token, client):
+def test_replays_api(auth_token, client, mocker):
+	mocker.patch("hsreplaynet.api.serializers.replays.classify_deck", return_value=1)
 	upload_event = UploadEvent(
 		id="1",
 		shortid="ccSgiGQaenVzXzwGYbaUTPGrv",
@@ -146,10 +147,14 @@ def test_replays_api(auth_token, client):
 	assert payload["friendly_player_battletag"] == "Masture#1176"
 	assert payload["friendly_player_rank"] == 20
 
+	assert payload["friendly_player_archetype_id"] == 1
+
 	assert payload["opponent_account_hi"] == "144115193835963207"
 	assert payload["opponent_account_lo"] == "50318740"
 	assert payload["opponent_battletag"] == "GinyuGamer#1677"
 	assert payload["opponent_rank"] == 19
+
+	assert payload["opponent_archetype_id"] is None
 
 	assert payload["replay_xml"] == "foo.xml"
 	assert payload["disconnected"] is False
