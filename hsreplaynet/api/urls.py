@@ -10,6 +10,7 @@ from hsreplaynet.features.api import FeatureViewSet, SetFeatureView
 from . import views
 from .legacy import AuthTokenViewSet, CreateAccountClaimView
 from .partner import views as partner_views
+from .views import leaderboard as leaderboard_views
 
 
 router = DefaultRouter()
@@ -56,6 +57,9 @@ urlpatterns = [
 	url(r"^v1/partner-stats/archetypes/$", partner_views.ArchetypesView.as_view()),
 	url(r"^v1/partner-stats/cards/$", partner_views.CardsView.as_view()),
 	url(r"^v1/partner-stats/classes/$", partner_views.ClassesView.as_view()),
+
+	# Leaderboard API
+	url(r"^v1/leaderboard/$", leaderboard_views.DelegatingLeaderboardView.as_view())
 ]
 
 urlpatterns += analytics_urlpatterns
