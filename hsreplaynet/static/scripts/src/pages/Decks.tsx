@@ -1,7 +1,7 @@
 import InfoboxFilterGroup from "../components/InfoboxFilterGroup";
 import { decode as decodeDeckstring } from "deckstrings";
 import React from "react";
-import { InjectedTranslateProps, Trans, translate } from "react-i18next";
+import { InjectedTranslateProps, Trans } from "react-i18next";
 import CardData from "../CardData";
 import DataManager from "../DataManager";
 import UserData from "../UserData";
@@ -19,12 +19,7 @@ import ResetHeader from "../components/ResetHeader";
 import CollectionBanner from "../components/collection/CollectionBanner";
 import DustFilter from "../components/filters/DustFilter";
 import PremiumWrapper from "../components/premium/PremiumWrapper";
-import {
-	PilotExperience,
-	PilotPerformance,
-	RankRange,
-	TimeRange,
-} from "../filters";
+import { PilotExperience, RankRange, TimeRange } from "../filters";
 import {
 	cardSorting,
 	compareDecks,
@@ -46,8 +41,7 @@ import LoadingSpinner from "../components/LoadingSpinner";
 import AdContainer from "../components/ads/AdContainer";
 import AdUnit from "../components/ads/AdUnit";
 import PrettyPilotExperience from "../components/text/PrettyPilotExperience";
-import PrettyPilotPerformance from "../components/text/PrettyPilotPerformance";
-import Tooltip from "../components/Tooltip";
+import { translate } from "../__mocks__/react-i18next";
 
 interface Props extends InjectedTranslateProps, FragmentChildProps {
 	cardData: CardData | null;
@@ -84,8 +78,6 @@ interface Props extends InjectedTranslateProps, FragmentChildProps {
 	setMinGames?: (minGames: number) => void;
 	pilotExperience?: string;
 	setPilotExperience?: (playerExperience: string) => void;
-	pilotPerformance?: string;
-	setPilotPerformance?: (playerPerformance: string) => void;
 }
 
 interface State {
@@ -138,8 +130,7 @@ class Decks extends React.Component<Props, State> {
 			this.props.maxDustCost !== prevProps.maxDustCost ||
 			this.props.withStream !== prevProps.withStream ||
 			this.props.minGames !== prevProps.minGames ||
-			this.props.pilotExperience !== prevProps.pilotExperience ||
-			this.props.pilotPerformance !== prevProps.pilotPerformance
+			this.props.pilotExperience !== prevProps.pilotExperience
 		) {
 			this.updateFilteredDecks();
 			this.deckListsFragmentsRef &&
@@ -670,29 +661,6 @@ class Decks extends React.Component<Props, State> {
 		const isPremium = !!UserData.isPremium();
 		const premiumTabIndex = isPremium ? 0 : -1;
 
-		const pilotPerformanceFilterActive =
-			this.props.pilotPerformance !== PilotPerformance.ALL;
-		let allPilotExperienceFilter = (
-			<InfoboxFilter
-				value={PilotExperience.ALL}
-				disabled={pilotPerformanceFilterActive}
-			>
-				<PrettyPilotExperience value={PilotExperience.ALL} />
-			</InfoboxFilter>
-		);
-		if (pilotPerformanceFilterActive) {
-			allPilotExperienceFilter = (
-				<Tooltip
-					header={t("Disabled")}
-					content={t(
-						'"All Pilots" is disabled while a "Pilot Performance" filter is selected.',
-					)}
-				>
-					{allPilotExperienceFilter}
-				</Tooltip>
-			);
-		}
-
 		return (
 			<div className="decks">
 				<div className={filterClassNames.join(" ")} id="decks-infobox">
@@ -1073,65 +1041,9 @@ class Decks extends React.Component<Props, State> {
 											/>
 										</InfoboxFilter>
 									</PremiumWrapper>
-									{allPilotExperienceFilter}
-								</InfoboxFilterGroup>
-							</section>
-							<section id="pilot-performance-filter">
-								<InfoboxFilterGroup
-									header={t("Pilot Performance")}
-									infoHeader={t("Pilot Performance")}
-									infoContent={t(
-										"Only games from players within this percentile of the best pilots for a deck are included in the statistics for that deck.",
-									)}
-									selectedValue={this.props.pilotPerformance}
-									onClick={value => {
-										this.props.setPilotPerformance(value);
-										if (
-											this.props.pilotExperience ===
-											PilotExperience.ALL
-										) {
-											this.props.setPilotExperience(
-												PilotExperience.TWENTYFIVE_GAMES,
-											);
-										}
-										FilterEvents.onFilterInteraction(
-											"decks",
-											"pilot_performance",
-											value,
-										);
-									}}
-								>
-									<PremiumWrapper
-										analyticsLabel="Deck List Pilot Performance"
-										iconStyle={{ display: "none" }}
-										modalStyle="TimeRankRegion"
-									>
-										<InfoboxFilter
-											value={
-												PilotPerformance.TOP_20TH_PERCENTILE
-											}
-										>
-											<PrettyPilotPerformance
-												value={
-													PilotPerformance.TOP_20TH_PERCENTILE
-												}
-											/>
-										</InfoboxFilter>
-										<InfoboxFilter
-											value={
-												PilotPerformance.TOP_50TH_PERCENTILE
-											}
-										>
-											<PrettyPilotPerformance
-												value={
-													PilotPerformance.TOP_50TH_PERCENTILE
-												}
-											/>
-										</InfoboxFilter>
-									</PremiumWrapper>
-									<InfoboxFilter value={PilotPerformance.ALL}>
-										<PrettyPilotPerformance
-											value={PilotPerformance.ALL}
+									<InfoboxFilter value={PilotExperience.ALL}>
+										<PrettyPilotExperience
+											value={PilotExperience.ALL}
 										/>
 									</InfoboxFilter>
 								</InfoboxFilterGroup>
@@ -1422,11 +1334,6 @@ class Decks extends React.Component<Props, State> {
 		if (UserData.isPremium()) {
 			params["PilotExperience"] = UserData.hasFeature("pilot-performance")
 				? this.props.pilotExperience
-				: "ALL";
-			params["PilotPerformance"] = UserData.hasFeature(
-				"pilot-performance",
-			)
-				? this.props.pilotPerformance
 				: "ALL";
 		}
 		return params;
