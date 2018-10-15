@@ -1000,8 +1000,8 @@ class Decks extends React.Component<Props, State> {
 						<Feature feature="pilot-performance">
 							<section id="pilot-experience-filter">
 								<InfoboxFilterGroup
-									header={t("Pilot Experience")}
-									infoHeader={t("Pilot Experience")}
+									header={t("Player Experience")}
+									infoHeader={t("Player Experience")}
 									infoContent={t(
 										"Only games from players who uploaded at least this many replays with a deck are included in the statistics for that deck.",
 									)}
