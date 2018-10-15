@@ -73,7 +73,7 @@ class BaseLeaderboardView(ListAPIView):
 		if filter_value not in allowed_values:
 			raise ValidationError({filter_name: "Invalid value: %r" % filter_value})
 
-		return filter_cls[filter_value]
+		return filter_cls[filter_value].name
 
 	def get_parameterized_query_filters(self):
 		"""Validate and return the filters for the target query from the request.
