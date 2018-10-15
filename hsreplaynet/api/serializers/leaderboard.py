@@ -1,5 +1,3 @@
-import json
-
 from allauth.socialaccount.models import SocialAccount
 from hearthstone.enums import BnetRegion
 from rest_framework.fields import IntegerField, SerializerMethodField
@@ -34,10 +32,9 @@ class LeaderboardSerializer(ModelSerializer):
 		self._redshift_query_data = kwargs["context"]["redshift_query_data"]
 
 	def to_representation(self, instance):
-		extra_data = json.loads(instance.extra_data)
-		region_str = "REGION_%s" % extra_data.get("region").upper()
+		region_str = "REGION_%s" % instance.extra_data.get("region").upper()
 
-		battletag = extra_data.get("battletag")
+		battletag = instance.extra_data.get("battletag")
 		region_acount_lo = "%s_%s" % (BnetRegion[region_str].value, instance.uid)
 
 		leaderboard_entry = self._redshift_query_data[region_acount_lo]

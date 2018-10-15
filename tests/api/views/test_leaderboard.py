@@ -1,4 +1,3 @@
-import json
 from datetime import datetime
 from unittest.mock import Mock, patch
 
@@ -32,7 +31,7 @@ class BaseLeaderboardTest:
 	@staticmethod
 	def _create_social_account(uid, battletag, user):
 		SocialAccount(
-			extra_data=json.dumps({"region": "us", "battletag": battletag, "id": uid}),
+			extra_data={"region": "us", "battletag": battletag, "id": uid},
 			provider="battlenet",
 			uid=uid,
 			user=user

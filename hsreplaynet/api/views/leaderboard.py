@@ -1,5 +1,3 @@
-import json
-
 from allauth.socialaccount.models import SocialAccount
 from django.db.models import F, Func, Value
 from django.views import View
@@ -43,7 +41,7 @@ class BaseLeaderboardView(ListAPIView):
 			serializer_context = self.get_serializer_context()
 
 			def match_region(r):
-				region_str = "REGION_%s" % json.loads(r.extra_data).get("region").upper()
+				region_str = "REGION_%s" % r.extra_data.get("region").upper()
 				region_account_lo = "%s_%s" % (BnetRegion[region_str].value, r.uid)
 				return region_account_lo in serializer_context["redshift_query_data"]
 
@@ -155,12 +153,12 @@ class BaseLeaderboardView(ListAPIView):
 		redshift_query_data = self._get_redshift_query_data()
 		account_los = list(map(lambda r: r["account_lo"], redshift_query_data))
 
-		# ...need to "manually" assemble this clause of the query, 'cuz Django doesn't know
-		# about explicit orderings.
+		# ...need to "manually" assemble the ordering clause, 'cuz Django doesn't know about
+		# explicit orderings.
 
-		return queryset.order_by(
-			Func(Value("{%s}" % ",".join(account_los)), F("uid"), function="array_position")
-		)
+		return queryset.filter(uid__in=account_los).order_by(Func(
+			Value("{%s}" % ",".join(account_los)), F("uid"), function="array_position"
+		))
 
 	def get_serializer_context(self):
 		context = super().get_serializer_context()

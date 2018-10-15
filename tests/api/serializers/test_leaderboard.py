@@ -1,5 +1,3 @@
-import json
-
 from allauth.socialaccount.models import SocialAccount
 
 from hsreplaynet.api.serializers.leaderboard import LeaderboardSerializer
@@ -9,7 +7,7 @@ class TestLeaderboardSerializer:
 
 	def test_serializer_data(self, user):
 		social_account = SocialAccount(
-			extra_data=json.dumps({"region": "us", "id": 123456, "battletag": "Test#123"}),
+			extra_data={"region": "us", "id": 123456, "battletag": "Test#123"},
 			provider="battlenet",
 			uid="123456",
 			user=user
