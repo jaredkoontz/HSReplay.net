@@ -2,10 +2,9 @@ from datetime import datetime
 from unittest.mock import Mock, patch
 
 import pytest
-from allauth.socialaccount.models import SocialAccount
 from rest_framework.test import APIRequestFactory
 
-from hearthsim.identity.accounts.models import User
+from hearthsim.identity.accounts.models import BlizzardAccount, User
 from hsreplaynet.api.views.leaderboard import (
 	ArchetypeLeaderboardView, DelegatingLeaderboardView, LeaderboardView
 )
@@ -29,11 +28,12 @@ class BaseLeaderboardTest:
 		return mocker.patch("hsreplaynet.api.views.leaderboard.trigger_if_stale")
 
 	@staticmethod
-	def _create_social_account(uid, battletag, user):
-		SocialAccount(
-			extra_data={"region": "us", "battletag": battletag, "id": uid},
-			provider="battlenet",
-			uid=uid,
+	def _create_blizzard_account(account_lo, battletag, user):
+		BlizzardAccount(
+			account_hi=123,
+			account_lo=account_lo,
+			region=1,
+			battletag=battletag,
 			user=user
 		).save()
 
@@ -108,9 +108,9 @@ class TestLeaderboardView(BaseLeaderboardTest):
 		user2 = User.objects.create_user("testplayer2")
 		user3 = User.objects.create_user("testplayer3")
 
-		self._create_social_account("161507049", "TestPlayer1#123", user1)
-		self._create_social_account("52359536", "TestPlayer2#456", user2)
-		self._create_social_account("52857578", "TestPlayer3#789", user3)
+		self._create_blizzard_account(161507049, "TestPlayer1#123", user1)
+		self._create_blizzard_account(52359536, "TestPlayer2#456", user2)
+		self._create_blizzard_account(52857578, "TestPlayer3#789", user3)
 
 		view = LeaderboardView.as_view()
 		self._stub_redshift_query(mocker, {
@@ -150,9 +150,9 @@ class TestLeaderboardView(BaseLeaderboardTest):
 		user2 = User.objects.create_user("testplayer2")
 		user3 = User.objects.create_user("testplayer3")
 
-		self._create_social_account("157404837", "TestPlayer1#123", user1)
-		self._create_social_account("27572930", "TestPlayer2#456", user2)
-		self._create_social_account("157833312", "TestPlayer3#789", user3)
+		self._create_blizzard_account(157404837, "TestPlayer1#123", user1)
+		self._create_blizzard_account(27572930, "TestPlayer2#456", user2)
+		self._create_blizzard_account(157833312, "TestPlayer3#789", user3)
 
 		view = LeaderboardView.as_view()
 		self._stub_redshift_query(mocker, {
@@ -243,9 +243,9 @@ class TestArchetypeLeaderboardView(BaseLeaderboardTest):
 		user2 = User.objects.create_user("testplayer2")
 		user3 = User.objects.create_user("testplayer3")
 
-		self._create_social_account("92819470", "TestPlayer1#123", user1)
-		self._create_social_account("63468142", "TestPlayer2#456", user2)
-		self._create_social_account("29545528", "TestPlayer3#789", user3)
+		self._create_blizzard_account(92819470, "TestPlayer1#123", user1)
+		self._create_blizzard_account(63468142, "TestPlayer2#456", user2)
+		self._create_blizzard_account(29545528, "TestPlayer3#789", user3)
 
 		view = ArchetypeLeaderboardView.as_view()
 		self._stub_redshift_query(mocker, {

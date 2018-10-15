@@ -1,12 +1,11 @@
-from allauth.socialaccount.models import SocialAccount
 from django.db.models import F, Func, Value
 from django.views import View
-from hearthstone.enums import BnetRegion
 from rest_framework import status
 from rest_framework.exceptions import ValidationError
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 
+from hearthsim.identity.accounts.models import BlizzardAccount
 from hsredshift.analytics import filters
 from hsreplaynet.analytics.utils import trigger_if_stale
 from hsreplaynet.api.partner.utils import QueryDataNotAvailableException
@@ -18,7 +17,7 @@ from hsreplaynet.utils.aws.redshift import get_redshift_query
 
 class BaseLeaderboardView(ListAPIView):
 	permission_classes = [UserHasFeature("leaderboards")]
-	queryset = SocialAccount.objects.filter(provider="battlenet")
+	queryset = BlizzardAccount.objects.all()
 	serializer_class = LeaderboardSerializer
 
 	def __init__(self, *args, **kwargs):
@@ -33,17 +32,13 @@ class BaseLeaderboardView(ListAPIView):
 
 			# We pull back all users with matching account los, which may result in
 			# duplicates across region, so we need to do region filtering on the result set
-			# at the application level. It can't be pushed down to the database, since,
-			# despite modeling extra_data as a JSONField in Django, it's a text field in
-			# Postgres, and the type coercion necessary to do the filtering in Postgres is
-			# quite difficult to capture in Django ORM semantics.
+			# at the application level. It can't be pushed down to the database, since
+			# Django doesn't natively support filtering on tuples as part of an IN clause.
 
 			serializer_context = self.get_serializer_context()
 
 			def match_region(r):
-				region_str = "REGION_%s" % r.extra_data.get("region").upper()
-				region_account_lo = "%s_%s" % (BnetRegion[region_str].value, r.uid)
-				return region_account_lo in serializer_context["redshift_query_data"]
+				return (r.region, r.account_lo) in serializer_context["redshift_query_data"]
 
 			region_filtered_queryset = filter(match_region, queryset)
 			serializer = self.get_serializer(region_filtered_queryset, many=True)
@@ -152,12 +147,15 @@ class BaseLeaderboardView(ListAPIView):
 
 		redshift_query_data = self._get_redshift_query_data()
 		account_los = list(map(lambda r: r["account_lo"], redshift_query_data))
+		account_lo_ints = list(map(lambda r: int(r), account_los))
 
 		# ...need to "manually" assemble the ordering clause, 'cuz Django doesn't know about
 		# explicit orderings.
 
-		return queryset.filter(uid__in=account_los).order_by(Func(
-			Value("{%s}" % ",".join(account_los)), F("uid"), function="array_position"
+		return queryset.filter(account_lo__in=account_lo_ints).order_by(Func(
+			Value("{%s}" % ",".join(account_los)),
+			F("account_lo"),
+			function="array_position"
 		))
 
 	def get_serializer_context(self):
@@ -165,7 +163,7 @@ class BaseLeaderboardView(ListAPIView):
 		redshift_query_data = self._get_redshift_query_data()
 
 		context["redshift_query_data"] = {
-			"%s_%s" % (x["region"], x["account_lo"]): x for x in redshift_query_data
+			(x["region"], int(x["account_lo"])): x for x in redshift_query_data
 		}
 
 		return context

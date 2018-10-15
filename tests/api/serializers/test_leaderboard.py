@@ -1,22 +1,22 @@
-from allauth.socialaccount.models import SocialAccount
-
+from hearthsim.identity.accounts.models import BlizzardAccount
 from hsreplaynet.api.serializers.leaderboard import LeaderboardSerializer
 
 
 class TestLeaderboardSerializer:
 
 	def test_serializer_data(self, user):
-		social_account = SocialAccount(
-			extra_data={"region": "us", "id": 123456, "battletag": "Test#123"},
-			provider="battlenet",
-			uid="123456",
+		blizzard_account = BlizzardAccount(
+			account_hi=123,
+			account_lo=123456,
+			region=1,
+			battletag="Test#123",
 			user=user
 		)
 		serializer = LeaderboardSerializer(
-			social_account,
+			blizzard_account,
 			context={
 				"redshift_query_data": {
-					"1_123455": {
+					(1, 123455): {
 						"region": 1,
 						"account_lo": "123455",
 						"player_class": "ALL",
@@ -24,7 +24,7 @@ class TestLeaderboardSerializer:
 						"total_games": 114,
 						"leaderboard_rank": 1
 					},
-					"1_123456": {
+					(1, 123456): {
 						"region": 1,
 						"account_lo": "123456",
 						"player_class": "ALL",
@@ -32,7 +32,7 @@ class TestLeaderboardSerializer:
 						"total_games": 130,
 						"leaderboard_rank": 2
 					},
-					"1_123457": {
+					(1, 123457): {
 						"region": 1,
 						"account_lo": "123457",
 						"player_class": "ALL",
