@@ -1253,7 +1253,14 @@ def do_process_upload_event(upload_event):
 
 			tags["v1_unification"] = True
 
-		influx_metric("game_replays_uploaded", {"count": 1}, user_agent=product, **tags)
+		influx_metric(
+			"game_replays_uploaded", {
+				"count": 1,
+				"game_id": global_game.id
+			},
+			user_agent=product,
+			**tags
+		)
 
 	update_last_replay_upload(upload_event)
 
