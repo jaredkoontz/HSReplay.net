@@ -849,8 +849,6 @@ class ArchetypeDetail extends React.Component<Props, State> {
 					});
 					const cards = dbfIds.map(dbfId => cardData.fromDbf(dbfId));
 
-					console.log(cards);
-
 					// temporary hotfix to hide invalid decks
 					if (
 						deckCards

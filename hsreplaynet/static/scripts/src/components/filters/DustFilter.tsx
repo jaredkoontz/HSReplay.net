@@ -93,7 +93,6 @@ export default class DustFilter extends React.Component<Props, State> {
 		if (!this.state.input) {
 			return;
 		}
-		console.log("commit", this.state.input);
 		const n = this.getValidInputOrNull(this.state.input);
 		if (n !== null) {
 			this.props.setDust(n);

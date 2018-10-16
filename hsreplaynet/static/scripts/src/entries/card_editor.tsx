@@ -283,7 +283,6 @@ class CardEditorForm extends React.Component<any, CardEditorFormState> {
 	}
 
 	onFormSubmit(event: Event): void {
-		console.log("onformsubmit");
 		event.preventDefault();
 
 		const textureInput = document.getElementById(
@@ -309,7 +308,6 @@ class CardEditorForm extends React.Component<any, CardEditorFormState> {
 				put.onload = () => {
 					if (put.status == 204 && textureInput) {
 						textureInput.value = response.url;
-						console.log("All OK. Submitting form...");
 						// let form = ReactDOM.findDOMNode(this)
 						// form.submit();
 					} else {
@@ -332,7 +330,6 @@ class CardEditorForm extends React.Component<any, CardEditorFormState> {
 			size: file.size,
 		};
 
-		console.log("Requesting upload policy for texture");
 		xhr.send(JSON.stringify(data));
 	}
 
@@ -381,7 +378,6 @@ class CardEditorForm extends React.Component<any, CardEditorFormState> {
 		state.file = file;
 		state[name] = data;
 		this.setState(state);
-		console.log("Setting state", state);
 		this.updatePreview();
 	}
 
