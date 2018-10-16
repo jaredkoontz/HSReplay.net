@@ -1703,6 +1703,8 @@ ol.list-ltr {
 			border: 1px solid rgba(0, 0, 0, 0.1);
 			background: rgba(255, 255, 255, 0.3);
 			color: white;
+			overflow: hidden;
+			text-overflow: ellipsis;
 
 			&.active {
 				background: rgba(255, 255, 255, 0.4);
