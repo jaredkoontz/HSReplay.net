@@ -8,7 +8,6 @@ import { RankRange, TimeRange } from "../filters";
 import PrettyTimeRange from "../components/text/PrettyTimeRange";
 import PrettyRankRange from "../components/text/PrettyRankRange";
 import ClassFilter, { FilterOption } from "../components/ClassFilter";
-import { Archetype } from "../utils/api";
 import DataInjector from "../components/DataInjector";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { getHeroClassName, image } from "../helpers";
@@ -20,13 +19,10 @@ import { addMonths } from "date-fns";
 
 interface Props extends InjectedTranslateProps {
 	cardData: CardData;
-	archetypeData: Archetype[];
 	timeRange?: string;
 	setTimeRange?: (timeRange: string) => void;
 	rankRange?: string;
 	setRankRange?: (rankRange: string) => void;
-	archetype?: string;
-	setArchetype?: (archetypes: string) => void;
 	playerClass?: string;
 	setPlayerClass?: (playerClass: string) => void;
 	region?: string;
@@ -42,19 +38,13 @@ interface State {}
 class Leaderboards extends React.Component<Props, State> {
 	public render(): React.ReactNode {
 		const { t } = this.props;
-		const url = this.isArchetypeSelected()
-			? "account_lo_archetype_leaderboard_by_winrate"
-			: "account_lo_leaderboard_by_winrate";
+		const url = "account_lo_leaderboard_by_winrate";
 		const params = {
 			GameType: this.props.gameType,
 			Region: this.props.region,
 			RankRange: this.props.rankRange,
 			TimeRange: this.props.timeRange,
 		};
-		const isArchetypeSelected = this.isArchetypeSelected();
-		if (isArchetypeSelected) {
-			params["archetype_id"] = this.props.archetype;
-		}
 		return (
 			<DataInjector
 				query={{
@@ -76,9 +66,6 @@ class Leaderboards extends React.Component<Props, State> {
 		);
 	}
 
-	private isArchetypeSelected = () =>
-		this.props.playerClass && this.props.archetype;
-
 	private stringifyTimeFrame(timestamp): string {
 		const { t } = this.props;
 		switch (this.props.timeRange) {
@@ -99,8 +86,7 @@ class Leaderboards extends React.Component<Props, State> {
 		if (!leaderboardsData) {
 			return <LoadingSpinner active />;
 		}
-		const key = this.isArchetypeSelected() ? "ALL" : this.props.playerClass;
-		const data = leaderboardsData.series.data[key].slice(0, 100);
+		const data = leaderboardsData.series.data["ALL"].slice(0, 100);
 		data.sort((a, b) => a.leaderboard_rank - b.leaderboard_rank);
 
 		const { t, page, pageSize } = this.props;
@@ -219,33 +205,6 @@ class Leaderboards extends React.Component<Props, State> {
 								selected[0] || "ALL",
 							);
 						}}
-						archetypes={
-							this.props.archetypeData
-								? this.props.archetypeData
-										.filter(
-											x =>
-												x.standard_ccp_signature_core &&
-												x.standard_ccp_signature_core
-													.components,
-										)
-										.map(x => ({
-											id: "" + x.id,
-											playerClass: x.player_class_name,
-										}))
-								: []
-						}
-						selectedArchetypes={
-							this.props.archetype ? [this.props.archetype] : []
-						}
-						archetypesChanged={archetypes => {
-							this.props.setArchetype(archetypes[0]);
-							FilterEvents.onFilterInteraction(
-								"leaderboards",
-								"player_class_archetypes",
-								archetypes.join(",") || "NONE",
-							);
-						}}
-						archetypeMulitSelect={false}
 					/>
 				</section>
 				<section id="time-frame-filter">
