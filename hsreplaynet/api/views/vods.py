@@ -4,6 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from hsreplaynet.api.fields import TimestampField
 from hsreplaynet.api.permissions import UserHasFeature
 from hsreplaynet.decks.models import Deck
 from hsreplaynet.vods.models import TwitchVod
@@ -37,6 +38,7 @@ class VodSerializer(serializers.Serializer):
 	"""A serializer to extract from a TwitchVod model instance"""
 	channel_name = fields.CharField(source="twitch_channel_name")
 	url = fields.URLField()
+	game_date = TimestampField(precision=1)
 	game_type = fields.CharField()
 	rank = fields.IntegerField()
 	legend_rank = fields.IntegerField(allow_null=True)

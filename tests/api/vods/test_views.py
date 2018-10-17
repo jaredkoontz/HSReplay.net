@@ -43,6 +43,7 @@ def test_vod_list_view_by_deck_id(client, twitch_vod_game, user, mocker):
 	assert response.data == [{
 		"channel_name": channel_name,
 		"url": url,
+		"game_date": "2018-07-15T00:00:00Z",
 		"game_type": "BGT_RANKED_STANDARD",
 		"rank": 24,
 		"legend_rank": None,
