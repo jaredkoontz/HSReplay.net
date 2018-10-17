@@ -37,6 +37,7 @@ class VodSerializer(serializers.Serializer):
 	"""A serializer to extract from a TwitchVod model instance"""
 	channel_name = fields.CharField(source="twitch_channel_name")
 	url = fields.URLField()
+	game_type = fields.CharField()
 	rank = fields.IntegerField()
 	legend_rank = fields.IntegerField(allow_null=True)
 	friendly_player_archetype_id = fields.IntegerField(allow_null=True)
