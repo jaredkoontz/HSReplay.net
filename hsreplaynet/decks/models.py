@@ -496,6 +496,11 @@ class Archetype(models.Model):
 	player_class = IntEnumField(enum=enums.CardClass, default=enums.CardClass.INVALID)
 	deleted = models.BooleanField(default=False)
 
+	# Cards required by this archetype. This field gets transferred to the required_cards
+	# field of ClusterSnapshot when a cluster is assigned an archetype.
+
+	required_cards = models.ManyToManyField(Card)
+
 	class Meta:
 		db_table = "cards_archetype"
 
@@ -964,6 +969,12 @@ class ClusterSnapshot(models.Model, Cluster):
 	cluster_id = models.IntegerField()
 	experimental = models.BooleanField(default=False)
 	signature = JSONField(default=dict)
+
+	# JSON list of dbf_ids of cards required in decks before they can be classified into
+	# this cluster's archetype.
+	
+	required_cards = JSONField(default=list)
+
 	name = models.CharField(max_length=250, blank=True)
 	rules = ArrayField(
 		base_field=models.CharField(max_length=100, blank=True),
