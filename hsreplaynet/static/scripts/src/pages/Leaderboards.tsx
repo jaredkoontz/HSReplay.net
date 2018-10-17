@@ -38,18 +38,16 @@ interface State {}
 class Leaderboards extends React.Component<Props, State> {
 	public render(): React.ReactNode {
 		const { t } = this.props;
-		const url = "account_lo_leaderboard_by_winrate";
-		const params = {
-			GameType: this.props.gameType,
-			Region: this.props.region,
-			RankRange: this.props.rankRange,
-			TimeRange: this.props.timeRange,
-		};
 		return (
 			<DataInjector
 				query={{
-					params,
-					url,
+					params: {
+						GameType: this.props.gameType,
+						Region: this.props.region,
+						RankRange: this.props.rankRange,
+						TimeRange: this.props.timeRange,
+					},
+					url: "/api/v1/leaderboard",
 				}}
 			>
 				{({ data }) => {
@@ -86,7 +84,7 @@ class Leaderboards extends React.Component<Props, State> {
 		if (!leaderboardsData) {
 			return <LoadingSpinner active />;
 		}
-		const data = leaderboardsData.series.data["ALL"].slice(0, 100);
+		const data = leaderboardsData.slice(0, 100);
 		data.sort((a, b) => a.leaderboard_rank - b.leaderboard_rank);
 
 		const { t, page, pageSize } = this.props;
@@ -144,6 +142,11 @@ class Leaderboards extends React.Component<Props, State> {
 										className={`leaderboard-rank-${
 											d.leaderboard_rank
 										}`}
+										onClick={() => {
+											window.location.href = `/profiles/${
+												d.user_id
+											}/`;
+										}}
 									>
 										<td>{d.leaderboard_rank}</td>
 										<td>
@@ -153,7 +156,7 @@ class Leaderboards extends React.Component<Props, State> {
 												)}
 												height="70"
 											/>
-											<p>{d.account_lo}</p>
+											<p>{d.battletag}</p>
 										</td>
 										<td>{formatNumber(d.winrate, 1)}%</td>
 										<td>{d.total_games}</td>
