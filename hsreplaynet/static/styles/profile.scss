@@ -2,6 +2,7 @@
 	display: flex;
 	max-width: 1920px;
 	margin: 0 auto;
+	flex-direction: column;
 
 	header {
 		background: url("https://s3.amazonaws.com/media.hearthsim.net/hsreplaynet/profile_banner.jpg")
@@ -21,9 +22,44 @@
 		}
 	}
 
+	main {
+		background: $offgrey;
+
+		h1 {
+			color: $blue;
+			font-variant: small-caps;
+			font-weight: bold;
+			border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+			font-size: 3.5em;
+			padding-bottom: 10px;
+			margin-bottom: 40px;
+			font-family: "Montserrat", sans-serif;
+		}
+
+		h3 {
+			color: #657b99;
+			text-transform: uppercase;
+			font-weight: bold;
+			font-size: 1.3em;
+		}
+	}
+
+	.content-tabs {
+		@media (min-width: 1500px) {
+			padding-left: 250px;
+		}
+	}
+
+	.tab-content {
+		background: #f0f4f9;
+		padding: 40px 4%;
+	}
+
 	.profile-hero {
 		margin: 30px 30px -30px;
 		flex: 0 0 auto;
+		z-index: 1;
+		font-family: "Montserrat", sans-serif;
 	}
 
 	.career-highlights {
@@ -35,6 +71,7 @@
 			font-variant: small-caps;
 			margin-left: 15px;
 			margin-bottom: 0;
+			font-family: "Montserrat", sans-serif;
 		}
 
 		> div {

@@ -5,6 +5,7 @@ import UserData from "../UserData";
 import DataInjector from "../components/DataInjector";
 import Root from "../components/Root";
 import Profile from "../pages/Profile";
+import Fragments from "../components/Fragments";
 
 UserData.create();
 
@@ -24,11 +25,19 @@ const render = (cardData: CardData) => {
 			>
 				{({ archetypeData }) => {
 					return (
-						<Profile
-							cardData={cardData}
-							archetypeData={archetypeData}
-							username={context.username}
-						/>
+						<Fragments
+							defaults={{
+								gameType: "RANKED_STANDARD",
+								statsTimeFrame: "CURRENT_SEASON",
+							}}
+						>
+							<Profile
+								cardData={cardData}
+								archetypeData={archetypeData}
+								username={context.username}
+								userId={context.user_id}
+							/>
+						</Fragments>
 					);
 				}}
 			</DataInjector>
