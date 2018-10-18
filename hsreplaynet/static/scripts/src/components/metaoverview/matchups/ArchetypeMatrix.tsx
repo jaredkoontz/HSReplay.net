@@ -32,6 +32,8 @@ interface Props extends InjectedTranslateProps {
 	sortBy: string;
 	sortDirection: SortDirection;
 	simple?: boolean;
+	cellWidth?: number;
+	cellHeight?: number;
 }
 
 interface State {
@@ -40,8 +42,8 @@ interface State {
 }
 
 const offWhite = "#fbf7f6";
-const cellWidth = 70;
-const cellHeight = 40;
+const defaultCellWidth = 70;
+const defaultCellHeight = 40;
 const footerCellHeight = 80;
 const spacerSize = 5;
 
@@ -62,6 +64,14 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 			this.headerCellWidth = 160;
 			this.headerCellHeight = 100;
 		}
+	}
+
+	private cellWidth(): number {
+		return this.props.cellWidth || defaultCellWidth;
+	}
+
+	private cellHeight(): number {
+		return this.props.cellHeight || defaultCellHeight;
 	}
 
 	private renderLeftHeader(): React.ReactNode {
@@ -169,7 +179,7 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 					}
 					height={this.headerCellHeight}
 					columnCount={archetypes.length}
-					columnWidth={cellWidth}
+					columnWidth={this.cellWidth()}
 					rowCount={1}
 					rowHeight={this.headerCellHeight}
 					scrollLeft={scrollLeft}
@@ -204,7 +214,7 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 				className="matchup-header-cell matchup-header-top-right"
 				style={{
 					height: this.headerCellHeight,
-					width: cellWidth,
+					width: this.cellWidth(),
 					right,
 				}}
 			>
@@ -277,7 +287,7 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 					columnWidth={this.headerCellWidth}
 					rowCount={archetypes.length}
 					rowHeight={({ index }) =>
-						cellHeight +
+						this.cellHeight() +
 						(this.isLastFavorite(index) ? spacerSize : 0)
 					}
 					scrollTop={scrollTop}
@@ -363,20 +373,22 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 					scrollToColumn={0}
 					scrollToRow={0}
 					width={Math.min(
-						cellWidth * archetypes.length + scrollbarWidth,
+						this.cellWidth() * archetypes.length +
+							scrollbarWidth,
 						width - this.headerCellWidth - this.rowFooterWidth(),
 					)}
 					height={Math.min(
-						cellHeight * archetypes.length + scrollbarHeight,
+						this.cellHeight() * archetypes.length +
+							scrollbarHeight,
 						height -
 							this.headerCellHeight -
 							this.columnFooterHeight(),
 					)}
 					columnCount={archetypes.length}
-					columnWidth={cellWidth}
 					rowCount={archetypes.length}
+					columnWidth={this.cellWidth()}
 					rowHeight={({ index }) =>
-						cellHeight +
+						this.cellHeight() +
 						(this.isLastFavorite(index) ? spacerSize : 0)
 					}
 					scrollTop={scrollTop}
@@ -525,7 +537,7 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 					}
 					height={footerCellHeight}
 					columnCount={archetypes.length}
-					columnWidth={cellWidth}
+					columnWidth={this.cellWidth()}
 					rowCount={1}
 					rowHeight={footerCellHeight}
 					scrollLeft={scrollLeft}
@@ -586,7 +598,7 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 							/>
 						);
 					}}
-					width={cellWidth}
+					width={this.cellWidth()}
 					height={
 						height -
 						this.headerCellHeight -
@@ -594,10 +606,10 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 						scrollbarHeight
 					}
 					columnCount={1}
-					columnWidth={cellWidth}
 					rowCount={archetypes.length}
+					columnWidth={this.cellWidth()}
 					rowHeight={({ index }) =>
-						cellHeight +
+						this.cellHeight() +
 						(this.isLastFavorite(index) ? spacerSize : 0)
 					}
 					scrollTop={scrollTop}
@@ -624,7 +636,7 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 	}
 
 	private rowFooterWidth(): number {
-		return this.props.simple ? 0 : cellWidth;
+		return this.props.simple ? 0 : this.cellWidth();
 	}
 
 	private columnFooterHeight(): number {
@@ -637,8 +649,8 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 			this.props.simple && 5,
 		);
 
-		const gridWidth = cellWidth * archetypes.length;
-		const gridHeight = cellHeight * archetypes.length;
+		const gridWidth = this.cellWidth() * archetypes.length;
+		const gridHeight = this.cellHeight() * archetypes.length;
 
 		const totalHeight =
 			gridHeight + this.headerCellHeight + this.columnFooterHeight();
