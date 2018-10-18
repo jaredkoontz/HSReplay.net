@@ -13,10 +13,14 @@ interface Props extends InjectedTranslateProps {
 	matchupData: MatchupData;
 	isIgnored: boolean;
 	style?: any;
+	minGames?: number;
 }
 
-export function isEligibleMatchup(games: number): boolean {
-	return games >= 30;
+export function isEligibleMatchup(
+	games: number,
+	minGames: number = 30,
+): boolean {
+	return games >= minGames;
 }
 
 class MatchupCell extends React.Component<Props> {
@@ -64,7 +68,7 @@ class MatchupCell extends React.Component<Props> {
 				</Tooltip>
 			);
 			backgroundColor = "rgb(200,200,200)";
-		} else if (isEligibleMatchup(matchupData.totalGames)) {
+		} else if (isEligibleMatchup(matchupData.totalGames, minGames || 30)) {
 			// actual matchup
 			backgroundColor = getColorString(
 				Colors.REDORANGEGREEN,
@@ -122,7 +126,14 @@ class MatchupCell extends React.Component<Props> {
 		} else {
 			// not enough data
 			label = (
-				<Tooltip content={t("Not enough games")} simple>
+				<Tooltip
+					content={
+						matchupData.totalGames === 0
+							? t("No games")
+							: t("Not enough games")
+					}
+					simple
+				>
 					⁓
 				</Tooltip>
 			);
