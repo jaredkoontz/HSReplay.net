@@ -76,6 +76,13 @@ def refresh_all_from_cache(request, name):
 	parameterized_query = _get_query_and_params(request, name)
 	parameterized_query.mark_all_stale()
 
+	base_query = parameterized_query.query
+	for permutation in base_query.generate_cachable_parameter_permutations():
+		permutation_query = base_query.build_full_params(permutation)
+		if permutation_query == parameterized_query:
+			continue
+		attempt_request_triggered_query_execution(permutation_query)
+
 	return _fetch_query_results(parameterized_query, user=request.user)
 
 
