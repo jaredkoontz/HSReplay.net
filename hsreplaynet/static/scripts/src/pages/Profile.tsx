@@ -7,7 +7,7 @@ import RankIcon from "../components/RankIcon";
 import ProfileHero from "../components/profile/ProfileHero";
 import ProfileHighlight from "../components/profile/ProfileHighlight";
 import { BnetGameType } from "../hearthstone";
-import ProfileData, { ReplayData } from "../components/profile/ProfileData";
+import ProfileData from "../components/profile/ProfileData";
 import LoadingSpinner from "../components/LoadingSpinner";
 import ArchetypeMatrix from "../components/metaoverview/matchups/ArchetypeMatrix";
 import Tab from "../components/layout/Tab";
@@ -59,37 +59,30 @@ class Profile extends React.Component<Props, State> {
 		);
 	}
 
-	private getTimeFrameStart(): Date {
+	private getTimeFrame(): [Date, Date] {
 		// TODO: Change this to be based on server time
 		const now = new Date();
 		switch (this.props.statsTimeFrame) {
 			case "CURRENT_SEASON": {
-				return new Date(now.getFullYear(), now.getMonth(), 1);
+				return [new Date(now.getFullYear(), now.getMonth(), 1), now];
 			}
 		}
 		return null;
-	}
-
-	private isValidTimeFrame(replay: ReplayData): boolean {
-		const timeFrameStart = this.getTimeFrameStart();
-		if (timeFrameStart === null) {
-			return false;
-		}
-		const matchStart = Date.parse(replay.match_start);
-		return matchStart >= timeFrameStart.getTime();
 	}
 
 	private renderMatchupMatrix(): React.ReactNode {
 		const { t } = this.props;
 		const cellWidth = 90;
 		const cellHeight = 50;
+		const [startDate, endDate] = this.getTimeFrame();
 		return (
 			<ProfileData
 				userId={this.props.userId}
 				type="MatchupData"
+				replayStartDate={startDate.toISOString()}
+				replayEndDate={endDate.toISOString()}
 				replayFilter={replay =>
-					replay.game_type === BnetGameType.BGT_RANKED_STANDARD &&
-					this.isValidTimeFrame(replay)
+					replay.game_type === BnetGameType.BGT_RANKED_STANDARD
 				}
 			>
 				{data => {

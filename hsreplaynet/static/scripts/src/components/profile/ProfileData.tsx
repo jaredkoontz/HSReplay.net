@@ -10,6 +10,8 @@ interface Props {
 	userId: number;
 	type: ProfileDataType;
 	replayFilter?: (replay: ReplayData) => boolean;
+	replayStartDate: string;
+	replayEndDate: string;
 }
 
 export interface ReplayData {
@@ -68,7 +70,11 @@ export default class ProfileData extends React.Component<Props> {
 				query={[
 					{
 						key: "replays",
-						params: { user_id: this.props.userId },
+						params: {
+							user_id: this.props.userId,
+							start_date: this.props.replayStartDate,
+							end_date: this.props.replayEndDate,
+						},
 						url: "/api/v1/replays",
 					},
 					{
