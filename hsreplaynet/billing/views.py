@@ -16,6 +16,7 @@ from djstripe.enums import SubscriptionStatus
 from djstripe.settings import STRIPE_LIVE_MODE
 from stripe.error import CardError, InvalidRequestError
 
+from hsreplaynet.utils.influx import influx_metric
 from hsreplaynet.web.templatetags.web_extras import pretty_card
 from hsreplaynet.web.views import SimpleReactView
 
@@ -560,7 +561,16 @@ class PaypalSuccessView(BasePaypalView):
 		if prepared_agreement.user != self.request.user:
 			return self.fail(_("You are not logged in as the correct user."))
 
-		prepared_agreement.execute()
+		billing_agreement = prepared_agreement.execute()
+
+		# At this time, we expect the billing agreement to be active
+		# If that isn't the case, PayPal probably needs a moment to complete the payment
+		# For now, let's just send a metric
+		influx_metric(
+			"hsreplaynet_paypal_agreement_state",
+			{"count": "1"},
+			state=billing_agreement.state
+		)
 
 		# Null out the premium checkout timestamp so that we don't remind the user to
 		# complete the checkout process.
