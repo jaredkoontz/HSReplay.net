@@ -959,9 +959,11 @@ class Decks extends React.Component<Props, State> {
 													RankRange.TOP_1000_LEGEND
 												}
 											/>
-											<span className="infobox-value">
-												{t("New!")}
-											</span>
+											<Feature feature="high-legend-filter-promo">
+												<span className="infobox-value">
+													{t("New!")}
+												</span>
+											</Feature>
 										</InfoboxFilter>
 									</Feature>
 									<InfoboxFilter
@@ -1028,6 +1030,11 @@ class Decks extends React.Component<Props, State> {
 													PilotExperience.FIFTY_GAMES
 												}
 											/>
+											<Feature feature="pilot-performance-filter-promo">
+												<span className="infobox-value">
+													{t("New!")}
+												</span>
+											</Feature>
 										</InfoboxFilter>
 										<InfoboxFilter
 											value={
@@ -1039,6 +1046,11 @@ class Decks extends React.Component<Props, State> {
 													PilotExperience.TWENTYFIVE_GAMES
 												}
 											/>
+											<Feature feature="pilot-performance-filter-promo">
+												<span className="infobox-value">
+													{t("New!")}
+												</span>
+											</Feature>
 										</InfoboxFilter>
 									</PremiumWrapper>
 									<InfoboxFilter value={PilotExperience.ALL}>
