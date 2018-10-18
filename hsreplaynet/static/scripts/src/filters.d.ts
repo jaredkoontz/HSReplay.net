@@ -28,7 +28,7 @@ export const enum RankRange {
 	ALL = "ALL",
 }
 
-export const enum PilotExperience {
+export const enum PlayerExperience {
 	ALL = "ALL",
 	TEN_GAMES = "TEN_GAMES",
 	TWENTY_GAMES = "TWENTY_GAMES",

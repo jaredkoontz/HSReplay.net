@@ -19,7 +19,7 @@ import ResetHeader from "../components/ResetHeader";
 import CollectionBanner from "../components/collection/CollectionBanner";
 import DustFilter from "../components/filters/DustFilter";
 import PremiumWrapper from "../components/premium/PremiumWrapper";
-import { PilotExperience, RankRange, TimeRange } from "../filters";
+import { PlayerExperience, RankRange, TimeRange } from "../filters";
 import {
 	cardSorting,
 	compareDecks,
@@ -40,7 +40,7 @@ import PrettyRankRange from "../components/text/PrettyRankRange";
 import LoadingSpinner from "../components/LoadingSpinner";
 import AdContainer from "../components/ads/AdContainer";
 import AdUnit from "../components/ads/AdUnit";
-import PrettyPilotExperience from "../components/text/PrettyPilotExperience";
+import PrettyPlayerExperience from "../components/text/PrettyPlayerExperience";
 import { translate } from "../__mocks__/react-i18next";
 
 interface Props extends InjectedTranslateProps, FragmentChildProps {
@@ -1023,11 +1023,11 @@ class Decks extends React.Component<Props, State> {
 										modalStyle="TimeRankRegion"
 									>
 										<InfoboxFilter
-											value={PilotExperience.FIFTY_GAMES}
+											value={PlayerExperience.FIFTY_GAMES}
 										>
-											<PrettyPilotExperience
+											<PrettyPlayerExperience
 												value={
-													PilotExperience.FIFTY_GAMES
+													PlayerExperience.FIFTY_GAMES
 												}
 											/>
 											<Feature feature="pilot-performance-filter-promo">
@@ -1038,12 +1038,12 @@ class Decks extends React.Component<Props, State> {
 										</InfoboxFilter>
 										<InfoboxFilter
 											value={
-												PilotExperience.TWENTYFIVE_GAMES
+												PlayerExperience.TWENTYFIVE_GAMES
 											}
 										>
-											<PrettyPilotExperience
+											<PrettyPlayerExperience
 												value={
-													PilotExperience.TWENTYFIVE_GAMES
+													PlayerExperience.TWENTYFIVE_GAMES
 												}
 											/>
 											<Feature feature="pilot-performance-filter-promo">
@@ -1053,9 +1053,9 @@ class Decks extends React.Component<Props, State> {
 											</Feature>
 										</InfoboxFilter>
 									</PremiumWrapper>
-									<InfoboxFilter value={PilotExperience.ALL}>
-										<PrettyPilotExperience
-											value={PilotExperience.ALL}
+									<InfoboxFilter value={PlayerExperience.ALL}>
+										<PrettyPlayerExperience
+											value={PlayerExperience.ALL}
 										/>
 									</InfoboxFilter>
 								</InfoboxFilterGroup>
