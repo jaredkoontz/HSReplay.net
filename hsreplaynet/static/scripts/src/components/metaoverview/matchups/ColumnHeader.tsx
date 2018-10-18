@@ -7,7 +7,9 @@ import Tooltip from "../../Tooltip";
 import PrettyCardClass from "../../text/PrettyCardClass";
 
 interface Props extends InjectedTranslateProps {
-	archetypeData: ArchetypeData;
+	archetypeId: number;
+	archetypeName: string;
+	archetypePlayerClass: string;
 	highlight?: boolean;
 	isIgnored: boolean;
 	onIgnoredChanged: (ignore: boolean, ignoreClass?: boolean) => void;
@@ -23,13 +25,21 @@ class ColumnHeader extends React.Component<Props> {
 		return (
 			this.props.highlight !== nextProps.highlight ||
 			this.props.isIgnored !== nextProps.isIgnored ||
-			this.props.archetypeData.id !== nextProps.archetypeData.id ||
+			this.props.archetypeId !== nextProps.archetypeId ||
+			this.props.archetypeName !== nextProps.archetypeName ||
+			this.props.archetypePlayerClass !==
+				nextProps.archetypePlayerClass ||
 			!_.isEqual(this.props.style, nextProps.style)
 		);
 	}
 
 	public render(): React.ReactNode {
-		const { archetypeData, isIgnored } = this.props;
+		const {
+			archetypeId,
+			archetypeName,
+			archetypePlayerClass,
+			isIgnored,
+		} = this.props;
 		const classNames = [
 			"matchup-column-header matchup-column-header-archetype",
 		];
@@ -40,7 +50,7 @@ class ColumnHeader extends React.Component<Props> {
 			classNames.push("highlight");
 		}
 		const playerClass = (
-			<PrettyCardClass cardClass={archetypeData.playerClass} />
+			<PrettyCardClass cardClass={archetypePlayerClass} />
 		);
 		const tooltip = isIgnored ? (
 			<Trans defaults="Include <0></0>" components={[playerClass]} />
@@ -56,14 +66,12 @@ class ColumnHeader extends React.Component<Props> {
 				}}
 				style={this.props.style}
 			>
-				<span className="header-archetype-name">
-					{archetypeData.name}
-				</span>
+				<span className="header-archetype-name">{archetypeName}</span>
 				<Tooltip simple content={tooltip}>
 					<img
 						className="class-icon"
 						src={image(
-							`64x/class-icons/${archetypeData.playerClass.toLowerCase()}.png`,
+							`64x/class-icons/${archetypePlayerClass.toLowerCase()}.png`,
 						)}
 						onClick={e => {
 							this.props.onIgnoredChanged(

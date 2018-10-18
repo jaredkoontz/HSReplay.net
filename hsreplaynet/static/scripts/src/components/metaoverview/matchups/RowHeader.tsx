@@ -1,13 +1,14 @@
 import React from "react";
 import _ from "lodash";
-import { ArchetypeData } from "../../../interfaces";
 import { getArchetypeUrl, image } from "../../../helpers";
 import CardData from "../../../CardData";
 import ArchetypeSignatureTooltip from "../ArchetypeSignatureTooltip";
 import OtherArchetype from "../OtherArchetype";
 
 interface Props {
-	archetypeData?: ArchetypeData;
+	archetypeId: number;
+	archetypeName: string;
+	archetypePlayerClass: string;
 	cardData: CardData;
 	gameType: string;
 	highlight?: boolean;
@@ -25,7 +26,10 @@ export default class RowHeader extends React.Component<Props> {
 		return (
 			this.props.highlight !== nextProps.highlight ||
 			this.props.isFavorite !== nextProps.isFavorite ||
-			this.props.archetypeData.id !== nextProps.archetypeData.id ||
+			this.props.archetypeId !== nextProps.archetypeId ||
+			this.props.archetypeName !== nextProps.archetypeName ||
+			this.props.archetypePlayerClass !==
+				nextProps.archetypePlayerClass ||
 			!_.isEqual(this.props.style, nextProps.style)
 		);
 	}
@@ -59,7 +63,7 @@ export default class RowHeader extends React.Component<Props> {
 						<img
 							className="class-icon"
 							src={image(
-								`64x/class-icons/${this.props.archetypeData.playerClass.toLowerCase()}.png`,
+								`64x/class-icons/${this.props.archetypePlayerClass.toLowerCase()}.png`,
 							)}
 						/>
 						<span className={favIconClasses.join(" ")} />
@@ -72,28 +76,28 @@ export default class RowHeader extends React.Component<Props> {
 	}
 
 	renderName(): JSX.Element | string {
-		const { archetypeData } = this.props;
-		if (archetypeData.id < 0) {
+		const { archetypeId, archetypeName, archetypePlayerClass } = this.props;
+		if (archetypeId < 0) {
 			return (
 				<OtherArchetype
-					name={archetypeData.name}
-					playerClass={archetypeData.playerClass}
+					name={archetypeName}
+					playerClass={archetypePlayerClass}
 				/>
 			);
 		}
 		return (
 			<a
-				href={getArchetypeUrl(archetypeData.id, archetypeData.name)}
+				href={getArchetypeUrl(archetypeId, archetypeName)}
 				target="_blank"
 			>
 				<ArchetypeSignatureTooltip
-					key={archetypeData.id}
+					key={archetypeId}
 					cardData={this.props.cardData}
-					archetypeId={archetypeData.id}
-					archetypeName={archetypeData.name}
+					archetypeId={archetypeId}
+					archetypeName={archetypeName}
 					gameType={this.props.gameType}
 				>
-					<span className="archetype-name">{archetypeData.name}</span>
+					<span className="archetype-name">{archetypeName}</span>
 				</ArchetypeSignatureTooltip>
 			</a>
 		);

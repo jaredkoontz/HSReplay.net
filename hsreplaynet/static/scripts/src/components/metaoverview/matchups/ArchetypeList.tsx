@@ -136,7 +136,11 @@ class ArchetypeList extends React.Component<Props> {
 
 										return (
 											<RowHeader
-												archetypeData={archetype}
+												archetypeId={archetype.id}
+												archetypeName={archetype.name}
+												archetypePlayerClass={
+													archetype.playerClass
+												}
 												isFavorite={isFavorite}
 												onFavoriteChanged={(
 													favorite: boolean,

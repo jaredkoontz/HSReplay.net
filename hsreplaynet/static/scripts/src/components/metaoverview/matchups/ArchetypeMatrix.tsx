@@ -15,7 +15,9 @@ import RowFooter from "./RowFooter";
 import RowHeader from "./RowHeader";
 
 interface Props extends InjectedTranslateProps {
-	archetypes: ArchetypeData[];
+	friendlyArchetypes: number[];
+	opposingArchetypes: number[];
+	archetypeMatchups: ArchetypeData[];
 	allArchetypes: Archetype[];
 	cardData: CardData;
 	customWeights: any;
@@ -115,7 +117,8 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 	}
 
 	private renderColumnHeaders(
-		archetypes: ArchetypeData[],
+		archetypes: Archetype[],
+		opposingArchetypes: number[],
 		width: number,
 		clientWidth: number,
 		scrollbarWidth: number,
@@ -133,14 +136,20 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 			>
 				<Grid
 					cellRenderer={({ columnIndex, key, style }) => {
-						const archetype = archetypes[columnIndex];
+						const archetype = archetypes.find(
+							x => x.id === opposingArchetypes[columnIndex],
+						);
 						const isIgnored =
 							this.props.ignoredColumns.indexOf(archetype.id) !==
 							-1;
 
 						return (
 							<ColumnHeader
-								archetypeData={archetype}
+								archetypeId={archetype.id}
+								archetypeName={archetype.name}
+								archetypePlayerClass={
+									archetype.player_class_name
+								}
 								highlight={
 									this.state.highlightColumn === columnIndex
 								}
@@ -154,7 +163,7 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 											.filter(a => {
 												return (
 													a.player_class_name ===
-													archetype.playerClass
+													archetype.player_class_name
 												);
 											})
 											.map(x => x.id);
@@ -181,7 +190,7 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 						scrollbarWidth
 					}
 					height={this.headerCellHeight}
-					columnCount={archetypes.length}
+					columnCount={opposingArchetypes.length}
 					columnWidth={this.cellWidth()}
 					rowCount={1}
 					rowHeight={this.headerCellHeight}
@@ -235,7 +244,8 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 	}
 
 	private renderRowHeaders(
-		archetypes: ArchetypeData[],
+		archetypes: Archetype[],
+		friendlyArchetypes: number[],
 		height: number,
 		clientHeight: number,
 		scrollbarHeight: number,
@@ -250,7 +260,9 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 			>
 				<Grid
 					cellRenderer={({ key, rowIndex, style }) => {
-						const archetype = archetypes[rowIndex];
+						const archetype = archetypes.find(
+							x => x.id === friendlyArchetypes[rowIndex],
+						);
 						const isFavorite =
 							!this.props.simple &&
 							this.props.favorites.indexOf(archetype.id) !== -1;
@@ -262,7 +274,11 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 
 						return (
 							<RowHeader
-								archetypeData={archetype}
+								archetypeId={archetype.id}
+								archetypeName={archetype.name}
+								archetypePlayerClass={
+									archetype.player_class_name
+								}
 								highlight={this.state.highlightRow === rowIndex}
 								isFavorite={isFavorite}
 								onFavoriteChanged={(favorite: boolean) => {
@@ -288,7 +304,7 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 					}
 					columnCount={1}
 					columnWidth={this.headerCellWidth}
-					rowCount={archetypes.length}
+					rowCount={friendlyArchetypes.length}
 					rowHeight={({ index }) =>
 						this.cellHeight() +
 						(this.isLastFavorite(index) ? spacerSize : 0)
@@ -317,7 +333,9 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 	}
 
 	private renderMatchupCells(
-		archetypes: ArchetypeData[],
+		archetypeMatchups: ArchetypeData[],
+		friendlyArchetypes: number[],
+		opposingArchetypes: number[],
 		width: number,
 		clientWidth: number,
 		scrollbarWidth: number,
@@ -342,8 +360,14 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 			>
 				<Grid
 					cellRenderer={({ columnIndex, key, rowIndex, style }) => {
-						const archetype = archetypes[rowIndex];
-						const matchup = archetype.matchups[columnIndex];
+						const friendlyArchetype = archetypeMatchups.find(
+							x => x.id === friendlyArchetypes[rowIndex],
+						);
+						const matchup = friendlyArchetype.matchups.find(
+							x =>
+								x.opponentId ===
+								opposingArchetypes[columnIndex],
+						);
 						const isIgnored =
 							this.props.ignoredColumns.indexOf(
 								matchup.opponentId,
@@ -379,20 +403,20 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 					scrollToColumn={0}
 					scrollToRow={0}
 					width={Math.min(
-						this.cellWidth() * archetypes.length +
+						this.cellWidth() * opposingArchetypes.length +
 							scrollbarWidth,
 						width - this.headerCellWidth - this.rowFooterWidth(),
 					)}
 					height={Math.min(
-						this.cellHeight() * archetypes.length +
+						this.cellHeight() * friendlyArchetypes.length +
 							scrollbarHeight,
 						height -
 							this.headerCellHeight -
 							this.columnFooterHeight(),
 					)}
-					columnCount={archetypes.length}
-					rowCount={archetypes.length}
+					columnCount={opposingArchetypes.length}
 					columnWidth={this.cellWidth()}
+					rowCount={friendlyArchetypes.length}
 					rowHeight={({ index }) =>
 						this.cellHeight() +
 						(this.isLastFavorite(index) ? spacerSize : 0)
@@ -488,7 +512,8 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 	}
 
 	private renderColumnFooter(
-		archetypes: ArchetypeData[],
+		archetypeMatchups: ArchetypeData[],
+		opposingArchetypes: number[],
 		width: number,
 		clientWidth: number,
 		scrollbarWidth: number,
@@ -510,7 +535,9 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 			>
 				<Grid
 					cellRenderer={({ columnIndex, key, style }) => {
-						const archetype = archetypes[columnIndex];
+						const archetype = archetypeMatchups.find(
+							x => x.id === opposingArchetypes[columnIndex],
+						);
 						return (
 							<ColumnFooter
 								highlight={
@@ -542,7 +569,7 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 						scrollbarWidth
 					}
 					height={footerCellHeight}
-					columnCount={archetypes.length}
+					columnCount={opposingArchetypes.length}
 					columnWidth={this.cellWidth()}
 					rowCount={1}
 					rowHeight={footerCellHeight}
@@ -569,7 +596,8 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 	}
 
 	private renderEwrCell(
-		archetypes: ArchetypeData[],
+		archetypeMatchups: ArchetypeData[],
+		friendlyArchetypes: number[],
 		right: number,
 		height: number,
 		clientHeight: number,
@@ -597,7 +625,9 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 						}
 						return (
 							<RowFooter
-								archetypeData={archetypes[rowIndex]}
+								archetypeData={archetypeMatchups.find(
+									x => x.id === friendlyArchetypes[rowIndex],
+								)}
 								highlight={this.state.highlightRow === rowIndex}
 								key={key}
 								style={style}
@@ -612,8 +642,8 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 						scrollbarHeight
 					}
 					columnCount={1}
-					rowCount={archetypes.length}
 					columnWidth={this.cellWidth()}
+					rowCount={friendlyArchetypes.length}
 					rowHeight={({ index }) =>
 						this.cellHeight() +
 						(this.isLastFavorite(index) ? spacerSize : 0)
@@ -650,13 +680,17 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 	}
 
 	public render(): React.ReactNode {
-		const archetypes = this.props.archetypes.slice(
+		const friendlyArchetypes = this.props.friendlyArchetypes.slice(
+			0,
+			this.props.simple && 5,
+		);
+		const opposingArchetypes = this.props.opposingArchetypes.slice(
 			0,
 			this.props.simple && 5,
 		);
 
-		const gridWidth = this.cellWidth() * archetypes.length;
-		const gridHeight = this.cellHeight() * archetypes.length;
+		const gridWidth = this.cellWidth() * opposingArchetypes.length;
+		const gridHeight = this.cellHeight() * friendlyArchetypes.length;
 
 		const totalHeight =
 			gridHeight + this.headerCellHeight + this.columnFooterHeight();
@@ -694,7 +728,8 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 									<div className="matchup-matrix">
 										{this.renderLeftHeader()}
 										{this.renderColumnHeaders(
-											archetypes,
+											this.props.allArchetypes,
+											opposingArchetypes,
 											width,
 											clientWidth,
 											scrollbarWidth,
@@ -704,7 +739,8 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 										)}
 										{this.renderEwrHeader(right)}
 										{this.renderRowHeaders(
-											archetypes,
+											this.props.allArchetypes,
+											friendlyArchetypes,
 											height,
 											clientHeight,
 											scrollbarHeight,
@@ -713,7 +749,9 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 											bottom,
 										)}
 										{this.renderMatchupCells(
-											archetypes,
+											this.props.archetypeMatchups,
+											friendlyArchetypes,
+											opposingArchetypes,
 											width,
 											clientWidth,
 											scrollbarWidth,
@@ -730,7 +768,8 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 										)}
 										{this.renderLeftFooter(bottom)}
 										{this.renderColumnFooter(
-											archetypes,
+											this.props.archetypeMatchups,
+											opposingArchetypes,
 											width,
 											clientWidth,
 											scrollbarWidth,
@@ -740,7 +779,8 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 											bottom,
 										)}
 										{this.renderEwrCell(
-											archetypes,
+											this.props.archetypeMatchups,
+											friendlyArchetypes,
 											right,
 											height,
 											clientHeight,
