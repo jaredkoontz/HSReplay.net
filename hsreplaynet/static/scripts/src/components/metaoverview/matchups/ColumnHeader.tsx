@@ -1,10 +1,11 @@
 import _ from "lodash";
 import React from "react";
 import { InjectedTranslateProps, Trans, translate } from "react-i18next";
-import { image } from "../../../helpers";
-import { ArchetypeData } from "../../../interfaces";
+import { getArchetypeUrl, image } from "../../../helpers";
 import Tooltip from "../../Tooltip";
 import PrettyCardClass from "../../text/PrettyCardClass";
+import ArchetypeSignatureTooltip from "../ArchetypeSignatureTooltip";
+import CardData from "../../../CardData";
 
 interface Props extends InjectedTranslateProps {
 	archetypeId: number;
@@ -14,6 +15,9 @@ interface Props extends InjectedTranslateProps {
 	isIgnored: boolean;
 	onIgnoredChanged: (ignore: boolean, ignoreClass?: boolean) => void;
 	style?: any;
+	linkToArchetype: boolean;
+	gameType: string;
+	cardData: CardData;
 }
 
 class ColumnHeader extends React.Component<Props> {
@@ -57,6 +61,35 @@ class ColumnHeader extends React.Component<Props> {
 		) : (
 			<Trans defaults="Ignore <0></0>" components={[playerClass]} />
 		);
+
+		if (this.props.linkToArchetype) {
+			return (
+				<a
+					href={getArchetypeUrl(archetypeId, archetypeName)}
+					target="_blank"
+					className={classNames.join(" ")}
+					style={this.props.style}
+				>
+					<ArchetypeSignatureTooltip
+						key={archetypeId}
+						cardData={this.props.cardData}
+						archetypeId={archetypeId}
+						archetypeName={archetypeName}
+						gameType={this.props.gameType}
+					>
+						<span className="header-archetype-name">
+							{archetypeName}
+						</span>
+					</ArchetypeSignatureTooltip>
+					<img
+						className="class-icon"
+						src={image(
+							`64x/class-icons/${archetypePlayerClass.toLowerCase()}.png`,
+						)}
+					/>
+				</a>
+			);
+		}
 
 		return (
 			<div

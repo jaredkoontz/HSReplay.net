@@ -37,6 +37,7 @@ interface Props extends InjectedTranslateProps {
 	minGames?: number;
 	maxArchetypes?: number;
 	ignoreMirror?: boolean;
+	columnHeaderLinks?: boolean;
 	cellWidth?: number;
 	cellHeight?: number;
 	cellColorStyle?: CellColorStyle;
@@ -181,6 +182,9 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 								}}
 								key={key}
 								style={style}
+								cardData={this.props.cardData}
+								gameType={this.props.gameType}
+								linkToArchetype={this.props.columnHeaderLinks}
 							/>
 						);
 					}}

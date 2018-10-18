@@ -211,6 +211,48 @@
 		}
 	}
 
+	a {
+		.tooltip-wrapper {
+			display: flex;
+			text-align: center;
+			flex-direction: column;
+			justify-content: flex-end;
+			align-items: center;
+			padding: 5px;
+		}
+
+		&.matchup-column-header {
+			color: black;
+			cursor: pointer;
+
+			&:hover,
+			&:active {
+				color: black;
+
+				.header-archetype-name {
+					text-decoration: unset;
+					cursor: pointer;
+				}
+			}
+
+			.class-icon {
+				cursor: default;
+			}
+
+			&.matchup-column-header-archetype {
+				&:hover {
+					.header-archetype-name {
+						text-decoration: none;
+					}
+
+					.class-icon {
+						filter: unset;
+					}
+				}
+			}
+		}
+	}
+
 	.matchup-row-header {
 		display: flex;
 		text-align: left;
