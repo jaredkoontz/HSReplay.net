@@ -56,6 +56,8 @@ class ClusterSnapshotUpdateView(View):
 			# We are removing an archetype assignment from a cluster
 			cluster.external_id = None
 			cluster.name = "NEW"
+			cluster.required_cards = []
+
 			cluster._augment_data_points()
 			cluster.save()
 
@@ -69,7 +71,11 @@ class ClusterSnapshotUpdateView(View):
 				exclude_cluster_id=cluster.cluster_id
 			)
 			if existing_cluster_for_archetype:
-				# We are merging this cluster into the one that already exists
+				# We are merging this cluster into the one that already exists. Both
+				# clusters must satisfy the union of their required cards and false positive
+				# rules. The combined sets of required cards and false positive rules will
+				# be added to the resulting merged cluster.
+
 				class_cluster.merge_cluster_into_external_cluster(
 					existing_cluster_for_archetype,
 					cluster
@@ -84,6 +90,14 @@ class ClusterSnapshotUpdateView(View):
 				archetype = Archetype.objects.get(id=int(archetype_id))
 				cluster.external_id = int(archetype_id)
 				cluster.name = archetype.name
+
+				# If the archetype has required cards, copy their dbf ids over to the
+				# cluster's required_cards JSON array.
+
+				required_card_ids = [c.dbf_id for c in archetype.required_cards.all()]
+				if required_card_ids:
+					cluster.required_cards = required_card_ids
+
 				cluster._augment_data_points()
 				cluster.save()
 

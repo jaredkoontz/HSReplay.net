@@ -443,10 +443,19 @@ class SingleClusterUpdateView(View):
 		if not archetype_id:
 			cluster.external_id = None
 			cluster.name = "NEW"
+			cluster.required_cards = []
 		else:
 			archetype = Archetype.objects.get(id=int(archetype_id))
 			cluster.external_id = int(archetype_id)
 			cluster.name = archetype.name
+
+			# If the archetype has required cards, copy their dbf ids over to the cluster's
+			# required_cards JSON array.
+
+			required_card_ids = [c.dbf_id for c in archetype.required_cards.all()]
+			if required_card_ids:
+				cluster.required_cards = required_card_ids
+
 		cluster._augment_data_points()
 		cluster.save()
 
