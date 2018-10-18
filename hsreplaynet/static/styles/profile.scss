@@ -134,6 +134,54 @@
 			}
 		}
 	}
+
+	.archetype-matrix-wrapper {
+		border: 1px solid rgba(0, 0, 0, 0.3);
+		background: $offwhite;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin: 0 auto;
+		transition: width 300ms ease-out, height 300ms ease-out;
+		width: 100%;
+		max-height: 90vh;
+	}
+
+	.archetype-matrix-container {
+		height: 100%;
+		width: 100%;
+		margin: 0;
+		background: $offwhite;
+	}
+
+	.matchup-column-header-archetype {
+		border-left: 1px solid rgba(0, 0, 0, 0.3);
+	}
+
+	.matchup-row-header {
+		border-top: 1px solid rgba(0, 0, 0, 0.3);
+	}
+
+	.matchup-header-top-left {
+		align-items: center;
+		font-size: 1.5em;
+		padding-bottom: 0;
+		font-variant: small-caps;
+	}
+
+	.matchup-cell {
+		border-top: 1px solid rgba(0, 0, 0, 0.3);
+		border-left: 1px solid rgba(0, 0, 0, 0.3);
+		font-weight: bold;
+		p:last-of-type {
+			font-weight: normal;
+		}
+	}
+
+	.class-icon-wrapper {
+		pointer-events: none;
+		cursor: default;
+	}
 }
 
 .profile-hero {
