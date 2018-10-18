@@ -79,7 +79,7 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 	public render(): React.ReactNode {
 		const commonProps = {
 			allArchetypes: this.state.apiArchetypes,
-			archetypes: this.state.archetypeData,
+			archetypeMatchups: this.state.archetypeData,
 			cardData: this.props.cardData,
 			favorites: this.state.favorites.filter(
 				id => this.state.sortedIds.indexOf(id) !== -1,
@@ -105,6 +105,8 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 					numArchetypes={this.state.archetypeData.length}
 				/>
 				<ArchetypeMatrix
+					friendlyArchetypes={this.state.archetypeData.map(x => x.id)}
+					opposingArchetypes={this.state.archetypeData.map(x => x.id)}
 					customWeights={this.state.customWeights}
 					onCustomWeightsChanged={(
 						archetypeId: number,
