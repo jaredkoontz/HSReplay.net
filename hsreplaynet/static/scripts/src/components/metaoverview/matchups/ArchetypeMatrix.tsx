@@ -35,6 +35,7 @@ interface Props extends InjectedTranslateProps {
 	sortDirection: SortDirection;
 	simple?: boolean;
 	minGames?: number;
+	maxArchetypes?: number;
 	ignoreMirror?: boolean;
 	cellWidth?: number;
 	cellHeight?: number;
@@ -682,11 +683,11 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 	public render(): React.ReactNode {
 		const friendlyArchetypes = this.props.friendlyArchetypes.slice(
 			0,
-			this.props.simple && 5,
+			this.props.maxArchetypes,
 		);
 		const opposingArchetypes = this.props.opposingArchetypes.slice(
 			0,
-			this.props.simple && 5,
+			this.props.maxArchetypes,
 		);
 
 		const gridWidth = this.cellWidth() * opposingArchetypes.length;

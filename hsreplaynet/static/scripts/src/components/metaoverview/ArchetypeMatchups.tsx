@@ -134,6 +134,7 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 						this.onIgnoreChanged(archetypeId, ignore)
 					}
 					simple={this.props.simple}
+					maxArchetypes={this.props.simple && 5}
 					{...commonProps}
 				/>
 			</div>
