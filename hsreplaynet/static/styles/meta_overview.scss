@@ -364,6 +364,15 @@
 			line-height: 38px;
 			text-align: center;
 			width: 100%;
+			> p {
+				line-height: 15px;
+				margin: 0;
+
+				&:last-of-type {
+					font-size: 0.8em;
+					color: $darkgrey;
+				}
+			}
 		}
 
 		&.ignored {

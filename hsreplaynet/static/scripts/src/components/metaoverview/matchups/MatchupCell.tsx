@@ -2,10 +2,12 @@ import _ from "lodash";
 import React from "react";
 import { InjectedTranslateProps, translate } from "react-i18next";
 import { Colors } from "../../../Colors";
-import { getColorString, toDynamicFixed } from "../../../helpers";
+import { getColorString, toDynamicFixed, winrateData } from "../../../helpers";
 import { MatchupData } from "../../../interfaces";
 import Tooltip from "../../Tooltip";
 import { formatNumber } from "../../../i18n";
+
+export type CellColorStyle = "background" | "text";
 
 interface Props extends InjectedTranslateProps {
 	highlightColumn?: boolean;
@@ -14,6 +16,8 @@ interface Props extends InjectedTranslateProps {
 	isIgnored: boolean;
 	style?: any;
 	minGames?: number;
+	ignoreMirror?: boolean;
+	colorStyle?: CellColorStyle;
 }
 
 export function isEligibleMatchup(
@@ -39,14 +43,24 @@ class MatchupCell extends React.Component<Props> {
 	}
 
 	public render(): React.ReactNode {
-		const { matchupData, t } = this.props;
+		const { ignoreMirror, matchupData, minGames, t } = this.props;
 		let label: string | JSX.Element = "";
-		const color = "black";
+		let color = "black";
 		let backgroundColor = "white";
+		let fontWeight = null;
 		const winrate = matchupData.winrate || 0;
+		let tendencyStr = null;
+		const wData = winrateData(matchupData.globalWinrate || 50, winrate, 2);
+		if (this.props.colorStyle === "text") {
+			color = wData.color;
+			tendencyStr = matchupData.globalWinrate ? wData.tendencyStr : null;
+		}
 		const classNames = ["matchup-cell"];
 
-		if (matchupData.friendlyId === matchupData.opponentId) {
+		if (
+			!ignoreMirror &&
+			matchupData.friendlyId === matchupData.opponentId
+		) {
 			// mirror match
 			label = (
 				<Tooltip content={t("Mirror matchup")} simple>
@@ -120,7 +134,20 @@ class MatchupCell extends React.Component<Props> {
 						</div>
 					}
 				>
-					{formatNumber(winrate, 2)}%
+					{matchupData.globalWinrate !== undefined ? (
+						<>
+							<p>
+								{tendencyStr}
+								{formatNumber(winrate, 2)}%
+							</p>
+							<p>
+								Avg.{" "}
+								{formatNumber(matchupData.globalWinrate, 2)}%
+							</p>
+						</>
+					) : (
+						formatNumber(winrate, 2) + "%"
+					)}
 				</Tooltip>
 			);
 		} else {
@@ -138,6 +165,8 @@ class MatchupCell extends React.Component<Props> {
 				</Tooltip>
 			);
 			backgroundColor = "rgb(200,200,200)";
+			color = "black";
+			fontWeight = "normal";
 		}
 
 		if (this.props.isIgnored) {
@@ -151,11 +180,19 @@ class MatchupCell extends React.Component<Props> {
 		if (this.props.highlightColumn) {
 			classNames.push("highlight-column");
 		}
+		if (this.props.colorStyle === "text") {
+			backgroundColor = "transparent";
+		}
 
 		return (
 			<div
 				className={classNames.join(" ")}
-				style={{ color, backgroundColor, ...this.props.style }}
+				style={{
+					color,
+					backgroundColor,
+					fontWeight,
+					...this.props.style,
+				}}
 			>
 				{label}
 			</div>

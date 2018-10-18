@@ -10,7 +10,7 @@ import InfoIcon from "../../InfoIcon";
 import SortHeader from "../../SortHeader";
 import ColumnFooter from "./ColumnFooter";
 import ColumnHeader from "./ColumnHeader";
-import MatchupCell from "./MatchupCell";
+import MatchupCell, { CellColorStyle } from "./MatchupCell";
 import RowFooter from "./RowFooter";
 import RowHeader from "./RowHeader";
 
@@ -32,8 +32,11 @@ interface Props extends InjectedTranslateProps {
 	sortBy: string;
 	sortDirection: SortDirection;
 	simple?: boolean;
+	minGames?: number;
+	ignoreMirror?: boolean;
 	cellWidth?: number;
 	cellHeight?: number;
+	cellColorStyle?: CellColorStyle;
 }
 
 interface State {
@@ -366,6 +369,9 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 								highlightRow={
 									this.state.highlightRow === rowIndex
 								}
+								minGames={this.props.minGames}
+								ignoreMirror={this.props.ignoreMirror}
+								colorStyle={this.props.cellColorStyle}
 							/>
 						);
 					}}

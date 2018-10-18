@@ -233,6 +233,7 @@ export interface MatchupData {
 	opponentPlayerClass: string;
 	winrate: number;
 	totalGames: number;
+	globalWinrate?: number;
 }
 
 export interface ApiArchetypeMatchupData {
