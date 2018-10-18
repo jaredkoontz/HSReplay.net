@@ -27,5 +27,6 @@ class ProfileView(LoginRequiredMixin, SimpleReactView):
 			raise Http404(_("User does not exist."))
 		self.request.head.title = "%s's Profile" % user.username
 		return {
-			"username": user.username
+			"username": user.username,
+			"user_id": user_id
 		}
