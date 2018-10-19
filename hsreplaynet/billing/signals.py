@@ -6,7 +6,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django_bouncy.models import Bounce
 from django_bouncy.signals import feedback
-from djpaypal.models import BillingAgreement, webhooks as djpaypal_webhooks
+from djpaypal.models import webhooks as djpaypal_webhooks
 from djstripe import webhooks as djstripe_webhooks
 from mailchimp3.helpers import get_subscriber_hash
 
@@ -87,23 +87,6 @@ def sync_premium_accounts_for_paypal_subscription(sender, event, **kwargs):
 		enable_premium_accounts_for_users_in_redshift([subscription.user])
 
 		_update_mailchimp_tags_for_premium_subscriber(subscription.user)
-
-
-@djpaypal_webhooks.webhook_handler("payment.sale.completed")
-def refresh_pending_billing_agreements(sender, event, **kwargs):
-	sale = event.get_resource()
-	billing_agreement = sale.billing_agreement
-	if billing_agreement and billing_agreement.state == "Pending":
-		# The billing agreement was probably left in the pending state upon subscription
-		# Now that the sale has completed we should refresh the state
-		billing_agreement = BillingAgreement.find_and_sync(billing_agreement.id)
-		influx_metric(
-			"hsreplaynet_paypal_agreement_refreshed", {
-				"count": 1,
-				"id": billing_agreement.id,
-			},
-			final_state=billing_agreement.state
-		)
 
 
 @receiver(post_save, sender=djpaypal_webhooks.WebhookEventTrigger)
