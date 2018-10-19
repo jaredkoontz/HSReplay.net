@@ -123,3 +123,21 @@ export interface MetaPreview {
 	};
 	as_of: string;
 }
+
+/**
+ * {@link /api/v1/vods/}
+ */
+export interface TwitchVodData {
+	channel_name: string;
+	url: string;
+	game_date: string;
+	game_type: string;
+	rank: number | null;
+	legend_rank: number | null;
+	friendly_player_archetype_id: number | null;
+	opposing_player_class: string;
+	opposing_player_archetype_id: number | null;
+	won: boolean;
+	went_first: boolean;
+	game_length_seconds: number;
+}

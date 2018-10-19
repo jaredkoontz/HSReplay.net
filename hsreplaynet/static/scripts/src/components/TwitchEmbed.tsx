@@ -1,16 +1,19 @@
 import React from "react";
 import { TwitchStreamPromotionEvents } from "../metrics/Events";
+import { TwitchVodData } from "../utils/api";
 
 interface Props {
-	channel: string;
+	channel?: string;
+	video?: TwitchVodData;
 	width: number;
 	height: number;
 	allowFullScreen?: boolean;
 	muted: boolean;
 	autoplay: boolean;
+	style?: any;
 }
 
-export default class TwitchStream extends React.Component<Props> {
+export default class TwitchEmbed extends React.Component<Props> {
 	private ref: React.RefObject<HTMLIFrameElement> = React.createRef();
 
 	public componentDidMount(): void {
@@ -38,16 +41,33 @@ export default class TwitchStream extends React.Component<Props> {
 			allowFullScreen,
 			muted,
 			autoplay,
+			video,
+			style,
 		} = this.props;
+		const controlParams = `muted=${muted}&autoplay=${autoplay}`;
+		let src = null;
+		if (video) {
+			const vodRegex = /\/videos\/(\d+)\?t=([\dhms]+)/;
+			const match = vodRegex.exec(video.url);
+			if (match === null) {
+				return null;
+			}
+			src = `https://player.twitch.tv/?video=v${match[1]}&t=${
+				match[2]
+			}&${controlParams}`;
+		} else {
+			src = `https://player.twitch.tv/?channel=${channel}&${controlParams}`;
+		}
 		return (
 			<iframe
-				src={`https://player.twitch.tv/?channel=${channel}&muted=${muted}&autoplay=${autoplay}`}
+				src={src}
 				height={height}
 				width={width}
 				frameBorder="0"
 				scrolling="no"
 				allowFullScreen={allowFullScreen}
 				ref={this.ref}
+				style={style}
 			/>
 		);
 	}

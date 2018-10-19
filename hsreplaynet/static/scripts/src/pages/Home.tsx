@@ -20,7 +20,7 @@ import Modal from "../components/Modal";
 import ModeSvg from "../components/ModeSvg";
 import Panel from "../components/Panel";
 import PremiumModal from "../components/premium/PremiumModal";
-import TwitchStream from "../components/TwitchStream";
+import TwitchEmbed from "../components/TwitchEmbed";
 import { BnetGameType } from "../hearthstone";
 import { image } from "../helpers";
 import { TwitchStreamPromotionEvents } from "../metrics/Events";
@@ -79,7 +79,7 @@ class Home extends React.Component<Props, State> {
 					<AutoSizer>
 						{({ height, width }) => {
 							return (
-								<TwitchStream
+								<TwitchEmbed
 									channel={this.props.promotedStreamer}
 									width={width}
 									height={height}

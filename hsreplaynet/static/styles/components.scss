@@ -1871,3 +1871,64 @@ ol.list-ltr {
 		opacity: 0.5;
 	}
 }
+
+.optional-select {
+	display: inline;
+	position: relative;
+	color: #222;
+
+	select {
+		border: 1px solid gray;
+		padding: 0.6em 1.75em 0.6em 1em;
+		background-color: white;
+		font-weight: bold;
+
+		appearance: none;
+		-moz-appearance: none;
+		-webkit-appearance: none;
+
+		> option {
+			padding: 10px 20px;
+			font-weight: bold;
+			border-bottom: 1px solid #0c223e;
+
+			&:last-child {
+				border-bottom: none;
+			}
+		}
+
+		&:active {
+			color: black;
+		}
+
+		&:not(:disabled) {
+			pointer: cursor;
+		}
+	}
+
+	> .caret {
+		position: absolute;
+		right: 0.8em;
+		top: 50%;
+		transform: translateY(-50%);
+	}
+
+	&.active {
+		color: white;
+
+		select {
+			border-color: $blue;
+			background-color: $blue;
+
+			> option {
+				color: white;
+				background-color: $blue;
+			}
+
+			&:active,
+			&:focus:active {
+				color: white;
+			}
+		}
+	}
+}

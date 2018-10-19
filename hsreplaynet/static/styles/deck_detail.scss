@@ -103,6 +103,240 @@
 				}
 			}
 		}
+
+		#vods {
+			.twitch-vod-container {
+				display: flex;
+				flex-direction: row;
+
+				@media (max-width: 768px) {
+					flex-direction: column;
+				}
+
+				.twitch-vod-table {
+					border-right: solid 1px black;
+
+					> ul {
+						padding-left: 0;
+
+						> li {
+							padding: 8px 10px 8px 10px;
+							cursor: pointer;
+							list-style-type: none;
+							border-bottom: solid 1px gray;
+
+							&:hover,
+							&:focus {
+								background-color: $twitch-purple;
+							}
+
+							&.active {
+								background-color: $twitch-purple;
+							}
+
+							&:first-child {
+								border-top: solid 1px gray;
+							}
+
+							p {
+								width: 100%;
+								margin: 0;
+								padding: 0;
+
+								&:first-child {
+									display: flex;
+									flex-direction: row;
+									align-items: center;
+								}
+
+								&:last-child {
+									margin-top: 4px;
+								}
+							}
+
+							&.won {
+								background: hsl(120, 70, 40)
+									linear-gradient(
+										to right,
+										rgba(255, 255, 255, 0.85) 40%,
+										rgba(255, 255, 255, 0.8) 80%,
+										rgba(255, 255, 255, 0.7) 100%
+									);
+
+								&:hover {
+									background: hsl(120, 70, 40)
+										linear-gradient(
+											to right,
+											rgba(255, 255, 255, 0.85) 40%,
+											rgba(255, 255, 255, 0.8) 80%,
+											rgba(255, 255, 255, 0.7) 100%
+										);
+								}
+							}
+
+							&.lost {
+								background: hsl(0, 100, 65.7)
+									linear-gradient(
+										to right,
+										rgba(255, 255, 255, 0.85) 40%,
+										rgba(255, 255, 255, 0.8) 80%,
+										rgba(255, 255, 255, 0.7) 100%
+									);
+							}
+
+							.game-duration {
+								float: right;
+								font-weight: bold;
+							}
+						}
+					}
+
+					.twitch-vod-table-filterables {
+						margin: 10px 10px 0 10px;
+
+						& > .optional-select {
+							margin: 0 0.3em;
+
+							&:first-child {
+								margin-left: 0;
+							}
+
+							&:last-child {
+								margin-right: 0;
+							}
+						}
+					}
+
+					.twitch-vod-table-sortables {
+						margin: 0 10px;
+						display: flex;
+						flex-direction: row;
+						justify-content: space-between;
+
+						.twitch-vod-table-sortable {
+							display: inline-block;
+							cursor: pointer;
+							flex-grow: 1;
+
+							padding: 0.5em 0.5em;
+							margin: 0.5em 0 0 0;
+
+							&:first-child {
+								padding-left: 1px;
+							}
+
+							&:last-child {
+								padding-right: 0;
+							}
+						}
+					}
+
+					.twitch-vod-table-reset-section {
+						margin-top: 4em;
+
+						.btn {
+							font-weight: bold;
+						}
+					}
+				}
+
+				.twitch-vod-main {
+					flex-grow: 1;
+					padding: 10px 10px 10px;
+				}
+
+				.twitch-iframe-container {
+					margin: 0 auto;
+					max-width: 900px;
+					max-height: calc(800px * 9 / 16 + 100px);
+				}
+
+				iframe {
+					background: black;
+				}
+
+				.pick-a-vod {
+					font-size: 1.25em;
+				}
+
+				.table-container {
+					max-width: 1200px;
+					margin: 0 auto;
+
+					.table-row-header,
+					.table-cell {
+						cursor: pointer;
+					}
+
+					.table-row-header {
+						line-height: 36px;
+					}
+
+					.table-cell {
+						color: black;
+					}
+				}
+
+				.twitch-channel-name {
+					a.text-twitch {
+						&,
+						&:active,
+						&:hover {
+							color: $twitch-purple;
+						}
+					}
+				}
+
+				.twitch-vod-channel-name {
+					display: block;
+					flex-grow: 1;
+					text-align: left;
+					margin-left: 8px;
+					font-size: 1.1em;
+					font-weight: bold;
+
+					> img {
+						margin-top: -0.15em;
+					}
+
+					> span {
+						text-overflow: ellipsis;
+					}
+
+					> a {
+						font-size: 0.6em;
+					}
+				}
+
+				.twitch-vod-table-icons {
+					.twitch-vod-table-icon {
+						width: 36px;
+						height: 36px;
+						display: inline-block;
+						position: relative;
+						vertical-align: top;
+						margin-right: 6px;
+
+						.class-icon {
+							width: 36px;
+							height: 36px;
+							border-radius: 50%;
+							border: solid 1px #555;
+						}
+
+						.rank-icon-standalone {
+							height: 48px;
+							width: 48px;
+							margin: -5px;
+
+							> figcaption {
+								font-size: 1em;
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 
 	> aside {

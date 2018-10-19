@@ -50,6 +50,7 @@ import { DeckEvents } from "../metrics/Events";
 import UserData, { Account } from "../UserData";
 import { Collection } from "../utils/api";
 import { getDustCostForCollection } from "../utils/collection";
+import TwitchVods from "../components/TwitchVods";
 
 interface InventoryGameType {
 	[gameType: string]: InventoryRegion[];
@@ -818,6 +819,13 @@ class DeckDetail extends React.Component<Props, State> {
 								</h3>
 								{this.renderStreams()}
 							</Tab>
+							<Tab
+								label={t("VODs")}
+								id="vods"
+								hidden={!UserData.hasFeature("twitch-vods")}
+							>
+								{this.renderTwitchVods()}
+							</Tab>
 						</TabList>
 						<AdUnit id="dd-m-3" size="320x50" mobile />
 					</section>
@@ -982,6 +990,34 @@ class DeckDetail extends React.Component<Props, State> {
 							  )
 					}
 					collection={this.props.collection}
+				/>
+			</DataInjector>
+		);
+	}
+
+	renderTwitchVods(): React.ReactNode {
+		const { t } = this.props;
+		return (
+			<DataInjector
+				query={[
+					{
+						key: "archetypeData",
+						params: {},
+						url: "/api/v1/archetypes/",
+					},
+					{
+						key: "vods",
+						params: {
+							deck_id: this.props.deckId,
+						},
+						url: "/api/v1/vods/",
+					},
+				]}
+			>
+				<TwitchVods
+					customNoDataMessage={t("No VODs available")}
+					cardData={this.props.cardData}
+					gameType={this.getGameType()}
 				/>
 			</DataInjector>
 		);

@@ -1,5 +1,17 @@
 import { CardClass, Rarity } from "../hearthstone";
 
+export const PLAYABLE_CARD_CLASSES = [
+	CardClass.DRUID,
+	CardClass.HUNTER,
+	CardClass.MAGE,
+	CardClass.PALADIN,
+	CardClass.PRIEST,
+	CardClass.ROGUE,
+	CardClass.SHAMAN,
+	CardClass.WARLOCK,
+	CardClass.WARRIOR,
+];
+
 export function getCardClass(cardClass: string | CardClass): CardClass {
 	if (typeof cardClass !== "string") {
 		return cardClass;

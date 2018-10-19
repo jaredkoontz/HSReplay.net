@@ -26,6 +26,7 @@ export interface TableColumn {
 	sortKey?: string;
 	text: string;
 	winrateData?: boolean;
+	reactNode?: boolean;
 }
 
 interface Annotation {
@@ -453,7 +454,7 @@ export default class Table extends React.Component<Props, State> {
 		}
 
 		let color = null;
-		if (content !== "-") {
+		if (content !== "-" && !column.reactNode) {
 			if (column.winrateData) {
 				const wrdata = winrateData(
 					this.props.baseWinrate || 50,
