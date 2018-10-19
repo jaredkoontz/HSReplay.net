@@ -914,6 +914,7 @@ class ClusterManager(models.Manager):
 		SELECT
 			c.external_id,
 			c.ccp_signature,
+			c.required_cards,
 			c.rules
 		FROM decks_clustersetsnapshot cs
 		JOIN decks_classclustersnapshot ccs ON ccs.cluster_set_id = cs.id
@@ -934,8 +935,10 @@ class ClusterManager(models.Manager):
 				if len(record["ccp_signature"]):
 					external_id = record["external_id"]
 					if external_id not in result and external_id:
+						required_cards = record["required_cards"]
 						result[external_id] = {
 							"signature_weights": {},
+							"required_cards": required_cards or [],
 							"rules": record["rules"] if record["rules"] else []
 						}
 					for dbf_id, weight in record["ccp_signature"].items():
@@ -972,7 +975,7 @@ class ClusterSnapshot(models.Model, Cluster):
 
 	# JSON list of dbf_ids of cards required in decks before they can be classified into
 	# this cluster's archetype.
-	
+
 	required_cards = JSONField(default=list)
 
 	name = models.CharField(max_length=250, blank=True)
