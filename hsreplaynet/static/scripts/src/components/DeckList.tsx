@@ -107,6 +107,7 @@ class DeckList extends React.Component<Props, State> {
 
 		let cacheProp = null;
 		let sortProp = this.props.sortBy;
+		let reversed = false;
 
 		switch (sortProp) {
 			case "winrate":
@@ -120,6 +121,7 @@ class DeckList extends React.Component<Props, State> {
 				break;
 			case "lastPlayed":
 				sortProp = "lastPlayed";
+				reversed = true;
 				break;
 			case "dust":
 				cacheProp = "dust";
@@ -132,7 +134,9 @@ class DeckList extends React.Component<Props, State> {
 		const decks = this.props.decks.slice(0);
 
 		if (sortProp) {
-			const direction = this.props.sortDirection === "ascending" ? 1 : -1;
+			const direction =
+				(this.props.sortDirection === "ascending" ? 1 : -1) *
+				(reversed ? -1 : 1);
 			decks.sort((a: DeckObj, b: DeckObj) => {
 				let x = +a[sortProp];
 				let y = +b[sortProp];
@@ -236,7 +240,7 @@ class DeckList extends React.Component<Props, State> {
 
 		const headerSortable = isSortable ? "header-sortable " : "";
 
-		const sort = (name: string): void => {
+		const sort = (name: string, reversed?: boolean): void => {
 			if (this.props.sortBy === name) {
 				if (this.props.setSortDirection) {
 					this.props.setSortDirection(
@@ -247,12 +251,18 @@ class DeckList extends React.Component<Props, State> {
 				}
 			} else {
 				this.props.setSortDirection &&
-					this.props.setSortDirection("descending");
+					this.props.setSortDirection(
+						reversed ? "ascending" : "descending",
+					);
 				this.props.setSortBy && this.props.setSortBy(name);
 			}
 		};
 
-		const onClick = (name: string, event?) => {
+		const onClick = (
+			name: string,
+			event?: React.MouseEvent<HTMLElement>,
+			reversed?: boolean,
+		) => {
 			if (!this.props.setSortDirection && !this.props.setSortBy) {
 				return;
 			}
@@ -262,15 +272,18 @@ class DeckList extends React.Component<Props, State> {
 					event.currentTarget.blur();
 				}
 			}
-			sort(name);
+			sort(name, reversed);
 		};
 
-		const onKeyPress = (name: string, event?) => {
+		const onKeyPress = (
+			name: string,
+			event?: React.KeyboardEvent<HTMLElement>,
+			reversed?: boolean,
+		) => {
 			if (event && event.which !== 13) {
 				return;
 			}
-
-			sort(name);
+			sort(name, reversed);
 		};
 
 		const sortDirection = (name: string) =>
@@ -285,8 +298,8 @@ class DeckList extends React.Component<Props, State> {
 					className={
 						headerSortable + "col-lg-2 col-md-2 col-sm-2 col-xs-6"
 					}
-					onClick={e => onClick("lastPlayed", e)}
-					onKeyPress={e => onKeyPress("lastPlayed", e)}
+					onClick={e => onClick("lastPlayed", e, true)}
+					onKeyPress={e => onKeyPress("lastPlayed", e, true)}
 					tabIndex={tabIndex}
 					role="columnheader"
 					aria-sort={sortDirection("lastPlayed")}

@@ -364,7 +364,7 @@ class MyDecks extends React.Component<Props, State> {
 				<Fragments
 					defaults={{
 						sortBy: "lastPlayed",
-						sortDirection: "descending",
+						sortDirection: "ascending",
 						page: 1,
 					}}
 					ref={ref => (this.deckListsFragmentsRef = ref)}

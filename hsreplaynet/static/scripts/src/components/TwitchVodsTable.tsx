@@ -262,11 +262,11 @@ class TwitchVodsTable extends React.Component<Props, State> {
 						case "age":
 							try {
 								return (
-									new Date(a.game_date) >
+									new Date(a.game_date) <
 									new Date(b.game_date)
 								);
 							} catch (e) {
-								return a.game_date > b.game_date;
+								return a.game_date < b.game_date;
 							}
 						case "broadcaster":
 							return (
@@ -477,7 +477,7 @@ class TwitchVodsTable extends React.Component<Props, State> {
 	};
 
 	private sortRank = this.onSort("rank", true);
-	private sortAge = this.onSort("age");
+	private sortAge = this.onSort("age", true);
 	private sortBroadcaster = this.onSort("broadcaster");
 	private sortDuration = this.onSort("duration");
 }
