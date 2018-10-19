@@ -568,7 +568,10 @@ class PaypalSuccessView(BasePaypalView):
 		# For now, let's just send a metric
 		influx_metric(
 			"hsreplaynet_paypal_agreement_state",
-			{"count": "1"},
+			{
+				"count": "1",
+				"id": billing_agreement.id
+			},
 			state=billing_agreement.state
 		)
 
