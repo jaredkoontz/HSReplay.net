@@ -406,7 +406,8 @@ class TwitchVodsTable extends React.Component<Props, State> {
 												/>
 												<OpponentIcon
 													playerClass={
-														row.opposing_player_class
+														row.opposing_player_class ||
+														"NEUTRAL"
 													}
 												/>
 												<Advantage
@@ -428,7 +429,8 @@ class TwitchVodsTable extends React.Component<Props, State> {
 													row.opposingArchetype
 												}
 												playerClass={
-													row.opposing_player_class
+													row.opposing_player_class ||
+													"NEUTRAL"
 												}
 												gameType={this.props.gameType}
 												cardData={this.props.cardData}
