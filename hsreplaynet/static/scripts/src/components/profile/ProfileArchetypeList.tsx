@@ -2,6 +2,7 @@ import React from "react";
 import { Archetype } from "../../utils/api";
 import CardData from "../../CardData";
 import ProfileArchetypePanel from "./ProfileArchetypePanel";
+import { CardClass } from "../../hearthstone";
 
 interface Props {
 	data: ProfileArchetypeData[];
@@ -10,7 +11,7 @@ interface Props {
 
 export interface ProfileArchetypeData {
 	archetype: Archetype;
-	winrate: number;
+	numWins: number;
 	globalWinrate: number | null;
 	metaTier: number | null;
 	numGames: number;
@@ -19,19 +20,20 @@ export interface ProfileArchetypeData {
 }
 
 export interface ProfileDeckData {
-	winrate: number;
+	numWins: number;
 	globalWinrate: number | null;
 	numGames: number;
 	lastPlayed: Date;
-	cardDbfIds: number[];
+	deckstring: string;
 	archetype: Archetype;
 	metaTier: number | null;
-	games: ProfileGameData;
+	games: ProfileGameData[];
 }
 
 export interface ProfileGameData {
 	won: boolean;
-	opponentArchetype: Archetype;
+	opponentArchetype: Archetype | null;
+	opponentPlayerClass: CardClass;
 	rank: number | null;
 	legendRank: number | null;
 	numTurns: number;

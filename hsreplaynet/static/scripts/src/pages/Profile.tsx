@@ -12,6 +12,7 @@ import LoadingSpinner from "../components/LoadingSpinner";
 import ArchetypeMatrix from "../components/metaoverview/matchups/ArchetypeMatrix";
 import Tab from "../components/layout/Tab";
 import TabList from "../components/layout/TabList";
+import ProfileArchetypeList from "../components/profile/ProfileArchetypeList";
 
 interface Props extends InjectedTranslateProps {
 	cardData: CardData;
@@ -49,6 +50,8 @@ class Profile extends React.Component<Props, State> {
 							{t("Stats")}
 							{/*TODO: Dropdown*/}
 						</h1>
+						<h2>{t("Archetype Usage")}</h2>
+						{this.renderArchetypeList()}
 						<h3>{t("Archetype Matchups")}</h3>
 						{this.renderMatchupMatrix()}
 					</Tab>
@@ -56,6 +59,40 @@ class Profile extends React.Component<Props, State> {
 					<Tab id={"ARENA"} label={"Arena"} disabled />
 				</TabList>
 			</main>
+		);
+	}
+
+	private renderArchetypeList(): React.ReactNode {
+		const [startDate, endDate] = this.getTimeFrame();
+		return (
+			<ProfileData
+				userId={this.props.userId}
+				type="ArchetypeListData"
+				replayStartDate={startDate.toISOString()}
+				replayEndDate={endDate.toISOString()}
+				replayFilter={replay =>
+					replay.game_type === BnetGameType.BGT_RANKED_STANDARD
+				}
+			>
+				{data => {
+					if (!data || !this.props.cardData) {
+						return (
+							<div
+								className="archetype-list-wrapper"
+								style={{ height: 200, width: 200 }}
+							>
+								<LoadingSpinner active />
+							</div>
+						);
+					}
+					return (
+						<ProfileArchetypeList
+							data={data}
+							cardData={this.props.cardData}
+						/>
+					);
+				}}
+			</ProfileData>
 		);
 	}
 

@@ -3,8 +3,9 @@ import DataInjector from "../DataInjector";
 import { BnetGameType, CardClass, FormatType } from "../../hearthstone";
 import { Archetype } from "../../utils/api";
 import { ArchetypeData } from "../../interfaces";
+import { ProfileArchetypeData, ProfileDeckData } from "./ProfileArchetypeList";
 
-export type ProfileDataType = "MatchupData";
+export type ProfileDataType = "MatchupData" | "ArchetypeListData";
 
 interface Props {
 	userId: number;
@@ -116,8 +117,129 @@ export default class ProfileData extends React.Component<Props> {
 					archetypeData,
 					globalMatchupData,
 				);
+			case "ArchetypeListData":
+				return this.getArchetypeListData(
+					filteredReplays,
+					archetypeData,
+					globalMatchupData,
+				);
 		}
 		return null;
+	}
+
+	private getArchetypeListData(
+		replays: ReplayData[],
+		archetypeData: Archetype[],
+		globalMatchupData: any,
+	): ProfileArchetypeData[] {
+		const data: ProfileArchetypeData[] = [];
+
+		const getArchetype = (id: number): ProfileArchetypeData => {
+			let profileArchetypeData = data.find(x => x.archetype.id === id);
+			if (!profileArchetypeData) {
+				const archetype = archetypeData.find(x => x.id === id);
+				if (!archetype) {
+					return null;
+				}
+				const globalData = globalMatchupData.series.metadata["" + id];
+				const globalWinrate = globalData ? globalData.win_rate : null;
+				profileArchetypeData = {
+					archetype,
+					numWins: 0,
+					globalWinrate,
+					metaTier: null,
+					numGames: 0,
+					lastPlayed: new Date("1970-01-01Z00:00:00:001"),
+					decks: [],
+				};
+				data.push(profileArchetypeData);
+			}
+			return profileArchetypeData;
+		};
+
+		const getDeck = (
+			archetype: ProfileArchetypeData,
+			deckstring: string,
+		): ProfileDeckData => {
+			let deck = archetype.decks.find(x => x.deckstring === deckstring);
+			if (!deck) {
+				deck = {
+					numWins: 0,
+					globalWinrate: null,
+					numGames: 0,
+					lastPlayed: new Date("1970-01-01Z00:00:00:001"),
+					deckstring,
+					archetype: archetype.archetype,
+					metaTier: null,
+					games: [],
+				};
+				archetype.decks.push(deck);
+			}
+			return deck;
+		};
+
+		replays.forEach(replay => {
+			if (!replay.friendly_player_archetype_id) {
+				return;
+			}
+
+			const archetype = getArchetype(replay.friendly_player_archetype_id);
+			if (!archetype) {
+				return;
+			}
+
+			const won = replay.friendly_player_final_state === 4;
+			const startDate = new Date(replay.match_start);
+
+			archetype.numGames++;
+			if (won) {
+				archetype.numWins++;
+			}
+			if (startDate > archetype.lastPlayed) {
+				archetype.lastPlayed = startDate;
+			}
+
+			const deck = getDeck(archetype, replay.friendly_player_deck);
+			if (!deck) {
+				return;
+			}
+
+			deck.numGames++;
+			if (won) {
+				deck.numWins++;
+			}
+			if (startDate > deck.lastPlayed) {
+				deck.lastPlayed = startDate;
+			}
+
+			const opponentArchetype =
+				archetypeData.find(
+					x => x.id === replay.opponent_archetype_id,
+				) || null;
+
+			deck.games.push({
+				won,
+				opponentArchetype,
+				opponentPlayerClass: replay.opponent_class,
+				rank: replay.friendly_player_rank,
+				legendRank: replay.friendly_player_legend_rank,
+				numTurns: replay.num_turns,
+				date: startDate,
+				duration:
+					new Date(replay.match_end).getTime() - startDate.getTime(),
+				twitchVod: null,
+				replay: replay.replay_xml,
+			});
+		});
+
+		data.sort((a, b) => b.lastPlayed.getTime() - a.lastPlayed.getTime());
+		data.forEach(archetype => {
+			archetype.decks.sort(
+				(a, b) => b.lastPlayed.getTime() - a.lastPlayed.getTime(),
+			);
+		});
+
+		return data;
 	}
 
 	private getMatchupData(
