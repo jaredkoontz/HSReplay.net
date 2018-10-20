@@ -12,7 +12,9 @@
 		"format:prettier": "prettier --write \"hsreplaynet/static/{scripts,styles}/**/*.{ts,tsx,js,scss}\"",
 		"format:tslint": "tslint \"hsreplaynet/static/scripts/src/**/*\" --project tsconfig.json --fix",
 		"i18n:build": "tsc --outDir \"build/generated/locale-extract\" --target es2017 --sourceMap false --jsx preserve",
-		"i18n:extract": "i18next-scanner --config locale/i18next-scanner.config.js --output locale/hsreplaynet/frontend/ \"build/generated/locale-extract/**/*.js{,x}\""
+		"i18n:extract": "i18next-scanner --config locale/i18next-scanner.config.js --output locale/hsreplaynet/frontend/ \"build/generated/locale-extract/**/*.js{,x}\"",
+		"storybook": "start-storybook -p 6006",
+		"build-storybook": "build-storybook"
 	},
 	"dependencies": {
 		"@sentry/browser": "^4.0.0-beta.12",
@@ -20,13 +22,13 @@
 		"@types/d3": "^4.12.0",
 		"@types/facebook-pixel": "^0.0.19",
 		"@types/google.analytics": "^0.0.37",
-		"@types/i18next": "^8.4.4",
+		"@types/i18next": "^8.4.6",
 		"@types/jquery": "^3.2.16",
 		"@types/lodash": "^4.14.88",
 		"@types/memoize-one": "^3.1.1",
 		"@types/react": "^16.4.14",
 		"@types/react-dom": "^16.0.7",
-		"@types/react-i18next": "^7.8.0",
+		"@types/react-i18next": "^7.8.3",
 		"@types/react-virtualized": "^9.7.10",
 		"@types/stripe": "^5.0.5",
 		"@types/stripe-checkout": "^1.0.1",
@@ -73,8 +75,13 @@
 		"whatwg-fetch": "^2.0.4"
 	},
 	"devDependencies": {
+		"@storybook/addon-actions": "^3.4.11",
+		"@storybook/addon-links": "^3.4.11",
+		"@storybook/addons": "^3.4.11",
+		"@storybook/react": "^3.4.11",
 		"@types/enzyme": "^3.1.14",
 		"@types/jest": "^23.1.1",
+		"babel-runtime": "^6.26.0",
 		"enzyme": "^3.6.0",
 		"enzyme-adapter-react-16": "^1.5.0",
 		"enzyme-to-json": "^3.3.4",

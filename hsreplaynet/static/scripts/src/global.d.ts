@@ -239,6 +239,7 @@ declare module "cookie_js" {
 }
 
 declare namespace cookie {
+	// @ts-ignore
 	export const cookie: Cookie;
 }
 
