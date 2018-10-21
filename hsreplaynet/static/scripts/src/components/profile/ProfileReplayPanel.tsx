@@ -2,7 +2,7 @@ import React from "react";
 import { ProfileGameData } from "./ProfileArchetypeList";
 import { InjectedTranslateProps } from "react-i18next";
 import { translate } from "../../__mocks__/react-i18next";
-import { getCardClassName } from "../../helpers";
+import { getCardClassName, getHeroClassName } from "../../helpers";
 import SemanticAge from "../text/SemanticAge";
 import { formatNumber } from "../../i18n";
 import RankIcon from "../RankIcon";
@@ -41,7 +41,7 @@ class ProfileReplayPanel extends React.Component<Props, State> {
 						>
 							{data.opponentArchetype
 								? data.opponentArchetype.name
-								: opponentClass}
+								: getHeroClassName(opponentClass, t)}
 						</p>
 					</div>
 					<div className="col-lg-2">
