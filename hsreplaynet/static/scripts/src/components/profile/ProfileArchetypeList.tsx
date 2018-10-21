@@ -56,14 +56,35 @@ export default class ProfileArchetypeList extends React.Component<
 
 	public render(): React.ReactNode {
 		return (
-			<ul className="profile-archetype-list">
-				{this.props.data.map(archetypeData => (
-					<ProfileArchetypePanel
-						data={archetypeData}
-						cardData={this.props.cardData}
-					/>
-				))}
-			</ul>
+			<>
+				<div className="profile-archetype-list-header">
+					<div className="col-lg-1 col-md-1 col-sm-hidden col-xs-hidden" />
+					<div className="col-lg-2 col-md-2 col-sm-2 col-xs-2 align-left">
+						Archetype
+					</div>
+					<div className="col-lg-1 col-md-1 col-sm-2 col-xs-2">
+						Winrate
+					</div>
+					<div className="col-lg-1 col-md-1 col-sm-2 col-xs-2">
+						Games
+					</div>
+					<div className="col-lg-2 col-md-1 col-sm-2 col-xs-hidden">
+						Last Played
+					</div>
+					<div className="col-lg-5 col-md-6 col-sm-hidden col-xs-hidden align-left">
+						Cards
+					</div>
+				</div>
+				<div className="clearfix" />
+				<ul className="profile-archetype-list">
+					{this.props.data.map(archetypeData => (
+						<ProfileArchetypePanel
+							data={archetypeData}
+							cardData={this.props.cardData}
+						/>
+					))}
+				</ul>
+			</>
 		);
 	}
 }

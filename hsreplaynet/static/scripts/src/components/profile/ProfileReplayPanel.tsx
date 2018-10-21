@@ -5,6 +5,8 @@ import { translate } from "../../__mocks__/react-i18next";
 import { getCardClassName } from "../../helpers";
 import SemanticAge from "../text/SemanticAge";
 import { formatNumber } from "../../i18n";
+import RankIcon from "../RankIcon";
+import { BnetGameType } from "../../hearthstone";
 
 interface Props extends InjectedTranslateProps {
 	data: ProfileGameData;
@@ -22,13 +24,18 @@ class ProfileReplayPanel extends React.Component<Props, State> {
 		const { data, t } = this.props;
 		const opponentClass = getCardClassName(data.opponentPlayerClass);
 		return (
-			<li>
+			<li className="profile-replay-panel">
 				<div className="data-container">
-					<div className="col-lg-1" />
-					<div className="col-lg-1">
-						{data.won ? t("Won") : t("Lost")}
+					<div
+						className="col-lg-1 col-lg-offset-1"
+						style={{
+							color: data.won ? "green" : "red",
+							textTransform: "uppercase",
+						}}
+					>
+						{data.won ? t("Win") : t("Loss")}
 					</div>
-					<div className="col-lg-2">
+					<div className="col-lg-2 align-left">
 						<p
 							className={`player-class ${opponentClass.toLowerCase()}`}
 						>
@@ -37,15 +44,26 @@ class ProfileReplayPanel extends React.Component<Props, State> {
 								: opponentClass}
 						</p>
 					</div>
-					<div className="col-lg-1">
-						{data.rank
-							? t("Rank {rank}", { rank: data.rank })
-							: t("Legend {rank}", { rank: data.legendRank })}
+					<div className="col-lg-2">
+						{data.rank || data.legendRank ? (
+							<>
+								<RankIcon
+									rank={data.rank}
+									legendRank={data.legendRank}
+									gameType={BnetGameType.BGT_RANKED_STANDARD}
+								/>
+								{data.rank
+									? t("Rank {rank}", { rank: data.rank })
+									: t("Legend {rank}", {
+											rank: data.legendRank,
+									  })}
+							</>
+						) : null}
 					</div>
-					<div className="col-lg-1">{data.numTurns}</div>
-					<div className="col-lg-1">
+					<div className="col-lg-2">
 						<SemanticAge date={data.date} />
 					</div>
+					<div className="col-lg-1">{data.numTurns}</div>
 					<div className="col-lg-1">
 						{t("{durationInMinutes} min", {
 							durationInMinutes: formatNumber(
@@ -54,8 +72,9 @@ class ProfileReplayPanel extends React.Component<Props, State> {
 							),
 						})}
 					</div>
-					<div className="col-lg-1" />
+					<div className="col-lg-2" />
 				</div>
+				<div className="clearfix" />
 			</li>
 		);
 	}

@@ -50,7 +50,7 @@ class Profile extends React.Component<Props, State> {
 							{t("Stats")}
 							{/*TODO: Dropdown*/}
 						</h1>
-						<h2>{t("Archetype Usage")}</h2>
+						<h2>{t("Archetypes Played")}</h2>
 						{this.renderArchetypeList()}
 						<h3>{t("Archetype Matchups")}</h3>
 						{this.renderMatchupMatrix()}

@@ -1,10 +1,15 @@
 import React from "react";
 import { ProfileDeckData } from "./ProfileArchetypeList";
+import { decode as decodeDeckstring } from "deckstrings";
 import CardData from "../../CardData";
 import ProfileReplayList from "./ProfileReplayList";
 import { formatNumber } from "../../i18n";
 import SemanticAge from "../text/SemanticAge";
 import CardIcon from "../CardIcon";
+import { winrateData } from "../../helpers";
+import ExpandTableButton from "./ExpandTableButton";
+import DataInjector from "../DataInjector";
+import LoadingSpinner from "../LoadingSpinner";
 
 interface Props {
 	data: ProfileDeckData;
@@ -24,59 +29,112 @@ export default class ProfileDeckPanel extends React.Component<Props, State> {
 	}
 
 	public render(): React.ReactNode {
+		const { data } = this.props;
+		const winrate = 100 * data.numWins / data.numGames;
+		const hasGlobalWinrate = data.globalWinrate !== null;
+		const wr = winrateData(
+			hasGlobalWinrate ? data.globalWinrate : 50,
+			winrate,
+			2,
+		);
+		const tendency = hasGlobalWinrate ? wr.tendencyStr : null;
+		const winrateStyle = { color: wr.color };
+
 		return (
-			<li>
+			<li className="profile-deck-panel">
 				<div className="data-container">
-					<div className="col-lg-1" />
-					<div className="col-lg-2">
-						<a
-							href="#"
-							onClick={e => {
-								e.preventDefault();
-								this.setState({
-									expanded: !this.state.expanded,
-								});
-							}}
-						>
-							View Games
-						</a>
-					</div>
-					<div className="col-lg-1">
-						<p>
-							{formatNumber(
-								100 *
-									this.props.data.numWins /
-									this.props.data.numGames,
-								1,
-							)}%
-						</p>
-						{this.props.data.globalWinrate ? (
-							<p>
-								Avg.{" "}
-								{formatNumber(this.props.data.globalWinrate, 1)}%
-							</p>
+					<div className="col-lg-2 col-lg-offset-1 align-left">
+						<ExpandTableButton
+							expandText="View Games"
+							collapseText="Hide Games"
+							expanded={this.state.expanded}
+							onExpandedChanged={expanded =>
+								this.setState({ expanded })
+							}
+						/>
+						<div className="top-arrow-up" />
+						{this.state.expanded ? (
+							<div className="bottom-arrow-up" />
 						) : null}
 					</div>
-					<div className="col-lg-1">{this.props.data.numGames}</div>
-					<div className="col-lg-1">
-						<SemanticAge date={this.props.data.lastPlayed} />
+					<div className="col-lg-1 winrate-cell">
+						<div>
+							<p style={winrateStyle}>
+								{tendency}
+								{formatNumber(winrate, 1)}%
+							</p>
+							{data.globalWinrate ? (
+								<p className="global-winrate">
+									Avg. {formatNumber(data.globalWinrate, 1)}%
+								</p>
+							) : null}
+						</div>
 					</div>
-					<div className="col-lg-6">
-						<div className="card-list-container">
-							{this.props.data.archetype.standard_ccp_signature_core.components.map(
-								dbfId => (
-									<CardIcon
-										card={this.props.cardData.fromDbf(
-											dbfId,
-										)}
-									/>
-								),
-							)}
+					<div className="col-lg-1">{data.numGames}</div>
+					<div className="col-lg-2">
+						<SemanticAge date={data.lastPlayed} />
+					</div>
+					<div className="col-lg-5 align-left">
+						<div className="card-list">
+							<DataInjector
+								query={{
+									url: `/api/v1/archetypes/${
+										data.archetype.id
+									}`,
+									key: "archetypeData",
+								}}
+							>
+								{({ archetypeData }) => {
+									if (!archetypeData) {
+										return <LoadingSpinner active small />;
+									}
+									const signature =
+										archetypeData &&
+										archetypeData.standard_signature;
+									const components =
+										signature && signature.components;
+									if (!components) {
+										return null;
+									}
+
+									const ccpSignature = data.archetype.standard_ccp_signature_core.components.slice(
+										0,
+										8,
+									);
+
+									const deck = decodeDeckstring(
+										data.deckstring,
+									);
+									const dbfIds = deck.cards
+										.map(x => x[0])
+										.filter(
+											x => ccpSignature.indexOf(x) === -1,
+										);
+
+									const weights = components
+										.filter(
+											x => dbfIds.indexOf(x[0]) !== -1,
+										)
+										.slice();
+									if (weights) {
+										weights.sort((a, b) => a[1] - b[1]);
+									}
+									return weights
+										.slice(0, 8)
+										.map(([dbfId]) => (
+											<CardIcon
+												card={this.props.cardData.fromDbf(
+													dbfId,
+												)}
+											/>
+										));
+								}}
+							</DataInjector>
 						</div>
 					</div>
 				</div>
 				{this.state.expanded ? (
-					<ProfileReplayList data={this.props.data.games} />
+					<ProfileReplayList data={data.games} />
 				) : null}
 				<div className="clearfix" />
 			</li>

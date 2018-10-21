@@ -36,6 +36,15 @@
 			font-family: "Montserrat", sans-serif;
 		}
 
+		h2 {
+			color: $blue;
+			font-variant: small-caps;
+			font-weight: bold;
+			font-size: 1.8em;
+			margin-bottom: 20px;
+			font-family: "Montserrat", sans-serif;
+		}
+
 		h3 {
 			color: #657b99;
 			text-transform: uppercase;
@@ -183,30 +192,241 @@
 		cursor: default;
 	}
 
+	.expand-table-button {
+		text-transform: uppercase;
+		background: #becad5;
+		padding: 5px 10px;
+		font-weight: normal;
+		text-decoration: none;
+		white-space: nowrap;
+		color: $blue;
+		border-radius: 3px;
+
+		&:hover,
+		&:active {
+			text-decoration: none;
+			color: $offwhite;
+			background: $blue;
+		}
+
+		&.expanded {
+			color: $offwhite;
+			background: $blue;
+			&:hover,
+			&:active {
+				color: $blue;
+				background: #becad5;
+			}
+		}
+
+		.glyphicon {
+			margin-right: 10px;
+		}
+	}
+
+	.align-left {
+		justify-content: flex-start !important;
+		text-align: left !important;
+	}
+
+	.profile-archetype-list-header {
+		background: $blue;
+		color: white;
+		padding: 5px;
+		display: flex;
+		align-items: center;
+		flex-direction: row;
+		height: 34px;
+		font-weight: bold;
+		text-align: center;
+	}
+
 	.profile-archetype-list {
+		padding: 0;
+		font-weight: bold;
+
 		ul {
 			padding: 0;
 		}
+
 		li {
-			min-height: 80px;
+			min-height: 70px;
 			list-style: none;
-			border: 1px solid black;
-			margin: 2px;
+		}
+
+		.player-class {
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		.profile-archetype-panel {
+			background: #e1e8ef;
+			border-bottom: 1px solid #d3dce5;
+
+			&.expanded {
+				background: #d3dce5;
+				padding-bottom: 5px;
+			}
+
+			> .data-container {
+				padding-right: 5px;
+			}
+
+			.expand-table-button {
+				margin-right: 10px;
+			}
 		}
 
 		.data-container {
-			min-height: 80px;
-			display: flex;
-			align-items: center;
-			flex-direction: row;
+			> div {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				flex-direction: row;
+				height: 70px;
+				text-align: center;
+			}
+		}
+
+		.profile-deck-panel {
+			min-height: 55px;
+			margin-right: 5px;
+
+			.data-container {
+				> div {
+					background: #becad5;
+					height: 55px;
+				}
+			}
+
+			&:first-of-type {
+				margin-top: 5px;
+
+				.top-arrow-up {
+					width: 0;
+					height: 0;
+					border-left: 8px solid transparent;
+					border-right: 8px solid transparent;
+					border-bottom: 8px solid #becad5;
+					position: absolute;
+					top: -8px;
+				}
+			}
+
+			.bottom-arrow-up {
+				width: 0;
+				height: 0;
+				border-left: 8px solid transparent;
+				border-right: 8px solid transparent;
+				border-bottom: 8px solid $offwhite;
+				position: absolute;
+				bottom: 0;
+			}
+
+			.expand-table-button {
+				border: 1px solid rgba(0, 0, 0, 0.3);
+				color: $blue;
+
+				&:hover,
+				&:active {
+					background: $offwhite;
+					border-color: $offwhite;
+				}
+
+				&.expanded {
+					background: $offwhite;
+					border-color: $offwhite;
+
+					&:hover,
+					&:active {
+						background: #becad5;
+						border: 1px solid rgba(0, 0, 0, 0.3);
+					}
+				}
+			}
+		}
+
+		.global-winrate {
+			font-weight: normal;
+			font-size: 0.8em;
+			color: $darkgrey;
+		}
+
+		.profile-replay-list-header {
+			color: #4c5965;
+			text-transform: uppercase;
+			padding: 0;
+
+			> div {
+				background: $offwhite;
+				border-bottom: 1px solid #becad5;
+				padding-top: 15px;
+				padding-bottom: 5px;
+				text-align: center;
+
+				&:first-of-type {
+					border-left: 5px solid #becad5;
+				}
+
+				&:last-of-type {
+					border-right: 5px solid #becad5;
+				}
+			}
+		}
+
+		.profile-replay-panel {
+			min-height: 40px;
+
+			.rank-icon-standalone {
+				height: 40px;
+				width: 40px;
+				margin-right: 3px;
+
+				figcaption {
+					font-size: 1em;
+				}
+			}
+
+			.data-container {
+				> div {
+					border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+					background: $offwhite;
+					height: 40px;
+
+					&:first-of-type {
+						border-left: 5px solid #becad5;
+					}
+
+					&:last-of-type {
+						border-right: 5px solid #becad5;
+					}
+				}
+			}
+
+			&:last-of-type {
+				.data-container {
+					> div {
+						border-bottom: 5px solid #becad5;
+					}
+				}
+			}
 		}
 
 		p {
 			margin: 0;
 		}
 
-		.card-list-container {
+		.card-list {
 			display: flex;
+			list-style-type: none;
+			margin-right: 20px;
+
+			.card-icon {
+				float: left;
+				line-height: 50px;
+				margin: 0 3px 0 7px;
+			}
 		}
 	}
 }

@@ -237,6 +237,10 @@ export default class ProfileData extends React.Component<Props> {
 			archetype.decks.sort(
 				(a, b) => b.lastPlayed.getTime() - a.lastPlayed.getTime(),
 			);
+
+			archetype.decks.forEach(deck => {
+				deck.games.sort((a, b) => b.date.getTime() - a.date.getTime());
+			});
 		});
 
 		return data;

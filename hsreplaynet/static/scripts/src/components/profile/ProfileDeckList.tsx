@@ -18,7 +18,7 @@ export default class ProfileDeckList extends React.Component<Props, State> {
 
 	public render(): React.ReactNode {
 		return (
-			<ul className="col-lg-12" style={{ padding: 0 }}>
+			<ul className="col-lg-12">
 				{this.props.data.map(deckData => (
 					<ProfileDeckPanel
 						data={deckData}

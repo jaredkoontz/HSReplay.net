@@ -1,0 +1,41 @@
+import React from "react";
+import { InjectedTranslateProps } from "react-i18next";
+import { translate } from "../../__mocks__/react-i18next";
+
+interface Props extends InjectedTranslateProps {
+	expandText: string;
+	collapseText: string;
+	expanded: boolean;
+	onExpandedChanged: (expanded) => void;
+}
+
+class ExpandTableButton extends React.Component<Props> {
+	public render(): React.ReactNode {
+		const className = ["expand-table-button"];
+		if (this.props.expanded) {
+			className.push("expanded");
+		}
+
+		return (
+			<a
+				className={className.join(" ")}
+				href="#"
+				onClick={e => {
+					e.preventDefault();
+					this.props.onExpandedChanged(!this.props.expanded);
+				}}
+			>
+				{this.props.expanded ? (
+					<span className="glyphicon glyphicon-menu-up" />
+				) : (
+					<span className="glyphicon glyphicon-menu-down" />
+				)}
+				{this.props.expanded
+					? this.props.collapseText
+					: this.props.expandText}
+			</a>
+		);
+	}
+}
+
+export default translate()(ExpandTableButton);
