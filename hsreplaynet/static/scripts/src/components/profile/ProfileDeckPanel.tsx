@@ -135,20 +135,11 @@ export default class ProfileDeckPanel extends React.Component<Props, State> {
 						return null;
 					}
 
-					const ccpSignature = data.archetype.standard_ccp_signature_core.components.slice(
-						0,
-						8,
-					);
-
 					const deckCards = decodeDeckstring(data.deckstring).cards;
 					const deckDbfIds = deckCards.map(x => x[0]);
 					const uniqueCards = cardUniqueness
 						.slice()
-						.filter(
-							x =>
-								deckDbfIds.indexOf(x) !== -1 &&
-								ccpSignature.indexOf(x) === -1,
-						)
+						.filter(x => deckDbfIds.indexOf(x) !== -1)
 						.map(x => [x, deckCards.find(c => c[0] === x)[1]]);
 
 					return uniqueCards
