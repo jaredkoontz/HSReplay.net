@@ -14,6 +14,7 @@ import LoadingSpinner from "../LoadingSpinner";
 interface Props {
 	data: ProfileDeckData;
 	cardData: CardData;
+	cardUniqueness: number[];
 }
 
 interface State {
@@ -90,8 +91,30 @@ export default class ProfileDeckPanel extends React.Component<Props, State> {
 		);
 	}
 
+	private renderCardIcon(dbfId: number, count: number): React.ReactNode {
+		const card = this.props.cardData.fromDbf(dbfId);
+		let mark = "";
+		if (count > 1) {
+			mark = `×${count}`;
+		} else if (card.rarity === "LEGENDARY") {
+			mark = "★";
+		}
+		return (
+			<CardIcon
+				card={card}
+				markStyle={{
+					color: "#f4d442",
+					fontSize: "1em",
+					right: 0,
+					top: 0,
+				}}
+				mark={mark}
+			/>
+		);
+	}
+
 	private renderArchetypeDeck(): React.ReactNode {
-		const { data } = this.props;
+		const { data, cardUniqueness } = this.props;
 
 		return (
 			<DataInjector
@@ -106,7 +129,8 @@ export default class ProfileDeckPanel extends React.Component<Props, State> {
 					}
 					const signature =
 						archetypeData && archetypeData.standard_signature;
-					const components = signature && signature.components;
+					const components =
+						signature && signature.components.slice();
 					if (!components) {
 						return null;
 					}
@@ -116,38 +140,37 @@ export default class ProfileDeckPanel extends React.Component<Props, State> {
 						8,
 					);
 
-					const deck = decodeDeckstring(data.deckstring);
-					const dbfIds = deck.cards
-						.map(x => x[0])
-						.filter(x => ccpSignature.indexOf(x) === -1);
+					const deckCards = decodeDeckstring(data.deckstring).cards;
+					const deckDbfIds = deckCards.map(x => x[0]);
+					const uniqueCards = cardUniqueness
+						.slice()
+						.filter(
+							x =>
+								deckDbfIds.indexOf(x) !== -1 &&
+								ccpSignature.indexOf(x) === -1,
+						)
+						.map(x => [x, deckCards.find(c => c[0] === x)[1]]);
 
-					const weights = components
-						.filter(x => dbfIds.indexOf(x[0]) !== -1)
-						.slice();
-					if (weights) {
-						weights.sort((a, b) => a[1] - b[1]);
-					}
-					return weights
+					return uniqueCards
 						.slice(0, 8)
-						.map(([dbfId]) => (
-							<CardIcon
-								card={this.props.cardData.fromDbf(dbfId)}
-							/>
-						));
+						.map(([dbfId, count]) =>
+							this.renderCardIcon(dbfId, count),
+						);
 				}}
 			</DataInjector>
 		);
 	}
 
 	private renderDeck(): React.ReactNode {
-		const { data } = this.props;
-		const deck = decodeDeckstring(data.deckstring);
-		const dbfIds = deck.cards.map(x => x[0]);
-		return dbfIds
+		const { data, cardUniqueness } = this.props;
+		const deckCards = decodeDeckstring(data.deckstring).cards;
+		const deckDbfIds = deckCards.map(x => x[0]);
+		const uniqueCards = cardUniqueness
+			.slice()
+			.filter(x => deckDbfIds.indexOf(x) !== -1)
+			.map(x => [x, deckCards.find(c => c[0] === x)[1]]);
+		return uniqueCards
 			.slice(0, 8)
-			.map(dbfId => (
-				<CardIcon card={this.props.cardData.fromDbf(dbfId)} />
-			));
-		return null;
+			.map(([dbfId, count]) => this.renderCardIcon(dbfId, count));
 	}
 }
