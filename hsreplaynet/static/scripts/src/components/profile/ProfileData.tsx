@@ -1,9 +1,11 @@
 import React from "react";
 import DataInjector from "../DataInjector";
+import { decode as decodeDeckstring } from "deckstrings";
 import { BnetGameType, CardClass, FormatType } from "../../hearthstone";
 import { Archetype } from "../../utils/api";
 import { ArchetypeData } from "../../interfaces";
 import { ProfileArchetypeData, ProfileDeckData } from "./ProfileArchetypeList";
+import { getCardClassName } from "../../helpers";
 
 export type ProfileDataType = "MatchupData" | "ArchetypeListData";
 
@@ -134,17 +136,25 @@ export default class ProfileData extends React.Component<Props> {
 	): ProfileArchetypeData[] {
 		const data: ProfileArchetypeData[] = [];
 
-		const getArchetype = (id: number): ProfileArchetypeData => {
-			let profileArchetypeData = data.find(x => x.archetype.id === id);
+		const getArchetype = (
+			id: number | null,
+			playerClass: string,
+		): ProfileArchetypeData => {
+			let profileArchetypeData =
+				id === null
+					? data.find(
+							x =>
+								x.archetype === null &&
+								x.playerClass === playerClass,
+					  )
+					: data.find(x => x.archetype && x.archetype.id === id);
 			if (!profileArchetypeData) {
-				const archetype = archetypeData.find(x => x.id === id);
-				if (!archetype) {
-					return null;
-				}
+				const archetype = archetypeData.find(x => x.id === id) || null;
 				const globalData = globalMatchupData.series.metadata["" + id];
 				const globalWinrate = globalData ? globalData.win_rate : null;
 				profileArchetypeData = {
 					archetype,
+					playerClass,
 					numWins: 0,
 					globalWinrate,
 					metaTier: null,
@@ -178,15 +188,27 @@ export default class ProfileData extends React.Component<Props> {
 			return deck;
 		};
 
-		replays.forEach(replay => {
-			if (!replay.friendly_player_archetype_id) {
-				return;
+		const isValidDeck = (deckstring: string): boolean => {
+			let decodedDeck = null;
+			try {
+				decodedDeck = decodeDeckstring(deckstring);
+			} catch (exception) {
+				return false;
 			}
+			const numCards = decodedDeck.cards
+				.map(x => x[1])
+				.reduce((a, b) => a + b, 0);
+			return numCards === 30;
+		};
 
-			const archetype = getArchetype(replay.friendly_player_archetype_id);
-			if (!archetype) {
+		replays.forEach(replay => {
+			if (!isValidDeck(replay.friendly_player_deck)) {
 				return;
 			}
+			const archetype = getArchetype(
+				replay.friendly_player_archetype_id || null,
+				getCardClassName(replay.friendly_player_class),
+			);
 
 			const won = replay.friendly_player_final_state === 4;
 			const startDate = new Date(replay.match_start);

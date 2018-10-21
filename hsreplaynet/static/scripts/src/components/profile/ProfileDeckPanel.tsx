@@ -76,60 +76,9 @@ export default class ProfileDeckPanel extends React.Component<Props, State> {
 					</div>
 					<div className="col-lg-5 align-left">
 						<div className="card-list">
-							<DataInjector
-								query={{
-									url: `/api/v1/archetypes/${
-										data.archetype.id
-									}`,
-									key: "archetypeData",
-								}}
-							>
-								{({ archetypeData }) => {
-									if (!archetypeData) {
-										return <LoadingSpinner active small />;
-									}
-									const signature =
-										archetypeData &&
-										archetypeData.standard_signature;
-									const components =
-										signature && signature.components;
-									if (!components) {
-										return null;
-									}
-
-									const ccpSignature = data.archetype.standard_ccp_signature_core.components.slice(
-										0,
-										8,
-									);
-
-									const deck = decodeDeckstring(
-										data.deckstring,
-									);
-									const dbfIds = deck.cards
-										.map(x => x[0])
-										.filter(
-											x => ccpSignature.indexOf(x) === -1,
-										);
-
-									const weights = components
-										.filter(
-											x => dbfIds.indexOf(x[0]) !== -1,
-										)
-										.slice();
-									if (weights) {
-										weights.sort((a, b) => a[1] - b[1]);
-									}
-									return weights
-										.slice(0, 8)
-										.map(([dbfId]) => (
-											<CardIcon
-												card={this.props.cardData.fromDbf(
-													dbfId,
-												)}
-											/>
-										));
-								}}
-							</DataInjector>
+							{data.archetype !== null
+								? this.renderArchetypeDeck()
+								: this.renderDeck()}
 						</div>
 					</div>
 				</div>
@@ -139,5 +88,66 @@ export default class ProfileDeckPanel extends React.Component<Props, State> {
 				<div className="clearfix" />
 			</li>
 		);
+	}
+
+	private renderArchetypeDeck(): React.ReactNode {
+		const { data } = this.props;
+
+		return (
+			<DataInjector
+				query={{
+					url: `/api/v1/archetypes/${data.archetype.id}`,
+					key: "archetypeData",
+				}}
+			>
+				{({ archetypeData }) => {
+					if (!archetypeData) {
+						return <LoadingSpinner active small />;
+					}
+					const signature =
+						archetypeData && archetypeData.standard_signature;
+					const components = signature && signature.components;
+					if (!components) {
+						return null;
+					}
+
+					const ccpSignature = data.archetype.standard_ccp_signature_core.components.slice(
+						0,
+						8,
+					);
+
+					const deck = decodeDeckstring(data.deckstring);
+					const dbfIds = deck.cards
+						.map(x => x[0])
+						.filter(x => ccpSignature.indexOf(x) === -1);
+
+					const weights = components
+						.filter(x => dbfIds.indexOf(x[0]) !== -1)
+						.slice();
+					if (weights) {
+						weights.sort((a, b) => a[1] - b[1]);
+					}
+					return weights
+						.slice(0, 8)
+						.map(([dbfId]) => (
+							<CardIcon
+								card={this.props.cardData.fromDbf(dbfId)}
+							/>
+						));
+				}}
+			</DataInjector>
+		);
+	}
+
+	private renderDeck(): React.ReactNode {
+		const { data } = this.props;
+		const deck = decodeDeckstring(data.deckstring);
+		const dbfIds = deck.cards.map(x => x[0]);
+		return dbfIds
+			.slice(0, 8)
+			.map(dbfId => (
+				<CardIcon card={this.props.cardData.fromDbf(dbfId)} />
+			));
+		return null;
 	}
 }

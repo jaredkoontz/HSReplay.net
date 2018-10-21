@@ -10,7 +10,8 @@ interface Props {
 }
 
 export interface ProfileArchetypeData {
-	archetype: Archetype;
+	archetype: Archetype | null;
+	playerClass: string;
 	numWins: number;
 	globalWinrate: number | null;
 	metaTier: number | null;
