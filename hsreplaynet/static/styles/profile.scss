@@ -291,6 +291,15 @@
 				padding-bottom: 5px;
 			}
 
+			.player-class a {
+				color: black;
+
+				&:hover,
+				&:active {
+					color: black;
+				}
+			}
+
 			> .data-container {
 				padding-right: 5px;
 			}

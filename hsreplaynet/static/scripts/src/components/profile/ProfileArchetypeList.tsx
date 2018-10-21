@@ -7,6 +7,7 @@ import { CardClass } from "../../hearthstone";
 interface Props {
 	data: ProfileArchetypeData[];
 	cardData: CardData;
+	gameType: string;
 }
 
 export interface ProfileArchetypeData {
@@ -82,6 +83,7 @@ export default class ProfileArchetypeList extends React.Component<
 						<ProfileArchetypePanel
 							data={archetypeData}
 							cardData={this.props.cardData}
+							gameType={this.props.gameType}
 						/>
 					))}
 				</ul>

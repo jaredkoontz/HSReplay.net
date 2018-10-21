@@ -9,10 +9,12 @@ import { getHeroClassName, winrateData } from "../../helpers";
 import ExpandTableButton from "./ExpandTableButton";
 import { translate } from "../../__mocks__/react-i18next";
 import { InjectedTranslateProps } from "react-i18next";
+import ArchetypeSignatureTooltip from "../metaoverview/ArchetypeSignatureTooltip";
 
 interface Props extends InjectedTranslateProps {
 	data: ProfileArchetypeData;
 	cardData: CardData;
+	gameType: string;
 }
 
 interface State {
@@ -58,14 +60,30 @@ class ProfileArchetypePanel extends React.Component<Props, State> {
 						<p
 							className={`player-class ${data.playerClass.toLowerCase()}`}
 						>
-							{data.archetype
-								? data.archetype.name
-								: t("Other {cardClass}", {
-										cardClass: getHeroClassName(
-											data.playerClass,
-											t,
-										),
-								  })}
+							{data.archetype ? (
+								<ArchetypeSignatureTooltip
+									key={data.archetype.id}
+									cardData={this.props.cardData}
+									archetypeId={data.archetype.id}
+									archetypeName={data.archetype.name}
+									gameType={this.props.gameType}
+								>
+									<a
+										href={`/archetypes/${
+											data.archetype.id
+										}`}
+									>
+										{data.archetype.name}
+									</a>
+								</ArchetypeSignatureTooltip>
+							) : (
+								t("Other {cardClass}", {
+									cardClass: getHeroClassName(
+										data.playerClass,
+										t,
+									),
+								})
+							)}
 						</p>
 					</div>
 					<div className="col-lg-1 col-md-1 col-sm-2 col-xs-2">

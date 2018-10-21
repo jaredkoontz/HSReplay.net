@@ -109,6 +109,7 @@ class Profile extends React.Component<Props, State> {
 						<ProfileArchetypeList
 							data={data}
 							cardData={this.props.cardData}
+							gameType={this.props.gameType}
 						/>
 					);
 				}}
