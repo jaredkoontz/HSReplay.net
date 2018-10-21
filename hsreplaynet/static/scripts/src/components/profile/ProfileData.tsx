@@ -1,6 +1,6 @@
 import React from "react";
 import DataInjector from "../DataInjector";
-import { decode as decodeDeckstring } from "deckstrings";
+import { DeckDefinition, decode as decodeDeckstring } from "deckstrings";
 import { BnetGameType, CardClass, FormatType } from "../../hearthstone";
 import { Archetype } from "../../utils/api";
 import { ArchetypeData } from "../../interfaces";
@@ -90,11 +90,21 @@ export default class ProfileData extends React.Component<Props> {
 						params: {}, // TODO: add params
 						url: "head_to_head_archetype_matchups",
 					},
+					{
+						key: "deckData",
+						params: {}, // TODO: add params
+						url: "list_decks_by_win_rate",
+					},
 				]}
 			>
-				{({ replays, archetypeData, matchupData }) => {
+				{({ replays, archetypeData, matchupData, deckData }) => {
 					return (this.props.children as any)(
-						this.transformData(replays, archetypeData, matchupData),
+						this.transformData(
+							replays,
+							archetypeData,
+							matchupData,
+							deckData,
+						),
 					);
 				}}
 			</DataInjector>
@@ -105,8 +115,9 @@ export default class ProfileData extends React.Component<Props> {
 		replays: ReplayData[],
 		archetypeData: Archetype[],
 		globalMatchupData: any,
+		deckData: any,
 	): any {
-		if (!replays || !archetypeData || !globalMatchupData) {
+		if (!replays || !archetypeData || !globalMatchupData || !deckData) {
 			return null;
 		}
 		const filteredReplays = this.props.replayFilter
@@ -124,6 +135,7 @@ export default class ProfileData extends React.Component<Props> {
 					filteredReplays,
 					archetypeData,
 					globalMatchupData,
+					deckData,
 				);
 		}
 		return null;
@@ -133,6 +145,7 @@ export default class ProfileData extends React.Component<Props> {
 		replays: ReplayData[],
 		archetypeData: Archetype[],
 		globalMatchupData: any,
+		deckData: any,
 	): ProfileArchetypeData[] {
 		const data: ProfileArchetypeData[] = [];
 
@@ -167,15 +180,34 @@ export default class ProfileData extends React.Component<Props> {
 			return profileArchetypeData;
 		};
 
+		const getGlobalDeck = (
+			deckDef: DeckDefinition,
+			cardClass: string,
+		): any => {
+			return deckData.series.data[cardClass].find(deck =>
+				JSON.parse(deck.deck_list).every(([gDbfId, gCount]) =>
+					deckDef.cards.some(
+						([dbfId, count]) =>
+							dbfId === gDbfId && count === gCount,
+					),
+				),
+			);
+		};
+
 		const getDeck = (
 			archetype: ProfileArchetypeData,
 			deckstring: string,
+			deckDef: DeckDefinition,
 		): ProfileDeckData => {
 			let deck = archetype.decks.find(x => x.deckstring === deckstring);
 			if (!deck) {
+				const globalDeck = getGlobalDeck(
+					deckDef,
+					archetype.playerClass,
+				);
 				deck = {
 					numWins: 0,
-					globalWinrate: null,
+					globalWinrate: globalDeck ? globalDeck.win_rate : null,
 					numGames: 0,
 					lastPlayed: new Date("1970-01-01Z00:00:00:001"),
 					deckstring,
@@ -188,21 +220,24 @@ export default class ProfileData extends React.Component<Props> {
 			return deck;
 		};
 
-		const isValidDeck = (deckstring: string): boolean => {
-			let decodedDeck = null;
+		const tryDecodeDeckstring = (deckstring: string): DeckDefinition => {
 			try {
-				decodedDeck = decodeDeckstring(deckstring);
+				return decodeDeckstring(deckstring);
 			} catch (exception) {
-				return false;
+				return null;
 			}
-			const numCards = decodedDeck.cards
+		};
+
+		const isValidDeck = (deck: DeckDefinition): boolean => {
+			const numCards = deck.cards
 				.map(x => x[1])
 				.reduce((a, b) => a + b, 0);
 			return numCards === 30;
 		};
 
 		replays.forEach(replay => {
-			if (!isValidDeck(replay.friendly_player_deck)) {
+			const deckDef = tryDecodeDeckstring(replay.friendly_player_deck);
+			if (deckDef === null || !isValidDeck(deckDef)) {
 				return;
 			}
 			const archetype = getArchetype(
@@ -221,7 +256,11 @@ export default class ProfileData extends React.Component<Props> {
 				archetype.lastPlayed = startDate;
 			}
 
-			const deck = getDeck(archetype, replay.friendly_player_deck);
+			const deck = getDeck(
+				archetype,
+				replay.friendly_player_deck,
+				deckDef,
+			);
 			if (!deck) {
 				return;
 			}
