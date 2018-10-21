@@ -2,7 +2,7 @@ import React from "react";
 import { ProfileGameData } from "./ProfileArchetypeList";
 import { InjectedTranslateProps } from "react-i18next";
 import { translate } from "../../__mocks__/react-i18next";
-import { getCardClassName, getHeroClassName } from "../../helpers";
+import { getCardClassName, getHeroClassName, image } from "../../helpers";
 import SemanticAge from "../text/SemanticAge";
 import { formatNumber } from "../../i18n";
 import RankIcon from "../RankIcon";
@@ -72,7 +72,18 @@ class ProfileReplayPanel extends React.Component<Props, State> {
 							),
 						})}
 					</div>
-					<div className="col-lg-2" />
+					<div className="col-lg-2">
+						{data.replayUrl ? (
+							<a className="replay-link" href={data.replayUrl}>
+								<span className="glyphicon glyphicon-triangle-right" />
+							</a>
+						) : null}
+						{data.twitchVod ? (
+							<a className="twitch-link" href={data.twitchVod}>
+								<img src={image("socialauth/twitch.png")} />
+							</a>
+						) : null}
+					</div>
 				</div>
 				<div className="clearfix" />
 			</li>

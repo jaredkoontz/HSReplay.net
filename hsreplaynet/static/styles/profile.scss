@@ -388,6 +388,44 @@
 				}
 			}
 
+			.replay-link {
+				color: $blue;
+				width: 24px;
+				height: 24px;
+				border: 2px solid $blue;
+				border-radius: 4px;
+
+				.glyphicon {
+					top: 3px;
+					left: 1px;
+					display: block;
+				}
+
+				&:hover,
+				&:active {
+					background: rgba(29, 54, 87, 0.2);
+					text-decoration: none;
+				}
+			}
+
+			.twitch-link {
+				width: 24px;
+				height: 24px;
+				border: 2px solid $twitch-purple;
+				border-radius: 4px;
+				margin-left: 8px;
+
+				img {
+					margin-top: -1px;
+				}
+
+				&:hover,
+				&:active {
+					background: rgba(100, 63, 166, 0.2);
+					text-decoration: none;
+				}
+			}
+
 			.data-container {
 				> div {
 					border-bottom: 1px solid rgba(0, 0, 0, 0.1);

@@ -235,6 +235,12 @@ export default class ProfileData extends React.Component<Props> {
 			return numCards === 30;
 		};
 
+		const getReplayUrl = (replayXml: string): string => {
+			const replayRegex = /^replays(\/.*)?\/(\w+)\.hsreplay\.xml$/;
+			const match = replayRegex.exec(replayXml);
+			return match ? `/replay/${match[2]}` : null;
+		};
+
 		replays.forEach(replay => {
 			const deckDef = tryDecodeDeckstring(replay.friendly_player_deck);
 			if (deckDef === null || !isValidDeck(deckDef)) {
@@ -289,7 +295,7 @@ export default class ProfileData extends React.Component<Props> {
 				duration:
 					new Date(replay.match_end).getTime() - startDate.getTime(),
 				twitchVod: null,
-				replay: replay.replay_xml,
+				replayUrl: getReplayUrl(replay.replay_xml),
 			});
 		});
 

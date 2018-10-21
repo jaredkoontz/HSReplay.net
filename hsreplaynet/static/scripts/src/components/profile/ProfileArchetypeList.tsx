@@ -41,7 +41,7 @@ export interface ProfileGameData {
 	date: Date;
 	duration: number;
 	twitchVod: string | null;
-	replay: string | null;
+	replayUrl: string | null;
 }
 
 interface State {}
