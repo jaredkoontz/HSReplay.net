@@ -13,6 +13,8 @@ import ArchetypeMatrix from "../components/metaoverview/matchups/ArchetypeMatrix
 import Tab from "../components/layout/Tab";
 import TabList from "../components/layout/TabList";
 import ProfileArchetypeList from "../components/profile/ProfileArchetypeList";
+import OptionalSelect from "../components/OptionalSelect";
+import { prettyTimeRange } from "../components/text/PrettyTimeRange";
 
 interface Props extends InjectedTranslateProps {
 	cardData: CardData;
@@ -46,10 +48,23 @@ class Profile extends React.Component<Props, State> {
 					setTab={tab => this.props.setGameType(tab)}
 				>
 					<Tab id={"RANKED_STANDARD"} label={"Ranked Standard"}>
-						<h1>
-							{t("Stats")}
-							{/*TODO: Dropdown*/}
-						</h1>
+						<div className="stats-header">
+							<h1>{t("Stats")}</h1>
+							<OptionalSelect
+								default={prettyTimeRange("CURRENT_SEASON", t)}
+								defaultKey={"CURRENT_SEASON"}
+								options={{
+									PREVIOUS_SEASON: prettyTimeRange(
+										"PREVIOUS_SEASON",
+										t,
+									),
+								}}
+								value={this.props.statsTimeFrame}
+								onSelect={value =>
+									this.props.setStatsTimeFrame(value)
+								}
+							/>
+						</div>
 						<h2>{t("Archetypes Played")}</h2>
 						{this.renderArchetypeList()}
 						<h3>{t("Archetype Matchups")}</h3>
@@ -64,6 +79,10 @@ class Profile extends React.Component<Props, State> {
 
 	private renderArchetypeList(): React.ReactNode {
 		const [startDate, endDate] = this.getTimeFrame();
+		if (!startDate || !endDate) {
+			console.error("Invalid timeframe " + this.props.statsTimeFrame);
+			return null;
+		}
 		return (
 			<ProfileData
 				userId={this.props.userId}
@@ -103,8 +122,14 @@ class Profile extends React.Component<Props, State> {
 			case "CURRENT_SEASON": {
 				return [new Date(now.getFullYear(), now.getMonth(), 1), now];
 			}
+			case "PREVIOUS_SEASON": {
+				return [
+					new Date(now.getFullYear(), now.getMonth() - 1, 1),
+					new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, -1),
+				];
+			}
 		}
-		return null;
+		return [null, null];
 	}
 
 	private renderMatchupMatrix(): React.ReactNode {
@@ -112,6 +137,10 @@ class Profile extends React.Component<Props, State> {
 		const cellWidth = 90;
 		const cellHeight = 50;
 		const [startDate, endDate] = this.getTimeFrame();
+		if (!startDate || !endDate) {
+			console.error("Invalid timeframe " + this.props.statsTimeFrame);
+			return null;
+		}
 		return (
 			<ProfileData
 				userId={this.props.userId}
