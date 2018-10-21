@@ -1,11 +1,16 @@
 import React from "react";
 import DataInjector from "../DataInjector";
-import { DeckDefinition, decode as decodeDeckstring } from "deckstrings";
+import {
+	DeckDefinition,
+	decode as decodeDeckstring,
+	encode as encodeDeckstring,
+} from "deckstrings";
 import { BnetGameType, CardClass, FormatType } from "../../hearthstone";
 import { Archetype } from "../../utils/api";
 import { ArchetypeData } from "../../interfaces";
 import { ProfileArchetypeData, ProfileDeckData } from "./ProfileArchetypeList";
-import { getCardClassName } from "../../helpers";
+import { getCardClassName, getHeroCardId } from "../../helpers";
+import CardData from "../../CardData";
 
 export type ProfileDataType = "MatchupData" | "ArchetypeListData";
 
@@ -15,6 +20,7 @@ interface Props {
 	replayFilter?: (replay: ReplayData) => boolean;
 	replayStartDate: string;
 	replayEndDate: string;
+	cardData: CardData;
 }
 
 export interface ReplayData {
@@ -111,18 +117,65 @@ export default class ProfileData extends React.Component<Props> {
 		);
 	}
 
+	private tryDecodeDeckstring(deckstring: string): DeckDefinition {
+		try {
+			return decodeDeckstring(deckstring);
+		} catch (exception) {
+			return null;
+		}
+	}
+
+	private normalizeDeckstring(deckDef: DeckDefinition): string {
+		const { cardData } = this.props;
+		const hero = cardData.fromDbf(deckDef.heroes[0]);
+		const baseHero = cardData.fromCardId(getHeroCardId(hero.cardClass));
+		deckDef.heroes = [baseHero.dbfId];
+		return encodeDeckstring(deckDef);
+	}
+
 	private transformData(
 		replays: ReplayData[],
 		archetypeData: Archetype[],
 		globalMatchupData: any,
 		deckData: any,
 	): any {
-		if (!replays || !archetypeData || !globalMatchupData || !deckData) {
+		if (
+			!replays ||
+			!archetypeData ||
+			!globalMatchupData ||
+			!deckData ||
+			!this.props.cardData
+		) {
 			return null;
 		}
-		const filteredReplays = this.props.replayFilter
+		const filteredReplays = (this.props.replayFilter
 			? replays.filter(this.props.replayFilter)
-			: replays;
+			: replays
+		).slice();
+		const badReplays = [];
+		const replayXmls = [];
+		filteredReplays.forEach(replay => {
+			const deckDef = this.tryDecodeDeckstring(
+				replay.friendly_player_deck,
+			);
+			if (deckDef === null) {
+				console.error("Could not decode deckstring for:", replay);
+				badReplays.push(replay);
+			} else {
+				replay.friendly_player_deck = this.normalizeDeckstring(deckDef);
+			}
+			if (replayXmls.indexOf(replay.replay_xml) !== -1) {
+				console.error("Duplicate replay:", replay);
+				badReplays.push(replay);
+			}
+			replayXmls.push(replay.replay_xml);
+		});
+		badReplays.forEach(replay => {
+			const index = filteredReplays.indexOf(replay);
+			if (index !== -1) {
+				filteredReplays.splice(index, 1);
+			}
+		});
 		switch (this.props.type) {
 			case "MatchupData":
 				return this.getMatchupData(
@@ -220,14 +273,6 @@ export default class ProfileData extends React.Component<Props> {
 			return deck;
 		};
 
-		const tryDecodeDeckstring = (deckstring: string): DeckDefinition => {
-			try {
-				return decodeDeckstring(deckstring);
-			} catch (exception) {
-				return null;
-			}
-		};
-
 		const isValidDeck = (deck: DeckDefinition): boolean => {
 			const numCards = deck.cards
 				.map(x => x[1])
@@ -242,7 +287,9 @@ export default class ProfileData extends React.Component<Props> {
 		};
 
 		replays.forEach(replay => {
-			const deckDef = tryDecodeDeckstring(replay.friendly_player_deck);
+			const deckDef = this.tryDecodeDeckstring(
+				replay.friendly_player_deck,
+			);
 			if (deckDef === null || !isValidDeck(deckDef)) {
 				return;
 			}

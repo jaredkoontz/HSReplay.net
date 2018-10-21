@@ -85,6 +85,7 @@ class Profile extends React.Component<Props, State> {
 		}
 		return (
 			<ProfileData
+				cardData={this.props.cardData}
 				userId={this.props.userId}
 				type="ArchetypeListData"
 				replayStartDate={startDate.toISOString()}
@@ -154,6 +155,7 @@ class Profile extends React.Component<Props, State> {
 		}
 		return (
 			<ProfileData
+				cardData={this.props.cardData}
 				userId={this.props.userId}
 				type="MatchupData"
 				replayStartDate={startDate.toISOString()}
