@@ -85,15 +85,6 @@ class PaypalCheckoutForm extends React.Component<Props, State> {
 		}
 
 		switch (country.toUpperCase()) {
-			/* FIXME i18n */
-			case "DE":
-				return (
-					<p className="alert alert-danger">
-						{t(
-							"PayPal payments are not currently supported for German PayPal accounts. You may not be able to complete the payment. Consider using a different payment method.",
-						)}
-					</p>
-				);
 			case "CN":
 				return (
 					<p className="alert alert-danger">
