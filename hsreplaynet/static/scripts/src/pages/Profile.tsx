@@ -118,9 +118,20 @@ class Profile extends React.Component<Props, State> {
 	private getTimeFrame(): [Date, Date] {
 		// TODO: Change this to be based on server time
 		const now = new Date();
+		const endOfDay = new Date(
+			now.getFullYear(),
+			now.getMonth(),
+			now.getDate(),
+			23,
+			59,
+			59,
+		);
 		switch (this.props.statsTimeFrame) {
 			case "CURRENT_SEASON": {
-				return [new Date(now.getFullYear(), now.getMonth(), 1), now];
+				return [
+					new Date(now.getFullYear(), now.getMonth(), 1),
+					endOfDay,
+				];
 			}
 			case "PREVIOUS_SEASON": {
 				return [
