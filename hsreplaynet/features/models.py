@@ -1,13 +1,18 @@
+import re
+from datetime import datetime
 from enum import IntEnum
 from uuid import uuid4
 
+from django.conf import settings
 from django.contrib.auth.models import Group
+from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator
 from django.db import models
 from django.dispatch.dispatcher import receiver
 from django.urls import reverse
 from django.utils.timezone import now
 from django_intenum import IntEnumField
+from shortuuid import ShortUUID
 
 
 class FeatureError(Exception):
@@ -139,12 +144,42 @@ class Feature(models.Model):
 		return Group.objects.get(name=self.authorized_group_name)
 
 
-class FeatureInvite(models.Model):
+class Redeemable():
+	@property
+	def is_valid(self) -> bool:
+		raise NotImplementedError
+
+	def redeem_for_user(self, user) -> bool:
+		raise NotImplementedError
+
+
+class FeatureInviteManager(models.Manager):
+	def get_redeemable_by_code(self, code) -> Redeemable:
+		try:
+			invite = self.get(uuid=code)
+		except (FeatureInvite.DoesNotExist, ValidationError):
+			pass
+		else:
+			return invite
+
+		try:
+			alias_code = re.sub("\s", "", code)  # strip whitespaces
+			alias = FeatureInviteAlias.objects.get(code=alias_code)
+		except FeatureInviteAlias.DoesNotExist:
+			pass
+		else:
+			return alias
+
+		raise FeatureInvite.DoesNotExist
+
+
+class FeatureInvite(models.Model, Redeemable):
 	"""
 	Represents an invitation to one or more feature tags.
 	"""
 
 	uuid = models.UUIDField(primary_key=True, editable=False, default=uuid4)
+	objects = FeatureInviteManager()
 	features = models.ManyToManyField(Feature, related_name="invites", blank=True)
 	use_count = models.PositiveIntegerField(
 		default=0, editable=False,
@@ -241,6 +276,79 @@ class FeatureInvite(models.Model):
 			return False
 
 		return True
+
+
+def get_coupon_code():
+	uuid = ShortUUID(alphabet="ACDEFJKLMNPRTUVWXY3479")
+	return uuid.random(length=12)
+
+
+class FeatureInviteAlias(models.Model, Redeemable):
+	"""
+	Represents a short code referencing a FeatureInvite.
+	This allows handing out shorter codes, handing out multiple codes for a single feature,
+	and also auditible codes.
+	"""
+	code = models.CharField(
+		max_length=32, null=False, blank=False, unique=True, default=get_coupon_code
+	)
+	invite = models.ForeignKey(
+		"features.FeatureInvite", on_delete=models.SET_NULL, blank=True, null=True
+	)
+	redeemed_on = models.DateTimeField(blank=True, null=True)
+	redeemed_by = models.ForeignKey(
+		settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True
+	)
+
+	def __str__(self):
+		return self.code
+
+	@property
+	def is_valid(self):
+		if self.redeemed:
+			return False
+		invite = self.invite
+		if not invite:
+			return False
+		return self.invite.is_valid
+
+	@property
+	def redeemed(self):
+		return self.redeemed_on is not None
+
+	def redeem_for_user(self, user):
+		if self.redeemed:
+			raise FeatureInviteAlreadyRedeemedError("Code has already been redeemed")
+
+		if not self.is_valid:
+			raise FeatureError("Code is not valid")
+
+		try:
+			redemption = FeatureInviteAlias.objects.get(invite=self.invite, redeemed_by_id=user.id)
+			if redemption:
+				raise FeatureInviteNotApplicable("Code is not applicable for this user")
+		except FeatureInviteAlias.DoesNotExist:
+			pass
+
+		used = self.invite.redeem_for_user(user)
+		if used:
+			self.redeemed_on = datetime.now()
+			self.redeemed_by = user
+			self.save()
+
+		return used
+
+	class Meta:
+		verbose_name = "Feature invite alias"
+		verbose_name_plural = "Feature invite aliases"
+
+
+class FeatureInviteAlreadyRedeemedError(FeatureError):
+	pass
+
+
+class FeatureInviteNotApplicable(FeatureError):
+	pass
 
 
 @receiver(models.signals.post_save, sender=Feature)
