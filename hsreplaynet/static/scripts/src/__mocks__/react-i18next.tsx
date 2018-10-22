@@ -37,6 +37,10 @@ const mockTranslate = (key, options) => {
 	return icu.parse(key, options);
 };
 
+const mockI18n = {
+	hasResourceBundle: (lng: string, ns: string) => false,
+};
+
 export const translate = () => Component => props => (
-	<Component t={(k, o) => mockTranslate(k, o)} {...props} />
+	<Component t={mockTranslate} i18n={mockI18n} {...props} />
 );

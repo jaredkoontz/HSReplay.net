@@ -26,6 +26,11 @@ exports[`DustFilter calls setDust if the form is submitted: 200 1`] = `
       type="common"
     >
       <DustPreset
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
         isActive={[Function]}
         onClick={[Function]}
         t={[Function]}
@@ -57,6 +62,11 @@ exports[`DustFilter calls setDust if the form is submitted: 200 1`] = `
       type="rare"
     >
       <DustPreset
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
         isActive={[Function]}
         onClick={[Function]}
         t={[Function]}
@@ -88,6 +98,11 @@ exports[`DustFilter calls setDust if the form is submitted: 200 1`] = `
       type="epic"
     >
       <DustPreset
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
         isActive={[Function]}
         onClick={[Function]}
         t={[Function]}
@@ -119,6 +134,11 @@ exports[`DustFilter calls setDust if the form is submitted: 200 1`] = `
       type="legendary"
     >
       <DustPreset
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
         isActive={[Function]}
         onClick={[Function]}
         t={[Function]}
@@ -151,6 +171,11 @@ exports[`DustFilter calls setDust if the form is submitted: 200 1`] = `
       value={2000}
     >
       <DustPreset
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
         isActive={[Function]}
         onClick={[Function]}
         t={[Function]}
@@ -208,6 +233,11 @@ exports[`DustFilter calls setDust if the form is submitted: 1600 1`] = `
       type="common"
     >
       <DustPreset
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
         isActive={[Function]}
         onClick={[Function]}
         t={[Function]}
@@ -239,6 +269,11 @@ exports[`DustFilter calls setDust if the form is submitted: 1600 1`] = `
       type="rare"
     >
       <DustPreset
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
         isActive={[Function]}
         onClick={[Function]}
         t={[Function]}
@@ -270,6 +305,11 @@ exports[`DustFilter calls setDust if the form is submitted: 1600 1`] = `
       type="epic"
     >
       <DustPreset
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
         isActive={[Function]}
         onClick={[Function]}
         t={[Function]}
@@ -301,6 +341,11 @@ exports[`DustFilter calls setDust if the form is submitted: 1600 1`] = `
       type="legendary"
     >
       <DustPreset
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
         isActive={[Function]}
         onClick={[Function]}
         t={[Function]}
@@ -333,6 +378,11 @@ exports[`DustFilter calls setDust if the form is submitted: 1600 1`] = `
       value={2000}
     >
       <DustPreset
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
         isActive={[Function]}
         onClick={[Function]}
         t={[Function]}
@@ -399,6 +449,11 @@ exports[`DustFilter calls setDust if the input is blurred: 200 1`] = `
       type="common"
     >
       <DustPreset
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
         isActive={[Function]}
         onClick={[Function]}
         t={[Function]}
@@ -430,6 +485,11 @@ exports[`DustFilter calls setDust if the input is blurred: 200 1`] = `
       type="rare"
     >
       <DustPreset
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
         isActive={[Function]}
         onClick={[Function]}
         t={[Function]}
@@ -461,6 +521,11 @@ exports[`DustFilter calls setDust if the input is blurred: 200 1`] = `
       type="epic"
     >
       <DustPreset
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
         isActive={[Function]}
         onClick={[Function]}
         t={[Function]}
@@ -492,6 +557,11 @@ exports[`DustFilter calls setDust if the input is blurred: 200 1`] = `
       type="legendary"
     >
       <DustPreset
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
         isActive={[Function]}
         onClick={[Function]}
         t={[Function]}
@@ -524,6 +594,11 @@ exports[`DustFilter calls setDust if the input is blurred: 200 1`] = `
       value={2000}
     >
       <DustPreset
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
         isActive={[Function]}
         onClick={[Function]}
         t={[Function]}
@@ -581,6 +656,11 @@ exports[`DustFilter calls setDust if the input is blurred: 1600 1`] = `
       type="common"
     >
       <DustPreset
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
         isActive={[Function]}
         onClick={[Function]}
         t={[Function]}
@@ -612,6 +692,11 @@ exports[`DustFilter calls setDust if the input is blurred: 1600 1`] = `
       type="rare"
     >
       <DustPreset
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
         isActive={[Function]}
         onClick={[Function]}
         t={[Function]}
@@ -643,6 +728,11 @@ exports[`DustFilter calls setDust if the input is blurred: 1600 1`] = `
       type="epic"
     >
       <DustPreset
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
         isActive={[Function]}
         onClick={[Function]}
         t={[Function]}
@@ -674,6 +764,11 @@ exports[`DustFilter calls setDust if the input is blurred: 1600 1`] = `
       type="legendary"
     >
       <DustPreset
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
         isActive={[Function]}
         onClick={[Function]}
         t={[Function]}
@@ -706,6 +801,11 @@ exports[`DustFilter calls setDust if the input is blurred: 1600 1`] = `
       value={2000}
     >
       <DustPreset
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
         isActive={[Function]}
         onClick={[Function]}
         t={[Function]}

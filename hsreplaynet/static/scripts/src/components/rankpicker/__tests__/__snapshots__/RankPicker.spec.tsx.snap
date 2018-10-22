@@ -45,6 +45,11 @@ exports[`RankPicker allows selecting a single Rank: all 1`] = `
             "selected",
           ]
         }
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
         onClick={[Function]}
         rank={0}
         t={[Function]}
@@ -100,6 +105,11 @@ exports[`RankPicker allows selecting a single Rank: all 1`] = `
             "selected",
           ]
         }
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
         onClick={[Function]}
         rank={1}
         t={[Function]}
@@ -135,6 +145,11 @@ exports[`RankPicker allows selecting a single Rank: all 1`] = `
           Array [
             "selected",
           ]
+        }
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
         }
         onClick={[Function]}
         rank={2}
@@ -172,6 +187,11 @@ exports[`RankPicker allows selecting a single Rank: all 1`] = `
             "selected",
           ]
         }
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
         onClick={[Function]}
         rank={3}
         t={[Function]}
@@ -208,6 +228,11 @@ exports[`RankPicker allows selecting a single Rank: all 1`] = `
             "selected",
           ]
         }
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
         onClick={[Function]}
         rank={4}
         t={[Function]}
@@ -243,6 +268,11 @@ exports[`RankPicker allows selecting a single Rank: all 1`] = `
           Array [
             "selected",
           ]
+        }
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
         }
         onClick={[Function]}
         rank={5}
@@ -299,6 +329,11 @@ exports[`RankPicker allows selecting a single Rank: all 1`] = `
             "selected",
           ]
         }
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
         onClick={[Function]}
         rank={6}
         t={[Function]}
@@ -334,6 +369,11 @@ exports[`RankPicker allows selecting a single Rank: all 1`] = `
           Array [
             "selected",
           ]
+        }
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
         }
         onClick={[Function]}
         rank={7}
@@ -371,6 +411,11 @@ exports[`RankPicker allows selecting a single Rank: all 1`] = `
             "selected",
           ]
         }
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
         onClick={[Function]}
         rank={8}
         t={[Function]}
@@ -407,6 +452,11 @@ exports[`RankPicker allows selecting a single Rank: all 1`] = `
             "selected",
           ]
         }
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
         onClick={[Function]}
         rank={9}
         t={[Function]}
@@ -442,6 +492,11 @@ exports[`RankPicker allows selecting a single Rank: all 1`] = `
           Array [
             "selected",
           ]
+        }
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
         }
         onClick={[Function]}
         rank={10}
@@ -498,6 +553,11 @@ exports[`RankPicker allows selecting a single Rank: all 1`] = `
             "selected",
           ]
         }
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
         onClick={[Function]}
         rank={11}
         t={[Function]}
@@ -533,6 +593,11 @@ exports[`RankPicker allows selecting a single Rank: all 1`] = `
           Array [
             "selected",
           ]
+        }
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
         }
         onClick={[Function]}
         rank={12}
@@ -570,6 +635,11 @@ exports[`RankPicker allows selecting a single Rank: all 1`] = `
             "selected",
           ]
         }
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
         onClick={[Function]}
         rank={13}
         t={[Function]}
@@ -606,6 +676,11 @@ exports[`RankPicker allows selecting a single Rank: all 1`] = `
             "selected",
           ]
         }
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
         onClick={[Function]}
         rank={14}
         t={[Function]}
@@ -641,6 +716,11 @@ exports[`RankPicker allows selecting a single Rank: all 1`] = `
           Array [
             "selected",
           ]
+        }
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
         }
         onClick={[Function]}
         rank={15}
@@ -697,6 +777,11 @@ exports[`RankPicker allows selecting a single Rank: all 1`] = `
             "selected",
           ]
         }
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
         onClick={[Function]}
         rank={16}
         t={[Function]}
@@ -732,6 +817,11 @@ exports[`RankPicker allows selecting a single Rank: all 1`] = `
           Array [
             "selected",
           ]
+        }
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
         }
         onClick={[Function]}
         rank={17}
@@ -769,6 +859,11 @@ exports[`RankPicker allows selecting a single Rank: all 1`] = `
             "selected",
           ]
         }
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
         onClick={[Function]}
         rank={18}
         t={[Function]}
@@ -805,6 +900,11 @@ exports[`RankPicker allows selecting a single Rank: all 1`] = `
             "selected",
           ]
         }
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
         onClick={[Function]}
         rank={19}
         t={[Function]}
@@ -840,6 +940,11 @@ exports[`RankPicker allows selecting a single Rank: all 1`] = `
           Array [
             "selected",
           ]
+        }
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
         }
         onClick={[Function]}
         rank={20}
@@ -919,6 +1024,11 @@ exports[`RankPicker allows selecting a single Rank: rank 17 1`] = `
             "selected",
           ]
         }
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
         onClick={[Function]}
         rank={0}
         t={[Function]}
@@ -974,6 +1084,11 @@ exports[`RankPicker allows selecting a single Rank: rank 17 1`] = `
             "selected",
           ]
         }
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
         onClick={[Function]}
         rank={1}
         t={[Function]}
@@ -1009,6 +1124,11 @@ exports[`RankPicker allows selecting a single Rank: rank 17 1`] = `
           Array [
             "selected",
           ]
+        }
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
         }
         onClick={[Function]}
         rank={2}
@@ -1046,6 +1166,11 @@ exports[`RankPicker allows selecting a single Rank: rank 17 1`] = `
             "selected",
           ]
         }
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
         onClick={[Function]}
         rank={3}
         t={[Function]}
@@ -1082,6 +1207,11 @@ exports[`RankPicker allows selecting a single Rank: rank 17 1`] = `
             "selected",
           ]
         }
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
         onClick={[Function]}
         rank={4}
         t={[Function]}
@@ -1117,6 +1247,11 @@ exports[`RankPicker allows selecting a single Rank: rank 17 1`] = `
           Array [
             "selected",
           ]
+        }
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
         }
         onClick={[Function]}
         rank={5}
@@ -1173,6 +1308,11 @@ exports[`RankPicker allows selecting a single Rank: rank 17 1`] = `
             "selected",
           ]
         }
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
         onClick={[Function]}
         rank={6}
         t={[Function]}
@@ -1208,6 +1348,11 @@ exports[`RankPicker allows selecting a single Rank: rank 17 1`] = `
           Array [
             "selected",
           ]
+        }
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
         }
         onClick={[Function]}
         rank={7}
@@ -1245,6 +1390,11 @@ exports[`RankPicker allows selecting a single Rank: rank 17 1`] = `
             "selected",
           ]
         }
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
         onClick={[Function]}
         rank={8}
         t={[Function]}
@@ -1281,6 +1431,11 @@ exports[`RankPicker allows selecting a single Rank: rank 17 1`] = `
             "selected",
           ]
         }
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
         onClick={[Function]}
         rank={9}
         t={[Function]}
@@ -1316,6 +1471,11 @@ exports[`RankPicker allows selecting a single Rank: rank 17 1`] = `
           Array [
             "selected",
           ]
+        }
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
         }
         onClick={[Function]}
         rank={10}
@@ -1372,6 +1532,11 @@ exports[`RankPicker allows selecting a single Rank: rank 17 1`] = `
             "selected",
           ]
         }
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
         onClick={[Function]}
         rank={11}
         t={[Function]}
@@ -1407,6 +1572,11 @@ exports[`RankPicker allows selecting a single Rank: rank 17 1`] = `
           Array [
             "selected",
           ]
+        }
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
         }
         onClick={[Function]}
         rank={12}
@@ -1444,6 +1614,11 @@ exports[`RankPicker allows selecting a single Rank: rank 17 1`] = `
             "selected",
           ]
         }
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
         onClick={[Function]}
         rank={13}
         t={[Function]}
@@ -1480,6 +1655,11 @@ exports[`RankPicker allows selecting a single Rank: rank 17 1`] = `
             "selected",
           ]
         }
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
         onClick={[Function]}
         rank={14}
         t={[Function]}
@@ -1515,6 +1695,11 @@ exports[`RankPicker allows selecting a single Rank: rank 17 1`] = `
           Array [
             "selected",
           ]
+        }
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
         }
         onClick={[Function]}
         rank={15}
@@ -1571,6 +1756,11 @@ exports[`RankPicker allows selecting a single Rank: rank 17 1`] = `
             "selected",
           ]
         }
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
         onClick={[Function]}
         rank={16}
         t={[Function]}
@@ -1606,6 +1796,11 @@ exports[`RankPicker allows selecting a single Rank: rank 17 1`] = `
           Array [
             "selected",
           ]
+        }
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
         }
         onClick={[Function]}
         rank={17}
@@ -1643,6 +1838,11 @@ exports[`RankPicker allows selecting a single Rank: rank 17 1`] = `
             "selected",
           ]
         }
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
         onClick={[Function]}
         rank={18}
         t={[Function]}
@@ -1679,6 +1879,11 @@ exports[`RankPicker allows selecting a single Rank: rank 17 1`] = `
             "selected",
           ]
         }
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
         onClick={[Function]}
         rank={19}
         t={[Function]}
@@ -1714,6 +1919,11 @@ exports[`RankPicker allows selecting a single Rank: rank 17 1`] = `
           Array [
             "selected",
           ]
+        }
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
         }
         onClick={[Function]}
         rank={20}
