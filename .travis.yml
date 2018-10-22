@@ -22,7 +22,7 @@ jobs:
       language: node_js
       node_js: "node"
       install:
-        - yarn --pure-lockfile
+        - yarn --frozen-lockfile
         - scripts/get_vendor_static.sh
       script: yarn run jest
       cache: yarn
