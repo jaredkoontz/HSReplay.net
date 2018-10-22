@@ -472,7 +472,7 @@ export default class Table extends React.Component<Props, State> {
 				content = toDynamicFixed(+content) + "%";
 			} else if (column.prettify) {
 				content = toPrettyNumber(+content);
-			} else {
+			} else if (content instanceof Number) {
 				content = sliceZeros(toDynamicFixed(+content));
 			}
 		}

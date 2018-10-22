@@ -1,6 +1,7 @@
 import { CardObj, SortDirection } from "../../../interfaces";
 import { cardSorting } from "../../../helpers";
 import { AnnotatedNumber, TableColumn } from "../Table";
+import React from "react";
 
 export interface CardData {
 	card: CardObj;
@@ -9,7 +10,7 @@ export interface CardData {
 
 interface RowData {
 	card: CardObj;
-	values: Array<number | AnnotatedNumber>;
+	values: Array<number | AnnotatedNumber | React.ReactNode>;
 }
 
 export interface ApiCardStatsData {

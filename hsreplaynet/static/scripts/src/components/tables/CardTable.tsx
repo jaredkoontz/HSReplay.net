@@ -66,7 +66,7 @@ class CardTable extends React.Component<Props> {
 		}
 		const tableRowData = rowData.map(({ card, values }) => {
 			const row: Array<
-				number | AnnotatedNumber | JSX.Element
+				number | AnnotatedNumber | React.ReactNode
 			> = values.slice();
 
 			row.unshift(
