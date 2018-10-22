@@ -2,25 +2,31 @@ import json
 
 from django.http import Http404, JsonResponse
 from django.views.generic import View
+from django_hearthstone.cards.models import Card
 from hearthstone.enums import CardClass, FormatType
 
 from .models import Archetype, ClusterSnapshot
 
 
-class ClusterSnapshotUpdateView(View):
-	def _get_cluster(self, player_class, game_format, cluster_id):
-		player_class_enum = CardClass[player_class.upper()]
-		game_format_enum = FormatType[game_format.upper()]
-		cluster = ClusterSnapshot.objects.filter(
-			class_cluster__player_class=player_class_enum,
-			class_cluster__cluster_set__latest=True,
-			class_cluster__cluster_set__game_format=game_format_enum,
-			cluster_id=int(cluster_id)
-		).first()
-		return cluster
+# Return the cluster from the "latest" set with the specified player class, game format, and
+# cluster id.
 
+def _get_cluster(player_class, game_format, cluster_id):
+	player_class_enum = CardClass[player_class.upper()]
+	game_format_enum = FormatType[game_format.upper()]
+	cluster = ClusterSnapshot.objects.filter(
+		class_cluster__player_class=player_class_enum,
+		class_cluster__cluster_set__latest=True,
+		class_cluster__cluster_set__game_format=game_format_enum,
+		cluster_id=int(cluster_id)
+	).first()
+	return cluster
+
+
+class ClusterSnapshotUpdateView(View):
+
+	@staticmethod
 	def _get_existing_cluster_for_archetype(
-		self,
 		player_class,
 		game_format,
 		archetype_id,
@@ -39,11 +45,11 @@ class ClusterSnapshotUpdateView(View):
 		return result.first()
 
 	def get(self, request, game_format, player_class, cluster_id):
-		cluster = self._get_cluster(player_class, game_format, cluster_id)
+		cluster = _get_cluster(player_class, game_format, cluster_id)
 		return JsonResponse({"cluster_id": cluster.cluster_id}, status=200)
 
 	def patch(self, request, game_format, player_class, cluster_id):
-		cluster = self._get_cluster(player_class, game_format, cluster_id)
+		cluster = _get_cluster(player_class, game_format, cluster_id)
 
 		if not cluster:
 			raise Http404("Cluster not found")
@@ -108,5 +114,50 @@ class ClusterSnapshotUpdateView(View):
 		)
 		for cluster in class_cluster.clusters:
 			cluster.save()
+
+		return JsonResponse({"msg": "OKAY"}, status=200)
+
+
+class ClusterSnapshotRequiredCardsUpdateView(View):
+	"""View handlers for required cards changes for clusters and associated archetypes."""
+
+	def delete(self, request, game_format, player_class, cluster_id, dbf_id_str):
+		cluster = _get_cluster(player_class, game_format, cluster_id)
+
+		if not cluster:
+			raise Http404("Cluster not found")
+
+		dbf_id = int(dbf_id_str)
+
+		if dbf_id in cluster.required_cards:
+			cluster.required_cards.remove(dbf_id)
+			cluster.save()
+
+		# Does the cluster have an archetype? If so, remove the card from the archetype as
+		# well.
+
+		if cluster.external_id:
+			archetype = Archetype.objects.get(pk=cluster.external_id)
+			archetype.required_cards.remove(Card.objects.get(dbf_id=dbf_id))
+
+		return JsonResponse({"msg": "OKAY"}, status=200)
+
+	def put(self, request, game_format, player_class, cluster_id, dbf_id_str):
+		cluster = _get_cluster(player_class, game_format, cluster_id)
+
+		if not cluster:
+			raise Http404("Cluster not found")
+
+		dbf_id = int(dbf_id_str)
+
+		if dbf_id not in cluster.required_cards:
+			cluster.required_cards.append(dbf_id)
+			cluster.save()
+
+		# Does the cluster have an archetype? If so, add the card to the archetype as well.
+
+		if cluster.external_id:
+			archetype = Archetype.objects.get(pk=cluster.external_id)
+			archetype.required_cards.add(Card.objects.get(dbf_id=dbf_id))
 
 		return JsonResponse({"msg": "OKAY"}, status=200)

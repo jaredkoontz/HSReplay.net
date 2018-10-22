@@ -6,7 +6,7 @@ from django.contrib.staticfiles.views import serve
 from django.views.generic import RedirectView
 from oauth2_provider.views import TokenView
 
-from .decks.views import ClusterSnapshotUpdateView
+from .decks.views import ClusterSnapshotRequiredCardsUpdateView, ClusterSnapshotUpdateView
 from .web.sitemap import SITEMAPS
 from .web.views import (
 	ArticlesRedirectView, DownloadsView, HomeView, PingView, SetLocaleView
@@ -102,6 +102,13 @@ urlpatterns = [
 	url(r"^decks/(?P<id>\w+)/$", DeckDetailView.as_view(), name="deck_detail"),
 
 	# TODO: move me to api module
+	url(
+		r"^clusters/latest/(?P<game_format>\w+)/(?P<player_class>\w+)/(?P<cluster_id>\w+)/"
+		r"(?P<dbf_id_str>\w+)/",
+
+		ClusterSnapshotRequiredCardsUpdateView.as_view(),
+		name="update_cluster_required_cards"
+	),
 	url(
 		r"^clusters/latest/(?P<game_format>\w+)/(?P<player_class>\w+)/(?P<cluster_id>\w+)/",
 		ClusterSnapshotUpdateView.as_view(), name="update_cluster_archetype"

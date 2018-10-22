@@ -8,7 +8,9 @@ from hearthstone.enums import CardClass
 from hsreplaynet.decks.models import (
 	Archetype, ClassClusterSnapshot, ClusterSetSnapshot, ClusterSnapshot
 )
-from hsreplaynet.decks.views import ClusterSnapshotUpdateView
+from hsreplaynet.decks.views import (
+	ClusterSnapshotRequiredCardsUpdateView, ClusterSnapshotUpdateView
+)
 
 
 MECHATHUN_DRUID = {
@@ -23,6 +25,26 @@ MECHATHUN_DRUID = {
 	"43417": 0.9334762540196443,
 	"47423": 0.9981405727036073,
 	"48625": 0.9986655874696476,
+}
+
+
+MECHATHUN_QUEST_PRIEST = {
+	"138": 0.9531813781571769,
+	"251": 1.0,
+	"613": 0.7045674557775236,
+	"749": 0.973422511660653,
+	"41169": 1.0,
+	"41494": 1.0,
+	"41885": 0.983895098125495,
+	"42782": 0.98926339875033,
+	"42992": 0.994631699375165,
+	"43112": 1.0,
+	"45353": 0.9965678077972366,
+	"45930": 0.9859192114758426,
+	"47836": 0.98926339875033,
+	"48625": 1.0,
+	"48929": 1.0,
+	"49416": 0.98926339875033
 }
 
 
@@ -142,3 +164,113 @@ class TestClusterSnapshotUpdateView:
 
 		assert new_cluster.name == archetype.name
 		assert new_cluster.required_cards == [48625]
+
+
+class TestClusterSnapshotRequiredCardsUpdateView:
+	view = ClusterSnapshotRequiredCardsUpdateView()
+
+	@pytest.fixture(autouse=True)
+	def setup_method(self, db):
+		self.archetype = Archetype(
+			name="Mecha'thun Quest Priest",
+			player_class=CardClass.PRIEST,
+		)
+		self.archetype.save()
+
+		self.cluster_set = ClusterSetSnapshot(latest=True)
+		self.cluster_set.save()
+
+		self.class_cluster = ClassClusterSnapshot(
+			cluster_set=self.cluster_set,
+			player_class=CardClass.PRIEST
+		)
+		self.class_cluster.save()
+
+		self.cluster = ClusterSnapshot(
+			class_cluster=self.class_cluster,
+			cluster_id=1,
+			data_points=[{
+				"x": 0,
+				"y": 0,
+				"cards": _get_deck_from_deckstring(
+					"AAECAa0GCO0Fw8EC0cEClsQCnccC3PUC8fsCiIIDC4oB+wHlBPIMysMCns4C8M8C6NACqe"
+					"IC6uYCof4CAA=="""
+				),
+				"observations": 1
+			}],
+			signature=MECHATHUN_QUEST_PRIEST
+		)
+		self.cluster.save()
+
+	@pytest.mark.django_db
+	def test_delete(self, client):
+		self.cluster.required_cards = [41494, 48625]
+		self.cluster.save()
+
+		response = client.delete(
+			f"/clusters/latest/FT_STANDARD/PRIEST/{self.cluster.cluster_id}/41494/"
+		)
+
+		assert response.status_code == 200
+
+		self.cluster.refresh_from_db()
+
+		assert self.cluster.required_cards == [48625]
+
+	@pytest.mark.django_db
+	def test_delete_with_archetype(self, client):
+		self.archetype.required_cards.add(Card.objects.get(dbf_id=41494))
+		self.archetype.required_cards.add(Card.objects.get(dbf_id=48625))
+
+		self.cluster.external_id = self.archetype.id
+		self.cluster.required_cards = [41494, 48625]
+		self.cluster.save()
+
+		response = client.delete(
+			f"/clusters/latest/FT_STANDARD/PRIEST/{self.cluster.cluster_id}/41494/"
+		)
+
+		assert response.status_code == 200
+
+		self.archetype.refresh_from_db()
+		self.cluster.refresh_from_db()
+
+		assert self.archetype.required_cards.count() == 1
+		assert self.archetype.required_cards.first() == Card.objects.get(dbf_id=48625)
+		assert self.cluster.required_cards == [48625]
+
+	def test_put(self, client):
+		self.cluster.required_cards = [48625]
+		self.cluster.save()
+
+		response = client.put(
+			f"/clusters/latest/FT_STANDARD/PRIEST/{self.cluster.cluster_id}/41494/"
+		)
+
+		assert response.status_code == 200
+
+		self.cluster.refresh_from_db()
+
+		assert self.cluster.required_cards == [48625, 41494]
+
+	def test_put_with_archetype(self, client):
+		self.archetype.required_cards.add(Card.objects.get(dbf_id=48625))
+
+		self.cluster.external_id = self.archetype.id
+		self.cluster.required_cards = [48625]
+		self.cluster.save()
+
+		response = client.put(
+			f"/clusters/latest/FT_STANDARD/PRIEST/{self.cluster.cluster_id}/41494/"
+		)
+
+		assert response.status_code == 200
+
+		self.archetype.refresh_from_db()
+		self.cluster.refresh_from_db()
+
+		assert self.archetype.required_cards.count() == 2
+		assert Card.objects.get(dbf_id=41494) in self.archetype.required_cards.all()
+		assert Card.objects.get(dbf_id=48625) in self.archetype.required_cards.all()
+
+		assert self.cluster.required_cards == [48625, 41494]
