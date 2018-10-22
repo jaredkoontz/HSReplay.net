@@ -5,6 +5,7 @@ import { InjectedTranslateProps, translate } from "react-i18next";
 import TwitchEmbed from "../components/TwitchEmbed";
 import TwitchVodsTable from "./TwitchVodsTable";
 import CardData from "../CardData";
+import AdUnit from "./ads/AdUnit";
 
 interface Props extends InjectedTranslateProps {
 	archetypeData?: Archetype[];
@@ -79,6 +80,9 @@ class TwitchVods extends React.Component<Props, State> {
 							autoplay
 							allowFullScreen
 						/>
+					</div>
+					<div className="vod-ad-container">
+						<AdUnit id="dd-v-1" size="728x90" />
 					</div>
 				</div>
 				<TwitchVodsTable

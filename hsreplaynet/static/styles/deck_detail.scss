@@ -262,6 +262,15 @@
 					margin: 0 auto;
 					max-width: 900px;
 					max-height: calc(800px * 9 / 16 + 100px);
+					display: flex;
+					justify-content: center;
+					align-items: center;
+				}
+
+				.vod-ad-container {
+					margin-top: 10px;
+					display: flex;
+					justify-content: center;
 				}
 
 				iframe {
