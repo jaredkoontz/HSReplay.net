@@ -8,6 +8,7 @@ interface Props extends InjectedTranslateProps {
 	value: string[];
 	onChange: (value: string[]) => void;
 	collection?: Collection;
+	onlyCollectibleSets?: boolean;
 }
 
 class SetFilter extends React.Component<Props> {
@@ -72,9 +73,13 @@ class SetFilter extends React.Component<Props> {
 				<CardFilterItem value={"HOF"}>
 					{t("GLOBAL_CARD_SET_HOF")}
 				</CardFilterItem>
-				<CardFilterItem value={"TAVERNS_OF_TIME"}>
-					{t("Taverns of Time")}
-				</CardFilterItem>
+				{!this.props.onlyCollectibleSets ? (
+					<>
+						<CardFilterItem value={"TAVERNS_OF_TIME"}>
+							{t("Taverns of Time")}
+						</CardFilterItem>
+					</>
+				) : null}
 			</CardFilterItemGroup>
 		);
 	}

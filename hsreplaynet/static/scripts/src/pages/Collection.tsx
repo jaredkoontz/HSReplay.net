@@ -468,6 +468,7 @@ class Collection extends React.Component<Props, State> {
 				onChange={value => this.props.setSet(value)}
 				value={this.props.set}
 				collection={collection}
+				onlyCollectibleSets
 			/>,
 			<TribeFilter
 				value={this.props.tribe}
