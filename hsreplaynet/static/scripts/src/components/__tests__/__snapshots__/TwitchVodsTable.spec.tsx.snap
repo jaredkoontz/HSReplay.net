@@ -1,0 +1,1829 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
+<Component
+  archetypeData={Array []}
+  cardData={null}
+  gameType="BGT_RANKED_STANDARD"
+  onSelectVod={
+    [MockFunction] {
+      "calls": Array [
+        Array [
+          Object {
+            "channel_name": "brandonsmithx01",
+            "friendly_player_archetype_id": null,
+            "game_date": "2018-10-18T23:00:00Z",
+            "game_length_seconds": 558,
+            "game_type": "BGT_RANKED_STANDARD",
+            "legend_rank": null,
+            "opposing_player_archetype_id": 226,
+            "opposing_player_class": "PRIEST",
+            "rank": 1,
+            "url": "https://www.twitch.tv/videos/320472337?t=6h57m12s",
+            "went_first": true,
+            "won": true,
+          },
+        ],
+      ],
+      "results": undefined,
+    }
+  }
+  selectedVod={
+    Object {
+      "channel_name": "Zuhex",
+      "friendly_player_archetype_id": null,
+      "game_date": "2018-10-09T00:00:00Z",
+      "game_length_seconds": 355,
+      "game_type": "BGT_RANKED_STANDARD",
+      "legend_rank": 1555,
+      "opposing_player_archetype_id": null,
+      "opposing_player_class": null,
+      "rank": null,
+      "url": "https://www.twitch.tv/videos/320509363?t=3h10m4s",
+      "went_first": null,
+      "won": true,
+    }
+  }
+  vods={
+    Array [
+      Object {
+        "channel_name": "Zuhex",
+        "friendly_player_archetype_id": null,
+        "game_date": "2018-10-09T00:00:00Z",
+        "game_length_seconds": 355,
+        "game_type": "BGT_RANKED_STANDARD",
+        "legend_rank": 1555,
+        "opposing_player_archetype_id": null,
+        "opposing_player_class": null,
+        "rank": null,
+        "url": "https://www.twitch.tv/videos/320509363?t=3h10m4s",
+        "went_first": null,
+        "won": true,
+      },
+      Object {
+        "channel_name": "AicoritY",
+        "friendly_player_archetype_id": null,
+        "game_date": "2018-10-14T00:00:00Z",
+        "game_length_seconds": 159,
+        "game_type": "BGT_RANKED_STANDARD",
+        "legend_rank": null,
+        "opposing_player_archetype_id": null,
+        "opposing_player_class": "MAGE",
+        "rank": 2,
+        "url": "https://www.twitch.tv/videos/320346544?t=0h23m9s",
+        "went_first": true,
+        "won": false,
+      },
+      Object {
+        "channel_name": "brandonsmithx01",
+        "friendly_player_archetype_id": null,
+        "game_date": "2018-10-18T23:00:00Z",
+        "game_length_seconds": 558,
+        "game_type": "BGT_RANKED_STANDARD",
+        "legend_rank": null,
+        "opposing_player_archetype_id": 226,
+        "opposing_player_class": "PRIEST",
+        "rank": 1,
+        "url": "https://www.twitch.tv/videos/320472337?t=6h57m12s",
+        "went_first": true,
+        "won": true,
+      },
+      Object {
+        "channel_name": "해까닥여울이",
+        "friendly_player_archetype_id": 11,
+        "game_date": "2018-10-15T00:00:00Z",
+        "game_length_seconds": 690,
+        "game_type": "BGT_RANKED_STANDARD",
+        "legend_rank": 123,
+        "opposing_player_archetype_id": null,
+        "opposing_player_class": "HUNTER",
+        "rank": null,
+        "url": "https://www.twitch.tv/videos/318585453?t=2h3m47s",
+        "went_first": false,
+        "won": false,
+      },
+    ]
+  }
+>
+  <TwitchVodsTable
+    archetypeData={Array []}
+    cardData={null}
+    gameType="BGT_RANKED_STANDARD"
+    i18n={
+      Object {
+        "hasResourceBundle": [Function],
+      }
+    }
+    onSelectVod={
+      [MockFunction] {
+        "calls": Array [
+          Array [
+            Object {
+              "channel_name": "brandonsmithx01",
+              "friendly_player_archetype_id": null,
+              "game_date": "2018-10-18T23:00:00Z",
+              "game_length_seconds": 558,
+              "game_type": "BGT_RANKED_STANDARD",
+              "legend_rank": null,
+              "opposing_player_archetype_id": 226,
+              "opposing_player_class": "PRIEST",
+              "rank": 1,
+              "url": "https://www.twitch.tv/videos/320472337?t=6h57m12s",
+              "went_first": true,
+              "won": true,
+            },
+          ],
+        ],
+        "results": undefined,
+      }
+    }
+    selectedVod={
+      Object {
+        "channel_name": "Zuhex",
+        "friendly_player_archetype_id": null,
+        "game_date": "2018-10-09T00:00:00Z",
+        "game_length_seconds": 355,
+        "game_type": "BGT_RANKED_STANDARD",
+        "legend_rank": 1555,
+        "opposing_player_archetype_id": null,
+        "opposing_player_class": null,
+        "rank": null,
+        "url": "https://www.twitch.tv/videos/320509363?t=3h10m4s",
+        "went_first": null,
+        "won": true,
+      }
+    }
+    t={[Function]}
+    vods={
+      Array [
+        Object {
+          "channel_name": "Zuhex",
+          "friendly_player_archetype_id": null,
+          "game_date": "2018-10-09T00:00:00Z",
+          "game_length_seconds": 355,
+          "game_type": "BGT_RANKED_STANDARD",
+          "legend_rank": 1555,
+          "opposing_player_archetype_id": null,
+          "opposing_player_class": null,
+          "rank": null,
+          "url": "https://www.twitch.tv/videos/320509363?t=3h10m4s",
+          "went_first": null,
+          "won": true,
+        },
+        Object {
+          "channel_name": "AicoritY",
+          "friendly_player_archetype_id": null,
+          "game_date": "2018-10-14T00:00:00Z",
+          "game_length_seconds": 159,
+          "game_type": "BGT_RANKED_STANDARD",
+          "legend_rank": null,
+          "opposing_player_archetype_id": null,
+          "opposing_player_class": "MAGE",
+          "rank": 2,
+          "url": "https://www.twitch.tv/videos/320346544?t=0h23m9s",
+          "went_first": true,
+          "won": false,
+        },
+        Object {
+          "channel_name": "brandonsmithx01",
+          "friendly_player_archetype_id": null,
+          "game_date": "2018-10-18T23:00:00Z",
+          "game_length_seconds": 558,
+          "game_type": "BGT_RANKED_STANDARD",
+          "legend_rank": null,
+          "opposing_player_archetype_id": 226,
+          "opposing_player_class": "PRIEST",
+          "rank": 1,
+          "url": "https://www.twitch.tv/videos/320472337?t=6h57m12s",
+          "went_first": true,
+          "won": true,
+        },
+        Object {
+          "channel_name": "해까닥여울이",
+          "friendly_player_archetype_id": 11,
+          "game_date": "2018-10-15T00:00:00Z",
+          "game_length_seconds": 690,
+          "game_type": "BGT_RANKED_STANDARD",
+          "legend_rank": 123,
+          "opposing_player_archetype_id": null,
+          "opposing_player_class": "HUNTER",
+          "rank": null,
+          "url": "https://www.twitch.tv/videos/318585453?t=2h3m47s",
+          "went_first": false,
+          "won": false,
+        },
+      ]
+    }
+  >
+    <div
+      className="twitch-vod-table"
+    >
+      <div
+        className="twitch-vod-table-filterables"
+      >
+        <OptionalSelect
+          default="Any result"
+          defaultKey="any"
+          onSelect={[Function]}
+          options={
+            Object {
+              "lost": "Losses",
+              "won": "Wins",
+            }
+          }
+          value="won"
+        >
+          <div
+            className="optional-select active"
+          >
+            <select
+              onChange={[Function]}
+              value="won"
+            >
+              <option
+                value="any"
+              >
+                Any result
+              </option>
+              <option
+                key="won"
+                value="won"
+              >
+                Wins
+              </option>
+              <option
+                key="lost"
+                value="lost"
+              >
+                Losses
+              </option>
+            </select>
+            <span
+              className="caret"
+            />
+          </div>
+        </OptionalSelect>
+        <OptionalSelect
+          default="Any opponent"
+          defaultKey="any"
+          onSelect={[Function]}
+          options={
+            Object {
+              "DRUID": "GLOBAL_CLASS_DRUID",
+              "HUNTER": "GLOBAL_CLASS_HUNTER",
+              "MAGE": "GLOBAL_CLASS_MAGE",
+              "PALADIN": "GLOBAL_CLASS_PALADIN",
+              "PRIEST": "GLOBAL_CLASS_PRIEST",
+              "ROGUE": "GLOBAL_CLASS_ROGUE",
+              "SHAMAN": "GLOBAL_CLASS_SHAMAN",
+              "WARLOCK": "GLOBAL_CLASS_WARLOCK",
+              "WARRIOR": "GLOBAL_CLASS_WARRIOR",
+            }
+          }
+          value={null}
+        >
+          <div
+            className="optional-select"
+          >
+            <select
+              onChange={[Function]}
+              value="any"
+            >
+              <option
+                value="any"
+              >
+                Any opponent
+              </option>
+              <option
+                key="DRUID"
+                value="DRUID"
+              >
+                GLOBAL_CLASS_DRUID
+              </option>
+              <option
+                key="HUNTER"
+                value="HUNTER"
+              >
+                GLOBAL_CLASS_HUNTER
+              </option>
+              <option
+                key="MAGE"
+                value="MAGE"
+              >
+                GLOBAL_CLASS_MAGE
+              </option>
+              <option
+                key="PALADIN"
+                value="PALADIN"
+              >
+                GLOBAL_CLASS_PALADIN
+              </option>
+              <option
+                key="PRIEST"
+                value="PRIEST"
+              >
+                GLOBAL_CLASS_PRIEST
+              </option>
+              <option
+                key="ROGUE"
+                value="ROGUE"
+              >
+                GLOBAL_CLASS_ROGUE
+              </option>
+              <option
+                key="SHAMAN"
+                value="SHAMAN"
+              >
+                GLOBAL_CLASS_SHAMAN
+              </option>
+              <option
+                key="WARLOCK"
+                value="WARLOCK"
+              >
+                GLOBAL_CLASS_WARLOCK
+              </option>
+              <option
+                key="WARRIOR"
+                value="WARRIOR"
+              >
+                GLOBAL_CLASS_WARRIOR
+              </option>
+            </select>
+            <span
+              className="caret"
+            />
+          </div>
+        </OptionalSelect>
+        <OptionalSelect
+          default="Any first/coin"
+          defaultKey="any"
+          onSelect={[Function]}
+          options={
+            Object {
+              "coin": "Coin",
+              "first": "First",
+            }
+          }
+          value={null}
+        >
+          <div
+            className="optional-select"
+          >
+            <select
+              onChange={[Function]}
+              value="any"
+            >
+              <option
+                value="any"
+              >
+                Any first/coin
+              </option>
+              <option
+                key="first"
+                value="first"
+              >
+                First
+              </option>
+              <option
+                key="coin"
+                value="coin"
+              >
+                Coin
+              </option>
+            </select>
+            <span
+              className="caret"
+            />
+          </div>
+        </OptionalSelect>
+      </div>
+      <div
+        className="twitch-vod-table-sortables"
+      >
+        <Sortable
+          direction="ascending"
+          onClick={[Function]}
+        >
+          <span
+            className="twitch-vod-table-sortable"
+            onClick={[Function]}
+          >
+            <strong>
+              Rank
+            </strong>
+            <SortIndicator
+              direction="ascending"
+            >
+              <span
+                className="sort-indicator primary"
+              >
+                <span
+                  className="glyphicon glyphicon-triangle-top active"
+                />
+                <span
+                  className="glyphicon glyphicon-triangle-bottom"
+                />
+              </span>
+            </SortIndicator>
+          </span>
+        </Sortable>
+        <Sortable
+          direction={null}
+          onClick={[Function]}
+        >
+          <span
+            className="twitch-vod-table-sortable"
+            onClick={[Function]}
+          >
+            <strong>
+              Broadcaster
+            </strong>
+            <SortIndicator
+              direction={null}
+            >
+              <span
+                className="sort-indicator"
+              >
+                <span
+                  className="glyphicon glyphicon-triangle-top"
+                />
+                <span
+                  className="glyphicon glyphicon-triangle-bottom"
+                />
+              </span>
+            </SortIndicator>
+          </span>
+        </Sortable>
+        <Sortable
+          direction={null}
+          onClick={[Function]}
+        >
+          <span
+            className="twitch-vod-table-sortable"
+            onClick={[Function]}
+          >
+            <strong>
+              Recency
+            </strong>
+            <SortIndicator
+              direction={null}
+            >
+              <span
+                className="sort-indicator"
+              >
+                <span
+                  className="glyphicon glyphicon-triangle-top"
+                />
+                <span
+                  className="glyphicon glyphicon-triangle-bottom"
+                />
+              </span>
+            </SortIndicator>
+          </span>
+        </Sortable>
+        <Sortable
+          direction={null}
+          onClick={[Function]}
+        >
+          <span
+            className="twitch-vod-table-sortable"
+            onClick={[Function]}
+          >
+            <strong>
+              Duration
+            </strong>
+            <SortIndicator
+              direction={null}
+            >
+              <span
+                className="sort-indicator"
+              >
+                <span
+                  className="glyphicon glyphicon-triangle-top"
+                />
+                <span
+                  className="glyphicon glyphicon-triangle-bottom"
+                />
+              </span>
+            </SortIndicator>
+          </span>
+        </Sortable>
+      </div>
+      <ul>
+        <li
+          className="active won"
+          key="https://www.twitch.tv/videos/320509363?t=3h10m4s"
+          onClick={[Function]}
+        >
+          <Component
+            cardData={null}
+            channelName="Zuhex"
+            gameDate={2018-10-09T00:00:00.000Z}
+            gameLengthSeconds={355}
+            gameType="BGT_RANKED_STANDARD"
+            legendRank={1555}
+            opposingPlayerClass={null}
+            rank={null}
+            wentFirst={null}
+            won={true}
+          >
+            <TwitchVodsTableItem
+              cardData={null}
+              channelName="Zuhex"
+              gameDate={2018-10-09T00:00:00.000Z}
+              gameLengthSeconds={355}
+              gameType="BGT_RANKED_STANDARD"
+              i18n={
+                Object {
+                  "hasResourceBundle": [Function],
+                }
+              }
+              legendRank={1555}
+              opposingPlayerClass={null}
+              rank={null}
+              t={[Function]}
+              wentFirst={null}
+              won={true}
+            >
+              <p>
+                <span
+                  className="twitch-vod-table-icons"
+                >
+                  <Rank
+                    legendRank={1555}
+                    rank={null}
+                  >
+                    <span
+                      className="twitch-vod-table-icon"
+                    >
+                      <Component
+                        gameType={2}
+                        legendRank={1555}
+                        rank={0}
+                        tooltip={true}
+                      >
+                        <RankIcon
+                          gameType={2}
+                          i18n={
+                            Object {
+                              "hasResourceBundle": [Function],
+                            }
+                          }
+                          legendRank={1555}
+                          rank={0}
+                          t={[Function]}
+                          tooltip={true}
+                        >
+                          <Tooltip
+                            content="Legend 1555"
+                            simple={true}
+                          >
+                            <div
+                              className="tooltip-wrapper"
+                              onMouseLeave={[Function]}
+                              onMouseMove={[Function]}
+                              onTouchStart={[Function]}
+                            >
+                              <section
+                                className="sr-only"
+                              >
+                                <p>
+                                  Legend 1555
+                                </p>
+                              </section>
+                              <figure
+                                className="rank-icon-standalone"
+                              >
+                                <img
+                                  alt="Legend 1555"
+                                  src="/static/images/ranked-medals/Medal_Ranked_Legend.png"
+                                />
+                                <figcaption>
+                                  1555
+                                </figcaption>
+                              </figure>
+                            </div>
+                          </Tooltip>
+                        </RankIcon>
+                      </Component>
+                    </span>
+                  </Rank>
+                </span>
+              </p>
+              <p>
+                Played by 
+                <StreamerName
+                  channelName="Zuhex"
+                >
+                  <span
+                    className="text-twitch twitch-vod-channel-name"
+                  >
+                    <img
+                      alt="Twitch"
+                      src="/static/images/socialauth/twitch.png"
+                    />
+                     
+                    <span>
+                      Zuhex
+                    </span>
+                  </span>
+                </StreamerName>
+                 
+                <Age
+                  date={2018-10-09T00:00:00.000Z}
+                >
+                  <SemanticAge
+                    date={2018-10-09T00:00:00.000Z}
+                    strict={false}
+                  >
+                    <time
+                      dateTime="2018-10-09T00:00:00.000Z"
+                    >
+                      14 days ago
+                    </time>
+                  </SemanticAge>
+                </Age>
+              </p>
+              <p>
+                <Outcome
+                  won={true}
+                >
+                  <strong
+                    className="twitch-vod-table-outcome"
+                  >
+                    <span
+                      className="glyphicon  glyphicon-ok"
+                    />
+                     
+                    <Trans />
+                  </strong>
+                </Outcome>
+                 
+                after
+                 
+                <GameDuration
+                  seconds={355}
+                  t={[Function]}
+                >
+                  <span
+                    className="game-duration"
+                  >
+                    <span
+                      className="glyphicon glyphicon-time"
+                    />
+                     
+                    5.9 min
+                  </span>
+                </GameDuration>
+              </p>
+            </TwitchVodsTableItem>
+          </Component>
+        </li>
+        <li
+          className="won"
+          key="https://www.twitch.tv/videos/320472337?t=6h57m12s"
+          onClick={[Function]}
+        >
+          <Component
+            cardData={null}
+            channelName="brandonsmithx01"
+            gameDate={2018-10-18T23:00:00.000Z}
+            gameLengthSeconds={558}
+            gameType="BGT_RANKED_STANDARD"
+            legendRank={null}
+            opposingPlayerClass="PRIEST"
+            rank={1}
+            wentFirst={true}
+            won={true}
+          >
+            <TwitchVodsTableItem
+              cardData={null}
+              channelName="brandonsmithx01"
+              gameDate={2018-10-18T23:00:00.000Z}
+              gameLengthSeconds={558}
+              gameType="BGT_RANKED_STANDARD"
+              i18n={
+                Object {
+                  "hasResourceBundle": [Function],
+                }
+              }
+              legendRank={null}
+              opposingPlayerClass="PRIEST"
+              rank={1}
+              t={[Function]}
+              wentFirst={true}
+              won={true}
+            >
+              <p>
+                <span
+                  className="twitch-vod-table-icons"
+                >
+                  <Rank
+                    legendRank={null}
+                    rank={1}
+                  >
+                    <span
+                      className="twitch-vod-table-icon"
+                    >
+                      <Component
+                        gameType={2}
+                        legendRank={0}
+                        rank={1}
+                        tooltip={true}
+                      >
+                        <RankIcon
+                          gameType={2}
+                          i18n={
+                            Object {
+                              "hasResourceBundle": [Function],
+                            }
+                          }
+                          legendRank={0}
+                          rank={1}
+                          t={[Function]}
+                          tooltip={true}
+                        >
+                          <Tooltip
+                            content="Rank 1"
+                            simple={true}
+                          >
+                            <div
+                              className="tooltip-wrapper"
+                              onMouseLeave={[Function]}
+                              onMouseMove={[Function]}
+                              onTouchStart={[Function]}
+                            >
+                              <section
+                                className="sr-only"
+                              >
+                                <p>
+                                  Rank 1
+                                </p>
+                              </section>
+                              <figure
+                                className="rank-icon-standalone"
+                              >
+                                <img
+                                  alt="Rank 1"
+                                  src="/static/images/ranked-medals/Medal_Ranked_1.png"
+                                />
+                                <figcaption>
+                                  1
+                                </figcaption>
+                              </figure>
+                            </div>
+                          </Tooltip>
+                        </RankIcon>
+                      </Component>
+                    </span>
+                  </Rank>
+                  <Opponent
+                    cardData={null}
+                    gameType="BGT_RANKED_STANDARD"
+                    playerClass="PRIEST"
+                  >
+                    <span
+                      className="twitch-vod-table-icon"
+                    >
+                      <Tooltip
+                        content={
+                          <Unknown
+                            cardClass="PRIEST"
+                          />
+                        }
+                        simple={true}
+                      >
+                        <div
+                          className="tooltip-wrapper"
+                          onMouseLeave={[Function]}
+                          onMouseMove={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          <section
+                            className="sr-only"
+                          >
+                            <Component
+                              cardClass="PRIEST"
+                            >
+                              <PrettyCardClass
+                                cardClass="PRIEST"
+                                i18n={
+                                  Object {
+                                    "hasResourceBundle": [Function],
+                                  }
+                                }
+                                t={[Function]}
+                              >
+                                Priest
+                              </PrettyCardClass>
+                            </Component>
+                          </section>
+                          <img
+                            className="class-icon"
+                            src="/static/images/64x/class-icons/priest.png"
+                          />
+                        </div>
+                      </Tooltip>
+                    </span>
+                    <span
+                      className="opposing-archetype"
+                    >
+                      <Component
+                        cardClass="PRIEST"
+                      >
+                        <PrettyCardClass
+                          cardClass="PRIEST"
+                          i18n={
+                            Object {
+                              "hasResourceBundle": [Function],
+                            }
+                          }
+                          t={[Function]}
+                        >
+                          Priest
+                        </PrettyCardClass>
+                      </Component>
+                    </span>
+                  </Opponent>
+                </span>
+              </p>
+              <p>
+                Played by 
+                <StreamerName
+                  channelName="brandonsmithx01"
+                >
+                  <span
+                    className="text-twitch twitch-vod-channel-name"
+                  >
+                    <img
+                      alt="Twitch"
+                      src="/static/images/socialauth/twitch.png"
+                    />
+                     
+                    <span>
+                      brandonsmithx01
+                    </span>
+                  </span>
+                </StreamerName>
+                 
+                <Age
+                  date={2018-10-18T23:00:00.000Z}
+                >
+                  <SemanticAge
+                    date={2018-10-18T23:00:00.000Z}
+                    strict={false}
+                  >
+                    <time
+                      dateTime="2018-10-18T23:00:00.000Z"
+                    >
+                      4 days ago
+                    </time>
+                  </SemanticAge>
+                </Age>
+              </p>
+              <p>
+                <Outcome
+                  won={true}
+                >
+                  <strong
+                    className="twitch-vod-table-outcome"
+                  >
+                    <span
+                      className="glyphicon  glyphicon-ok"
+                    />
+                     
+                    <Trans />
+                  </strong>
+                </Outcome>
+                 
+                going 
+                <Advantage
+                  first={true}
+                >
+                  <strong>
+                    <img
+                      className="twitch-vod-table-inline-icon"
+                      src="/static/images/first.png"
+                    />
+                     
+                    first
+                  </strong>
+                </Advantage>
+                 
+                after
+                 
+                <GameDuration
+                  seconds={558}
+                  t={[Function]}
+                >
+                  <span
+                    className="game-duration"
+                  >
+                    <span
+                      className="glyphicon glyphicon-time"
+                    />
+                     
+                    9.3 min
+                  </span>
+                </GameDuration>
+              </p>
+            </TwitchVodsTableItem>
+          </Component>
+        </li>
+      </ul>
+    </div>
+  </TwitchVodsTable>
+</Component>
+`;
+
+exports[`TwitchVodsTable renders correctly: default 1`] = `
+<Component
+  archetypeData={Array []}
+  cardData={null}
+  gameType="BGT_RANKED_STANDARD"
+  onSelectVod={[MockFunction]}
+  selectedVod={
+    Object {
+      "channel_name": "Zuhex",
+      "friendly_player_archetype_id": null,
+      "game_date": "2018-10-09T00:00:00Z",
+      "game_length_seconds": 355,
+      "game_type": "BGT_RANKED_STANDARD",
+      "legend_rank": 1555,
+      "opposing_player_archetype_id": null,
+      "opposing_player_class": null,
+      "rank": null,
+      "url": "https://www.twitch.tv/videos/320509363?t=3h10m4s",
+      "went_first": null,
+      "won": true,
+    }
+  }
+  vods={
+    Array [
+      Object {
+        "channel_name": "Zuhex",
+        "friendly_player_archetype_id": null,
+        "game_date": "2018-10-09T00:00:00Z",
+        "game_length_seconds": 355,
+        "game_type": "BGT_RANKED_STANDARD",
+        "legend_rank": 1555,
+        "opposing_player_archetype_id": null,
+        "opposing_player_class": null,
+        "rank": null,
+        "url": "https://www.twitch.tv/videos/320509363?t=3h10m4s",
+        "went_first": null,
+        "won": true,
+      },
+      Object {
+        "channel_name": "AicoritY",
+        "friendly_player_archetype_id": null,
+        "game_date": "2018-10-14T00:00:00Z",
+        "game_length_seconds": 159,
+        "game_type": "BGT_RANKED_STANDARD",
+        "legend_rank": null,
+        "opposing_player_archetype_id": null,
+        "opposing_player_class": "MAGE",
+        "rank": 2,
+        "url": "https://www.twitch.tv/videos/320346544?t=0h23m9s",
+        "went_first": true,
+        "won": false,
+      },
+      Object {
+        "channel_name": "brandonsmithx01",
+        "friendly_player_archetype_id": null,
+        "game_date": "2018-10-18T23:00:00Z",
+        "game_length_seconds": 558,
+        "game_type": "BGT_RANKED_STANDARD",
+        "legend_rank": null,
+        "opposing_player_archetype_id": 226,
+        "opposing_player_class": "PRIEST",
+        "rank": 1,
+        "url": "https://www.twitch.tv/videos/320472337?t=6h57m12s",
+        "went_first": true,
+        "won": true,
+      },
+      Object {
+        "channel_name": "해까닥여울이",
+        "friendly_player_archetype_id": 11,
+        "game_date": "2018-10-15T00:00:00Z",
+        "game_length_seconds": 690,
+        "game_type": "BGT_RANKED_STANDARD",
+        "legend_rank": 123,
+        "opposing_player_archetype_id": null,
+        "opposing_player_class": "HUNTER",
+        "rank": null,
+        "url": "https://www.twitch.tv/videos/318585453?t=2h3m47s",
+        "went_first": false,
+        "won": false,
+      },
+    ]
+  }
+>
+  <TwitchVodsTable
+    archetypeData={Array []}
+    cardData={null}
+    gameType="BGT_RANKED_STANDARD"
+    i18n={
+      Object {
+        "hasResourceBundle": [Function],
+      }
+    }
+    onSelectVod={[MockFunction]}
+    selectedVod={
+      Object {
+        "channel_name": "Zuhex",
+        "friendly_player_archetype_id": null,
+        "game_date": "2018-10-09T00:00:00Z",
+        "game_length_seconds": 355,
+        "game_type": "BGT_RANKED_STANDARD",
+        "legend_rank": 1555,
+        "opposing_player_archetype_id": null,
+        "opposing_player_class": null,
+        "rank": null,
+        "url": "https://www.twitch.tv/videos/320509363?t=3h10m4s",
+        "went_first": null,
+        "won": true,
+      }
+    }
+    t={[Function]}
+    vods={
+      Array [
+        Object {
+          "channel_name": "Zuhex",
+          "friendly_player_archetype_id": null,
+          "game_date": "2018-10-09T00:00:00Z",
+          "game_length_seconds": 355,
+          "game_type": "BGT_RANKED_STANDARD",
+          "legend_rank": 1555,
+          "opposing_player_archetype_id": null,
+          "opposing_player_class": null,
+          "rank": null,
+          "url": "https://www.twitch.tv/videos/320509363?t=3h10m4s",
+          "went_first": null,
+          "won": true,
+        },
+        Object {
+          "channel_name": "AicoritY",
+          "friendly_player_archetype_id": null,
+          "game_date": "2018-10-14T00:00:00Z",
+          "game_length_seconds": 159,
+          "game_type": "BGT_RANKED_STANDARD",
+          "legend_rank": null,
+          "opposing_player_archetype_id": null,
+          "opposing_player_class": "MAGE",
+          "rank": 2,
+          "url": "https://www.twitch.tv/videos/320346544?t=0h23m9s",
+          "went_first": true,
+          "won": false,
+        },
+        Object {
+          "channel_name": "brandonsmithx01",
+          "friendly_player_archetype_id": null,
+          "game_date": "2018-10-18T23:00:00Z",
+          "game_length_seconds": 558,
+          "game_type": "BGT_RANKED_STANDARD",
+          "legend_rank": null,
+          "opposing_player_archetype_id": 226,
+          "opposing_player_class": "PRIEST",
+          "rank": 1,
+          "url": "https://www.twitch.tv/videos/320472337?t=6h57m12s",
+          "went_first": true,
+          "won": true,
+        },
+        Object {
+          "channel_name": "해까닥여울이",
+          "friendly_player_archetype_id": 11,
+          "game_date": "2018-10-15T00:00:00Z",
+          "game_length_seconds": 690,
+          "game_type": "BGT_RANKED_STANDARD",
+          "legend_rank": 123,
+          "opposing_player_archetype_id": null,
+          "opposing_player_class": "HUNTER",
+          "rank": null,
+          "url": "https://www.twitch.tv/videos/318585453?t=2h3m47s",
+          "went_first": false,
+          "won": false,
+        },
+      ]
+    }
+  >
+    <div
+      className="twitch-vod-table"
+    >
+      <div
+        className="twitch-vod-table-filterables"
+      >
+        <OptionalSelect
+          default="Any result"
+          defaultKey="any"
+          onSelect={[Function]}
+          options={
+            Object {
+              "lost": "Losses",
+              "won": "Wins",
+            }
+          }
+          value="won"
+        >
+          <div
+            className="optional-select active"
+          >
+            <select
+              onChange={[Function]}
+              value="won"
+            >
+              <option
+                value="any"
+              >
+                Any result
+              </option>
+              <option
+                key="won"
+                value="won"
+              >
+                Wins
+              </option>
+              <option
+                key="lost"
+                value="lost"
+              >
+                Losses
+              </option>
+            </select>
+            <span
+              className="caret"
+            />
+          </div>
+        </OptionalSelect>
+        <OptionalSelect
+          default="Any opponent"
+          defaultKey="any"
+          onSelect={[Function]}
+          options={
+            Object {
+              "DRUID": "GLOBAL_CLASS_DRUID",
+              "HUNTER": "GLOBAL_CLASS_HUNTER",
+              "MAGE": "GLOBAL_CLASS_MAGE",
+              "PALADIN": "GLOBAL_CLASS_PALADIN",
+              "PRIEST": "GLOBAL_CLASS_PRIEST",
+              "ROGUE": "GLOBAL_CLASS_ROGUE",
+              "SHAMAN": "GLOBAL_CLASS_SHAMAN",
+              "WARLOCK": "GLOBAL_CLASS_WARLOCK",
+              "WARRIOR": "GLOBAL_CLASS_WARRIOR",
+            }
+          }
+          value={null}
+        >
+          <div
+            className="optional-select"
+          >
+            <select
+              onChange={[Function]}
+              value="any"
+            >
+              <option
+                value="any"
+              >
+                Any opponent
+              </option>
+              <option
+                key="DRUID"
+                value="DRUID"
+              >
+                GLOBAL_CLASS_DRUID
+              </option>
+              <option
+                key="HUNTER"
+                value="HUNTER"
+              >
+                GLOBAL_CLASS_HUNTER
+              </option>
+              <option
+                key="MAGE"
+                value="MAGE"
+              >
+                GLOBAL_CLASS_MAGE
+              </option>
+              <option
+                key="PALADIN"
+                value="PALADIN"
+              >
+                GLOBAL_CLASS_PALADIN
+              </option>
+              <option
+                key="PRIEST"
+                value="PRIEST"
+              >
+                GLOBAL_CLASS_PRIEST
+              </option>
+              <option
+                key="ROGUE"
+                value="ROGUE"
+              >
+                GLOBAL_CLASS_ROGUE
+              </option>
+              <option
+                key="SHAMAN"
+                value="SHAMAN"
+              >
+                GLOBAL_CLASS_SHAMAN
+              </option>
+              <option
+                key="WARLOCK"
+                value="WARLOCK"
+              >
+                GLOBAL_CLASS_WARLOCK
+              </option>
+              <option
+                key="WARRIOR"
+                value="WARRIOR"
+              >
+                GLOBAL_CLASS_WARRIOR
+              </option>
+            </select>
+            <span
+              className="caret"
+            />
+          </div>
+        </OptionalSelect>
+        <OptionalSelect
+          default="Any first/coin"
+          defaultKey="any"
+          onSelect={[Function]}
+          options={
+            Object {
+              "coin": "Coin",
+              "first": "First",
+            }
+          }
+          value={null}
+        >
+          <div
+            className="optional-select"
+          >
+            <select
+              onChange={[Function]}
+              value="any"
+            >
+              <option
+                value="any"
+              >
+                Any first/coin
+              </option>
+              <option
+                key="first"
+                value="first"
+              >
+                First
+              </option>
+              <option
+                key="coin"
+                value="coin"
+              >
+                Coin
+              </option>
+            </select>
+            <span
+              className="caret"
+            />
+          </div>
+        </OptionalSelect>
+      </div>
+      <div
+        className="twitch-vod-table-sortables"
+      >
+        <Sortable
+          direction="ascending"
+          onClick={[Function]}
+        >
+          <span
+            className="twitch-vod-table-sortable"
+            onClick={[Function]}
+          >
+            <strong>
+              Rank
+            </strong>
+            <SortIndicator
+              direction="ascending"
+            >
+              <span
+                className="sort-indicator primary"
+              >
+                <span
+                  className="glyphicon glyphicon-triangle-top active"
+                />
+                <span
+                  className="glyphicon glyphicon-triangle-bottom"
+                />
+              </span>
+            </SortIndicator>
+          </span>
+        </Sortable>
+        <Sortable
+          direction={null}
+          onClick={[Function]}
+        >
+          <span
+            className="twitch-vod-table-sortable"
+            onClick={[Function]}
+          >
+            <strong>
+              Broadcaster
+            </strong>
+            <SortIndicator
+              direction={null}
+            >
+              <span
+                className="sort-indicator"
+              >
+                <span
+                  className="glyphicon glyphicon-triangle-top"
+                />
+                <span
+                  className="glyphicon glyphicon-triangle-bottom"
+                />
+              </span>
+            </SortIndicator>
+          </span>
+        </Sortable>
+        <Sortable
+          direction={null}
+          onClick={[Function]}
+        >
+          <span
+            className="twitch-vod-table-sortable"
+            onClick={[Function]}
+          >
+            <strong>
+              Recency
+            </strong>
+            <SortIndicator
+              direction={null}
+            >
+              <span
+                className="sort-indicator"
+              >
+                <span
+                  className="glyphicon glyphicon-triangle-top"
+                />
+                <span
+                  className="glyphicon glyphicon-triangle-bottom"
+                />
+              </span>
+            </SortIndicator>
+          </span>
+        </Sortable>
+        <Sortable
+          direction={null}
+          onClick={[Function]}
+        >
+          <span
+            className="twitch-vod-table-sortable"
+            onClick={[Function]}
+          >
+            <strong>
+              Duration
+            </strong>
+            <SortIndicator
+              direction={null}
+            >
+              <span
+                className="sort-indicator"
+              >
+                <span
+                  className="glyphicon glyphicon-triangle-top"
+                />
+                <span
+                  className="glyphicon glyphicon-triangle-bottom"
+                />
+              </span>
+            </SortIndicator>
+          </span>
+        </Sortable>
+      </div>
+      <ul>
+        <li
+          className="active won"
+          key="https://www.twitch.tv/videos/320509363?t=3h10m4s"
+          onClick={[Function]}
+        >
+          <Component
+            cardData={null}
+            channelName="Zuhex"
+            gameDate={2018-10-09T00:00:00.000Z}
+            gameLengthSeconds={355}
+            gameType="BGT_RANKED_STANDARD"
+            legendRank={1555}
+            opposingPlayerClass={null}
+            rank={null}
+            wentFirst={null}
+            won={true}
+          >
+            <TwitchVodsTableItem
+              cardData={null}
+              channelName="Zuhex"
+              gameDate={2018-10-09T00:00:00.000Z}
+              gameLengthSeconds={355}
+              gameType="BGT_RANKED_STANDARD"
+              i18n={
+                Object {
+                  "hasResourceBundle": [Function],
+                }
+              }
+              legendRank={1555}
+              opposingPlayerClass={null}
+              rank={null}
+              t={[Function]}
+              wentFirst={null}
+              won={true}
+            >
+              <p>
+                <span
+                  className="twitch-vod-table-icons"
+                >
+                  <Rank
+                    legendRank={1555}
+                    rank={null}
+                  >
+                    <span
+                      className="twitch-vod-table-icon"
+                    >
+                      <Component
+                        gameType={2}
+                        legendRank={1555}
+                        rank={0}
+                        tooltip={true}
+                      >
+                        <RankIcon
+                          gameType={2}
+                          i18n={
+                            Object {
+                              "hasResourceBundle": [Function],
+                            }
+                          }
+                          legendRank={1555}
+                          rank={0}
+                          t={[Function]}
+                          tooltip={true}
+                        >
+                          <Tooltip
+                            content="Legend 1555"
+                            simple={true}
+                          >
+                            <div
+                              className="tooltip-wrapper"
+                              onMouseLeave={[Function]}
+                              onMouseMove={[Function]}
+                              onTouchStart={[Function]}
+                            >
+                              <section
+                                className="sr-only"
+                              >
+                                <p>
+                                  Legend 1555
+                                </p>
+                              </section>
+                              <figure
+                                className="rank-icon-standalone"
+                              >
+                                <img
+                                  alt="Legend 1555"
+                                  src="/static/images/ranked-medals/Medal_Ranked_Legend.png"
+                                />
+                                <figcaption>
+                                  1555
+                                </figcaption>
+                              </figure>
+                            </div>
+                          </Tooltip>
+                        </RankIcon>
+                      </Component>
+                    </span>
+                  </Rank>
+                </span>
+              </p>
+              <p>
+                Played by 
+                <StreamerName
+                  channelName="Zuhex"
+                >
+                  <span
+                    className="text-twitch twitch-vod-channel-name"
+                  >
+                    <img
+                      alt="Twitch"
+                      src="/static/images/socialauth/twitch.png"
+                    />
+                     
+                    <span>
+                      Zuhex
+                    </span>
+                  </span>
+                </StreamerName>
+                 
+                <Age
+                  date={2018-10-09T00:00:00.000Z}
+                >
+                  <SemanticAge
+                    date={2018-10-09T00:00:00.000Z}
+                    strict={false}
+                  >
+                    <time
+                      dateTime="2018-10-09T00:00:00.000Z"
+                    >
+                      14 days ago
+                    </time>
+                  </SemanticAge>
+                </Age>
+              </p>
+              <p>
+                <Outcome
+                  won={true}
+                >
+                  <strong
+                    className="twitch-vod-table-outcome"
+                  >
+                    <span
+                      className="glyphicon  glyphicon-ok"
+                    />
+                     
+                    <Trans />
+                  </strong>
+                </Outcome>
+                 
+                after
+                 
+                <GameDuration
+                  seconds={355}
+                  t={[Function]}
+                >
+                  <span
+                    className="game-duration"
+                  >
+                    <span
+                      className="glyphicon glyphicon-time"
+                    />
+                     
+                    5.9 min
+                  </span>
+                </GameDuration>
+              </p>
+            </TwitchVodsTableItem>
+          </Component>
+        </li>
+        <li
+          className="won"
+          key="https://www.twitch.tv/videos/320472337?t=6h57m12s"
+          onClick={[Function]}
+        >
+          <Component
+            cardData={null}
+            channelName="brandonsmithx01"
+            gameDate={2018-10-18T23:00:00.000Z}
+            gameLengthSeconds={558}
+            gameType="BGT_RANKED_STANDARD"
+            legendRank={null}
+            opposingPlayerClass="PRIEST"
+            rank={1}
+            wentFirst={true}
+            won={true}
+          >
+            <TwitchVodsTableItem
+              cardData={null}
+              channelName="brandonsmithx01"
+              gameDate={2018-10-18T23:00:00.000Z}
+              gameLengthSeconds={558}
+              gameType="BGT_RANKED_STANDARD"
+              i18n={
+                Object {
+                  "hasResourceBundle": [Function],
+                }
+              }
+              legendRank={null}
+              opposingPlayerClass="PRIEST"
+              rank={1}
+              t={[Function]}
+              wentFirst={true}
+              won={true}
+            >
+              <p>
+                <span
+                  className="twitch-vod-table-icons"
+                >
+                  <Rank
+                    legendRank={null}
+                    rank={1}
+                  >
+                    <span
+                      className="twitch-vod-table-icon"
+                    >
+                      <Component
+                        gameType={2}
+                        legendRank={0}
+                        rank={1}
+                        tooltip={true}
+                      >
+                        <RankIcon
+                          gameType={2}
+                          i18n={
+                            Object {
+                              "hasResourceBundle": [Function],
+                            }
+                          }
+                          legendRank={0}
+                          rank={1}
+                          t={[Function]}
+                          tooltip={true}
+                        >
+                          <Tooltip
+                            content="Rank 1"
+                            simple={true}
+                          >
+                            <div
+                              className="tooltip-wrapper"
+                              onMouseLeave={[Function]}
+                              onMouseMove={[Function]}
+                              onTouchStart={[Function]}
+                            >
+                              <section
+                                className="sr-only"
+                              >
+                                <p>
+                                  Rank 1
+                                </p>
+                              </section>
+                              <figure
+                                className="rank-icon-standalone"
+                              >
+                                <img
+                                  alt="Rank 1"
+                                  src="/static/images/ranked-medals/Medal_Ranked_1.png"
+                                />
+                                <figcaption>
+                                  1
+                                </figcaption>
+                              </figure>
+                            </div>
+                          </Tooltip>
+                        </RankIcon>
+                      </Component>
+                    </span>
+                  </Rank>
+                  <Opponent
+                    cardData={null}
+                    gameType="BGT_RANKED_STANDARD"
+                    playerClass="PRIEST"
+                  >
+                    <span
+                      className="twitch-vod-table-icon"
+                    >
+                      <Tooltip
+                        content={
+                          <Unknown
+                            cardClass="PRIEST"
+                          />
+                        }
+                        simple={true}
+                      >
+                        <div
+                          className="tooltip-wrapper"
+                          onMouseLeave={[Function]}
+                          onMouseMove={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          <section
+                            className="sr-only"
+                          >
+                            <Component
+                              cardClass="PRIEST"
+                            >
+                              <PrettyCardClass
+                                cardClass="PRIEST"
+                                i18n={
+                                  Object {
+                                    "hasResourceBundle": [Function],
+                                  }
+                                }
+                                t={[Function]}
+                              >
+                                Priest
+                              </PrettyCardClass>
+                            </Component>
+                          </section>
+                          <img
+                            className="class-icon"
+                            src="/static/images/64x/class-icons/priest.png"
+                          />
+                        </div>
+                      </Tooltip>
+                    </span>
+                    <span
+                      className="opposing-archetype"
+                    >
+                      <Component
+                        cardClass="PRIEST"
+                      >
+                        <PrettyCardClass
+                          cardClass="PRIEST"
+                          i18n={
+                            Object {
+                              "hasResourceBundle": [Function],
+                            }
+                          }
+                          t={[Function]}
+                        >
+                          Priest
+                        </PrettyCardClass>
+                      </Component>
+                    </span>
+                  </Opponent>
+                </span>
+              </p>
+              <p>
+                Played by 
+                <StreamerName
+                  channelName="brandonsmithx01"
+                >
+                  <span
+                    className="text-twitch twitch-vod-channel-name"
+                  >
+                    <img
+                      alt="Twitch"
+                      src="/static/images/socialauth/twitch.png"
+                    />
+                     
+                    <span>
+                      brandonsmithx01
+                    </span>
+                  </span>
+                </StreamerName>
+                 
+                <Age
+                  date={2018-10-18T23:00:00.000Z}
+                >
+                  <SemanticAge
+                    date={2018-10-18T23:00:00.000Z}
+                    strict={false}
+                  >
+                    <time
+                      dateTime="2018-10-18T23:00:00.000Z"
+                    >
+                      4 days ago
+                    </time>
+                  </SemanticAge>
+                </Age>
+              </p>
+              <p>
+                <Outcome
+                  won={true}
+                >
+                  <strong
+                    className="twitch-vod-table-outcome"
+                  >
+                    <span
+                      className="glyphicon  glyphicon-ok"
+                    />
+                     
+                    <Trans />
+                  </strong>
+                </Outcome>
+                 
+                going 
+                <Advantage
+                  first={true}
+                >
+                  <strong>
+                    <img
+                      className="twitch-vod-table-inline-icon"
+                      src="/static/images/first.png"
+                    />
+                     
+                    first
+                  </strong>
+                </Advantage>
+                 
+                after
+                 
+                <GameDuration
+                  seconds={558}
+                  t={[Function]}
+                >
+                  <span
+                    className="game-duration"
+                  >
+                    <span
+                      className="glyphicon glyphicon-time"
+                    />
+                     
+                    9.3 min
+                  </span>
+                </GameDuration>
+              </p>
+            </TwitchVodsTableItem>
+          </Component>
+        </li>
+      </ul>
+    </div>
+  </TwitchVodsTable>
+</Component>
+`;
