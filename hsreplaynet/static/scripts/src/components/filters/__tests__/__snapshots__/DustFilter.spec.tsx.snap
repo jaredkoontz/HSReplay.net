@@ -12,7 +12,12 @@ exports[`DustFilter calls setDust if the form is submitted: 200 1`] = `
           200,
         ],
       ],
-      "results": undefined,
+      "results": Array [
+        Object {
+          "isThrow": false,
+          "value": undefined,
+        },
+      ],
     }
   }
 >
@@ -435,7 +440,12 @@ exports[`DustFilter calls setDust if the input is blurred: 200 1`] = `
           200,
         ],
       ],
-      "results": undefined,
+      "results": Array [
+        Object {
+          "isThrow": false,
+          "value": undefined,
+        },
+      ],
     }
   }
 >

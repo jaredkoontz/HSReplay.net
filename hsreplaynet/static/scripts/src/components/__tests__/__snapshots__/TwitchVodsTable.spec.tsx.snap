@@ -25,7 +25,12 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
           },
         ],
       ],
-      "results": undefined,
+      "results": Array [
+        Object {
+          "isThrow": false,
+          "value": undefined,
+        },
+      ],
     }
   }
   selectedVod={
@@ -134,7 +139,12 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
             },
           ],
         ],
-        "results": undefined,
+        "results": Array [
+          Object {
+            "isThrow": false,
+            "value": undefined,
+          },
+        ],
       }
     }
     selectedVod={

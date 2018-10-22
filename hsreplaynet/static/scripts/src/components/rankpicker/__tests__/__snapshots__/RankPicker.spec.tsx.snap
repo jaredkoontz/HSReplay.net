@@ -979,7 +979,12 @@ exports[`RankPicker allows selecting a single Rank: rank 17 1`] = `
           "SEVENTEEN",
         ],
       ],
-      "results": undefined,
+      "results": Array [
+        Object {
+          "isThrow": false,
+          "value": undefined,
+        },
+      ],
     }
   }
   selected="LEGEND_THROUGH_TWENTYFIVE"

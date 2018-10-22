@@ -11,7 +11,12 @@ exports[`ColumnFooter allows inputting a custom weight: 2 1`] = `
           2,
         ],
       ],
-      "results": undefined,
+      "results": Array [
+        Object {
+          "isThrow": false,
+          "value": undefined,
+        },
+      ],
     }
   }
   weight={25}
