@@ -111,20 +111,18 @@ export default class TabList extends React.Component<Props, State> {
 		});
 
 		return (
-			<>
+			<div className="tab-list">
 				<Modal
 					visible={this.state.showPremiumModal}
 					onClose={this.closePremiumModal}
 				>
 					<PremiumModal modalStyle={this.state.premiumModalStyle} />
 				</Modal>
-				<div>
-					<ul className="nav nav-tabs content-tabs" role="tablist">
-						{tabs}
-					</ul>
-					<section className="tab-content">{body}</section>
-				</div>
-			</>
+				<ul className="nav nav-tabs content-tabs" role="tablist">
+					{tabs}
+				</ul>
+				<section className="tab-content">{body}</section>
+			</div>
 		);
 	}
 
