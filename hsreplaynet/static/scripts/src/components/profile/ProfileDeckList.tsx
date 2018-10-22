@@ -7,6 +7,7 @@ import CardData from "../../CardData";
 interface Props {
 	data: ProfileDeckData[];
 	cardData: CardData;
+	gameType: string;
 }
 
 interface State {}
@@ -37,6 +38,7 @@ export default class ProfileDeckList extends React.Component<Props, State> {
 						data={deckData}
 						cardData={this.props.cardData}
 						cardUniqueness={cardUniqueness}
+						gameType={this.props.gameType}
 					/>
 				))}
 			</ul>

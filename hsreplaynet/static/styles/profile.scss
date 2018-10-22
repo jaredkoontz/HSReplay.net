@@ -376,6 +376,22 @@
 					}
 				}
 			}
+
+			.card-list-cell {
+				justify-content: space-between;
+			}
+
+			.btn-view-deck {
+				border: 1px solid $blue;
+				color: $blue;
+				background: transparent;
+				border-radius: 3px;
+
+				&:hover,
+				&:active {
+					background: rgba(255, 255, 255, 0.5);
+				}
+			}
 		}
 
 		.global-winrate {

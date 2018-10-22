@@ -588,7 +588,8 @@
 	}
 }
 
-#tooltip-archetype-signature {
+#tooltip-archetype-signature,
+#tooltip-deck-list {
 	max-height: 96vh;
 	overflow: hidden;
 
@@ -611,6 +612,13 @@
 	}
 
 	.archetype-signature {
+		padding-bottom: calc(1.3em + 8px);
+	}
+}
+
+#tooltip-deck-list {
+	.card-list {
+		padding-top: 10px;
 		padding-bottom: calc(1.3em + 8px);
 	}
 }

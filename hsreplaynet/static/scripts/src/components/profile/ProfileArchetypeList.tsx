@@ -28,8 +28,10 @@ export interface ProfileDeckData {
 	lastPlayed: Date;
 	deckstring: string;
 	archetype: Archetype;
+	playerClass: string;
 	metaTier: number | null;
 	games: ProfileGameData[];
+	deckUrl: string;
 }
 
 export interface ProfileGameData {

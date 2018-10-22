@@ -267,6 +267,8 @@ export default class ProfileData extends React.Component<Props> {
 					archetype: archetype.archetype,
 					metaTier: null,
 					games: [],
+					playerClass: archetype.playerClass,
+					deckUrl: "/decks/",
 				};
 				archetype.decks.push(deck);
 			}

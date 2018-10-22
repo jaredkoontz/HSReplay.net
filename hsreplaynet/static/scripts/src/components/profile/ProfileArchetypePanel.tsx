@@ -127,6 +127,7 @@ class ProfileArchetypePanel extends React.Component<Props, State> {
 					<ProfileDeckList
 						data={data.decks}
 						cardData={this.props.cardData}
+						gameType={this.props.gameType}
 					/>
 				) : null}
 				<div className="clearfix" />
