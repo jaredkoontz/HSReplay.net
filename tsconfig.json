@@ -60,6 +60,7 @@
   "exclude": [
     "./hsreplaynet/static/scripts/src/**/__tests__",
     "./hsreplaynet/static/scripts/src/**/__mocks__",
+    "./hsreplaynet/static/scripts/src/**/*.stories.tsx",
     "./hsreplaynet/static/scripts/src/setupTests.ts"
   ]
 }
