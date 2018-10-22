@@ -11,8 +11,7 @@ import ExpandTableButton from "./ExpandTableButton";
 import DataInjector from "../DataInjector";
 import LoadingSpinner from "../LoadingSpinner";
 import DeckListTooltip from "../DeckListTooltip";
-import { InjectedTranslateProps } from "react-i18next";
-import { translate } from "../../__mocks__/react-i18next";
+import { InjectedTranslateProps, translate } from "react-i18next";
 
 interface Props extends InjectedTranslateProps {
 	data: ProfileDeckData;

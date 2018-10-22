@@ -1,7 +1,6 @@
 import React from "react";
 import { ProfileGameData } from "./ProfileArchetypeList";
-import { InjectedTranslateProps } from "react-i18next";
-import { translate } from "../../__mocks__/react-i18next";
+import { InjectedTranslateProps, translate } from "react-i18next";
 import { getCardClassName, getHeroClassName, image } from "../../helpers";
 import SemanticAge from "../text/SemanticAge";
 import { formatNumber } from "../../i18n";

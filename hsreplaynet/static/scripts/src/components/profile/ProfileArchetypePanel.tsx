@@ -7,8 +7,7 @@ import SemanticAge from "../text/SemanticAge";
 import CardIcon from "../CardIcon";
 import { getHeroClassName, winrateData } from "../../helpers";
 import ExpandTableButton from "./ExpandTableButton";
-import { translate } from "../../__mocks__/react-i18next";
-import { InjectedTranslateProps } from "react-i18next";
+import { InjectedTranslateProps, translate } from "react-i18next";
 import ArchetypeSignatureTooltip from "../metaoverview/ArchetypeSignatureTooltip";
 
 interface Props extends InjectedTranslateProps {

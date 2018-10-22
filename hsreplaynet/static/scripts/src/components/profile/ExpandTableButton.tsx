@@ -1,6 +1,5 @@
 import React from "react";
-import { InjectedTranslateProps } from "react-i18next";
-import { translate } from "../../__mocks__/react-i18next";
+import { InjectedTranslateProps, translate } from "react-i18next";
 
 interface Props extends InjectedTranslateProps {
 	expandText: string;

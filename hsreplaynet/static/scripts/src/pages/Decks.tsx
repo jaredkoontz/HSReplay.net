@@ -1,7 +1,7 @@
 import InfoboxFilterGroup from "../components/InfoboxFilterGroup";
 import { decode as decodeDeckstring } from "deckstrings";
 import React from "react";
-import { InjectedTranslateProps, Trans } from "react-i18next";
+import { InjectedTranslateProps, Trans, translate } from "react-i18next";
 import CardData from "../CardData";
 import DataManager from "../DataManager";
 import UserData from "../UserData";
@@ -41,7 +41,6 @@ import LoadingSpinner from "../components/LoadingSpinner";
 import AdContainer from "../components/ads/AdContainer";
 import AdUnit from "../components/ads/AdUnit";
 import PrettyPlayerExperience from "../components/text/PrettyPlayerExperience";
-import { translate } from "../__mocks__/react-i18next";
 
 interface Props extends InjectedTranslateProps, FragmentChildProps {
 	cardData: CardData | null;
