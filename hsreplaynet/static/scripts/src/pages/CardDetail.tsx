@@ -4,8 +4,6 @@ import CardData from "../CardData";
 import AdContainer from "../components/ads/AdContainer";
 import AdUnit from "../components/ads/AdUnit";
 import AdaptDetail from "../components/carddetail/AdaptDetail";
-import QuestCompletionDetail from "../components/carddetail/QuestCompletionDetail";
-import QuestContributors from "../components/carddetail/QuestContributors";
 import RecommendedDecksList from "../components/carddetail/RecommendedDecksList";
 import CardRankingTable from "../components/CardRankingTable";
 import CardDetailPieChart from "../components/charts/CardDetailPieChart";
@@ -567,39 +565,6 @@ class CardDetail extends React.Component<Props, State> {
 											}
 										/>
 									</DataInjector>
-								</Tab>
-								<Tab
-									label={t("Quest Contributors")}
-									id="quest-contributors"
-									hidden={
-										!this.cardIsQuest() || this.isArena()
-									}
-								>
-									<DataInjector
-										query={{
-											params: this.getParams(),
-											url: "quest_contributor_stats",
-										}}
-									>
-										<QuestContributors
-											cardData={this.props.cardData}
-										/>
-									</DataInjector>
-								</Tab>
-								<Tab
-									label={t("Quest Completion")}
-									id="quest-completion"
-									hidden={
-										!this.cardIsQuest() || this.isArena()
-									}
-								>
-									<QuestCompletionDetail
-										query={{
-											params: this.getParams(),
-											url:
-												"quest_completion_stats_by_turn",
-										}}
-									/>
 								</Tab>
 							</TabList>
 						</Fragments>
