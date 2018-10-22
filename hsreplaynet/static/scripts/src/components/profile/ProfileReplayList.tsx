@@ -1,19 +1,15 @@
 import React from "react";
 import ProfileReplayPanel from "./ProfileReplayPanel";
 import { ProfileGameData } from "./ProfileArchetypeList";
+import CardData from "../../CardData";
 
 interface Props {
 	data: ProfileGameData[];
+	cardData: CardData;
+	gameType: string;
 }
 
-interface State {}
-
-export default class ProfileReplayList extends React.Component<Props, State> {
-	constructor(props: Props, context: any) {
-		super(props, context);
-		this.state = {};
-	}
-
+export default class ProfileReplayList extends React.Component<Props> {
 	public render(): React.ReactNode {
 		return (
 			<ul className="col-lg-12">
@@ -42,7 +38,11 @@ export default class ProfileReplayList extends React.Component<Props, State> {
 				</div>
 				<div className="clearfix" />
 				{this.props.data.map(game => (
-					<ProfileReplayPanel data={game} />
+					<ProfileReplayPanel
+						data={game}
+						cardData={this.props.cardData}
+						gameType={this.props.gameType}
+					/>
 				))}
 			</ul>
 		);

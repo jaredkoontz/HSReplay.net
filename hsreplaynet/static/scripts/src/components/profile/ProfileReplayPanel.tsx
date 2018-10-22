@@ -7,19 +7,16 @@ import SemanticAge from "../text/SemanticAge";
 import { formatNumber } from "../../i18n";
 import RankIcon from "../RankIcon";
 import { BnetGameType } from "../../hearthstone";
+import ArchetypeSignatureTooltip from "../metaoverview/ArchetypeSignatureTooltip";
+import CardData from "../../CardData";
 
 interface Props extends InjectedTranslateProps {
 	data: ProfileGameData;
+	cardData: CardData;
+	gameType: string;
 }
 
-interface State {}
-
-class ProfileReplayPanel extends React.Component<Props, State> {
-	constructor(props: Props, context: any) {
-		super(props, context);
-		this.state = {};
-	}
-
+class ProfileReplayPanel extends React.Component<Props> {
 	public render(): React.ReactNode {
 		const { data, t } = this.props;
 		const opponentClass = getCardClassName(data.opponentPlayerClass);
@@ -39,9 +36,32 @@ class ProfileReplayPanel extends React.Component<Props, State> {
 						<p
 							className={`player-class ${opponentClass.toLowerCase()}`}
 						>
-							{data.opponentArchetype
-								? data.opponentArchetype.name
-								: getHeroClassName(opponentClass, t)}
+							{data.opponentArchetype ? (
+								<ArchetypeSignatureTooltip
+									key={data.opponentArchetype.id}
+									cardData={this.props.cardData}
+									archetypeId={data.opponentArchetype.id}
+									archetypeName={data.opponentArchetype.name}
+									gameType={this.props.gameType}
+								>
+									<a
+										href={`/archetypes/${
+											data.opponentArchetype.id
+										}`}
+									>
+										{data.opponentArchetype.name}
+									</a>
+								</ArchetypeSignatureTooltip>
+							) : (
+								t("Other {cardClass}", {
+									cardClass: getHeroClassName(
+										getCardClassName(
+											data.opponentPlayerClass,
+										),
+										t,
+									),
+								})
+							)}
 						</p>
 					</div>
 					<div className="col-lg-2">

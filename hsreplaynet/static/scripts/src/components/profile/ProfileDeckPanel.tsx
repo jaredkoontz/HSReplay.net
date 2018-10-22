@@ -118,7 +118,11 @@ class ProfileDeckPanel extends React.Component<Props, State> {
 					</div>
 				</div>
 				{this.state.expanded ? (
-					<ProfileReplayList data={data.games} />
+					<ProfileReplayList
+						data={data.games}
+						cardData={this.props.cardData}
+						gameType={this.props.gameType}
+					/>
 				) : null}
 				<div className="clearfix" />
 			</li>
