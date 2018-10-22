@@ -1,7 +1,7 @@
 import React from "react";
 import { withLoading } from "./loading/Loading";
 import { Archetype, TwitchVodData } from "../utils/api";
-import { InjectedTranslateProps, Trans, translate } from "react-i18next";
+import { InjectedTranslateProps, translate } from "react-i18next";
 import TwitchEmbed from "../components/TwitchEmbed";
 import TwitchVodsTable from "./TwitchVodsTable";
 import CardData from "../CardData";
@@ -17,19 +17,12 @@ interface State {
 	currentVodUrl: string;
 }
 
-const PickAVod = () => (
-	<div className="pick-a-vod">
-		<span className="glyphicon glyphicon-arrow-left" />{" "}
-		<Trans>Pick a VOD to start watching</Trans>
-	</div>
-);
-
 class TwitchVods extends React.Component<Props, State> {
 	private container: HTMLDivElement | null = null;
 	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
-			currentVodUrl: null,
+			currentVodUrl: props.vods[0].url,
 		};
 	}
 
@@ -76,6 +69,18 @@ class TwitchVods extends React.Component<Props, State> {
 					}
 				}}
 			>
+				<div className="twitch-vod-main">
+					<div className="twitch-iframe-container">
+						<TwitchEmbed
+							video={selectedVod}
+							width={streamWidth}
+							height={streamHeight}
+							muted={false}
+							autoplay
+							allowFullScreen
+						/>
+					</div>
+				</div>
 				<TwitchVodsTable
 					archetypeData={this.props.archetypeData}
 					cardData={this.props.cardData}
@@ -90,22 +95,6 @@ class TwitchVods extends React.Component<Props, State> {
 					}
 					onSelectVod={this.selectVod}
 				/>
-				<div className="twitch-vod-main">
-					{selectedVod !== null ? (
-						<div className="twitch-iframe-container">
-							<TwitchEmbed
-								video={selectedVod}
-								width={streamWidth}
-								height={streamHeight}
-								muted={false}
-								autoplay
-								allowFullScreen
-							/>
-						</div>
-					) : (
-						<PickAVod />
-					)}
-				</div>
 			</div>
 		);
 	}

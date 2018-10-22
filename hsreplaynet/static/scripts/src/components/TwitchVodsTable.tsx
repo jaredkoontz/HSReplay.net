@@ -1,6 +1,5 @@
 import React from "react";
 import { Archetype, TwitchVodData } from "../utils/api";
-import Table, { RowData, TableColumn } from "./tables/Table";
 import { SortDirection } from "../interfaces";
 import {
 	InjectedTranslateProps,
@@ -8,18 +7,12 @@ import {
 	translate,
 	TranslationFunction,
 } from "react-i18next";
-import ArchetypeSignatureTooltip from "./metaoverview/ArchetypeSignatureTooltip";
 import CardData from "../CardData";
 import { getCardClassName, getHeroClassName, image } from "../helpers";
-import { formatNumber } from "../i18n";
-import { BnetGameType, CardClass } from "../hearthstone";
-import RankIcon from "./RankIcon";
-import PrettyCardClass from "./text/PrettyCardClass";
-import SemanticAge from "./text/SemanticAge";
 import OptionalSelect from "./OptionalSelect";
 import SortIndicator from "./SortIndicator";
-import { getCardClass, PLAYABLE_CARD_CLASSES } from "../utils/enums";
-import Tooltip from "./Tooltip";
+import { PLAYABLE_CARD_CLASSES } from "../utils/enums";
+import TwitchVodsTableItem from "./TwitchVodsTableItem";
 
 interface Props extends InjectedTranslateProps {
 	archetypeData: Archetype[];
@@ -42,121 +35,6 @@ interface State {
 interface Row extends Partial<TwitchVodData> {
 	opposingArchetype?: Archetype;
 }
-
-const CELL_HEIGHT = 36;
-const MIN_COLUMN_WIDTH = 150;
-const MAX_HEADER_WIDTH = 217;
-const MIN_HEADER_WIDTH = 150;
-
-const stopPropagation = (event: React.SyntheticEvent): void => {
-	event.stopPropagation();
-};
-
-const StreamerName: React.SFC<{ displayName: string; channelName: string }> = ({
-	displayName,
-	channelName,
-}) => {
-	return (
-		<div className="text-twitch twitch-vod-channel-name">
-			<img src={image("socialauth/twitch.png")} alt="Twitch" />
-			&nbsp;<span>{displayName}</span>
-		</div>
-	);
-};
-
-const OpponentIcon: React.SFC<{ playerClass: string }> = ({ playerClass }) => (
-	<span className="twitch-vod-table-icon">
-		<Tooltip content={<PrettyCardClass cardClass={playerClass} />} simple>
-			<img
-				src={image(`64x/class-icons/${playerClass.toLowerCase()}.png`)}
-				className="class-icon"
-			/>
-		</Tooltip>
-	</span>
-);
-
-const Opponent: React.SFC<{
-	playerClass: string;
-	archetype: Archetype;
-	cardData: CardData;
-	gameType: string;
-}> = ({ playerClass, archetype, cardData, gameType }) => {
-	let result = null;
-	const className = "player-class " + playerClass.toLowerCase();
-	if (!archetype || archetype.id < 0 || 1 === 1) {
-		result = <PrettyCardClass cardClass={playerClass} />;
-	} else {
-		return (
-			<ArchetypeSignatureTooltip
-				key={archetype.id}
-				cardData={cardData}
-				archetypeId={archetype.id}
-				archetypeName={archetype.name}
-				gameType={gameType}
-			>
-				<a className={className} href={archetype.url}>
-					{archetype.name}
-				</a>
-			</ArchetypeSignatureTooltip>
-		);
-	}
-	return (
-		<span className="opposing-archetype">
-			<Trans>vs.</Trans> {result}
-		</span>
-	);
-};
-
-const Rank: React.SFC<{ rank: number; legendRank?: number }> = ({
-	rank,
-	legendRank,
-}) => (
-	<span className="twitch-vod-table-icon">
-		<RankIcon
-			gameType={BnetGameType.BGT_RANKED_STANDARD}
-			rank={rank || 0}
-			legendRank={legendRank || 0}
-			tooltip
-		/>
-	</span>
-);
-
-const Advantage: React.SFC<{ first: boolean }> = ({ first }) => (
-	<span className="twitch-vod-table-icon">
-		<Tooltip
-			content={
-				first ? <Trans>Went first</Trans> : <Trans>Got the coin</Trans>
-			}
-			simple
-		>
-			<img
-				src={image(first ? "first.png" : "coin.png")}
-				className="class-icon"
-			/>
-		</Tooltip>
-	</span>
-);
-
-const GameResult: React.SFC<{ won: boolean }> = ({ won }) =>
-	won ? <Trans>Won</Trans> : <Trans>Lost</Trans>;
-
-const GameDuration: React.SFC<{ seconds: number; t: TranslationFunction }> = ({
-	seconds,
-	t,
-}) => {
-	return (
-		<span className="game-duration">
-			<span className="glyphicon glyphicon-time" />{" "}
-			{t("{minutes} min", {
-				minutes: formatNumber(seconds / 60, 1),
-			} as any)}
-		</span>
-	);
-};
-
-const Age: React.SFC<{ date: Date }> = ({ date }) => (
-	<SemanticAge date={date} strict />
-);
 
 const Sortable: React.SFC<{
 	direction: SortDirection | null;
@@ -182,7 +60,7 @@ const ResetButton: React.SFC<{ onReset: () => void }> = ({ onReset }) => {
 			</p>
 			<p className="text-center">
 				<button onClick={onReset} className="btn btn-default">
-					<Trans>Reset filters</Trans>
+					<Trans>Clear filters</Trans>
 				</button>
 			</p>
 		</div>
@@ -198,7 +76,7 @@ class TwitchVodsTable extends React.Component<Props, State> {
 			sortDirection: "ascending",
 			first: null,
 			opponent: null,
-			won: null,
+			won: true,
 		};
 	}
 
@@ -270,7 +148,7 @@ class TwitchVodsTable extends React.Component<Props, State> {
 							}
 						case "broadcaster":
 							return (
-								(a.channel_name || "").toLowerCase() <
+								(a.channel_name || "").toLowerCase() >
 								(b.channel_name || "").toLowerCase()
 							);
 					}
@@ -282,24 +160,6 @@ class TwitchVodsTable extends React.Component<Props, State> {
 		return (
 			<div className="twitch-vod-table">
 				<div className="twitch-vod-table-filterables">
-					<OptionalSelect
-						default={t("Any first/coin")}
-						options={{ first: t("First"), coin: t("Coin") }}
-						value={
-							this.state.first !== null
-								? this.state.first
-									? "first"
-									: "coin"
-								: null
-						}
-						onSelect={value =>
-							this.setState({
-								first:
-									value !== null ? value === "first" : null,
-							})
-						}
-						defaultKey="any"
-					/>
 					<OptionalSelect
 						default={t("Any result")}
 						options={{ won: t("Wins"), lost: t("Losses") }}
@@ -335,6 +195,24 @@ class TwitchVodsTable extends React.Component<Props, State> {
 						}
 						defaultKey="any"
 					/>
+					<OptionalSelect
+						default={t("Any first/coin")}
+						options={{ first: t("First"), coin: t("Coin") }}
+						value={
+							this.state.first !== null
+								? this.state.first
+									? "first"
+									: "coin"
+								: null
+						}
+						onSelect={value =>
+							this.setState({
+								first:
+									value !== null ? value === "first" : null,
+							})
+						}
+						defaultKey="any"
+					/>
 				</div>
 				{rows.length ? (
 					<>
@@ -349,14 +227,6 @@ class TwitchVodsTable extends React.Component<Props, State> {
 							</Sortable>
 							<Sortable
 								direction={
-									sortBy === "age" ? sortDirection : null
-								}
-								onClick={this.sortAge}
-							>
-								{t("Recorded")}
-							</Sortable>
-							<Sortable
-								direction={
 									sortBy === "broadcaster"
 										? sortDirection
 										: null
@@ -364,6 +234,14 @@ class TwitchVodsTable extends React.Component<Props, State> {
 								onClick={this.sortBroadcaster}
 							>
 								{t("Broadcaster")}
+							</Sortable>
+							<Sortable
+								direction={
+									sortBy === "age" ? sortDirection : null
+								}
+								onClick={this.sortAge}
+							>
+								{t("Recency")}
 							</Sortable>
 							<Sortable
 								direction={
@@ -398,50 +276,25 @@ class TwitchVodsTable extends React.Component<Props, State> {
 										}
 										className={classNames.join(" ")}
 									>
-										<p>
-											<div className="twitch-vod-table-icons">
-												<Rank
-													rank={row.rank}
-													legendRank={row.legend_rank}
-												/>
-												<OpponentIcon
-													playerClass={
-														row.opposing_player_class ||
-														"NEUTRAL"
-													}
-												/>
-												<Advantage
-													first={row.went_first}
-												/>
-											</div>
-											<StreamerName
-												displayName={row.channel_name}
-												channelName={row.channel_name}
-											/>
-										</p>
-										<p>
-											<Age
-												date={new Date(row.game_date)}
-											/>
-											{" — "}
-											<Opponent
-												archetype={
-													row.opposingArchetype
-												}
-												playerClass={
-													row.opposing_player_class ||
-													"NEUTRAL"
-												}
-												gameType={this.props.gameType}
-												cardData={this.props.cardData}
-											/>{" "}
-											<GameDuration
-												seconds={
-													row.game_length_seconds
-												}
-												t={this.props.t}
-											/>
-										</p>
+										<TwitchVodsTableItem
+											rank={row.rank}
+											legendRank={row.legend_rank}
+											channelName={row.channel_name}
+											won={row.won}
+											wentFirst={row.went_first}
+											gameLengthSeconds={
+												row.game_length_seconds
+											}
+											gameDate={new Date(row.game_date)}
+											opposingPlayerClass={
+												row.opposing_player_class
+											}
+											opposingArchetype={
+												row.opposingArchetype
+											}
+											gameType={this.props.gameType}
+											cardData={this.props.cardData}
+										/>
 									</li>
 								);
 							})}
@@ -478,7 +331,7 @@ class TwitchVodsTable extends React.Component<Props, State> {
 
 	private sortRank = this.onSort("rank", true);
 	private sortAge = this.onSort("age", true);
-	private sortBroadcaster = this.onSort("broadcaster");
+	private sortBroadcaster = this.onSort("broadcaster", true);
 	private sortDuration = this.onSort("duration");
 }
 export default translate()(TwitchVodsTable);

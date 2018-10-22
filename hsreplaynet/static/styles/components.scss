@@ -1143,6 +1143,11 @@ table .info-icon,
 	}
 }
 
+.tab-list {
+	display: flex;
+	flex-direction: column;
+}
+
 .content-tabs {
 	padding: 0 5px;
 	border-bottom: 1px solid $blue;
@@ -1888,7 +1893,7 @@ ol.list-ltr {
 		-webkit-appearance: none;
 
 		> option {
-			padding: 10px 20px;
+			padding: 0;
 			font-weight: bold;
 			border-bottom: 1px solid #0c223e;
 

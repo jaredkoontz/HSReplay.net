@@ -9,6 +9,8 @@
 		min-height: calc(100vh - 50px);
 		padding-top: 10px;
 		width: calc(100% - 300px);
+		display: flex;
+		flex-direction: column;
 
 		@media (max-width: 768px) {
 			max-width: 100%;
@@ -30,6 +32,10 @@
 			position: absolute;
 			right: unset;
 			top: 5%;
+		}
+
+		#page-content {
+			flex-grow: 1;
 		}
 
 		#overview {
@@ -111,16 +117,18 @@
 
 				@media (max-width: 768px) {
 					flex-direction: column;
+					border-left: 0;
 				}
 
 				.twitch-vod-table {
-					border-right: solid 1px black;
+					border-left: solid 1px black;
 
 					> ul {
 						padding-left: 0;
 
 						> li {
-							padding: 8px 10px 8px 10px;
+							color: black;
+							padding: 4px 10px 4px 10px;
 							cursor: pointer;
 							list-style-type: none;
 							border-bottom: solid 1px gray;
@@ -140,18 +148,8 @@
 
 							p {
 								width: 100%;
-								margin: 0;
+								margin: 4px 0;
 								padding: 0;
-
-								&:first-child {
-									display: flex;
-									flex-direction: row;
-									align-items: center;
-								}
-
-								&:last-child {
-									margin-top: 4px;
-								}
 							}
 
 							&.won {
@@ -172,6 +170,10 @@
 											rgba(255, 255, 255, 0.7) 100%
 										);
 								}
+
+								.twitch-vod-table-outcome .glyphicon {
+									color: green;
+								}
 							}
 
 							&.lost {
@@ -182,11 +184,22 @@
 										rgba(255, 255, 255, 0.8) 80%,
 										rgba(255, 255, 255, 0.7) 100%
 									);
+
+								.twitch-vod-table-outcome .glyphicon {
+									color: red;
+								}
 							}
 
-							.game-duration {
-								float: right;
-								font-weight: bold;
+							.twitch-vod-table-inline-icon,
+							.rank-icon {
+								height: 1.2em;
+								width: 1.2em;
+							}
+
+							.twitch-vod-table-outcome {
+								.glyphicon {
+									font-weight: normal;
+								}
 							}
 						}
 					}
@@ -288,27 +301,18 @@
 				}
 
 				.twitch-vod-channel-name {
-					display: block;
-					flex-grow: 1;
-					text-align: left;
-					margin-left: 8px;
-					font-size: 1.1em;
 					font-weight: bold;
 
 					> img {
 						margin-top: -0.15em;
 					}
-
-					> span {
-						text-overflow: ellipsis;
-					}
-
-					> a {
-						font-size: 0.6em;
-					}
 				}
 
 				.twitch-vod-table-icons {
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+
 					.twitch-vod-table-icon {
 						width: 36px;
 						height: 36px;
