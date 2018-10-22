@@ -1,4 +1,6 @@
 import React from "react";
+const ReactI18next = jest.genMockFromModule<any>("react-i18next");
+
 import ICU from "i18next-icu";
 const icu = new ICU({ memoize: false });
 
@@ -44,3 +46,5 @@ const mockI18n = {
 export const translate = () => Component => props => (
 	<Component t={mockTranslate} i18n={mockI18n} {...props} />
 );
+
+export const Trans = ReactI18next.Trans;
