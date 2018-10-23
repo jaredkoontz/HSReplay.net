@@ -17,6 +17,7 @@ export type CardTableColumnKey =
 	| "playedPopularity"
 	| "playedWinrate"
 	| "playedWinrate"
+	| "requiredForArchetype"
 	| "timesPlayedPersonal"
 	| "timesPlayedTotal"
 	| "totalGames"
@@ -77,6 +78,16 @@ export function getCardTableColumnData(
 			sortKey: "playedWinrate",
 			text: t("Played WR"),
 			winrateData: true,
+		},
+		requiredForArchetype: {
+			dataKey: "required_for_archetype",
+			infoHeader: t("Required for archetype"),
+			infoText: t(
+				"Whether this card is required in order for a deck to be classified as a particular archetype",
+			),
+			reactNode: true,
+			sortKey: "requiredForArchetype",
+			text: t("Required for archetype?"),
 		},
 		turnsInHand: {
 			dataKey: "avg_turns_in_hand",

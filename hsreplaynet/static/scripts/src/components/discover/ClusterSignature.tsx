@@ -4,15 +4,24 @@ import { SortDirection } from "../../interfaces";
 import CardData from "../../CardData";
 import { ArchetypeSignature } from "../../utils/api";
 import LoadingSpinner from "../LoadingSpinner";
+import { CardTableColumnKey } from "../tables/cardtable/CardTableColumns";
+import { fetchCSRF } from "../../helpers";
 
 interface Props {
 	cardData: CardData | null;
+	clusterId: string;
+	format: string;
+	playerClass: string;
+	requestReload: () => void;
+	requiredCards: number[];
+	showRequiredCards?: boolean;
 	signature?: ArchetypeSignature;
 }
 
 interface State {
 	sortBy: string;
 	sortDirection: SortDirection;
+	working: boolean;
 }
 
 export default class ClusterSignature extends React.Component<Props, State> {
@@ -21,7 +30,39 @@ export default class ClusterSignature extends React.Component<Props, State> {
 		this.state = {
 			sortBy: "prevalence",
 			sortDirection: "descending",
+			working: false,
 		};
+	}
+
+	private onCardRequiredClick(dbfId: number) {
+		const dbfIndex = this.props.requiredCards.indexOf(dbfId);
+		const method = dbfIndex !== -1 ? "DELETE" : "PUT";
+
+		this.setState({
+			working: true,
+		});
+
+		const { clusterId, format, playerClass } = this.props;
+
+		fetchCSRF(
+			`/clusters/latest/${format}/${playerClass}/${clusterId}/${dbfId}/`,
+			{
+				credentials: "same-origin",
+				method: method,
+			},
+		)
+			.then((response: Response) => {
+				if (!response.ok) {
+					console.error(response.toString());
+				} else {
+					this.props.requestReload();
+				}
+				this.setState({ working: false });
+			})
+			.catch(reason => {
+				console.error(reason);
+				this.setState({ working: false });
+			});
 	}
 
 	public render(): React.ReactNode {
@@ -32,20 +73,43 @@ export default class ClusterSignature extends React.Component<Props, State> {
 		}
 
 		const cards = [];
-		const prevalences = [];
+		const data = [];
+		const columns: CardTableColumnKey[] = ["prevalence"];
+
+		if (this.props.showRequiredCards) {
+			columns.push("requiredForArchetype");
+		}
 
 		signature.components.forEach(([dbfId, prevalence]) => {
 			cards.push({ card: cardData.fromDbf(dbfId), count: 1 });
-			prevalences.push({
+
+			const rowData = {
 				dbf_id: dbfId,
 				prevalence,
-			});
+			};
+
+			if (this.props.showRequiredCards) {
+				const required_card = this.props.requiredCards.includes(dbfId);
+				rowData["required_for_archetype"] = (
+					<input
+						checked={required_card}
+						disabled={prevalence < 1}
+						onChange={() => {
+							this.onCardRequiredClick(dbfId);
+						}}
+						type={"checkbox"}
+					/>
+				);
+			}
+
+			data.push(rowData);
 		});
+
 		return (
 			<CardTable
 				cards={cards}
-				data={prevalences}
-				columns={["prevalence"]}
+				data={data}
+				columns={columns}
 				sortBy={this.state.sortBy}
 				sortDirection={this.state.sortDirection}
 				onSortChanged={(sortBy, sortDirection) =>

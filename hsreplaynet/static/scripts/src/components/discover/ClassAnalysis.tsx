@@ -15,6 +15,7 @@ import { InjectedTranslateProps, translate } from "react-i18next";
 export interface ClusterData {
 	cluster_map: { [clusterId: number]: number };
 	cluster_names: { [clusterId: number]: string };
+	cluster_required_cards: { [clusterId: number]: number[] };
 	data: DeckData[];
 	player_class: string;
 	signatures: { [id: number]: Array<[number, number]> };

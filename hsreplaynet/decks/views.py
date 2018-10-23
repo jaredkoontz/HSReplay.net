@@ -2,7 +2,6 @@ import json
 
 from django.http import Http404, JsonResponse
 from django.views.generic import View
-from django_hearthstone.cards.models import Card
 from hearthstone.enums import CardClass, FormatType
 
 from .models import Archetype, ClusterSnapshot

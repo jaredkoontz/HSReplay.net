@@ -3,7 +3,7 @@ from hearthstone.deckstrings import parse_deckstring
 from hearthstone.enums import CardClass, FormatType
 
 from hsreplaynet.decks.models import (
-	ClassClusterSnapshot, ClusterManager, ClusterSetSnapshot, ClusterSnapshot
+	Archetype, ClassClusterSnapshot, ClusterManager, ClusterSetSnapshot, ClusterSnapshot
 )
 
 

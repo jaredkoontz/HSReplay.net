@@ -170,6 +170,13 @@ class ClusterDetail extends React.Component<Props> {
 						<h2>{t("Weighted signature")}</h2>
 						<ClusterSignature
 							cardData={cardData}
+							clusterId={clusterId}
+							format={this.props.format}
+							playerClass={this.props.playerClass}
+							requiredCards={
+								data.cluster_required_cards[clusterId]
+							}
+							requestReload={this.props.requestReload}
 							signature={cppSignature}
 						/>
 					</Fragment>,
@@ -273,6 +280,11 @@ class ClusterDetail extends React.Component<Props> {
 					<h2>{t("Signature")}</h2>
 					<ClusterSignature
 						cardData={cardData}
+						clusterId={clusterId}
+						format={this.props.format}
+						playerClass={this.props.playerClass}
+						requestReload={this.props.requestReload}
+						requiredCards={data.cluster_required_cards[clusterId]}
 						signature={signature}
 					/>
 				</div>
