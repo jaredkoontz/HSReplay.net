@@ -171,12 +171,6 @@ class TestClusterSnapshotRequiredCardsUpdateView:
 
 	@pytest.fixture(autouse=True)
 	def setup_method(self, db):
-		self.archetype = Archetype(
-			name="Mecha'thun Quest Priest",
-			player_class=CardClass.PRIEST,
-		)
-		self.archetype.save()
-
 		self.cluster_set = ClusterSetSnapshot(latest=True)
 		self.cluster_set.save()
 
@@ -218,27 +212,6 @@ class TestClusterSnapshotRequiredCardsUpdateView:
 		assert self.cluster.required_cards == [48625]
 
 	@pytest.mark.django_db
-	def test_delete_with_archetype(self, client):
-		self.archetype.required_cards.add(Card.objects.get(dbf_id=41494))
-		self.archetype.required_cards.add(Card.objects.get(dbf_id=48625))
-
-		self.cluster.external_id = self.archetype.id
-		self.cluster.required_cards = [41494, 48625]
-		self.cluster.save()
-
-		response = client.delete(
-			f"/clusters/latest/FT_STANDARD/PRIEST/{self.cluster.cluster_id}/41494/"
-		)
-
-		assert response.status_code == 200
-
-		self.archetype.refresh_from_db()
-		self.cluster.refresh_from_db()
-
-		assert self.archetype.required_cards.count() == 1
-		assert self.archetype.required_cards.first() == Card.objects.get(dbf_id=48625)
-		assert self.cluster.required_cards == [48625]
-
 	def test_put(self, client):
 		self.cluster.required_cards = [48625]
 		self.cluster.save()
@@ -250,27 +223,5 @@ class TestClusterSnapshotRequiredCardsUpdateView:
 		assert response.status_code == 200
 
 		self.cluster.refresh_from_db()
-
-		assert self.cluster.required_cards == [48625, 41494]
-
-	def test_put_with_archetype(self, client):
-		self.archetype.required_cards.add(Card.objects.get(dbf_id=48625))
-
-		self.cluster.external_id = self.archetype.id
-		self.cluster.required_cards = [48625]
-		self.cluster.save()
-
-		response = client.put(
-			f"/clusters/latest/FT_STANDARD/PRIEST/{self.cluster.cluster_id}/41494/"
-		)
-
-		assert response.status_code == 200
-
-		self.archetype.refresh_from_db()
-		self.cluster.refresh_from_db()
-
-		assert self.archetype.required_cards.count() == 2
-		assert Card.objects.get(dbf_id=41494) in self.archetype.required_cards.all()
-		assert Card.objects.get(dbf_id=48625) in self.archetype.required_cards.all()
 
 		assert self.cluster.required_cards == [48625, 41494]

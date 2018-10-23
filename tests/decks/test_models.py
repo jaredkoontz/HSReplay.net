@@ -1,4 +1,5 @@
 import pytest
+from django_hearthstone.cards.models import Card
 from hearthstone.deckstrings import parse_deckstring
 from hearthstone.enums import CardClass, FormatType
 
@@ -64,3 +65,42 @@ class TestClusterManager:
 				"signature_weights": {int(k): v for k, v in MECHATHUN_DRUID.items()}
 			}
 		}
+
+
+class TestClusterSetSnapshot:
+
+	@pytest.mark.django_db
+	def test_synchronize_deck_archetype_assignments_update_required_cards(self):
+		archetype = Archetype(
+			name="Mecha'thun Druid",
+			player_class=CardClass.DRUID,
+		)
+		archetype.save()
+		archetype.required_cards.add(Card.objects.get(dbf_id=836))
+		archetype.required_cards.add(Card.objects.get(dbf_id=1124))
+
+		cluster_set = ClusterSetSnapshot(
+			game_format=FormatType.FT_STANDARD,
+			live_in_production=True
+		)
+		cluster_set.save()
+
+		class_cluster = ClassClusterSnapshot(
+			cluster_set=cluster_set,
+			player_class=CardClass.DRUID
+		)
+		class_cluster.save()
+
+		cluster = ClusterSnapshot(
+			class_cluster=class_cluster,
+			cluster_id=1,
+			external_id=archetype.id,
+			required_cards=[48625],
+			ccp_signature=MECHATHUN_DRUID
+		)
+		cluster.save()
+
+		cluster_set.synchronize_deck_archetype_assignments()
+
+		assert archetype.required_cards.count() == 1
+		assert archetype.required_cards.first() == Card.objects.get(dbf_id=48625)

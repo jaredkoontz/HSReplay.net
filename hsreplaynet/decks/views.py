@@ -132,13 +132,6 @@ class ClusterSnapshotRequiredCardsUpdateView(View):
 			cluster.required_cards.remove(dbf_id)
 			cluster.save()
 
-		# Does the cluster have an archetype? If so, remove the card from the archetype as
-		# well.
-
-		if cluster.external_id:
-			archetype = Archetype.objects.get(pk=cluster.external_id)
-			archetype.required_cards.remove(Card.objects.get(dbf_id=dbf_id))
-
 		return JsonResponse({"msg": "OKAY"}, status=200)
 
 	def put(self, request, game_format, player_class, cluster_id, dbf_id_str):
@@ -152,11 +145,5 @@ class ClusterSnapshotRequiredCardsUpdateView(View):
 		if dbf_id not in cluster.required_cards:
 			cluster.required_cards.append(dbf_id)
 			cluster.save()
-
-		# Does the cluster have an archetype? If so, add the card to the archetype as well.
-
-		if cluster.external_id:
-			archetype = Archetype.objects.get(pk=cluster.external_id)
-			archetype.required_cards.add(Card.objects.get(dbf_id=dbf_id))
 
 		return JsonResponse({"msg": "OKAY"}, status=200)
