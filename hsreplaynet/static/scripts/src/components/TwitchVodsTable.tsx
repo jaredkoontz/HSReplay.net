@@ -1,14 +1,9 @@
 import React from "react";
 import { Archetype, TwitchVodData } from "../utils/api";
 import { SortDirection } from "../interfaces";
-import {
-	InjectedTranslateProps,
-	Trans,
-	translate,
-	TranslationFunction,
-} from "react-i18next";
+import { InjectedTranslateProps, Trans, translate } from "react-i18next";
 import CardData from "../CardData";
-import { getCardClassName, getHeroClassName, image } from "../helpers";
+import { getCardClassName, getHeroClassName } from "../helpers";
 import OptionalSelect from "./OptionalSelect";
 import SortIndicator from "./SortIndicator";
 import { PLAYABLE_CARD_CLASSES } from "../utils/enums";

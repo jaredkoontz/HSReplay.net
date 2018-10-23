@@ -3,8 +3,9 @@ import { Archetype } from "../../utils/api";
 import CardData from "../../CardData";
 import ProfileArchetypePanel from "./ProfileArchetypePanel";
 import { CardClass } from "../../hearthstone";
+import { InjectedTranslateProps, translate } from "react-i18next";
 
-interface Props {
+interface Props extends InjectedTranslateProps {
 	data: ProfileArchetypeData[];
 	cardData: CardData;
 	gameType: string;
@@ -47,36 +48,27 @@ export interface ProfileGameData {
 	replayUrl: string | null;
 }
 
-interface State {}
-
-export default class ProfileArchetypeList extends React.Component<
-	Props,
-	State
-> {
-	constructor(props: Props, context: any) {
-		super(props, context);
-		this.state = {};
-	}
-
+class ProfileArchetypeList extends React.Component<Props> {
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		return (
 			<>
 				<div className="profile-archetype-list-header">
 					<div className="col-lg-1 col-md-1 col-sm-hidden col-xs-hidden" />
 					<div className="col-lg-2 col-md-2 col-sm-2 col-xs-2 align-left">
-						Archetype
+						{t("Archetype")}
 					</div>
 					<div className="col-lg-1 col-md-1 col-sm-2 col-xs-2">
-						Winrate
+						{t("Winrate")}
 					</div>
 					<div className="col-lg-1 col-md-1 col-sm-2 col-xs-2">
-						Games
+						{t("Games")}
 					</div>
 					<div className="col-lg-2 col-md-1 col-sm-2 col-xs-hidden">
-						Last Played
+						{t("Last Played")}
 					</div>
 					<div className="col-lg-5 col-md-6 col-sm-hidden col-xs-hidden align-left">
-						Cards
+						{t("Cards")}
 					</div>
 				</div>
 				<div className="clearfix" />
@@ -93,3 +85,5 @@ export default class ProfileArchetypeList extends React.Component<
 		);
 	}
 }
+
+export default translate()(ProfileArchetypeList);

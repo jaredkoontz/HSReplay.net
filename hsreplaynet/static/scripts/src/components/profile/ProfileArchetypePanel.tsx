@@ -109,7 +109,12 @@ class ProfileArchetypePanel extends React.Component<Props, State> {
 							</p>
 							{data.globalWinrate ? (
 								<p className="global-winrate">
-									Avg. {formatNumber(data.globalWinrate, 1)}%
+									{t("Avg. {winrate}%", {
+										winrate: formatNumber(
+											data.globalWinrate,
+											1,
+										),
+									})}
 								</p>
 							) : null}
 						</div>

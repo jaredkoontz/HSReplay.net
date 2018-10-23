@@ -10,14 +10,7 @@ interface Props {
 	gameType: string;
 }
 
-interface State {}
-
-export default class ProfileDeckList extends React.Component<Props, State> {
-	constructor(props: Props, context: any) {
-		super(props, context);
-		this.state = {};
-	}
-
+export default class ProfileDeckList extends React.Component<Props> {
 	public render(): React.ReactNode {
 		const { data } = this.props;
 		const commonCards = {};
