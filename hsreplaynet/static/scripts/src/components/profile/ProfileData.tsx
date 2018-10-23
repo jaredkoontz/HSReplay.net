@@ -9,7 +9,12 @@ import { BnetGameType, CardClass, FormatType } from "../../hearthstone";
 import { Archetype } from "../../utils/api";
 import { ArchetypeData } from "../../interfaces";
 import { ProfileArchetypeData, ProfileDeckData } from "./ProfileArchetypeList";
-import { getCardClassName, getHeroCardId } from "../../helpers";
+import {
+	getCardClassName,
+	getCardIds,
+	getDeckShortId,
+	getHeroCardId,
+} from "../../helpers";
 import CardData from "../../CardData";
 
 export type ProfileDataType = "MatchupData" | "ArchetypeListData";
@@ -258,6 +263,8 @@ export default class ProfileData extends React.Component<Props> {
 					deckDef,
 					archetype.playerClass,
 				);
+				const cardIds = getCardIds(deckDef, this.props.cardData);
+				const shortId = getDeckShortId(cardIds);
 				deck = {
 					numWins: 0,
 					globalWinrate: globalDeck ? globalDeck.win_rate : null,
@@ -268,7 +275,7 @@ export default class ProfileData extends React.Component<Props> {
 					metaTier: null,
 					games: [],
 					playerClass: archetype.playerClass,
-					deckUrl: "/decks/",
+					deckUrl: `/decks/${shortId}`,
 				};
 				archetype.decks.push(deck);
 			}
