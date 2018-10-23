@@ -1,3 +1,4 @@
+import "babel-polyfill";
 import React from "react";
 import { addDecorator, configure } from "@storybook/react";
 import i18n from "../hsreplaynet/static/scripts/src/i18n";
