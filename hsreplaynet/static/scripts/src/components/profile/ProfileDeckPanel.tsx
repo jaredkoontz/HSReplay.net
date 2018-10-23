@@ -55,7 +55,8 @@ class ProfileDeckPanel extends React.Component<Props, State> {
 		return (
 			<li className="profile-deck-panel">
 				<div className="data-container">
-					<div className="col-lg-2 col-lg-offset-1 align-left">
+					<div className="deck-spacer col-lg-1 col-md-1 col-sm-hidden col-xs-hidden" />
+					<div className="col-lg-2 align-left">
 						<ExpandTableButton
 							expandText="Games"
 							collapseText="Games"
@@ -64,6 +65,7 @@ class ProfileDeckPanel extends React.Component<Props, State> {
 								this.setState({ expanded })
 							}
 						/>
+						<div className="top-arrow-up border" />
 						<div className="top-arrow-up" />
 						{this.state.expanded ? (
 							<div className="bottom-arrow-up" />

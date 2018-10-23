@@ -14,7 +14,8 @@ export default class ProfileReplayList extends React.Component<Props> {
 		return (
 			<ul className="col-lg-12">
 				<div className="profile-replay-list-header col-lg-12">
-					<div className="col-lg-1 col-lg-offset-1 col-md-2 col-md-offset-1 col-sm-2 col-xs-2">
+					<div className="replay-spacer col-lg-1 col-md-1 col-sm-hidden col-xs-hidden" />
+					<div className="col-lg-1 col-md- col-sm-2 col-xs-2">
 						Result
 					</div>
 					<div className="col-lg-2 col-md-2 col-sm-2 col-xs-2 align-left">

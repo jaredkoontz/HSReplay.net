@@ -22,8 +22,9 @@ class ProfileReplayPanel extends React.Component<Props> {
 		return (
 			<li className="profile-replay-panel">
 				<div className="data-container">
+					<div className="replay-spacer col-lg-1 col-md-1 col-sm-hidden col-xs-hidden" />
 					<div
-						className="col-lg-1 col-lg-offset-1"
+						className="col-lg-1"
 						style={{
 							color: data.won ? "green" : "red",
 							textTransform: "uppercase",

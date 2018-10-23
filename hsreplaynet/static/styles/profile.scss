@@ -223,6 +223,7 @@
 		white-space: nowrap;
 		color: $blue;
 		border-radius: 3px;
+		border: 1px solid $blue;
 
 		&:hover,
 		&:active {
@@ -267,6 +268,10 @@
 		padding: 0;
 		font-weight: bold;
 
+		border-left: 1px solid rgba(29, 54, 87, 0.5);
+		border-right: 1px solid rgba(29, 54, 87, 0.5);
+		border-bottom: 1px solid rgba(29, 54, 87, 0.5);
+
 		ul {
 			padding: 0;
 		}
@@ -284,11 +289,53 @@
 
 		.profile-archetype-panel {
 			background: #e1e8ef;
-			border-bottom: 1px solid #d3dce5;
+			background-position: 0 -42px;
+			background-repeat: no-repeat;
+			position: relative;
+			border-bottom: 1px solid #b8c2cf;
+
+			&:last-of-type {
+				border-bottom: none;
+			}
+
+			.background-fade {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+
+				&.horizontal {
+					background: linear-gradient(
+						to right,
+						rgba(251, 247, 246, 0.7) 0,
+						rgba(251, 247, 246, 0.7) 100px,
+						#e1e8ef 256px
+					);
+				}
+			}
 
 			&.expanded {
-				background: #d3dce5;
-				padding-bottom: 5px;
+				background-color: #d3dce5;
+				background-position: -50px 0;
+
+				.background-fade {
+					&.horizontal {
+						background: linear-gradient(
+							to right,
+							rgba(251, 247, 246, 0.7) 0,
+							rgba(251, 247, 246, 0.7) 50px,
+							#d3dce5 206px
+						);
+					}
+
+					&.vertical {
+						background: linear-gradient(
+							to bottom,
+							transparent 0,
+							transparent 150px,
+							#d3dce5 256px
+						);
+					}
+				}
 			}
 
 			.player-class a {
@@ -299,8 +346,7 @@
 					color: black;
 				}
 			}
-
-			> .data-container {
+			u > .data-container {
 				padding-right: 5px;
 			}
 
@@ -322,12 +368,24 @@
 
 		.profile-deck-panel {
 			min-height: 55px;
-			margin-right: 5px;
 
-			.data-container {
+			&:first-of-type {
+				> .data-container > div {
+					border-top: 1px solid rgba(29, 54, 87, 0.1);
+				}
+			}
+
+			> .data-container {
 				> div {
 					background: #becad5;
 					height: 55px;
+					border-top: 1px solid rgba(29, 54, 87, 0.1);
+
+					&.deck-spacer {
+						background: transparent;
+						border: none;
+						border-right: 1px solid #aebac8;
+					}
 				}
 			}
 
@@ -337,11 +395,17 @@
 				.top-arrow-up {
 					width: 0;
 					height: 0;
-					border-left: 8px solid transparent;
-					border-right: 8px solid transparent;
-					border-bottom: 8px solid #becad5;
+					border-left: 10px solid transparent;
+					border-right: 10px solid transparent;
+					border-bottom: 10px solid #becad5;
 					position: absolute;
-					top: -8px;
+					top: -10px;
+
+					&.border {
+						border-bottom: 10px solid rgba(29, 54, 87, 0.2);
+						position: absolute;
+						top: -11px;
+					}
 				}
 			}
 
@@ -356,7 +420,6 @@
 			}
 
 			.expand-table-button {
-				border: 1px solid rgba(0, 0, 0, 0.3);
 				color: $blue;
 
 				&:hover,
@@ -372,7 +435,7 @@
 					&:hover,
 					&:active {
 						background: #becad5;
-						border: 1px solid rgba(0, 0, 0, 0.3);
+						border: 1px solid $blue;
 					}
 				}
 			}
@@ -404,6 +467,7 @@
 			color: #4c5965;
 			text-transform: uppercase;
 			padding: 0;
+			height: 41px;
 
 			> div {
 				background: $offwhite;
@@ -412,7 +476,14 @@
 				padding-bottom: 5px;
 				text-align: center;
 
-				&:first-of-type {
+				&.replay-spacer {
+					background: transparent;
+					border: none;
+					height: 100%;
+					border-right: 1px solid #aebac8;
+				}
+
+				&:nth-of-type(2) {
 					border-left: 5px solid #becad5;
 				}
 
@@ -479,12 +550,38 @@
 					background: $offwhite;
 					height: 40px;
 
-					&:first-of-type {
+					&.replay-spacer {
+						background: transparent;
+						border: none;
+						border-right: 1px solid #aebac8;
+					}
+
+					&:nth-of-type(2) {
 						border-left: 5px solid #becad5;
+
+						// prevent the bottom border from fading into the left border
+						&:before {
+							content: "";
+							position: absolute;
+							border-left: 5px solid #becad5;
+							height: calc(100% + 1px);
+							left: -5px;
+							top: 0;
+						}
 					}
 
 					&:last-of-type {
 						border-right: 5px solid #becad5;
+
+						// prevent the bottom border from fading into the left border
+						&:after {
+							content: "";
+							position: absolute;
+							border-left: 5px solid #becad5;
+							height: calc(100% + 1px);
+							right: -5px;
+							top: 0;
+						}
 					}
 				}
 			}
@@ -493,6 +590,10 @@
 				.data-container {
 					> div {
 						border-bottom: 5px solid #becad5;
+					}
+
+					.replay-spacer {
+						border-bottom: none;
 					}
 				}
 			}

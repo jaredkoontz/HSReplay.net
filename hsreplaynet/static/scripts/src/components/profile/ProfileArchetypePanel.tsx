@@ -5,7 +5,11 @@ import ProfileDeckList from "./ProfileDeckList";
 import { formatNumber } from "../../i18n";
 import SemanticAge from "../text/SemanticAge";
 import CardIcon from "../CardIcon";
-import { getHeroClassName, winrateData } from "../../helpers";
+import {
+	getHeroClassName,
+	getHeroSkinCardUrl,
+	winrateData,
+} from "../../helpers";
 import ExpandTableButton from "./ExpandTableButton";
 import { InjectedTranslateProps, translate } from "react-i18next";
 import ArchetypeSignatureTooltip from "../metaoverview/ArchetypeSignatureTooltip";
@@ -45,7 +49,16 @@ class ProfileArchetypePanel extends React.Component<Props, State> {
 		const tendency = hasGlobalWinrate ? wr.tendencyStr : null;
 		const winrateStyle = { color: wr.color };
 		return (
-			<li className={className.join(" ")}>
+			<li
+				className={className.join(" ")}
+				style={{
+					backgroundImage: `url(${getHeroSkinCardUrl(
+						data.playerClass,
+					)})`,
+				}}
+			>
+				<div className="background-fade horizontal" />
+				<div className="background-fade vertical" />
 				<div className="data-container">
 					<div className="col-lg-3 col-md-3 col-sm-2 col-xs-2 align-left">
 						<ExpandTableButton
