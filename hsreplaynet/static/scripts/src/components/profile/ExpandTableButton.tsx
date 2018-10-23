@@ -6,6 +6,7 @@ interface Props extends InjectedTranslateProps {
 	collapseText: string;
 	expanded: boolean;
 	onExpandedChanged: (expanded) => void;
+	className?: string;
 }
 
 class ExpandTableButton extends React.Component<Props> {
@@ -13,6 +14,9 @@ class ExpandTableButton extends React.Component<Props> {
 		const className = ["expand-table-button"];
 		if (this.props.expanded) {
 			className.push("expanded");
+		}
+		if (this.props.className) {
+			className.push(this.props.className);
 		}
 
 		return (

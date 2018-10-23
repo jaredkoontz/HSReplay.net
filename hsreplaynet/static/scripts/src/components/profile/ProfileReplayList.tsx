@@ -16,26 +16,26 @@ class ProfileReplayList extends React.Component<Props> {
 		return (
 			<ul className="col-lg-12">
 				<div className="profile-replay-list-header col-lg-12">
-					<div className="replay-spacer col-lg-1 col-md-1 col-sm-hidden col-xs-hidden" />
-					<div className="col-lg-1 col-md- col-sm-2 col-xs-2">
+					<div className="replay-spacer col-lg-1 col-md-1 hidden-sm hidden-xs" />
+					<div className="col-lg-1 col-md-1 col-sm-2 col-xs-3">
 						{t("Result")}
 					</div>
-					<div className="col-lg-2 col-md-2 col-sm-2 col-xs-2 align-left">
+					<div className="col-lg-2 col-md-2 col-sm-3 col-xs-6 align-left">
 						{t("Opponent")}
 					</div>
-					<div className="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+					<div className="col-lg-2 col-md-2 col-sm-2 hidden-xs">
 						{t("Rank")}
 					</div>
-					<div className="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+					<div className="col-lg-2 col-md-2 col-sm-3 hidden-xs">
 						{t("Date")}
 					</div>
-					<div className="col-lg-1 col-md-2 col-sm-1 col-xs-hidden">
+					<div className="col-lg-1 col-md-1 hidden-sm hidden-xs">
 						{t("Turns")}
 					</div>
-					<div className="col-lg-1 col-md-1 col-sm-1 col-xs-hidden">
+					<div className="col-lg-1 col-md-1 hidden-sm hidden-xs">
 						{t("Duration")}
 					</div>
-					<div className="col-lg-2 col-md-1 col-sm-1 col-xs-hidden">
+					<div className="col-lg-2 col-md-2 col-sm-2 col-xs-3">
 						{t("Replay")}
 					</div>
 				</div>

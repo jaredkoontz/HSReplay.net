@@ -60,7 +60,7 @@ class ProfileArchetypePanel extends React.Component<Props, State> {
 				<div className="background-fade horizontal" />
 				<div className="background-fade vertical" />
 				<div className="data-container">
-					<div className="col-lg-3 col-md-3 col-sm-2 col-xs-2 align-left">
+					<div className="col-lg-3 col-md-3 col-sm-6 col-xs-6 align-left">
 						<ExpandTableButton
 							expandText="Decks"
 							collapseText="Decks"
@@ -68,6 +68,7 @@ class ProfileArchetypePanel extends React.Component<Props, State> {
 							onExpandedChanged={expanded =>
 								this.setState({ expanded })
 							}
+							className="hidden-sm hidden-xs"
 						/>
 						<p
 							className={`player-class ${data.playerClass.toLowerCase()}`}
@@ -98,7 +99,17 @@ class ProfileArchetypePanel extends React.Component<Props, State> {
 							)}
 						</p>
 					</div>
-					<div className="col-lg-1 col-md-1 col-sm-2 col-xs-2">
+					<div className="hidden-lg hidden-md col-sm-6 col-xs-6">
+						{this.renderCardList(4)}
+					</div>
+					<div className="hidden-lg hidden-md col-sm-12 col-xs-12 labels">
+						<div className="col-sm-4 col-xs-4">{t("Winrate")}</div>
+						<div className="col-sm-4 col-xs-4">{t("Games")}</div>
+						<div className="col-sm-4 col-xs-4">
+							{t("Last Played")}
+						</div>
+					</div>
+					<div className="col-lg-1 col-md-1 col-sm-4 col-xs-4">
 						<div>
 							<p style={winrateStyle}>
 								{tendency}
@@ -119,27 +130,27 @@ class ProfileArchetypePanel extends React.Component<Props, State> {
 							) : null}
 						</div>
 					</div>
-					<div className="col-lg-1 col-md-1 col-sm-2 col-xs-2">
+					<div className="col-lg-1 col-md-1 col-sm-4 col-xs-4">
 						{data.numGames}
 					</div>
-					<div className="col-lg-2 col-md-1 col-sm-2 col-xs-hidden">
+					<div className="col-lg-2 col-md-1 col-sm-4 col-xs-4">
 						<SemanticAge date={data.lastPlayed} />
 					</div>
-					<div className="col-lg-5 col-md-6 col-sm-12 col-xs-12 align-left">
-						<div className="card-list">
-							{data.archetype &&
-								data.archetype.standard_ccp_signature_core.components
-									.slice(0, 8)
-									.map(dbfId => (
-										<CardIcon
-											card={this.props.cardData.fromDbf(
-												dbfId,
-											)}
-										/>
-									))}
-						</div>
+					<div className="col-lg-5 col-md-6 hidden-sm hidden-xs align-left">
+						{this.renderCardList(8)}
+					</div>
+					<div className="hidden-lg hidden-md col-sm-12 col-xs-12 expand-table-button-wrapper">
+						<ExpandTableButton
+							expandText="Decks"
+							collapseText="Decks"
+							expanded={this.state.expanded}
+							onExpandedChanged={expanded =>
+								this.setState({ expanded })
+							}
+						/>
 					</div>
 				</div>
+				<div className="clearfix" />
 				{this.state.expanded ? (
 					<ProfileDeckList
 						data={data.decks}
@@ -149,6 +160,22 @@ class ProfileArchetypePanel extends React.Component<Props, State> {
 				) : null}
 				<div className="clearfix" />
 			</li>
+		);
+	}
+
+	private renderCardList(numCards: number): React.ReactNode {
+		const { data } = this.props;
+		return (
+			<div className="card-list">
+				{data.archetype &&
+					data.archetype.standard_ccp_signature_core.components
+						.slice(0, numCards)
+						.map(dbfId => (
+							<CardIcon
+								card={this.props.cardData.fromDbf(dbfId)}
+							/>
+						))}
+			</div>
 		);
 	}
 }

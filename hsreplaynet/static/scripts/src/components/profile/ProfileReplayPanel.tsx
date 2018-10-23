@@ -22,9 +22,9 @@ class ProfileReplayPanel extends React.Component<Props> {
 		return (
 			<li className="profile-replay-panel">
 				<div className="data-container">
-					<div className="replay-spacer col-lg-1 col-md-1 col-sm-hidden col-xs-hidden" />
+					<div className="replay-spacer col-lg-1 col-md-1 hidden-sm hidden-xs" />
 					<div
-						className="col-lg-1"
+						className="col-lg-1 col-md-1 col-sm-2 col-xs-3"
 						style={{
 							color: data.won ? "green" : "red",
 							textTransform: "uppercase",
@@ -32,7 +32,7 @@ class ProfileReplayPanel extends React.Component<Props> {
 					>
 						{data.won ? t("Win") : t("Loss")}
 					</div>
-					<div className="col-lg-2 align-left">
+					<div className="col-lg-2 col-md-2 col-sm-3 col-xs-6 align-left">
 						<p
 							className={`player-class ${opponentClass.toLowerCase()}`}
 						>
@@ -64,7 +64,7 @@ class ProfileReplayPanel extends React.Component<Props> {
 							)}
 						</p>
 					</div>
-					<div className="col-lg-2">
+					<div className="col-lg-2 col-md-2 col-sm-2 hidden-xs">
 						{data.rank || data.legendRank ? (
 							<>
 								<RankIcon
@@ -72,19 +72,23 @@ class ProfileReplayPanel extends React.Component<Props> {
 									legendRank={data.legendRank}
 									gameType={BnetGameType.BGT_RANKED_STANDARD}
 								/>
-								{data.rank
-									? t("Rank {rank}", { rank: data.rank })
-									: t("Legend {rank}", {
-											rank: data.legendRank,
-									  })}
+								<div className="hidden-xs">
+									{data.rank
+										? t("Rank {rank}", { rank: data.rank })
+										: t("Legend {rank}", {
+												rank: data.legendRank,
+										  })}
+								</div>
 							</>
 						) : null}
 					</div>
-					<div className="col-lg-2">
+					<div className="col-lg-2 col-md-2 col-sm-3 hidden-xs">
 						<SemanticAge date={data.date} />
 					</div>
-					<div className="col-lg-1">{data.numTurns}</div>
-					<div className="col-lg-1">
+					<div className="col-lg-1 col-md-1 hidden-sm hidden-xs">
+						{data.numTurns}
+					</div>
+					<div className="col-lg-1 col-md-1 hidden-sm hidden-xs">
 						{t("{durationInMinutes} min", {
 							durationInMinutes: formatNumber(
 								data.duration / 1000 / 60,
@@ -92,7 +96,7 @@ class ProfileReplayPanel extends React.Component<Props> {
 							),
 						})}
 					</div>
-					<div className="col-lg-2">
+					<div className="col-lg-2 col-md-2 col-sm-2 col-xs-3">
 						{data.replayUrl ? (
 							<a className="replay-link" href={data.replayUrl}>
 								<span className="glyphicon glyphicon-triangle-right" />

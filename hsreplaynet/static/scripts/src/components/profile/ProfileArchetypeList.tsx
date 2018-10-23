@@ -53,21 +53,15 @@ class ProfileArchetypeList extends React.Component<Props> {
 		const { t } = this.props;
 		return (
 			<>
-				<div className="profile-archetype-list-header">
-					<div className="col-lg-1 col-md-1 col-sm-hidden col-xs-hidden" />
-					<div className="col-lg-2 col-md-2 col-sm-2 col-xs-2 align-left">
+				<div className="profile-archetype-list-header hidden-sm hidden-xs">
+					<div className="col-lg-1 col-md-1" />
+					<div className="col-lg-2 col-md-2 align-left">
 						{t("Archetype")}
 					</div>
-					<div className="col-lg-1 col-md-1 col-sm-2 col-xs-2">
-						{t("Winrate")}
-					</div>
-					<div className="col-lg-1 col-md-1 col-sm-2 col-xs-2">
-						{t("Games")}
-					</div>
-					<div className="col-lg-2 col-md-1 col-sm-2 col-xs-hidden">
-						{t("Last Played")}
-					</div>
-					<div className="col-lg-5 col-md-6 col-sm-hidden col-xs-hidden align-left">
+					<div className="col-lg-1 col-md-1">{t("Winrate")}</div>
+					<div className="col-lg-1 col-md-1">{t("Games")}</div>
+					<div className="col-lg-2 col-md-1">{t("Last Played")}</div>
+					<div className="col-lg-5 col-md-6 align-left">
 						{t("Cards")}
 					</div>
 				</div>

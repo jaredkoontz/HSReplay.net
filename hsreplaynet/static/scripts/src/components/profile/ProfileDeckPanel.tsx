@@ -55,8 +55,8 @@ class ProfileDeckPanel extends React.Component<Props, State> {
 		return (
 			<li className="profile-deck-panel">
 				<div className="data-container">
-					<div className="deck-spacer col-lg-1 col-md-1 col-sm-hidden col-xs-hidden" />
-					<div className="col-lg-2 align-left">
+					<div className="deck-spacer col-lg-1 col-md-1 hidden-sm hidden-xs" />
+					<div className="col-lg-2 col-md-2 hidden-sm hidden-xs align-left">
 						<ExpandTableButton
 							expandText="Games"
 							collapseText="Games"
@@ -71,7 +71,14 @@ class ProfileDeckPanel extends React.Component<Props, State> {
 							<div className="bottom-arrow-up" />
 						) : null}
 					</div>
-					<div className="col-lg-1 winrate-cell">
+					<div className="hidden-lg hidden-md col-sm-12 col-xs-12">
+						<div className="card-list">
+							{data.archetype !== null
+								? this.renderArchetypeDeck(deckCards, 8)
+								: this.renderDeck(deckCards, 8)}
+						</div>
+					</div>
+					<div className="col-lg-1 col-md-1 col-sm-4 col-xs-4 winrate-cell">
 						<div>
 							<p style={winrateStyle}>
 								{tendency}
@@ -89,15 +96,22 @@ class ProfileDeckPanel extends React.Component<Props, State> {
 							) : null}
 						</div>
 					</div>
-					<div className="col-lg-1">{data.numGames}</div>
-					<div className="col-lg-2">
+					<div className="col-lg-1 col-md-1 col-sm-4 col-xs-4">
+						{data.numGames}
+					</div>
+					<div className="col-lg-2 col-md-1 col-sm-4 col-xs-4">
 						<SemanticAge date={data.lastPlayed} />
 					</div>
-					<div className="col-lg-5 card-list-cell">
-						<div className="card-list">
+					<div className="col-lg-5 col-md-6 hidden-sm hidden-xs card-list-cell">
+						<div className="card-list hidden-lg">
 							{data.archetype !== null
-								? this.renderArchetypeDeck(deckCards)
-								: this.renderDeck(deckCards)}
+								? this.renderArchetypeDeck(deckCards, 6)
+								: this.renderDeck(deckCards, 6)}
+						</div>
+						<div className="card-list hidden-md">
+							{data.archetype !== null
+								? this.renderArchetypeDeck(deckCards, 8)
+								: this.renderDeck(deckCards, 8)}
 						</div>
 						<DeckListTooltip
 							deckName={
@@ -122,7 +136,23 @@ class ProfileDeckPanel extends React.Component<Props, State> {
 							</a>
 						</DeckListTooltip>
 					</div>
+					<div className="hidden-lg hidden-md col-sm-6 col-xs-6">
+						<ExpandTableButton
+							expandText="Games"
+							collapseText="Games"
+							expanded={this.state.expanded}
+							onExpandedChanged={expanded =>
+								this.setState({ expanded })
+							}
+						/>
+					</div>
+					<div className="hidden-lg hidden-md col-sm-6 col-xs-6">
+						<a className="btn btn-view-deck" href={data.deckUrl}>
+							{t("View Deck")}
+						</a>
+					</div>
 				</div>
+				<div className="clearfix" />
 				{this.state.expanded ? (
 					<ProfileReplayList
 						data={data.games}
@@ -157,7 +187,10 @@ class ProfileDeckPanel extends React.Component<Props, State> {
 		);
 	}
 
-	private renderArchetypeDeck(cards: DeckList): React.ReactNode {
+	private renderArchetypeDeck(
+		cards: DeckList,
+		numCards: number,
+	): React.ReactNode {
 		const { data, cardUniqueness } = this.props;
 
 		return (
@@ -186,7 +219,7 @@ class ProfileDeckPanel extends React.Component<Props, State> {
 						.map(x => [x, cards.find(c => c[0] === x)[1]]);
 
 					return uniqueCards
-						.slice(0, 8)
+						.slice(0, numCards)
 						.map(([dbfId, count]) =>
 							this.renderCardIcon(dbfId, count),
 						);
@@ -195,7 +228,7 @@ class ProfileDeckPanel extends React.Component<Props, State> {
 		);
 	}
 
-	private renderDeck(cards: DeckList): React.ReactNode {
+	private renderDeck(cards: DeckList, numCards: number): React.ReactNode {
 		const { data, cardUniqueness } = this.props;
 		const deckDbfIds = cards.map(x => x[0]);
 		const uniqueCards = cardUniqueness
@@ -203,7 +236,7 @@ class ProfileDeckPanel extends React.Component<Props, State> {
 			.filter(x => deckDbfIds.indexOf(x) !== -1)
 			.map(x => [x, cards.find(c => c[0] === x)[1]]);
 		return uniqueCards
-			.slice(0, 8)
+			.slice(0, numCards)
 			.map(([dbfId, count]) => this.renderCardIcon(dbfId, count));
 	}
 }

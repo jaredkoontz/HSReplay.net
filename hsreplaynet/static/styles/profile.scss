@@ -16,6 +16,7 @@
 		display: flex;
 		color: white;
 		border-bottom: 2px solid $premium;
+
 		@media (max-width: 600px) {
 			flex-wrap: wrap;
 			justify-content: center;
@@ -31,6 +32,7 @@
 			margin-bottom: 40px;
 			display: flex;
 			align-items: center;
+			flex-wrap: wrap;
 
 			h1 {
 				display: inline-block;
@@ -245,6 +247,10 @@
 		.glyphicon {
 			margin-right: 10px;
 		}
+
+		@media (max-width: 991px) {
+			width: 100%;
+		}
 	}
 
 	.align-left {
@@ -267,10 +273,7 @@
 	.profile-archetype-list {
 		padding: 0;
 		font-weight: bold;
-
-		border-left: 1px solid rgba(29, 54, 87, 0.5);
-		border-right: 1px solid rgba(29, 54, 87, 0.5);
-		border-bottom: 1px solid rgba(29, 54, 87, 0.5);
+		border: 1px solid rgba(29, 54, 87, 0.5);
 
 		ul {
 			padding: 0;
@@ -315,25 +318,27 @@
 
 			&.expanded {
 				background-color: #d3dce5;
-				background-position: -50px 0;
+				@media (min-width: 992px) {
+					background-position: -50px 0;
 
-				.background-fade {
-					&.horizontal {
-						background: linear-gradient(
-							to right,
-							rgba(251, 247, 246, 0.7) 0,
-							rgba(251, 247, 246, 0.7) 50px,
-							#d3dce5 206px
-						);
-					}
+					.background-fade {
+						&.horizontal {
+							background: linear-gradient(
+								to right,
+								rgba(251, 247, 246, 0.7) 0,
+								rgba(251, 247, 246, 0.7) 50px,
+								#d3dce5 206px
+							);
+						}
 
-					&.vertical {
-						background: linear-gradient(
-							to bottom,
-							transparent 0,
-							transparent 150px,
-							#d3dce5 256px
-						);
+						&.vertical {
+							background: linear-gradient(
+								to bottom,
+								transparent 0,
+								transparent 150px,
+								#d3dce5 256px
+							);
+						}
 					}
 				}
 			}
@@ -353,6 +358,22 @@
 			.expand-table-button {
 				margin-right: 10px;
 			}
+
+			.labels {
+				height: 25px;
+				margin-bottom: -17px;
+				margin-top: -10px;
+				white-space: nowrap;
+				text-transform: uppercase;
+				font-size: 0.8em;
+				color: $darkgrey;
+				padding: 0;
+			}
+
+			.expand-table-button-wrapper {
+				height: 50px;
+				margin-top: -20px;
+			}
 		}
 
 		.data-container {
@@ -368,6 +389,14 @@
 
 		.profile-deck-panel {
 			min-height: 55px;
+
+			@media (max-width: 991px) {
+				border-top: 1px solid $blue;
+
+				&:last-of-type {
+					border-bottom: 1px solid $blue;
+				}
+			}
 
 			&:first-of-type {
 				> .data-container > div {
@@ -453,6 +482,10 @@
 				&:hover,
 				&:active {
 					background: rgba(255, 255, 255, 0.5);
+				}
+
+				@media (max-width: 991px) {
+					width: 100%;
 				}
 			}
 		}
@@ -607,9 +640,17 @@
 			display: flex;
 			list-style-type: none;
 			margin-right: 20px;
+			width: 100%;
+
+			@media (max-width: 991px) {
+				justify-content: center;
+			}
+
+			> div {
+				min-width: 20px;
+			}
 
 			.card-icon {
-				float: left;
 				line-height: 50px;
 				margin: 0 3px 0 7px;
 			}
