@@ -18,6 +18,9 @@ import { getCardClass, getRarity } from "./utils/enums";
 import { CardData as HearthstoneJSONCardData } from "hearthstonejson-client";
 import { TranslationFunction } from "react-i18next";
 import { formatNumber } from "./i18n";
+import { DeckDefinition, decode as decodeDeckstring } from "deckstrings";
+import md5 from "md5";
+import bigInt from "big-integer";
 
 export function staticFile(file: string) {
 	return STATIC_URL + file;
@@ -1075,4 +1078,43 @@ export function classImageOffset(cardClass: CardClass | string): number {
 		case CardClass.WARRIOR:
 			return 0.22;
 	}
+}
+
+export function getCardIds(
+	deck: string | DeckDefinition,
+	cardData: CardData,
+): string[] {
+	if (!deck || !cardData) {
+		return [];
+	}
+	const deckDef = typeof deck === "string" ? decodeDeckstring(deck) : deck;
+	if (!deckDef.cards.length) {
+		return [];
+	}
+	return deckDef.cards
+		.map(([dbfId, count]) => Array(count).fill(cardData.fromDbf(dbfId).id))
+		.flat();
+}
+
+export function getDeckShortId(cardIds: string[]): string {
+	if (!cardIds || !cardIds.length) {
+		return null;
+	}
+	cardIds = cardIds.slice();
+	cardIds.sort();
+
+	const hash = md5(cardIds.join(","));
+
+	let shortId = "";
+	let intHash = bigInt(hash, 16);
+	const alphabet =
+		"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+	while (intHash.gt(0)) {
+		const { quotient, remainder } = intHash.divmod(alphabet.length);
+		shortId += alphabet[remainder.valueOf()];
+		intHash = quotient;
+	}
+
+	return shortId;
 }
