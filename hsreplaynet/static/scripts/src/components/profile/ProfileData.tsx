@@ -225,7 +225,7 @@ export default class ProfileData extends React.Component<Props> {
 					globalWinrate,
 					metaTier: null,
 					numGames: 0,
-					lastPlayed: new Date("1970-01-01Z00:00:00:001"),
+					lastPlayed: new Date(0),
 					decks: [],
 				};
 				data.push(profileArchetypeData);
@@ -262,7 +262,7 @@ export default class ProfileData extends React.Component<Props> {
 					numWins: 0,
 					globalWinrate: globalDeck ? globalDeck.win_rate : null,
 					numGames: 0,
-					lastPlayed: new Date("1970-01-01Z00:00:00:001"),
+					lastPlayed: new Date(0),
 					deckstring,
 					archetype: archetype.archetype,
 					metaTier: null,
