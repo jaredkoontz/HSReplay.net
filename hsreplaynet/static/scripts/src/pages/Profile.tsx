@@ -48,27 +48,34 @@ class Profile extends React.Component<Props, State> {
 					setTab={tab => this.props.setGameType(tab)}
 				>
 					<Tab id={"RANKED_STANDARD"} label={"Ranked Standard"}>
-						<div className="stats-header">
-							<h1>{t("Stats")}</h1>
-							<OptionalSelect
-								default={prettyTimeRange("CURRENT_SEASON", t)}
-								defaultKey={"CURRENT_SEASON"}
-								options={{
-									PREVIOUS_SEASON: prettyTimeRange(
-										"PREVIOUS_SEASON",
+						<div className="profile-section">
+							<div className="stats-header">
+								<h1>{t("Stats")}</h1>
+								<OptionalSelect
+									default={prettyTimeRange(
+										"CURRENT_SEASON",
 										t,
-									),
-								}}
-								value={this.props.statsTimeFrame}
-								onSelect={value =>
-									this.props.setStatsTimeFrame(value)
-								}
-							/>
+									)}
+									defaultKey={"CURRENT_SEASON"}
+									options={{
+										PREVIOUS_SEASON: prettyTimeRange(
+											"PREVIOUS_SEASON",
+											t,
+										),
+									}}
+									value={this.props.statsTimeFrame}
+									onSelect={value =>
+										this.props.setStatsTimeFrame(value)
+									}
+								/>
+							</div>
 						</div>
-						<h2>{t("Archetypes Played")}</h2>
-						{this.renderArchetypeList()}
-						<h3>{t("Archetype Matchups")}</h3>
-						{this.renderMatchupMatrix()}
+						<section className="profile-section">
+							<h2>{t("Archetypes Played")}</h2>
+							{this.renderArchetypeList()}
+							<h3>{t("Archetype Matchups")}</h3>
+							{this.renderMatchupMatrix()}
+						</section>
 					</Tab>
 					<Tab id={"RANKED_WILD"} label={"Ranked Wild"} disabled />
 					<Tab id={"ARENA"} label={"Arena"} disabled />
