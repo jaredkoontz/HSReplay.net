@@ -11,7 +11,7 @@ const context = JSON.parse(
 
 ReactDOM.render(
 	<Root>
-		<RedeemCode code={context["code"]} />
+		<RedeemCode code={context["code"]} autofocus />
 	</Root>,
 	document.getElementById("redeem_code-container"),
 );

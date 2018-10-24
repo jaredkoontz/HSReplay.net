@@ -9,7 +9,8 @@ from oauth2_provider.views import TokenView
 from .decks.views import ClusterSnapshotRequiredCardsUpdateView, ClusterSnapshotUpdateView
 from .web.sitemap import SITEMAPS
 from .web.views import (
-	ArticlesRedirectView, DownloadsView, HomeView, PingView, SetLocaleView
+	ArticlesRedirectView, DownloadsView, HomeView, PingView,
+	RedeemCodeRedirectView, RedeemCodeView, SetLocaleView
 )
 from .web.views.archetypes import ArchetypeDetailView, DiscoverView, MetaOverviewView
 from .web.views.cards import CardDetailView, CardEditorView, CardsView, MyCardsView
@@ -22,7 +23,6 @@ from .web.views.oauth2 import (
 )
 from .web.views.premium import PremiumDetailView
 from .web.views.profiles import PackListView, ProfileView
-from .web.views.redeem import RedeemCodeView
 from .web.views.replays import (
 	AnnotatedReplayView, MyReplaysView, ReplayDetailView, ReplayEmbedView, UploadDetailView
 )
@@ -44,6 +44,8 @@ urlpatterns = [
 	url(r"^i18n/setprefs/$", SetLocaleView.as_view()),
 	url(r"^ping/$", PingView.as_view()),
 	url(r"^premium/$", PremiumDetailView.as_view(), name="premium"),
+	url(r"^redeem/$", RedirectView.as_view(pattern_name="redeem_code", permanent=False)),
+	url(r"^redeem/(?P<code>\w+)$", RedeemCodeRedirectView.as_view()),
 	url(r"^features/redeem/$", RedeemCodeView.as_view(), name="redeem_code"),
 
 	# Replays

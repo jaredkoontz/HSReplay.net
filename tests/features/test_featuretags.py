@@ -1,6 +1,6 @@
 import pytest
 from rest_framework.response import Response
-from rest_framework.test import APIRequestFactory
+from rest_framework.test import APIRequestFactory, force_authenticate
 from rest_framework.views import APIView
 
 from hsreplaynet.api.permissions import UserHasFeature
@@ -21,7 +21,7 @@ permission_test_api_view = PermissionTestAPIView.as_view()
 def test_user_has_feature_api_permission(user):
 	factory = APIRequestFactory()
 	request = factory.get("/")
-	request.user = user
+	force_authenticate(request, user=user)
 
 	feature = Feature(
 		name="test-feature",

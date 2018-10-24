@@ -29,3 +29,7 @@ class PerViewUserBurstRateThrottle(PerViewUserRateThrottle):
 
 class PerViewUserSustainedRateThrottle(PerViewUserRateThrottle):
 	scope = "per_view_user_sustained"
+
+
+class RedeemCodeRateThrottle(PerViewUserRateThrottle):
+	rate = "5/min"

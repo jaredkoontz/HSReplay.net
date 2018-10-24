@@ -163,7 +163,7 @@ class FeatureInviteManager(models.Manager):
 			return invite
 
 		try:
-			alias_code = re.sub("\s", "", code)  # strip whitespaces
+			alias_code = re.sub(r"\s", "", code)  # strip whitespaces
 			alias = FeatureInviteAlias.objects.get(code=alias_code)
 		except FeatureInviteAlias.DoesNotExist:
 			pass
@@ -330,13 +330,13 @@ class FeatureInviteAlias(models.Model, Redeemable):
 		except FeatureInviteAlias.DoesNotExist:
 			pass
 
-		used = self.invite.redeem_for_user(user)
-		if used:
+		redeemed = self.invite.redeem_for_user(user)
+		if redeemed:
 			self.redeemed_on = datetime.now()
 			self.redeemed_by = user
 			self.save()
 
-		return used
+		return bool(redeemed)
 
 	class Meta:
 		verbose_name = "Feature invite alias"

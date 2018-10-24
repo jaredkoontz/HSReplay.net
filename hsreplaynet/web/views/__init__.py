@@ -1,9 +1,12 @@
 from datetime import date
+from urllib.parse import urlencode
 
 from allauth.account.views import LoginView as BaseLoginView
 from django.conf import settings
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.utils.http import is_safe_url
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import RedirectView, TemplateView, View
@@ -181,3 +184,21 @@ class SetLocaleView(View):
 				)
 
 		return response
+
+
+class RedeemCodeRedirectView(View):
+	def get(self, request, code):
+		query = ""
+		if code:
+			params = urlencode({"code": code})
+			query = "?%s" % params
+		return redirect(reverse("redeem_code") + query)
+
+
+class RedeemCodeView(LoginRequiredMixin, SimpleReactView):
+	bundle = "redeem_code"
+
+	def get_react_context(self):
+		return {
+			"code": self.request.GET.get("code", "")
+		}
