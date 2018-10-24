@@ -87,7 +87,7 @@ export function getCardTableColumnData(
 			),
 			reactNode: true,
 			sortKey: "requiredForArchetype",
-			text: t("Required for archetype?"),
+			text: t("Required?"),
 		},
 		turnsInHand: {
 			dataKey: "avg_turns_in_hand",

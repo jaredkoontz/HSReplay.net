@@ -275,8 +275,10 @@ class ClusterDetail extends React.Component<Props> {
 		return (
 			<div>
 				<div
-					className="col-xs-12 col-sm-6 col-md-4"
-					style={{ maxWidth: 400 }}
+					className="col-xs-12 col-sm-6 col-md-6"
+					style={{
+						maxWidth: this.props.canModifyCluster ? 600 : 400,
+					}}
 				>
 					<h2>{t("Signature")}</h2>
 					<ClusterSignature
