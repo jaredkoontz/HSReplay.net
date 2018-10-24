@@ -1,7 +1,8 @@
+# flake8: noqa
 # isort:skip_file
 import os
 
-from hsreplaynet.settings import *  # flake8: noqa
+from hsreplaynet.settings import *
 
 SECRET_KEY = "hunter2"
 DEBUG = True

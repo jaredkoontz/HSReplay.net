@@ -377,7 +377,7 @@ class Deck(models.Model):
 		else:
 			return result
 
-	def classify_into_archetype(self, player_class, save: bool=True) -> int:
+	def classify_into_archetype(self, player_class, save: bool = True) -> int:
 		game_format = self.format
 
 		signature_weights = ClusterSnapshot.objects.get_signature_weights(

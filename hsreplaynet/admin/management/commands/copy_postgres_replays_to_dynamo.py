@@ -38,7 +38,7 @@ class Command(BaseCommand):
 			print("Game %s/%s: %s" % (index + 1, num_games, game.global_game.id))
 			try:
 				self._save_to_dynamo(game)
-			except PynamoDBException as e:
+			except PynamoDBException:
 				time.sleep(10)
 				self._save_to_dynamo(game)
 			except Exception as e:

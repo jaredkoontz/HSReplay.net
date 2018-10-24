@@ -176,7 +176,7 @@ class PlayedCardsDistributionView(APIView):
 
 		return data
 
-	def get(self, request, game_type_name: str=""):
+	def get(self, request, game_type_name: str = ""):
 		if not game_type_name:
 			game_type_name = "ALL"
 		data = self._get_data(game_type_name=game_type_name)

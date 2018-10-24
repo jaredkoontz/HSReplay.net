@@ -34,7 +34,7 @@ def queue_raw_uploads_for_processing(attempt_reprocessing, limit=None):
 	fill_stream_from_iterable(stream_name, iterable, publisher_func)
 
 
-def generate_raw_uploads_for_processing(attempt_reprocessing, limit: int=0):
+def generate_raw_uploads_for_processing(attempt_reprocessing, limit: int = 0):
 	bucket = settings.S3_RAW_LOG_UPLOAD_BUCKET
 	count = 0
 	for object in aws.list_all_objects_in(bucket, prefix="raw"):

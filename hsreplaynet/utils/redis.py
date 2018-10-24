@@ -48,7 +48,7 @@ class RedisPopularityDistribution:
 
 	def __init__(
 		self, redis: StrictRedis, name: str, namespace: str,
-		ttl: int=DEFAULT_TTL, max_items: int=100, bucket_size: int=3600
+		ttl: int = DEFAULT_TTL, max_items: int = 100, bucket_size: int = 3600
 	) -> None:
 		self.redis = redis
 		self.name = name

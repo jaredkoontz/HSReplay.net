@@ -388,7 +388,7 @@ def process_upload_event(upload_event):
 	try:
 		with influx_timer("dynamodb_game_replay_save_duration"):
 			do_save_dynamodb()
-	except PynamoDBException as e:
+	except PynamoDBException:
 		influx_metric(
 			"dynamodb_game_replay_save_failure",
 			{

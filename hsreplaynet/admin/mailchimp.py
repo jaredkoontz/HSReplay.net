@@ -66,7 +66,7 @@ class MailChimpTag:
 	def should_apply_to(self, user):
 		"""A predicate to determine whether this tag should apply to the specified User."""
 
-		raise NotImplemented()
+		raise NotImplementedError()
 
 
 class HSReplayNetUserTag(MailChimpTag):

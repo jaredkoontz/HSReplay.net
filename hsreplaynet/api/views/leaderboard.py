@@ -113,7 +113,7 @@ class BaseLeaderboardView(ListAPIView):
 	def get_parameterized_query(self):
 		"""Return the hsredshift parameterized query object to lookup / execute."""
 
-		raise NotImplemented()
+		raise NotImplementedError()
 
 	def _get_redshift_query_data(self):
 
