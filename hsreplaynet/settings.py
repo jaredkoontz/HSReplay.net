@@ -483,6 +483,9 @@ WEBHOOKS = {
 	"USE_LAMBDA": False,
 }
 
+# The batch size with which to receive game_replay records from DynamoDB
+DYNAMODB_GAME_REPLAY_PAGE_SIZE = 1000
+
 
 # Analysis shows that over a 14 day period
 # A sequence of 5 played cards uniquely identifies a group of

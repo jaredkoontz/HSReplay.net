@@ -1,6 +1,7 @@
 import json
 from types import GeneratorType
 
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.http import StreamingHttpResponse
 from hearthstone import enums
@@ -97,7 +98,10 @@ def _stream_replays(
 		filter_condition = GameReplay.game_type == game_type
 
 	for replay in GameReplay.query(
-		user_id, range_key_condition=range_key_condition, filter_condition=filter_condition
+		user_id,
+		range_key_condition=range_key_condition,
+		filter_condition=filter_condition,
+		page_size=settings.DYNAMODB_GAME_REPLAY_PAGE_SIZE
 	):
 		serializer = serializer_class(instance=replay)
 		yield serializer.data
