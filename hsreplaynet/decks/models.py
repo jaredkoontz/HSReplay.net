@@ -384,7 +384,35 @@ class Deck(models.Model):
 			game_format, player_class
 		)
 
-		sig_archetype_id = classify_deck(self.dbf_map(), signature_weights)
+		blocked_classifications = {}
+
+		# A failure callback for classify_deck so that we can get notified when a deck can't
+		# be classified to an archetype because it's missing a card or fails a rule check.
+		# This callback stores the results so that we can instrument them below.
+
+		def record_classification_failure(failure_description):
+			reason = failure_description.get("reason")
+			if reason:
+				if reason in blocked_classifications:
+					blocked_classifications[reason] = blocked_classifications[reason] + 1
+				else:
+					blocked_classifications[reason] = 1
+
+		sig_archetype_id = classify_deck(
+			self.dbf_map(),
+			signature_weights,
+			failure_callback=record_classification_failure
+		)
+
+		# Instrument any failures that occurred during the classification attempt.
+
+		for block_reason, count in blocked_classifications.items():
+			influx_metric(
+				"archetype_classification_blocked", {
+					"count": count
+				},
+				reason=block_reason
+			)
 
 		# New Style Deck Prediction
 		nn_archetype_id = None

@@ -1,12 +1,13 @@
+from unittest.mock import patch, call
+
 import pytest
 from django_hearthstone.cards.models import Card
-from hearthstone.deckstrings import parse_deckstring
 from hearthstone.enums import CardClass, FormatType
 
 from hsreplaynet.decks.models import (
 	Archetype, ClassClusterSnapshot, ClusterManager, ClusterSetSnapshot, ClusterSnapshot
 )
-
+from tests.utils import create_deck_from_deckstring
 
 MECHATHUN_DRUID = {
 	"64": 0.9740336446962571,
@@ -21,11 +22,6 @@ MECHATHUN_DRUID = {
 	"47423": 0.9981405727036073,
 	"48625": 0.9986655874696476,
 }
-
-
-def _get_deck_from_deckstring(deckstring):
-	cardlist, _, _ = parse_deckstring(deckstring)
-	return {dbf_id: count for (dbf_id, count) in cardlist}
 
 
 class TestClusterManager:
@@ -104,3 +100,40 @@ class TestClusterSetSnapshot:
 
 		assert archetype.required_cards.count() == 1
 		assert archetype.required_cards.first() == Card.objects.get(dbf_id=48625)
+
+
+class TestDeck:
+
+	@pytest.mark.django_db
+	@patch("hsreplaynet.decks.models.ClusterSnapshot")
+	def test_classify_into_archetype(self, _):
+		deck = create_deck_from_deckstring(
+			"AAECAZICApnTAvH7Ag5AX+kB/gHTA8QGpAf2B+QIktICmNICntICv/ICj/YCAA=="
+		)
+
+		classification_failure_stubs = [
+			{"archetype_id": 123, "reason": "bad_deck"},
+			{"archetype_id": 124, "reason": "bad_deck"},
+			{"archetype_id": 124, "reason": "too_many_firebats"}
+		]
+
+		def mock_classifier(_dbf_map, _signature_weights, failure_callback=None):
+			if failure_callback:
+				for stub in classification_failure_stubs:
+					failure_callback(stub)
+
+		with patch("hsreplaynet.decks.models.classify_deck", mock_classifier):
+			with patch("hsreplaynet.decks.models.influx_metric") as mock_influx_client:
+				deck.classify_into_archetype(CardClass.DRUID)
+				mock_influx_client.assert_has_calls([
+					call(
+						"archetype_classification_blocked",
+						{"count": 2},
+						reason="bad_deck"
+					),
+					call(
+						"archetype_classification_blocked",
+						{"count": 1},
+						reason="too_many_firebats"
+					)
+				])
