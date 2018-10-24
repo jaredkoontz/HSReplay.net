@@ -1,13 +1,14 @@
-from unittest.mock import patch, call
+from unittest.mock import call, patch
 
 import pytest
 from django_hearthstone.cards.models import Card
 from hearthstone.enums import CardClass, FormatType
+from tests.utils import create_deck_from_deckstring
 
 from hsreplaynet.decks.models import (
 	Archetype, ClassClusterSnapshot, ClusterManager, ClusterSetSnapshot, ClusterSnapshot
 )
-from tests.utils import create_deck_from_deckstring
+
 
 MECHATHUN_DRUID = {
 	"64": 0.9740336446962571,
