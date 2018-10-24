@@ -94,6 +94,6 @@ class TestSingleClusterUpdateView:
 
 		self.cluster.refresh_from_db()
 
-		assert self.cluster.external_id is archetype.id
+		assert self.cluster.external_id == archetype.id
 		assert self.cluster.name == "Mecha'thun Druid"
 		assert self.cluster.required_cards == [48625]
