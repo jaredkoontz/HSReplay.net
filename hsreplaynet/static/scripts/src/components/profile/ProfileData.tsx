@@ -6,7 +6,7 @@ import {
 	encode as encodeDeckstring,
 } from "deckstrings";
 import { BnetGameType, CardClass, FormatType } from "../../hearthstone";
-import { Archetype } from "../../utils/api";
+import { Archetype, TwitchVodData } from "../../utils/api";
 import { ArchetypeData } from "../../interfaces";
 import { ProfileArchetypeData, ProfileDeckData } from "./ProfileArchetypeList";
 import {
@@ -106,15 +106,27 @@ export default class ProfileData extends React.Component<Props> {
 						params: {}, // TODO: add params
 						url: "list_decks_by_win_rate",
 					},
+					{
+						key: "vodData",
+						params: { user_id: this.props.userId },
+						url: "/api/v1/vods",
+					},
 				]}
 			>
-				{({ replays, archetypeData, matchupData, deckData }) => {
+				{({
+					replays,
+					archetypeData,
+					matchupData,
+					deckData,
+					vodData,
+				}) => {
 					return (this.props.children as any)(
 						this.transformData(
 							replays,
 							archetypeData,
 							matchupData,
 							deckData,
+							vodData,
 						),
 					);
 				}}
@@ -143,12 +155,14 @@ export default class ProfileData extends React.Component<Props> {
 		archetypeData: Archetype[],
 		globalMatchupData: any,
 		deckData: any,
+		vodData: TwitchVodData[],
 	): any {
 		if (
 			!replays ||
 			!archetypeData ||
 			!globalMatchupData ||
 			!deckData ||
+			!vodData ||
 			!this.props.cardData
 		) {
 			return null;
@@ -194,6 +208,7 @@ export default class ProfileData extends React.Component<Props> {
 					archetypeData,
 					globalMatchupData,
 					deckData,
+					vodData,
 				);
 		}
 		return null;
@@ -204,6 +219,7 @@ export default class ProfileData extends React.Component<Props> {
 		archetypeData: Archetype[],
 		globalMatchupData: any,
 		deckData: any,
+		vodData: TwitchVodData[],
 	): ProfileArchetypeData[] {
 		const data: ProfileArchetypeData[] = [];
 
@@ -289,10 +305,10 @@ export default class ProfileData extends React.Component<Props> {
 			return numCards === 30;
 		};
 
-		const getReplayUrl = (replayXml: string): string => {
+		const getReplayShortid = (replayXml: string): string | null => {
 			const replayRegex = /^replays(\/.*)?\/(\w+)\.hsreplay\.xml$/;
 			const match = replayRegex.exec(replayXml);
-			return match ? `/replay/${match[2]}` : null;
+			return match ? match[2] : null;
 		};
 
 		replays.forEach(replay => {
@@ -340,6 +356,17 @@ export default class ProfileData extends React.Component<Props> {
 					x => x.id === replay.opponent_archetype_id,
 				) || null;
 
+			const replayShortId = getReplayShortid(replay.replay_xml);
+			const getTwitchVodUrl = (): string | null => {
+				if (!replayShortId) {
+					return null;
+				}
+				const vod = vodData.find(
+					x => x.replay_shortid === replayShortId,
+				);
+				return vod ? vod.url : null;
+			};
+
 			deck.games.push({
 				won,
 				opponentArchetype,
@@ -350,8 +377,8 @@ export default class ProfileData extends React.Component<Props> {
 				date: startDate,
 				duration:
 					new Date(replay.match_end).getTime() - startDate.getTime(),
-				twitchVod: null,
-				replayUrl: getReplayUrl(replay.replay_xml),
+				twitchVod: getTwitchVodUrl(),
+				replayUrl: replayShortId ? `/replays/${replayShortId}` : null,
 			});
 		});
 

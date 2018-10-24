@@ -140,4 +140,5 @@ export interface TwitchVodData {
 	won: boolean;
 	went_first: boolean;
 	game_length_seconds: number;
+	replay_shortid: string;
 }
