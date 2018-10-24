@@ -79,6 +79,7 @@ class VodSerializer(serializers.Serializer):
 	won = fields.BooleanField()
 	went_first = fields.BooleanField()
 	game_length_seconds = fields.IntegerField()
+	replay_shortid = fields.CharField()
 
 
 class VodListView(APIView):

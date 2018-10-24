@@ -82,6 +82,7 @@ def test_vod_list_view_by_user_id(client, twitch_vod_game, user, mocker):
 		"won": False,
 		"went_first": True,
 		"game_length_seconds": 300,
+		"replay_shortid": replay.shortid,
 	}]
 
 
@@ -126,6 +127,7 @@ def test_vod_list_view_by_deck_id(client, twitch_vod_game, user, mocker):
 		"won": False,
 		"went_first": True,
 		"game_length_seconds": 300,
+		"replay_shortid": replay.shortid,
 	}]
 
 
