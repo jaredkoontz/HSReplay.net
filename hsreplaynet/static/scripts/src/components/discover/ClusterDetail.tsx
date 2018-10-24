@@ -11,6 +11,7 @@ import { formatNumber } from "../../i18n";
 import { fetchCSRF } from "../../helpers";
 
 interface Props extends InjectedTranslateProps {
+	canModifyCluster?: boolean;
 	cardData: CardData | null;
 	clusterId: string;
 	data?: ClusterData;
@@ -285,6 +286,7 @@ class ClusterDetail extends React.Component<Props> {
 						playerClass={this.props.playerClass}
 						requestReload={this.props.requestReload}
 						requiredCards={data.cluster_required_cards[clusterId]}
+						showRequiredCards={this.props.canModifyCluster}
 						signature={signature}
 					/>
 				</div>
