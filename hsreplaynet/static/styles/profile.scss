@@ -748,6 +748,7 @@
 	}
 
 	.profile-stats-chart-body {
+		display: flex;
 		flex-grow: 1;
 		overflow: hidden;
 		border: solid 1px #ced5df;
@@ -760,7 +761,6 @@
 			flex-direction: row;
 			flex-grow: 1;
 			margin: 0;
-			height: 100%;
 		}
 	}
 
