@@ -93,7 +93,6 @@ export default class ClusterSignature extends React.Component<Props, State> {
 				rowData["required_for_archetype"] = (
 					<input
 						checked={required_card}
-						disabled={prevalence < 1}
 						onChange={() => {
 							this.onCardRequiredClick(dbfId);
 						}}
