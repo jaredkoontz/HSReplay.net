@@ -527,7 +527,7 @@ class Archetype(models.Model):
 	# Cards required by this archetype. This field gets transferred to the required_cards
 	# field of ClusterSnapshot when a cluster is assigned an archetype.
 
-	required_cards = models.ManyToManyField(Card)
+	required_cards = models.ManyToManyField(Card, blank=True)
 
 	class Meta:
 		db_table = "cards_archetype"
