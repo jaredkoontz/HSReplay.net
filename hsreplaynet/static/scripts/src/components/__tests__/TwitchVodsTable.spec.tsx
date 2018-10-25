@@ -16,6 +16,7 @@ const VODS = [
 		won: true,
 		went_first: null,
 		game_length_seconds: 355,
+		replay_shortid: "1",
 	},
 	{
 		channel_name: "AicoritY",
@@ -30,6 +31,7 @@ const VODS = [
 		won: false,
 		went_first: true,
 		game_length_seconds: 159,
+		replay_shortid: "2",
 	},
 	{
 		channel_name: "brandonsmithx01",
@@ -44,6 +46,7 @@ const VODS = [
 		won: true,
 		went_first: true,
 		game_length_seconds: 558,
+		replay_shortid: "3",
 	},
 	{
 		channel_name: "해까닥여울이",
@@ -58,6 +61,7 @@ const VODS = [
 		won: false,
 		went_first: false,
 		game_length_seconds: 690,
+		replay_shortid: "4",
 	},
 ];
 
