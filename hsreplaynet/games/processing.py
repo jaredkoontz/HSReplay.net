@@ -24,6 +24,7 @@ from hslog.export import EntityTreeExporter, FriendlyPlayerExporter
 from hsreplay import __version__ as hsreplay_version
 from hsreplay.document import HSReplayDocument
 from pynamodb.exceptions import PynamoDBException
+from redis_lock import Lock as RedisLock
 
 from hearthsim.identity.accounts.models import AuthToken, BlizzardAccount, Visibility
 from hsredshift.etl.exceptions import CorruptReplayDataError, CorruptReplayPacketError
@@ -1220,6 +1221,37 @@ def do_process_upload_event(upload_event):
 	# For build 23576 and up
 	update_game_meta(parser, meta)
 
+	# Quietly obtain a lock on the v2 game digest string, in order to prevent a race
+	# condition between two Lambdas processing replays for the same logical global game. The
+	# sequencing of the race condition as follows:
+	#
+	# - Lambda A creates a replay and its associated global_game record
+	# - Lambda B creates a replay and notes that the global_game record already exists
+	# - Lambda B records the v2 game digest in Redis; because the Redis counter is 1, no
+	#   v2 digest unification is recorded. It records a successful v1 RDS unification.
+	# - Lambda A records the v2 game digest in Redis; it records a successful v2 digest
+	#   unification. Because the global_game record already existed, no v1 unification is
+	#   recorded.
+	#
+	# By locking on the digest string, the unification flows of Lambdas A and B (and only
+	# those Lambdas) is serialized.
+	#
+	# Because interactions with Redis occasionally fail, the interactions with lock are
+	# optional, and the lock is only held for a few seconds (the vast majority of processing
+	# invocations are well under 7 seconds). A failure to acquire the lock may cause us to
+	# failure to record a unification in InfluxDB. This code block may be deleted once the
+	# unification experiments are complete.
+
+	digest_lock = None
+	try:
+		digest = generate_globalgame_digest_v2(parser.games[0])
+		redis = get_game_digests_redis()
+		digest_lock = RedisLock(redis, digest, expire=8)
+		if not digest_lock.acquire(timeout=8):
+			digest_lock = None
+	except Exception as e:
+		log.warning("Exception while obtaining digest lock; may miss a unification: %s", e)
+
 	# Create/Update the global game object and its players
 	global_game, global_game_created = find_or_create_global_game(entity_tree, meta)
 	players = update_global_players(global_game, entity_tree, meta, upload_event, exporter)
@@ -1261,6 +1293,15 @@ def do_process_upload_event(upload_event):
 			user_agent=product,
 			**tags
 		)
+
+	# If we obtained a lock on the v2 digest earlier, release it quietly. This code block
+	# may be deleted once the unification experiments are complete.
+
+	if digest_lock:
+		try:
+			digest_lock.release()
+		except Exception as e:
+			log.warning("Exception releasing digest lock; addl. latency may result: %s", e)
 
 	update_last_replay_upload(upload_event)
 
