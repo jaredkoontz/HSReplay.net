@@ -1,0 +1,1059 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WinrateChart renders by day 1`] = `
+<Component
+  aggregate="BY_DAY"
+  averageWinrate={0.574}
+  data={
+    Object {
+      "winrateByDay": Array [
+        Object {
+          "day": 0,
+          "winrate": 0.515,
+          "year": 2018,
+        },
+        Object {
+          "day": 1,
+          "winrate": 0.524,
+          "year": 2018,
+        },
+        Object {
+          "day": 2,
+          "winrate": 0.509,
+          "year": 2018,
+        },
+        Object {
+          "day": 3,
+          "winrate": 0.5379999999999999,
+          "year": 2018,
+        },
+        Object {
+          "day": 4,
+          "winrate": 0.5225,
+          "year": 2018,
+        },
+        Object {
+          "day": 5,
+          "winrate": 0.52,
+          "year": 2018,
+        },
+        Object {
+          "day": 6,
+          "winrate": 0.5225,
+          "year": 2018,
+        },
+        Object {
+          "day": 7,
+          "winrate": 0.504,
+          "year": 2018,
+        },
+        Object {
+          "day": 8,
+          "winrate": 0.535,
+          "year": 2018,
+        },
+        Object {
+          "day": 9,
+          "winrate": 0.525,
+          "year": 2018,
+        },
+        Object {
+          "day": 10,
+          "winrate": 0.542,
+          "year": 2018,
+        },
+        Object {
+          "day": 11,
+          "winrate": 0.5589999999999999,
+          "year": 2018,
+        },
+      ],
+    }
+  }
+>
+  <WinrateChart
+    aggregate="BY_DAY"
+    averageWinrate={0.574}
+    data={
+      Object {
+        "winrateByDay": Array [
+          Object {
+            "day": 0,
+            "winrate": 0.515,
+            "year": 2018,
+          },
+          Object {
+            "day": 1,
+            "winrate": 0.524,
+            "year": 2018,
+          },
+          Object {
+            "day": 2,
+            "winrate": 0.509,
+            "year": 2018,
+          },
+          Object {
+            "day": 3,
+            "winrate": 0.5379999999999999,
+            "year": 2018,
+          },
+          Object {
+            "day": 4,
+            "winrate": 0.5225,
+            "year": 2018,
+          },
+          Object {
+            "day": 5,
+            "winrate": 0.52,
+            "year": 2018,
+          },
+          Object {
+            "day": 6,
+            "winrate": 0.5225,
+            "year": 2018,
+          },
+          Object {
+            "day": 7,
+            "winrate": 0.504,
+            "year": 2018,
+          },
+          Object {
+            "day": 8,
+            "winrate": 0.535,
+            "year": 2018,
+          },
+          Object {
+            "day": 9,
+            "winrate": 0.525,
+            "year": 2018,
+          },
+          Object {
+            "day": 10,
+            "winrate": 0.542,
+            "year": 2018,
+          },
+          Object {
+            "day": 11,
+            "winrate": 0.5589999999999999,
+            "year": 2018,
+          },
+        ],
+      }
+    }
+    i18n={
+      Object {
+        "hasResourceBundle": [Function],
+      }
+    }
+    t={[Function]}
+  >
+    <Component
+      aggregate="BY_DAY"
+      data={
+        Array [
+          Object {
+            "data": Array [
+              Object {
+                "x": 0,
+                "y": 51.5,
+              },
+              Object {
+                "x": 1,
+                "y": 52.400000000000006,
+              },
+              Object {
+                "x": 2,
+                "y": 50.9,
+              },
+              Object {
+                "x": 3,
+                "y": 53.79999999999999,
+              },
+              Object {
+                "x": 4,
+                "y": 52.25,
+              },
+              Object {
+                "x": 5,
+                "y": 52,
+              },
+              Object {
+                "x": 6,
+                "y": 52.25,
+              },
+              Object {
+                "x": 7,
+                "y": 50.4,
+              },
+              Object {
+                "x": 8,
+                "y": 53.5,
+              },
+              Object {
+                "x": 9,
+                "y": 52.5,
+              },
+              Object {
+                "x": 10,
+                "y": 54.2,
+              },
+              Object {
+                "x": 11,
+                "y": 55.89999999999999,
+              },
+            ],
+            "id": "Winrate",
+          },
+        ]
+      }
+      firstYear={2018}
+      summaryLabel="Average Winrate"
+      summaryValue={57.4}
+    >
+      <ProfileChart
+        aggregate="BY_DAY"
+        data={
+          Array [
+            Object {
+              "data": Array [
+                Object {
+                  "x": 0,
+                  "y": 51.5,
+                },
+                Object {
+                  "x": 1,
+                  "y": 52.400000000000006,
+                },
+                Object {
+                  "x": 2,
+                  "y": 50.9,
+                },
+                Object {
+                  "x": 3,
+                  "y": 53.79999999999999,
+                },
+                Object {
+                  "x": 4,
+                  "y": 52.25,
+                },
+                Object {
+                  "x": 5,
+                  "y": 52,
+                },
+                Object {
+                  "x": 6,
+                  "y": 52.25,
+                },
+                Object {
+                  "x": 7,
+                  "y": 50.4,
+                },
+                Object {
+                  "x": 8,
+                  "y": 53.5,
+                },
+                Object {
+                  "x": 9,
+                  "y": 52.5,
+                },
+                Object {
+                  "x": 10,
+                  "y": 54.2,
+                },
+                Object {
+                  "x": 11,
+                  "y": 55.89999999999999,
+                },
+              ],
+              "id": "Winrate",
+            },
+          ]
+        }
+        firstYear={2018}
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
+        summaryLabel="Average Winrate"
+        summaryValue={57.4}
+        t={[Function]}
+      >
+        <figure
+          className="profile-stats-chart"
+        >
+          <div
+            className="profile-stats-chart-body"
+          >
+            <figure>
+              <figcaption
+                className="profile-stats-chart-summary profile-stats-chart-summary-negative"
+                style={
+                  Object {
+                    "backgroundImage": "linear-gradient(to bottom, rgba(238, 242, 246, 1) 0%, rgba(238, 242, 246, 0.7) 100%), url(https://art.hearthstonejson.com/v1/256x/HERO_05a.jpg)",
+                    "backgroundPosition": "bottom",
+                    "backgroundRepeat": "no-repeat",
+                    "backgroundSize": "cover",
+                  }
+                }
+              >
+                <figure>
+                  <output>
+                    57.4
+                  </output>
+                  <figcaption>
+                    Average Winrate
+                  </figcaption>
+                </figure>
+              </figcaption>
+              <ResponsiveLine
+                areaOpacity={0.07}
+                axisBottom={
+                  Object {
+                    "format": [Function],
+                    "theme": Object {
+                      "axis": Object {
+                        "domain": Object {
+                          "line": Object {
+                            "stroke": "#ced5df",
+                            "strokeWidth": 1,
+                          },
+                        },
+                        "legend": Object {
+                          "text": Object {
+                            "fill": "#f00",
+                            "fontSize": 50,
+                          },
+                        },
+                        "ticks": Object {
+                          "line": Object {
+                            "stroke": "transparent",
+                            "strokeWidth": 0,
+                          },
+                          "text": Object {
+                            "fill": "#a8bcd5",
+                            "fontSize": 13,
+                            "fontWeight": "bold",
+                          },
+                        },
+                      },
+                    },
+                    "tickPadding": 15,
+                  }
+                }
+                axisLeft={
+                  Object {
+                    "format": [Function],
+                    "theme": Object {
+                      "axis": Object {
+                        "domain": Object {
+                          "line": Object {
+                            "stroke": "#ced5df",
+                            "strokeWidth": 1,
+                          },
+                        },
+                        "legend": Object {
+                          "text": Object {
+                            "fill": "#f00",
+                            "fontSize": 50,
+                          },
+                        },
+                        "ticks": Object {
+                          "line": Object {
+                            "stroke": "transparent",
+                            "strokeWidth": 0,
+                          },
+                          "text": Object {
+                            "fill": "#a8bcd5",
+                            "fontSize": 13,
+                            "fontWeight": "bold",
+                          },
+                        },
+                      },
+                    },
+                    "tickPadding": 8,
+                  }
+                }
+                colors="rgb(74, 152, 72)"
+                curve="monotoneX"
+                data={
+                  Array [
+                    Object {
+                      "data": Array [
+                        Object {
+                          "x": 0,
+                          "y": 51.5,
+                        },
+                        Object {
+                          "x": 1,
+                          "y": 52.400000000000006,
+                        },
+                        Object {
+                          "x": 2,
+                          "y": 50.9,
+                        },
+                        Object {
+                          "x": 3,
+                          "y": 53.79999999999999,
+                        },
+                        Object {
+                          "x": 4,
+                          "y": 52.25,
+                        },
+                        Object {
+                          "x": 5,
+                          "y": 52,
+                        },
+                        Object {
+                          "x": 6,
+                          "y": 52.25,
+                        },
+                        Object {
+                          "x": 7,
+                          "y": 50.4,
+                        },
+                        Object {
+                          "x": 8,
+                          "y": 53.5,
+                        },
+                        Object {
+                          "x": 9,
+                          "y": 52.5,
+                        },
+                        Object {
+                          "x": 10,
+                          "y": 54.2,
+                        },
+                        Object {
+                          "x": 11,
+                          "y": 55.89999999999999,
+                        },
+                      ],
+                      "id": "Winrate",
+                    },
+                  ]
+                }
+                dotBorderColor="inherit:lighter(0.3)"
+                dotBorderWidth={1}
+                dotSize={6}
+                enableDotLabel={false}
+                enableGridX={false}
+                lineWidth={1}
+                margin={
+                  Object {
+                    "bottom": 50,
+                    "left": 60,
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+                markers={
+                  Array [
+                    Object {
+                      "axis": "x",
+                      "legend": "Jan",
+                      "value": 0.5,
+                    },
+                  ]
+                }
+                padding={
+                  Object {
+                    "right": 50,
+                  }
+                }
+                theme={
+                  Object {
+                    "markers": Object {
+                      "fontSize": 13,
+                      "lineColor": "#ced5df",
+                      "lineStrokeWidth": 1,
+                      "textColor": "#a8bcd5",
+                    },
+                  }
+                }
+                tooltipFormat={[Function]}
+                xScale={
+                  Object {
+                    "max": 11.75,
+                    "min": -0.5,
+                    "type": "linear",
+                  }
+                }
+                yScale={
+                  Object {
+                    "max": 60.99,
+                    "min": 45,
+                    "stacked": false,
+                    "type": "linear",
+                  }
+                }
+              >
+                <ResponsiveWrapper>
+                  <Measure
+                    bounds={true}
+                    onResize={[Function]}
+                  >
+                    <Measure
+                      bounds={true}
+                      contentRect={
+                        Object {
+                          "bounds": Object {},
+                          "client": Object {},
+                          "entry": Object {},
+                          "margin": Object {},
+                          "offset": Object {},
+                          "scroll": Object {},
+                        }
+                      }
+                      measure={[Function]}
+                      measureRef={[Function]}
+                    >
+                      <div
+                        style={
+                          Object {
+                            "height": "100%",
+                            "width": "100%",
+                          }
+                        }
+                      />
+                    </Measure>
+                  </Measure>
+                </ResponsiveWrapper>
+              </ResponsiveLine>
+            </figure>
+          </div>
+        </figure>
+      </ProfileChart>
+    </Component>
+  </WinrateChart>
+</Component>
+`;
+
+exports[`WinrateChart renders by season 1`] = `
+<Component
+  aggregate="BY_SEASON"
+  averageWinrate={0.574}
+  data={
+    Object {
+      "winrateBySeason": Array [
+        Object {
+          "season": 1,
+          "winrate": 0.515,
+          "year": 2018,
+        },
+        Object {
+          "season": 2,
+          "winrate": 0.524,
+          "year": 2018,
+        },
+        Object {
+          "season": 3,
+          "winrate": 0.509,
+          "year": 2018,
+        },
+        Object {
+          "season": 4,
+          "winrate": 0.5379999999999999,
+          "year": 2018,
+        },
+        Object {
+          "season": 5,
+          "winrate": 0.5225,
+          "year": 2018,
+        },
+        Object {
+          "season": 6,
+          "winrate": 0.52,
+          "year": 2018,
+        },
+        Object {
+          "season": 7,
+          "winrate": 0.5225,
+          "year": 2018,
+        },
+        Object {
+          "season": 8,
+          "winrate": 0.504,
+          "year": 2018,
+        },
+        Object {
+          "season": 9,
+          "winrate": 0.535,
+          "year": 2018,
+        },
+        Object {
+          "season": 10,
+          "winrate": 0.525,
+          "year": 2018,
+        },
+        Object {
+          "season": 11,
+          "winrate": 0.542,
+          "year": 2018,
+        },
+        Object {
+          "season": 12,
+          "winrate": 0.5589999999999999,
+          "year": 2018,
+        },
+      ],
+    }
+  }
+>
+  <WinrateChart
+    aggregate="BY_SEASON"
+    averageWinrate={0.574}
+    data={
+      Object {
+        "winrateBySeason": Array [
+          Object {
+            "season": 1,
+            "winrate": 0.515,
+            "year": 2018,
+          },
+          Object {
+            "season": 2,
+            "winrate": 0.524,
+            "year": 2018,
+          },
+          Object {
+            "season": 3,
+            "winrate": 0.509,
+            "year": 2018,
+          },
+          Object {
+            "season": 4,
+            "winrate": 0.5379999999999999,
+            "year": 2018,
+          },
+          Object {
+            "season": 5,
+            "winrate": 0.5225,
+            "year": 2018,
+          },
+          Object {
+            "season": 6,
+            "winrate": 0.52,
+            "year": 2018,
+          },
+          Object {
+            "season": 7,
+            "winrate": 0.5225,
+            "year": 2018,
+          },
+          Object {
+            "season": 8,
+            "winrate": 0.504,
+            "year": 2018,
+          },
+          Object {
+            "season": 9,
+            "winrate": 0.535,
+            "year": 2018,
+          },
+          Object {
+            "season": 10,
+            "winrate": 0.525,
+            "year": 2018,
+          },
+          Object {
+            "season": 11,
+            "winrate": 0.542,
+            "year": 2018,
+          },
+          Object {
+            "season": 12,
+            "winrate": 0.5589999999999999,
+            "year": 2018,
+          },
+        ],
+      }
+    }
+    i18n={
+      Object {
+        "hasResourceBundle": [Function],
+      }
+    }
+    t={[Function]}
+  >
+    <Component
+      aggregate="BY_SEASON"
+      data={
+        Array [
+          Object {
+            "data": Array [
+              Object {
+                "x": 0,
+                "y": 51.5,
+              },
+              Object {
+                "x": 1,
+                "y": 52.400000000000006,
+              },
+              Object {
+                "x": 2,
+                "y": 50.9,
+              },
+              Object {
+                "x": 3,
+                "y": 53.79999999999999,
+              },
+              Object {
+                "x": 4,
+                "y": 52.25,
+              },
+              Object {
+                "x": 5,
+                "y": 52,
+              },
+              Object {
+                "x": 6,
+                "y": 52.25,
+              },
+              Object {
+                "x": 7,
+                "y": 50.4,
+              },
+              Object {
+                "x": 8,
+                "y": 53.5,
+              },
+              Object {
+                "x": 9,
+                "y": 52.5,
+              },
+              Object {
+                "x": 10,
+                "y": 54.2,
+              },
+              Object {
+                "x": 11,
+                "y": 55.89999999999999,
+              },
+            ],
+            "id": "Winrate",
+          },
+        ]
+      }
+      firstYear={2018}
+      summaryLabel="Average Winrate"
+      summaryValue={57.4}
+    >
+      <ProfileChart
+        aggregate="BY_SEASON"
+        data={
+          Array [
+            Object {
+              "data": Array [
+                Object {
+                  "x": 0,
+                  "y": 51.5,
+                },
+                Object {
+                  "x": 1,
+                  "y": 52.400000000000006,
+                },
+                Object {
+                  "x": 2,
+                  "y": 50.9,
+                },
+                Object {
+                  "x": 3,
+                  "y": 53.79999999999999,
+                },
+                Object {
+                  "x": 4,
+                  "y": 52.25,
+                },
+                Object {
+                  "x": 5,
+                  "y": 52,
+                },
+                Object {
+                  "x": 6,
+                  "y": 52.25,
+                },
+                Object {
+                  "x": 7,
+                  "y": 50.4,
+                },
+                Object {
+                  "x": 8,
+                  "y": 53.5,
+                },
+                Object {
+                  "x": 9,
+                  "y": 52.5,
+                },
+                Object {
+                  "x": 10,
+                  "y": 54.2,
+                },
+                Object {
+                  "x": 11,
+                  "y": 55.89999999999999,
+                },
+              ],
+              "id": "Winrate",
+            },
+          ]
+        }
+        firstYear={2018}
+        i18n={
+          Object {
+            "hasResourceBundle": [Function],
+          }
+        }
+        summaryLabel="Average Winrate"
+        summaryValue={57.4}
+        t={[Function]}
+      >
+        <figure
+          className="profile-stats-chart"
+        >
+          <div
+            className="profile-stats-chart-body"
+          >
+            <figure>
+              <figcaption
+                className="profile-stats-chart-summary profile-stats-chart-summary-negative"
+                style={
+                  Object {
+                    "backgroundImage": "linear-gradient(to bottom, rgba(238, 242, 246, 1) 0%, rgba(238, 242, 246, 0.7) 100%), url(https://art.hearthstonejson.com/v1/256x/HERO_05a.jpg)",
+                    "backgroundPosition": "bottom",
+                    "backgroundRepeat": "no-repeat",
+                    "backgroundSize": "cover",
+                  }
+                }
+              >
+                <figure>
+                  <output>
+                    57.4
+                  </output>
+                  <figcaption>
+                    Average Winrate
+                  </figcaption>
+                </figure>
+              </figcaption>
+              <ResponsiveLine
+                areaOpacity={0.07}
+                axisBottom={
+                  Object {
+                    "format": [Function],
+                    "theme": Object {
+                      "axis": Object {
+                        "domain": Object {
+                          "line": Object {
+                            "stroke": "#ced5df",
+                            "strokeWidth": 1,
+                          },
+                        },
+                        "legend": Object {
+                          "text": Object {
+                            "fill": "#f00",
+                            "fontSize": 50,
+                          },
+                        },
+                        "ticks": Object {
+                          "line": Object {
+                            "stroke": "transparent",
+                            "strokeWidth": 0,
+                          },
+                          "text": Object {
+                            "fill": "#a8bcd5",
+                            "fontSize": 13,
+                            "fontWeight": "bold",
+                          },
+                        },
+                      },
+                    },
+                    "tickPadding": 15,
+                  }
+                }
+                axisLeft={
+                  Object {
+                    "format": [Function],
+                    "theme": Object {
+                      "axis": Object {
+                        "domain": Object {
+                          "line": Object {
+                            "stroke": "#ced5df",
+                            "strokeWidth": 1,
+                          },
+                        },
+                        "legend": Object {
+                          "text": Object {
+                            "fill": "#f00",
+                            "fontSize": 50,
+                          },
+                        },
+                        "ticks": Object {
+                          "line": Object {
+                            "stroke": "transparent",
+                            "strokeWidth": 0,
+                          },
+                          "text": Object {
+                            "fill": "#a8bcd5",
+                            "fontSize": 13,
+                            "fontWeight": "bold",
+                          },
+                        },
+                      },
+                    },
+                    "tickPadding": 8,
+                  }
+                }
+                colors="rgb(74, 152, 72)"
+                curve="monotoneX"
+                data={
+                  Array [
+                    Object {
+                      "data": Array [
+                        Object {
+                          "x": 0,
+                          "y": 51.5,
+                        },
+                        Object {
+                          "x": 1,
+                          "y": 52.400000000000006,
+                        },
+                        Object {
+                          "x": 2,
+                          "y": 50.9,
+                        },
+                        Object {
+                          "x": 3,
+                          "y": 53.79999999999999,
+                        },
+                        Object {
+                          "x": 4,
+                          "y": 52.25,
+                        },
+                        Object {
+                          "x": 5,
+                          "y": 52,
+                        },
+                        Object {
+                          "x": 6,
+                          "y": 52.25,
+                        },
+                        Object {
+                          "x": 7,
+                          "y": 50.4,
+                        },
+                        Object {
+                          "x": 8,
+                          "y": 53.5,
+                        },
+                        Object {
+                          "x": 9,
+                          "y": 52.5,
+                        },
+                        Object {
+                          "x": 10,
+                          "y": 54.2,
+                        },
+                        Object {
+                          "x": 11,
+                          "y": 55.89999999999999,
+                        },
+                      ],
+                      "id": "Winrate",
+                    },
+                  ]
+                }
+                dotBorderColor="inherit:lighter(0.3)"
+                dotBorderWidth={1}
+                dotSize={6}
+                enableDotLabel={false}
+                enableGridX={false}
+                lineWidth={1}
+                margin={
+                  Object {
+                    "bottom": 50,
+                    "left": 60,
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+                markers={
+                  Array [
+                    Object {
+                      "axis": "x",
+                      "legend": 2018,
+                      "value": -0.5,
+                    },
+                  ]
+                }
+                padding={
+                  Object {
+                    "right": 50,
+                  }
+                }
+                theme={
+                  Object {
+                    "markers": Object {
+                      "fontSize": 13,
+                      "lineColor": "#ced5df",
+                      "lineStrokeWidth": 1,
+                      "textColor": "#a8bcd5",
+                    },
+                  }
+                }
+                tooltipFormat={[Function]}
+                xScale={
+                  Object {
+                    "max": 11.75,
+                    "min": -0.5,
+                    "type": "linear",
+                  }
+                }
+                yScale={
+                  Object {
+                    "max": 60.99,
+                    "min": 45,
+                    "stacked": false,
+                    "type": "linear",
+                  }
+                }
+              >
+                <ResponsiveWrapper>
+                  <Measure
+                    bounds={true}
+                    onResize={[Function]}
+                  >
+                    <Measure
+                      bounds={true}
+                      contentRect={
+                        Object {
+                          "bounds": Object {},
+                          "client": Object {},
+                          "entry": Object {},
+                          "margin": Object {},
+                          "offset": Object {},
+                          "scroll": Object {},
+                        }
+                      }
+                      measure={[Function]}
+                      measureRef={[Function]}
+                    >
+                      <div
+                        style={
+                          Object {
+                            "height": "100%",
+                            "width": "100%",
+                          }
+                        }
+                      />
+                    </Measure>
+                  </Measure>
+                </ResponsiveWrapper>
+              </ResponsiveLine>
+            </figure>
+          </div>
+        </figure>
+      </ProfileChart>
+    </Component>
+  </WinrateChart>
+</Component>
+`;

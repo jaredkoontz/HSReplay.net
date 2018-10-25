@@ -5,7 +5,12 @@ import {
 	decode as decodeDeckstring,
 	encode as encodeDeckstring,
 } from "deckstrings";
-import { BnetGameType, CardClass, FormatType } from "../../hearthstone";
+import {
+	BnetGameType,
+	CardClass,
+	FormatType,
+	PlayState,
+} from "../../hearthstone";
 import { Archetype, TwitchVodData } from "../../utils/api";
 import { ArchetypeData } from "../../interfaces";
 import { ProfileArchetypeData, ProfileDeckData } from "./ProfileArchetypeList";
@@ -16,15 +21,19 @@ import {
 	getHeroCardId,
 } from "../../helpers";
 import CardData from "../../CardData";
+import { getDayOfYear } from "date-fns";
 
-export type ProfileDataType = "MatchupData" | "ArchetypeListData";
+export type ProfileDataType =
+	| "MatchupData"
+	| "ArchetypeListData"
+	| "WinrateData";
 
 interface Props {
 	userId: number;
 	type: ProfileDataType;
 	replayFilter?: (replay: ReplayData) => boolean;
 	replayStartDate: string;
-	replayEndDate: string;
+	replayEndDate?: string;
 	cardData: CardData;
 }
 
@@ -79,16 +88,19 @@ export interface ReplayData {
 
 export default class ProfileData extends React.Component<Props> {
 	public render(): React.ReactNode {
+		const replayParams = {
+			user_id: this.props.userId,
+			start_date: this.props.replayStartDate,
+		};
+		if (this.props.replayEndDate) {
+			Object.assign(replayParams, { end_date: this.props.replayEndDate });
+		}
 		return (
 			<DataInjector
 				query={[
 					{
 						key: "replays",
-						params: {
-							user_id: this.props.userId,
-							start_date: this.props.replayStartDate,
-							end_date: this.props.replayEndDate,
-						},
+						params: replayParams,
 						url: "/api/v1/replays",
 					},
 					{
@@ -210,6 +222,8 @@ export default class ProfileData extends React.Component<Props> {
 					deckData,
 					vodData,
 				);
+			case "WinrateData":
+				return this.getWinrateData(filteredReplays);
 		}
 		return null;
 	}
@@ -531,5 +545,86 @@ export default class ProfileData extends React.Component<Props> {
 			(a, b) => opposingArchetypeCounts[b] - opposingArchetypeCounts[a],
 		);
 		return { matchups, friendlyArchetypeIds, opposingArchetypeIds };
+	}
+
+	private getWinrateData(replays: ReplayData[]) {
+		const replayCount = replays.length;
+		const totalWins = replays.reduce(
+			(total, replay) =>
+				total +
+				(replay.friendly_player_final_state === PlayState.WON ? 1 : 0),
+			0,
+		);
+		const averageWinrate = totalWins / replayCount;
+		const replaysByYearAndDay = {}; // day of year [1-365]
+		const replaysByYearAndSeason = {}; // season [1-12]
+		const winrateByDay = [];
+		const winrateBySeason = [];
+		for (const replay of replays) {
+			const matchStart = new Date(replay.match_start);
+			const year = matchStart.getFullYear();
+			const season = matchStart.getMonth() + 1;
+			const day = getDayOfYear(matchStart);
+			const win = replay.friendly_player_final_state === PlayState.WON;
+
+			// by season
+			if (!replaysByYearAndSeason[year]) {
+				replaysByYearAndSeason[year] = {};
+			}
+			if (!replaysByYearAndSeason[year][season]) {
+				replaysByYearAndSeason[year][season] = {
+					total: 0,
+					wins: 0,
+				};
+			}
+			replaysByYearAndSeason[year][season] = {
+				total: replaysByYearAndSeason[year][season].total + 1,
+				wins: replaysByYearAndSeason[year][season].wins + (win ? 1 : 0),
+			};
+
+			// by day
+			if (!replaysByYearAndDay[year]) {
+				replaysByYearAndDay[year] = {};
+			}
+			if (!replaysByYearAndDay[year][day]) {
+				replaysByYearAndDay[year][day] = {
+					total: 0,
+					wins: 0,
+				};
+			}
+			replaysByYearAndDay[year][day] = {
+				total: replaysByYearAndDay[year][day].total + 1,
+				wins: replaysByYearAndDay[year][day].wins + (win ? 1 : 0),
+			};
+		}
+		for (const year of Object.keys(replaysByYearAndSeason)) {
+			for (const season of Object.keys(replaysByYearAndSeason[year])) {
+				const { total, wins } = replaysByYearAndSeason[year][season];
+				winrateBySeason.push({
+					year: +year,
+					season: +season,
+					wins,
+					total,
+					winrate: wins / total,
+				});
+			}
+		}
+		for (const year of Object.keys(replaysByYearAndDay)) {
+			for (const day of Object.keys(replaysByYearAndDay[year])) {
+				const { total, wins } = replaysByYearAndDay[year][day];
+				winrateByDay.push({
+					year: +year,
+					day: +day,
+					wins,
+					total,
+					winrate: wins / total,
+				});
+			}
+		}
+		return {
+			averageWinrate,
+			winrateByDay,
+			winrateBySeason,
+		};
 	}
 }

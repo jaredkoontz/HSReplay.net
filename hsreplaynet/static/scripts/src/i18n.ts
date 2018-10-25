@@ -65,6 +65,13 @@ export function formatNumber(n: number, mantissa: number = 0): string {
 	return numbro(n).format({ thousandSeparated: true, mantissa });
 }
 
+export function formatOrdinal(n: number): string {
+	if (n === undefined || n === null) {
+		return null;
+	}
+	return numbro(n).format({ output: "ordinal" });
+}
+
 // just used while we feature flag frontend translations
 UserData.create();
 i18n.use(CustomCallbackBackend);

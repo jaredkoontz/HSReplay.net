@@ -15,6 +15,8 @@ import TabList from "../components/layout/TabList";
 import ProfileArchetypeList from "../components/profile/ProfileArchetypeList";
 import OptionalSelect from "../components/OptionalSelect";
 import { prettyTimeRange } from "../components/text/PrettyTimeRange";
+import WinrateChart from "../components/profile/charts/WinrateChart";
+import { subDays } from "date-fns";
 
 interface Props extends InjectedTranslateProps {
 	cardData: CardData;
@@ -25,6 +27,8 @@ interface Props extends InjectedTranslateProps {
 	setStatsTimeFrame?: (statsTimeFrame: string) => void;
 	gameType?: string;
 	setGameType?: (gameType: string) => void;
+	overallStatsResolution?: string;
+	setOverallStatsResolution?: (overallStatsResolution: string) => void;
 }
 interface State {}
 
@@ -75,6 +79,10 @@ class Profile extends React.Component<Props, State> {
 							{this.renderArchetypeList()}
 							<h3>{t("Archetype Matchups")}</h3>
 							{this.renderMatchupMatrix()}
+						</section>
+						<section className="profile-section profile-section-white">
+							<h2 id="overall-stats">{t("Overall Stats")}</h2>
+							{this.renderOverallStats()}
 						</section>
 					</Tab>
 					<Tab id={"RANKED_WILD"} label={"Ranked Wild"} disabled />
@@ -150,6 +158,72 @@ class Profile extends React.Component<Props, State> {
 			}
 		}
 		return [null, null];
+	}
+
+	private renderOverallStats(): React.ReactNode {
+		const { t } = this.props;
+		const unixEpoch = new Date(0);
+		const now = new Date();
+		const endOfDay = new Date(
+			now.getFullYear(),
+			now.getMonth(),
+			now.getDate(),
+			23,
+			59,
+			59,
+			999,
+		);
+		const ninetyDaysAgo = subDays(endOfDay, 90);
+		return (
+			<div className="profile-stats">
+				<ProfileData
+					cardData={this.props.cardData}
+					userId={this.props.userId}
+					type="WinrateData"
+					replayStartDate={unixEpoch.toISOString()}
+					replayFilter={replay =>
+						replay.game_type === BnetGameType.BGT_RANKED_STANDARD
+					}
+				>
+					{data => {
+						if (!data) {
+							return <>Loading...</>;
+						}
+						return (
+							<WinrateChart
+								caption={t("Overall Winrate")}
+								aggregate={"BY_SEASON" as any}
+								averageWinrate={data.averageWinrate}
+								data={data}
+							/>
+						);
+					}}
+				</ProfileData>
+				<ProfileData
+					cardData={this.props.cardData}
+					userId={this.props.userId}
+					type="WinrateData"
+					replayStartDate={ninetyDaysAgo.toISOString()}
+					replayFilter={replay =>
+						replay.game_type === BnetGameType.BGT_RANKED_STANDARD
+					}
+				>
+					{data => {
+						if (!data) {
+							return <>Loading...</>;
+						}
+						return (
+							<WinrateChart
+								caption={t("Overall Winrate")}
+								aggregate={"BY_DAY" as any}
+								averageWinrate={data.averageWinrate}
+								data={data}
+							/>
+						);
+					}}
+				</ProfileData>
+			</div>
+		);
 	}
 
 	private renderMatchupMatrix(): React.ReactNode {

@@ -29,6 +29,7 @@ const render = (cardData: CardData) => {
 							defaults={{
 								gameType: "RANKED_STANDARD",
 								statsTimeFrame: "CURRENT_SEASON",
+								overallStatsResolution: "SEASON",
 							}}
 						>
 							<Profile

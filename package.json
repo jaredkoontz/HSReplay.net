@@ -124,7 +124,8 @@
 				"useExperimentalLanguageServer": true
 			},
 			"STATIC_URL": "/static/",
-			"INFLUX_DATABASE_JOUST": ""
+			"INFLUX_DATABASE_JOUST": "",
+			"HEARTHSTONE_ART_URL": "https://art.hearthstonejson.com/v1"
 		},
 		"testMatch": [
 			"**/__tests__/*.+(ts|tsx|js)"
