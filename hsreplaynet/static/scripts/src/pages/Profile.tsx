@@ -187,7 +187,7 @@ class Profile extends React.Component<Props, State> {
 				>
 					{data => {
 						if (!data) {
-							return <>Loading...</>;
+							return <LoadingSpinner active />;
 						}
 						return (
 							<WinrateChart
@@ -210,7 +210,7 @@ class Profile extends React.Component<Props, State> {
 				>
 					{data => {
 						if (!data) {
-							return <>Loading...</>;
+							return <LoadingSpinner active />;
 						}
 						return (
 							<WinrateChart
