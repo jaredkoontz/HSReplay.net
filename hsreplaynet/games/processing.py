@@ -1246,8 +1246,8 @@ def do_process_upload_event(upload_event):
 	try:
 		digest = generate_globalgame_digest_v2(parser.games[0])
 		redis = get_game_digests_redis()
-		digest_lock = RedisLock(redis, digest, expire=8)
-		if not digest_lock.acquire(timeout=8):
+		digest_lock = RedisLock(redis, digest, expire=75)
+		if not digest_lock.acquire(timeout=75):
 			digest_lock = None
 	except Exception as e:
 		log.warning("Exception while obtaining digest lock; may miss a unification: %s", e)
