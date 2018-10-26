@@ -1203,6 +1203,10 @@ def get_globalgame_digest_v2_tags(packet_tree, shortid=None):
 	return tags
 
 
+def unifiable(replay):
+	return (not replay.reconnecting) and (not replay.spectator_mode)
+
+
 def do_process_upload_event(upload_event):
 	meta = json.loads(upload_event.metadata)
 
@@ -1268,36 +1272,37 @@ def do_process_upload_event(upload_event):
 	# (i.e., we're not reprocessing) it's not a reconnected game (which won't have the all
 	# the necessary data in the log) and it's not a spectated game.
 
-	if (
-		game_replay_created and
-		not meta.get("reconnecting", False) and
-		not meta.get("spectator_mode", False)
-	):
+	if game_replay_created and unifiable(replay):
 
-		# If this isn't a reprocessing of a replay we've already seen, compute the v2 digest
-		# for the game and record metrics to indicate where it's a unification and/or
-		# collision.
+		# If this isn't a reprocessing of a replay we've already seen, compute and record a
+		# a tick for the v2 digest for the game, and prepared to record metrics to indicate
+		# where it's a unification and/or collision.
 
 		tags = dict(get_globalgame_digest_v2_tags(
 			parser.games[0],
 			shortid=upload_event.shortid
 		))
 
-		if not global_game_created:
+		# If the only other replays for the game were spectated or reconnected games, don't
+		# make further attempts to report unification metrics, because there won't be a v2
+		# digest match.
 
-			# If we've seen the game before, it's likely a unification via the "v1" version
-			# of the digest process.
+		if any(r.id != replay.id and unifiable(r) for r in global_game.replays.all()):
+			if not global_game_created:
 
-			tags["v1_unification"] = True
+				# If we've seen the game before, it's likely a unification via the "v1"
+				# version of the digest process.
 
-		influx_metric(
-			"game_replays_uploaded", {
-				"count": 1,
-				"game_id": global_game.id
-			},
-			user_agent=product,
-			**tags
-		)
+				tags["v1_unification"] = True
+
+			influx_metric(
+				"game_replays_uploaded", {
+					"count": 1,
+					"game_id": global_game.id
+				},
+				user_agent=product,
+				**tags
+			)
 
 	# If we obtained a lock on the v2 digest earlier, release it quietly. This code block
 	# may be deleted once the unification experiments are complete.
