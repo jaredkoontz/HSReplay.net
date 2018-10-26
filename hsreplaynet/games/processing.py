@@ -1265,9 +1265,14 @@ def do_process_upload_event(upload_event):
 		if upload_event.user_agent else None
 
 	# Only record unification / digest collision stats if we haven't seen the replay before
-	# (i.e., we're not reprocessing) and it's not a spectated game.
+	# (i.e., we're not reprocessing) it's not a reconnected game (which won't have the all
+	# the necessary data in the log) and it's not a spectated game.
 
-	if game_replay_created and not meta.get("spectator_mode", False):
+	if (
+		game_replay_created and
+		not meta.get("reconnecting", False) and
+		not meta.get("spectator_mode", False)
+	):
 
 		# If this isn't a reprocessing of a replay we've already seen, compute the v2 digest
 		# for the game and record metrics to indicate where it's a unification and/or
