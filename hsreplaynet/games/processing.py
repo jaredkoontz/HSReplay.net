@@ -1303,6 +1303,8 @@ def do_process_upload_event(upload_event):
 				user_agent=product,
 				**tags
 			)
+		else:
+			influx_metric("game_replays_uploaded", {"count": 1}, user_agent=product)
 
 	# If we obtained a lock on the v2 digest earlier, release it quietly. This code block
 	# may be deleted once the unification experiments are complete.
