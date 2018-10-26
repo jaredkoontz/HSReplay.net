@@ -37,6 +37,14 @@ class GameDigestExporter(EntityTreeExporter):
 		self.player_2 = None
 		self.entities = dict()
 
+	def _get_player_by_controller(self, controller):
+		if controller == 1:
+			return self.player_1
+		elif controller == 2:
+			return self.player_2
+		else:
+			return None
+
 	def handle_player(self, packet):
 		super().handle_player(packet)
 
@@ -75,10 +83,9 @@ class GameDigestExporter(EntityTreeExporter):
 		# full entity packets.
 
 		if controller and entity_id and tags.get(GameTag.ZONE) == Zone.DECK:
-			if controller == 1:
-				self.player_1["deck"].add(entity_id)
-			elif controller == 2:
-				self.player_2["deck"].add(entity_id)
+			player = self._get_player_by_controller(controller)
+			if player:
+				player["deck"].add(entity_id)
 
 	@staticmethod
 	def _update_zone(controller, entity):
@@ -107,10 +114,9 @@ class GameDigestExporter(EntityTreeExporter):
 			# packets with changes to the ZONE tag.
 
 			if GameTag.ZONE in tags and tags[GameTag.ZONE] == Zone.HAND:
-				if controller_id == 1:
-					self._update_zone(self.player_1, packet.entity)
-				elif controller_id == 2:
-					self._update_zone(self.player_2, packet.entity)
+				player = self._get_player_by_controller(controller_id)
+				if player:
+					self._update_zone(player, packet.entity)
 
 	def handle_tag_change(self, packet):
 		super().handle_tag_change(packet)
@@ -123,11 +129,7 @@ class GameDigestExporter(EntityTreeExporter):
 				entity = self.entities[packet.entity]
 				controller_id = entity[GameTag.CONTROLLER]
 
-				controller = None
-				if controller_id == 1:
-					controller = self.player_1
-				elif controller_id == 2:
-					controller = self.player_2
+				controller = self._get_player_by_controller(controller_id)
 
 				if controller:
 
