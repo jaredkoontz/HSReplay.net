@@ -45,6 +45,46 @@ class GameDigestExporter(EntityTreeExporter):
 		else:
 			return None
 
+	def _update_zone(self, controller_id, entity, new_zone):
+		controller = self._get_player_by_controller(controller_id)
+
+		if not controller:
+			return
+
+		if entity in controller["deck"]:
+
+			# If a card goes from a player's deck to their hand, it needs to show up in the
+			# draw sequence.
+
+			if new_zone == Zone.HAND:
+				controller["draw_sequence"].append(entity)
+
+			# If it's leaving the deck, remove it from our representation of the player's
+			# deck.
+
+			if new_zone != Zone.DECK:
+				controller["deck"].remove(entity)
+		elif new_zone == Zone.DECK:
+			controller["deck"].add(entity)
+
+	def _update_controller(self, entity, previous_controller_id, new_controller_id):
+		if previous_controller_id != new_controller_id:
+			self.entities[entity][GameTag.CONTROLLER] = new_controller_id
+
+			previous_player = self._get_player_by_controller(previous_controller_id)
+
+			# If a card was in our representation of a player's deck at the time it changed
+			# controllers, it needs to be removed from the deck set...
+
+			if previous_player and entity in previous_player["deck"]:
+				previous_player["deck"].remove(entity)
+
+				# ...and possibly also be added to the new controller's deck set.
+
+				new_player = self._get_player_by_controller(new_controller_id)
+				if new_player:
+					new_player["deck"].add(entity)
+
 	def handle_player(self, packet):
 		super().handle_player(packet)
 
@@ -87,63 +127,47 @@ class GameDigestExporter(EntityTreeExporter):
 			if player:
 				player["deck"].add(entity_id)
 
-	@staticmethod
-	def _update_zone(controller, entity):
-		if entity in controller["deck"]:
-			controller["draw_sequence"].append(entity)
-			controller["deck"].remove(entity)
-
 	def handle_show_entity(self, packet):
 		super().handle_show_entity(packet)
 
 		tags = dict(packet.tags)
 
+		previous_controller_id = self.entities[packet.entity].get(GameTag.CONTROLLER)
 		controller_id = tags.get(GameTag.CONTROLLER)
 
 		# Some older replays don't include the controller tag on the show entity packet...
-		# but we might have seen it on the original FullEntity packet, so let's look for it
-		# there. Doesn't hurt!
+		# but we might already have it on the entity, so let's look for it there.
 
 		if not controller_id:
 			if packet.entity in self.entities:
-				controller_id = self.entities[packet.entity].get(GameTag.CONTROLLER)
+				controller_id = previous_controller_id
 
 		if controller_id:
 
-			# Draws for the friendly player are represented in Power.log as SHOW_ENTITY
-			# packets with changes to the ZONE tag.
+			# First update the controller if it's changed.
 
-			if GameTag.ZONE in tags and tags[GameTag.ZONE] == Zone.HAND:
-				player = self._get_player_by_controller(controller_id)
-				if player:
-					self._update_zone(player, packet.entity)
+			self._update_controller(packet.entity, previous_controller_id, controller_id)
+
+			# Then update the zone. Draws for the friendly player are represented in
+			# Power.log as SHOW_ENTITY packets with changes to the ZONE tag.
+
+			if GameTag.ZONE in tags:
+				self._update_zone(controller_id, packet.entity, tags[GameTag.ZONE])
 
 	def handle_tag_change(self, packet):
 		super().handle_tag_change(packet)
 
+		previous_controller_id = self.entities[packet.entity].get(GameTag.CONTROLLER) \
+			if packet.entity in self.entities else None
+
 		if self.player_1 and self.player_2:
-			if packet.tag == GameTag.ZONE:
+			if packet.tag == GameTag.CONTROLLER:
+				self._update_controller(packet.entity, previous_controller_id, packet.value)
 
-				# Who's the current player?
-
+			elif packet.tag == GameTag.ZONE:
 				entity = self.entities[packet.entity]
 				controller_id = entity[GameTag.CONTROLLER]
-
-				controller = self._get_player_by_controller(controller_id)
-
-				if controller:
-
-					# If the card moved from the player's deck to their hand, add it to the
-					# draw sequence and remove it from their deck.
-
-					if packet.value == Zone.HAND:
-						self._update_zone(controller, packet.entity)
-					elif packet.value == Zone.DECK:
-
-						# If the card moved to the player's deck, add it to their deck set
-						# so that we can count it as drawn later.
-
-						controller["deck"].add(packet.entity)
+				self._update_zone(controller_id, packet.entity, packet.value)
 
 			# Damage changes are applied to the player's hero card, so map the target entity
 			# to the player's hero card entity. Ignore zero damage notifications - they're

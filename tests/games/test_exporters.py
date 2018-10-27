@@ -26,7 +26,7 @@ class TestGameDigestExporter:
 					27, 34, 15, 33, 23, 28, 4, 21, 13, 31, 43, 15, 38, 7, 30, 39, 35, 18,
 					40, 29, 32, 22, 8, 44, 91, 26, 12, 24, 25, 9, 14, 123, 34, 45, 138
 				],
-				"deck": {27}
+				"deck": set()
 			}
 
 			assert exporter.player_2 == {
@@ -64,7 +64,7 @@ class TestGameDigestExporter:
 					11, 21, 19, 30, 8, 20, 11, 26, 33, 12, 7, 27, 21, 10, 29, 16, 15, 14, 4,
 					19, 9, 24, 25, 31, 6
 				],
-				"deck": {5, 13, 17, 18, 22, 23, 28, 32}
+				"deck": set()
 			}
 
 			assert exporter.player_2 == {
@@ -78,12 +78,12 @@ class TestGameDigestExporter:
 				],
 				"draw_sequence": [
 					45, 47, 54, 48, 70, 71, 46, 42, 45, 47, 59, 38, 34, 41, 40, 44, 49, 52,
-					58, 43, 66, 61, 51, 55, 35, 50, 65, 48, 67, 62
+					58, 43, 66, 61, 51, 55, 35, 50, 65, 48, 67, 62, 18, 22, 32
 				],
-				"deck": {39, 53, 54, 60}
+				"deck": {5, 13, 17, 23}
 			}
 
-			assert exporter.digest == "87b1517af0eb67a9aa98f6f90f7d6839ae344149"
+			assert exporter.digest == "18f2ec256e13197ed8f39b91c86a48a4772a98f6"
 
 	def test_digest_hero_change(self):
 		with open(self._replay_path("annotated.hero_change.25770.hsreplay.xml"), "r") as f:
@@ -101,7 +101,7 @@ class TestGameDigestExporter:
 					24, 39, 33, 12, 9, 19, 22, 32, 8, 21, 35, 23, 38, 6, 41, 34, 25, 31, 18,
 					5, 15, 26, 40, 33, 20, 7, 14, 27
 				],
-				"deck": {4, 13, 30}
+				"deck": {4}
 			}
 
 			assert exporter.player_2 == {
@@ -142,7 +142,7 @@ class TestGameDigestExporter:
 					25, 8, 33, 26, 30, 32, 23, 9, 6, 29, 14, 16, 17, 33, 15, 19, 4, 20, 21,
 					13, 24, 27, 31, 28, 7, 11, 22, 18, 12, 10
 				],
-				"deck": {5, 8}
+				"deck": set()
 			}
 
 			assert exporter.player_2 == {
@@ -156,14 +156,14 @@ class TestGameDigestExporter:
 				],
 				"draw_sequence": [
 					58, 41, 50, 45, 47, 63, 54, 56, 48, 46, 41, 43, 39, 132, 112, 125, 119,
-					115, 114, 106, 127, 131, 109, 128, 113, 107, 108, 55, 60, 51, 42, 61,
-					44, 35, 105, 116, 110, 103, 126, 124, 104, 52, 40, 37, 36, 38, 49, 34,
-					62, 35, 57, 53, 51, 61, 44, 55, 59, 60
+					115, 114, 106, 127, 131, 128, 107, 55, 60, 51, 42, 61, 44, 35, 105, 116,
+					110, 103, 126, 124, 104, 52, 40, 37, 36, 38, 49, 34, 62, 35, 57, 53, 51,
+					61, 44, 55, 59, 60
 				],
-				"deck": {129, 130, 111, 117, 118, 120, 121, 122, 123}
+				"deck": set()
 			}
 
-			assert exporter.digest == "97deb57c7f51d220b823a6f3bc80471c191ea07c"
+			assert exporter.digest == "2eb551cb0c7b21d95fd96cdf79755b23346a2514"
 
 	def test_digest_symmetric(self):
 		with open(self._replay_path("annotated.symmetric_a.25770.hsreplay.xml"), "r") as f1:
@@ -172,6 +172,23 @@ class TestGameDigestExporter:
 			exporter1.export()
 
 		with open(self._replay_path("annotated.symmetric_b.25770.hsreplay.xml"), "r") as f2:
+			replay = HSReplayDocument.from_xml_file(f2)
+			exporter2 = GameDigestExporter(replay.to_packet_tree()[0])
+			exporter2.export()
+
+		assert exporter1.digest == exporter2.digest
+
+	def test_digest_symmetric_with_card_swap(self):
+		with open(self._replay_path(
+			"annotated.symmetric_card_swap_a.27358.hsreplay.xml"
+		), "r") as f1:
+			replay = HSReplayDocument.from_xml_file(f1)
+			exporter1 = GameDigestExporter(replay.to_packet_tree()[0])
+			exporter1.export()
+
+		with open(self._replay_path(
+			"annotated.symmetric_card_swap_b.27358.hsreplay.xml"
+		), "r") as f2:
 			replay = HSReplayDocument.from_xml_file(f2)
 			exporter2 = GameDigestExporter(replay.to_packet_tree()[0])
 			exporter2.export()
