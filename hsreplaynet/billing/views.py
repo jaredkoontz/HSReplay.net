@@ -616,10 +616,13 @@ class PaypalCancelView(BasePaypalView):
 
 class PaypalSubscribeView(LoginRequiredMixin, BasePaypalView):
 	def post(self, request):
-		from djpaypal.models import BillingPlan
+		from djpaypal.models import BillingAgreement, BillingPlan
 		id = request.POST.get("plan", "")
 		if not id:
 			return self.fail(_("Could not determine your plan."))
+
+		if BillingAgreement.objects.filter(user=request.user, state="Pending").count() > 0:
+			return self.fail(_("You have a pending subscription."))
 
 		try:
 			plan = BillingPlan.objects.get(id=id)
