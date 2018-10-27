@@ -730,13 +730,14 @@ export function winrateData(
 	baseWinrate: number,
 	winrate: number,
 	deltaFactor: number,
+	colors: Colors = Colors.REDGREEN3,
 ) {
 	const winrateDelta = winrate - baseWinrate;
 	const colorWinrate =
 		50 + Math.max(-50, Math.min(50, deltaFactor * winrateDelta));
 	const tendencyStr =
 		winrateDelta === 0 ? "    " : winrateDelta > 0 ? "▲" : "▼";
-	const color = getColorString(Colors.REDGREEN3, 75, colorWinrate / 100);
+	const color = getColorString(colors, 75, colorWinrate / 100);
 	return { delta: formatNumber(winrateDelta, 1), color, tendencyStr };
 }
 
@@ -1117,4 +1118,8 @@ export function getDeckShortId(cardIds: string[]): string {
 	}
 
 	return shortId;
+}
+
+export function range(from: number, to: number): number[] {
+	return Array(to - from).fill(Number).map((_, i) => i + from);
 }

@@ -833,3 +833,155 @@
 		}
 	}
 }
+
+.class-distribution-pie {
+	height: 260px;
+
+	.class-icon {
+		width: 30px;
+		height: 30px;
+	}
+
+	g > text {
+		font-weight: bold;
+	}
+
+	.pie-tooltip {
+		padding: 5px;
+
+		> span {
+			font-weight: bold;
+		}
+
+		> div {
+			padding-top: 10px;
+		}
+	}
+}
+
+.daily-activity-chart {
+	max-width: 600px;
+	margin: 0 auto;
+
+	.week-header {
+		display: flex;
+		color: #657b99;
+
+		> span {
+			flex: 1 1 0;
+			text-align: center;
+			font-weight: bold;
+			font-size: 0.85em;
+		}
+	}
+
+	.week {
+		border-top: 1px solid #becad5;
+		border-left: 1px solid #becad5;
+		border-right: 1px solid #becad5;
+		display: flex;
+
+		&:last-of-type {
+			border-bottom: 1px solid #becad5;
+		}
+
+		> .tooltip-wrapper {
+			flex: 1 1 0;
+			border-right: 1px solid #becad5;
+
+			&:last-of-type {
+				border-right: none;
+			}
+		}
+	}
+
+	.day {
+		height: 50px;
+		display: inline-block;
+		background: $offwhite;
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		&.inactive {
+			background: #e1e8ef;
+		}
+
+		.circle {
+			border-radius: 50%;
+		}
+
+		> span {
+			font-size: 0.7em;
+			color: #657b99;
+			position: absolute;
+			top: 0px;
+			left: 1px;
+		}
+	}
+}
+
+.profile-overview {
+	background: #e1e8ef;
+	padding-bottom: 15px;
+
+	h3 {
+		text-align: center;
+	}
+}
+
+.profile-stats-overview {
+	background: #d3dce5;
+	display: flex;
+	flex-direction: column;
+	border: 1px solid #becad5;
+	max-width: 230px;
+	margin: 0 auto;
+
+	.rank-icon-container {
+		background: $offwhite;
+		border-bottom: 1px solid #becad5;
+		padding: 20px;
+	}
+
+	.rank-icon-standalone {
+		margin: 0 auto;
+	}
+
+	dl {
+		margin: 0;
+	}
+
+	dt,
+	dd {
+		height: 40px;
+		line-height: 40px;
+		padding: 0 10px;
+		border-bottom: 1px solid #becad5;
+		&:last-of-type {
+			border-bottom: none;
+		}
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+	}
+
+	dt {
+		float: left;
+		width: 70%;
+		font-weight: normal;
+	}
+	dd {
+		float: right;
+		width: 30%;
+		text-align: right;
+		font-weight: bold;
+	}
+
+	.class-icon {
+		width: 30px;
+		height: 30px;
+		margin-top: -3px;
+	}
+}

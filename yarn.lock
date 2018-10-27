@@ -70,6 +70,17 @@
     react-motion "^0.5.2"
     recompose "^0.26.0"
 
+"@nivo/pie@^0.50.0":
+  version "0.50.0"
+  resolved "https://registry.yarnpkg.com/@nivo/pie/-/pie-0.50.0.tgz#4db4ab14eafa60c4d46fae3728569026675310c4"
+  dependencies:
+    "@nivo/core" "0.50.0"
+    "@nivo/legends" "0.50.0"
+    d3-shape "^1.2.2"
+    lodash "^4.17.4"
+    react-motion "^0.5.2"
+    recompose "^0.26.0"
+
 "@nivo/scales@0.50.0":
   version "0.50.0"
   resolved "https://registry.yarnpkg.com/@nivo/scales/-/scales-0.50.0.tgz#c191171b35031a1c45b855d1140b1c0b021c400b"

@@ -26,7 +26,10 @@ import { getDayOfYear } from "date-fns";
 export type ProfileDataType =
 	| "MatchupData"
 	| "ArchetypeListData"
-	| "WinrateData";
+	| "WinrateData"
+	| "ClassDistributionData"
+	| "StatsOverviewData"
+	| "DailyActivityData";
 
 interface Props {
 	userId: number;
@@ -224,8 +227,106 @@ export default class ProfileData extends React.Component<Props> {
 				);
 			case "WinrateData":
 				return this.getWinrateData(filteredReplays);
+			case "StatsOverviewData":
+				return this.getStatsOverviewData(filteredReplays);
+			case "ClassDistributionData":
+				return this.getClassDistributionData(filteredReplays);
+			case "DailyActivityData":
+				return this.getDailyActivityData(filteredReplays);
 		}
 		return null;
+	}
+
+	private getDailyActivityData(replays: ReplayData[]): any {
+		const activity = [];
+		let maxDate = new Date(0);
+		replays.forEach(replay => {
+			const matchStart = new Date(replay.match_start);
+			const date = new Date(
+				matchStart.getFullYear(),
+				matchStart.getMonth(),
+				matchStart.getDate(),
+			);
+			if (date > maxDate) {
+				maxDate = date;
+			}
+			let data = activity.find(
+				x =>
+					x.date.getFullYear() === date.getFullYear() &&
+					x.date.getMonth() === date.getMonth() &&
+					x.date.getDate() === date.getDate(),
+			);
+			if (!data) {
+				data = {
+					date,
+					games: 0,
+					wins: 0,
+				};
+				activity.push(data);
+			}
+			data.games++;
+			if (replay.friendly_player_final_state === 4) {
+				data.wins++;
+			}
+		});
+		const monthStart = new Date(
+			maxDate.getFullYear(),
+			maxDate.getMonth(),
+			1,
+		);
+		return activity.filter(x => x.date > monthStart);
+	}
+
+	private getClassDistributionData(replays: ReplayData[]): any {
+		const classCounts = {};
+		replays.forEach(replay => {
+			const fClass = replay.friendly_player_class;
+			classCounts[fClass] = (classCounts[fClass] || 0) + 1;
+		});
+		return Object.keys(classCounts).map(cardClass => ({
+			cardClass: getCardClassName(+cardClass),
+			games: classCounts[cardClass],
+		}));
+	}
+
+	private getStatsOverviewData(replays: ReplayData[]): any {
+		const data = {
+			legendRank: null,
+			rank: null,
+			wins: 0,
+			games: 0,
+			favoriteClass: null,
+			favoriteClassGames: 0,
+		};
+		const classCounts = {};
+		replays.forEach(replay => {
+			data.games++;
+			if (replay.friendly_player_final_state === 4) {
+				data.wins++;
+			}
+			const lRank = replay.friendly_player_legend_rank;
+			const rank = replay.friendly_player_rank;
+			if (
+				lRank &&
+				(lRank < data.legendRank || data.legendRank === null)
+			) {
+				data.legendRank = lRank;
+			} else if (rank && (rank < data.rank || data.rank === null)) {
+				data.rank = rank;
+			}
+			const fClass = replay.friendly_player_class;
+			classCounts[fClass] = (classCounts[fClass] || 0) + 1;
+		});
+		if (data.legendRank) {
+			data.rank = null;
+		}
+		Object.keys(classCounts).forEach(cardClass => {
+			if (classCounts[cardClass] > data.favoriteClassGames) {
+				data.favoriteClass = getCardClassName(+cardClass);
+				data.favoriteClassGames = classCounts[cardClass];
+			}
+		});
+		return data;
 	}
 
 	private getArchetypeListData(

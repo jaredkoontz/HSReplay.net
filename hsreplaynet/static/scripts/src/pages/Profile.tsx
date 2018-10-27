@@ -17,6 +17,9 @@ import OptionalSelect from "../components/OptionalSelect";
 import { prettyTimeRange } from "../components/text/PrettyTimeRange";
 import WinrateChart from "../components/profile/charts/WinrateChart";
 import { subDays } from "date-fns";
+import ProfileStatsOverview from "../components/profile/ProfileStatsOverview";
+import ClassDistributionChart from "../components/profile/charts/ClassDistributionChart";
+import DailyActivityChart from "../components/profile/charts/DailyActivityChart";
 
 interface Props extends InjectedTranslateProps {
 	cardData: CardData;
@@ -75,6 +78,23 @@ class Profile extends React.Component<Props, State> {
 							</div>
 						</div>
 						<section className="profile-section">
+							<div className="profile-overview">
+								<div className="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+									<h3>{t("Overview")}</h3>
+									{this.renderOverview()}
+								</div>
+								<div className="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+									<h3>{t("Classes Played")}</h3>
+									{this.renderClassesPlayed()}
+								</div>
+								<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+									<h3>{t("Daily Activity")}</h3>
+									{this.renderDailyActivity()}
+								</div>
+								<div className="clearfix" />
+							</div>
+						</section>
+						<section className="profile-section">
 							<h2>{t("Archetypes Played")}</h2>
 							{this.renderArchetypeList()}
 							<h3>{t("Archetype Matchups")}</h3>
@@ -89,6 +109,97 @@ class Profile extends React.Component<Props, State> {
 					<Tab id={"ARENA"} label={"Arena"} disabled />
 				</TabList>
 			</main>
+		);
+	}
+
+	private renderDailyActivity(): React.ReactNode {
+		const [startDate, endDate] = this.getTimeFrame();
+		if (!startDate || !endDate) {
+			console.error("Invalid timeframe " + this.props.statsTimeFrame);
+			return null;
+		}
+		return (
+			<ProfileData
+				cardData={this.props.cardData}
+				userId={this.props.userId}
+				type="DailyActivityData"
+				replayStartDate={startDate.toISOString()}
+				replayEndDate={endDate.toISOString()}
+				replayFilter={replay =>
+					replay.game_type === BnetGameType.BGT_RANKED_STANDARD
+				}
+			>
+				{data => {
+					if (!data) {
+						return <LoadingSpinner active />;
+					}
+					return <DailyActivityChart data={data} />;
+				}}
+			</ProfileData>
+		);
+	}
+
+	private renderClassesPlayed(): React.ReactNode {
+		const [startDate, endDate] = this.getTimeFrame();
+		if (!startDate || !endDate) {
+			console.error("Invalid timeframe " + this.props.statsTimeFrame);
+			return null;
+		}
+		return (
+			<ProfileData
+				cardData={this.props.cardData}
+				userId={this.props.userId}
+				type="ClassDistributionData"
+				replayStartDate={startDate.toISOString()}
+				replayEndDate={endDate.toISOString()}
+				replayFilter={replay =>
+					replay.game_type === BnetGameType.BGT_RANKED_STANDARD
+				}
+			>
+				{data => {
+					if (!data) {
+						return <LoadingSpinner active />;
+					}
+					return <ClassDistributionChart data={data} />;
+				}}
+			</ProfileData>
+		);
+	}
+
+	private renderOverview(): React.ReactNode {
+		const [startDate, endDate] = this.getTimeFrame();
+		if (!startDate || !endDate) {
+			console.error("Invalid timeframe " + this.props.statsTimeFrame);
+			return null;
+		}
+		return (
+			<ProfileData
+				cardData={this.props.cardData}
+				userId={this.props.userId}
+				type="StatsOverviewData"
+				replayStartDate={startDate.toISOString()}
+				replayEndDate={endDate.toISOString()}
+				replayFilter={replay =>
+					replay.game_type === BnetGameType.BGT_RANKED_STANDARD
+				}
+			>
+				{data => {
+					if (!data) {
+						return <LoadingSpinner active />;
+					}
+					return (
+						<ProfileStatsOverview
+							rank={data.rank}
+							legendRank={data.legendRank}
+							games={data.games}
+							winrate={
+								data.games ? 100 * data.wins / data.games : 0
+							}
+							favoriteClass={data.favoriteClass}
+						/>
+					);
+				}}
+			</ProfileData>
 		);
 	}
 

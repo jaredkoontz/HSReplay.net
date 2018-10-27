@@ -18,6 +18,7 @@
 	},
 	"dependencies": {
 		"@nivo/line": "^0.50.0",
+		"@nivo/pie": "^0.50.0",
 		"@sentry/browser": "^4.0.0-beta.12",
 		"@types/big-integer": "^0.0.31",
 		"@types/bootstrap": "^3.3",
