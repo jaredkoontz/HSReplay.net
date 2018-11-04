@@ -230,6 +230,8 @@ class Deck(models.Model):
 
 	@property
 	def hero_dbf_id(self):
+		if not self.hero:
+			return None
 		return Card.objects.get(card_id=self.hero).dbf_id
 
 	@cached_property
@@ -260,6 +262,8 @@ class Deck(models.Model):
 	@cached_property
 	def deckstring(self):
 		cards = self.card_dbf_id_packed_list
+		if not self.hero_dbf_id:
+			return None
 		return deckstrings.write_deckstring(cards, [self.hero_dbf_id], self.format)
 
 	@cached_property
