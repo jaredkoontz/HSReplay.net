@@ -119,10 +119,6 @@
 			"^.+\\.(ts|tsx)$": "ts-jest"
 		},
 		"globals": {
-			"ts-jest": {
-				"skipBabel": true,
-				"useExperimentalLanguageServer": true
-			},
 			"STATIC_URL": "/static/",
 			"INFLUX_DATABASE_JOUST": "",
 			"HEARTHSTONE_ART_URL": "https://art.hearthstonejson.com/v1"
