@@ -1165,7 +1165,7 @@ def record_twitch_vod(replay, meta):
 		log.error("Failed to persist Twitch VOD %s: %s", twitch_vod_url, e)
 
 
-def get_globalgame_digest_v2_tags(packet_tree, shortid=None):
+def get_globalgame_digest_v2_tags(packet_tree, product=None, shortid=None):
 	"""Detect unifications and possible digest collisions for the specified packet tree
 
 	Generates a digest using the "v2" algorithm (see GameDigestExporter) and increments the
@@ -1182,6 +1182,10 @@ def get_globalgame_digest_v2_tags(packet_tree, shortid=None):
 			digest = generate_globalgame_digest_v2(packet_tree)
 			redis = get_game_digests_redis()
 			digest_count = redis.hincrby(digest, "count", 1)
+
+			if not redis.hsetnx(digest, "first_user_agent", product):
+				tags["first_user_agent"] = redis.hget(digest, "first_user_agent")
+
 			redis.expire(digest, 21600)  # 6 hours
 
 			if digest_count >= 2:
@@ -1280,6 +1284,7 @@ def do_process_upload_event(upload_event):
 
 		tags = dict(get_globalgame_digest_v2_tags(
 			parser.games[0],
+			product=product,
 			shortid=upload_event.shortid
 		))
 
