@@ -485,7 +485,7 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
             onClick={[Function]}
           >
             <strong>
-              Recency
+              Duration
             </strong>
             <SortIndicator
               direction={null}
@@ -512,7 +512,7 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
             onClick={[Function]}
           >
             <strong>
-              Duration
+              Recency
             </strong>
             <SortIndicator
               direction={null}
@@ -567,73 +567,64 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
               wentFirst={null}
               won={true}
             >
-              <p>
-                <span
-                  className="twitch-vod-table-icons"
+              <span
+                className="twitch-vod-table-matchup"
+              >
+                <Rank
+                  legendRank={1555}
+                  rank={null}
                 >
-                  <Rank
+                  <Component
+                    gameType={2}
                     legendRank={1555}
-                    rank={null}
+                    rank={0}
+                    tooltip={true}
                   >
-                    <span
-                      className="twitch-vod-table-icon"
+                    <RankIcon
+                      gameType={2}
+                      i18n={
+                        Object {
+                          "hasResourceBundle": [Function],
+                        }
+                      }
+                      legendRank={1555}
+                      rank={0}
+                      t={[Function]}
+                      tooltip={true}
                     >
-                      <Component
-                        gameType={2}
-                        legendRank={1555}
-                        rank={0}
-                        tooltip={true}
+                      <Tooltip
+                        content="Legend 1555"
+                        simple={true}
                       >
-                        <RankIcon
-                          gameType={2}
-                          i18n={
-                            Object {
-                              "hasResourceBundle": [Function],
-                            }
-                          }
-                          legendRank={1555}
-                          rank={0}
-                          t={[Function]}
-                          tooltip={true}
+                        <div
+                          className="tooltip-wrapper"
+                          onMouseLeave={[Function]}
+                          onMouseMove={[Function]}
+                          onTouchStart={[Function]}
                         >
-                          <Tooltip
-                            content="Legend 1555"
-                            simple={true}
+                          <section
+                            className="sr-only"
                           >
-                            <div
-                              className="tooltip-wrapper"
-                              onMouseLeave={[Function]}
-                              onMouseMove={[Function]}
-                              onTouchStart={[Function]}
-                            >
-                              <section
-                                className="sr-only"
-                              >
-                                <p>
-                                  Legend 1555
-                                </p>
-                              </section>
-                              <figure
-                                className="rank-icon-standalone"
-                              >
-                                <img
-                                  alt="Legend 1555"
-                                  src="/static/images/ranked-medals/Medal_Ranked_Legend.png"
-                                />
-                                <figcaption>
-                                  1555
-                                </figcaption>
-                              </figure>
-                            </div>
-                          </Tooltip>
-                        </RankIcon>
-                      </Component>
-                    </span>
-                  </Rank>
-                </span>
-              </p>
-              <p>
-                Played by 
+                            <p>
+                              Legend 1555
+                            </p>
+                          </section>
+                          <figure
+                            className="rank-icon-standalone"
+                          >
+                            <img
+                              alt="Legend 1555"
+                              src="/static/images/ranked-medals/Medal_Ranked_Legend.png"
+                            />
+                            <figcaption>
+                              1555
+                            </figcaption>
+                          </figure>
+                        </div>
+                      </Tooltip>
+                    </RankIcon>
+                  </Component>
+                </Rank>
                 <StreamerName
                   channelName="Zuhex"
                 >
@@ -650,7 +641,8 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
                     </span>
                   </span>
                 </StreamerName>
-                 
+              </span>
+              <p>
                 <Age
                   date={2018-10-09T00:00:00.000Z}
                 >
@@ -665,18 +657,12 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
                     </time>
                   </SemanticAge>
                 </Age>
-              </p>
-              <p>
                 <Outcome
                   won={true}
                 >
                   <strong
                     className="twitch-vod-table-outcome"
                   >
-                    <span
-                      className="glyphicon  glyphicon-ok"
-                    />
-                     
                     <Trans />
                   </strong>
                 </Outcome>
@@ -736,83 +722,33 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
               wentFirst={true}
               won={true}
             >
-              <p>
-                <span
-                  className="twitch-vod-table-icons"
+              <span
+                className="twitch-vod-table-matchup"
+              >
+                <Rank
+                  legendRank={null}
+                  rank={1}
                 >
-                  <Rank
-                    legendRank={null}
+                  <Component
+                    gameType={2}
+                    legendRank={0}
                     rank={1}
+                    tooltip={true}
                   >
-                    <span
-                      className="twitch-vod-table-icon"
-                    >
-                      <Component
-                        gameType={2}
-                        legendRank={0}
-                        rank={1}
-                        tooltip={true}
-                      >
-                        <RankIcon
-                          gameType={2}
-                          i18n={
-                            Object {
-                              "hasResourceBundle": [Function],
-                            }
-                          }
-                          legendRank={0}
-                          rank={1}
-                          t={[Function]}
-                          tooltip={true}
-                        >
-                          <Tooltip
-                            content="Rank 1"
-                            simple={true}
-                          >
-                            <div
-                              className="tooltip-wrapper"
-                              onMouseLeave={[Function]}
-                              onMouseMove={[Function]}
-                              onTouchStart={[Function]}
-                            >
-                              <section
-                                className="sr-only"
-                              >
-                                <p>
-                                  Rank 1
-                                </p>
-                              </section>
-                              <figure
-                                className="rank-icon-standalone"
-                              >
-                                <img
-                                  alt="Rank 1"
-                                  src="/static/images/ranked-medals/Medal_Ranked_1.png"
-                                />
-                                <figcaption>
-                                  1
-                                </figcaption>
-                              </figure>
-                            </div>
-                          </Tooltip>
-                        </RankIcon>
-                      </Component>
-                    </span>
-                  </Rank>
-                  <Opponent
-                    cardData={null}
-                    gameType="BGT_RANKED_STANDARD"
-                    playerClass="PRIEST"
-                  >
-                    <span
-                      className="twitch-vod-table-icon"
+                    <RankIcon
+                      gameType={2}
+                      i18n={
+                        Object {
+                          "hasResourceBundle": [Function],
+                        }
+                      }
+                      legendRank={0}
+                      rank={1}
+                      t={[Function]}
+                      tooltip={true}
                     >
                       <Tooltip
-                        content={
-                          <Unknown
-                            cardClass="PRIEST"
-                          />
-                        }
+                        content="Rank 1"
                         simple={true}
                       >
                         <div
@@ -824,53 +760,26 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
                           <section
                             className="sr-only"
                           >
-                            <Component
-                              cardClass="PRIEST"
-                            >
-                              <PrettyCardClass
-                                cardClass="PRIEST"
-                                i18n={
-                                  Object {
-                                    "hasResourceBundle": [Function],
-                                  }
-                                }
-                                t={[Function]}
-                              >
-                                Priest
-                              </PrettyCardClass>
-                            </Component>
+                            <p>
+                              Rank 1
+                            </p>
                           </section>
-                          <img
-                            className="class-icon"
-                            src="/static/images/64x/class-icons/priest.png"
-                          />
+                          <figure
+                            className="rank-icon-standalone"
+                          >
+                            <img
+                              alt="Rank 1"
+                              src="/static/images/ranked-medals/Medal_Ranked_1.png"
+                            />
+                            <figcaption>
+                              1
+                            </figcaption>
+                          </figure>
                         </div>
                       </Tooltip>
-                    </span>
-                    <span
-                      className="opposing-archetype"
-                    >
-                      <Component
-                        cardClass="PRIEST"
-                      >
-                        <PrettyCardClass
-                          cardClass="PRIEST"
-                          i18n={
-                            Object {
-                              "hasResourceBundle": [Function],
-                            }
-                          }
-                          t={[Function]}
-                        >
-                          Priest
-                        </PrettyCardClass>
-                      </Component>
-                    </span>
-                  </Opponent>
-                </span>
-              </p>
-              <p>
-                Played by 
+                    </RankIcon>
+                  </Component>
+                </Rank>
                 <StreamerName
                   channelName="brandonsmithx01"
                 >
@@ -887,7 +796,76 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
                     </span>
                   </span>
                 </StreamerName>
-                 
+                <img
+                  className="vs-icon"
+                  src="/static/images/vs.png"
+                />
+                <Opponent
+                  cardData={null}
+                  gameType="BGT_RANKED_STANDARD"
+                  playerClass="PRIEST"
+                >
+                  <Tooltip
+                    content={
+                      <Unknown
+                        cardClass="PRIEST"
+                      />
+                    }
+                    simple={true}
+                  >
+                    <div
+                      className="tooltip-wrapper"
+                      onMouseLeave={[Function]}
+                      onMouseMove={[Function]}
+                      onTouchStart={[Function]}
+                    >
+                      <section
+                        className="sr-only"
+                      >
+                        <Component
+                          cardClass="PRIEST"
+                        >
+                          <PrettyCardClass
+                            cardClass="PRIEST"
+                            i18n={
+                              Object {
+                                "hasResourceBundle": [Function],
+                              }
+                            }
+                            t={[Function]}
+                          >
+                            Priest
+                          </PrettyCardClass>
+                        </Component>
+                      </section>
+                      <img
+                        className="class-icon"
+                        src="/static/images/64x/class-icons/priest.png"
+                      />
+                    </div>
+                  </Tooltip>
+                  <span
+                    className="opposing-archetype"
+                  >
+                    <Component
+                      cardClass="PRIEST"
+                    >
+                      <PrettyCardClass
+                        cardClass="PRIEST"
+                        i18n={
+                          Object {
+                            "hasResourceBundle": [Function],
+                          }
+                        }
+                        t={[Function]}
+                      >
+                        Priest
+                      </PrettyCardClass>
+                    </Component>
+                  </span>
+                </Opponent>
+              </span>
+              <p>
                 <Age
                   date={2018-10-18T23:00:00.000Z}
                 >
@@ -902,18 +880,12 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
                     </time>
                   </SemanticAge>
                 </Age>
-              </p>
-              <p>
                 <Outcome
                   won={true}
                 >
                   <strong
                     className="twitch-vod-table-outcome"
                   >
-                    <span
-                      className="glyphicon  glyphicon-ok"
-                    />
-                     
                     <Trans />
                   </strong>
                 </Outcome>
@@ -1387,7 +1359,7 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
             onClick={[Function]}
           >
             <strong>
-              Recency
+              Duration
             </strong>
             <SortIndicator
               direction={null}
@@ -1414,7 +1386,7 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
             onClick={[Function]}
           >
             <strong>
-              Duration
+              Recency
             </strong>
             <SortIndicator
               direction={null}
@@ -1469,73 +1441,64 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
               wentFirst={null}
               won={true}
             >
-              <p>
-                <span
-                  className="twitch-vod-table-icons"
+              <span
+                className="twitch-vod-table-matchup"
+              >
+                <Rank
+                  legendRank={1555}
+                  rank={null}
                 >
-                  <Rank
+                  <Component
+                    gameType={2}
                     legendRank={1555}
-                    rank={null}
+                    rank={0}
+                    tooltip={true}
                   >
-                    <span
-                      className="twitch-vod-table-icon"
+                    <RankIcon
+                      gameType={2}
+                      i18n={
+                        Object {
+                          "hasResourceBundle": [Function],
+                        }
+                      }
+                      legendRank={1555}
+                      rank={0}
+                      t={[Function]}
+                      tooltip={true}
                     >
-                      <Component
-                        gameType={2}
-                        legendRank={1555}
-                        rank={0}
-                        tooltip={true}
+                      <Tooltip
+                        content="Legend 1555"
+                        simple={true}
                       >
-                        <RankIcon
-                          gameType={2}
-                          i18n={
-                            Object {
-                              "hasResourceBundle": [Function],
-                            }
-                          }
-                          legendRank={1555}
-                          rank={0}
-                          t={[Function]}
-                          tooltip={true}
+                        <div
+                          className="tooltip-wrapper"
+                          onMouseLeave={[Function]}
+                          onMouseMove={[Function]}
+                          onTouchStart={[Function]}
                         >
-                          <Tooltip
-                            content="Legend 1555"
-                            simple={true}
+                          <section
+                            className="sr-only"
                           >
-                            <div
-                              className="tooltip-wrapper"
-                              onMouseLeave={[Function]}
-                              onMouseMove={[Function]}
-                              onTouchStart={[Function]}
-                            >
-                              <section
-                                className="sr-only"
-                              >
-                                <p>
-                                  Legend 1555
-                                </p>
-                              </section>
-                              <figure
-                                className="rank-icon-standalone"
-                              >
-                                <img
-                                  alt="Legend 1555"
-                                  src="/static/images/ranked-medals/Medal_Ranked_Legend.png"
-                                />
-                                <figcaption>
-                                  1555
-                                </figcaption>
-                              </figure>
-                            </div>
-                          </Tooltip>
-                        </RankIcon>
-                      </Component>
-                    </span>
-                  </Rank>
-                </span>
-              </p>
-              <p>
-                Played by 
+                            <p>
+                              Legend 1555
+                            </p>
+                          </section>
+                          <figure
+                            className="rank-icon-standalone"
+                          >
+                            <img
+                              alt="Legend 1555"
+                              src="/static/images/ranked-medals/Medal_Ranked_Legend.png"
+                            />
+                            <figcaption>
+                              1555
+                            </figcaption>
+                          </figure>
+                        </div>
+                      </Tooltip>
+                    </RankIcon>
+                  </Component>
+                </Rank>
                 <StreamerName
                   channelName="Zuhex"
                 >
@@ -1552,7 +1515,8 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
                     </span>
                   </span>
                 </StreamerName>
-                 
+              </span>
+              <p>
                 <Age
                   date={2018-10-09T00:00:00.000Z}
                 >
@@ -1567,18 +1531,12 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
                     </time>
                   </SemanticAge>
                 </Age>
-              </p>
-              <p>
                 <Outcome
                   won={true}
                 >
                   <strong
                     className="twitch-vod-table-outcome"
                   >
-                    <span
-                      className="glyphicon  glyphicon-ok"
-                    />
-                     
                     <Trans />
                   </strong>
                 </Outcome>
@@ -1638,83 +1596,33 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
               wentFirst={true}
               won={true}
             >
-              <p>
-                <span
-                  className="twitch-vod-table-icons"
+              <span
+                className="twitch-vod-table-matchup"
+              >
+                <Rank
+                  legendRank={null}
+                  rank={1}
                 >
-                  <Rank
-                    legendRank={null}
+                  <Component
+                    gameType={2}
+                    legendRank={0}
                     rank={1}
+                    tooltip={true}
                   >
-                    <span
-                      className="twitch-vod-table-icon"
-                    >
-                      <Component
-                        gameType={2}
-                        legendRank={0}
-                        rank={1}
-                        tooltip={true}
-                      >
-                        <RankIcon
-                          gameType={2}
-                          i18n={
-                            Object {
-                              "hasResourceBundle": [Function],
-                            }
-                          }
-                          legendRank={0}
-                          rank={1}
-                          t={[Function]}
-                          tooltip={true}
-                        >
-                          <Tooltip
-                            content="Rank 1"
-                            simple={true}
-                          >
-                            <div
-                              className="tooltip-wrapper"
-                              onMouseLeave={[Function]}
-                              onMouseMove={[Function]}
-                              onTouchStart={[Function]}
-                            >
-                              <section
-                                className="sr-only"
-                              >
-                                <p>
-                                  Rank 1
-                                </p>
-                              </section>
-                              <figure
-                                className="rank-icon-standalone"
-                              >
-                                <img
-                                  alt="Rank 1"
-                                  src="/static/images/ranked-medals/Medal_Ranked_1.png"
-                                />
-                                <figcaption>
-                                  1
-                                </figcaption>
-                              </figure>
-                            </div>
-                          </Tooltip>
-                        </RankIcon>
-                      </Component>
-                    </span>
-                  </Rank>
-                  <Opponent
-                    cardData={null}
-                    gameType="BGT_RANKED_STANDARD"
-                    playerClass="PRIEST"
-                  >
-                    <span
-                      className="twitch-vod-table-icon"
+                    <RankIcon
+                      gameType={2}
+                      i18n={
+                        Object {
+                          "hasResourceBundle": [Function],
+                        }
+                      }
+                      legendRank={0}
+                      rank={1}
+                      t={[Function]}
+                      tooltip={true}
                     >
                       <Tooltip
-                        content={
-                          <Unknown
-                            cardClass="PRIEST"
-                          />
-                        }
+                        content="Rank 1"
                         simple={true}
                       >
                         <div
@@ -1726,53 +1634,26 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
                           <section
                             className="sr-only"
                           >
-                            <Component
-                              cardClass="PRIEST"
-                            >
-                              <PrettyCardClass
-                                cardClass="PRIEST"
-                                i18n={
-                                  Object {
-                                    "hasResourceBundle": [Function],
-                                  }
-                                }
-                                t={[Function]}
-                              >
-                                Priest
-                              </PrettyCardClass>
-                            </Component>
+                            <p>
+                              Rank 1
+                            </p>
                           </section>
-                          <img
-                            className="class-icon"
-                            src="/static/images/64x/class-icons/priest.png"
-                          />
+                          <figure
+                            className="rank-icon-standalone"
+                          >
+                            <img
+                              alt="Rank 1"
+                              src="/static/images/ranked-medals/Medal_Ranked_1.png"
+                            />
+                            <figcaption>
+                              1
+                            </figcaption>
+                          </figure>
                         </div>
                       </Tooltip>
-                    </span>
-                    <span
-                      className="opposing-archetype"
-                    >
-                      <Component
-                        cardClass="PRIEST"
-                      >
-                        <PrettyCardClass
-                          cardClass="PRIEST"
-                          i18n={
-                            Object {
-                              "hasResourceBundle": [Function],
-                            }
-                          }
-                          t={[Function]}
-                        >
-                          Priest
-                        </PrettyCardClass>
-                      </Component>
-                    </span>
-                  </Opponent>
-                </span>
-              </p>
-              <p>
-                Played by 
+                    </RankIcon>
+                  </Component>
+                </Rank>
                 <StreamerName
                   channelName="brandonsmithx01"
                 >
@@ -1789,7 +1670,76 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
                     </span>
                   </span>
                 </StreamerName>
-                 
+                <img
+                  className="vs-icon"
+                  src="/static/images/vs.png"
+                />
+                <Opponent
+                  cardData={null}
+                  gameType="BGT_RANKED_STANDARD"
+                  playerClass="PRIEST"
+                >
+                  <Tooltip
+                    content={
+                      <Unknown
+                        cardClass="PRIEST"
+                      />
+                    }
+                    simple={true}
+                  >
+                    <div
+                      className="tooltip-wrapper"
+                      onMouseLeave={[Function]}
+                      onMouseMove={[Function]}
+                      onTouchStart={[Function]}
+                    >
+                      <section
+                        className="sr-only"
+                      >
+                        <Component
+                          cardClass="PRIEST"
+                        >
+                          <PrettyCardClass
+                            cardClass="PRIEST"
+                            i18n={
+                              Object {
+                                "hasResourceBundle": [Function],
+                              }
+                            }
+                            t={[Function]}
+                          >
+                            Priest
+                          </PrettyCardClass>
+                        </Component>
+                      </section>
+                      <img
+                        className="class-icon"
+                        src="/static/images/64x/class-icons/priest.png"
+                      />
+                    </div>
+                  </Tooltip>
+                  <span
+                    className="opposing-archetype"
+                  >
+                    <Component
+                      cardClass="PRIEST"
+                    >
+                      <PrettyCardClass
+                        cardClass="PRIEST"
+                        i18n={
+                          Object {
+                            "hasResourceBundle": [Function],
+                          }
+                        }
+                        t={[Function]}
+                      >
+                        Priest
+                      </PrettyCardClass>
+                    </Component>
+                  </span>
+                </Opponent>
+              </span>
+              <p>
                 <Age
                   date={2018-10-18T23:00:00.000Z}
                 >
@@ -1804,18 +1754,12 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
                     </time>
                   </SemanticAge>
                 </Age>
-              </p>
-              <p>
                 <Outcome
                   won={true}
                 >
                   <strong
                     className="twitch-vod-table-outcome"
                   >
-                    <span
-                      className="glyphicon  glyphicon-ok"
-                    />
-                     
                     <Trans />
                   </strong>
                 </Outcome>

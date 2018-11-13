@@ -232,19 +232,19 @@ class TwitchVodsTable extends React.Component<Props, State> {
 							</Sortable>
 							<Sortable
 								direction={
-									sortBy === "age" ? sortDirection : null
-								}
-								onClick={this.sortAge}
-							>
-								{t("Recency")}
-							</Sortable>
-							<Sortable
-								direction={
 									sortBy === "duration" ? sortDirection : null
 								}
 								onClick={this.sortDuration}
 							>
 								{t("Duration")}
+							</Sortable>
+							<Sortable
+								direction={
+									sortBy === "age" ? sortDirection : null
+								}
+								onClick={this.sortAge}
+							>
+								{t("Recency")}
 							</Sortable>
 						</div>
 						<ul>

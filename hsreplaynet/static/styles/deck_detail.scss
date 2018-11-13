@@ -121,29 +121,25 @@
 				}
 
 				.twitch-vod-table {
-					border-left: solid 1px black;
-
 					> ul {
 						padding-left: 0;
 
 						> li {
-							color: black;
-							padding: 4px 10px 4px 10px;
+							padding: 9px 15px 9px 15px;
 							cursor: pointer;
 							list-style-type: none;
-							border-bottom: solid 1px gray;
+							border: solid 1px rgba(0, 0, 0, 0.1);
+							border-radius: 1px;
+							margin: 5px;
+							background-color: white;
 
 							&:hover,
 							&:focus {
-								background-color: $twitch-purple;
+								background-color: #eee;
 							}
 
 							&.active {
-								background-color: $twitch-purple;
-							}
-
-							&:first-child {
-								border-top: solid 1px gray;
+								background-color: #ddd;
 							}
 
 							p {
@@ -153,23 +149,7 @@
 							}
 
 							&.won {
-								background: hsl(120, 70, 40)
-									linear-gradient(
-										to right,
-										rgba(255, 255, 255, 0.85) 40%,
-										rgba(255, 255, 255, 0.8) 80%,
-										rgba(255, 255, 255, 0.7) 100%
-									);
-
-								&:hover {
-									background: hsl(120, 70, 40)
-										linear-gradient(
-											to right,
-											rgba(255, 255, 255, 0.85) 40%,
-											rgba(255, 255, 255, 0.8) 80%,
-											rgba(255, 255, 255, 0.7) 100%
-										);
-								}
+								border-left: 3px solid green;
 
 								.twitch-vod-table-outcome .glyphicon {
 									color: green;
@@ -177,13 +157,7 @@
 							}
 
 							&.lost {
-								background: hsl(0, 100, 65.7)
-									linear-gradient(
-										to right,
-										rgba(255, 255, 255, 0.85) 40%,
-										rgba(255, 255, 255, 0.8) 80%,
-										rgba(255, 255, 255, 0.7) 100%
-									);
+								border-left: 3px solid red;
 
 								.twitch-vod-table-outcome .glyphicon {
 									color: red;
@@ -200,6 +174,16 @@
 								.glyphicon {
 									font-weight: normal;
 								}
+							}
+
+							.opposing-archetype {
+								font-weight: bold;
+							}
+
+							.vs-icon {
+								width: 16px;
+								height: 16px;
+								margin: 0 10px;
 							}
 						}
 					}
@@ -299,6 +283,18 @@
 					}
 				}
 
+				.stream-info {
+					display: flex;
+					flex-direction: column;
+					text-align: right;
+					float: right;
+				}
+
+				time {
+					color: $darkgrey;
+					float: right;
+				}
+
 				.twitch-channel-name {
 					a.text-twitch {
 						&,
@@ -311,40 +307,33 @@
 
 				.twitch-vod-channel-name {
 					font-weight: bold;
+					margin-left: 5px;
 
 					> img {
 						margin-top: -0.15em;
 					}
 				}
 
-				.twitch-vod-table-icons {
+				.twitch-vod-table-matchup {
 					display: flex;
 					flex-direction: row;
 					align-items: center;
 
-					.twitch-vod-table-icon {
-						width: 36px;
-						height: 36px;
-						display: inline-block;
-						position: relative;
-						vertical-align: top;
+					.class-icon {
+						width: 28px;
+						height: 28px;
+						border-radius: 50%;
+						border: solid 1px #555;
 						margin-right: 6px;
+					}
 
-						.class-icon {
-							width: 36px;
-							height: 36px;
-							border-radius: 50%;
-							border: solid 1px #555;
-						}
+					.rank-icon-standalone {
+						height: 38px;
+						width: 38px;
+						margin: -4px;
 
-						.rank-icon-standalone {
-							height: 48px;
-							width: 48px;
-							margin: -5px;
-
-							> figcaption {
-								font-size: 1em;
-							}
+						> figcaption {
+							font-size: 1em;
 						}
 					}
 				}

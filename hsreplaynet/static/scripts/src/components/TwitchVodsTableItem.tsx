@@ -39,19 +39,17 @@ const Opponent: React.SFC<{
 	}
 	return (
 		<>
-			<span className="twitch-vod-table-icon">
-				<Tooltip
-					content={<PrettyCardClass cardClass={playerClass} />}
-					simple
-				>
-					<img
-						src={image(
-							`64x/class-icons/${playerClass.toLowerCase()}.png`,
-						)}
-						className="class-icon"
-					/>
-				</Tooltip>
-			</span>
+			<Tooltip
+				content={<PrettyCardClass cardClass={playerClass} />}
+				simple
+			>
+				<img
+					src={image(
+						`64x/class-icons/${playerClass.toLowerCase()}.png`,
+					)}
+					className="class-icon"
+				/>
+			</Tooltip>
 			<span className="opposing-archetype">{result}</span>
 		</>
 	);
@@ -61,23 +59,16 @@ const Rank: React.SFC<{ rank: number; legendRank?: number }> = ({
 	rank,
 	legendRank,
 }) => (
-	<span className="twitch-vod-table-icon">
-		<RankIcon
-			gameType={BnetGameType.BGT_RANKED_STANDARD}
-			rank={rank || 0}
-			legendRank={legendRank || 0}
-			tooltip
-		/>
-	</span>
+	<RankIcon
+		gameType={BnetGameType.BGT_RANKED_STANDARD}
+		rank={rank || 0}
+		legendRank={legendRank || 0}
+		tooltip
+	/>
 );
 
 const Outcome: React.SFC<{ won: boolean }> = ({ won }) => (
 	<strong className="twitch-vod-table-outcome">
-		<span
-			className={
-				"glyphicon " + (won ? " glyphicon-ok" : "glyphicon-remove")
-			}
-		/>&nbsp;
 		{won ? <Trans>Won</Trans> : <Trans>Lost</Trans>}
 	</strong>
 );
@@ -150,24 +141,23 @@ class TwitchVodsTableItem extends React.Component<Props> {
 		} = this.props;
 		return (
 			<>
-				<p>
-					<span className="twitch-vod-table-icons">
-						<Rank rank={rank} legendRank={legendRank} />
-						{opposingPlayerClass ? (
+				<span className="twitch-vod-table-matchup">
+					<Rank rank={rank} legendRank={legendRank} />
+					<StreamerName channelName={channelName} />
+					{opposingPlayerClass ? (
+						<>
+							<img className="vs-icon" src={image("vs.png")} />
 							<Opponent
 								playerClass={opposingPlayerClass}
 								archetype={opposingArchetype}
 								gameType={gameType}
 								cardData={cardData}
 							/>
-						) : null}
-					</span>
-				</p>
+						</>
+					) : null}
+				</span>
 				<p>
-					Played by <StreamerName channelName={channelName} />{" "}
-					<Age date={new Date(gameDate)} />
-				</p>
-				<p>
+					<Age date={gameDate} />
 					<Outcome won={won} />{" "}
 					{wentFirst !== null ? (
 						<>

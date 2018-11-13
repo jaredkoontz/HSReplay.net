@@ -2,68 +2,34 @@
 
 exports[`TwitchVodsTableItem renders correctly 1`] = `
 Array [
-  <p>
-    <span
-      className="twitch-vod-table-icons"
+  <span
+    className="twitch-vod-table-matchup"
+  >
+    <div
+      className="tooltip-wrapper"
+      onMouseLeave={[Function]}
+      onMouseMove={[Function]}
+      onTouchStart={[Function]}
     >
-      <span
-        className="twitch-vod-table-icon"
+      <section
+        className="sr-only"
       >
-        <div
-          className="tooltip-wrapper"
-          onMouseLeave={[Function]}
-          onMouseMove={[Function]}
-          onTouchStart={[Function]}
-        >
-          <section
-            className="sr-only"
-          >
-            <p>
-              Legend 1234
-            </p>
-          </section>
-          <figure
-            className="rank-icon-standalone"
-          >
-            <img
-              alt="Legend 1234"
-              src="/static/images/ranked-medals/Medal_Ranked_Legend.png"
-            />
-            <figcaption>
-              1234
-            </figcaption>
-          </figure>
-        </div>
-      </span>
-      <span
-        className="twitch-vod-table-icon"
+        <p>
+          Legend 1234
+        </p>
+      </section>
+      <figure
+        className="rank-icon-standalone"
       >
-        <div
-          className="tooltip-wrapper"
-          onMouseLeave={[Function]}
-          onMouseMove={[Function]}
-          onTouchStart={[Function]}
-        >
-          <section
-            className="sr-only"
-          >
-            Mage
-          </section>
-          <img
-            className="class-icon"
-            src="/static/images/64x/class-icons/mage.png"
-          />
-        </div>
-      </span>
-      <span
-        className="opposing-archetype"
-      >
-        Mage
-      </span>
-    </span>
-  </p>,
-  <p>
-    Played by 
+        <img
+          alt="Legend 1234"
+          src="/static/images/ranked-medals/Medal_Ranked_Legend.png"
+        />
+        <figcaption>
+          1234
+        </figcaption>
+      </figure>
+    </div>
     <span
       className="text-twitch twitch-vod-channel-name"
     >
@@ -76,22 +42,41 @@ Array [
         HearthSim
       </span>
     </span>
-     
+    <img
+      className="vs-icon"
+      src="/static/images/vs.png"
+    />
+    <div
+      className="tooltip-wrapper"
+      onMouseLeave={[Function]}
+      onMouseMove={[Function]}
+      onTouchStart={[Function]}
+    >
+      <section
+        className="sr-only"
+      >
+        Mage
+      </section>
+      <img
+        className="class-icon"
+        src="/static/images/64x/class-icons/mage.png"
+      />
+    </div>
+    <span
+      className="opposing-archetype"
+    >
+      Mage
+    </span>
+  </span>,
+  <p>
     <time
       dateTime="2018-10-22T20:13:30.000Z"
     >
       1 minute ago
     </time>
-  </p>,
-  <p>
     <strong
       className="twitch-vod-table-outcome"
-    >
-      <span
-        className="glyphicon  glyphicon-ok"
-      />
-       
-    </strong>
+    />
      
     going 
     <strong>
