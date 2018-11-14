@@ -23,6 +23,7 @@ class FeatureInviteAliasAdmin(admin.ModelAdmin):
 	list_display = (
 		"__str__", "invite", "redeemable", "redeemed_by", "redeemed_on"
 	)
+	raw_id_fields = ("invite", "redeemed_by")
 
 	def get_readonly_fields(self, request, obj=None):
 		if obj:
