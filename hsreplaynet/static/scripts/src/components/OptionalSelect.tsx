@@ -5,7 +5,7 @@ interface Props {
 	options: { [key: string]: React.ReactNode };
 	value: string | null;
 	onSelect: (key: string | null) => void;
-	defaultKey?: string;
+	defaultKey: string | null;
 	id?: string;
 	className?: string;
 }
@@ -20,14 +20,11 @@ export default class OptionalSelect extends React.Component<Props> {
 		if (this.props.className) {
 			classNames.push(this.props.className);
 		}
-		const active = this.props.value !== null;
-		if (active) {
+		const { value, defaultKey } = this.props;
+		if (value !== null && value !== defaultKey) {
 			classNames.push("active");
 		}
-		const selectedValue =
-			this.props.value !== null
-				? this.props.value
-				: this.props.defaultKey;
+		const selectedValue = value || defaultKey;
 		return (
 			<div className={classNames.join(" ")}>
 				<select
@@ -38,10 +35,10 @@ export default class OptionalSelect extends React.Component<Props> {
 					<option value={this.props.defaultKey}>
 						{this.props.default}
 					</option>
-					{Object.entries(this.props.options).map(([key, value]) => {
+					{Object.entries(this.props.options).map(([k, v]) => {
 						return (
-							<option key={key} value={key}>
-								{value}
+							<option key={k} value={k}>
+								{v}
 							</option>
 						);
 					})}
@@ -52,11 +49,6 @@ export default class OptionalSelect extends React.Component<Props> {
 	}
 
 	private onChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-		const key = event.target.value;
-		if (key === this.props.defaultKey) {
-			this.props.onSelect(null);
-			return;
-		}
-		this.props.onSelect(key);
+		this.props.onSelect(event.target.value);
 	};
 }

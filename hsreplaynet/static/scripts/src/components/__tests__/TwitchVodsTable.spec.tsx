@@ -78,6 +78,9 @@ describe("TwitchVodsTable", () => {
 				vods={VODS}
 				selectedVod={selectedVod}
 				onSelectVod={onSelectVod}
+				vodsResult="won"
+				vodsFirst="any"
+				vodsOpponent="any"
 			/>,
 		);
 		expect(wrapper).toMatchSnapshot("default");
@@ -95,6 +98,9 @@ describe("TwitchVodsTable", () => {
 				vods={VODS}
 				selectedVod={selectedVod}
 				onSelectVod={selectVod}
+				vodsResult="won"
+				vodsFirst="any"
+				vodsOpponent="any"
 			/>,
 		);
 		wrapper.find('span[children="brandonsmithx01"]').simulate("click");

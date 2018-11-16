@@ -115,6 +115,9 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
       },
     ]
   }
+  vodsFirst="any"
+  vodsOpponent="any"
+  vodsResult="won"
 >
   <TwitchVodsTable
     archetypeData={Array []}
@@ -236,6 +239,9 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
         },
       ]
     }
+    vodsFirst="any"
+    vodsOpponent="any"
+    vodsResult="won"
   >
     <div
       className="twitch-vod-table"
@@ -302,7 +308,7 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
               "WARRIOR": "GLOBAL_CLASS_WARRIOR",
             }
           }
-          value={null}
+          value="any"
         >
           <div
             className="optional-select"
@@ -386,7 +392,7 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
               "first": "First",
             }
           }
-          value={null}
+          value="any"
         >
           <div
             className="optional-select"
@@ -423,7 +429,7 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
         className="twitch-vod-table-sortables"
       >
         <Sortable
-          direction="ascending"
+          direction={null}
           onClick={[Function]}
         >
           <span
@@ -434,13 +440,13 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
               Rank
             </strong>
             <SortIndicator
-              direction="ascending"
+              direction={null}
             >
               <span
-                className="sort-indicator primary"
+                className="sort-indicator"
               >
                 <span
-                  className="glyphicon glyphicon-triangle-top active"
+                  className="glyphicon glyphicon-triangle-top"
                 />
                 <span
                   className="glyphicon glyphicon-triangle-bottom"
@@ -532,161 +538,6 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
         </Sortable>
       </div>
       <ul>
-        <li
-          className="active won"
-          key="https://www.twitch.tv/videos/320509363?t=3h10m4s"
-          onClick={[Function]}
-        >
-          <Component
-            cardData={null}
-            channelName="Zuhex"
-            gameDate={2018-10-09T00:00:00.000Z}
-            gameLengthSeconds={355}
-            gameType="BGT_RANKED_STANDARD"
-            legendRank={1555}
-            opposingPlayerClass={null}
-            rank={null}
-            wentFirst={null}
-            won={true}
-          >
-            <TwitchVodsTableItem
-              cardData={null}
-              channelName="Zuhex"
-              gameDate={2018-10-09T00:00:00.000Z}
-              gameLengthSeconds={355}
-              gameType="BGT_RANKED_STANDARD"
-              i18n={
-                Object {
-                  "hasResourceBundle": [Function],
-                }
-              }
-              legendRank={1555}
-              opposingPlayerClass={null}
-              rank={null}
-              t={[Function]}
-              wentFirst={null}
-              won={true}
-            >
-              <span
-                className="twitch-vod-table-matchup"
-              >
-                <Rank
-                  legendRank={1555}
-                  rank={null}
-                >
-                  <Component
-                    gameType={2}
-                    legendRank={1555}
-                    rank={0}
-                    tooltip={true}
-                  >
-                    <RankIcon
-                      gameType={2}
-                      i18n={
-                        Object {
-                          "hasResourceBundle": [Function],
-                        }
-                      }
-                      legendRank={1555}
-                      rank={0}
-                      t={[Function]}
-                      tooltip={true}
-                    >
-                      <Tooltip
-                        content="Legend 1555"
-                        simple={true}
-                      >
-                        <div
-                          className="tooltip-wrapper"
-                          onMouseLeave={[Function]}
-                          onMouseMove={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          <section
-                            className="sr-only"
-                          >
-                            <p>
-                              Legend 1555
-                            </p>
-                          </section>
-                          <figure
-                            className="rank-icon-standalone"
-                          >
-                            <img
-                              alt="Legend 1555"
-                              src="/static/images/ranked-medals/Medal_Ranked_Legend.png"
-                            />
-                            <figcaption>
-                              1555
-                            </figcaption>
-                          </figure>
-                        </div>
-                      </Tooltip>
-                    </RankIcon>
-                  </Component>
-                </Rank>
-                <StreamerName
-                  channelName="Zuhex"
-                >
-                  <span
-                    className="text-twitch twitch-vod-channel-name"
-                  >
-                    <img
-                      alt="Twitch"
-                      src="/static/images/socialauth/twitch.png"
-                    />
-                     
-                    <span>
-                      Zuhex
-                    </span>
-                  </span>
-                </StreamerName>
-              </span>
-              <p>
-                <Age
-                  date={2018-10-09T00:00:00.000Z}
-                >
-                  <SemanticAge
-                    date={2018-10-09T00:00:00.000Z}
-                    strict={false}
-                  >
-                    <time
-                      dateTime="2018-10-09T00:00:00.000Z"
-                    >
-                      14 days ago
-                    </time>
-                  </SemanticAge>
-                </Age>
-                <Outcome
-                  won={true}
-                >
-                  <strong
-                    className="twitch-vod-table-outcome"
-                  >
-                    <Trans />
-                  </strong>
-                </Outcome>
-                 
-                after
-                 
-                <GameDuration
-                  seconds={355}
-                  t={[Function]}
-                >
-                  <span
-                    className="game-duration"
-                  >
-                    <span
-                      className="glyphicon glyphicon-time"
-                    />
-                     
-                    5.9 min
-                  </span>
-                </GameDuration>
-              </p>
-            </TwitchVodsTableItem>
-          </Component>
-        </li>
         <li
           className="won"
           key="https://www.twitch.tv/videos/320472337?t=6h57m12s"
@@ -918,6 +769,161 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
                     />
                      
                     9.3 min
+                  </span>
+                </GameDuration>
+              </p>
+            </TwitchVodsTableItem>
+          </Component>
+        </li>
+        <li
+          className="active won"
+          key="https://www.twitch.tv/videos/320509363?t=3h10m4s"
+          onClick={[Function]}
+        >
+          <Component
+            cardData={null}
+            channelName="Zuhex"
+            gameDate={2018-10-09T00:00:00.000Z}
+            gameLengthSeconds={355}
+            gameType="BGT_RANKED_STANDARD"
+            legendRank={1555}
+            opposingPlayerClass={null}
+            rank={null}
+            wentFirst={null}
+            won={true}
+          >
+            <TwitchVodsTableItem
+              cardData={null}
+              channelName="Zuhex"
+              gameDate={2018-10-09T00:00:00.000Z}
+              gameLengthSeconds={355}
+              gameType="BGT_RANKED_STANDARD"
+              i18n={
+                Object {
+                  "hasResourceBundle": [Function],
+                }
+              }
+              legendRank={1555}
+              opposingPlayerClass={null}
+              rank={null}
+              t={[Function]}
+              wentFirst={null}
+              won={true}
+            >
+              <span
+                className="twitch-vod-table-matchup"
+              >
+                <Rank
+                  legendRank={1555}
+                  rank={null}
+                >
+                  <Component
+                    gameType={2}
+                    legendRank={1555}
+                    rank={0}
+                    tooltip={true}
+                  >
+                    <RankIcon
+                      gameType={2}
+                      i18n={
+                        Object {
+                          "hasResourceBundle": [Function],
+                        }
+                      }
+                      legendRank={1555}
+                      rank={0}
+                      t={[Function]}
+                      tooltip={true}
+                    >
+                      <Tooltip
+                        content="Legend 1555"
+                        simple={true}
+                      >
+                        <div
+                          className="tooltip-wrapper"
+                          onMouseLeave={[Function]}
+                          onMouseMove={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          <section
+                            className="sr-only"
+                          >
+                            <p>
+                              Legend 1555
+                            </p>
+                          </section>
+                          <figure
+                            className="rank-icon-standalone"
+                          >
+                            <img
+                              alt="Legend 1555"
+                              src="/static/images/ranked-medals/Medal_Ranked_Legend.png"
+                            />
+                            <figcaption>
+                              1555
+                            </figcaption>
+                          </figure>
+                        </div>
+                      </Tooltip>
+                    </RankIcon>
+                  </Component>
+                </Rank>
+                <StreamerName
+                  channelName="Zuhex"
+                >
+                  <span
+                    className="text-twitch twitch-vod-channel-name"
+                  >
+                    <img
+                      alt="Twitch"
+                      src="/static/images/socialauth/twitch.png"
+                    />
+                     
+                    <span>
+                      Zuhex
+                    </span>
+                  </span>
+                </StreamerName>
+              </span>
+              <p>
+                <Age
+                  date={2018-10-09T00:00:00.000Z}
+                >
+                  <SemanticAge
+                    date={2018-10-09T00:00:00.000Z}
+                    strict={false}
+                  >
+                    <time
+                      dateTime="2018-10-09T00:00:00.000Z"
+                    >
+                      14 days ago
+                    </time>
+                  </SemanticAge>
+                </Age>
+                <Outcome
+                  won={true}
+                >
+                  <strong
+                    className="twitch-vod-table-outcome"
+                  >
+                    <Trans />
+                  </strong>
+                </Outcome>
+                 
+                after
+                 
+                <GameDuration
+                  seconds={355}
+                  t={[Function]}
+                >
+                  <span
+                    className="game-duration"
+                  >
+                    <span
+                      className="glyphicon glyphicon-time"
+                    />
+                     
+                    5.9 min
                   </span>
                 </GameDuration>
               </p>
@@ -1017,6 +1023,9 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
       },
     ]
   }
+  vodsFirst="any"
+  vodsOpponent="any"
+  vodsResult="won"
 >
   <TwitchVodsTable
     archetypeData={Array []}
@@ -1110,6 +1119,9 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
         },
       ]
     }
+    vodsFirst="any"
+    vodsOpponent="any"
+    vodsResult="won"
   >
     <div
       className="twitch-vod-table"
@@ -1176,7 +1188,7 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
               "WARRIOR": "GLOBAL_CLASS_WARRIOR",
             }
           }
-          value={null}
+          value="any"
         >
           <div
             className="optional-select"
@@ -1260,7 +1272,7 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
               "first": "First",
             }
           }
-          value={null}
+          value="any"
         >
           <div
             className="optional-select"
@@ -1297,7 +1309,7 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
         className="twitch-vod-table-sortables"
       >
         <Sortable
-          direction="ascending"
+          direction={null}
           onClick={[Function]}
         >
           <span
@@ -1308,13 +1320,13 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
               Rank
             </strong>
             <SortIndicator
-              direction="ascending"
+              direction={null}
             >
               <span
-                className="sort-indicator primary"
+                className="sort-indicator"
               >
                 <span
-                  className="glyphicon glyphicon-triangle-top active"
+                  className="glyphicon glyphicon-triangle-top"
                 />
                 <span
                   className="glyphicon glyphicon-triangle-bottom"
@@ -1406,161 +1418,6 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
         </Sortable>
       </div>
       <ul>
-        <li
-          className="active won"
-          key="https://www.twitch.tv/videos/320509363?t=3h10m4s"
-          onClick={[Function]}
-        >
-          <Component
-            cardData={null}
-            channelName="Zuhex"
-            gameDate={2018-10-09T00:00:00.000Z}
-            gameLengthSeconds={355}
-            gameType="BGT_RANKED_STANDARD"
-            legendRank={1555}
-            opposingPlayerClass={null}
-            rank={null}
-            wentFirst={null}
-            won={true}
-          >
-            <TwitchVodsTableItem
-              cardData={null}
-              channelName="Zuhex"
-              gameDate={2018-10-09T00:00:00.000Z}
-              gameLengthSeconds={355}
-              gameType="BGT_RANKED_STANDARD"
-              i18n={
-                Object {
-                  "hasResourceBundle": [Function],
-                }
-              }
-              legendRank={1555}
-              opposingPlayerClass={null}
-              rank={null}
-              t={[Function]}
-              wentFirst={null}
-              won={true}
-            >
-              <span
-                className="twitch-vod-table-matchup"
-              >
-                <Rank
-                  legendRank={1555}
-                  rank={null}
-                >
-                  <Component
-                    gameType={2}
-                    legendRank={1555}
-                    rank={0}
-                    tooltip={true}
-                  >
-                    <RankIcon
-                      gameType={2}
-                      i18n={
-                        Object {
-                          "hasResourceBundle": [Function],
-                        }
-                      }
-                      legendRank={1555}
-                      rank={0}
-                      t={[Function]}
-                      tooltip={true}
-                    >
-                      <Tooltip
-                        content="Legend 1555"
-                        simple={true}
-                      >
-                        <div
-                          className="tooltip-wrapper"
-                          onMouseLeave={[Function]}
-                          onMouseMove={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          <section
-                            className="sr-only"
-                          >
-                            <p>
-                              Legend 1555
-                            </p>
-                          </section>
-                          <figure
-                            className="rank-icon-standalone"
-                          >
-                            <img
-                              alt="Legend 1555"
-                              src="/static/images/ranked-medals/Medal_Ranked_Legend.png"
-                            />
-                            <figcaption>
-                              1555
-                            </figcaption>
-                          </figure>
-                        </div>
-                      </Tooltip>
-                    </RankIcon>
-                  </Component>
-                </Rank>
-                <StreamerName
-                  channelName="Zuhex"
-                >
-                  <span
-                    className="text-twitch twitch-vod-channel-name"
-                  >
-                    <img
-                      alt="Twitch"
-                      src="/static/images/socialauth/twitch.png"
-                    />
-                     
-                    <span>
-                      Zuhex
-                    </span>
-                  </span>
-                </StreamerName>
-              </span>
-              <p>
-                <Age
-                  date={2018-10-09T00:00:00.000Z}
-                >
-                  <SemanticAge
-                    date={2018-10-09T00:00:00.000Z}
-                    strict={false}
-                  >
-                    <time
-                      dateTime="2018-10-09T00:00:00.000Z"
-                    >
-                      14 days ago
-                    </time>
-                  </SemanticAge>
-                </Age>
-                <Outcome
-                  won={true}
-                >
-                  <strong
-                    className="twitch-vod-table-outcome"
-                  >
-                    <Trans />
-                  </strong>
-                </Outcome>
-                 
-                after
-                 
-                <GameDuration
-                  seconds={355}
-                  t={[Function]}
-                >
-                  <span
-                    className="game-duration"
-                  >
-                    <span
-                      className="glyphicon glyphicon-time"
-                    />
-                     
-                    5.9 min
-                  </span>
-                </GameDuration>
-              </p>
-            </TwitchVodsTableItem>
-          </Component>
-        </li>
         <li
           className="won"
           key="https://www.twitch.tv/videos/320472337?t=6h57m12s"
@@ -1792,6 +1649,161 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
                     />
                      
                     9.3 min
+                  </span>
+                </GameDuration>
+              </p>
+            </TwitchVodsTableItem>
+          </Component>
+        </li>
+        <li
+          className="active won"
+          key="https://www.twitch.tv/videos/320509363?t=3h10m4s"
+          onClick={[Function]}
+        >
+          <Component
+            cardData={null}
+            channelName="Zuhex"
+            gameDate={2018-10-09T00:00:00.000Z}
+            gameLengthSeconds={355}
+            gameType="BGT_RANKED_STANDARD"
+            legendRank={1555}
+            opposingPlayerClass={null}
+            rank={null}
+            wentFirst={null}
+            won={true}
+          >
+            <TwitchVodsTableItem
+              cardData={null}
+              channelName="Zuhex"
+              gameDate={2018-10-09T00:00:00.000Z}
+              gameLengthSeconds={355}
+              gameType="BGT_RANKED_STANDARD"
+              i18n={
+                Object {
+                  "hasResourceBundle": [Function],
+                }
+              }
+              legendRank={1555}
+              opposingPlayerClass={null}
+              rank={null}
+              t={[Function]}
+              wentFirst={null}
+              won={true}
+            >
+              <span
+                className="twitch-vod-table-matchup"
+              >
+                <Rank
+                  legendRank={1555}
+                  rank={null}
+                >
+                  <Component
+                    gameType={2}
+                    legendRank={1555}
+                    rank={0}
+                    tooltip={true}
+                  >
+                    <RankIcon
+                      gameType={2}
+                      i18n={
+                        Object {
+                          "hasResourceBundle": [Function],
+                        }
+                      }
+                      legendRank={1555}
+                      rank={0}
+                      t={[Function]}
+                      tooltip={true}
+                    >
+                      <Tooltip
+                        content="Legend 1555"
+                        simple={true}
+                      >
+                        <div
+                          className="tooltip-wrapper"
+                          onMouseLeave={[Function]}
+                          onMouseMove={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          <section
+                            className="sr-only"
+                          >
+                            <p>
+                              Legend 1555
+                            </p>
+                          </section>
+                          <figure
+                            className="rank-icon-standalone"
+                          >
+                            <img
+                              alt="Legend 1555"
+                              src="/static/images/ranked-medals/Medal_Ranked_Legend.png"
+                            />
+                            <figcaption>
+                              1555
+                            </figcaption>
+                          </figure>
+                        </div>
+                      </Tooltip>
+                    </RankIcon>
+                  </Component>
+                </Rank>
+                <StreamerName
+                  channelName="Zuhex"
+                >
+                  <span
+                    className="text-twitch twitch-vod-channel-name"
+                  >
+                    <img
+                      alt="Twitch"
+                      src="/static/images/socialauth/twitch.png"
+                    />
+                     
+                    <span>
+                      Zuhex
+                    </span>
+                  </span>
+                </StreamerName>
+              </span>
+              <p>
+                <Age
+                  date={2018-10-09T00:00:00.000Z}
+                >
+                  <SemanticAge
+                    date={2018-10-09T00:00:00.000Z}
+                    strict={false}
+                  >
+                    <time
+                      dateTime="2018-10-09T00:00:00.000Z"
+                    >
+                      14 days ago
+                    </time>
+                  </SemanticAge>
+                </Age>
+                <Outcome
+                  won={true}
+                >
+                  <strong
+                    className="twitch-vod-table-outcome"
+                  >
+                    <Trans />
+                  </strong>
+                </Outcome>
+                 
+                after
+                 
+                <GameDuration
+                  seconds={355}
+                  t={[Function]}
+                >
+                  <span
+                    className="game-duration"
+                  >
+                    <span
+                      className="glyphicon glyphicon-time"
+                    />
+                     
+                    5.9 min
                   </span>
                 </GameDuration>
               </p>

@@ -90,6 +90,9 @@ class TwitchVods extends React.Component<Props, State> {
 					defaults={{
 						vodsSortBy: "rank",
 						vodsSortDirection: "ascending",
+						vodsResult: "won",
+						vodsOpponent: "any",
+						vodsFirst: "any",
 					}}
 				>
 					<TwitchVodsTable

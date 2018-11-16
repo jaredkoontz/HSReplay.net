@@ -20,13 +20,16 @@ interface Props extends InjectedTranslateProps {
 	setVodsSortBy?: (key: string) => void;
 	vodsSortDirection?: SortDirection;
 	setVodsSortDirection?: (direction: SortDirection) => void;
+	vodsFirst?: string;
+	setVodsFirst?: (first: string) => void;
+	vodsOpponent?: string;
+	setVodsOpponent?: (opponent: string) => void;
+	vodsResult?: string;
+	setVodsResult?: (won: string) => void;
 }
 
 interface State {
 	selectedItem: TwitchVodData;
-	first: null | boolean;
-	opponent: null | string;
-	won: null | boolean;
 }
 
 interface Row extends Partial<TwitchVodData> {
@@ -69,33 +72,31 @@ class TwitchVodsTable extends React.Component<Props, State> {
 		super(props, context);
 		this.state = {
 			selectedItem: null,
-			first: null,
-			opponent: null,
-			won: true,
 		};
 	}
 
 	public render(): React.ReactNode {
-		const { t } = this.props;
+		const { t, vodsFirst, vodsResult, vodsOpponent } = this.props;
 		const sortBy = this.props.vodsSortBy;
 		const sortDirection = this.props.vodsSortDirection;
 		const rows: Row[] = [];
 
 		let vods = this.props.vods;
 		vods =
-			this.state.first === null
-				? vods
-				: vods.filter(vod => vod.went_first === this.state.first);
-		vods =
-			this.state.won === null
-				? vods
-				: vods.filter(vod => vod.won === this.state.won);
-		vods =
-			this.state.opponent === null
+			vodsFirst === "any"
 				? vods
 				: vods.filter(
-						vod =>
-							vod.opposing_player_class === this.state.opponent,
+						vod => vod.went_first === (vodsFirst === "first"),
+				  );
+		vods =
+			vodsResult === "any"
+				? vods
+				: vods.filter(vod => vod.won === (vodsResult === "won"));
+		vods =
+			vodsOpponent === "any"
+				? vods
+				: vods.filter(
+						vod => vod.opposing_player_class === vodsOpponent,
 				  );
 
 		vods.forEach(vod => {
@@ -159,18 +160,8 @@ class TwitchVodsTable extends React.Component<Props, State> {
 					<OptionalSelect
 						default={t("Any result")}
 						options={{ won: t("Wins"), lost: t("Losses") }}
-						value={
-							this.state.won !== null
-								? this.state.won
-									? "won"
-									: "lost"
-								: null
-						}
-						onSelect={value =>
-							this.setState({
-								won: value !== null ? value === "won" : null,
-							})
-						}
+						value={vodsResult}
+						onSelect={value => this.props.setVodsResult(value)}
 						defaultKey="any"
 					/>
 					<OptionalSelect
@@ -183,30 +174,15 @@ class TwitchVodsTable extends React.Component<Props, State> {
 								[c]: getHeroClassName(c, t),
 							};
 						}, {})}
-						value={this.state.opponent}
-						onSelect={value =>
-							this.setState({
-								opponent: value,
-							})
-						}
+						value={vodsOpponent}
+						onSelect={value => this.props.setVodsOpponent(value)}
 						defaultKey="any"
 					/>
 					<OptionalSelect
 						default={t("Any first/coin")}
 						options={{ first: t("First"), coin: t("Coin") }}
-						value={
-							this.state.first !== null
-								? this.state.first
-									? "first"
-									: "coin"
-								: null
-						}
-						onSelect={value =>
-							this.setState({
-								first:
-									value !== null ? value === "first" : null,
-							})
-						}
+						value={vodsFirst}
+						onSelect={value => this.props.setVodsFirst(value)}
 						defaultKey="any"
 					/>
 				</div>
@@ -298,13 +274,11 @@ class TwitchVodsTable extends React.Component<Props, State> {
 					</>
 				) : (
 					<ResetButton
-						onReset={() =>
-							this.setState({
-								first: null,
-								won: null,
-								opponent: null,
-							})
-						}
+						onReset={() => {
+							this.props.setVodsFirst("any");
+							this.props.setVodsOpponent("any");
+							this.props.setVodsResult("any");
+						}}
 					/>
 				)}
 			</div>
