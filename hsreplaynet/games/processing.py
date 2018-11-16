@@ -1290,13 +1290,13 @@ def do_process_upload_event(upload_event):
 		))
 
 		# If we created a new global game (which we'll always do for replays from tools like
-		# ArcaneTracker that can't be unified in RDS) or the only other replays for the game
-		# were spectated or reconnected games, don't make further attempts to report
-		# unification metrics, because there won't be a v2 digest match.
+		# ArcaneTracker that can't be unified in RDS) or any other replays of the game were
+		# spectated or reconnected games, don't make further attempts to report unification
+		# metrics, because there may not be a v2 digest match.
 
 		if (
 			global_game_created or
-			any(r.id != replay.id and unifiable(r) for r in global_game.replays.all())
+			all(unifiable(r) for r in global_game.replays.exclude(pk=replay.id))
 		):
 			if not global_game_created:
 
