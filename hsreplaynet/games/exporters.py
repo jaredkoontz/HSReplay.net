@@ -56,7 +56,7 @@ class GameDigestExporter(EntityTreeExporter):
 			# If a card goes from a player's deck to their hand, it needs to show up in the
 			# draw sequence.
 
-			if new_zone == Zone.HAND:
+			if new_zone == Zone.HAND or new_zone == Zone.PLAY:
 				controller["draw_sequence"].append(entity)
 
 			# If it's leaving the deck, remove it from our representation of the player's
