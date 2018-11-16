@@ -1183,7 +1183,7 @@ def get_globalgame_digest_v2_tags(packet_tree, product=None, shortid=None):
 			redis = get_game_digests_redis()
 			digest_count = redis.hincrby(digest, "count", 1)
 
-			if not redis.hsetnx(digest, "first_user_agent", product):
+			if not int(redis.hsetnx(digest, "first_user_agent", product)):
 				tags["first_user_agent"] = redis.hget(digest, "first_user_agent")
 
 			redis.expire(digest, 21600)  # 6 hours
