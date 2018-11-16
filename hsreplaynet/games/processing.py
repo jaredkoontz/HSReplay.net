@@ -1274,9 +1274,10 @@ def do_process_upload_event(upload_event):
 
 	# Only record unification / digest collision stats if we haven't seen the replay before
 	# (i.e., we're not reprocessing) it's not a reconnected game (which won't have the all
-	# the necessary data in the log) and it's not a spectated game.
+	# the necessary data in the log) and it's not a spectated game - _and_ it's not
+	# obviously corrupt.
 
-	if game_replay_created and unifiable(replay):
+	if game_replay_created and unifiable(replay) and exporter.is_valid_final_state:
 
 		# If this isn't a reprocessing of a replay we've already seen, compute and record a
 		# a tick for the v2 digest for the game, and prepared to record metrics to indicate
