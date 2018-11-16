@@ -2,7 +2,7 @@ import React from "react";
 import { withLoading } from "./loading/Loading";
 import { Archetype, TwitchVodData } from "../utils/api";
 import { InjectedTranslateProps, translate } from "react-i18next";
-import TwitchEmbed from "../components/TwitchEmbed";
+import TwitchEmbed from "./TwitchEmbed";
 import TwitchVodsTable from "./TwitchVodsTable";
 import CardData from "../CardData";
 import AdUnit from "./ads/AdUnit";
@@ -15,18 +15,37 @@ interface Props extends InjectedTranslateProps {
 	cardData: CardData;
 }
 
-interface State {
-	currentVodUrl: string;
+interface WrapperProps {
+	width: number;
+	height: number;
+	vodId?: string;
+	setVodId?: (vodId: string) => void;
+	vods?: TwitchVodData[];
 }
 
-class TwitchVods extends React.Component<Props, State> {
-	private container: HTMLDivElement | null = null;
-	constructor(props: Props, context?: any) {
-		super(props, context);
-		this.state = {
-			currentVodUrl: props.vods[0].url,
-		};
+class TwitchEmbedWrapper extends React.Component<WrapperProps> {
+	public render(): React.ReactNode {
+		const video = this.props.vods.find(
+			x => x.replay_shortid === this.props.vodId,
+		);
+		if (!this.props.vods || !video) {
+			return null;
+		}
+		return (
+			<TwitchEmbed
+				video={video}
+				width={this.props.width}
+				height={this.props.height}
+				muted={false}
+				autoplay
+				allowFullScreen
+			/>
+		);
 	}
+}
+
+class TwitchVods extends React.Component<Props> {
+	private container: HTMLDivElement | null = null;
 
 	public componentDidMount(): void {
 		window.addEventListener("resize", this.resize);
@@ -42,15 +61,8 @@ class TwitchVods extends React.Component<Props, State> {
 		});
 	};
 
-	private selectVod = (vod: TwitchVodData) => {
-		this.setState({ currentVodUrl: vod.url });
-	};
-
 	public render(): React.ReactNode {
 		const { t, vods } = this.props;
-		const selectedVod =
-			this.state.currentVodUrl &&
-			vods.find(vod => vod.url === this.state.currentVodUrl);
 		let streamWidth = 0;
 		if (this.container !== null) {
 			const containerWidth = this.container.getBoundingClientRect().width;
@@ -73,14 +85,17 @@ class TwitchVods extends React.Component<Props, State> {
 			>
 				<div className="twitch-vod-main">
 					<div className="twitch-iframe-container">
-						<TwitchEmbed
-							video={selectedVod}
-							width={streamWidth}
-							height={streamHeight}
-							muted={false}
-							autoplay
-							allowFullScreen
-						/>
+						<Fragments
+							defaults={{
+								vodId: this.props.vods[0].replay_shortid,
+							}}
+						>
+							<TwitchEmbedWrapper
+								width={streamWidth}
+								height={streamHeight}
+								vods={this.props.vods}
+							/>
+						</Fragments>
 					</div>
 					<div className="vod-ad-container">
 						<AdUnit id="dd-v-1" size="728x90" />
@@ -93,6 +108,7 @@ class TwitchVods extends React.Component<Props, State> {
 						vodsResult: "won",
 						vodsOpponent: "any",
 						vodsFirst: "any",
+						vodId: this.props.vods[0].replay_shortid,
 					}}
 				>
 					<TwitchVodsTable
@@ -100,16 +116,6 @@ class TwitchVods extends React.Component<Props, State> {
 						cardData={this.props.cardData}
 						gameType={this.props.gameType}
 						vods={this.props.vods}
-						selectedVod={
-							this.state.currentVodUrl
-								? this.props.vods.find(
-										vod =>
-											vod.url ===
-											this.state.currentVodUrl,
-								  )
-								: null
-						}
-						onSelectVod={this.selectVod}
 						pageSize={8}
 					/>
 				</Fragments>

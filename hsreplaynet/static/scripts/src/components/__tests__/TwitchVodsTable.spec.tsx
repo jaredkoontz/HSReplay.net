@@ -68,7 +68,7 @@ const VODS = [
 describe("TwitchVodsTable", () => {
 	test("renders correctly", () => {
 		Date.now = jest.fn(() => new Date("2018-10-22T20:14:00Z"));
-		const selectedVod = VODS[0];
+		const selectedVod = VODS[0].replay_shortid;
 		const onSelectVod = jest.fn();
 		const wrapper = mount(
 			<TwitchVodsTable
@@ -76,8 +76,8 @@ describe("TwitchVodsTable", () => {
 				gameType={"BGT_RANKED_STANDARD"}
 				cardData={null as any}
 				vods={VODS}
-				selectedVod={selectedVod}
-				onSelectVod={onSelectVod}
+				vodId={selectedVod}
+				setVodId={onSelectVod}
 				vodsResult="won"
 				vodsFirst="any"
 				vodsOpponent="any"
@@ -89,7 +89,7 @@ describe("TwitchVodsTable", () => {
 
 	test("allows selecting a VOD", () => {
 		Date.now = jest.fn(() => new Date("2018-10-22T20:14:00Z"));
-		const selectedVod = VODS[0];
+		const selectedVod = VODS[0].replay_shortid;
 		const selectVod = jest.fn();
 		const wrapper = mount(
 			<TwitchVodsTable
@@ -97,8 +97,8 @@ describe("TwitchVodsTable", () => {
 				gameType={"BGT_RANKED_STANDARD"}
 				cardData={null as any}
 				vods={VODS}
-				selectedVod={selectedVod}
-				onSelectVod={selectVod}
+				vodId={selectedVod}
+				setVodId={selectVod}
 				vodsResult="won"
 				vodsFirst="any"
 				vodsOpponent="any"
@@ -107,7 +107,7 @@ describe("TwitchVodsTable", () => {
 		);
 		wrapper.find('span[children="brandonsmithx01"]').simulate("click");
 		expect(selectVod).toHaveBeenCalledTimes(1);
-		expect(selectVod).toHaveBeenCalledWith(VODS[2]);
+		expect(selectVod).toHaveBeenCalledWith(VODS[2].replay_shortid);
 		expect(wrapper).toMatchSnapshot("brandonsmithx01");
 	});
 });

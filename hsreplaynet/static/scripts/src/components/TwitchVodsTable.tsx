@@ -15,8 +15,8 @@ interface Props extends InjectedTranslateProps {
 	gameType: string;
 	cardData: CardData;
 	vods: TwitchVodData[];
-	selectedVod: null | TwitchVodData;
-	onSelectVod: (vod: null | TwitchVodData) => void;
+	vodId?: string;
+	setVodId?: (vodId: string) => void;
 	vodsSortBy?: string;
 	setVodsSortBy?: (key: string) => void;
 	vodsSortDirection?: SortDirection;
@@ -31,7 +31,6 @@ interface Props extends InjectedTranslateProps {
 }
 
 interface State {
-	selectedItem: TwitchVodData;
 	page: number;
 }
 
@@ -74,7 +73,6 @@ class TwitchVodsTable extends React.Component<Props, State> {
 	constructor(props: Props, context: any) {
 		super(props, context);
 		this.state = {
-			selectedItem: null,
 			page: 1,
 		};
 	}
@@ -237,8 +235,8 @@ class TwitchVodsTable extends React.Component<Props, State> {
 								.map(row => {
 									const classNames = [];
 									if (
-										this.props.selectedVod &&
-										row.url === this.props.selectedVod.url
+										this.props.vodId &&
+										row.replay_shortid === this.props.vodId
 									) {
 										classNames.push("active");
 									}
@@ -253,8 +251,8 @@ class TwitchVodsTable extends React.Component<Props, State> {
 										<li
 											key={row.url}
 											onClick={() =>
-												this.props.onSelectVod(
-													row as any,
+												this.props.setVodId(
+													row.replay_shortid,
 												)
 											}
 											className={classNames.join(" ")}
