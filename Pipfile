@@ -31,7 +31,7 @@ pynamodb = "*"
 python-dateutil = "*"
 python-redis-lock = {extras = ["django"]}
 raven = "*"
-redis = "*"
+redis = ">=2.10.6,<3"
 redis-semaphore = "*"
 requests = "*"
 scikit-learn = {extras = ["alldeps"]}
