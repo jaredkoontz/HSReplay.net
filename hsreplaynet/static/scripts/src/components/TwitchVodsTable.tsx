@@ -16,12 +16,14 @@ interface Props extends InjectedTranslateProps {
 	vods: TwitchVodData[];
 	selectedVod: null | TwitchVodData;
 	onSelectVod: (vod: null | TwitchVodData) => void;
+	vodsSortBy?: string;
+	setVodsSortBy?: (key: string) => void;
+	vodsSortDirection?: SortDirection;
+	setVodsSortDirection?: (direction: SortDirection) => void;
 }
 
 interface State {
 	selectedItem: TwitchVodData;
-	sortBy: string;
-	sortDirection: SortDirection;
 	first: null | boolean;
 	opponent: null | string;
 	won: null | boolean;
@@ -67,8 +69,6 @@ class TwitchVodsTable extends React.Component<Props, State> {
 		super(props, context);
 		this.state = {
 			selectedItem: null,
-			sortBy: "rank",
-			sortDirection: "ascending",
 			first: null,
 			opponent: null,
 			won: true,
@@ -77,7 +77,8 @@ class TwitchVodsTable extends React.Component<Props, State> {
 
 	public render(): React.ReactNode {
 		const { t } = this.props;
-		const { sortBy, sortDirection } = this.state;
+		const sortBy = this.props.vodsSortBy;
+		const sortDirection = this.props.vodsSortDirection;
 		const rows: Row[] = [];
 
 		let vods = this.props.vods;
@@ -311,17 +312,16 @@ class TwitchVodsTable extends React.Component<Props, State> {
 	}
 
 	private onSort = (key: string, reversed?: boolean) => () => {
+		this.props.setVodsSortBy(key);
 		const flip = (dir: SortDirection) =>
 			dir === "ascending" ? "descending" : "ascending";
-		this.setState(({ sortBy, sortDirection }) => ({
-			sortBy: key,
-			sortDirection:
-				sortBy !== key
-					? reversed
-						? "ascending"
-						: "descending"
-					: flip(sortDirection),
-		}));
+		const sortDirection =
+			this.props.vodsSortBy !== key
+				? reversed
+					? "ascending"
+					: "descending"
+				: flip(this.props.vodsSortDirection);
+		this.props.setVodsSortDirection(sortDirection);
 	};
 
 	private sortRank = this.onSort("rank", true);

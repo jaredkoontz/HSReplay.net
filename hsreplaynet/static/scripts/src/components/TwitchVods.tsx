@@ -6,6 +6,7 @@ import TwitchEmbed from "../components/TwitchEmbed";
 import TwitchVodsTable from "./TwitchVodsTable";
 import CardData from "../CardData";
 import AdUnit from "./ads/AdUnit";
+import Fragments from "./Fragments";
 
 interface Props extends InjectedTranslateProps {
 	archetypeData?: Archetype[];
@@ -85,20 +86,29 @@ class TwitchVods extends React.Component<Props, State> {
 						<AdUnit id="dd-v-1" size="728x90" />
 					</div>
 				</div>
-				<TwitchVodsTable
-					archetypeData={this.props.archetypeData}
-					cardData={this.props.cardData}
-					gameType={this.props.gameType}
-					vods={this.props.vods}
-					selectedVod={
-						this.state.currentVodUrl
-							? this.props.vods.find(
-									vod => vod.url === this.state.currentVodUrl,
-							  )
-							: null
-					}
-					onSelectVod={this.selectVod}
-				/>
+				<Fragments
+					defaults={{
+						vodsSortBy: "rank",
+						vodsSortDirection: "ascending",
+					}}
+				>
+					<TwitchVodsTable
+						archetypeData={this.props.archetypeData}
+						cardData={this.props.cardData}
+						gameType={this.props.gameType}
+						vods={this.props.vods}
+						selectedVod={
+							this.state.currentVodUrl
+								? this.props.vods.find(
+										vod =>
+											vod.url ===
+											this.state.currentVodUrl,
+								  )
+								: null
+						}
+						onSelectVod={this.selectVod}
+					/>
+				</Fragments>
 			</div>
 		);
 	}
