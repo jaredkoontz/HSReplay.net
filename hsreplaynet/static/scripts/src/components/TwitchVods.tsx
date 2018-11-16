@@ -110,6 +110,7 @@ class TwitchVods extends React.Component<Props, State> {
 								: null
 						}
 						onSelectVod={this.selectVod}
+						pageSize={8}
 					/>
 				</Fragments>
 			</div>

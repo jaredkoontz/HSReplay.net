@@ -34,6 +34,7 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
       ],
     }
   }
+  pageSize={100}
   selectedVod={
     Object {
       "channel_name": "Zuhex",
@@ -157,6 +158,7 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
         ],
       }
     }
+    pageSize={100}
     selectedVod={
       Object {
         "channel_name": "Zuhex",
@@ -942,6 +944,7 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
   cardData={null}
   gameType="BGT_RANKED_STANDARD"
   onSelectVod={[MockFunction]}
+  pageSize={100}
   selectedVod={
     Object {
       "channel_name": "Zuhex",
@@ -1037,6 +1040,7 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
       }
     }
     onSelectVod={[MockFunction]}
+    pageSize={100}
     selectedVod={
       Object {
         "channel_name": "Zuhex",

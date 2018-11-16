@@ -8,6 +8,7 @@ import OptionalSelect from "./OptionalSelect";
 import SortIndicator from "./SortIndicator";
 import { PLAYABLE_CARD_CLASSES } from "../utils/enums";
 import TwitchVodsTableItem from "./TwitchVodsTableItem";
+import Pager from "./Pager";
 
 interface Props extends InjectedTranslateProps {
 	archetypeData: Archetype[];
@@ -26,10 +27,12 @@ interface Props extends InjectedTranslateProps {
 	setVodsOpponent?: (opponent: string) => void;
 	vodsResult?: string;
 	setVodsResult?: (won: string) => void;
+	pageSize: number;
 }
 
 interface State {
 	selectedItem: TwitchVodData;
+	page: number;
 }
 
 interface Row extends Partial<TwitchVodData> {
@@ -72,6 +75,7 @@ class TwitchVodsTable extends React.Component<Props, State> {
 		super(props, context);
 		this.state = {
 			selectedItem: null,
+			page: 1,
 		};
 	}
 
@@ -225,52 +229,70 @@ class TwitchVodsTable extends React.Component<Props, State> {
 							</Sortable>
 						</div>
 						<ul>
-							{rows.map(row => {
-								const classNames = [];
-								if (
-									this.props.selectedVod &&
-									row.url === this.props.selectedVod.url
-								) {
-									classNames.push("active");
-								}
+							{rows
+								.slice(
+									(this.state.page - 1) * this.props.pageSize,
+									this.state.page * this.props.pageSize,
+								)
+								.map(row => {
+									const classNames = [];
+									if (
+										this.props.selectedVod &&
+										row.url === this.props.selectedVod.url
+									) {
+										classNames.push("active");
+									}
 
-								if (row.won) {
-									classNames.push("won");
-								} else {
-									classNames.push("lost");
-								}
+									if (row.won) {
+										classNames.push("won");
+									} else {
+										classNames.push("lost");
+									}
 
-								return (
-									<li
-										key={row.url}
-										onClick={() =>
-											this.props.onSelectVod(row as any)
-										}
-										className={classNames.join(" ")}
-									>
-										<TwitchVodsTableItem
-											rank={row.rank}
-											legendRank={row.legend_rank}
-											channelName={row.channel_name}
-											won={row.won}
-											wentFirst={row.went_first}
-											gameLengthSeconds={
-												row.game_length_seconds
+									return (
+										<li
+											key={row.url}
+											onClick={() =>
+												this.props.onSelectVod(
+													row as any,
+												)
 											}
-											gameDate={new Date(row.game_date)}
-											opposingPlayerClass={
-												row.opposing_player_class
-											}
-											opposingArchetype={
-												row.opposingArchetype
-											}
-											gameType={this.props.gameType}
-											cardData={this.props.cardData}
-										/>
-									</li>
-								);
-							})}
+											className={classNames.join(" ")}
+										>
+											<TwitchVodsTableItem
+												rank={row.rank}
+												legendRank={row.legend_rank}
+												channelName={row.channel_name}
+												won={row.won}
+												wentFirst={row.went_first}
+												gameLengthSeconds={
+													row.game_length_seconds
+												}
+												gameDate={
+													new Date(row.game_date)
+												}
+												opposingPlayerClass={
+													row.opposing_player_class
+												}
+												opposingArchetype={
+													row.opposingArchetype
+												}
+												gameType={this.props.gameType}
+												cardData={this.props.cardData}
+											/>
+										</li>
+									);
+								})}
 						</ul>
+						{rows.length > this.props.pageSize ? (
+							<Pager
+								currentPage={this.state.page}
+								setCurrentPage={page => this.setState({ page })}
+								pageCount={Math.ceil(
+									rows.length / this.props.pageSize,
+								)}
+							/>
+						) : null}
 					</>
 				) : (
 					<ResetButton

@@ -238,6 +238,15 @@
 							font-weight: bold;
 						}
 					}
+
+					nav {
+						display: flex;
+						justify-content: center;
+
+						.pagination {
+							margin: 0 0 10px;
+						}
+					}
 				}
 
 				.twitch-vod-main {
