@@ -1294,10 +1294,7 @@ def do_process_upload_event(upload_event):
 		# spectated or reconnected games, don't make further attempts to report unification
 		# metrics, because there may not be a v2 digest match.
 
-		if (
-			global_game_created or
-			all(unifiable(r) for r in global_game.replays.exclude(pk=replay.id))
-		):
+		if global_game_created or all(unifiable(r) for r in global_game.replays.all()):
 			if not global_game_created:
 
 				# If we've seen the game before, it's likely a unification via the "v1"
