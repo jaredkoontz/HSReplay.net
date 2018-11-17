@@ -237,19 +237,7 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
           default="Any opponent"
           defaultKey="any"
           onSelect={[Function]}
-          options={
-            Object {
-              "DRUID": "GLOBAL_CLASS_DRUID",
-              "HUNTER": "GLOBAL_CLASS_HUNTER",
-              "MAGE": "GLOBAL_CLASS_MAGE",
-              "PALADIN": "GLOBAL_CLASS_PALADIN",
-              "PRIEST": "GLOBAL_CLASS_PRIEST",
-              "ROGUE": "GLOBAL_CLASS_ROGUE",
-              "SHAMAN": "GLOBAL_CLASS_SHAMAN",
-              "WARLOCK": "GLOBAL_CLASS_WARLOCK",
-              "WARRIOR": "GLOBAL_CLASS_WARRIOR",
-            }
-          }
+          options={Object {}}
           value="any"
         >
           <div
@@ -263,60 +251,6 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
                 value="any"
               >
                 Any opponent
-              </option>
-              <option
-                key="DRUID"
-                value="DRUID"
-              >
-                GLOBAL_CLASS_DRUID
-              </option>
-              <option
-                key="HUNTER"
-                value="HUNTER"
-              >
-                GLOBAL_CLASS_HUNTER
-              </option>
-              <option
-                key="MAGE"
-                value="MAGE"
-              >
-                GLOBAL_CLASS_MAGE
-              </option>
-              <option
-                key="PALADIN"
-                value="PALADIN"
-              >
-                GLOBAL_CLASS_PALADIN
-              </option>
-              <option
-                key="PRIEST"
-                value="PRIEST"
-              >
-                GLOBAL_CLASS_PRIEST
-              </option>
-              <option
-                key="ROGUE"
-                value="ROGUE"
-              >
-                GLOBAL_CLASS_ROGUE
-              </option>
-              <option
-                key="SHAMAN"
-                value="SHAMAN"
-              >
-                GLOBAL_CLASS_SHAMAN
-              </option>
-              <option
-                key="WARLOCK"
-                value="WARLOCK"
-              >
-                GLOBAL_CLASS_WARLOCK
-              </option>
-              <option
-                key="WARRIOR"
-                value="WARRIOR"
-              >
-                GLOBAL_CLASS_WARRIOR
               </option>
             </select>
             <span
@@ -1087,19 +1021,7 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
           default="Any opponent"
           defaultKey="any"
           onSelect={[Function]}
-          options={
-            Object {
-              "DRUID": "GLOBAL_CLASS_DRUID",
-              "HUNTER": "GLOBAL_CLASS_HUNTER",
-              "MAGE": "GLOBAL_CLASS_MAGE",
-              "PALADIN": "GLOBAL_CLASS_PALADIN",
-              "PRIEST": "GLOBAL_CLASS_PRIEST",
-              "ROGUE": "GLOBAL_CLASS_ROGUE",
-              "SHAMAN": "GLOBAL_CLASS_SHAMAN",
-              "WARLOCK": "GLOBAL_CLASS_WARLOCK",
-              "WARRIOR": "GLOBAL_CLASS_WARRIOR",
-            }
-          }
+          options={Object {}}
           value="any"
         >
           <div
@@ -1113,60 +1035,6 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
                 value="any"
               >
                 Any opponent
-              </option>
-              <option
-                key="DRUID"
-                value="DRUID"
-              >
-                GLOBAL_CLASS_DRUID
-              </option>
-              <option
-                key="HUNTER"
-                value="HUNTER"
-              >
-                GLOBAL_CLASS_HUNTER
-              </option>
-              <option
-                key="MAGE"
-                value="MAGE"
-              >
-                GLOBAL_CLASS_MAGE
-              </option>
-              <option
-                key="PALADIN"
-                value="PALADIN"
-              >
-                GLOBAL_CLASS_PALADIN
-              </option>
-              <option
-                key="PRIEST"
-                value="PRIEST"
-              >
-                GLOBAL_CLASS_PRIEST
-              </option>
-              <option
-                key="ROGUE"
-                value="ROGUE"
-              >
-                GLOBAL_CLASS_ROGUE
-              </option>
-              <option
-                key="SHAMAN"
-                value="SHAMAN"
-              >
-                GLOBAL_CLASS_SHAMAN
-              </option>
-              <option
-                key="WARLOCK"
-                value="WARLOCK"
-              >
-                GLOBAL_CLASS_WARLOCK
-              </option>
-              <option
-                key="WARRIOR"
-                value="WARRIOR"
-              >
-                GLOBAL_CLASS_WARRIOR
               </option>
             </select>
             <span

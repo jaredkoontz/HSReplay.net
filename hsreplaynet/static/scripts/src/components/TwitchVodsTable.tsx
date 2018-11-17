@@ -98,7 +98,9 @@ class TwitchVodsTable extends React.Component<Props, State> {
 			vodsOpponent === "any"
 				? vods
 				: vods.filter(
-						vod => vod.opposing_player_class === vodsOpponent,
+						vod =>
+							"a" + vod.opposing_player_archetype_id ===
+							vodsOpponent,
 				  );
 
 		vods.forEach(vod => {
@@ -156,6 +158,24 @@ class TwitchVodsTable extends React.Component<Props, State> {
 					: -direction,
 		);
 
+		const availableArchetypes = [
+			...new Set(
+				this.props.vods
+					.map(vod => vod.opposing_player_archetype_id)
+					.filter(x => x > 0),
+			),
+		]
+			.map(id => this.props.archetypeData.find(x => x.id === id))
+			.filter(x => !!x);
+
+		availableArchetypes.sort((a, b) => (a.name > b.name ? 1 : -1));
+
+		const opponents = {};
+		availableArchetypes.forEach(a => {
+			// "a"-prefix is a hack keep the items sorted
+			opponents["a" + a.id] = a.name;
+		});
+
 		return (
 			<div className="twitch-vod-table">
 				<div className="twitch-vod-table-filterables">
@@ -168,14 +188,7 @@ class TwitchVodsTable extends React.Component<Props, State> {
 					/>
 					<OptionalSelect
 						default={t("Any opponent")}
-						options={PLAYABLE_CARD_CLASSES.map(
-							getCardClassName,
-						).reduce((opts, c) => {
-							return {
-								...opts,
-								[c]: getHeroClassName(c, t),
-							};
-						}, {})}
+						options={opponents}
 						value={vodsOpponent}
 						onSelect={value => this.props.setVodsOpponent(value)}
 						defaultKey="any"
