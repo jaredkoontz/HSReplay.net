@@ -1301,6 +1301,7 @@ def do_process_upload_event(upload_event):
 		# Lab games)
 
 		if global_game_created or (
+			len(players) > 1 and
 			not any(is_innkeeper(player) for player in players.values()) and
 			all(unifiable(r) for r in global_game.replays.all())
 		):
