@@ -1207,6 +1207,10 @@ def get_globalgame_digest_v2_tags(packet_tree, product=None, shortid=None):
 	return tags
 
 
+def is_innkeeper(player):
+	return player.pegasus_account.account_hi == 0 and player.pegasus_account.account_lo == 0
+
+
 def unifiable(replay):
 	return (not replay.reconnecting) and (not replay.spectator_mode)
 
@@ -1292,9 +1296,14 @@ def do_process_upload_event(upload_event):
 		# If we created a new global game (which we'll always do for replays from tools like
 		# ArcaneTracker that can't be unified in RDS) or any other replays of the game were
 		# spectated or reconnected games, don't make further attempts to report unification
-		# metrics, because there may not be a v2 digest match.
+		# metrics, because there may not be a v2 digest match. Also don't attempt to unify
+		# games played against the Innkeeper because they're likely to collide (e.g., Puzzle
+		# Lab games)
 
-		if global_game_created or all(unifiable(r) for r in global_game.replays.all()):
+		if global_game_created or (
+			not any(is_innkeeper(player) for player in players) and
+			all(unifiable(r) for r in global_game.replays.all())
+		):
 			if not global_game_created:
 
 				# If we've seen the game before, it's likely a unification via the "v1"
