@@ -1300,9 +1300,11 @@ def do_process_upload_event(upload_event):
 		# games played against the Innkeeper because they're likely to collide (e.g., Puzzle
 		# Lab games)
 
-		if global_game_created or (
+		if (
 			len(players) > 1 and
-			not any(is_innkeeper(player) for player in players.values()) and
+			not any(is_innkeeper(player) for player in players.values())
+		) and (
+			global_game_created or
 			all(unifiable(r) for r in global_game.replays.all())
 		):
 			if not global_game_created:
