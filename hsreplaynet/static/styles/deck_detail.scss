@@ -178,6 +178,11 @@
 
 							.opposing-archetype {
 								font-weight: bold;
+								color: black;
+								&:active,
+								&:hover {
+									color: black;
+								}
 							}
 
 							.vs-icon {

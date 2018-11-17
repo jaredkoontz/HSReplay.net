@@ -19,10 +19,11 @@ const Opponent: React.SFC<{
 	gameType: string;
 }> = ({ playerClass, archetype, cardData, gameType }) => {
 	let result = null;
-	const className = "player-class " + playerClass.toLowerCase();
-	if (!archetype || archetype.id < 0 || 1 === 1) {
+	if (!archetype || archetype.id < 0) {
 		result = <PrettyCardClass cardClass={playerClass} />;
 	} else {
+		const className =
+			"opposing-archetype player-class " + playerClass.toLowerCase();
 		return (
 			<ArchetypeSignatureTooltip
 				key={archetype.id}
