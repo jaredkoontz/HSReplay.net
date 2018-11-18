@@ -47,7 +47,6 @@ class VodRequestSerializer(serializers.Serializer):
 		return user.id
 
 	def validate_archetype_id(self, value):
-		print(value)
 		if not value:
 			return None
 
@@ -56,7 +55,6 @@ class VodRequestSerializer(serializers.Serializer):
 		except Archetype.DoesNotExist:
 			raise serializers.ValidationError("Invalid archetype ID")
 
-		print(archetype)
 		return archetype.id
 
 	def validate(self, data):
