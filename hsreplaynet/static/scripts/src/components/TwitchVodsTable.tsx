@@ -10,6 +10,8 @@ import { PLAYABLE_CARD_CLASSES } from "../utils/enums";
 import TwitchVodsTableItem from "./TwitchVodsTableItem";
 import Pager from "./Pager";
 
+type SortBy = "rank" | "duration" | "age" | "broadcaster";
+
 interface Props extends InjectedTranslateProps {
 	archetypeData: Archetype[];
 	gameType: string;
@@ -17,8 +19,8 @@ interface Props extends InjectedTranslateProps {
 	vods: TwitchVodData[];
 	vodId?: string;
 	setVodId?: (vodId: string) => void;
-	vodsSortBy?: string;
-	setVodsSortBy?: (key: string) => void;
+	vodsSortBy?: SortBy;
+	setVodsSortBy?: (key: SortBy) => void;
 	vodsSortDirection?: SortDirection;
 	setVodsSortDirection?: (direction: SortDirection) => void;
 	vodsFirst?: string;
@@ -326,7 +328,7 @@ class TwitchVodsTable extends React.Component<Props, State> {
 		);
 	}
 
-	private onSort = (key: string, reversed?: boolean) => () => {
+	private onSort = (key: SortBy, reversed?: boolean) => () => {
 		this.props.setVodsSortBy(key);
 		const flip = (dir: SortDirection) =>
 			dir === "ascending" ? "descending" : "ascending";
