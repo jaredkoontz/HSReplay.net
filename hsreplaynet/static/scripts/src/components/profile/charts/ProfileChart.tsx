@@ -1,7 +1,7 @@
 import React from "react";
 import { translate } from "react-i18next";
 import { ResponsiveLine } from "@nivo/line";
-import { getHeroSkinCardUrl, image } from "../../../helpers";
+import { getHeroSkinCardUrl } from "../../../helpers";
 import { formatNumber, formatOrdinal, i18nFormatDate } from "../../../i18n";
 import { setDayOfYear } from "date-fns";
 

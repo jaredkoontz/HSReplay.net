@@ -3,10 +3,8 @@ import { Archetype, TwitchVodData } from "../utils/api";
 import { SortDirection } from "../interfaces";
 import { InjectedTranslateProps, Trans, translate } from "react-i18next";
 import CardData from "../CardData";
-import { getCardClassName, getHeroClassName } from "../helpers";
 import OptionalSelect from "./OptionalSelect";
 import SortIndicator from "./SortIndicator";
-import { PLAYABLE_CARD_CLASSES } from "../utils/enums";
 import TwitchVodsTableItem from "./TwitchVodsTableItem";
 import Pager from "./Pager";
 

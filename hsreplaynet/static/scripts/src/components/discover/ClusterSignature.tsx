@@ -48,7 +48,7 @@ export default class ClusterSignature extends React.Component<Props, State> {
 			`/clusters/latest/${format}/${playerClass}/${clusterId}/${dbfId}/`,
 			{
 				credentials: "same-origin",
-				method: method,
+				method,
 			},
 		)
 			.then((response: Response) => {
