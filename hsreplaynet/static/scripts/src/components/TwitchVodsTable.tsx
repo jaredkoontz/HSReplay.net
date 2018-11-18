@@ -302,6 +302,7 @@ class TwitchVodsTable extends React.Component<Props, State> {
 								pageCount={Math.ceil(
 									rows.length / this.props.pageSize,
 								)}
+								minimal
 							/>
 						) : null}
 					</>
