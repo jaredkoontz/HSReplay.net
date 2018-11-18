@@ -44,6 +44,51 @@ def test_vod_list_view_multiple_identifiers(client, mocker, user):
 
 @pytest.mark.django_db  # noqa: F811
 @pytest.mark.usefixtures("disconnect_pre_save", "twitch_vod_dynamodb_table")
+def test_vod_list_view_at_legend_rank(client, twitch_vod_game, user, mocker):
+	mocker.patch.multiple(
+		"hsreplaynet.api.views.vods.VodListView",
+		authentication_classes=(),
+		permission_classes=(),
+	)
+
+	deck1 = create_deck_from_deckstring(TEST_TWITCH_DECKSTRING_1, archetype_id=123)
+	deck2 = create_deck_from_deckstring(TEST_TWITCH_DECKSTRING_2)
+
+	create_player("Test Player 1", 1, deck1, twitch_vod_game, rank=None, legend_rank=1)
+	create_player("Test Player 2", 2, deck2, twitch_vod_game, rank=None, legend_rank=2)
+
+	replay = create_replay(user, twitch_vod_game)
+
+	record_twitch_vod(replay, TEST_TWITCH_VOD_META)
+
+	response = client.get(
+		"/api/v1/vods/?user_id=%s" % (user.id)
+	)
+	assert response.status_code == status.HTTP_200_OK, \
+		"Got invalid response: %r" % response.data
+	assert type(response.data) == list
+
+	channel_name = TEST_TWITCH_VOD_META["twitch_vod"]["channel_name"]
+	url = TEST_TWITCH_VOD_META["twitch_vod"]["url"]
+	assert response.data == [{
+		"channel_name": channel_name,
+		"url": url,
+		"game_date": "2018-07-15T00:00:00Z",
+		"game_type": "BGT_RANKED_STANDARD",
+		"rank": 0,
+		"legend_rank": 1,
+		"friendly_player_archetype_id": 123,
+		"opposing_player_class": "PRIEST",
+		"opposing_player_archetype_id": None,
+		"won": False,
+		"went_first": True,
+		"game_length_seconds": 300,
+		"replay_shortid": replay.shortid,
+	}]
+
+
+@pytest.mark.django_db  # noqa: F811
+@pytest.mark.usefixtures("disconnect_pre_save", "twitch_vod_dynamodb_table")
 def test_vod_list_view_by_user_id(client, twitch_vod_game, user, mocker):
 	mocker.patch.multiple(
 		"hsreplaynet.api.views.vods.VodListView",

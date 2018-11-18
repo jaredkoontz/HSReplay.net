@@ -1110,7 +1110,7 @@ def record_twitch_vod(replay, meta):
 			friendly_player_name=friendly_player.name,
 			hsreplaynet_user_id=replay.user.id,
 			replay_shortid=replay.shortid,
-			rank=friendly_player.rank,
+			rank=friendly_player.rank or 0,
 			won=bool(replay.won),
 			went_first=bool(friendly_player.is_first),
 			game_date=game.match_start.timestamp(),
