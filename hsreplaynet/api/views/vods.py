@@ -7,16 +7,14 @@ from rest_framework.views import APIView
 
 from hsreplaynet.api.fields import TimestampField
 from hsreplaynet.api.permissions import UserHasFeature
-from hsreplaynet.decks.models import Deck
+from hsreplaynet.decks.models import Archetype, Deck
 from hsreplaynet.vods.models import TwitchVod
 
 
 class VodRequestSerializer(serializers.Serializer):
 	deck_id = fields.CharField(required=False)
 	user_id = fields.IntegerField(required=False)
-
-	# In order to support archetypes here you add archetype_id with required=False
-	# add a it to fields in validate()
+	archetype_id = fields.IntegerField(required=False)
 
 	def validate_deck_id(self, value):
 		if not value:
@@ -48,8 +46,21 @@ class VodRequestSerializer(serializers.Serializer):
 
 		return user.id
 
+	def validate_archetype_id(self, value):
+		print(value)
+		if not value:
+			return None
+
+		try:
+			archetype = Archetype.objects.get(id=value)
+		except Archetype.DoesNotExist:
+			raise serializers.ValidationError("Invalid archetype ID")
+
+		print(archetype)
+		return archetype.id
+
 	def validate(self, data):
-		fields = ["user_id", "deck_id"]
+		fields = ["user_id", "deck_id", "archetype_id"]
 		field_data = [data.get(field, None) for field in fields]
 		valid_fields = sum(1 for field in field_data if field)
 
@@ -105,6 +116,12 @@ class VodListView(APIView):
 			user = User.objects.get(pk=input.validated_data["user_id"])
 
 			for vod in TwitchVod.user_id_index.query(user.id):
+				serializer = VodSerializer(instance=vod)
+				vods.append(serializer.data)
+		elif "archetype_id" in input.validated_data:
+			archetype = Archetype.objects.get(id=input.validated_data["archetype_id"])
+
+			for vod in TwitchVod.archetype_index.query(archetype.id):
 				serializer = VodSerializer(instance=vod)
 				vods.append(serializer.data)
 

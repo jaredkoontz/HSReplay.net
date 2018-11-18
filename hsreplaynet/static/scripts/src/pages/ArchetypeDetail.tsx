@@ -37,6 +37,7 @@ import { DeckObj, LoadingStatus, SortDirection } from "../interfaces";
 import { Archetype, Collection } from "../utils/api";
 import AdContainer from "../components/ads/AdContainer";
 import AdUnit from "../components/ads/AdUnit";
+import TwitchVods from "../components/TwitchVods";
 
 interface Props extends InjectedTranslateProps {
 	archetypeId: number;
@@ -591,6 +592,13 @@ class ArchetypeDetail extends React.Component<Props, State> {
 									</AutoSizer>
 								</div>
 							</Tab>
+							<Tab
+								label={t("VODs")}
+								id="vods"
+								hidden={!UserData.hasFeature("twitch-vods")}
+							>
+								{this.renderTwitchVods()}
+							</Tab>
 						</TabList>
 					</section>
 				</>
@@ -695,6 +703,34 @@ class ArchetypeDetail extends React.Component<Props, State> {
 				</aside>
 				<main>{content}</main>
 			</div>
+		);
+	}
+
+	renderTwitchVods(): React.ReactNode {
+		const { t } = this.props;
+		return (
+			<DataInjector
+				query={[
+					{
+						key: "archetypeData",
+						params: {},
+						url: "/api/v1/archetypes/",
+					},
+					{
+						key: "vods",
+						params: {
+							archetype_id: this.props.archetypeId,
+						},
+						url: "/api/v1/vods/",
+					},
+				]}
+			>
+				<TwitchVods
+					customNoDataMessage={t("No VODs available")}
+					cardData={this.props.cardData}
+					gameType={this.getGameType()}
+				/>
+			</DataInjector>
 		);
 	}
 
