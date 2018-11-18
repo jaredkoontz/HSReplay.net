@@ -135,6 +135,7 @@ def test_vod_list_view_by_user_id(client, twitch_vod_game, user, mocker):
 @pytest.mark.django_db  # noqa: F811
 @pytest.mark.usefixtures("disconnect_pre_save", "twitch_vod_dynamodb_table")
 def test_vod_list_view_by_archetype_id(client, twitch_vod_game, user, mocker):
+	mocker.patch("hsreplaynet.decks.models.Deck.classify_into_archetype", new=lambda x, y: 123)
 	mocker.patch.multiple(
 		"hsreplaynet.api.views.vods.VodListView",
 		authentication_classes=(),
@@ -143,6 +144,8 @@ def test_vod_list_view_by_archetype_id(client, twitch_vod_game, user, mocker):
 
 	deck1 = create_deck_from_deckstring(TEST_TWITCH_DECKSTRING_1, archetype_id=123)
 	deck2 = create_deck_from_deckstring(TEST_TWITCH_DECKSTRING_2)
+
+	mocker.patch("hsreplaynet.decks.models.Deck.guessed_full_deck", new=deck1)
 
 	create_player("Test Player 1", 1, deck1, twitch_vod_game, rank=24)
 	create_player("Test Player 2", 2, deck2, twitch_vod_game, rank=25)
@@ -169,7 +172,7 @@ def test_vod_list_view_by_archetype_id(client, twitch_vod_game, user, mocker):
 		"legend_rank": None,
 		"friendly_player_archetype_id": 123,
 		"opposing_player_class": "PRIEST",
-		"opposing_player_archetype_id": None,
+		"opposing_player_archetype_id": 123,
 		"won": False,
 		"went_first": True,
 		"game_length_seconds": 300,

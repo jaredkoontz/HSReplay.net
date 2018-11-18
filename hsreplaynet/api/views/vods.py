@@ -8,6 +8,7 @@ from rest_framework.views import APIView
 from hsreplaynet.api.fields import TimestampField
 from hsreplaynet.api.permissions import UserHasFeature
 from hsreplaynet.decks.models import Archetype, Deck
+from hsreplaynet.games.models import GameReplay
 from hsreplaynet.vods.models import TwitchVod
 
 
@@ -120,6 +121,16 @@ class VodListView(APIView):
 			archetype = Archetype.objects.get(id=input.validated_data["archetype_id"])
 
 			for vod in TwitchVod.archetype_index.query(archetype.id):
+				try:
+					replay = GameReplay.objects.find_by_short_id(vod.replay_shortid)
+				except Exception:
+					continue
+				deck = replay.friendly_deck
+				if not deck.guessed_full_deck:
+					continue
+				archetype_id = deck.classify_into_archetype(deck.deck_class)
+				if archetype_id != archetype.id:
+					continue
 				serializer = VodSerializer(instance=vod)
 				vods.append(serializer.data)
 
