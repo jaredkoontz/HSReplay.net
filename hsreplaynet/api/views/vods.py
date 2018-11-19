@@ -103,6 +103,9 @@ class VodListView(APIView):
 	authentication_classes = (SessionAuthentication, )
 	permission_classes = (IsAuthenticated, UserHasFeature("twitch-vods"))
 
+	def _is_valid_vod(self, vod):
+		return (vod.rank or 0) > 0 or (vod.legend_rank or 0) > 0
+
 	def get(self, request, **kwargs):
 		input = self.serializer_class(data=request.GET)
 		input.is_valid(raise_exception=True)
@@ -113,6 +116,8 @@ class VodListView(APIView):
 			deckstring = deck.deckstring
 
 			for vod in TwitchVod.deck_index.query(deckstring):
+				if not self._is_valid_vod(vod):
+					continue
 				serializer = VodSerializer(instance=vod)
 				vods.append(serializer.data)
 		elif "user_id" in input.validated_data:
@@ -120,6 +125,8 @@ class VodListView(APIView):
 			user = User.objects.get(pk=input.validated_data["user_id"])
 
 			for vod in TwitchVod.user_id_index.query(user.id):
+				if not self._is_valid_vod(vod):
+					continue
 				serializer = VodSerializer(instance=vod)
 				vods.append(serializer.data)
 		elif "archetype_id" in input.validated_data:
@@ -131,6 +138,8 @@ class VodListView(APIView):
 			if not cached or cached.get("as_of", 0) + 300 < current_ts:
 				archetype = Archetype.objects.get(id=validated_id)
 				for vod in TwitchVod.archetype_index.query(archetype.id):
+					if not self._is_valid_vod(vod):
+						continue
 					try:
 						replay = GameReplay.objects.find_by_short_id(vod.replay_shortid)
 					except Exception:
