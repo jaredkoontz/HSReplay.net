@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.contrib.auth import get_user_model
 from rest_framework import fields, serializers
 from rest_framework.authentication import SessionAuthentication
@@ -10,6 +12,9 @@ from hsreplaynet.api.permissions import UserHasFeature
 from hsreplaynet.decks.models import Archetype, Deck
 from hsreplaynet.games.models import GameReplay
 from hsreplaynet.vods.models import TwitchVod
+
+
+ARCHETYPE_VOD_LIST_CACHE = {}
 
 
 class VodRequestSerializer(serializers.Serializer):
@@ -118,20 +123,30 @@ class VodListView(APIView):
 				serializer = VodSerializer(instance=vod)
 				vods.append(serializer.data)
 		elif "archetype_id" in input.validated_data:
-			archetype = Archetype.objects.get(id=input.validated_data["archetype_id"])
+			validated_id = input.validated_data["archetype_id"]
 
-			for vod in TwitchVod.archetype_index.query(archetype.id):
-				try:
-					replay = GameReplay.objects.find_by_short_id(vod.replay_shortid)
-				except Exception:
-					continue
-				deck = replay.friendly_deck
-				if not deck.guessed_full_deck:
-					continue
-				archetype_id = deck.classify_into_archetype(deck.deck_class)
-				if archetype_id != archetype.id:
-					continue
-				serializer = VodSerializer(instance=vod)
-				vods.append(serializer.data)
+			cached = ARCHETYPE_VOD_LIST_CACHE.get(validated_id, {})
+			current_ts = datetime.utcnow().timestamp()
+
+			if not cached or cached.get("as_of", 0) + 300 < current_ts:
+				archetype = Archetype.objects.get(id=validated_id)
+				for vod in TwitchVod.archetype_index.query(archetype.id):
+					try:
+						replay = GameReplay.objects.find_by_short_id(vod.replay_shortid)
+					except Exception:
+						continue
+					deck = replay.friendly_deck
+					if not deck.guessed_full_deck:
+						continue
+					archetype_id = deck.classify_into_archetype(deck.deck_class)
+					if archetype_id != archetype.id:
+						continue
+					serializer = VodSerializer(instance=vod)
+					vods.append(serializer.data)
+				cached["as_of"] = current_ts
+				cached["payload"] = vods
+				ARCHETYPE_VOD_LIST_CACHE[validated_id] = cached
+			else:
+				vods = cached["payload"]
 
 		return Response(vods)
