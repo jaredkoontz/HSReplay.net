@@ -1,6 +1,9 @@
 from datetime import datetime
 
 from django.contrib.auth import get_user_model
+from hearthstone.deckstrings import parse_deckstring
+from hearthstone.enums import FormatType
+from hsarchetypes import classify_deck
 from rest_framework import fields, serializers
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
@@ -9,8 +12,7 @@ from rest_framework.views import APIView
 
 from hsreplaynet.api.fields import TimestampField
 from hsreplaynet.api.permissions import UserHasFeature
-from hsreplaynet.decks.models import Archetype, Deck
-from hsreplaynet.games.models import GameReplay
+from hsreplaynet.decks.models import Archetype, ClusterSnapshot, Deck
 from hsreplaynet.vods.models import TwitchVod
 
 
@@ -137,24 +139,29 @@ class VodListView(APIView):
 
 			if not cached or cached.get("as_of", 0) + 300 < current_ts:
 				archetype = Archetype.objects.get(id=validated_id)
+
+				signature_weights = ClusterSnapshot.objects.get_signature_weights(
+					FormatType.FT_STANDARD, archetype.player_class
+				)
+
 				for vod in TwitchVod.archetype_index.query(archetype.id):
 					if not self._is_valid_vod(vod):
 						continue
-					try:
-						replay = GameReplay.objects.find_by_short_id(vod.replay_shortid)
-					except Exception:
+					deckstring = vod.friendly_player_canonical_deck_string
+					if not deckstring:
 						continue
-					deck = replay.friendly_deck
-					if not deck.guessed_full_deck:
+					cards, _, _ = parse_deckstring(deckstring)
+					if (sum([c[1] for c in cards])) != 30:
 						continue
-					archetype_id = deck.classify_into_archetype(deck.deck_class)
+					dbf_map = {card[0]: card[1] for card in cards}
+					archetype_id = classify_deck(dbf_map, signature_weights)
 					if archetype_id != archetype.id:
 						continue
 					serializer = VodSerializer(instance=vod)
 					vods.append(serializer.data)
 				cached["as_of"] = current_ts
 				cached["payload"] = vods
-				ARCHETYPE_VOD_LIST_CACHE[validated_id] = cached
+				ARCHETYPE_VOD_LIST_CACHE[archetype.id] = cached
 			else:
 				vods = cached["payload"]
 

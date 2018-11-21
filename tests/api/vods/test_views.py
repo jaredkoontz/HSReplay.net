@@ -135,7 +135,7 @@ def test_vod_list_view_by_user_id(client, twitch_vod_game, user, mocker):
 @pytest.mark.django_db  # noqa: F811
 @pytest.mark.usefixtures("disconnect_pre_save", "twitch_vod_dynamodb_table")
 def test_vod_list_view_by_archetype_id(client, twitch_vod_game, user, mocker):
-	mocker.patch("hsreplaynet.decks.models.Deck.classify_into_archetype", new=lambda x, y: 123)
+	mocker.patch("hsreplaynet.api.views.vods.classify_deck", return_value=123)
 	mocker.patch.multiple(
 		"hsreplaynet.api.views.vods.VodListView",
 		authentication_classes=(),
