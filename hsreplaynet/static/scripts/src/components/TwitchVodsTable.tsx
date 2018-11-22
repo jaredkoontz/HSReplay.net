@@ -7,6 +7,7 @@ import OptionalSelect from "./OptionalSelect";
 import SortIndicator from "./SortIndicator";
 import TwitchVodsTableItem from "./TwitchVodsTableItem";
 import Pager from "./Pager";
+import memoize from "memoize-one";
 
 type SortBy = "rank" | "duration" | "age" | "broadcaster";
 
@@ -32,6 +33,10 @@ interface Props extends InjectedTranslateProps {
 
 interface State {
 	page: number;
+}
+
+interface Opponents {
+	[archetypeId: string]: string;
 }
 
 interface Row extends Partial<TwitchVodData> {
@@ -75,113 +80,193 @@ class TwitchVodsTable extends React.Component<Props, State> {
 		this.state = {
 			page: 1,
 		};
+
+		// set result to any if no results for wins can be found
+		if (props.vodsResult !== "any") {
+			let filteredVods = this.getFilteredVods(
+				props.vods,
+				props.vodsFirst,
+				props.vodsResult,
+				props.vodsOpponent,
+			);
+			let rows = this.getRows(
+				filteredVods,
+				props.archetypeData,
+				props.vodsSortBy,
+				props.vodsSortDirection,
+			);
+			if (!rows.length) {
+				filteredVods = this.getFilteredVods(
+					props.vods,
+					props.vodsFirst,
+					"any",
+					props.vodsOpponent,
+				);
+				rows = this.getRows(
+					filteredVods,
+					props.archetypeData,
+					props.vodsSortBy,
+					props.vodsSortDirection,
+				);
+				if (rows.length) {
+					props.setVodsResult("any");
+				}
+			}
+		}
 	}
 
+	private getOpponents = memoize(
+		(vods: TwitchVodData[], archetypeData: Archetype[]): Opponents => {
+			const availableArchetypes = [
+				...new Set(
+					vods
+						.map(vod => vod.opposing_player_archetype_id)
+						.filter(x => x > 0),
+				),
+			]
+				.map(id => archetypeData.find(x => x.id === id))
+				.filter(x => !!x);
+
+			availableArchetypes.sort((a, b) => (a.name > b.name ? 1 : -1));
+
+			const opponents = {};
+			availableArchetypes.forEach(a => {
+				// "a"-prefix is a hack keep the items sorted
+				opponents["a" + a.id] = a.name;
+			});
+			return opponents;
+		},
+	);
+
+	private getFilteredVods = memoize(
+		(
+			vods: TwitchVodData[],
+			vodsFirst: string,
+			vodsResult: string,
+			vodsOpponent: string,
+		): TwitchVodData[] => {
+			vods =
+				vodsFirst === "any"
+					? vods
+					: vods.filter(
+							vod => vod.went_first === (vodsFirst === "first"),
+					  );
+			vods =
+				vodsResult === "any"
+					? vods
+					: vods.filter(vod => vod.won === (vodsResult === "won"));
+			vods =
+				vodsOpponent === "any"
+					? vods
+					: vods.filter(
+							vod =>
+								"a" + vod.opposing_player_archetype_id ===
+								vodsOpponent,
+					  );
+			return vods;
+		},
+	);
+
+	private getRows = memoize(
+		(
+			vods: TwitchVodData[],
+			archetypeData: Archetype[],
+			sortBy: SortBy,
+			sortDirection: SortDirection,
+		): Row[] => {
+			const rows: Row[] = [];
+
+			vods.forEach(vod => {
+				const opposingArchetype = archetypeData.find(
+					a => a.id === vod.opposing_player_archetype_id,
+				);
+				if (opposingArchetype) {
+					rows.push({
+						opposingArchetype,
+						...vod,
+					});
+				} else {
+					rows.push({
+						...vod,
+					});
+				}
+			});
+
+			const direction = sortDirection === "ascending" ? 1 : -1;
+			if (sortBy) {
+				rows.sort(
+					(a, b) =>
+						(() => {
+							switch (sortBy) {
+								case "rank":
+									if (+a.legend_rank !== +b.legend_rank) {
+										if (a.legend_rank && !b.legend_rank) {
+											return false;
+										}
+										if (!a.legend_rank && b.legend_rank) {
+											return true;
+										}
+										return +a.legend_rank > +b.legend_rank;
+									}
+									return +a.rank > +b.rank;
+								case "duration":
+									return (
+										+a.game_length_seconds >
+										+b.game_length_seconds
+									);
+								case "age":
+									try {
+										return (
+											new Date(a.game_date) <
+											new Date(b.game_date)
+										);
+									} catch (e) {
+										return a.game_date < b.game_date;
+									}
+								case "broadcaster":
+									return (
+										(a.channel_name || "").toLowerCase() >
+										(b.channel_name || "").toLowerCase()
+									);
+								default:
+									return (
+										a.url.toLowerCase() >
+										b.url.toLowerCase()
+									);
+							}
+						})()
+							? direction
+							: -direction,
+				);
+			}
+			return rows;
+		},
+	);
+
 	public render(): React.ReactNode {
-		const { t, vodsFirst, vodsResult, vodsOpponent } = this.props;
+		const {
+			t,
+			vodsFirst,
+			vodsResult,
+			vodsOpponent,
+			vods,
+			archetypeData,
+		} = this.props;
 		const sortBy = this.props.vodsSortBy;
 		const sortDirection = this.props.vodsSortDirection;
-		const rows: Row[] = [];
 
-		let vods = this.props.vods;
-		vods =
-			vodsFirst === "any"
-				? vods
-				: vods.filter(
-						vod => vod.went_first === (vodsFirst === "first"),
-				  );
-		vods =
-			vodsResult === "any"
-				? vods
-				: vods.filter(vod => vod.won === (vodsResult === "won"));
-		vods =
-			vodsOpponent === "any"
-				? vods
-				: vods.filter(
-						vod =>
-							"a" + vod.opposing_player_archetype_id ===
-							vodsOpponent,
-				  );
-
-		vods.forEach(vod => {
-			const opposingArchetype = this.props.archetypeData.find(
-				a => a.id === vod.opposing_player_archetype_id,
-			);
-			if (opposingArchetype) {
-				rows.push({
-					opposingArchetype,
-					...vod,
-				});
-			} else {
-				rows.push({
-					...vod,
-				});
-			}
-		});
-		const direction = sortDirection === "ascending" ? 1 : -1;
-		if (sortBy) {
-			rows.sort(
-				(a, b) =>
-					(() => {
-						switch (sortBy) {
-							case "rank":
-								if (+a.legend_rank !== +b.legend_rank) {
-									if (a.legend_rank && !b.legend_rank) {
-										return false;
-									}
-									if (!a.legend_rank && b.legend_rank) {
-										return true;
-									}
-									return +a.legend_rank > +b.legend_rank;
-								}
-								return +a.rank > +b.rank;
-							case "duration":
-								return (
-									+a.game_length_seconds >
-									+b.game_length_seconds
-								);
-							case "age":
-								try {
-									return (
-										new Date(a.game_date) <
-										new Date(b.game_date)
-									);
-								} catch (e) {
-									return a.game_date < b.game_date;
-								}
-							case "broadcaster":
-								return (
-									(a.channel_name || "").toLowerCase() >
-									(b.channel_name || "").toLowerCase()
-								);
-							default:
-								return (
-									a.url.toLowerCase() > b.url.toLowerCase()
-								);
-						}
-					})()
-						? direction
-						: -direction,
-			);
-		}
-
-		const availableArchetypes = [
-			...new Set(
-				this.props.vods
-					.map(vod => vod.opposing_player_archetype_id)
-					.filter(x => x > 0),
-			),
-		]
-			.map(id => this.props.archetypeData.find(x => x.id === id))
-			.filter(x => !!x);
-
-		availableArchetypes.sort((a, b) => (a.name > b.name ? 1 : -1));
-
-		const opponents = {};
-		availableArchetypes.forEach(a => {
-			// "a"-prefix is a hack keep the items sorted
-			opponents["a" + a.id] = a.name;
-		});
+		const filteredVods = this.getFilteredVods(
+			vods,
+			vodsFirst,
+			vodsResult,
+			vodsOpponent,
+		);
+		const rows = this.getRows(
+			filteredVods,
+			archetypeData,
+			sortBy,
+			sortDirection,
+		);
 
 		return (
 			<div className="twitch-vod-table">
@@ -195,7 +280,7 @@ class TwitchVodsTable extends React.Component<Props, State> {
 					/>
 					<OptionalSelect
 						default={t("Any opponent")}
-						options={opponents}
+						options={this.getOpponents(vods, archetypeData)}
 						value={vodsOpponent}
 						onSelect={value => this.props.setVodsOpponent(value)}
 						defaultKey="any"
