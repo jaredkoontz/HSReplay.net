@@ -142,6 +142,32 @@ class MetaOverview extends React.Component<Props, State> {
 			</button>
 		);
 
+		const matchupsQuery = [
+			{
+				key: "archetypeData",
+				params: {},
+				url: "/api/v1/archetypes/",
+			},
+			{
+				key: "matchupData",
+				params,
+				url: "head_to_head_archetype_matchups",
+			},
+			{
+				key: "popularityData",
+				params,
+				url: "archetype_popularity_distribution_stats",
+			},
+		];
+
+		if (UserData.hasFeature("twitch-vods")) {
+			matchupsQuery.push({
+				key: "vodsIndexData",
+				params: {},
+				url: "/api/v1/vods/index/",
+			});
+		}
+
 		return (
 			<div className="meta-overview-container">
 				<aside className={infoboxClassNames.join(" ")}>
@@ -399,26 +425,7 @@ class MetaOverview extends React.Component<Props, State> {
 							label={t("Matchups")}
 							hidden={this.state.mobileView}
 						>
-							<DataInjector
-								query={[
-									{
-										key: "archetypeData",
-										params: {},
-										url: "/api/v1/archetypes/",
-									},
-									{
-										key: "matchupData",
-										params,
-										url: "head_to_head_archetype_matchups",
-									},
-									{
-										key: "popularityData",
-										params,
-										url:
-											"archetype_popularity_distribution_stats",
-									},
-								]}
-							>
+							<DataInjector query={matchupsQuery}>
 								<ArchetypeMatchups
 									cardData={this.props.cardData}
 									gameType={this.getGameType()}

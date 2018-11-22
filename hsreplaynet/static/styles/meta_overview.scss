@@ -212,13 +212,16 @@
 	}
 
 	a {
-		.tooltip-wrapper {
-			display: flex;
-			text-align: center;
-			flex-direction: column;
-			justify-content: flex-end;
-			align-items: center;
-			padding: 5px;
+		&.matchup-column-header,
+		&.matchup-row-header {
+			.tooltip-wrapper {
+				display: flex;
+				text-align: center;
+				flex-direction: column;
+				justify-content: flex-end;
+				align-items: center;
+				padding: 5px;
+			}
 		}
 
 		&.matchup-column-header {
@@ -430,6 +433,29 @@
 			border-left: 2px solid gray;
 			border-right: 2px solid gray;
 		}
+
+		.vod-indicator {
+			position: absolute;
+			top: 3px;
+			right: 3px;
+			width: 5px;
+			height: 5px;
+			border-radius: 50%;
+			background: $twitch-purple;
+		}
+
+		&.vods-available {
+			cursor: pointer;
+
+			.tooltip-wrapper {
+				cursor: pointer;
+			}
+
+			&:active,
+			&:hover {
+				text-decoration: none;
+			}
+		}
 	}
 
 	.matchup-header-cell {
@@ -585,6 +611,15 @@
 
 	.tooltip-header {
 		font-weight: bold;
+	}
+
+	.twitch-vods-available {
+		font-weight: bold;
+		margin-top: 10px;
+
+		img {
+			margin-right: 5px;
+		}
 	}
 }
 

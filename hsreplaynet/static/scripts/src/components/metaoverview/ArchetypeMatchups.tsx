@@ -28,6 +28,7 @@ interface Props extends InjectedTranslateProps {
 	sortBy?: string;
 	setSortBy?: (prop: string) => void;
 	simple?: boolean;
+	vodsIndexData?: any;
 }
 
 interface State {
@@ -135,6 +136,7 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 					}
 					simple={this.props.simple}
 					maxArchetypes={this.props.simple && 5}
+					vodsIndexData={this.props.vodsIndexData}
 					{...commonProps}
 				/>
 			</div>

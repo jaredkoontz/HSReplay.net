@@ -41,6 +41,7 @@ interface Props extends InjectedTranslateProps {
 	cellWidth?: number;
 	cellHeight?: number;
 	cellColorStyle?: CellColorStyle;
+	vodsIndexData?: any;
 }
 
 interface State {
@@ -386,6 +387,15 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 								spacerSize + "px solid " + offWhite;
 						}
 
+						const { vodsIndexData } = this.props;
+
+						const hasVods =
+							vodsIndexData &&
+							vodsIndexData[friendlyArchetype.id] &&
+							this.props.vodsIndexData[
+								friendlyArchetype.id
+							].indexOf(matchup.opponentId) !== -1;
+
 						return (
 							<MatchupCell
 								key={key}
@@ -401,6 +411,7 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 								minGames={this.props.minGames}
 								ignoreMirror={this.props.ignoreMirror}
 								colorStyle={this.props.cellColorStyle}
+								hasVods={hasVods}
 							/>
 						);
 					}}

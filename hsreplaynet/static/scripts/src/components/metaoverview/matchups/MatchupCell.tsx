@@ -2,7 +2,13 @@ import _ from "lodash";
 import React from "react";
 import { InjectedTranslateProps, translate } from "react-i18next";
 import { Colors } from "../../../Colors";
-import { getColorString, toDynamicFixed, winrateData } from "../../../helpers";
+import {
+	getArchetypeUrl,
+	getColorString,
+	image,
+	toDynamicFixed,
+	winrateData,
+} from "../../../helpers";
 import { MatchupData } from "../../../interfaces";
 import Tooltip from "../../Tooltip";
 import { formatNumber } from "../../../i18n";
@@ -18,6 +24,7 @@ interface Props extends InjectedTranslateProps {
 	minGames?: number;
 	ignoreMirror?: boolean;
 	colorStyle?: CellColorStyle;
+	hasVods?: boolean;
 }
 
 export function isEligibleMatchup(
@@ -63,7 +70,29 @@ class MatchupCell extends React.Component<Props> {
 		) {
 			// mirror match
 			label = (
-				<Tooltip content={t("Mirror matchup")} simple>
+				<Tooltip
+					id="tooltip-matchup-cell"
+					content={
+						<>
+							<div
+								className={
+									"tooltip-header player-class " +
+									matchupData.friendlyPlayerClass.toLowerCase()
+								}
+							>
+								{matchupData.friendlyName}
+							</div>
+							{t("Mirror matchup")}
+							{this.props.hasVods ? (
+								<div className="twitch-vods-available">
+									<img src={image("socialauth/twitch.png")} />
+									{t("Twitch VODs available!")}
+								</div>
+							) : null}
+						</>
+					}
+					simple
+				>
 					<svg
 						viewBox={"0 0 10 10"}
 						style={{ height: "1em", verticalAlign: "middle" }}
@@ -131,6 +160,12 @@ class MatchupCell extends React.Component<Props> {
 									</td>
 								</tr>
 							</table>
+							{this.props.hasVods ? (
+								<div className="twitch-vods-available">
+									<img src={image("socialauth/twitch.png")} />
+									{t("Twitch VODs available!")}
+								</div>
+							) : null}
 						</div>
 					}
 				>
@@ -146,7 +181,12 @@ class MatchupCell extends React.Component<Props> {
 							</p>
 						</>
 					) : (
-						formatNumber(winrate, 2) + "%"
+						<>
+							{formatNumber(winrate, 2) + "%"}
+							{this.props.hasVods ? (
+								<div className="vod-indicator" />
+							) : null}
+						</>
 					)}
 				</Tooltip>
 			);
@@ -182,6 +222,27 @@ class MatchupCell extends React.Component<Props> {
 		}
 		if (this.props.colorStyle === "text") {
 			backgroundColor = "transparent";
+		}
+
+		if (this.props.hasVods) {
+			classNames.push("vods-available");
+			return (
+				<a
+					className={classNames.join(" ")}
+					style={{
+						color,
+						backgroundColor,
+						fontWeight,
+						...this.props.style,
+					}}
+					href={`${getArchetypeUrl(
+						matchupData.friendlyId,
+						matchupData.friendlyName,
+					)}#tab=vods&vodsOpponent=a${matchupData.opponentId}`}
+				>
+					{label}
+				</a>
+			);
 		}
 
 		return (
