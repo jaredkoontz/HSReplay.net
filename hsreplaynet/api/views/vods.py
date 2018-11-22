@@ -1,8 +1,9 @@
+from collections import defaultdict
 from datetime import datetime
 
 from django.contrib.auth import get_user_model
 from hearthstone.deckstrings import parse_deckstring
-from hearthstone.enums import FormatType
+from hearthstone.enums import CardClass, FormatType
 from hsarchetypes import classify_deck
 from rest_framework import fields, serializers
 from rest_framework.authentication import SessionAuthentication
@@ -17,6 +18,7 @@ from hsreplaynet.vods.models import TwitchVod
 
 
 ARCHETYPE_VOD_LIST_CACHE = {}
+ARCHETYPE_VOD_INDEX_CACHE = {}
 
 
 class VodRequestSerializer(serializers.Serializer):
@@ -99,14 +101,29 @@ class VodSerializer(serializers.Serializer):
 	replay_shortid = fields.CharField()
 
 
+def is_valid_vod(vod):
+	return (vod.rank or 0) > 0 or (vod.legend_rank or 0) > 0
+
+
+def verify_archetype_classification(archetype_id, vod, signature_weights):
+	if not is_valid_vod(vod):
+		return False
+	deckstring = vod.friendly_player_canonical_deck_string
+	if not deckstring:
+		return False
+	cards, _, _ = parse_deckstring(deckstring)
+	if (sum([c[1] for c in cards])) != 30:
+		return False
+	dbf_map = {card[0]: card[1] for card in cards}
+	new_archetype_id = classify_deck(dbf_map, signature_weights)
+	return new_archetype_id == archetype_id
+
+
 class VodListView(APIView):
 	"""Query for Twitch VODs by deck id or user id."""
 	serializer_class = VodRequestSerializer
 	authentication_classes = (SessionAuthentication, )
 	permission_classes = (IsAuthenticated, UserHasFeature("twitch-vods"))
-
-	def _is_valid_vod(self, vod):
-		return (vod.rank or 0) > 0 or (vod.legend_rank or 0) > 0
 
 	def get(self, request, **kwargs):
 		input = self.serializer_class(data=request.GET)
@@ -118,7 +135,7 @@ class VodListView(APIView):
 			deckstring = deck.deckstring
 
 			for vod in TwitchVod.deck_index.query(deckstring):
-				if not self._is_valid_vod(vod):
+				if not is_valid_vod(vod):
 					continue
 				serializer = VodSerializer(instance=vod)
 				vods.append(serializer.data)
@@ -127,7 +144,7 @@ class VodListView(APIView):
 			user = User.objects.get(pk=input.validated_data["user_id"])
 
 			for vod in TwitchVod.user_id_index.query(user.id):
-				if not self._is_valid_vod(vod):
+				if not is_valid_vod(vod):
 					continue
 				serializer = VodSerializer(instance=vod)
 				vods.append(serializer.data)
@@ -145,17 +162,7 @@ class VodListView(APIView):
 				)
 
 				for vod in TwitchVod.archetype_index.query(archetype.id):
-					if not self._is_valid_vod(vod):
-						continue
-					deckstring = vod.friendly_player_canonical_deck_string
-					if not deckstring:
-						continue
-					cards, _, _ = parse_deckstring(deckstring)
-					if (sum([c[1] for c in cards])) != 30:
-						continue
-					dbf_map = {card[0]: card[1] for card in cards}
-					archetype_id = classify_deck(dbf_map, signature_weights)
-					if archetype_id != archetype.id:
+					if not verify_archetype_classification(archetype.id, vod, signature_weights):
 						continue
 					serializer = VodSerializer(instance=vod)
 					vods.append(serializer.data)
@@ -166,3 +173,46 @@ class VodListView(APIView):
 				vods = cached["payload"]
 
 		return Response(vods)
+
+
+class VodIndexView(APIView):
+	"""Query for archetype matchups with available Twitch VODs."""
+	authentication_classes = (SessionAuthentication, )
+	permission_classes = (IsAuthenticated, UserHasFeature("twitch-vods"))
+
+	_signature_weights = {}
+
+	def get_signature_weights(self, player_class):
+		signature_weights = self._signature_weights.get(player_class, None)
+		if not signature_weights:
+			signature_weights = ClusterSnapshot.objects.get_signature_weights(
+				FormatType.FT_STANDARD, player_class
+			)
+			self._signature_weights[player_class] = signature_weights
+		return signature_weights
+
+	def get(self, request, **kwargs):
+		current_ts = datetime.utcnow().timestamp()
+
+		if (
+			not ARCHETYPE_VOD_INDEX_CACHE or
+			ARCHETYPE_VOD_INDEX_CACHE.get("as_of", 0) + 300 < current_ts
+		):
+			archetype_map = defaultdict(list)
+			for archetype in Archetype.objects.live().all():
+				if archetype.player_class is CardClass.INVALID:
+					continue
+				signature_weights = self.get_signature_weights(archetype.player_class)
+				vods = TwitchVod.archetype_index.query(archetype.id)
+				for vod in vods:
+					opponent_archetype = vod.opposing_player_archetype_id
+					if not opponent_archetype:
+						continue
+					if not verify_archetype_classification(archetype.id, vod, signature_weights):
+						continue
+					if opponent_archetype not in archetype_map[archetype.id]:
+						archetype_map[archetype.id].append(opponent_archetype)
+			ARCHETYPE_VOD_INDEX_CACHE["as_of"] = current_ts
+			ARCHETYPE_VOD_INDEX_CACHE["payload"] = archetype_map
+
+		return Response(ARCHETYPE_VOD_INDEX_CACHE["payload"])

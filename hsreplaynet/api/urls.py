@@ -52,6 +52,7 @@ urlpatterns = [
 	url(r"^v1/features/(?P<name>[\w-]+)/$", SetFeatureView.as_view()),
 	url(r"^v1/live/", include("hsreplaynet.api.live.urls")),
 	url(r"^v1/vods/$", views.vods.VodListView.as_view()),
+	url(r"^v1/vods/index/$", views.vods.VodIndexView.as_view()),
 	url(r"^api-auth/", include("rest_framework.urls", namespace="rest_framework")),
 
 	# Partner stats API

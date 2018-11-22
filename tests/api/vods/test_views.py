@@ -243,3 +243,34 @@ def test_vod_list_view_by_deck_id_empty(client, mocker):
 		"Got invalid response: %r" % response.data
 	assert type(response.data) == list
 	assert not len(response.data)
+
+
+@pytest.mark.django_db  # noqa: F811
+@pytest.mark.usefixtures("disconnect_pre_save", "twitch_vod_dynamodb_table")
+def test_vod_index_view(client, twitch_vod_game, user, mocker):
+	mocker.patch("hsreplaynet.api.views.vods.classify_deck", return_value=123)
+	mocker.patch.multiple(
+		"hsreplaynet.api.views.vods.VodIndexView",
+		authentication_classes=(),
+		permission_classes=(),
+	)
+
+	deck1 = create_deck_from_deckstring(TEST_TWITCH_DECKSTRING_1, archetype_id=123)
+	deck2 = create_deck_from_deckstring(TEST_TWITCH_DECKSTRING_2, archetype_id=123)
+
+	create_player("Test Player 1", 1, deck1, twitch_vod_game, rank=24)
+	create_player("Test Player 2", 2, deck2, twitch_vod_game, rank=25)
+
+	replay = create_replay(user, twitch_vod_game)
+
+	record_twitch_vod(replay, TEST_TWITCH_VOD_META)
+
+	response = client.get(
+		"/api/v1/vods/index/"
+	)
+	assert response.status_code == status.HTTP_200_OK, \
+		"Got invalid response: %r" % response.data
+
+	assert response.data == {
+		123: [123]
+	}

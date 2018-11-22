@@ -1,6 +1,7 @@
 from django_hearthstone.cards.models import Card
 from hearthstone import enums
 from hearthstone.deckstrings import parse_deckstring
+from hearthstone.enums import CardClass
 from shortuuid import ShortUUID
 
 from hearthsim.identity.accounts.models import BlizzardAccount
@@ -25,7 +26,7 @@ def create_deck_from_deckstring(deckstring, archetype_id=None):
 	)
 
 	if archetype_id:
-		archetype = Archetype(id=archetype_id)
+		archetype = Archetype(id=archetype_id, player_class=CardClass.DRUID)
 		archetype.save()
 
 		deck_list.archetype = archetype
