@@ -212,50 +212,74 @@ function showPopover(
 	setTimeout(() => ($(element) as any).popover("show"), 500);
 }
 
-if (
-	window &&
-	window.location &&
-	window.location.pathname.match(/\/(replay|games|decks|cards)\//)
-) {
+if (window && window.location) {
 	document.addEventListener("DOMContentLoaded", () => {
-		showPopover(
-			"navbar-link-premium",
-			"reflinks",
-			true,
-			"refer-popup-closed",
-			t("Refer a Friend!"),
-			t(
-				"Tell a friend about HSReplay.net for a cheaper Premium subscription!",
-			),
-		);
-
-		if (["th"].indexOf(UserData.getLocale()) !== -1) {
+		if (window.location.pathname.match(/\/(replay|games|decks|cards)\//)) {
 			showPopover(
-				"navbar-language-selector",
-				"translation-popover",
-				false,
-				"translation-popup-closed",
-				t("Help translate HSReplay.net"),
+				"navbar-link-premium",
+				"reflinks",
+				true,
+				"refer-popup-closed",
+				t("Refer a Friend!"),
 				t(
-					"Want to see more of HSReplay.net in your native language? Click here to see how you can help translate the site…",
+					"Tell a friend about HSReplay.net for a cheaper Premium subscription!",
 				),
 			);
-		}
 
-		if (
-			window.location.pathname.indexOf("/decks/") !== -1 &&
-			window.innerWidth > 768
-		) {
+			if (["th"].indexOf(UserData.getLocale()) !== -1) {
+				showPopover(
+					"navbar-language-selector",
+					"translation-popover",
+					false,
+					"translation-popup-closed",
+					t("Help translate HSReplay.net"),
+					t(
+						"Want to see more of HSReplay.net in your native language? Click here to see how you can help translate the site…",
+					),
+				);
+			}
+
+			if (
+				window.location.pathname.indexOf("/decks/") !== -1 &&
+				window.innerWidth > 768
+			) {
+				showPopover(
+					"high-legend-filter",
+					"high-legend-filter-promo",
+					false,
+					"high-legend-filter-popup-closed",
+					t("New Top Legend Filter!"),
+					t(
+						"Want to see what decks all the pros are winning with? Find out right here!",
+					),
+					{ placement: "right", container: "body" },
+				);
+			}
+		}
+		if (window.location.pathname.match(/\/archetypes\/[\d\w]/)) {
 			showPopover(
-				"high-legend-filter",
-				"high-legend-filter-promo",
+				"tab-vods",
+				"twitch-vods",
 				false,
-				"high-legend-filter-popup-closed",
-				t("New Top Legend Filter!"),
+				"twitch-vods-popup-closed",
+				t("New: Twitch VODs"),
 				t(
-					"Want to see what decks all the pros are winning with? Find out right here!",
+					"Learn how to pilot this archetype, study specific matchups and discover awesome streamers!",
 				),
-				{ placement: "right", container: "body" },
+				{ placement: "top", container: "body" },
+			);
+		}
+		if (window.location.pathname.match(/\/decks\/[\d\w]/)) {
+			showPopover(
+				"tab-vods",
+				"twitch-vods",
+				false,
+				"twitch-vods-popup-closed",
+				t("New: Twitch VODs"),
+				t(
+					"Learn how to pilot this deck, study specific matchups and discover awesome streamers!",
+				),
+				{ placement: "top", container: "body" },
 			);
 		}
 	});
