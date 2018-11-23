@@ -89,7 +89,7 @@ class TwitchVods extends React.Component<Props> {
 					<div className="twitch-iframe-container">
 						<Fragments
 							defaults={{
-								vodId: this.props.vods[0].replay_shortid,
+								vodId: "",
 							}}
 						>
 							<TwitchEmbedWrapper
@@ -111,7 +111,7 @@ class TwitchVods extends React.Component<Props> {
 						vodsResult: "won",
 						vodsOpponent: "any",
 						vodsFirst: "any",
-						vodId: this.props.vods[0].replay_shortid,
+						vodId: "",
 					}}
 				>
 					<TwitchVodsTable

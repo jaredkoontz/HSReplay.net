@@ -80,37 +80,44 @@ class TwitchVodsTable extends React.Component<Props, State> {
 		this.state = {
 			page: 1,
 		};
+	}
 
+	public componentDidMount() {
 		// set result to any if no results for wins can be found
-		if (props.vodsResult !== "any") {
+		if (this.props.vodsResult !== "any") {
 			let filteredVods = this.getFilteredVods(
-				props.vods,
-				props.vodsFirst,
-				props.vodsResult,
-				props.vodsOpponent,
+				this.props.vods,
+				this.props.vodsFirst,
+				this.props.vodsResult,
+				this.props.vodsOpponent,
 			);
 			let rows = this.getRows(
 				filteredVods,
-				props.archetypeData,
-				props.vodsSortBy,
-				props.vodsSortDirection,
+				this.props.archetypeData,
+				this.props.vodsSortBy,
+				this.props.vodsSortDirection,
 			);
 			if (!rows.length) {
 				filteredVods = this.getFilteredVods(
-					props.vods,
-					props.vodsFirst,
+					this.props.vods,
+					this.props.vodsFirst,
 					"any",
-					props.vodsOpponent,
+					this.props.vodsOpponent,
 				);
 				rows = this.getRows(
 					filteredVods,
-					props.archetypeData,
-					props.vodsSortBy,
-					props.vodsSortDirection,
+					this.props.archetypeData,
+					this.props.vodsSortBy,
+					this.props.vodsSortDirection,
 				);
 				if (rows.length) {
-					props.setVodsResult("any");
+					this.props.setVodsResult("any");
+					if (!this.props.vodId) {
+						this.props.setVodId(rows[0].replay_shortid);
+					}
 				}
+			} else if (!this.props.vodId) {
+				this.props.setVodId(rows[0].replay_shortid);
 			}
 		}
 	}
