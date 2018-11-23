@@ -56,7 +56,7 @@ class RedeemCode extends React.Component<Props, State> {
 							maxLength={36}
 							value={this.state.code}
 							onChange={this.onChange}
-							disabled={this.state.working}
+							readOnly={this.state.working}
 							autoFocus={this.props.autofocus}
 							required
 						/>
