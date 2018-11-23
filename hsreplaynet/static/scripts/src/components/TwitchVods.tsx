@@ -13,6 +13,7 @@ interface Props extends InjectedTranslateProps {
 	vods?: TwitchVodData[];
 	gameType: string;
 	cardData: CardData;
+	autoplay: boolean;
 }
 
 interface WrapperProps {
@@ -21,6 +22,7 @@ interface WrapperProps {
 	vodId?: string;
 	setVodId?: (vodId: string) => void;
 	vods?: TwitchVodData[];
+	autoplay: boolean;
 }
 
 class TwitchEmbedWrapper extends React.Component<WrapperProps> {
@@ -37,7 +39,7 @@ class TwitchEmbedWrapper extends React.Component<WrapperProps> {
 				width={this.props.width}
 				height={this.props.height}
 				muted={false}
-				autoplay
+				autoplay={this.props.autoplay}
 				allowFullScreen
 			/>
 		);
@@ -94,6 +96,7 @@ class TwitchVods extends React.Component<Props> {
 								width={streamWidth}
 								height={streamHeight}
 								vods={this.props.vods}
+								autoplay={this.props.autoplay}
 							/>
 						</Fragments>
 					</div>

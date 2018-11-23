@@ -1018,6 +1018,7 @@ class DeckDetail extends React.Component<Props, State> {
 					customNoDataMessage={t("No VODs available")}
 					cardData={this.props.cardData}
 					gameType={this.getGameType()}
+					autoplay={this.props.tab === "vods"}
 				/>
 			</DataInjector>
 		);
