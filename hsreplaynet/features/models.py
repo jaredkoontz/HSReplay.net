@@ -320,6 +320,9 @@ class FeatureInviteAlias(models.Model, Redeemable):
 		if self.redeemed:
 			raise FeatureInviteAlreadyRedeemedError("Code has already been redeemed")
 
+		if not self.invite:
+			raise FeatureInviteNotActivated("Code has not been activated")
+
 		if not self.is_valid:
 			raise FeatureError("Code is not valid")
 
@@ -348,6 +351,10 @@ class FeatureInviteAlreadyRedeemedError(FeatureError):
 
 
 class FeatureInviteNotApplicable(FeatureError):
+	pass
+
+
+class FeatureInviteNotActivated(FeatureError):
 	pass
 
 

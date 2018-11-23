@@ -7,7 +7,8 @@ from rest_framework.views import APIView
 from hsreplaynet.api.serializers.features import RedeemCodeSerializer
 from hsreplaynet.api.throttles import RedeemCodeRateThrottle
 from hsreplaynet.features.models import (
-	FeatureError, FeatureInvite, FeatureInviteAlreadyRedeemedError, FeatureInviteNotApplicable
+	FeatureError, FeatureInvite, FeatureInviteAlreadyRedeemedError,
+	FeatureInviteNotActivated, FeatureInviteNotApplicable
 )
 
 
@@ -32,6 +33,8 @@ class RedeemCodeView(APIView):
 			return self.fail(_("Code has already been used."))
 		except FeatureInviteNotApplicable:
 			return self.fail(_("Code does not apply to this account."))
+		except FeatureInviteNotActivated:
+			return self.fail(_("Code has not been activated yet."))
 		except FeatureError:
 			return self.fail()
 
