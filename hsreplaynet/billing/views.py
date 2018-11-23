@@ -105,6 +105,24 @@ class StripeMixin:
 		return context
 
 
+class SubscribeMixin:
+	def can_subscribe(self):
+		from djpaypal.models import BillingAgreement
+
+		user = self.request.user
+
+		if not user.is_authenticated:
+			return False
+
+		if user.is_premium:
+			return False
+
+		if BillingAgreement.objects.filter(user=user, state="Pending").count() > 0:
+			return False
+
+		return True
+
+
 class BillingView(LoginRequiredMixin, StripeMixin, SimpleReactView):
 	title = "Billing"
 	bundle = "account_billing"
@@ -232,7 +250,7 @@ class BillingView(LoginRequiredMixin, StripeMixin, SimpleReactView):
 		}
 
 
-class SubscribeView(LoginRequiredMixin, StripeMixin, View):
+class SubscribeView(LoginRequiredMixin, StripeMixin, SubscribeMixin, View):
 	success_url = reverse_lazy("billing_methods")
 
 	def process_checkout_form(self, customer):
@@ -322,6 +340,12 @@ class SubscribeView(LoginRequiredMixin, StripeMixin, View):
 
 			messages.error(self.request, _("You are already subscribed!"))
 			return False
+
+		if not self.can_subscribe():
+			return messages.error(
+				self.request,
+				_("You already have an active or a pending subscription.")
+			)
 
 		lazy_discounts = customer.subscriber.lazy_discounts.filter(used=False)
 		if lazy_discounts.exists():
@@ -537,7 +561,7 @@ class BasePaypalView(View):
 		return redirect(self.fail_url)
 
 
-class PaypalSuccessView(BasePaypalView):
+class PaypalSuccessView(BasePaypalView, SubscribeMixin):
 	success_url = reverse_lazy("premium")
 
 	def get_success_url(self):
@@ -548,6 +572,11 @@ class PaypalSuccessView(BasePaypalView):
 
 	def get(self, request):
 		from djpaypal.models import PreparedBillingAgreement
+
+		self.request = request
+
+		if not self.can_subscribe():
+			return self.fail(_("You already have an active or a pending subscription."))
 
 		token = request.GET.get("token", "")
 		if not token:
@@ -614,15 +643,18 @@ class PaypalCancelView(BasePaypalView):
 		return self.fail(_("Your payment was interrupted."))
 
 
-class PaypalSubscribeView(LoginRequiredMixin, BasePaypalView):
+class PaypalSubscribeView(LoginRequiredMixin, SubscribeMixin, BasePaypalView):
 	def post(self, request):
-		from djpaypal.models import BillingAgreement, BillingPlan
+		from djpaypal.models import BillingPlan
+
+		self.request = request
+
+		if not self.can_subscribe():
+			return self.fail(_("You already have an active or a pending subscription."))
+
 		id = request.POST.get("plan", "")
 		if not id:
 			return self.fail(_("Could not determine your plan."))
-
-		if BillingAgreement.objects.filter(user=request.user, state="Pending").count() > 0:
-			return self.fail(_("You have a pending subscription."))
 
 		try:
 			plan = BillingPlan.objects.get(id=id)
