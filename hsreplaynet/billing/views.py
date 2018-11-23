@@ -26,7 +26,7 @@ from .models import CancellationRequest
 STRIPE_DEBUG = not STRIPE_LIVE_MODE and settings.DEBUG
 
 
-class PaymentsMixin:
+class StripeMixin:
 	def get_customer(self):
 		"""
 		Returns the user's Stripe customer object, or None for logged out users.
@@ -105,7 +105,7 @@ class PaymentsMixin:
 		return context
 
 
-class BillingView(LoginRequiredMixin, PaymentsMixin, SimpleReactView):
+class BillingView(LoginRequiredMixin, StripeMixin, SimpleReactView):
 	title = "Billing"
 	bundle = "account_billing"
 	base_template = "account/base.html"
@@ -232,7 +232,7 @@ class BillingView(LoginRequiredMixin, PaymentsMixin, SimpleReactView):
 		}
 
 
-class SubscribeView(LoginRequiredMixin, PaymentsMixin, View):
+class SubscribeView(LoginRequiredMixin, StripeMixin, View):
 	success_url = reverse_lazy("billing_methods")
 
 	def process_checkout_form(self, customer):
@@ -413,7 +413,7 @@ class SubscribeView(LoginRequiredMixin, PaymentsMixin, View):
 		return redirect(self.get_success_url())
 
 
-class CancelSubscriptionView(LoginRequiredMixin, PaymentsMixin, View):
+class CancelSubscriptionView(LoginRequiredMixin, StripeMixin, View):
 	success_url = reverse_lazy("billing_methods")
 
 	def fail(self, message):
