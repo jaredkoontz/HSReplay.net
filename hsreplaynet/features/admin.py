@@ -34,3 +34,11 @@ class FeatureInviteAliasAdmin(admin.ModelAdmin):
 	def redeemable(self, obj):
 		return obj.is_valid
 	redeemable.boolean = True
+
+	def detach_from_invite(self, request, queryset):
+		queryset.update(invite=None)
+	detach_from_invite.short_description = "Detach invites from selected aliases"
+
+	actions = (
+		detach_from_invite,
+	)
