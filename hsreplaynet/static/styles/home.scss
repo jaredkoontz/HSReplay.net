@@ -1162,11 +1162,12 @@
 		text-align: center;
 	}
 
-	#high-legend-filter-promo {
+	.feature-promo {
 		margin: 10px auto;
 		display: block;
 		padding: 0 10px;
 		width: 990px;
+		position: relative;
 
 		@media (max-width: 1000px) {
 			display: none;
@@ -1179,6 +1180,33 @@
 				0 3px 6px rgba(0, 0, 0, 0.23);
 			height: 90px;
 			width: 970px;
+		}
+
+		&:hover {
+			> img {
+				filter: brightness(1.05);
+			}
+		}
+
+		.feature-promo-content {
+			position: absolute;
+			top: 0;
+			left: 25px;
+			font-weight: bold;
+			color: white;
+			text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.5),
+				-1px 1px 0 rgba(0, 0, 0, 0.5), 1px 1px 0 rgba(0, 0, 0, 0.5),
+				1px -1px 0 rgba(0, 0, 0, 0.5);
+			display: flex;
+			justify-content: center;
+			height: 100%;
+			flex-direction: column;
+
+			h4 {
+				font-weight: bold;
+				font-size: 2em;
+				margin-bottom: 5px;
+			}
 		}
 	}
 }

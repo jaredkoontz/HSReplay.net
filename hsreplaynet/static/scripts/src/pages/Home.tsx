@@ -136,15 +136,7 @@ class Home extends React.Component<Props, State> {
 						<div id="banner-ranks">{ranks}</div>
 					</div>
 				</div>
-				{UserData.hasFeature("high-legend-filter-promo") &&
-				!UserData.hasCookie("high-legend-filter-popup-closed", "0") ? (
-					<a
-						href="/decks/#rankRange=TOP_1000_LEGEND"
-						id="high-legend-filter-promo"
-					>
-						<img src="https://media.hearthsim.net/hsreplaynet/high-legend-filter.jpg" />
-					</a>
-				) : null}
+				{this.renderPromoBanner()}
 				<div className="top-ads">
 					<AdContainer>
 						<AdUnit id="fp-d-1" size="728x90" />
@@ -712,6 +704,45 @@ class Home extends React.Component<Props, State> {
 				</div>
 			</>
 		);
+	}
+
+	private renderPromoBanner(): React.ReactNode {
+		const { t } = this.props;
+		if (
+			UserData.hasFeature("twitch-vods") &&
+			!UserData.hasCookie("twitch-vods-popup-closed", "0")
+		) {
+			return (
+				<a
+					href="/archetypes/216/odd-paladin#&tab=vods"
+					className="feature-promo"
+				>
+					<img src="https://s3.amazonaws.com/media.hearthsim.net/hsreplaynet/vods-banner.jpg" />
+					<div className="feature-promo-content">
+						<h4>{t("Twitch VODs now available!")}</h4>
+						<p>
+							{t(
+								"Our deck and archetype pages now include a selection of vods played with it.",
+							)}
+						</p>
+					</div>
+				</a>
+			);
+		}
+		if (
+			UserData.hasFeature("high-legend-filter-promo") &&
+			!UserData.hasCookie("high-legend-filter-popup-closed", "0")
+		) {
+			return (
+				<a
+					href="/decks/#rankRange=TOP_1000_LEGEND"
+					className="feature-promo"
+				>
+					<img src="https://media.hearthsim.net/hsreplaynet/high-legend-filter.jpg" />
+				</a>
+			);
+		}
+		return null;
 	}
 }
 
