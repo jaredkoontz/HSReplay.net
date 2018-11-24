@@ -4,8 +4,8 @@ import { InjectedTranslateProps, Trans, translate } from "react-i18next";
 import HDTVideo from "../components/HDTVideo";
 import PremiumFeaturePanel from "../components/premium/PremiumFeaturePanel";
 import Panel from "../components/Panel";
-import { DeckTrackerEvents } from "../metrics/Events";
 import UserData from "../UserData";
+import DownloadButton from "../components/DownloadButton";
 
 interface Props extends InjectedTranslateProps {}
 
@@ -13,29 +13,6 @@ interface State {
 	windowsUrl: string | null;
 	macUrl: string | null;
 }
-
-const DownloadButton: React.SFC<{
-	id: string;
-	title: string;
-	subtitle: string;
-	icon: string;
-	url: string | null;
-	className?: string;
-}> = ({ id, title, subtitle, icon, url, className }) => (
-	<a
-		href={url}
-		className={`btn promo-button${url ? "" : " disabled"}${
-			className ? " " + className : ""
-		}`}
-		onClick={() => DeckTrackerEvents.onDownload(id)}
-	>
-		<h3>
-			<i className={`fa fa-${icon}`} />
-			{title}
-		</h3>
-		<p>{subtitle}</p>
-	</a>
-);
 
 class Downloads extends React.Component<Props, State> {
 	constructor(props: Props, context: any) {

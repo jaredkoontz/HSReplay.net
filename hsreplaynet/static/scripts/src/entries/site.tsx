@@ -12,6 +12,7 @@ import i18n from "../i18n";
 import { I18nextProvider } from "react-i18next";
 import AdUnit from "../components/ads/AdUnit";
 import { SubscriptionEvents } from "../metrics/Events";
+import MobilePromo from "../components/MobilePromo";
 
 UserData.create();
 const t = i18n.getFixedT(UserData.getLocale());
@@ -57,12 +58,26 @@ function trackPurchase() {
 	}
 }
 
+function renderMobileBanner() {
+	const container = document.getElementById("site-mobile-promo");
+	if (container) {
+		ReactDOM.render(
+			<I18nextProvider i18n={i18n} initialLanguage={UserData.getLocale()}>
+				<MobilePromo onClose={() => renderMobileBanner()} />
+			</I18nextProvider>,
+			container,
+		);
+	}
+}
+
 if (document.readyState === "loading") {
 	document.addEventListener("DOMContentLoaded", renderNavbar);
 	document.addEventListener("DOMContentLoaded", renderFooterAds);
+	document.addEventListener("DOMContentLoaded", renderMobileBanner);
 } else {
 	renderNavbar();
 	renderFooterAds();
+	renderMobileBanner();
 }
 
 if (window) {

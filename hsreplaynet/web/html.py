@@ -5,6 +5,8 @@ from django.http import QueryDict
 from django.templatetags.static import static
 from django.utils.html import escape
 
+from hsreplaynet.settings import FONTAWESOME_CSS_URL
+
 
 class HTMLTag:
 	def __init__(self, tag_name, content=None, attrs=None):
@@ -53,6 +55,7 @@ class HTMLHead:
 			"vendor/bootstrap/css/bootstrap.min.css",
 			"https://fonts.googleapis.com/css?family=Noto+Sans:400,700",
 			"https://fonts.googleapis.com/css?family=Montserrat:800",
+			FONTAWESOME_CSS_URL,
 		)
 		self.add_opensearch(href="opensearch.xml", title="HSReplay.net")
 		self.add_meta({"name": "theme-color", "content": "#1d3657"})
