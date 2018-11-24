@@ -20,18 +20,33 @@
 			z-index: 2;
 			position: relative;
 			display: inline-block;
+			max-width: 92%;
+
+			p,
+			h1 {
+				margin: 0;
+				width: 100%;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
 
 			p {
-				margin: 0;
 				font-size: 2em;
 				text-align: right;
+
+				@media (max-width: 500px) {
+					font-size: 1.7em;
+				}
 			}
 
 			h1 {
-				margin: 0;
 				font-weight: bold;
 				font-size: 4em;
 				font-family: "Montserrat", sans-serif;
+
+				@media (max-width: 500px) {
+					font-size: 3.2em;
+				}
 			}
 		}
 
@@ -187,6 +202,13 @@
 				font-size: 3.5em;
 				color: #696969;
 				text-align: center;
+				max-width: 100%;
+				overflow: hidden;
+				text-overflow: ellipsis;
+
+				@media (max-width: 500px) {
+					font-size: 3em;
+				}
 			}
 
 			.panel-card {
