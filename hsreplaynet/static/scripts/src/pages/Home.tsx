@@ -719,12 +719,8 @@ class Home extends React.Component<Props, State> {
 				>
 					<img src="https://s3.amazonaws.com/media.hearthsim.net/hsreplaynet/vods-banner.jpg" />
 					<div className="feature-promo-content">
-						<h4>{t("Twitch VODs now available!")}</h4>
-						<p>
-							{t(
-								"Our deck and archetype pages now include a selection of vods played with it.",
-							)}
-						</p>
+						<h4>{t("Twitch VODs are now available!")}</h4>
+						<p>{t("Watch the pros and become a better player!")}</p>
 					</div>
 				</a>
 			);
