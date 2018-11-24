@@ -5,6 +5,7 @@ import HDTVideo from "../components/HDTVideo";
 import PremiumFeaturePanel from "../components/premium/PremiumFeaturePanel";
 import Panel from "../components/Panel";
 import { DeckTrackerEvents } from "../metrics/Events";
+import UserData from "../UserData";
 
 interface Props extends InjectedTranslateProps {}
 
@@ -12,6 +13,29 @@ interface State {
 	windowsUrl: string | null;
 	macUrl: string | null;
 }
+
+const DownloadButton: React.SFC<{
+	id: string;
+	title: string;
+	subtitle: string;
+	icon: string;
+	url: string | null;
+	className?: string;
+}> = ({ id, title, subtitle, icon, url, className }) => (
+	<a
+		href={url}
+		className={`btn promo-button${url ? "" : " disabled"}${
+			className ? " " + className : ""
+		}`}
+		onClick={() => DeckTrackerEvents.onDownload(id)}
+	>
+		<h3>
+			<i className={`fa fa-${icon}`} />
+			{title}
+		</h3>
+		<p>{subtitle}</p>
+	</a>
+);
 
 class Downloads extends React.Component<Props, State> {
 	constructor(props: Props, context: any) {
@@ -29,6 +53,8 @@ class Downloads extends React.Component<Props, State> {
 	public render(): React.ReactNode {
 		const { t } = this.props;
 		const { windowsUrl, macUrl } = this.state;
+		const androidUrl =
+			"https://play.google.com/store/apps/details?id=net.mbonnin.arcanetracker";
 		return (
 			<div className="downloads-container">
 				<header>
@@ -39,32 +65,40 @@ class Downloads extends React.Component<Props, State> {
 					<div className="header-download">
 						<h2>{t("Download now")}</h2>
 						<div className="download-buttons">
-							<a
-								href={windowsUrl}
-								className={`btn promo-button${
-									windowsUrl ? "" : " disabled"
-								}`}
-								onClick={this.onDownloadWindows}
-							>
-								<h3>
-									<i className="fa fa-windows" />
-									{t("Windows")}
-								</h3>
-								<p>{t("Hearthstone Deck Tracker")}</p>
-							</a>
-							<a
-								href={macUrl}
-								className={`btn promo-button${
-									macUrl ? "" : " disabled"
-								}`}
-								onClick={this.onDownloadMac}
-							>
-								<h3>
-									<i className="fa fa-apple" />
-									{t("macOS")}
-								</h3>
-								<p>{t("HSTracker")}</p>
-							</a>
+							{UserData.hasFeature("arcane-tracker") ? (
+								<DownloadButton
+									id="Android"
+									title={t("Android")}
+									subtitle={t("Arcane Tracker")}
+									icon="android"
+									url={androidUrl}
+									className="hidden-md hidden-lg"
+								/>
+							) : null}
+							<DownloadButton
+								id="Windows"
+								title={t("Windows")}
+								subtitle={t("Hearthstone Deck Tracker")}
+								icon="windows"
+								url={windowsUrl}
+							/>
+							<DownloadButton
+								id="macOS"
+								title={t("macOS")}
+								subtitle={t("HSTracker")}
+								icon="apple"
+								url={macUrl}
+							/>
+							{UserData.hasFeature("arcane-tracker") ? (
+								<DownloadButton
+									id="Android"
+									title={t("Android")}
+									subtitle={t("Arcane Tracker")}
+									icon="android"
+									url={androidUrl}
+									className="hidden-xs hidden-sm"
+								/>
+							) : null}
 						</div>
 					</div>
 					<div className="header-description">
@@ -326,13 +360,6 @@ class Downloads extends React.Component<Props, State> {
 				console.error(error);
 			});
 	}
-
-	private onDownload = (label: string): void => {
-		DeckTrackerEvents.onDownload(label);
-	};
-
-	private onDownloadWindows = (): void => this.onDownload("Windows");
-	private onDownloadMac = (): void => this.onDownload("macOS");
 }
 
 export default translate()(Downloads);
