@@ -708,22 +708,33 @@ class Home extends React.Component<Props, State> {
 
 	private renderPromoBanner(): React.ReactNode {
 		const { t } = this.props;
-		if (
-			UserData.hasFeature("twitch-vods") &&
-			!UserData.hasCookie("twitch-vods-popup-closed", "0")
-		) {
-			return (
-				<a
-					href="/archetypes/216/odd-paladin#&tab=vods"
-					className="feature-promo"
-				>
-					<img src="https://s3.amazonaws.com/media.hearthsim.net/hsreplaynet/vods-banner.jpg" />
-					<div className="feature-promo-content">
-						<h4>{t("Twitch VODs are now available!")}</h4>
-						<p>{t("Watch the pros and become a better player!")}</p>
-					</div>
-				</a>
+		if (UserData.hasFeature("twitch-vods")) {
+			const seenDecks = UserData.hasCookie(
+				"twitch-vods-decks-popup-closed",
+				"0",
 			);
+			const seenArchetypes = UserData.hasCookie(
+				"twitch-vods-archetypes-popup-closed",
+				"0",
+			);
+			if (!seenDecks || !seenArchetypes) {
+				const href = seenArchetypes
+					? "/decks/wsEA4huCdRblzBiNfbreWf/#tab=vods"
+					: "/archetypes/216/odd-paladin#&tab=vods";
+				return (
+					<a href={href} className="feature-promo">
+						<img src="https://s3.amazonaws.com/media.hearthsim.net/hsreplaynet/vods-banner.jpg" />
+						<div className="feature-promo-content">
+							<h4>{t("Twitch VODs are now available!")}</h4>
+							<p>
+								{t(
+									"Watch the pros and become a better player!",
+								)}
+							</p>
+						</div>
+					</a>
+				);
+			}
 		}
 		if (
 			UserData.hasFeature("high-legend-filter-promo") &&

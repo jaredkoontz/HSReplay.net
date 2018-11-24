@@ -276,7 +276,7 @@ if (window && window.location) {
 				"tab-vods",
 				"twitch-vods",
 				false,
-				"twitch-vods-popup-closed",
+				"twitch-vods-popup-archetypes-closed",
 				t("New: Twitch VODs"),
 				t(
 					"Learn how to pilot this archetype, study specific matchups and discover awesome streamers!",
@@ -289,7 +289,7 @@ if (window && window.location) {
 				"tab-vods",
 				"twitch-vods",
 				false,
-				"twitch-vods-popup-closed",
+				"twitch-vods-popup-decks-closed",
 				t("New: Twitch VODs"),
 				t(
 					"Learn how to pilot this deck, study specific matchups and discover awesome streamers!",
