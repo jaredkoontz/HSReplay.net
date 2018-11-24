@@ -26,6 +26,7 @@ import { image } from "../helpers";
 import { TwitchStreamPromotionEvents } from "../metrics/Events";
 import { default as Twitch } from "../Twitch";
 import UserData from "../UserData";
+import memoize from "memoize-one";
 
 interface Props extends InjectedTranslateProps {
 	cardData: CardData | null;
@@ -706,8 +707,10 @@ class Home extends React.Component<Props, State> {
 		);
 	}
 
-	private renderPromoBanner(): React.ReactNode {
+	// Use memoize to prevent re-rendering random banners
+	private renderPromoBanner = memoize(() => {
 		const { t } = this.props;
+		const banners = [];
 		if (UserData.hasFeature("twitch-vods")) {
 			const seenDecks = UserData.hasCookie(
 				"twitch-vods-decks-popup-closed",
@@ -721,7 +724,7 @@ class Home extends React.Component<Props, State> {
 				const href = seenArchetypes
 					? "/decks/wsEA4huCdRblzBiNfbreWf/#tab=vods"
 					: "/archetypes/216/odd-paladin#&tab=vods";
-				return (
+				banners.push(
 					<a href={href} className="feature-promo">
 						<img src="https://s3.amazonaws.com/media.hearthsim.net/hsreplaynet/vods-banner.jpg" />
 						<div className="feature-promo-content">
@@ -732,7 +735,7 @@ class Home extends React.Component<Props, State> {
 								)}
 							</p>
 						</div>
-					</a>
+					</a>,
 				);
 			}
 		}
@@ -740,17 +743,20 @@ class Home extends React.Component<Props, State> {
 			UserData.hasFeature("high-legend-filter-promo") &&
 			!UserData.hasCookie("high-legend-filter-popup-closed", "0")
 		) {
-			return (
+			banners.push(
 				<a
 					href="/decks/#rankRange=TOP_1000_LEGEND"
 					className="feature-promo"
 				>
 					<img src="https://media.hearthsim.net/hsreplaynet/high-legend-filter.jpg" />
-				</a>
+				</a>,
 			);
 		}
+		if (banners.length) {
+			return banners[Math.floor(Math.random() * banners.length)];
+		}
 		return null;
-	}
+	});
 }
 
 export default translate()(Home);
