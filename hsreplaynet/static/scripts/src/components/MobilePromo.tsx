@@ -23,7 +23,7 @@ const MobilePromo: React.SFC<Props> = ({ t, onClose }) => {
 		<Panel
 			header={
 				<>
-					<span>{t("Do you have a phone?")}</span>
+					<span>{t("Don't you have a phone?")}</span>
 					<a
 						href="#"
 						className="btn mobile-promo-close"
@@ -39,7 +39,7 @@ const MobilePromo: React.SFC<Props> = ({ t, onClose }) => {
 			}
 		>
 			<h2>
-				{t("Hearthstone Deck Tracker is now avaialable on Android!")}
+				{t("Hearthstone Deck Tracker is now available on Android!")}
 			</h2>
 			<DownloadButton
 				id="Android-promo"
