@@ -258,21 +258,30 @@ if (window && window.location) {
 				);
 			}
 
-			if (
-				window.location.pathname.indexOf("/decks/") !== -1 &&
-				window.innerWidth > 768
-			) {
+			if (window.innerWidth > 768) {
 				showPopover(
-					"high-legend-filter",
-					"high-legend-filter-promo",
+					"navbar-link-downloads",
+					"arcane-tracker",
 					false,
-					"high-legend-filter-popup-closed",
-					t("New Top Legend Filter!"),
-					t(
-						"Want to see what decks all the pros are winning with? Find out right here!",
-					),
-					{ placement: "right", container: "body" },
+					"arcane-tracker-download-popup-closed",
+					t("Hearthstone Deck Tracker"),
+					t("Available on Windows, macOS and now also on Android."),
+					{ placement: "bottom", container: "body" },
 				);
+
+				if (window.location.pathname.indexOf("/decks/") !== -1) {
+					showPopover(
+						"high-legend-filter",
+						"high-legend-filter-promo",
+						false,
+						"high-legend-filter-popup-closed",
+						t("New Top Legend Filter!"),
+						t(
+							"Want to see what decks all the pros are winning with? Find out right here!",
+						),
+						{ placement: "right", container: "body" },
+					);
+				}
 			}
 		}
 		if (window.location.pathname.match(/\/archetypes\/[\d\w]/)) {
