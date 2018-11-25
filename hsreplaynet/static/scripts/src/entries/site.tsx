@@ -229,7 +229,11 @@ function showPopover(
 
 if (window && window.location) {
 	document.addEventListener("DOMContentLoaded", () => {
-		if (window.location.pathname.match(/\/(replay|games|decks|cards)\//)) {
+		if (
+			window.location.pathname.match(
+				/\/(archetypes|meta|replay|games|decks|cards)\//,
+			)
+		) {
 			showPopover(
 				"navbar-link-premium",
 				"reflinks",
