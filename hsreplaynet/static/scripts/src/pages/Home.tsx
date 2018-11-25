@@ -46,8 +46,13 @@ const PromoBanner: React.SFC<{
 	backgroundImage: string;
 	title?: string;
 	subtitle?: string;
+	target?: string;
 }> = props => (
-	<a href={props.href} className="feature-promo">
+	<a
+		href={props.href}
+		className="feature-promo"
+		target={props.target || "_self"}
+	>
 		<img src={props.backgroundImage} />
 		<div className="feature-promo-content">
 			{props.title ? <h4>{props.title}</h4> : null}
@@ -726,6 +731,19 @@ class Home extends React.Component<Props, State> {
 	private renderPromoBanner = memoize(() => {
 		const { t } = this.props;
 		const banners = [];
+
+		if (UserData.hasFeature("arcane-tracker")) {
+			banners.push(
+				<PromoBanner
+					href="https://play.google.com/store/apps/details?id=net.mbonnin.arcanetracker"
+					backgroundImage="https://media.hearthsim.net/hsreplaynet/android-banner.jpg"
+					title={t("Hearthstone Deck Tracker now on Android")}
+					subtitle={t("Don't you guys have phones?")}
+					target="_blank"
+				/>,
+			);
+		}
+
 		if (UserData.hasFeature("twitch-vods")) {
 			const seenDecks = UserData.hasCookie(
 				"twitch-vods-decks-popup-closed",
@@ -751,6 +769,7 @@ class Home extends React.Component<Props, State> {
 				);
 			}
 		}
+
 		if (
 			UserData.hasFeature("high-legend-filter-promo") &&
 			!UserData.hasCookie("high-legend-filter-popup-closed", "0")
@@ -762,6 +781,7 @@ class Home extends React.Component<Props, State> {
 				/>,
 			);
 		}
+
 		if (banners.length) {
 			return banners[Math.floor(Math.random() * banners.length)];
 		}
