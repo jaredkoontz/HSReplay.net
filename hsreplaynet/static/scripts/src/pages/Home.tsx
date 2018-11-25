@@ -41,6 +41,21 @@ interface State {
 	promoStreamLive?: boolean;
 }
 
+const PromoBanner: React.SFC<{
+	href: string;
+	backgroundImage: string;
+	title?: string;
+	subtitle?: string;
+}> = props => (
+	<a href={props.href} className="feature-promo">
+		<img src={props.backgroundImage} />
+		<div className="feature-promo-content">
+			{props.title ? <h4>{props.title}</h4> : null}
+			{props.subtitle ? <p>{props.subtitle}</p> : null}
+		</div>
+	</a>
+);
+
 class Home extends React.Component<Props, State> {
 	constructor(props: Props, context?: any) {
 		super(props, context);
@@ -725,17 +740,14 @@ class Home extends React.Component<Props, State> {
 					? "/decks/wsEA4huCdRblzBiNfbreWf/#tab=vods"
 					: "/archetypes/216/odd-paladin#&tab=vods";
 				banners.push(
-					<a href={href} className="feature-promo">
-						<img src="https://s3.amazonaws.com/media.hearthsim.net/hsreplaynet/vods-banner.jpg" />
-						<div className="feature-promo-content">
-							<h4>{t("Twitch VODs are now available!")}</h4>
-							<p>
-								{t(
-									"Watch the pros and become a better player!",
-								)}
-							</p>
-						</div>
-					</a>,
+					<PromoBanner
+						href={href}
+						backgroundImage="https://media.hearthsim.net/hsreplaynet/vods-banner.jpg"
+						title={t("Twitch VODs are now available!")}
+						subtitle={t(
+							"Watch the pros and become a better player!",
+						)}
+					/>,
 				);
 			}
 		}
@@ -744,12 +756,10 @@ class Home extends React.Component<Props, State> {
 			!UserData.hasCookie("high-legend-filter-popup-closed", "0")
 		) {
 			banners.push(
-				<a
+				<PromoBanner
 					href="/decks/#rankRange=TOP_1000_LEGEND"
-					className="feature-promo"
-				>
-					<img src="https://media.hearthsim.net/hsreplaynet/high-legend-filter.jpg" />
-				</a>,
+					backgroundImage="https://media.hearthsim.net/hsreplaynet/high-legend-filter.jpg"
+				/>,
 			);
 		}
 		if (banners.length) {
