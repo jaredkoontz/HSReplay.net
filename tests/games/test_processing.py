@@ -368,9 +368,12 @@ def test_eligible_for_unification():
 @override_settings(ENV_AWS=True, REDSHIFT_LOADING_ENABLED=True)
 def test_should_load_into_redshift(auth_token):
 	shortid = shortuuid.uuid()
+
+	n = timezone.now()
+
 	upload_event = UploadEvent(
 		descriptor_data="{}",
-		file=f"uploads/2018/11/20/17/44/{shortid}.power.log",
+		file=f"uploads/{n.year}/{n.month}/{n.day}/{n.hour}/{n.minute}/{shortid}.power.log",
 		shortid=shortid,
 		token_uuid=auth_token.key,
 		user_agent="RandoTracker.com"
@@ -381,8 +384,8 @@ def test_should_load_into_redshift(auth_token):
 	global_game = GlobalGame(
 		game_type=BnetGameType.BGT_RANKED_STANDARD,
 		format=FormatType.FT_STANDARD,
-		match_start=timezone.now(),
-		match_end=timezone.now()
+		match_start=n,
+		match_end=n
 	)
 
 	mock_exporter = Mock()
