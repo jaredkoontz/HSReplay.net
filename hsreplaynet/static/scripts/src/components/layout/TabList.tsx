@@ -86,30 +86,6 @@ export default class TabList extends React.Component<Props, State> {
 			);
 		});
 
-		const body = children.map((child: any) => {
-			if (child.props.disabled) {
-				return null;
-			}
-			const id = child.props.id;
-			const classNames = ["tab-pane"];
-			const isActive = id === this.props.tab;
-			if (isActive) {
-				classNames.push("active");
-			}
-			return (
-				<div
-					id={id}
-					key={id}
-					className={classNames.join(" ")}
-					role="tabpanel"
-					aria-labelledby={TabList.makeTabId(id)}
-					aria-expanded={isActive}
-				>
-					{child}
-				</div>
-			);
-		});
-
 		return (
 			<div className="tab-list">
 				<Modal
@@ -121,7 +97,22 @@ export default class TabList extends React.Component<Props, State> {
 				<ul className="nav nav-tabs content-tabs" role="tablist">
 					{tabs}
 				</ul>
-				<section className="tab-content">{body}</section>
+				<section className="tab-content">
+					<div
+						id={this.props.tab}
+						key={this.props.tab}
+						className={"tab-pane active"}
+						role="tabpanel"
+						aria-labelledby={TabList.makeTabId(this.props.tab)}
+						aria-expanded
+					>
+						{children.find(
+							(child: any) =>
+								!child.props.disabled &&
+								child.props.id === this.props.tab,
+						)}
+					</div>
+				</section>
 			</div>
 		);
 	}
