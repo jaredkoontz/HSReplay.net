@@ -194,3 +194,38 @@ class TestGameDigestExporter:
 			exporter2.export()
 
 		assert exporter1.digest == exporter2.digest
+
+	def test_friendly_game_player_tag_changes(self):
+		with open(self._replay_path(
+			"annotated.friendly_game.27641.hsreplay.xml"
+		), "r") as f:
+
+			replay = HSReplayDocument.from_xml_file(f)
+			exporter = GameDigestExporter(replay.to_packet_tree()[0])
+			exporter.export()
+
+			assert exporter.player_1 == {
+				"entity_id": 2,
+				"hero_entity": 70,
+				"hi": 144115198130930503,
+				"lo": 116559778,
+				"damage_sequence": [1, 2, 4, 15, 16, 18],
+				"draw_sequence": [
+					22, 11, 16, 4, 20, 8, 17, 27, 5, 7, 31, 15, 9, 10, 12, 26
+				],
+				"deck": {6, 11, 13, 14, 16, 18, 19, 21, 23, 24, 25, 28, 29, 30, 32, 33}
+			}
+
+			assert exporter.player_2 == {
+				"entity_id": 3,
+				"hero_entity": 72,
+				"hi": 144115198130930503,
+				"lo": 102703618,
+				"damage_sequence": [9, 20, 31],
+				"draw_sequence": [
+					44, 66, 56, 63, 48, 45, 39, 68, 66, 43, 63, 38, 60, 50, 64, 47
+				],
+				"deck": {34, 35, 36, 37, 40, 44, 46, 49, 53, 54, 55, 59, 61, 62, 65, 67, 69}
+			}
+
+			assert exporter.digest == "e3adbcc2edc12ae39f96a61826e49c7826417e54"

@@ -85,6 +85,13 @@ class GameDigestExporter(EntityTreeExporter):
 				if new_player:
 					new_player["deck"].add(entity)
 
+	def handle_create_game(self, packet):
+		super().handle_create_game(packet)
+
+		tags = dict(packet.tags)
+		entity_id = tags.get(GameTag.ENTITY_ID)
+		self.entities[entity_id] = tags
+
 	def handle_player(self, packet):
 		super().handle_player(packet)
 
@@ -108,6 +115,8 @@ class GameDigestExporter(EntityTreeExporter):
 				self.player_1 = player_dict
 			elif packet.player_id == 2:
 				self.player_2 = player_dict
+
+			self.entities[entity_id] = tags
 
 	def handle_full_entity(self, packet):
 		super().handle_full_entity(packet)
@@ -166,7 +175,7 @@ class GameDigestExporter(EntityTreeExporter):
 
 			elif packet.tag == GameTag.ZONE:
 				entity = self.entities[packet.entity]
-				controller_id = entity[GameTag.CONTROLLER]
+				controller_id = entity.get(GameTag.CONTROLLER)
 				self._update_zone(controller_id, packet.entity, packet.value)
 
 			# Damage changes are applied to the player's hero card, so map the target entity
