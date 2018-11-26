@@ -12,6 +12,7 @@ from hsreplaynet.uploads.models import UploadEvent
 
 
 @pytest.mark.django_db
+@pytest.mark.usefixtures("game_replay_dynamodb_table")
 def test_create_dynamodb_game_replay(auth_token):
 	upload_event = UploadEvent(
 		id="1",
@@ -86,7 +87,13 @@ def test_create_dynamodb_game_replay(auth_token):
 	entity_tree = EntityTreeExporter(packet_tree).export().game
 	replay_xml = "foo.xml"
 
-	replay = create_dynamodb_game_replay(upload_event, meta, entity_tree, replay_xml)
+	replay = create_dynamodb_game_replay(
+		upload_event,
+		meta,
+		entity_tree,
+		packet_tree,
+		replay_xml
+	)
 	assert replay
 
 	assert replay.user_id == auth_token.user.id
@@ -94,7 +101,7 @@ def test_create_dynamodb_game_replay(auth_token):
 	assert replay.match_end == 1533756670000
 
 	assert replay.short_id == upload_event.shortid
-	assert replay.digest is None
+	assert replay.digest == "7fde1e40ab2551f07ab6d8e43db0a6c503342460"
 
 	assert replay.game_type == enums.BnetGameType.BGT_RANKED_STANDARD
 	assert replay.format_type == enums.FormatType.FT_STANDARD

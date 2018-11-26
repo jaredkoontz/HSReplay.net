@@ -3,7 +3,6 @@ from datetime import datetime
 import pytest
 from django.core.files.uploadedfile import SimpleUploadedFile
 from hearthstone.enums import BnetGameType, FormatType
-from tests.test_raw_upload_processing import game_replay_dynamodb_table  # noqa: F401
 from tests.utils import create_deck_from_deckstring, create_player, create_replay
 
 from hsreplaynet.admin.management.commands.copy_postgres_replays_to_dynamo import Command

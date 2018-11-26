@@ -92,7 +92,7 @@ class GlobalGame(models.Model):
 
 	digest = models.CharField(
 		max_length=40, unique=True, null=True,
-		help_text="SHA1 of str(game_handle), str(server_address), str(lo1), str(lo2)"
+		help_text="SHA1 of hi/lo1, hi/lo2, [draw_seq1], [draw_seq2], [dmg_seq1], [dmg_seq2]"
 	)
 	loaded_into_redshift = models.DateTimeField(null=True)
 

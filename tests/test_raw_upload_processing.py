@@ -5,38 +5,18 @@ from io import BytesIO
 import pytest
 from django.core.exceptions import ValidationError
 from django.core.files.storage import default_storage
-from moto import mock_dynamodb2, mock_s3
+from hsreplay.document import HSReplayDocument
+from moto import mock_s3
 from storages.backends.s3boto3 import S3Boto3Storage
 
 from hearthsim.identity.accounts.models import AuthToken
 from hearthsim.identity.api.models import APIKey
+from hsreplaynet.games.exporters import GameDigestExporter
 from hsreplaynet.games.models.dynamodb import GameReplay as DynamoDBGameReplay
 from hsreplaynet.lambdas.uploads import process_raw_upload
 from hsreplaynet.uploads.models import UploadEvent, UploadEventStatus, _generate_upload_key
 
 from .conftest import LOG_DATA_DIR, UPLOAD_SUITE
-
-
-@pytest.fixture
-def game_replay_dynamodb_table(mocker):
-	mocker.patch.multiple(
-		"hsreplaynet.games.models.dynamodb.GameReplay.Meta",
-		host=None,
-		aws_access_key_id="test",
-		aws_secret_access_key="test",
-	)
-	with mock_dynamodb2():
-		DynamoDBGameReplay.create_table(wait=True)
-		yield
-		DynamoDBGameReplay.delete_table()
-
-
-@pytest.fixture(scope="module")
-def multi_db():
-	from django.test import TestCase
-	TestCase.multi_db = True
-	yield
-	TestCase.multi_db = False
 
 
 class MockRawUpload(object):
@@ -165,6 +145,13 @@ def do_process_raw_upload(raw_upload, is_reprocessing):
 	for player_id in (1, 2):
 		for card in replay.global_game.players.get(player_id=player_id).deck_list:
 			assert card.collectible
+
+	replay_data = HSReplayDocument.from_xml_file(replay.replay_xml)
+
+	exporter = GameDigestExporter(replay_data.to_packet_tree()[0])
+	exporter.export()
+
+	assert exporter.digest == replay.global_game.digest
 
 
 @mock_s3

@@ -7,9 +7,6 @@ from hslog.export import EntityTreeExporter
 from hsreplay.document import HSReplayDocument
 from rest_framework import status
 from tests.conftest import LOG_DATA_DIR
-from tests.test_raw_upload_processing import (  # noqa: F401
-	game_replay_dynamodb_table, multi_db
-)
 
 from hearthsim.identity.accounts.models import Visibility
 from hsreplaynet.games.processing import create_dynamodb_game_replay
@@ -126,7 +123,13 @@ def test_replays_api(auth_token, client, mocker):
 	entity_tree = EntityTreeExporter(packet_tree).export().game
 	replay_xml = "foo.xml"
 
-	replay = create_dynamodb_game_replay(upload_event, meta, entity_tree, replay_xml)
+	replay = create_dynamodb_game_replay(
+		upload_event,
+		meta,
+		entity_tree,
+		packet_tree,
+		replay_xml
+	)
 	replay.save()
 
 	user_id = auth_token.user.id

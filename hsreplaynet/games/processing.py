@@ -1,12 +1,10 @@
 import json
 import re
 from collections import defaultdict
-from hashlib import sha1
 from io import StringIO
 
 from dateutil.parser import parse as dateutil_parse
 from django.conf import settings
-from django.core.cache import caches
 from django.core.exceptions import ValidationError
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
@@ -24,7 +22,6 @@ from hslog.export import EntityTreeExporter, FriendlyPlayerExporter
 from hsreplay import __version__ as hsreplay_version
 from hsreplay.document import HSReplayDocument
 from pynamodb.exceptions import PynamoDBException
-from redis_lock import Lock as RedisLock
 
 from hearthsim.identity.accounts.models import AuthToken, BlizzardAccount, Visibility
 from hsredshift.etl.exceptions import CorruptReplayDataError, CorruptReplayPacketError
@@ -67,8 +64,38 @@ class ReplayAlreadyExists(ProcessingError):
 		self.game = game
 
 
-def eligible_for_unification(meta):
-	return all([meta.get("game_handle"), meta.get("server_ip")])
+def is_innkeeper(player):
+	"""True if a player is some version of The Innkeeper (e.g. a boss) False otherwise."""
+
+	return player.account_hi == 0 and player.account_lo == 0
+
+
+def is_partial_game(meta):
+	"""True if a game is reconnected or disconnected, False otherwise.
+
+	Reconnected / disconnected games are likely to be missing some gameplay data, making
+	them impossible to unify via the gameplay digest unification strategy.
+	"""
+
+	return (
+		meta.get("reconnecting") or
+		meta.get("disconnected")
+	)
+
+
+def eligible_for_unification(entity_tree, meta):
+	"""True if a replay is eligible for unification, False otherwise.
+
+	Games played via the Innkeeper aren't eligible for unification because (a) there won't
+	usually be another replay submitted and (b) they're more likely than other games to
+	repeat their gameplay sequences in ways that produce duplicate gameplay digests - e.g.,
+	Puzzle Labs or early rounds of Dungeon Runs.
+	"""
+
+	return (
+		not any(is_innkeeper(player) for player in entity_tree.players) and
+		not is_partial_game(meta)
+	)
 
 
 def get_replay_url(shortid):
@@ -122,25 +149,13 @@ def save_hsreplay_document(hsreplay_doc, shortid, existing_replay):
 	return ContentFile(xml_str)
 
 
-def generate_globalgame_digest(meta, lo1, lo2):
-	game_handle = meta["game_handle"]
-	server_address = meta["server_ip"]
-	values = (game_handle, server_address, lo1, lo2)
-	ret = "-".join(str(k) for k in values)
-	return sha1(ret.encode("utf-8")).hexdigest()
-
-
-def generate_globalgame_digest_v2(entity_tree):
-	digest_exporter = GameDigestExporter(entity_tree)
+def generate_globalgame_digest(packet_tree):
+	digest_exporter = GameDigestExporter(packet_tree)
 	digest_exporter.export()
 	return digest_exporter.digest
 
 
-def get_game_digests_redis():
-	return caches["game_digests"].client.get_client()
-
-
-def find_or_create_global_game(entity_tree, meta):
+def find_or_create_global_game(entity_tree, meta, parser):
 	ladder_season = meta.get("ladder_season")
 	if not ladder_season:
 		ladder_season = guess_ladder_season(meta["end_time"])
@@ -168,12 +183,10 @@ def find_or_create_global_game(entity_tree, meta):
 		"tainted_decks": False,
 	}
 
-	if eligible_for_unification(meta):
+	if eligible_for_unification(entity_tree, meta):
 		# If the globalgame is eligible for unification, generate a digest
 		# and get_or_create the object
-		players = entity_tree.players
-		lo1, lo2 = players[0].account_lo, players[1].account_lo
-		digest = generate_globalgame_digest(meta, lo1, lo2)
+		digest = generate_globalgame_digest(parser.games[0])
 		log.debug("GlobalGame digest is %r" % (digest))
 		global_game, created = GlobalGame.objects.get_or_create(digest=digest, defaults=defaults)
 	else:
@@ -1165,56 +1178,6 @@ def record_twitch_vod(replay, meta):
 		log.error("Failed to persist Twitch VOD %s: %s", twitch_vod_url, e)
 
 
-def get_globalgame_digest_v2_tags(packet_tree, product=None, shortid=None):
-	"""Detect unifications and possible digest collisions for the specified packet tree
-
-	Generates a digest using the "v2" algorithm (see GameDigestExporter) and increments the
-	observations for that digest's key in Redis.
-
-	:param packet_tree: The packet tree to digest
-	:return: A dictionary of tags indicating unifications and possible collisions
-	"""
-
-	tags = dict()
-
-	try:
-		with influx_timer("game_digest_exporter_duration"):
-			digest = generate_globalgame_digest_v2(packet_tree)
-			redis = get_game_digests_redis()
-			digest_count = redis.hincrby(digest, "count", 1)
-
-			if not int(redis.hsetnx(digest, "first_user_agent", product)):
-				tags["first_user_agent"] = redis.hget(digest, "first_user_agent")
-
-			redis.expire(digest, 21600)  # 6 hours
-
-			if digest_count >= 2:
-				tags["v2_unification"] = True
-
-				# If we've seen the same digest more than twice, it's possibly - though not
-				# definitely - a digest collision.
-
-				if digest_count > 2:
-					error_handler(RuntimeError(
-						"Game digest collision for replay %s" % shortid
-					))
-					tags["v2_collision"] = True
-
-	except Exception as e:
-		influx_metric("game_digest_exporter_failure", {"count": 1})
-		log.warning("Failed to compute or record digest for replay: %s" % e)
-
-	return tags
-
-
-def is_innkeeper(player):
-	return player.pegasus_account.account_hi == 0 and player.pegasus_account.account_lo == 0
-
-
-def unifiable(replay):
-	return (not replay.reconnecting) and (not replay.spectator_mode)
-
-
 def do_process_upload_event(upload_event):
 	meta = json.loads(upload_event.metadata)
 
@@ -1233,39 +1196,8 @@ def do_process_upload_event(upload_event):
 	# For build 23576 and up
 	update_game_meta(parser, meta)
 
-	# Quietly obtain a lock on the v2 game digest string, in order to prevent a race
-	# condition between two Lambdas processing replays for the same logical global game. The
-	# sequencing of the race condition as follows:
-	#
-	# - Lambda A creates a replay and its associated global_game record
-	# - Lambda B creates a replay and notes that the global_game record already exists
-	# - Lambda B records the v2 game digest in Redis; because the Redis counter is 1, no
-	#   v2 digest unification is recorded. It records a successful v1 RDS unification.
-	# - Lambda A records the v2 game digest in Redis; it records a successful v2 digest
-	#   unification. Because the global_game record already existed, no v1 unification is
-	#   recorded.
-	#
-	# By locking on the digest string, the unification flows of Lambdas A and B (and only
-	# those Lambdas) is serialized.
-	#
-	# Because interactions with Redis occasionally fail, the interactions with lock are
-	# optional, and the lock is only held for a few seconds (the vast majority of processing
-	# invocations are well under 7 seconds). A failure to acquire the lock may cause us to
-	# failure to record a unification in InfluxDB. This code block may be deleted once the
-	# unification experiments are complete.
-
-	digest_lock = None
-	try:
-		digest = generate_globalgame_digest_v2(parser.games[0])
-		redis = get_game_digests_redis()
-		digest_lock = RedisLock(redis, digest, expire=75)
-		if not digest_lock.acquire(timeout=75):
-			digest_lock = None
-	except Exception as e:
-		log.warning("Exception while obtaining digest lock; may miss a unification: %s", e)
-
 	# Create/Update the global game object and its players
-	global_game, global_game_created = find_or_create_global_game(entity_tree, meta)
+	global_game, global_game_created = find_or_create_global_game(entity_tree, meta, parser)
 	players = update_global_players(global_game, entity_tree, meta, upload_event, exporter)
 
 	# Create/Update the replay object itself
@@ -1276,63 +1208,12 @@ def do_process_upload_event(upload_event):
 	product = user_agent_product(upload_event.user_agent) \
 		if upload_event.user_agent else None
 
-	# Only record unification / digest collision stats if we haven't seen the replay before
-	# (i.e., we're not reprocessing) it's not a reconnected game (which won't have the all
-	# the necessary data in the log) and it's not a spectated game - _and_ it's not
-	# obviously corrupt.
-
-	if game_replay_created and unifiable(replay) and exporter.is_valid_final_state:
-
-		# If this isn't a reprocessing of a replay we've already seen, compute and record a
-		# a tick for the v2 digest for the game, and prepared to record metrics to indicate
-		# where it's a unification and/or collision.
-
-		tags = dict(get_globalgame_digest_v2_tags(
-			parser.games[0],
-			product=product,
-			shortid=upload_event.shortid
-		))
-
-		# If we created a new global game (which we'll always do for replays from tools like
-		# ArcaneTracker that can't be unified in RDS) or any other replays of the game were
-		# spectated or reconnected games, don't make further attempts to report unification
-		# metrics, because there may not be a v2 digest match. Also don't attempt to unify
-		# games played against the Innkeeper because they're likely to collide (e.g., Puzzle
-		# Lab games)
-
-		if (
-			len(players) > 1 and
-			not any(is_innkeeper(player) for player in players.values())
-		) and (
-			global_game_created or
-			all(unifiable(r) for r in global_game.replays.all())
-		):
-			if not global_game_created:
-
-				# If we've seen the game before, it's likely a unification via the "v1"
-				# version of the digest process.
-
-				tags["v1_unification"] = True
-
-			influx_metric(
-				"game_replays_uploaded", {
-					"count": 1,
-					"game_id": global_game.id
-				},
-				user_agent=product,
-				**tags
-			)
-		else:
-			influx_metric("game_replays_uploaded", {"count": 1}, user_agent=product)
-
-	# If we obtained a lock on the v2 digest earlier, release it quietly. This code block
-	# may be deleted once the unification experiments are complete.
-
-	if digest_lock:
-		try:
-			digest_lock.release()
-		except Exception as e:
-			log.warning("Exception releasing digest lock; addl. latency may result: %s", e)
+	influx_metric(
+		"game_replays_uploaded",
+		{"count": 1},
+		user_agent=product,
+		v2_unification=not global_game_created
+	)
 
 	update_last_replay_upload(upload_event)
 
@@ -1367,7 +1248,7 @@ def do_process_upload_event(upload_event):
 		if can_attempt_redshift_load:
 			log.debug("Redshift lock acquired. Will attempt to flush to redshift")
 
-			if should_load_into_redshift(upload_event, global_game):
+			if should_load_into_redshift(upload_event, meta, global_game, exporter):
 				with influx_timer("generate_redshift_game_info_duration"):
 					game_info = get_game_info(global_game, replay)
 				exporter.set_game_info(game_info)
@@ -1411,6 +1292,7 @@ def do_process_upload_event(upload_event):
 				upload_event=upload_event,
 				meta=meta,
 				entity_tree=entity_tree,
+				packet_tree=parser.games[0],
 				replay_xml=str(replay.replay_xml),
 				predicted_cards=predicted_cards,
 			)
@@ -1448,11 +1330,17 @@ REDSHIFT_GAMETYPE_WHITELIST = (
 )
 
 
-def should_load_into_redshift(upload_event, global_game):
+def should_load_into_redshift(upload_event, meta, global_game, exporter):
 	if not settings.ENV_AWS or not settings.REDSHIFT_LOADING_ENABLED:
 		return False
 
 	if upload_event.test_data:
+		return False
+
+	# Reconnected / disconnected games aren't that valuable, plus it's likely that they'll
+	# be loaded into Redshift via another replay.
+
+	if is_partial_game(meta):
 		return False
 
 	if global_game.loaded_into_redshift:
@@ -1465,6 +1353,12 @@ def should_load_into_redshift(upload_event, global_game):
 		return False
 
 	if global_game.game_type not in REDSHIFT_GAMETYPE_WHITELIST:
+		return False
+
+	# Don't load games that are clearly corrupt (scrambled turn sequence, missing terminal
+	# state).
+
+	if not exporter.is_valid_final_state:
 		return False
 
 	# We only load games in where the match_start date is within +/ 36 hours from
@@ -1563,6 +1457,7 @@ def create_dynamodb_game_replay(
 	upload_event,
 	meta,
 	entity_tree,
+	packet_tree,
 	replay_xml,
 	predicted_cards=None
 ):
@@ -1583,9 +1478,8 @@ def create_dynamodb_game_replay(
 
 	game_type = meta["game_type"]
 	players = entity_tree.players
-	if eligible_for_unification(meta):
-		lo1, lo2 = players[0].account_lo, players[1].account_lo
-		digest = generate_globalgame_digest(meta, lo1, lo2)
+	if eligible_for_unification(entity_tree, meta):
+		digest = generate_globalgame_digest(packet_tree)
 	else:
 		digest = None
 

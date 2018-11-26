@@ -4,9 +4,12 @@ from unittest.mock import ANY, Mock, patch
 import fakeredis
 import pytest
 import pytz
+import shortuuid
 from django.db.models import signals
+from django.test import override_settings
 from django.utils import timezone
 from djstripe.signals import on_delete_subscriber_purge_customer
+from hearthstone.entities import Game, Player
 from hearthstone.enums import BnetGameType, CardClass, FormatType
 from moto import mock_dynamodb2
 from pynamodb.connection import TableConnection
@@ -18,8 +21,8 @@ from hearthsim.identity.accounts.models import User
 from hsreplaynet.decks.models import Archetype, Deck, update_deck_archetype
 from hsreplaynet.games.models import GameReplay, GlobalGame
 from hsreplaynet.games.processing import (
-	get_globalgame_digest_v2_tags, has_twitch_vod_url,
-	record_twitch_vod, update_last_replay_upload, update_replay_feed
+	eligible_for_unification, has_twitch_vod_url, is_partial_game, record_twitch_vod,
+	should_load_into_redshift, update_last_replay_upload, update_replay_feed
 )
 from hsreplaynet.uploads.models import UploadEvent
 from hsreplaynet.vods.models import TwitchVod
@@ -316,40 +319,6 @@ def redis():
 	r.flushall()
 
 
-@patch("hsreplaynet.games.processing.generate_globalgame_digest_v2", lambda x: "123abc")
-def test_get_globalgame_digest_v2_tags(redis):
-	with patch("hsreplaynet.games.processing.get_game_digests_redis", lambda: redis):
-		tags = get_globalgame_digest_v2_tags(Mock())
-
-		assert redis.hget("123abc", "count") == "1"
-		assert tags == {}
-
-
-@patch("hsreplaynet.games.processing.generate_globalgame_digest_v2", lambda x: "123abc")
-def test_get_globalgame_digest_v2_tags_unification(redis):
-	redis.hincrby("123abc", "count", 1)
-
-	with patch("hsreplaynet.games.processing.get_game_digests_redis", lambda: redis):
-		tags = get_globalgame_digest_v2_tags(Mock())
-
-		assert redis.hget("123abc", "count") == "2"
-		assert tags == {"v2_unification": True}
-
-
-@patch("hsreplaynet.games.processing.generate_globalgame_digest_v2", lambda x: "123abc")
-def test_get_globalgame_digest_v2_tags_collision(redis):
-	redis.hincrby("123abc", "count", 2)
-
-	with patch("hsreplaynet.games.processing.get_game_digests_redis", lambda: redis):
-		tags = get_globalgame_digest_v2_tags(Mock())
-
-		assert redis.hget("123abc", "count") == "3"
-		assert tags == {
-			"v2_collision": True,
-			"v2_unification": True
-		}
-
-
 @pytest.mark.django_db
 def test_update_last_replay_upload(user, auth_token):
 	upload_event = UploadEvent(token_uuid=auth_token.key, user_agent="HDT/1.7.0")
@@ -368,3 +337,91 @@ def test_update_last_replay_upload_non_hdt(user, auth_token):
 	user.refresh_from_db()
 
 	assert user.last_replay_upload is None
+
+
+def test_is_partial_game():
+	assert is_partial_game({"reconnecting": True})
+	assert is_partial_game({"disconnected": True})
+	assert not is_partial_game({"reconnecting": False, "disconnected": False})
+	assert not is_partial_game({"spectator_mode": True})
+
+
+def test_eligible_for_unification():
+	player1 = Player(1, 1, 144115193835963207, 37760170)
+	player2 = Player(2, 2, 144115193835963207, 153376707)
+	innkeeper = Player(3, 1, 0, 0)
+
+	ladder_game = Game(1)
+	ladder_game.players = [player1, player2]
+
+	ai_game = Game(2)
+	ai_game.players = [innkeeper, player1]
+
+	assert eligible_for_unification(ladder_game, {})
+	assert not eligible_for_unification(ladder_game, {"reconnecting": True})
+	assert not eligible_for_unification(ai_game, {})
+	assert not eligible_for_unification(ai_game, {"reconnecting": True})
+
+
+@pytest.mark.django_db
+@pytest.mark.usefixtures("multi_db")
+@override_settings(ENV_AWS=True, REDSHIFT_LOADING_ENABLED=True)
+def test_should_load_into_redshift(auth_token):
+	shortid = shortuuid.uuid()
+	upload_event = UploadEvent(
+		descriptor_data="{}",
+		file=f"uploads/2018/11/20/17/44/{shortid}.power.log",
+		shortid=shortid,
+		token_uuid=auth_token.key,
+		user_agent="RandoTracker.com"
+	)
+
+	upload_event.save()
+
+	global_game = GlobalGame(
+		game_type=BnetGameType.BGT_RANKED_STANDARD,
+		format=FormatType.FT_STANDARD,
+		match_start=timezone.now(),
+		match_end=timezone.now()
+	)
+
+	mock_exporter = Mock()
+	mock_exporter.configure_mock(is_valid_final_state=True)
+
+	assert should_load_into_redshift(upload_event, {}, global_game, mock_exporter)
+
+
+@pytest.mark.django_db
+@pytest.mark.usefixtures("multi_db")
+@override_settings(ENV_AWS=True, REDSHIFT_LOADING_ENABLED=True)
+def test_should_load_into_redshift_false(auth_token):
+	shortid = shortuuid.uuid()
+	upload_event = UploadEvent(
+		descriptor_data="{}",
+		file=f"uploads/2018/11/20/17/44/{shortid}.power.log",
+		shortid=shortid,
+		token_uuid=auth_token.key,
+		user_agent="RandoTracker.com"
+	)
+
+	upload_event.save()
+
+	global_game = GlobalGame(
+		game_type=BnetGameType.BGT_RANKED_STANDARD,
+		format=FormatType.FT_STANDARD,
+		match_start=timezone.now(),
+		match_end=timezone.now()
+	)
+
+	mock_exporter = Mock()
+	mock_exporter.configure_mock(is_valid_final_state=True)
+
+	assert not should_load_into_redshift(
+		upload_event,
+		{"reconnecting": True},
+		global_game,
+		mock_exporter
+	)
+
+	mock_exporter.configure_mock(is_valid_final_state=False)
+	assert not should_load_into_redshift(upload_event, {}, global_game, mock_exporter)
