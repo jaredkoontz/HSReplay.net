@@ -3,6 +3,8 @@
 {% load static from static %}
 {% load feature from features %}
 
+{% block ads %}{% endblock %}
+
 {% block fullcontent %}
 {% feature "billing" as billing %}
 	{% if user.is_authenticated %}
