@@ -373,7 +373,14 @@ def test_should_load_into_redshift(auth_token):
 
 	upload_event = UploadEvent(
 		descriptor_data="{}",
-		file=f"uploads/{n.year}/{n.month}/{n.day}/{n.hour}/{n.minute}/{shortid}.power.log",
+		file=f"uploads/%04d/%02d/%02d/%02d/%02d/%s.power.log" % (
+			n.year,
+			n.month,
+			n.day,
+			n.hour,
+			n.minute,
+			shortid
+		),
 		shortid=shortid,
 		token_uuid=auth_token.key,
 		user_agent="RandoTracker.com"
