@@ -205,6 +205,7 @@ const CardSetOptions = [
 	[CardSet.LOOTAPALOOZA, "Kobolds and Catacombs"],
 	[CardSet.GILNEAS, "The Witchwood"],
 	[CardSet.BOOMSDAY, "The Boomsday Project"],
+	[CardSet.TROLL, "Rastakhan's Rumble"],
 ];
 
 const CardTypeOptions = [
