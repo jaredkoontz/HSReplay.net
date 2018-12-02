@@ -38,13 +38,6 @@
 							</a>
 						</li>
 
-						<li{% nav_active 'discover' %} id="navbar-link-discover">
-							<a href="{% url 'discover' %}">
-								<span class="glyphicon glyphicon-eye-open"></span>
-								<span class="hidden-sm">{% trans "Discover" %}</span>
-							</a>
-						</li>
-
 						<li{% nav_active 'meta_overview' %} id="navbar-link-meta">
 							<a href="{% url 'meta_overview' %}">
 								<span class="glyphicon glyphicon-random"></span>
@@ -66,15 +59,12 @@
 							</a>
 						</li>
 
-						{% feature "arcane-tracker" as arcane_tracker %}
-						{% if arcane_tracker.enabled %}
-							<li{% nav_active 'downloads' %}>
-								<a href="{% url 'downloads' %}" id="navbar-link-downloads">
-									<span class="glyphicon glyphicon-download-alt"></span>
-									<span class="hidden-sm">{% trans "Downloads" %}</span>
-								</a>
-							</li>
-						{% endif %}
+						<li{% nav_active 'downloads' %}>
+							<a href="{% url 'downloads' %}" id="navbar-link-downloads">
+								<span class="glyphicon glyphicon-download-alt"></span>
+								<span class="hidden-sm">{% trans "Downloads" %}</span>
+							</a>
+						</li>
 
 						<li{% nav_active 'premium' css='active active-premium' %} id="navbar-link-premium">
 							<a href="{% url 'premium' %}" class="text-premium">
