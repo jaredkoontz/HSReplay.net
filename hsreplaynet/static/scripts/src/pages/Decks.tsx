@@ -948,23 +948,16 @@ class Decks extends React.Component<Props, State> {
 									iconStyle={{ display: "none" }}
 									modalStyle="TimeRankRegion"
 								>
-									<Feature feature="high-legend-filter">
-										<InfoboxFilter
-											value={RankRange.TOP_1000_LEGEND}
-											id="high-legend-filter"
-										>
-											<PrettyRankRange
-												rankRange={
-													RankRange.TOP_1000_LEGEND
-												}
-											/>
-											<Feature feature="high-legend-filter-promo">
-												<span className="infobox-value">
-													{t("New!")}
-												</span>
-											</Feature>
-										</InfoboxFilter>
-									</Feature>
+									<InfoboxFilter
+										value={RankRange.TOP_1000_LEGEND}
+										id="high-legend-filter"
+									>
+										<PrettyRankRange
+											rankRange={
+												RankRange.TOP_1000_LEGEND
+											}
+										/>
+									</InfoboxFilter>
 									<InfoboxFilter
 										value={RankRange.LEGEND_ONLY}
 									>

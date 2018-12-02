@@ -770,18 +770,6 @@ class Home extends React.Component<Props, State> {
 			}
 		}
 
-		if (
-			UserData.hasFeature("high-legend-filter-promo") &&
-			!UserData.hasCookie("high-legend-filter-popup-closed", "0")
-		) {
-			banners.push(
-				<PromoBanner
-					href="/decks/#rankRange=TOP_1000_LEGEND"
-					backgroundImage="https://media.hearthsim.net/hsreplaynet/high-legend-filter.jpg"
-				/>,
-			);
-		}
-
 		if (banners.length) {
 			return banners[Math.floor(Math.random() * banners.length)];
 		}
