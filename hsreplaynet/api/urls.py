@@ -45,8 +45,6 @@ urlpatterns = [
 	url(r"^v1/decks/(?P<shortid>\w+)/feedback/$", DeckFeedbackView.as_view()),
 	url(r"^v1/games/$", views.games.GameReplayList.as_view()),
 	url(r"^v1/games/(?P<shortid>.+)/$", views.games.GameReplayDetail.as_view()),
-	url(r"^v1/replays/$", views.replays.GameReplayListView.as_view()),
-	url(r"^v1/replays/(?P<shortid>.+)/$", views.replays.GameReplayView.as_view()),
 	url(r"^v1/analytics/global/$", views.analytics.GlobalAnalyticsQueryView.as_view()),
 	url(r"^v1/analytics/personal/$", views.analytics.PersonalAnalyticsQueryView.as_view()),
 	url(r"^v1/features/(?P<name>[\w-]+)/$", SetFeatureView.as_view()),

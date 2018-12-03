@@ -1,5 +1,5 @@
 from . import (
-	ads, accounts, analytics, collections, features, games, packs, replays, webhooks, vods
+	ads, accounts, analytics, collections, features, games, packs, webhooks, vods
 )
 
 __all__ = [
@@ -10,7 +10,6 @@ __all__ = [
 	"features",
 	"games",
 	"packs",
-	"replays",
 	"webhooks",
 	"vods",
 ]

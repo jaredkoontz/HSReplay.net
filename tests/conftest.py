@@ -2,11 +2,9 @@ import os
 import subprocess
 
 import pytest
-from moto import mock_dynamodb2
 
 from hearthsim.identity.accounts.models import AuthToken
 from hearthsim.identity.api.models import APIKey
-from hsreplaynet.games.models.dynamodb import GameReplay as DynamoDBGameReplay
 
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -52,17 +50,3 @@ def multi_db():
 	TestCase.multi_db = True
 	yield
 	TestCase.multi_db = False
-
-
-@pytest.fixture
-def game_replay_dynamodb_table(mocker):
-	mocker.patch.multiple(
-		"hsreplaynet.games.models.dynamodb.GameReplay.Meta",
-		host=None,
-		aws_access_key_id="test",
-		aws_secret_access_key="test",
-	)
-	with mock_dynamodb2():
-		DynamoDBGameReplay.create_table(wait=True)
-		yield
-		DynamoDBGameReplay.delete_table()

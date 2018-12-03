@@ -99,11 +99,6 @@ export default class ProfileData extends React.Component<Props> {
 			<DataInjector
 				query={[
 					{
-						key: "replays",
-						params: replayParams,
-						url: "/api/v1/replays",
-					},
-					{
 						key: "archetypeData",
 						params: {},
 						url: "/api/v1/archetypes",
@@ -125,16 +120,10 @@ export default class ProfileData extends React.Component<Props> {
 					},
 				]}
 			>
-				{({
-					replays,
-					archetypeData,
-					matchupData,
-					deckData,
-					vodData,
-				}) => {
+				{({ archetypeData, matchupData, deckData, vodData }) => {
 					return (this.props.children as any)(
 						this.transformData(
-							replays,
+							[],
 							archetypeData,
 							matchupData,
 							deckData,

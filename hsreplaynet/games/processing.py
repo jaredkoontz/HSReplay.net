@@ -11,7 +11,6 @@ from django.core.files.storage import default_storage
 from django.db.utils import IntegrityError
 from django.utils import timezone
 from django_hearthstone.cards.models import Card
-from hearthstone.deckstrings import write_deckstring
 from hearthstone.enums import (
 	BnetGameType, BnetRegion, CardClass, CardType, FormatType, GameTag, PlayState
 )
@@ -44,7 +43,6 @@ from hsreplaynet.vods.models import TwitchVod
 from .models import (
 	GameReplay, GlobalGame, GlobalGamePlayer, ReplayAlias, _generate_upload_path
 )
-from .models.dynamodb import GameReplay as DynamoDBGameReplay
 
 
 class ProcessingError(Exception):
@@ -361,7 +359,7 @@ def process_upload_event(upload_event):
 		upload_event.save()
 
 	try:
-		replay, do_flush_exporter, do_save_dynamodb = do_process_upload_event(upload_event)
+		replay, do_flush_exporter = do_process_upload_event(upload_event)
 	except Exception as e:
 		from traceback import format_exc
 		upload_event.error = str(e)
@@ -396,34 +394,6 @@ def process_upload_event(upload_event):
 			{
 				"count": 1,
 				"error": str(e)
-			}
-		)
-
-	try:
-		with influx_timer("dynamodb_game_replay_save_duration"):
-			do_save_dynamodb()
-	except PynamoDBException:
-		influx_metric(
-			"dynamodb_game_replay_save_failure",
-			{
-				"count": 1,
-			}
-		)
-	except Exception as e:
-		# Don't fail on this
-		error_handler(e)
-		influx_metric(
-			"dynamodb_game_replay_save_exception",
-			{
-				"count": 1,
-				"error": str(e)
-			}
-		)
-	else:
-		influx_metric(
-			"dynamodb_game_replay_save_success",
-			{
-				"count": 1,
 			}
 		)
 
@@ -1282,24 +1252,7 @@ def do_process_upload_event(upload_event):
 		else:
 			log.debug("Did not acquire redshift lock. Will not flush to redshift")
 
-	def do_save_dynamodb():
-		load_replays_into_dynamodb = getattr(settings, "LOAD_REPLAYS_INTO_DYNAMODB", False)
-		if load_replays_into_dynamodb:
-			predicted_cards = None
-			if replay.opponent_revealed_deck and replay.opponent_revealed_deck.guessed_full_deck:
-				predicted_cards = replay.opponent_revealed_deck.guessed_full_deck.card_id_list()
-			item = create_dynamodb_game_replay(
-				upload_event=upload_event,
-				meta=meta,
-				entity_tree=entity_tree,
-				packet_tree=parser.games[0],
-				replay_xml=str(replay.replay_xml),
-				predicted_cards=predicted_cards,
-			)
-			if item:
-				item.save()
-
-	return replay, do_flush_exporter, do_save_dynamodb
+	return replay, do_flush_exporter
 
 
 def get_records_to_flush():
@@ -1451,139 +1404,3 @@ def _get_tuple_decklist(cards, card_id_db):
 		dbf_id = card_id_db[card_id].dbf_id
 		card_dict[dbf_id] += 1
 	return sorted(card_dict.items())
-
-
-def create_dynamodb_game_replay(
-	upload_event,
-	meta,
-	entity_tree,
-	packet_tree,
-	replay_xml,
-	predicted_cards=None
-):
-	auth_token = AuthToken.objects.filter(key=upload_event.token_uuid).first()
-	user = auth_token.user if auth_token else None
-	if not user:
-		return None
-
-	from hearthstone.cardxml import load as load_id
-	db, _ = load_id()
-
-	match_start = int(meta["start_time"].timestamp() * 1000)
-	match_end = int(meta["end_time"].timestamp() * 1000)
-
-	ladder_season = meta.get("ladder_season")
-	if not ladder_season:
-		ladder_season = guess_ladder_season(meta["end_time"])
-
-	game_type = meta["game_type"]
-	players = entity_tree.players
-	if eligible_for_unification(entity_tree, meta):
-		digest = generate_globalgame_digest(packet_tree)
-	else:
-		digest = None
-
-	players_by_player_id = {(player.player_id): player for player in players}
-	format_type = FormatType(meta["format"])
-
-	# Assemble friendly player portion
-	friendly_player = players_by_player_id.pop(meta["friendly_player"])
-	friendly_player_meta = meta.get("player%i" % friendly_player.player_id, {})
-	player_hero_id = friendly_player.starting_hero.card_id
-	friendly_player_class = Deck.objects._convert_hero_id_to_player_class(player_hero_id)
-	friendly_player_hero = db[player_hero_id].dbf_id
-
-	friendly_decklist_from_meta = friendly_player_meta.get("deck")
-	friendly_replay_decklist = [
-		get_original_card_id(c.initial_card_id)
-		for c in friendly_player.initial_deck if c.initial_card_id
-	]
-	friendly_decklist = _pick_decklist(
-		meta, friendly_decklist_from_meta, friendly_replay_decklist, is_friendly_player=True
-	)
-	friendly_player_deck = write_deckstring(
-		_get_tuple_decklist(friendly_decklist, db),
-		[friendly_player_hero],
-		format_type
-	)
-
-	# Assemble opponent portion
-	(_, opponent) = players_by_player_id.popitem()
-	opponent_meta = meta.get("player%i" % opponent.player_id, {})
-	opponent_hero_id = opponent.starting_hero.card_id
-	opponent_class = Deck.objects._convert_hero_id_to_player_class(opponent_hero_id)
-	opponent_hero = db[opponent_hero_id].dbf_id
-
-	opponent_revealed_decklist = [
-		get_original_card_id(c.initial_card_id)
-		for c in opponent.initial_deck if c.initial_card_id
-	]
-	opponent_revealed_deck = write_deckstring(
-		_get_tuple_decklist(opponent_revealed_decklist, db),
-		[opponent_hero],
-		format_type
-	)
-	opponent_predicted_deck = None
-	if predicted_cards:
-		opponent_predicted_deck = write_deckstring(
-			_get_tuple_decklist(predicted_cards, db),
-			[opponent_hero],
-			format_type
-		)
-
-	replay = DynamoDBGameReplay(
-		user_id=int(user.id),
-		match_start=match_start,
-		match_end=match_end,
-
-		short_id=upload_event.shortid,
-		digest=digest,
-
-		game_type=game_type,
-		format_type=format_type,
-
-		game_type_match_start="{}:{}".format(int(game_type), match_start),
-
-		ladder_season=ladder_season,
-		brawl_season=meta.get("brawl_season"),
-		scenario_id=meta.get("scenario_id"),
-		num_turns=entity_tree.tags.get(GameTag.TURN),
-
-		friendly_player_account_hilo="{}_{}".format(
-			friendly_player.account_hi,
-			friendly_player.account_lo
-		),
-		friendly_player_battletag=friendly_player.name,
-		friendly_player_is_first=friendly_player.tags.get(GameTag.FIRST_PLAYER, False),
-		friendly_player_rank=friendly_player_meta.get("rank"),
-		friendly_player_legend_rank=friendly_player_meta.get("legend_rank"),
-		friendly_player_rank_stars=friendly_player_meta.get("stars"),
-		friendly_player_wins=friendly_player_meta.get("wins"),
-		friendly_player_losses=friendly_player_meta.get("losses"),
-		friendly_player_class=friendly_player_class,
-		friendly_player_hero=friendly_player_hero,
-		friendly_player_deck=friendly_player_deck,
-		friendly_player_blizzard_deck_id=friendly_player_meta.get("deck_id"),
-		friendly_player_cardback_id=friendly_player_meta.get("cardback"),
-		friendly_player_final_state=PlayState(friendly_player.tags.get(GameTag.PLAYSTATE, 0)),
-
-		opponent_account_hilo="{}_{}".format(opponent.account_hi, opponent.account_lo),
-		opponent_battletag=opponent.name,
-		opponent_is_ai=opponent.is_ai,
-		opponent_rank=opponent_meta.get("rank"),
-		opponent_legend_rank=opponent_meta.get("legend_rank"),
-		opponent_class=opponent_class,
-		opponent_hero=opponent_hero,
-		opponent_revealed_deck=opponent_revealed_deck,
-		opponent_predicted_deck=opponent_predicted_deck,
-		opponent_cardback_id=opponent_meta.get("cardback"),
-		opponent_final_state=PlayState(opponent.tags.get(GameTag.PLAYSTATE, 0)),
-
-		replay_xml=replay_xml,
-		disconnected=meta.get("disconnected", False),
-		reconnecting=meta.get("reconnecting", False),
-		hslog_version=hslog_version,
-		visibility=user.default_replay_visibility,
-		views=0,
-	)
-	return replay

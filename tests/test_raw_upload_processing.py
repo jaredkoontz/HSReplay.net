@@ -12,7 +12,6 @@ from storages.backends.s3boto3 import S3Boto3Storage
 from hearthsim.identity.accounts.models import AuthToken
 from hearthsim.identity.api.models import APIKey
 from hsreplaynet.games.exporters import GameDigestExporter
-from hsreplaynet.games.models.dynamodb import GameReplay as DynamoDBGameReplay
 from hsreplaynet.lambdas.uploads import process_raw_upload
 from hsreplaynet.uploads.models import UploadEvent, UploadEventStatus, _generate_upload_key
 
@@ -283,41 +282,3 @@ def test_validate_upload_date():
 		# assert expected.tzinfo == match_start.tzinfo
 		assert ret.tzinfo == match_start.tzinfo
 		assert ret == expected
-
-
-@pytest.mark.django_db
-@pytest.mark.usefixtures("multi_db", "game_replay_dynamodb_table")
-def test_process_raw_upload_to_dynamodb(mocker, settings):
-	mocker.patch("hsreplaynet.games.processing.update_player_class_distribution")
-	mocker.patch("hsreplaynet.games.processing.update_replay_feed")
-	mocker.patch("hsreplaynet.games.processing.update_game_counter")
-	settings.LOAD_REPLAYS_INTO_DYNAMODB = True
-	settings.FULL_DECK_PREDICTION_ENABLED = False
-	settings.REDSHIFT_LOADING_ENABLED = False
-
-	raw_upload = MockRawUpload(os.path.join(
-		LOG_DATA_DIR,
-		"hsreplaynet-tests",
-		"uploads",
-		"u4HUJnBGVpytdFVWgNumfU"
-	), default_storage)
-
-	process_raw_upload(raw_upload)
-
-	user = raw_upload.auth_token.user
-	user_id = int(user.id)
-	rows = DynamoDBGameReplay.query(user_id)
-	replay = rows.next()
-
-	assert replay.user_id == user_id
-	assert replay.match_start == 1534252613613
-	assert replay.short_id == raw_upload.shortid
-
-	assert replay.game_type_match_start == "2:1534252613613"
-
-	assert replay.ladder_season == 58
-	assert replay.brawl_season is None
-	assert replay.scenario_id == 2
-	assert replay.num_turns == 33
-
-	assert replay.opponent_predicted_deck is None
