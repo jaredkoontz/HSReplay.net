@@ -177,6 +177,9 @@ class DevTools extends React.Component<Props, State> {
 				<li>
 					<a href="/admin/">{t("Admin")}</a>
 				</li>
+				<li>
+					<a href="/discover/">{t("Discover")}</a>
+				</li>
 				<li className="dropdown-header" id="devtools-features-header">
 					{t("Account")}
 				</li>
