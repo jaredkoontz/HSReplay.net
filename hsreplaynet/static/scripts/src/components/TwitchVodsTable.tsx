@@ -170,6 +170,10 @@ class TwitchVodsTable extends React.Component<Props, State> {
 								"a" + vod.opposing_player_archetype_id ===
 								vodsOpponent,
 					  );
+
+			// Remove instant concedes
+			vods = vods.filter(vod => vod.game_length_seconds > 30);
+
 			return vods;
 		},
 	);
