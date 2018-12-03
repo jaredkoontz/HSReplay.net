@@ -2,7 +2,7 @@ import React from "react";
 import { InjectedTranslateProps, translate } from "react-i18next";
 import CardData from "../CardData";
 import UserData from "../UserData";
-import DataInjector from "../components/DataInjector";
+import DataInjector, { Query } from "../components/DataInjector";
 import Feature from "../components/Feature";
 import InfoIcon from "../components/InfoIcon";
 import InfoboxFilter from "../components/InfoboxFilter";
@@ -142,7 +142,7 @@ class MetaOverview extends React.Component<Props, State> {
 			</button>
 		);
 
-		const matchupsQuery = [
+		const matchupsQuery: Query[] = [
 			{
 				key: "archetypeData",
 				params: {},
@@ -165,6 +165,7 @@ class MetaOverview extends React.Component<Props, State> {
 				key: "vodsIndexData",
 				params: {},
 				url: "/api/v1/vods/index/",
+				optional: true,
 			});
 		}
 
