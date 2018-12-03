@@ -15,6 +15,7 @@ export interface Query {
 	key?: string;
 	url: string;
 	params?: QueryParams;
+	optional?: boolean;
 }
 
 interface Props {
@@ -170,7 +171,15 @@ export default class DataInjector extends React.Component<Props, State> {
 	};
 
 	public render(): React.ReactNode {
+		const queries = this.getQueryArray(this.props);
+		const isOptional = (index: number): boolean => {
+			if (index >= queries.length || index < 0) {
+				return false;
+			}
+			return queries[index].optional || false;
+		};
 		const getStatus = (status: number[]): LoadingStatus => {
+			status = status.filter((s, i) => !isOptional(i));
 			if (status.every(s => s === STATUS_SUCCESS)) {
 				return LoadingStatus.SUCCESS;
 			}
@@ -200,7 +209,7 @@ export default class DataInjector extends React.Component<Props, State> {
 		const refresh = this.refresh;
 		const childProps = { status, refresh };
 		if (status === LoadingStatus.SUCCESS) {
-			this.getQueryArray(this.props).forEach(query => {
+			queries.forEach(query => {
 				const key = query.key || DEFAULT_DATA_KEY;
 				childProps[key] = this.state.data[key];
 			});
