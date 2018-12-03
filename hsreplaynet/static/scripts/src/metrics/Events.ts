@@ -128,10 +128,7 @@ export class TwitchStreamPromotionEvents extends Events {
 
 export class TwitchVodEvents extends Events {
 	public static onVodLoaded(vodUrl: string) {
-		INFLUX_CLIENT.writePoint(
-			"twitch_vod_loaded",
-			{ count: "1i" },
-		);
+		INFLUX_CLIENT.writePoint("twitch_vod_loaded", { count: "1i" });
 		this.ga("Twitch Vod", "loaded", vodUrl);
 	}
 }
