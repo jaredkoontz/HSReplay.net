@@ -45,7 +45,8 @@ class MatchupCell extends React.Component<Props> {
 			this.props.highlightRow !== nextProps.highlightRow ||
 			this.props.isIgnored !== nextProps.isIgnored ||
 			!_.isEqual(this.props.style, nextProps.style) ||
-			!_.isEqual(this.props.matchupData, nextProps.matchupData)
+			!_.isEqual(this.props.matchupData, nextProps.matchupData) ||
+			this.props.hasVods !== nextProps.hasVods
 		);
 	}
 
