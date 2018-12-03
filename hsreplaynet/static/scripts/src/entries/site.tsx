@@ -59,6 +59,14 @@ function trackPurchase() {
 }
 
 function renderMobileBanner() {
+	if (
+		!window ||
+		!window.location ||
+		window.location.href.indexOf("/oauth2/") !== -1
+	) {
+		return;
+	}
+
 	const container = document.getElementById("site-mobile-promo");
 	if (container) {
 		ReactDOM.render(
