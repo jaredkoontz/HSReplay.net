@@ -1,5 +1,8 @@
 import React from "react";
-import { TwitchStreamPromotionEvents } from "../metrics/Events";
+import {
+	TwitchStreamPromotionEvents,
+	TwitchVodEvents,
+} from "../metrics/Events";
 import { TwitchVodData } from "../utils/api";
 
 interface Props {
@@ -18,10 +21,21 @@ export default class TwitchEmbed extends React.Component<Props> {
 
 	public componentDidMount(): void {
 		window.addEventListener("blur", this.onBlur);
+		if (this.props.video) {
+			TwitchVodEvents.onVodLoaded(this.props.video.url);
+		}
 	}
 
 	public componentWillUnmount(): void {
 		window.removeEventListener("blur", this.onBlur);
+	}
+
+	public componentDidUpdate(prevProps: Props) {
+		const { video } = this.props;
+		const prevVideo = prevProps.video;
+		if (video && (!prevVideo || prevVideo.url !== video.url)) {
+			TwitchVodEvents.onVodLoaded(this.props.video.url);
+		}
 	}
 
 	private onBlur = () => {
