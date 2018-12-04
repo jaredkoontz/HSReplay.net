@@ -1,5 +1,9 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import {
+	InjectedTranslateProps,
+	translate,
+	TranslationFunction,
+} from "react-i18next";
 import { AutoSizer } from "react-virtualized";
 import CardData from "../CardData";
 import AdContainer from "../components/ads/AdContainer";
@@ -157,7 +161,7 @@ class Home extends React.Component<Props, State> {
 						<div id="banner-ranks">{ranks}</div>
 					</div>
 				</div>
-				{this.renderPromoBanner()}
+				{this.renderPromoBanner(t)}
 				<div className="top-ads">
 					<AdContainer>
 						<AdUnit id="fp-d-1" size="728x90" />
@@ -728,8 +732,7 @@ class Home extends React.Component<Props, State> {
 	}
 
 	// Use memoize to prevent re-rendering random banners
-	private renderPromoBanner = memoize(() => {
-		const { t } = this.props;
+	private renderPromoBanner = memoize((t: TranslationFunction) => {
 		const banners = [];
 
 		if (UserData.hasFeature("arcane-tracker")) {
