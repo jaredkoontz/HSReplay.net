@@ -1323,6 +1323,9 @@ def should_load_into_redshift(upload_event, meta, global_game, exporter):
 
 	upload_date = upload_event.log_upload_date
 	match_start = global_game.match_start
+
+	# Don't load replays older than a threshold window (by default 36 hours)
+
 	meets_req, diff_hours = _dates_within_etl_threshold(upload_date, match_start)
 	if not meets_req:
 		influx_metric("replay_failed_recency_requirement", {"count": 1, "diff": diff_hours})
