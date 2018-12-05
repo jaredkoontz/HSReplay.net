@@ -235,7 +235,7 @@ class Downloads extends React.Component<Props, State> {
 						<div className="clearfix" />
 					</section>
 					<section id="stats">
-						<h1>Personalized stats</h1>
+						<h1>{t("Personalized stats")}</h1>
 						<div className="col-lg-6 col-sm-12">
 							<PremiumFeaturePanel
 								title={null}
