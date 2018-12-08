@@ -1,12 +1,15 @@
 from allauth.account.models import EmailAddress
 from django.conf import settings
 from django.http import HttpResponse
+from django.utils.decorators import method_decorator
 from django.views import View
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework.status import HTTP_200_OK, HTTP_403_FORBIDDEN
 
 from hsreplaynet.utils.influx import influx_metric
 
 
+@method_decorator(csrf_exempt, name="dispatch")
 class MailchimpWebhookView(View):
 	"""Request handlers for webhook callbacks from Mailchimp."""
 
