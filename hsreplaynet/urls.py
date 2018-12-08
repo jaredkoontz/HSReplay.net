@@ -6,6 +6,8 @@ from django.contrib.staticfiles.views import serve
 from django.views.generic import RedirectView
 from oauth2_provider.views import TokenView
 
+from hsreplaynet.mailchimp.views import MailchimpWebhookView
+
 from .decks.views import ClusterSnapshotRequiredCardsUpdateView, ClusterSnapshotUpdateView
 from .web.sitemap import SITEMAPS
 from .web.views import (
@@ -115,6 +117,9 @@ urlpatterns = [
 		r"^clusters/latest/(?P<game_format>\w+)/(?P<player_class>\w+)/(?P<cluster_id>\w+)/",
 		ClusterSnapshotUpdateView.as_view(), name="update_cluster_archetype"
 	),
+
+	# mailchimp
+	url(r"^mailchimp/webhook/$", MailchimpWebhookView.as_view(), name="mailchimp_webhook"),
 
 	# oauth2
 	url(r"^oauth2/login/$", OAuth2LoginView.as_view(), name="oauth2_login"),
