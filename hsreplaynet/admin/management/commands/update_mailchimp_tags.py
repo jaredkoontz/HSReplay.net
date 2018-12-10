@@ -93,6 +93,7 @@ class Command(BaseCommand):
 
 		except Exception as e:
 			print("Failed to contact MailChimp API: %s" % e, flush=True)
+			influx_metric("mailchimp_request_failures", {"count": 1})
 
 	@staticmethod
 	def _percent(user_count, total_users):
