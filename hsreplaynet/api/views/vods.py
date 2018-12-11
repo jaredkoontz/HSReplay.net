@@ -6,8 +6,6 @@ from hearthstone.deckstrings import parse_deckstring
 from hearthstone.enums import CardClass, FormatType
 from hsarchetypes import classify_deck
 from rest_framework import fields, serializers
-from rest_framework.authentication import SessionAuthentication
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -122,8 +120,7 @@ def verify_archetype_classification(archetype_id, vod, signature_weights):
 class VodListView(APIView):
 	"""Query for Twitch VODs by deck id or user id."""
 	serializer_class = VodRequestSerializer
-	authentication_classes = (SessionAuthentication, )
-	permission_classes = (IsAuthenticated, UserHasFeature("twitch-vods"))
+	permission_classes = (UserHasFeature("twitch-vods"), )
 
 	def get(self, request, **kwargs):
 		input = self.serializer_class(data=request.GET)
@@ -177,8 +174,7 @@ class VodListView(APIView):
 
 class VodIndexView(APIView):
 	"""Query for archetype matchups with available Twitch VODs."""
-	authentication_classes = (SessionAuthentication, )
-	permission_classes = (IsAuthenticated, UserHasFeature("twitch-vods"))
+	permission_classes = (UserHasFeature("twitch-vods"), )
 
 	_signature_weights = {}
 
