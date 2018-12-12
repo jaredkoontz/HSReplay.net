@@ -1140,26 +1140,22 @@ class Decks extends React.Component<Props, State> {
 							<h2 id="card-search-include-label">
 								{t("Included cards")}
 							</h2>
-							<Feature feature="new-card-filter">
-								<InfoboxFilterGroup
-									deselectable
-									selectedValue={this.props.includedSet}
-									onClick={value => {
-										this.props.setIncludedSet(
-											value || "ALL",
-										);
-										FilterEvents.onFilterInteraction(
-											"decks",
-											"include_cards_new",
-											value || "ALL",
-										);
-									}}
-								>
-									<InfoboxFilter value={this.props.latestSet}>
-										{t("At least one new card")}
-									</InfoboxFilter>
-								</InfoboxFilterGroup>
-							</Feature>
+							<InfoboxFilterGroup
+								deselectable
+								selectedValue={this.props.includedSet}
+								onClick={value => {
+									this.props.setIncludedSet(value || "ALL");
+									FilterEvents.onFilterInteraction(
+										"decks",
+										"include_cards_new",
+										value || "ALL",
+									);
+								}}
+							>
+								<InfoboxFilter value={this.props.latestSet}>
+									{t("At least one new card")}
+								</InfoboxFilter>
+							</InfoboxFilterGroup>
 							{this.props.gameType === "RANKED_WILD" ? (
 								<InfoboxFilterGroup
 									deselectable
