@@ -56,6 +56,7 @@ const render = (cardData: CardData) => {
 											: TimeRange.LAST_30_DAYS,
 									trainingData: "",
 									withStream: false,
+									wildCard: false,
 								}}
 								immutable={
 									!UserData.isPremium()

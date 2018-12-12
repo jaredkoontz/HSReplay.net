@@ -77,6 +77,8 @@ interface Props extends InjectedTranslateProps, FragmentChildProps {
 	setMinGames?: (minGames: number) => void;
 	pilotExperience?: string;
 	setPilotExperience?: (playerExperience: string) => void;
+	wildCard?: boolean;
+	setWildCard?: (wildCard: boolean) => void;
 }
 
 interface State {
@@ -129,7 +131,8 @@ class Decks extends React.Component<Props, State> {
 			this.props.maxDustCost !== prevProps.maxDustCost ||
 			this.props.withStream !== prevProps.withStream ||
 			this.props.minGames !== prevProps.minGames ||
-			this.props.pilotExperience !== prevProps.pilotExperience
+			this.props.pilotExperience !== prevProps.pilotExperience ||
+			this.props.wildCard !== prevProps.wildCard
 		) {
 			this.updateFilteredDecks();
 			this.deckListsFragmentsRef &&
@@ -146,6 +149,14 @@ class Decks extends React.Component<Props, State> {
 			this.props.minGames > this.minGames[1]
 		) {
 			this.props.setMinGames(this.minGames[1]);
+		}
+
+		if (
+			prevProps.gameType === "RANKED_WILD" &&
+			this.props.gameType !== prevProps.gameType &&
+			prevProps.wildCard
+		) {
+			this.props.setWildCard(false);
 		}
 	}
 
@@ -366,6 +377,13 @@ class Decks extends React.Component<Props, State> {
 										this.props.includedSet ||
 									cardObj.card.dbfId === 45988, // "Marin the Fox" was released outside the expansion
 							)
+						) {
+							return;
+						}
+						if (
+							this.props.gameType === "RANKED_WILD" &&
+							this.props.wildCard &&
+							!cards.some(card => isWildSet(card.card.set))
 						) {
 							return;
 						}
@@ -1138,10 +1156,32 @@ class Decks extends React.Component<Props, State> {
 									}}
 								>
 									<InfoboxFilter value={this.props.latestSet}>
-										{t("Any new card")}
+										{t("At least one new card")}
 									</InfoboxFilter>
 								</InfoboxFilterGroup>
 							</Feature>
+							{this.props.gameType === "RANKED_WILD" ? (
+								<InfoboxFilterGroup
+									deselectable
+									selectedValue={
+										this.props.wildCard ? "WILD_CARD" : ""
+									}
+									onClick={value => {
+										this.props.setWildCard(
+											value === "WILD_CARD",
+										);
+										FilterEvents.onFilterInteraction(
+											"decks",
+											"include_wild_card",
+											value ? "yes" : "no",
+										);
+									}}
+								>
+									<InfoboxFilter value={"WILD_CARD"}>
+										{t("At least one Wild card")}
+									</InfoboxFilter>
+								</InfoboxFilterGroup>
+							) : null}
 							<CardSearch
 								id="card-search-include"
 								label="card-search-include-label"
@@ -1236,7 +1276,7 @@ class Decks extends React.Component<Props, State> {
 								}
 								onClick={value => {
 									this.props.setWithStream(
-										!this.props.withStream,
+										value === "WITH_STREAM",
 									);
 									FilterEvents.onFilterInteraction(
 										"decks",
