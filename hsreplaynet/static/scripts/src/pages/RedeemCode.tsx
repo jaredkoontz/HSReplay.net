@@ -100,6 +100,7 @@ class RedeemCode extends React.Component<Props, State> {
 				Accept: "application/json",
 				"Content-Type": "application/json",
 			}),
+			credentials: "include",
 		});
 		const status = response.status;
 		const message = await response.json();
