@@ -159,5 +159,9 @@ class PayPalSyncMiddleware:
 			for agreement in BillingAgreement.objects.filter(user=request.user, state="Pending"):
 				BillingAgreement.find_and_sync(agreement.id)
 
+			for agreement in BillingAgreement.objects.filter(user=request.user, state="Active"):
+				if not agreement.agreement_details.get("last_payment_date"):
+					BillingAgreement.find_and_sync(agreement.id)
+
 		response = self.get_response(request)
 		return response
