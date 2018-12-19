@@ -120,6 +120,11 @@ class SubscribeMixin:
 		if BillingAgreement.objects.filter(user=user, state="Pending").count() > 0:
 			return False
 
+		for agreement in BillingAgreement.objects.filter(user=user, state="Active"):
+			if not agreement.agreement_details.get("last_payment_date"):
+				# Probably a pending payment and should by refreshed by the middleware
+				return False
+
 		return True
 
 
