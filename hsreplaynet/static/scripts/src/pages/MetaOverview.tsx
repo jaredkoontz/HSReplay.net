@@ -213,6 +213,16 @@ class MetaOverview extends React.Component<Props, State> {
 									</span>
 								</InfoboxFilter>
 							</Feature>
+							<Feature feature="current-patch-filter-meta">
+								<InfoboxFilter value={TimeRange.CURRENT_PATCH}>
+									<PrettyTimeRange
+										timeRange={TimeRange.CURRENT_PATCH}
+									/>
+									<span className="infobox-value">
+										{t("New!")}
+									</span>
+								</InfoboxFilter>
+							</Feature>
 						</InfoboxFilterGroup>
 					</section>
 					{rankRangeFilter}
@@ -355,8 +365,10 @@ class MetaOverview extends React.Component<Props, State> {
 											GameType: this.getGameType(),
 											TimeRange:
 												this.props.timeFrame ===
-												TimeRange.CURRENT_EXPANSION
-													? TimeRange.CURRENT_EXPANSION
+													TimeRange.CURRENT_PATCH ||
+												this.props.timeFrame ===
+													TimeRange.CURRENT_EXPANSION
+													? this.props.timeFrame
 													: TimeRange.LAST_30_DAYS,
 											Region: this.props.region,
 										},

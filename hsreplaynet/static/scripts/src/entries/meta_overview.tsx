@@ -13,7 +13,10 @@ const render = (cardData: CardData) => {
 	const immutable = [];
 	if (!UserData.isPremium()) {
 		immutable.push("rankRange", "region");
-		if (!UserData.hasFeature("current-expansion-filter")) {
+		if (
+			!UserData.hasFeature("current-expansion-filter") &&
+			!UserData.hasFeature("current-patch-filter-meta")
+		) {
 			immutable.push("timeFrame");
 		}
 	}
@@ -29,9 +32,11 @@ const render = (cardData: CardData) => {
 					sortBy: "popularity",
 					sortDirection: "descending",
 					tab: "tierlist",
-					timeFrame: UserData.hasFeature("current-expansion-filter")
-						? TimeRange.CURRENT_EXPANSION
-						: TimeRange.LAST_7_DAYS,
+					timeFrame: UserData.hasFeature("current-patch-filter-meta")
+						? TimeRange.CURRENT_PATCH
+						: UserData.hasFeature("current-expansion-filter")
+							? TimeRange.CURRENT_EXPANSION
+							: TimeRange.LAST_7_DAYS,
 				}}
 				immutable={immutable}
 			>
