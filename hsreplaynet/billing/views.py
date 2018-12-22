@@ -566,7 +566,7 @@ class BasePaypalView(View):
 		return redirect(self.fail_url)
 
 
-class PaypalSuccessView(BasePaypalView, SubscribeMixin):
+class PaypalSuccessView(LoginRequiredMixin, SubscribeMixin, BasePaypalView):
 	success_url = reverse_lazy("premium")
 
 	def get_success_url(self):
