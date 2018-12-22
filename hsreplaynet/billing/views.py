@@ -580,9 +580,6 @@ class PaypalSuccessView(LoginRequiredMixin, SubscribeMixin, BasePaypalView):
 
 		self.request = request
 
-		if not self.can_subscribe():
-			return self.fail(_("You already have an active or a pending subscription."))
-
 		token = request.GET.get("token", "")
 		if not token:
 			return self.fail(_("Unable to complete subscription."))
@@ -594,6 +591,9 @@ class PaypalSuccessView(LoginRequiredMixin, SubscribeMixin, BasePaypalView):
 
 		if prepared_agreement.user != self.request.user:
 			return self.fail(_("You are not logged in as the correct user."))
+
+		if not self.can_subscribe():
+			return self.fail(_("You already have an active or a pending subscription."))
 
 		billing_agreement = prepared_agreement.execute()
 
