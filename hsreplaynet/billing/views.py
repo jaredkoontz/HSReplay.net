@@ -114,16 +114,31 @@ class SubscribeMixin:
 		if not user.is_authenticated:
 			return False
 
+		# refresh all pending and active BillingAgreements
+		for agreement in BillingAgreement.objects.filter(
+			user=user, state__in=["Pending", "Active"]
+		):
+			BillingAgreement.find_and_sync(agreement.id)
+
 		if user.is_premium:
 			return False
 
-		if BillingAgreement.objects.filter(user=user, state="Pending").count() > 0:
+		# reject if there's any remaining pending or active BillingAgreements
+		stale_agreements = BillingAgreement.objects.filter(
+			user=user, state__in=["Pending", "Active"]
+		)
+		if stale_agreements.count() > 0:
+			for agreement in stale_agreements:
+				# Log an error
+				influx_metric(
+					"hsreplaynet_paypal_stale_agreement",
+					{
+						"count": "1",
+						"id": agreement.id
+					},
+					state=agreement.state
+				)
 			return False
-
-		for agreement in BillingAgreement.objects.filter(user=user, state="Active"):
-			if not agreement.agreement_details.get("last_payment_date"):
-				# Probably a pending payment and should by refreshed by the middleware
-				return False
 
 		return True
 
