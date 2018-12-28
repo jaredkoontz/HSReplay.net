@@ -44,19 +44,10 @@
 	<section id="account-webhooks" class="box-section">
 		<h3>{% trans "Webhooks" %}</h3>
 		<div class="inner">
-			<p>
-				{% blocktrans trimmed %}
-					Webhooks allow you, or an authorized application, to automatically POST to a URL
-					whenever you complete a game and it is made available on HSReplay.net.
-				{% endblocktrans %}
-			</p>
-
 			<p class="alert alert-warning">
-				<strong>{% trans "This feature is still in beta." %}</strong><br/>
+				<strong>{% trans "Webhooks have been deprecated" %}</strong><br/>
 				{% blocktrans trimmed %}
-					The API objects are not final and the functionality is still being tested.
-					If you are interested in using them or have any questions,
-					<a href="mailto:{{ site_email }}">please contact us</a> so we can help!
+					No new endpoints can be added. We will continue to deliver existing webhooks for the time being.
 				{% endblocktrans %}
 			</p>
 
@@ -84,8 +75,6 @@
 					{% endfor %}
 				</table>
 			{% endif %}
-
-			<a href="{% url 'account_new_webhook' %}" class="btn btn-info">{% trans "New webhook…" %}</a>
 		</div>
 	</section>
 {% endblock %}

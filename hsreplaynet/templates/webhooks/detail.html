@@ -1,25 +1,18 @@
 {% extends "webhooks/base.html" %}
 {% load htmltime from web_extras %}
+{% load i18n %}
 
 {% block content %}
 	<section id="webhooks-form" class="box-section">
 	<h3>{% if webhook %}Manage endpoint{% else %}New endpoint{% endif %}</h3>
 
 	<div class="inner">
-		{% if not webhook %}
-		<p>
-			Whenever an uploaded game finishes processing, a configured webhook
-			will send an HTTP POST to the configured URL.<br/>
-			The data will contain a JSON representation of the game's metadata.
+		<p class="alert alert-warning">
+			<strong>{% trans "Webhooks have been deprecated" %}</strong><br/>
+			{% blocktrans trimmed %}
+				No new endpoints can be added. We will continue to deliver existing webhooks for the time being.
+			{% endblocktrans %}
 		</p>
-		<p>
-			This is useful if you want to build applications which will react to a
-			completed game.
-			The time from upload to trigger should be, on average, below 30 seconds.
-		</p>
-		<hr/>
-		{% endif %}
-
 		{% if webhook %}
 			<div>
 				<form
@@ -36,10 +29,11 @@
 			<hr/>
 		{% endif %}
 
+		{% if webhook %}
 		<form action="" method="POST" id="webhook-create-form">
 			{% csrf_token %}
 
-			{% if webhook and user.is_staff %}
+			{% if user.is_staff %}
 			<div class="form-group">
 				<label for="uuid">UUID</label>
 				<input type="text" value="{{ webhook.uuid }}" id="id_uuid" class="form-control" readonly onclick="this.select()"/>
@@ -61,7 +55,6 @@
 				</p>
 			</div>
 
-			{% if webhook %}
 			<div class="form-group">
 				<label for="id_secret">Secret</label>
 				<input type="text" value="{{ webhook.secret }}" id="id_secret" class="form-control" readonly onclick="this.select()"/>
@@ -69,7 +62,6 @@
 					<a href="https://github.com/HearthSim/HSReplay.net/wiki/Webhooks">Learn more about securing webhooks</a>.
 				</p>
 			</div>
-			{% endif %}
 
 			<div class="checkbox">
 				<label>
@@ -78,12 +70,9 @@
 				</label>
 			</div>
 
-			{% if webhook %}
-				<button type="submit" class="btn btn-primary">Update webhook</button>
-			{% else %}
-				<button type="submit" class="btn btn-success">Add webhook</button>
-			{% endif %}
+			<button type="submit" class="btn btn-primary">Update webhook</button>
 		</form>
+		{% endif %}
 	</div>
 
 	</section>
