@@ -624,6 +624,11 @@ class PaypalSuccessView(LoginRequiredMixin, SubscribeMixin, BasePaypalView):
 			state=billing_agreement.state
 		)
 
+		# In some cases, PayPal instantly sets the state to cancelled. Possibly the initial
+		# payment failed. Let's inform the user that something went wrong.
+		if billing_agreement.state in ("Canceled", "Cancelled"):
+			return self.fail(_("Subscription was cancelled by PayPal."))
+
 		# Null out the premium checkout timestamp so that we don't remind the user to
 		# complete the checkout process.
 
