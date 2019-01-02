@@ -1,4 +1,5 @@
 {% extends "account/signup.html" %}
+{% load blocktrans trans from i18n %}
 
 {% block footerjs %}
 	{{ block.super }}
@@ -37,12 +38,6 @@
 					<p class="alert alert-danger">
 						{{ form.email.errors.0 }}
 					</p>
-					<p class="alert alert-warning">
-						<strong>Already have an account?</strong><br/>
-						You may still be logged into the wrong Blizzard account.
-						<a href="https://www.blizzard.com" target="_blank" rel="noopener">Go to Blizzard.com</a>, sign in to the correct account, then try again.<br/>
-						<a href="mailto:{{ site_email }}">Contact us</a> if you need help signing in to an existing account. We can merge accounts for you!
-					</p>
 				{% endif %}
 				<small class="form-text text-muted">
 					Used for account and billing purposes and for optional product updates. Email confirmation is required.
@@ -55,6 +50,15 @@
 			</ul>
 
 			<input type="submit" value="Sign up" class="btn btn-primary"/>
+
+			<p class="alert alert-info">
+				<strong>{% trans "Already have an account?" %}</strong><br/>
+				{% blocktrans %}
+					If you keep seeing this page, despite having already registered, you may be logged into the wrong Blizzard account.<br />
+					<a href="https://www.blizzard.com" target="_blank" rel="noopener">Go to Blizzard.com</a>, sign in to the correct account, then try again.<br/>
+					<a href="mailto:{{ site_email }}">Contact us</a> if you need help signing in to an existing account. We can merge accounts for you!
+				{% endblocktrans %}
+			</p>
 		</form>
 	{% endif %}
 	{% endwith %}
