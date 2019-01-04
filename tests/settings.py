@@ -112,6 +112,7 @@ additional_caches = (
 	"live_stats",
 	"deck_prediction_primary",
 	"deck_prediction_replica",
+	"throttling",
 )
 
 for c in additional_caches:

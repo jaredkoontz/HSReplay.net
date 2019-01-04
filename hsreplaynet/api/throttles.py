@@ -1,7 +1,9 @@
+from django.core.cache import caches
 from rest_framework.throttling import SimpleRateThrottle
 
 
 class PerViewRateThrottle(SimpleRateThrottle):
+	cache = caches["throttling"]
 	cache_format = "throttle_%(scope)s_%(ident)s_%(view)s"
 
 	def get_view_key(self, view):
