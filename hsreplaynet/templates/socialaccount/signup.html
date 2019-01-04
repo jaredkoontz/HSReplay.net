@@ -30,7 +30,7 @@
 
 			<div class="form-group">
 				<label class="control-label">{% trans "Battletag" %}</label>
-				<input class="form-control" type="text" value="{{ account.extra_data.battletag }}" readonly>
+				<input class="form-control" name="username" type="text" value="{{ account.extra_data.battletag }}" readonly>
 				<small class="help-block">
 					{% trans "You can change this later by connecting additional accounts." %}
 				</small>
