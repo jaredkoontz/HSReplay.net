@@ -8,57 +8,86 @@
 
 {% block content %}
 	{% with request.session.socialaccount_sociallogin.account as account %}
-	<h2>Sign up</h2>
-	<hr/>
+	<div class="page-header">
+		<h2>{% trans "Sign up" %}</h2>
+	</div>
 
 	{% if not account.extra_data.battletag %}
-		<h3>Blizzard Account Error</h3>
 		<p>
-			The Blizzard account you are signing up with does not have a confirmed battletag yet, and cannot play Hearthstone.
-			Please <a href="https://www.blizzard.com" target="_blank" rel="noopener">go to Blizzard.com</a> and sign out to choose a different website.
+			{% trans "The Blizzard account you are signing up with does not have a confirmed battletag yet, and cannot play Hearthstone." %}<br />
+			{% blocktrans %}Please <a href="https://www.blizzard.com" target="_blank" rel="noopener">visit Blizzard.com</a> and sign out to choose a different account.{% endblocktrans %}
 		</p>
 		<p>
-			<a href="mailto:{{ site_email }}">Contact us</a> if you need help signing in to an existing account.
+			{% with "mailto:"|add:site_email as contact_url %}
+				{% blocktrans %}<a href="{{ contact_url }}">Contact us</a> if you need help signing in to an existing account.{% endblocktrans %}
+			{% endwith %}
 		</p>
 	{% else %}
+		<p>{% trans "You are about to create a new HSReplay.net account. Please enter and confirm your details below:" %}</p>
+
 		<form method="POST" action="">
 			{% csrf_token %}
 
-			<p>
-				<input type="hidden" name="username" value="{{ account.extra_data.battletag }}"/>
-				Signing up with <strong>{{ account.extra_data.battletag }}</strong>.
-				<em>(You can change this later.)</em>
-			</p>
+			<div class="form-group">
+				<label class="control-label">{% trans "Battletag" %}</label>
+				<input class="form-control" type="text" value="{{ account.extra_data.battletag }}" readonly>
+				<small class="help-block">
+					{% trans "You can change this later by connecting additional accounts." %}
+				</small>
+			</div>
 
-			<p class="form-group{% if form.email.errors %} has-error{% endif %}">
-				<label>Email address
-					<input type="email" name="email" minlength="5" maxlength="150" placeholder="alice@example.org" id="id_email" class="form-control" value="{{ form.email.value }}"/>
-				</label>
+			<div class="form-group{% if form.email.errors %} has-error{% endif %}">
+				<label class="control-label">{% trans "Email address" %}</label>
+				<input type="email" name="email" minlength="5" maxlength="150" placeholder="alice@example.org" id="id_email" class="form-control" value="{{ form.email.value }}"/>
 				{% if form.email.errors %}
 					<p class="alert alert-danger">
 						{{ form.email.errors.0 }}
 					</p>
 				{% endif %}
-				<small class="form-text text-muted">
-					Used for account and billing purposes and for optional product updates. Email confirmation is required.
+				<small class="help-block">
+					{% trans "Used for account and billing purposes and for optional product updates. Email confirmation is required." %}
 				</small>
-			</p>
+			</div>
 
-			<ul class="form-group">
-				<li class="checkbox"><label><input type="checkbox" required/> I agree to the <a href="{% url 'terms_of_service' %}">Terms of Service</a></label>.</li>
-				<li class="checkbox"><label><input type="checkbox" name="email_marketing"/> I want to receive product updates by email.</label> <em class="text-muted">(You can change this at any time)</em>.</li>
-			</ul>
+			<div class="checkbox">
+				<label>
+					{% url 'terms_of_service' as tos_url %}
+					<input type="checkbox" required/> {% blocktrans %}I agree to the <a href="{{ tos_url }}">Terms of Service</a>.{% endblocktrans %}
+				</label>
+			</div>
 
-			<input type="submit" value="Sign up" class="btn btn-primary"/>
+			<div class="checkbox">
+				<label>
+					<input type="checkbox" name="email_marketing"/> {% trans "I want to receive product updates by email." %}
+				</label>
+				<small class="help-block">You can change this at any time.</small>
+			</div>
 
-			<p class="alert alert-info">
-				<strong>{% trans "Already have an account?" %}</strong><br/>
-				{% blocktrans %}
-					If you keep seeing this page, despite having already registered, you may be logged into the wrong Blizzard account.<br />
-					<a href="https://www.blizzard.com" target="_blank" rel="noopener">Go to Blizzard.com</a>, sign in to the correct account, then try again.<br/>
-					<a href="mailto:{{ site_email }}">Contact us</a> if you need help signing in to an existing account. We can merge accounts for you!
-				{% endblocktrans %}
-			</p>
+			<input type="submit" value="Sign up" class="btn btn-success"/><br /><br />
+
+			<div class="alert alert-warning">
+				<strong>{% trans "Already have an HSReplay.net account?" %}</strong>
+				<p>{% trans "If you keep seeing this page despite having registered an HSReplay.net account in the past, you may be logged into the wrong Blizzard account." %}</p>
+				<p>{% trans "You can sign in to a different Blizzard account by following these steps:" %}</p>
+				<ol>
+					<li>
+						<a href="https://battle.net/en/?logout" target="_blank" rel="noopener">
+							{% trans "Sign out of your Blizzard account" %}
+						</a>
+					</li>
+					<li>
+						<a href="{% url 'account_login' %}">
+							{% trans "Return to the HSReplay.net sign in page" %}
+						</a>
+					</li>
+					<li>{% trans "Sign into the correct Blizzard account" %}</li>
+				</ol>
+				<p>
+					{% with "mailto:"|add:site_email as contact_url %}
+					{% blocktrans %}<a href="{{ contact_url }}">Contact us</a> if you need help signing in to an existing account. We can merge accounts for you!{% endblocktrans %}
+					{% endwith %}
+				</p>
+			</div>
 		</form>
 	{% endif %}
 	{% endwith %}
