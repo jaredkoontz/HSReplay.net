@@ -28,9 +28,15 @@
 		<form method="POST" action="">
 			{% csrf_token %}
 
-			<div class="form-group">
+			<div class="form-group{% if form.username.errors %} has-error{% endif %}">
 				<label class="control-label">{% trans "Battletag" %}</label>
-				<input class="form-control" name="username" type="text" value="{{ account.extra_data.battletag }}" readonly>
+				<input type="hidden" name="username" value="{{ account.extra_data.battletag }}" />
+				<input class="form-control" type="text" value="{{ account.extra_data.battletag }}" readonly>
+				{% if form.username.errors %}
+					<p class="alert alert-danger">
+						{{ form.username.errors.0 }}
+					</p>
+				{% endif %}
 				<small class="help-block">
 					{% trans "You can change this later by connecting additional accounts." %}
 				</small>
