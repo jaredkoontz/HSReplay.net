@@ -22,7 +22,15 @@ const render = (cardData: CardData) => {
 							gameType: "RANKED_STANDARD",
 							includedCards: [],
 							includedSet: "ALL",
-							timeRange: TimeRange.LAST_30_DAYS,
+							timeRange: UserData.hasFeature(
+								"current-patch-filter",
+							)
+								? TimeRange.CURRENT_PATCH
+								: UserData.hasFeature(
+										"current-expansion-filter",
+								  )
+									? TimeRange.CURRENT_EXPANSION
+									: TimeRange.LAST_30_DAYS,
 							playerClasses: [],
 						}}
 					>

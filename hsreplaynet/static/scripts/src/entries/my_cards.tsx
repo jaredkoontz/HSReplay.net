@@ -31,7 +31,15 @@ const render = (cardData: CardData) => {
 							format: "",
 							gameType: "RANKED_STANDARD",
 							rankRange: "ALL",
-							timeRange: TimeRange.LAST_30_DAYS,
+							timeRange: UserData.hasFeature(
+								"current-patch-filter",
+							)
+								? TimeRange.CURRENT_PATCH
+								: UserData.hasFeature(
+										"current-expansion-filter",
+								  )
+									? TimeRange.CURRENT_EXPANSION
+									: TimeRange.LAST_30_DAYS,
 							sortBy: "timesPlayed",
 							sortDirection: "descending",
 							text: "",
