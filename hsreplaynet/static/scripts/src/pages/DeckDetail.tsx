@@ -983,10 +983,10 @@ class DeckDetail extends React.Component<Props, State> {
 					customNoDataMessage={
 						hasSelectedClass
 							? t(
-									"You need to play at least ten games against this class.",
+									"You need to play at least twenty games against this class.",
 							  )
 							: t(
-									"You need to play at least ten games with this deck.",
+									"You need to play at least twenty games with this deck.",
 							  )
 					}
 					collection={this.props.collection}
