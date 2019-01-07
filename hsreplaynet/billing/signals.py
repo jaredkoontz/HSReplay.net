@@ -85,8 +85,17 @@ def sync_premium_accounts_for_paypal_subscription(sender, event, **kwargs):
 	if subscription.user and subscription.user.is_premium:
 		check_for_referrals(subscription.user)
 		enable_premium_accounts_for_users_in_redshift([subscription.user])
-
 		_update_mailchimp_tags_for_premium_subscriber(subscription.user)
+
+
+@djpaypal_webhooks.webhook_handler("payment.sale.completed")
+def sync_premium_accounts_for_paypal_sale(sender, event, **kwargs):
+	sale = event.get_resource()
+	ba = sale.billing_agreement
+	if ba and ba.user and ba.user.is_premium:
+		check_for_referrals(ba.user)
+		enable_premium_accounts_for_users_in_redshift([ba.user])
+		_update_mailchimp_tags_for_premium_subscriber(ba.user)
 
 
 @receiver(post_save, sender=djpaypal_webhooks.WebhookEventTrigger)
