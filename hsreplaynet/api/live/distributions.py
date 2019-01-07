@@ -9,7 +9,7 @@ from hsreplaynet.utils.redis import (
 
 
 class PopularityWinrateDistribution:
-	def __init__(self, redis, name, max_items=9, bucket_size=5, ttl=600):
+	def __init__(self, redis, name, max_items=9, bucket_size=5, ttl=600, use_lua=None):
 		self.name = name
 		self.max_items = max_items
 		self.bucket_size = bucket_size
@@ -19,7 +19,8 @@ class PopularityWinrateDistribution:
 			namespace="POPULARITY",
 			ttl=ttl,
 			max_items=self.max_items,
-			bucket_size=self.bucket_size
+			bucket_size=self.bucket_size,
+			use_lua=use_lua
 		)
 		self.wins = RedisPopularityDistribution(
 			redis,
@@ -27,7 +28,8 @@ class PopularityWinrateDistribution:
 			namespace="POPULARITY",
 			ttl=ttl,
 			max_items=self.max_items,
-			bucket_size=self.bucket_size
+			bucket_size=self.bucket_size,
+			use_lua=use_lua
 		)
 
 	def increment(self, key, win=False, as_of=None):
@@ -53,14 +55,14 @@ class PopularityWinrateDistribution:
 		return result
 
 
-def get_player_class_distribution(game_type, redis_client=None, ttl=3200):
+def get_player_class_distribution(game_type, redis_client=None, ttl=3200, use_lua=None):
 	if redis_client:
 		redis = redis_client
 	else:
 		redis = get_live_stats_redis()
 
 	name = "PLAYER_CLASS_%s" % game_type
-	return PopularityWinrateDistribution(redis, name=name, ttl=ttl)
+	return PopularityWinrateDistribution(redis, name=name, ttl=ttl, use_lua=use_lua)
 
 
 def get_played_cards_distribution(game_type, redis_client=None, ttl=600, use_lua=None):

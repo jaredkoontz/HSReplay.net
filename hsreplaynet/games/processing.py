@@ -998,7 +998,7 @@ def update_last_replay_upload(upload_event):
 def update_player_class_distribution(replay):
 	try:
 		game_type_name = BnetGameType(replay.global_game.game_type).name
-		distribution = get_player_class_distribution(game_type_name)
+		distribution = get_player_class_distribution(game_type_name, use_lua=False)
 		opponent = replay.opposing_player
 		player_class = opponent.hero_class_name
 		distribution.increment(player_class, win=opponent.won)
