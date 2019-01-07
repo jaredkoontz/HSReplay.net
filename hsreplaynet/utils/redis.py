@@ -2,6 +2,7 @@ import json
 from datetime import datetime, timedelta
 from itertools import chain
 
+import redis_lock
 from redis import StrictRedis
 
 
@@ -48,7 +49,8 @@ class RedisPopularityDistribution:
 
 	def __init__(
 		self, redis: StrictRedis, name: str, namespace: str,
-		ttl: int = DEFAULT_TTL, max_items: int = 100, bucket_size: int = 3600
+		ttl: int = DEFAULT_TTL, max_items: int = 100, bucket_size: int = 3600,
+		use_lua: bool = None
 	) -> None:
 		self.redis = redis
 		self.name = name
@@ -63,7 +65,12 @@ class RedisPopularityDistribution:
 		if self.bucket_size > self.ttl:
 			raise ValueError("bucket_size cannot be larger than ttl")
 
-		self.use_lua = isinstance(redis, StrictRedis)
+		# If the caller specified a preference about using Lua, respect it; otherwise,
+		# use Lua if it seems like we're running in production, don't use it if it seems
+		# like we're running a test.
+
+		self.use_lua = isinstance(redis, StrictRedis) if use_lua is None else use_lua
+
 		if self.use_lua:
 			self.lua_increment = self.redis.register_script(self.INCREMENT_SCRIPT)
 
@@ -85,16 +92,17 @@ class RedisPopularityDistribution:
 			args = [bucket_key, self.max_items, key, expire_at]
 			self.lua_increment(args=args)
 		else:
-			if self.redis.zrank(bucket_key, key) is not None:
-				self.redis.zincrby(bucket_key, key, 1.0)
-			elif self.redis.zcard(bucket_key) < self.max_items:
-				self.redis.zadd(bucket_key, 1.0, key)
-			else:
-				vals = self.redis.zrange(bucket_key, 0, 0, withscores=True)
-				self.redis.zrem(bucket_key, vals[0])
-				self.redis.zadd(bucket_key, vals[1] + 1.0, key)
+			with redis_lock.Lock(self.redis, self.namespace):
+				if self.redis.zrank(bucket_key, key) is not None:
+					self.redis.zincrby(bucket_key, key, 1.0)
+				elif self.redis.zcard(bucket_key) < self.max_items:
+					self.redis.zadd(bucket_key, 1.0, key)
+				else:
+					vals = self.redis.zrange(bucket_key, 0, 0, withscores=True)
+					self.redis.zrem(bucket_key, vals[0])
+					self.redis.zadd(bucket_key, vals[1] + 1.0, key)
 
-			self.redis.expireat(bucket_key, expire_at)
+				self.redis.expireat(bucket_key, expire_at)
 
 	def distribution(self, start_ts=None, end_ts=None, limit=None, as_percentages=False):
 		start_ts = start_ts if start_ts else self.earliest_available_datetime

@@ -2,6 +2,7 @@ import time
 from collections import defaultdict
 from datetime import datetime, timedelta
 from math import ceil
+from unittest.mock import patch
 
 import fakeredis
 
@@ -37,7 +38,8 @@ DECKS = [
 ]
 
 
-def test_redis_popularity_distribution():
+@patch("redis_lock.Lock")
+def test_redis_popularity_distribution(_mock_lock):
 	r = fakeredis.FakeStrictRedis()
 	distribution = RedisPopularityDistribution(r, "DECKS", namespace="test")
 
@@ -97,7 +99,8 @@ def test_one_second_buckets():
 		assert bucket[1] == bucket[0] + (bucket_size - 1)
 
 
-def test_bucket_sizes_and_ttls():
+@patch("redis_lock.Lock")
+def test_bucket_sizes_and_ttls(_mock_lock):
 	r = fakeredis.FakeStrictRedis()
 	distribution = RedisPopularityDistribution(
 		r,

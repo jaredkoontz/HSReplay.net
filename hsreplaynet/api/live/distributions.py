@@ -63,7 +63,7 @@ def get_player_class_distribution(game_type, redis_client=None, ttl=3200):
 	return PopularityWinrateDistribution(redis, name=name, ttl=ttl)
 
 
-def get_played_cards_distribution(game_type, redis_client=None, ttl=600):
+def get_played_cards_distribution(game_type, redis_client=None, ttl=600, use_lua=None):
 	if redis_client:
 		redis = redis_client
 	else:
@@ -76,7 +76,8 @@ def get_played_cards_distribution(game_type, redis_client=None, ttl=600):
 		namespace="POPULARITY",
 		ttl=ttl,
 		max_items=5000,
-		bucket_size=5
+		bucket_size=5,
+		use_lua=use_lua
 	)
 
 

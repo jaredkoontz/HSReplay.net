@@ -1,3 +1,5 @@
+from unittest.mock import patch
+
 import fakeredis
 from hearthstone.enums import CardClass, FormatType
 
@@ -43,7 +45,8 @@ def to_dbf_map(dbf_list):
 	return result
 
 
-def test_prediction_tree():
+@patch("redis_lock.Lock")
+def test_prediction_tree(_mock_lock):
 	r = fakeredis.FakeStrictRedis()
 	tree = DeckPredictionTree(
 		CardClass.DRUID,

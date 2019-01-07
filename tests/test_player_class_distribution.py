@@ -1,6 +1,7 @@
 from collections import defaultdict
 from datetime import datetime, timedelta
 from random import randrange
+from unittest.mock import patch
 
 import fakeredis
 from hearthstone.enums import CardClass
@@ -8,7 +9,8 @@ from hearthstone.enums import CardClass
 from hsreplaynet.api.live.distributions import get_player_class_distribution
 
 
-def test_player_class_distribution():
+@patch("redis_lock.Lock")
+def test_player_class_distribution(_mock_lock):
 	redis = fakeredis.FakeStrictRedis()
 	distribution = get_player_class_distribution("FT_STANDARD", redis)
 
