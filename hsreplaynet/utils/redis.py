@@ -100,8 +100,9 @@ class RedisPopularityDistribution:
 					self.redis.zadd(bucket_key, 1.0, key)
 				else:
 					vals = self.redis.zrange(bucket_key, 0, 0, withscores=True)
-					self.redis.zrem(bucket_key, vals[0])
-					self.redis.zadd(bucket_key, vals[1] + 1.0, key)
+					value, score = vals[0]
+					self.redis.zrem(bucket_key, value)
+					self.redis.zadd(bucket_key, score + 1.0, key)
 
 				self.redis.expireat(bucket_key, expire_at)
 
