@@ -92,7 +92,8 @@ class RedisPopularityDistribution:
 			args = [bucket_key, self.max_items, key, expire_at]
 			self.lua_increment(args=args)
 		else:
-			with redis_lock.Lock(self.redis, self.namespace, expire=300):
+			lock_name = "%s/%s" % (self.namespace, self.name)
+			with redis_lock.Lock(self.redis, lock_name, expire=300):
 				if self.redis.zrank(bucket_key, key) is not None:
 					self.redis.zincrby(bucket_key, key, 1.0)
 				elif self.redis.zcard(bucket_key) < self.max_items:
