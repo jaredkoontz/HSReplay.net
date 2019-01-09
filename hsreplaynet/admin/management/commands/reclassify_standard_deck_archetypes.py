@@ -43,7 +43,7 @@ REDSHIFT_QUERY = text("""
 	AND p.full_deck_known
 	AND p.game_type = 2
 	GROUP BY p.game_type, p.proxy_deck_id
-	ORDER BY p.game_type;
+	ORDER BY p.game_type, p.proxy_deck_id;
 """).bindparams(
 	bindparam("start_date", type_=Date),
 	bindparam("end_date", type_=Date),
@@ -117,9 +117,10 @@ class Command(BaseCommand):
 
 		result_set = list(conn.execute(compiled_statement))
 		total_rows = len(result_set)
-		self.stdout.write("%i decks to update" % (total_rows))
+		reclassify_count = 0
+		self.stdout.write("Discovered %i decks to reclassify" % (total_rows))
 		if is_dry_run:
-			self.stdout.write("Dry run, will not apply results")
+			self.stdout.write("This is a dry run, will not save results")
 
 		archetypes_to_update = {}
 		for counter, row in enumerate(result_set):
@@ -157,6 +158,8 @@ class Command(BaseCommand):
 
 				pct_complete = str(math.floor(100.0 * counter / total_rows))
 
+				reclassify_count += 1
+
 				self.stdout.write("\t[%s%%] Reclassifying deck %r: %s => %s\n" % (
 					pct_complete, deck_id, current_name, new_name
 				))
@@ -165,8 +168,12 @@ class Command(BaseCommand):
 					archetypes_to_update[new_archetype_id] = []
 				archetypes_to_update[new_archetype_id].append(deck_id)
 
+		self.stdout.write("%i decks require an archetype update" % (reclassify_count))
+
 		if not is_dry_run:
+			self.stdout.write("Writing results to decks...")
 			for archetype_id, decks in archetypes_to_update.items():
 				Deck.objects.bulk_update_to_archetype(decks, archetype_id)
+			self.stdout.write("Reclassification complete")
 		else:
 			self.stdout.write("Dry run complete")
