@@ -1169,10 +1169,22 @@ class ClusterSetSnapshot(models.Model, ClusterSet):
 				self.live_in_production = True
 				self.promoted_on = now()
 				self.save()
+				self.synchronize_required_cards()
 				self.synchronize_deck_archetype_assignments()
 		else:
 			msg = "Cannot promote to live=True because the neural network is not ready"
 			raise RuntimeError(msg)
+
+	def synchronize_required_cards(self):
+		for class_cluster in self.class_clusters:
+			for cluster in class_cluster.clusters:
+				if cluster.external_id and cluster.external_id != -1:
+					archetype = Archetype.objects.get(pk=cluster.external_id)
+					# Overwrite the archetype's existing required cards with the cluster's
+					# required card set.
+					archetype.required_cards.clear()
+					for dbf_id in cluster.required_cards:
+						archetype.required_cards.add(Card.objects.get(dbf_id=dbf_id))
 
 	def synchronize_deck_archetype_assignments(self):
 		for_update = collections.defaultdict(list)
@@ -1183,15 +1195,6 @@ class ClusterSetSnapshot(models.Model, ClusterSet):
 					for data_point in cluster.data_points:
 						digest = Deck.objects.get_digest_from_shortid(data_point["shortid"])
 						for_update[cluster.external_id].append(digest)
-
-					# Overwrite the archetype's existing required cards with the cluster's
-					# required card set.
-
-					archetype = Archetype.objects.get(pk=cluster.external_id)
-					archetype.required_cards.clear()
-
-					for dbf_id in cluster.required_cards:
-						archetype.required_cards.add(Card.objects.get(dbf_id=dbf_id))
 
 		for external_id, digests in for_update.items():
 			deck_ids = Deck.objects.filter(digest__in=digests).values_list("id", flat=True)

@@ -67,7 +67,7 @@ class TestClusterManager:
 class TestClusterSetSnapshot:
 
 	@pytest.mark.django_db
-	def test_synchronize_deck_archetype_assignments_update_required_cards(self):
+	def test_synchronize_required_cards(self):
 		archetype = Archetype(
 			name="Mecha'thun Druid",
 			player_class=CardClass.DRUID,
@@ -97,7 +97,7 @@ class TestClusterSetSnapshot:
 		)
 		cluster.save()
 
-		cluster_set.synchronize_deck_archetype_assignments()
+		cluster_set.synchronize_required_cards()
 
 		assert archetype.required_cards.count() == 1
 		assert archetype.required_cards.first() == Card.objects.get(dbf_id=48625)
