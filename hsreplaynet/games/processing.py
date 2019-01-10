@@ -982,6 +982,9 @@ def predict_deck(
 def perform_ilt_deck_prediction(game_format, player_class, deck, upload_event):
 	ilt = inverse_lookup_table(game_format, player_class)
 
+	pretty_game_format = FormatType(int(game_format)).name
+	pretty_player_class = CardClass(int(player_class)).name
+
 	# calculate deck size
 	if deck.size is not None:
 		deck_size = deck.size
@@ -989,24 +992,49 @@ def perform_ilt_deck_prediction(game_format, player_class, deck, upload_event):
 		deck_size = sum(i.count for i in deck.includes.all())
 
 	if deck_size == 30:
-		with influx_timer("ilt_deck_prediction_duration", method="observe"):
+		method = "observe"
+		# TODO: add cross-validation
+		# do observation
+		with influx_timer(
+			"ilt_deck_prediction_duration",
+			method=method, game_format=pretty_game_format, player_class=pretty_player_class
+		):
 			ilt.observe(deck.dbf_map(), deck.id, uuid=upload_event.shortid)
-		influx_metric("ilt_deck_prediction", {"count": "1i"}, method="observe")
 	else:
-		with influx_timer("ilt_deck_prediction_duration", method="predict"):
+		method = "predict"
+		# predict the partial deck
+		with influx_timer(
+			"ilt_deck_prediction_duration",
+			method=method, game_format=pretty_game_format, player_class=pretty_player_class
+		):
 			predicted_deck_id = ilt.predict(deck.dbf_map())
-		influx_metric("ilt_deck_prediction", {"count": "1i"}, method="predict")
+
+		is_decklist_superset = False
+		if predicted_deck_id:
+			predicted_deck = Deck.objects.get(id=predicted_deck_id)
+			is_decklist_superset = _is_decklist_superset(predicted_deck, deck)
+
 		influx_metric(
 			"ilt_deck_prediction_result",
 			{
+				"count": "1i",
 				"partial_deck_id": str(deck.id),
-				"predicted_deck_id": str(predicted_deck_id)
+				"predicted_deck_id": str(predicted_deck_id or "")
 			},
 			missing_cards=30 - deck_size,
-			player_class=CardClass(int(player_class)).name,
-			format=FormatType(int(game_format)).name,
-			made_prediction=predicted_deck_id is not None
+			game_format=pretty_game_format,
+			player_class=pretty_player_class,
+			made_prediction=predicted_deck_id is not None,
+			is_decklist_superset=is_decklist_superset
 		)
+
+	influx_metric(
+		"ilt_deck_prediction",
+		{"count": "1i"},
+		method=method,
+		game_format=pretty_game_format,
+		player_class=pretty_player_class
+	)
 
 
 def update_replay_feed(replay):
