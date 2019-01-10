@@ -981,16 +981,32 @@ def predict_deck(
 
 def perform_ilt_deck_prediction(game_format, player_class, deck, upload_event):
 	ilt = inverse_lookup_table(game_format, player_class)
+
 	# calculate deck size
 	if deck.size is not None:
 		deck_size = deck.size
 	else:
 		deck_size = sum(i.count for i in deck.includes.all())
-	# for now, let's just observe complete decks
+
 	if deck_size == 30:
 		with influx_timer("ilt_deck_prediction_duration", method="observe"):
 			ilt.observe(deck.dbf_map(), deck.id, uuid=upload_event.shortid)
 		influx_metric("ilt_deck_prediction", {"count": "1i"}, method="observe")
+	else:
+		with influx_timer("ilt_deck_prediction_duration", method="predict"):
+			predicted_deck_id = ilt.predict(deck.dbf_map())
+		influx_metric("ilt_deck_prediction", {"count": "1i"}, method="predict")
+		influx_metric(
+			"ilt_deck_prediction_outcome",
+			{
+				"partial_deck_id": deck.id,
+				"predicted_deck_id": predicted_deck_id
+			},
+			missing_cards=30 - deck_size,
+			player_class=CardClass(int(player_class)).name,
+			format=FormatType(int(game_format)).name,
+			made_prediction=predicted_deck_id is not None
+		)
 
 
 def update_replay_feed(replay):
