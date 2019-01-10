@@ -37,7 +37,7 @@ from hsreplaynet.uploads.utils import user_agent_product
 from hsreplaynet.utils import guess_ladder_season, log
 from hsreplaynet.utils.influx import influx_metric, influx_timer
 from hsreplaynet.utils.instrumentation import error_handler
-from hsreplaynet.utils.prediction import deck_prediction_tree
+from hsreplaynet.utils.prediction import deck_prediction_tree, inverse_lookup_table
 from hsreplaynet.vods.models import TwitchVod
 
 from .models import (
@@ -627,6 +627,19 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 			except Exception as e:
 				error_handler(e)
 
+		# ilt-based deck prediction
+		ilt_deck_prediction_enabled = getattr(settings, "ILT_DECK_PREDICTION_ENABLED", True)
+		if ilt_deck_prediction_enabled and is_eligible_format and is_eligible_gametype:
+			try:
+				perform_ilt_deck_prediction(
+					game_format=global_game.format,
+					player_class=player_class,
+					deck=deck,
+					upload_event=upload_event
+				)
+			except Exception as e:
+				error_handler(e)
+
 		name, _ = player.names
 		if not name:
 			pass
@@ -964,6 +977,20 @@ def predict_deck(
 		return None
 
 	return Deck.objects.get(id=predicted_deck_id)
+
+
+def perform_ilt_deck_prediction(game_format, player_class, deck, upload_event):
+	ilt = inverse_lookup_table(game_format, player_class)
+	# calculate deck size
+	if deck.size is not None:
+		deck_size = deck.size
+	else:
+		deck_size = sum(i.count for i in deck.includes.all())
+	# for now, let's just observe complete decks
+	if deck_size == 30:
+		with influx_timer("ilt_deck_prediction_duration", method="observe"):
+			ilt.observe(deck.dbf_map(), deck.id, uuid=upload_event.shortid)
+		influx_metric("ilt_deck_prediction", {"count": "1i"}, method="observe")
 
 
 def update_replay_feed(replay):
