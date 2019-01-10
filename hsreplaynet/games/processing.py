@@ -1,6 +1,7 @@
 import json
 import re
 from collections import defaultdict
+from functools import reduce
 from io import StringIO
 
 from dateutil.parser import parse as dateutil_parse
@@ -635,6 +636,7 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 					game_format=global_game.format,
 					player_class=player_class,
 					deck=deck,
+					played_cards=played_cards[player.player_id],
 					upload_event=upload_event
 				)
 			except Exception as e:
@@ -979,7 +981,9 @@ def predict_deck(
 	return Deck.objects.get(id=predicted_deck_id)
 
 
-def perform_ilt_deck_prediction(game_format, player_class, deck, upload_event):
+def perform_ilt_deck_prediction(
+	game_format, player_class, deck, played_cards, upload_event
+):
 	ilt = inverse_lookup_table(game_format, player_class)
 
 	pretty_game_format = FormatType(int(game_format)).name
@@ -993,7 +997,37 @@ def perform_ilt_deck_prediction(game_format, player_class, deck, upload_event):
 
 	if deck_size == 30:
 		method = "observe"
-		# TODO: add cross-validation
+		# cross validation (must be before observation!)
+		played_card_dbfs = reduce(
+			lambda accum, card: {**accum, **{card.dbf_id: accum.get(card.dbf_id, 0) + 1}},
+			played_cards,
+			{}
+		)
+		with influx_timer(
+			"ilt_cross_validation_duration",
+			method=method, game_format=pretty_game_format, player_class=pretty_player_class
+		):
+			predicted_deck_id = ilt.predict(played_card_dbfs)
+
+		deck_match = predicted_deck_id == deck.id
+		archetype_match = False
+		if predicted_deck_id:
+			predicted_deck = Deck.objects.get(id=predicted_deck_id)
+			archetype_match = predicted_deck.archetype_id == deck.archetype_id
+
+		influx_metric(
+			"ilt_cross_validation_result",
+			{
+				"count": "1i",
+				"actual_deck_id": str(deck.id),
+				"predicted_deck_id": str(predicted_deck_id or "")
+			},
+			game_format=pretty_game_format,
+			player_class=pretty_player_class,
+			deck_match=deck_match,
+			archetype_match=archetype_match,
+			num_cards=len(played_cards)
+		)
 		# do observation
 		with influx_timer(
 			"ilt_deck_prediction_duration",
