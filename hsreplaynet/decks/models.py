@@ -1168,7 +1168,7 @@ class ClusterSetSnapshot(models.Model, ClusterSet):
 			for cluster in class_cluster.clusters:
 				cluster.save()
 
-	def update_archetype_signatures(self, force=False):
+	def update_archetype_signatures(self, force=False, overwrite_archetypes=False):
 		if force or all(c.neural_network_ready() for c in self.class_clusters):
 			with transaction.atomic():
 				ClusterSetSnapshot.objects.filter(
@@ -1178,7 +1178,8 @@ class ClusterSetSnapshot(models.Model, ClusterSet):
 				self.promoted_on = now()
 				self.save()
 				self.synchronize_required_cards()
-				self.synchronize_deck_archetype_assignments()
+				if overwrite_archetypes:
+					self.synchronize_deck_archetype_assignments()
 		else:
 			msg = "Cannot promote to live=True because the neural network is not ready"
 			raise RuntimeError(msg)
