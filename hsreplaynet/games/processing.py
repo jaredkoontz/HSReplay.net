@@ -997,7 +997,7 @@ def perform_ilt_deck_prediction(game_format, player_class, deck, upload_event):
 			predicted_deck_id = ilt.predict(deck.dbf_map())
 		influx_metric("ilt_deck_prediction", {"count": "1i"}, method="predict")
 		influx_metric(
-			"ilt_deck_prediction_outcome",
+			"ilt_deck_prediction_result",
 			{
 				"partial_deck_id": str(deck.id),
 				"predicted_deck_id": str(predicted_deck_id)
