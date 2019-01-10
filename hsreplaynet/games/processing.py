@@ -601,6 +601,9 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 			is_friendly_player
 		)
 
+		player_class = Deck.objects._convert_hero_id_to_player_class(player_hero_id)
+
+		# tree-based deck prediction
 		deck_prediction_enabled = getattr(settings, "FULL_DECK_PREDICTION_ENABLED", True)
 		is_eligible_format = global_game.format in [FormatType.FT_STANDARD, FormatType.FT_WILD]
 		is_eligible_gametype = global_game.game_type in [
@@ -613,198 +616,14 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 
 		if deck_prediction_enabled and is_eligible_format and is_eligible_gametype:
 			try:
-				player_class = Deck.objects._convert_hero_id_to_player_class(player_hero_id)
-				tree = deck_prediction_tree(player_class, global_game.format)
-				played_cards_for_player = played_cards[player.player_id]
-
-				# 5 played cards partitions a 14 day window into buckets of ~ 500 or less
-				# We can search through ~ 2,000 decks in 100ms so that gives us plenty of headroom
-				min_played_cards = tree.max_depth - 1
-
-				# We can control via settings the minumum number of cards we need
-				# To know about in the deck list before we attempt to guess the full deck
-				min_observed_cards = settings.DECK_PREDICTION_MINIMUM_CARDS
-
-				# sorted_played_cards = sorted(played_cards_for_player, key=lambda c: c.cost)
-				played_card_dbfs = [c.dbf_id for c in played_cards_for_player][:min_played_cards]
-				played_card_names = [c.name for c in played_cards_for_player][:min_played_cards]
-
-				if deck.size is not None:
-					deck_size = deck.size
-				else:
-					deck_size = sum(i.count for i in deck.includes.all())
-
-				has_enough_observed_cards = deck_size >= min_observed_cards
-				has_enough_played_cards = len(played_card_dbfs) >= min_played_cards
-
-				is_eligible = has_enough_observed_cards and has_enough_played_cards
-				influx_metric(
-					"deck_prediction_eligibility",
-					{
-						"deck_id": deck.id,
-						"is_eligible": 1 if is_eligible else 0
-					},
-					has_enough_observed_cards=has_enough_observed_cards,
-					has_enough_played_cards=has_enough_played_cards,
-					player_class=CardClass(int(player_class)).name,
-					format=FormatType(int(global_game.format)).name,
-					num_observed_cards=deck_size,
-					num_played_cards=len(played_card_dbfs)
+				perform_deck_prediction(
+					global_game=global_game,
+					player=player,
+					player_class=player_class,
+					played_cards_for_player=played_cards[player.player_id],
+					is_friendly_player=is_friendly_player,
+					deck=deck,
 				)
-
-				if deck_size == 30:
-
-					cross_val_dbf_map = {}
-					for c in played_cards_for_player:
-						if c.dbf_id not in cross_val_dbf_map:
-							cross_val_dbf_map[c.dbf_id] = 1
-						else:
-							cross_val_dbf_map[c.dbf_id] += 1
-
-					cross_val_result = tree.lookup(
-						cross_val_dbf_map,
-						played_card_dbfs,
-					)
-
-					if cross_val_result.predicted_deck_id:
-						cross_val_deck = Deck.objects.get(
-							id=cross_val_result.predicted_deck_id
-						)
-
-						perfect_deck_match = deck.id == cross_val_deck.id
-						archetype_match = deck.archetype_id == cross_val_deck.archetype_id
-						prediction_has_archetype = cross_val_deck.archetype_id is not None
-						predicted_deck_id = cross_val_deck.id
-						predicted_archetype_id = cross_val_deck.archetype_id
-					else:
-						perfect_deck_match = False
-						archetype_match = False
-						prediction_has_archetype = False
-						predicted_deck_id = None
-						predicted_archetype_id = None
-
-					actual_has_archetype = deck.archetype_id is not None
-					final_state = player.tags.get(GameTag.PLAYSTATE, 0)
-
-					influx_metric(
-						"deck_prediction_validation",
-						{
-							"actual_deck_id": deck.id,
-							"predicted_deck_id": predicted_deck_id
-						},
-						perfect_deck_match=perfect_deck_match,
-						archetype_match=archetype_match,
-						player_class=CardClass(int(player_class)).name,
-						format=FormatType(int(global_game.format)).name,
-						prediction_has_archetype=prediction_has_archetype,
-						predicted_archetype_id=predicted_archetype_id,
-						actual_archetype_id=deck.archetype_id,
-						actual_has_archetype=actual_has_archetype,
-						is_friendly_player=is_friendly_player,
-						num_played_cards=len(played_cards_for_player),
-						final_state=PlayState(int(final_state)).name
-					)
-
-					tree.observe(
-						deck.id,
-						deck.dbf_map(),
-						played_card_dbfs
-					)
-					# deck_id == proxy_deck_id for complete decks
-					deck.guessed_full_deck = deck
-					deck.save()
-
-					influx_metric(
-						"deck_prediction_funnel",
-						{
-							"actual_deck_id": deck.id,
-						},
-						is_friendly_player=is_friendly_player,
-						player_class=CardClass(int(player_class)).name,
-						format=FormatType(int(global_game.format)).name,
-						is_complete_deck=True,
-						deck_size=deck_size,
-						is_eligible=is_eligible,
-						is_prediction_success=None,
-						deck_has_archetype=deck.archetype_id is not None,
-						num_played_cards=len(played_cards_for_player)
-					)
-
-				elif is_eligible:
-					res = tree.lookup(
-						deck.dbf_map(),
-						played_card_dbfs,
-					)
-					predicted_deck_id = res.predicted_deck_id
-
-					if predicted_deck_id:
-						guessed_full_deck = Deck.objects.get(id=predicted_deck_id)
-						guessed_archetype = guessed_full_deck.archetype_id
-						deck.guessed_full_deck = guessed_full_deck
-						deck.save()
-					else:
-						guessed_archetype = None
-
-					influx_metric(
-						"deck_prediction_funnel",
-						{
-							"actual_deck_id": deck.id,
-							"predicted_deck_id": predicted_deck_id
-						},
-						is_friendly_player=is_friendly_player,
-						player_class=CardClass(int(player_class)).name,
-						format=FormatType(int(global_game.format)).name,
-						is_complete_deck=False,
-						deck_size=deck_size,
-						is_eligible=True,
-						is_prediction_success=(predicted_deck_id is not None),
-						deck_has_archetype=deck.archetype_id is not None,
-						prediction_has_archetype=(guessed_archetype is not None),
-						num_played_cards=len(played_cards_for_player)
-					)
-
-					fields = {
-						"actual_deck_id": deck.id,
-						"deck_size": deck_size,
-						"game_id": global_game.id,
-						"sequence": "->".join("[%s]" % c for c in played_card_names),
-						"predicted_deck_id": res.predicted_deck_id,
-						"match_attempts": res.match_attempts,
-						"tie": res.tie
-					}
-
-					if res.node:
-						fields["depth"] = res.node.depth
-
-					tree_depth = res.node.depth if res.node else None
-					influx_metric(
-						"deck_prediction",
-						fields,
-						missing_cards=30 - deck_size,
-						player_class=CardClass(int(player_class)).name,
-						format=FormatType(int(global_game.format)).name,
-						tree_depth=tree_depth,
-						made_prediction=predicted_deck_id is not None
-					)
-
-				else:
-					influx_metric(
-						"deck_prediction_funnel",
-						{
-							"actual_deck_id": deck.id,
-						},
-						is_friendly_player=is_friendly_player,
-						player_class=CardClass(int(player_class)).name,
-						format=FormatType(int(global_game.format)).name,
-						is_complete_deck=False,
-						deck_size=deck_size,
-						is_eligible=False,
-						is_prediction_success=None,
-						deck_has_archetype=deck.archetype_id is not None,
-						prediction_has_archetype=None,
-						num_played_cards=len(played_cards_for_player)
-					)
-
 			except Exception as e:
 				error_handler(e)
 
@@ -907,6 +726,244 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 		players[player.player_id] = game_player
 
 	return players
+
+
+def perform_deck_prediction(
+	global_game, player, player_class, played_cards_for_player, is_friendly_player, deck
+):
+	tree = deck_prediction_tree(player_class, global_game.format)
+
+	# 5 played cards partitions a 14 day window into buckets of ~ 500 or less
+	# We can search through ~ 2,000 decks in 100ms so that gives us plenty of headroom
+	min_played_cards = tree.max_depth - 1
+
+	# We can control via settings the minumum number of cards we need
+	# To know about in the deck list before we attempt to guess the full deck
+	min_observed_cards = settings.DECK_PREDICTION_MINIMUM_CARDS
+
+	# sorted_played_cards = sorted(played_cards_for_player, key=lambda c: c.cost)
+	played_card_dbfs = [c.dbf_id for c in played_cards_for_player][:min_played_cards]
+	played_card_names = [c.name for c in played_cards_for_player][:min_played_cards]
+
+	if deck.size is not None:
+		deck_size = deck.size
+	else:
+		deck_size = sum(i.count for i in deck.includes.all())
+
+	has_enough_observed_cards = deck_size >= min_observed_cards
+	has_enough_played_cards = len(played_card_dbfs) >= min_played_cards
+
+	is_eligible = has_enough_observed_cards and has_enough_played_cards
+	influx_metric(
+		"deck_prediction_eligibility",
+		{
+			"deck_id": deck.id,
+			"is_eligible": 1 if is_eligible else 0
+		},
+		has_enough_observed_cards=has_enough_observed_cards,
+		has_enough_played_cards=has_enough_played_cards,
+		player_class=CardClass(int(player_class)).name,
+		format=FormatType(int(global_game.format)).name,
+		num_observed_cards=deck_size,
+		num_played_cards=len(played_card_dbfs)
+	)
+
+	if deck_size == 30:
+		# we have the full deck as a datapoint
+		perform_cross_validation(
+			tree=tree,
+			global_game=global_game,
+			player=player,
+			player_class=player_class,
+			is_friendly_player=is_friendly_player,
+			deck=deck,
+			played_cards_for_player=played_cards_for_player,
+			played_card_dbfs=played_card_dbfs,
+		)
+		observe_deck(
+			tree=tree,
+			deck=deck,
+			played_card_dbfs=played_card_dbfs
+		)
+
+		# deck_id == proxy_deck_id for complete decks
+		deck.guessed_full_deck = deck
+		deck.save()
+
+		influx_metric(
+			"deck_prediction_funnel",
+			{
+				"actual_deck_id": deck.id,
+			},
+			is_friendly_player=is_friendly_player,
+			player_class=CardClass(int(player_class)).name,
+			format=FormatType(int(global_game.format)).name,
+			is_complete_deck=True,
+			deck_size=deck_size,
+			is_eligible=is_eligible,
+			is_prediction_success=None,
+			deck_has_archetype=deck.archetype_id is not None,
+			num_played_cards=len(played_cards_for_player)
+		)
+
+	elif is_eligible:
+		# we have enough cards to predict the full deck
+		guessed_full_deck = predict_deck(
+			tree=tree,
+			global_game=global_game,
+			player_class=player_class,
+			deck=deck,
+			deck_size=deck_size,
+			played_card_dbfs=played_card_dbfs,
+			played_card_names=played_card_names,
+		)
+
+		if guessed_full_deck:
+			guessed_deck_id = guessed_full_deck.id
+			guessed_archetype = guessed_full_deck.archetype_id
+			deck.guessed_full_deck = guessed_full_deck
+			deck.save()
+		else:
+			guessed_deck_id = None
+			guessed_archetype = None
+
+		influx_metric(
+			"deck_prediction_funnel",
+			{
+				"actual_deck_id": deck.id,
+				"predicted_deck_id": guessed_deck_id
+			},
+			is_friendly_player=is_friendly_player,
+			player_class=CardClass(int(player_class)).name,
+			format=FormatType(int(global_game.format)).name,
+			is_complete_deck=False,
+			deck_size=deck_size,
+			is_eligible=True,
+			is_prediction_success=(guessed_full_deck is not None),
+			deck_has_archetype=deck.archetype_id is not None,
+			prediction_has_archetype=(guessed_archetype is not None),
+			num_played_cards=len(played_cards_for_player)
+		)
+	else:
+		influx_metric(
+			"deck_prediction_funnel",
+			{
+				"actual_deck_id": deck.id,
+			},
+			is_friendly_player=is_friendly_player,
+			player_class=CardClass(int(player_class)).name,
+			format=FormatType(int(global_game.format)).name,
+			is_complete_deck=False,
+			deck_size=deck_size,
+			is_eligible=False,
+			is_prediction_success=None,
+			deck_has_archetype=deck.archetype_id is not None,
+			prediction_has_archetype=None,
+			num_played_cards=len(played_cards_for_player)
+		)
+
+
+def perform_cross_validation(
+	tree, global_game, player, player_class, is_friendly_player, deck, played_cards_for_player,
+	played_card_dbfs
+):
+	cross_val_dbf_map = {}
+	for c in played_cards_for_player:
+		if c.dbf_id not in cross_val_dbf_map:
+			cross_val_dbf_map[c.dbf_id] = 1
+		else:
+			cross_val_dbf_map[c.dbf_id] += 1
+
+	cross_val_result = tree.lookup(
+		cross_val_dbf_map,
+		played_card_dbfs,
+	)
+
+	if cross_val_result.predicted_deck_id:
+		cross_val_deck = Deck.objects.get(
+			id=cross_val_result.predicted_deck_id
+		)
+
+		perfect_deck_match = deck.id == cross_val_deck.id
+		archetype_match = deck.archetype_id == cross_val_deck.archetype_id
+		prediction_has_archetype = cross_val_deck.archetype_id is not None
+		predicted_deck_id = cross_val_deck.id
+		predicted_archetype_id = cross_val_deck.archetype_id
+	else:
+		perfect_deck_match = False
+		archetype_match = False
+		prediction_has_archetype = False
+		predicted_deck_id = None
+		predicted_archetype_id = None
+
+	actual_has_archetype = deck.archetype_id is not None
+	final_state = player.tags.get(GameTag.PLAYSTATE, 0)
+
+	influx_metric(
+		"deck_prediction_validation",
+		{
+			"actual_deck_id": deck.id,
+			"predicted_deck_id": predicted_deck_id
+		},
+		perfect_deck_match=perfect_deck_match,
+		archetype_match=archetype_match,
+		player_class=CardClass(int(player_class)).name,
+		format=FormatType(int(global_game.format)).name,
+		prediction_has_archetype=prediction_has_archetype,
+		predicted_archetype_id=predicted_archetype_id,
+		actual_archetype_id=deck.archetype_id,
+		actual_has_archetype=actual_has_archetype,
+		is_friendly_player=is_friendly_player,
+		num_played_cards=len(played_cards_for_player),
+		final_state=PlayState(int(final_state)).name
+	)
+
+
+def observe_deck(tree, deck, played_card_dbfs):
+	tree.observe(
+		deck.id,
+		deck.dbf_map(),
+		played_card_dbfs
+	)
+
+
+def predict_deck(
+	tree, global_game, player_class, deck, deck_size, played_card_dbfs, played_card_names
+):
+	res = tree.lookup(
+		deck.dbf_map(),
+		played_card_dbfs,
+	)
+	predicted_deck_id = res.predicted_deck_id
+
+	fields = {
+		"actual_deck_id": deck.id,
+		"deck_size": deck_size,
+		"game_id": global_game.id,
+		"sequence": "->".join("[%s]" % c for c in played_card_names),
+		"predicted_deck_id": res.predicted_deck_id,
+		"match_attempts": res.match_attempts,
+		"tie": res.tie
+	}
+
+	if res.node:
+		fields["depth"] = res.node.depth
+
+	tree_depth = res.node.depth if res.node else None
+	influx_metric(
+		"deck_prediction",
+		fields,
+		missing_cards=30 - deck_size,
+		player_class=CardClass(int(player_class)).name,
+		format=FormatType(int(global_game.format)).name,
+		tree_depth=tree_depth,
+		made_prediction=predicted_deck_id is not None
+	)
+
+	if not predicted_deck_id:
+		return None
+
+	return Deck.objects.get(id=predicted_deck_id)
 
 
 def update_replay_feed(replay):
