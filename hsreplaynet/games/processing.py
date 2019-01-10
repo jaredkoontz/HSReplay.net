@@ -628,7 +628,7 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 				error_handler(e)
 
 		# ilt-based deck prediction
-		ilt_deck_prediction_enabled = getattr(settings, "ILT_DECK_PREDICTION_ENABLED", True)
+		ilt_deck_prediction_enabled = getattr(settings, "ILT_DECK_PREDICTION_ENABLED", False)
 		if ilt_deck_prediction_enabled and is_eligible_format and is_eligible_gametype:
 			try:
 				perform_ilt_deck_prediction(
