@@ -1011,9 +1011,15 @@ def perform_ilt_deck_prediction(
 
 		deck_match = predicted_deck_id == deck.id
 		archetype_match = False
+		prediction_archetype_id = None
+		prediction_has_archetype = False
+		is_decklist_superset = False
 		if predicted_deck_id:
 			predicted_deck = Deck.objects.get(id=predicted_deck_id)
 			archetype_match = predicted_deck.archetype_id == deck.archetype_id
+			prediction_archetype_id = predicted_deck.archetype_id
+			prediction_has_archetype = prediction_archetype_id is not None
+			is_decklist_superset = _is_decklist_superset(predicted_deck, deck)
 
 		influx_metric(
 			"ilt_cross_validation_result",
@@ -1024,9 +1030,15 @@ def perform_ilt_deck_prediction(
 			},
 			game_format=pretty_game_format,
 			player_class=pretty_player_class,
+			made_prediction=predicted_deck_id is not None,
+			actual_deck_archetype_id=deck.archetype_id,
+			actual_deck_has_archetype=deck.archetype_id is not None,
+			predicted_deck_archetype_id=prediction_archetype_id,
+			predicted_deck_has_archetype=prediction_has_archetype,
 			deck_match=deck_match,
 			archetype_match=archetype_match,
-			num_cards=len(played_cards)
+			is_decklist_superset=is_decklist_superset,
+			missing_cards=30 - len(played_cards)
 		)
 		# do observation
 		with influx_timer(
