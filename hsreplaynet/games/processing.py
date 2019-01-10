@@ -999,8 +999,8 @@ def perform_ilt_deck_prediction(game_format, player_class, deck, upload_event):
 		influx_metric(
 			"ilt_deck_prediction_outcome",
 			{
-				"partial_deck_id": deck.id,
-				"predicted_deck_id": predicted_deck_id
+				"partial_deck_id": str(deck.id),
+				"predicted_deck_id": str(predicted_deck_id)
 			},
 			missing_cards=30 - deck_size,
 			player_class=CardClass(int(player_class)).name,
