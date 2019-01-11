@@ -2,6 +2,7 @@ import InfluxMetricsBackend from "./InfluxMetricsBackend";
 import MetricsReporter from "./MetricsReporter";
 import UserData from "../UserData";
 import { Step } from "../components/collection/modal/CollectionSetupDialog";
+import { fetchCSRF } from "../helpers";
 
 UserData.create();
 
@@ -62,7 +63,10 @@ export class SubscriptionEvents extends Events {
 
 		// Update the user table timestamp for last premium checkout.
 
-		fetch("/account/billing/notify-checkout/", { method: "POST" });
+		fetchCSRF("/account/billing/notify-checkout/", {
+			credentials: "same-origin",
+			method: "POST"
+		});
 	}
 
 	public static onSubscribe(
