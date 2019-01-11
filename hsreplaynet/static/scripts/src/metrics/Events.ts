@@ -62,7 +62,7 @@ export class SubscriptionEvents extends Events {
 
 		// Update the user table timestamp for last premium checkout.
 
-		fetch("/accounts/billing/notify-checkout/", { method: "POST" });
+		fetch("/account/billing/notify-checkout/", { method: "POST" });
 	}
 
 	public static onSubscribe(
