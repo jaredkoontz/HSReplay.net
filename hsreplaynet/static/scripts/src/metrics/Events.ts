@@ -65,7 +65,7 @@ export class SubscriptionEvents extends Events {
 
 		fetchCSRF("/account/billing/notify-checkout/", {
 			credentials: "same-origin",
-			method: "POST"
+			method: "POST",
 		});
 	}
 
