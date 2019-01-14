@@ -760,10 +760,7 @@ def perform_deck_prediction(
 	played_card_dbfs = [c.dbf_id for c in played_cards_for_player][:min_played_cards]
 	played_card_names = [c.name for c in played_cards_for_player][:min_played_cards]
 
-	if deck.size is not None:
-		deck_size = deck.size
-	else:
-		deck_size = sum(i.count for i in deck.includes.all())
+	deck_size = len(deck)
 
 	has_enough_observed_cards = deck_size >= min_observed_cards
 	has_enough_played_cards = len(played_card_dbfs) >= min_played_cards
@@ -989,11 +986,7 @@ def perform_ilt_deck_prediction(
 	pretty_game_format = FormatType(int(game_format)).name
 	pretty_player_class = CardClass(int(player_class)).name
 
-	# calculate deck size
-	if deck.size is not None:
-		deck_size = deck.size
-	else:
-		deck_size = sum(i.count for i in deck.includes.all())
+	deck_size = len(deck)
 
 	if deck_size == 30:
 		method = "observe"

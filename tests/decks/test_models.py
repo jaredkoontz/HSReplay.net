@@ -208,3 +208,27 @@ class TestDeck:
 			205,
 			205,
 		]
+
+	@pytest.mark.django_db
+	def test_len(self):
+		deck = create_deck_from_deckstring(
+			"AAECAZICAA9AzQHVAYECnALwA4sEiAXmBYUGtwbQB5oI2Qr5CgA="
+		)
+		assert len(deck) == 30
+		assert deck.is_full_deck
+
+	@pytest.mark.django_db
+	def test_contains(self):
+		deck = create_deck_from_deckstring(
+			"AAECAZICAA9AzQHVAYECnALwA4sEiAXmBYUGtwbQB5oI2Qr5CgA="
+		)
+
+		fireball = Card.objects.get(dbf_id=64)
+		assert fireball in deck
+		assert 64 in deck
+		assert "CS2_012" in deck
+
+		swipe = Card.objects.get(dbf_id=315)
+		assert swipe not in deck
+		assert 315 not in deck
+		assert "CS2_029" not in deck

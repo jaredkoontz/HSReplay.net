@@ -223,6 +223,21 @@ class Deck(models.Model):
 		mana_sorted = sorted(alpha_sorted, key=lambda c: c.cost)
 		return mana_sorted.__iter__()
 
+	def __len__(self):
+		size = self.size
+		if self.size is None:
+			size = sum(i.count for i in self.includes.all())
+		return size
+
+	def __contains__(self, item):
+		if isinstance(item, Card):
+			item = item.card_id
+		if isinstance(item, int):
+			return self.includes.filter(card__dbf_id=item).exists()
+		if isinstance(item, str):
+			return self.includes.filter(card__card_id=item).exists()
+		return NotImplemented
+
 	@cached_property
 	def hero(self):
 		deck_class = self.deck_class
@@ -296,10 +311,7 @@ class Deck(models.Model):
 
 	@property
 	def is_full_deck(self):
-		size = self.size
-		if self.size is None:
-			size = sum(i.count for i in self.includes.all())
-		return size == 30
+		return len(self) == 30
 
 	def get_absolute_url(self):
 		if not self.is_full_deck:
