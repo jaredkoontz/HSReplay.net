@@ -345,7 +345,9 @@ class Deck(models.Model):
 	def card_dbf_id_list(self):
 		result = []
 
-		includes = self.includes.values_list("card__dbf_id", "count")
+		includes = self.includes \
+			.values_list("card__dbf_id", "count") \
+			.order_by("card__cost", "card__name")
 		for id, count in includes:
 			for i in range(count):
 				result.append(id)
@@ -359,7 +361,9 @@ class Deck(models.Model):
 	def card_id_list(self):
 		result = []
 
-		includes = self.includes.values_list("card__card_id", "count")
+		includes = self.includes \
+			.values_list("card__card_id", "count") \
+			.order_by("card__cost", "card__name")
 		for id, count in includes:
 			for i in range(count):
 				result.append(id)
