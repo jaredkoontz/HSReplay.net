@@ -792,11 +792,12 @@ def perform_deck_prediction(
 			played_cards_for_player=played_cards_for_player,
 			played_card_dbfs=played_card_dbfs,
 		)
-		observe_deck(
-			tree=tree,
-			deck=deck,
-			played_card_dbfs=played_card_dbfs
-		)
+		with influx_timer("deck_prediction_duration", method="observe"):
+			observe_deck(
+				tree=tree,
+				deck=deck,
+				played_card_dbfs=played_card_dbfs
+			)
 
 		# deck_id == proxy_deck_id for complete decks
 		deck.guessed_full_deck = deck
@@ -820,15 +821,16 @@ def perform_deck_prediction(
 
 	elif is_eligible:
 		# we have enough cards to predict the full deck
-		guessed_full_deck = predict_deck(
-			tree=tree,
-			global_game=global_game,
-			player_class=player_class,
-			deck=deck,
-			deck_size=deck_size,
-			played_card_dbfs=played_card_dbfs,
-			played_card_names=played_card_names,
-		)
+		with influx_timer("deck_prediction_duration", method="predict"):
+			guessed_full_deck = predict_deck(
+				tree=tree,
+				global_game=global_game,
+				player_class=player_class,
+				deck=deck,
+				deck_size=deck_size,
+				played_card_dbfs=played_card_dbfs,
+				played_card_names=played_card_names,
+			)
 
 		if guessed_full_deck:
 			guessed_deck_id = guessed_full_deck.id
