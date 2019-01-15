@@ -341,6 +341,12 @@ class Deck(models.Model):
 	def is_full_deck(self):
 		return len(self) == 30
 
+	@property
+	def guessed_archetype(self):
+		if self.guessed_full_deck:
+			return self.guessed_full_deck.archetype
+		return self.archetype
+
 	def get_absolute_url(self):
 		if not self.is_full_deck:
 			return None
