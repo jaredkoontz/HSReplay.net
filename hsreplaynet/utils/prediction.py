@@ -301,21 +301,23 @@ class RedisInverseLookupTable(BaseInverseLookupTable):
 		if not self._is_full_deck(dbf_map):
 			raise ValueError("The deck is not a full deck")
 
-		# grab the current time
-		now = int(time.time() * 1000)
+		# calculate times
+		now_msecs = int(time.time() * 1000)
+		lookback_msecs = self.deck_popularity_lookback_mins * 60 * 1000
 
 		# pipeline all the following commands
 		pipeline = self.redis.pipeline()
 
 		# observe the cards in ILTs
 		for key in self._get_card_keys(dbf_map):
-			pipeline.zadd(key, now, deck_id)
+			pipeline.zadd(key, now_msecs, deck_id)
 			pipeline.expire(key, self.ilt_lookback_mins * 60)
 
 		# observe the deck for popularity
 		deck_key = self._get_deck_key(deck_id)
 		uuid = uuid or str(uuid4())
-		pipeline.zadd(deck_key, now, uuid)
+		pipeline.zadd(deck_key, now_msecs, uuid)
+		pipeline.zremrangebyscore(deck_key, 0, now_msecs - lookback_msecs)
 		pipeline.expire(deck_key, self.deck_popularity_lookback_mins * 60)
 
 		# send the pipeline over the wire
@@ -411,10 +413,8 @@ class RedisInverseLookupTable(BaseInverseLookupTable):
 		key = self._get_deck_key(deck_id)
 		now_msecs = int(time.time() * 1000)
 		lookback_msecs = self.deck_popularity_lookback_mins * 60 * 1000
-		# remove all observations with a "timestamp" (score) that is too old (low)
-		self.redis.zremrangebyscore(key, 0, now_msecs - lookback_msecs)
 		# count all remaining observations
-		return self.redis.zcard(key)
+		return self.redis.zcount(key, now_msecs - lookback_msecs, "+inf")
 
 
 def inverse_lookup_table(
