@@ -413,8 +413,8 @@ class RedisInverseLookupTable(BaseInverseLookupTable):
 		lookback_msecs = self.deck_popularity_lookback_mins * 60 * 1000
 		# remove all observations with a "timestamp" (score) that is too old (low)
 		self.redis.zremrangebyscore(key, 0, now_msecs - lookback_msecs)
-		# count all remaining observations (0, -1 do not work here and we need -/+inf)
-		return self.redis.zcount(key, "-inf", "+inf")
+		# count all remaining observations
+		return self.redis.zcard(key)
 
 
 def inverse_lookup_table(
