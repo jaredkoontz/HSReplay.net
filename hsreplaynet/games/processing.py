@@ -992,6 +992,9 @@ def perform_ilt_deck_prediction(
 
 	if deck_size == 30:
 		method = "observe"
+		# store trivial full deck
+		deck.guessed_full_deck = deck
+		deck.save()
 		# cross validation (must be before observation!)
 		played_card_dbfs = reduce(
 			lambda accum, card: {**accum, **{card.dbf_id: accum.get(card.dbf_id, 0) + 1}},
