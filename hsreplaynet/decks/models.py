@@ -411,7 +411,11 @@ class Deck(models.Model):
 		return result
 
 	def predicted_card_id_list(self):
-		if self.guessed_full_deck and self.digest != self.guessed_full_deck.digest:
+		if (
+			self.guessed_full_deck and
+			self.digest != self.guessed_full_deck.digest and
+			self.issubset(self.guessed_full_deck)
+		):
 			return self.guessed_full_deck.card_id_list()
 
 	def as_dbf_json(self, serialized=True):
