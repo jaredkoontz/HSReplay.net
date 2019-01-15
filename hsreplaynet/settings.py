@@ -494,7 +494,7 @@ INCLUDE_CURRENT_BUCKET_IN_LOOKUP = False
 
 ILT_DECK_PREDICTION_MINIMUM_CARDS = 3
 # The sliding window duration of card to deck mappings to maintain
-ILT_LOOKBACK_MINS = 48 * 60
+ILT_LOOKBACK_MINS = 24 * 60
 # The sliding window size of deck popularities to maintain
 ILT_DECK_POPULARITY_LOOKBACK_MINS = 6 * 60
 
