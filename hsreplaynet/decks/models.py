@@ -238,6 +238,34 @@ class Deck(models.Model):
 			return self.includes.filter(card__card_id=item).exists()
 		return NotImplemented
 
+	def issubset(self, deck: "Deck") -> bool:
+		"""Test whether every card in self is in deck."""
+		if isinstance(deck, self.__class__):
+			sub = self.card_dbf_id_list()
+			super = deck.card_dbf_id_list()
+			for dbf_id in sub:
+				try:
+					super.remove(dbf_id)
+				except ValueError:
+					return False
+			return True
+
+		raise NotImplementedError
+
+	def issuperset(self, deck: "Deck") -> bool:
+		"""Test whether every card in deck is in self."""
+		if isinstance(deck, self.__class__):
+			sub = deck.card_dbf_id_list()
+			super = self.card_dbf_id_list()
+			for dbf_id in sub:
+				try:
+					super.remove(dbf_id)
+				except ValueError:
+					return False
+			return True
+
+		raise NotImplementedError
+
 	@cached_property
 	def hero(self):
 		deck_class = self.deck_class

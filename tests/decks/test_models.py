@@ -232,3 +232,19 @@ class TestDeck:
 		assert swipe not in deck
 		assert 315 not in deck
 		assert "CS2_029" not in deck
+
+	@pytest.mark.django_db
+	def test_issubset(self):
+		claw_swipe = create_deck_from_deckstring("AAECAZICAkCaCAAA")
+		claw = create_deck_from_deckstring("AAECAZICAZoIAAA=")
+		assert claw.issubset(claw_swipe)
+		assert claw.issubset(claw)
+		assert not claw_swipe.issubset(claw)
+
+	@pytest.mark.django_db
+	def test_issuperset(self):
+		claw_swipe = create_deck_from_deckstring("AAECAZICAkCaCAAA")
+		claw = create_deck_from_deckstring("AAECAZICAZoIAAA=")
+		assert claw_swipe.issuperset(claw)
+		assert claw.issuperset(claw)
+		assert not claw.issuperset(claw_swipe)

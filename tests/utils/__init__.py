@@ -10,7 +10,7 @@ from hsreplaynet.games.models import GameReplay, GlobalGamePlayer
 from hsreplaynet.utils import card_db
 
 
-def create_deck_from_deckstring(deckstring, archetype_id=None):
+def create_deck_from_deckstring(deckstring, archetype_id=None) -> Deck:
 	db = card_db()
 	cards, heroes, format = parse_deckstring(deckstring)
 

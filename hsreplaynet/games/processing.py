@@ -1014,7 +1014,7 @@ def perform_ilt_deck_prediction(
 			archetype_match = predicted_deck.archetype_id == deck.archetype_id
 			prediction_archetype_id = predicted_deck.archetype_id
 			prediction_has_archetype = prediction_archetype_id is not None
-			is_decklist_superset = _is_decklist_superset(predicted_deck, deck)
+			is_decklist_superset = predicted_deck.issuperset(deck)
 
 		influx_metric(
 			"ilt_cross_validation_result",
@@ -1053,7 +1053,7 @@ def perform_ilt_deck_prediction(
 		is_decklist_superset = False
 		if predicted_deck_id:
 			predicted_deck = Deck.objects.get(id=predicted_deck_id)
-			is_decklist_superset = _is_decklist_superset(predicted_deck, deck)
+			is_decklist_superset = predicted_deck.issuperset(deck)
 
 		influx_metric(
 			"ilt_deck_prediction_result",
