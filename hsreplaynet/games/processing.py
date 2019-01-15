@@ -615,9 +615,10 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 			# BnetGameType.BGT_CASUAL_WILD,
 		]
 
+		tree_deck_prediction_result = {}
 		if deck_prediction_enabled and is_eligible_format and is_eligible_gametype:
 			try:
-				perform_deck_prediction(
+				tree_deck_prediction_result = perform_tree_deck_prediction(
 					global_game=global_game,
 					player=player,
 					player_class=player_class,
@@ -629,10 +630,11 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 				error_handler(e)
 
 		# ilt-based deck prediction
+		ilt_deck_prediction_result = {}
 		ilt_deck_prediction_enabled = getattr(settings, "ILT_DECK_PREDICTION_ENABLED", False)
 		if ilt_deck_prediction_enabled and is_eligible_format and is_eligible_gametype:
 			try:
-				perform_ilt_deck_prediction(
+				ilt_deck_prediction_result = perform_ilt_deck_prediction(
 					game_format=global_game.format,
 					player_class=player_class,
 					deck=deck,
@@ -641,6 +643,38 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 				)
 			except Exception as e:
 				error_handler(e)
+
+		# emit deck prediction consensus metrics
+		if deck_prediction_enabled and ilt_deck_prediction_enabled:
+			tree_deck_id = tree_deck_prediction_result.get("predicted_deck_id")
+			tree_archetype_id = tree_deck_prediction_result.get("predicted_archetype_id")
+			ilt_deck_id = ilt_deck_prediction_result.get("predicted_deck_id")
+			ilt_archetype_id = ilt_deck_prediction_result.get("predicted_archetype_id")
+			influx_metric(
+				"deck_prediction_comparative",
+				{
+					"count": 1,
+					"partial_deck_id": str(deck.id),
+					"tree_deck_id": str(tree_deck_id or ""),
+					"tree_archetype_id": str(tree_archetype_id or ""),
+					"ilt_deck_id": str(ilt_deck_id or ""),
+					"ilt_archetype_id": str(ilt_archetype_id or ""),
+				},
+				game_format=FormatType(int(global_game.format)).name,
+				player_class=CardClass(int(player_class)).name,
+				partial_deck_size=len(deck),
+				is_full_deck=deck.is_full_deck,
+				has_tree_deck=tree_deck_id is not None,
+				has_tree_archetype=tree_archetype_id is not None,
+				has_ilt_deck=ilt_deck_id is not None,
+				has_ilt_archetype=ilt_archetype_id is not None,
+				archetypes_match=(
+					ilt_archetype_id == tree_archetype_id and ilt_archetype_id is not None
+				),
+				decks_match=(
+					ilt_deck_id == tree_deck_id and ilt_deck_id is not None
+				),
+			)
 
 		name, _ = player.names
 		if not name:
@@ -743,7 +777,7 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 	return players
 
 
-def perform_deck_prediction(
+def perform_tree_deck_prediction(
 	global_game, player, player_class, played_cards_for_player, is_friendly_player, deck
 ):
 	tree = deck_prediction_tree(player_class, global_game.format)
@@ -858,6 +892,10 @@ def perform_deck_prediction(
 			prediction_has_archetype=(guessed_archetype is not None),
 			num_played_cards=len(played_cards_for_player)
 		)
+		return {
+			"predicted_deck_id": guessed_deck_id,
+			"predicted_archetype_id": guessed_archetype,
+		}
 	else:
 		influx_metric(
 			"deck_prediction_funnel",
@@ -875,6 +913,8 @@ def perform_deck_prediction(
 			prediction_has_archetype=None,
 			num_played_cards=len(played_cards_for_player)
 		)
+
+	return {}
 
 
 def perform_cross_validation(
@@ -988,6 +1028,9 @@ def perform_ilt_deck_prediction(
 	pretty_game_format = FormatType(int(game_format)).name
 	pretty_player_class = CardClass(int(player_class)).name
 
+	predicted_deck_id = None
+	predicted_archetype_id = None
+
 	deck_size = len(deck)
 
 	if deck_size == 30:
@@ -1009,14 +1052,14 @@ def perform_ilt_deck_prediction(
 
 		deck_match = predicted_deck_id == deck.id
 		archetype_match = False
-		prediction_archetype_id = None
+		predicted_archetype_id = None
 		prediction_has_archetype = False
 		is_decklist_superset = False
 		if predicted_deck_id:
 			predicted_deck = Deck.objects.get(id=predicted_deck_id)
 			archetype_match = predicted_deck.archetype_id == deck.archetype_id
-			prediction_archetype_id = predicted_deck.archetype_id
-			prediction_has_archetype = prediction_archetype_id is not None
+			predicted_archetype_id = predicted_deck.archetype_id
+			prediction_has_archetype = predicted_archetype_id is not None
 			is_decklist_superset = predicted_deck.issuperset(deck)
 
 		influx_metric(
@@ -1031,7 +1074,7 @@ def perform_ilt_deck_prediction(
 			made_prediction=predicted_deck_id is not None,
 			actual_deck_archetype_id=deck.archetype_id,
 			actual_deck_has_archetype=deck.archetype_id is not None,
-			predicted_deck_archetype_id=prediction_archetype_id,
+			predicted_deck_archetype_id=predicted_archetype_id,
 			predicted_deck_has_archetype=prediction_has_archetype,
 			deck_match=deck_match,
 			archetype_match=archetype_match,
@@ -1057,6 +1100,7 @@ def perform_ilt_deck_prediction(
 		if predicted_deck_id:
 			predicted_deck = Deck.objects.get(id=predicted_deck_id)
 			is_decklist_superset = predicted_deck.issuperset(deck)
+			predicted_archetype_id = predicted_deck.archetype_id
 
 		influx_metric(
 			"ilt_deck_prediction_result",
@@ -1079,6 +1123,11 @@ def perform_ilt_deck_prediction(
 		game_format=pretty_game_format,
 		player_class=pretty_player_class
 	)
+
+	return {
+		"predicted_deck_id": predicted_deck_id,
+		"predicted_archetype_id": predicted_archetype_id,
+	}
 
 
 def update_replay_feed(replay):
