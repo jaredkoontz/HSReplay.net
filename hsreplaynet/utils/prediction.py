@@ -371,7 +371,12 @@ class RedisInverseLookupTable(BaseInverseLookupTable):
 			return max(deck_ids, key=lambda deck_id: self._get_popularity_for_deck(deck_id))
 
 		# count number of decks for each card once before fuzzy matching
-		sorted_keys = sorted(keys, key=lambda key: self.redis.zcard(key))
+		pipeline = self.redis.pipeline()
+		key_list = list(keys)
+		for key in key_list:
+			pipeline.zcard(key)
+		cardinalities = {key_list[index]: card for index, card in enumerate(pipeline.execute())}
+		sorted_keys = sorted(keys, key=lambda key: cardinalities[key])
 		required_keys = self._get_card_keys({key: 1 for key in self.required_cards})
 
 		# fuzzy matching: as long as we can safely remove one card...
