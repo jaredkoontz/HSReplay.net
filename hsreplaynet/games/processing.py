@@ -650,6 +650,7 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 			tree_archetype_id = tree_deck_prediction_result.get("predicted_archetype_id")
 			ilt_deck_id = ilt_deck_prediction_result.get("predicted_deck_id")
 			ilt_archetype_id = ilt_deck_prediction_result.get("predicted_archetype_id")
+			ilt_fuzzy_match_depth = ilt_deck_prediction_result.get("removed_cards")
 			influx_metric(
 				"deck_prediction_comparative",
 				{
@@ -1030,6 +1031,7 @@ def perform_ilt_deck_prediction(
 
 	predicted_deck_id = None
 	predicted_archetype_id = None
+	removed_cards = 0
 
 	deck_size = len(deck)
 
@@ -1127,6 +1129,7 @@ def perform_ilt_deck_prediction(
 	return {
 		"predicted_deck_id": predicted_deck_id,
 		"predicted_archetype_id": predicted_archetype_id,
+		"removed_cards": int(removed_cards),
 	}
 
 

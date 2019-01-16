@@ -223,6 +223,24 @@ def test_inverse_lookup_table_predicts_fuzzy_deck(redis):
 	assert remote_ilt.predict({1: 1, 2: 1, 4: 1}) == 1
 
 
+def test_inverse_lookup_table_does_not_remove_too_many_fuzzy_cards(redis):
+	ilt = RedisInverseLookupTable(
+		redis,
+		FormatType.FT_STANDARD,
+		CardClass.DRUID,
+		full_deck_size=4,
+	)
+	ilt.observe({1: 1, 2: 1, 3: 2}, 1)
+	remote_ilt = RedisInverseLookupTable(
+		redis,
+		FormatType.FT_STANDARD,
+		CardClass.DRUID,
+		min_cards_for_prediction=1,
+		max_fuzzy_cards_removed=0
+	)
+	assert remote_ilt.predict({1: 1, 2: 1, 4: 1}) is None
+
+
 def test_inverse_lookup_table_does_not_remove_required_card(redis):
 	ilt = RedisInverseLookupTable(
 		redis,

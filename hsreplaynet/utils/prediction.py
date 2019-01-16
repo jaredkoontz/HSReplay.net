@@ -280,6 +280,7 @@ class RedisInverseLookupTable(BaseInverseLookupTable):
 		min_cards_for_prediction: int = settings.ILT_DECK_PREDICTION_MINIMUM_CARDS,
 		ilt_lookback_mins: int = settings.ILT_LOOKBACK_MINS,
 		deck_popularity_lookback_mins: int = settings.ILT_DECK_POPULARITY_LOOKBACK_MINS,
+		max_fuzzy_cards_removed: int = settings.ILT_FUZZY_MAXIMUM_CARDS_REMOVED,
 		full_deck_size: int = 30,
 	) -> None:
 		self.redis = redis
@@ -289,6 +290,7 @@ class RedisInverseLookupTable(BaseInverseLookupTable):
 		self.ilt_lookback_mins = ilt_lookback_mins
 		self.deck_popularity_lookback_mins = deck_popularity_lookback_mins
 		self.min_cards_for_prediction = min_cards_for_prediction
+		self.max_fuzzy_cards_removed = max_fuzzy_cards_removed
 		self.full_deck_size = full_deck_size
 
 	@property
@@ -370,11 +372,16 @@ class RedisInverseLookupTable(BaseInverseLookupTable):
 		required_keys = self._get_card_keys({key: 1 for key in self.required_cards})
 
 		# fuzzy matching: as long as we can safely remove one card...
-		while len(sorted_keys) > self.min_cards_for_prediction:
+		removed = 0
+		while (
+			len(sorted_keys) > self.min_cards_for_prediction and
+			removed < self.max_fuzzy_cards_removed
+		):
 			# ...find a non-required card to remove
 			for index, key_to_remove in enumerate(sorted_keys):
 				if key_to_remove not in required_keys:
 					del sorted_keys[index]
+					removed += 1
 					break
 			else:
 				# we were unable to remove anything, terminate
