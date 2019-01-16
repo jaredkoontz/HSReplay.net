@@ -346,6 +346,9 @@ class RedisInverseLookupTable(BaseInverseLookupTable):
 		return f"{self.namespace}:POPULARITY:{deck_id}"
 
 	def predict(self, dbf_map: Dict[int, int]) -> Optional[int]:
+		# store some debugging data
+		self._cards_removed = None
+
 		# check to see whether enough the deck to predict has enough cards
 		if not self._is_predictable_deck(dbf_map):
 			return None
@@ -372,16 +375,16 @@ class RedisInverseLookupTable(BaseInverseLookupTable):
 		required_keys = self._get_card_keys({key: 1 for key in self.required_cards})
 
 		# fuzzy matching: as long as we can safely remove one card...
-		removed = 0
+		self._cards_removed = 0
 		while (
 			len(sorted_keys) > self.min_cards_for_prediction and
-			removed < self.max_fuzzy_cards_removed
+			self._cards_removed < self.max_fuzzy_cards_removed
 		):
 			# ...find a non-required card to remove
 			for index, key_to_remove in enumerate(sorted_keys):
 				if key_to_remove not in required_keys:
 					del sorted_keys[index]
-					removed += 1
+					self._cards_removed += 1
 					break
 			else:
 				# we were unable to remove anything, terminate

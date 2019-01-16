@@ -650,7 +650,7 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 			tree_archetype_id = tree_deck_prediction_result.get("predicted_archetype_id")
 			ilt_deck_id = ilt_deck_prediction_result.get("predicted_deck_id")
 			ilt_archetype_id = ilt_deck_prediction_result.get("predicted_archetype_id")
-			ilt_fuzzy_match_depth = ilt_deck_prediction_result.get("removed_cards")
+			ilt_fuzzy_removed_cards = ilt_deck_prediction_result.get("removed_cards", 0)
 			influx_metric(
 				"deck_prediction_comparative",
 				{
@@ -660,6 +660,7 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 					"tree_archetype_id": str(tree_archetype_id or ""),
 					"ilt_deck_id": str(ilt_deck_id or ""),
 					"ilt_archetype_id": str(ilt_archetype_id or ""),
+					"ilt_fuzzy_removed_cards": int(ilt_fuzzy_removed_cards),
 				},
 				game_format=FormatType(int(global_game.format)).name,
 				player_class=CardClass(int(player_class)).name,
@@ -669,6 +670,7 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 				has_tree_archetype=tree_archetype_id is not None,
 				has_ilt_deck=ilt_deck_id is not None,
 				has_ilt_archetype=ilt_archetype_id is not None,
+				has_ilt_removed_cards=ilt_fuzzy_removed_cards != 0,
 				archetypes_match=(
 					ilt_archetype_id == tree_archetype_id and ilt_archetype_id is not None
 				),
@@ -1097,6 +1099,7 @@ def perform_ilt_deck_prediction(
 			method=method, game_format=pretty_game_format, player_class=pretty_player_class
 		):
 			predicted_deck_id = ilt.predict(deck.dbf_map())
+		removed_cards = ilt._cards_removed
 
 		is_decklist_superset = False
 		if predicted_deck_id:
@@ -1129,7 +1132,7 @@ def perform_ilt_deck_prediction(
 	return {
 		"predicted_deck_id": predicted_deck_id,
 		"predicted_archetype_id": predicted_archetype_id,
-		"removed_cards": int(removed_cards),
+		"removed_cards": int(removed_cards or 0),
 	}
 
 
