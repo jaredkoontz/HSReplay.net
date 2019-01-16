@@ -50,7 +50,7 @@ class Command(BaseCommand):
 		if count < 1:
 			raise CommandError("count needs to be 1 or greater")
 
-		self.stdout.write("Preparing to generate %s invites" % count)
+		self.stdout.write("Preparing to generate %s invite(s)" % count)
 
 		description = options["description"]
 		if description is None:
@@ -105,7 +105,7 @@ class Command(BaseCommand):
 			self.stdout.write("Please check these parameter are correct:")
 
 		self.stdout.write("-" * 36)
-		self.stdout.write("uuid:         <generated>")
+		self.stdout.write("code:         <generated>")
 		self.stdout.write('description:  "%s"' % description)
 
 		pretty_features = "none"
