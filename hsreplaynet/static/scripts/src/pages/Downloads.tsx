@@ -154,7 +154,7 @@ class Downloads extends React.Component<Props, State> {
 								image={image("downloads/played.png")}
 								subtitle={t("Opponent Card Tracking")}
 								text={t(
-									"Track what cards your opponent has revealed to far.",
+									"Track what cards your opponent has revealed so far.",
 								)}
 							/>
 						</div>
