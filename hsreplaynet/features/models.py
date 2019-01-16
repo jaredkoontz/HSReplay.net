@@ -220,7 +220,7 @@ class FeatureInvite(models.Model, Redeemable):
 		return True
 
 	def get_absolute_url(self):
-		return reverse("redeem_code") + f"?code={self.uuid}"
+		return reverse("redeem_code_pretty", kwargs={"code": str(self.uuid)})
 
 	def redeem_for_user(self, user):
 		if not self.is_valid:

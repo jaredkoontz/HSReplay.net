@@ -47,7 +47,10 @@ urlpatterns = [
 	url(r"^ping/$", PingView.as_view()),
 	url(r"^premium/$", PremiumDetailView.as_view(), name="premium"),
 	url(r"^redeem/$", RedirectView.as_view(pattern_name="redeem_code", permanent=False)),
-	url(r"^redeem/(?P<code>\w+)$", RedeemCodeRedirectView.as_view()),
+	url(
+		r"^redeem/(?P<code>[\w-]+)$", RedeemCodeRedirectView.as_view(),
+		name="redeem_code_pretty"
+	),
 	url(r"^features/redeem/$", RedeemCodeView.as_view(), name="redeem_code"),
 
 	# Replays

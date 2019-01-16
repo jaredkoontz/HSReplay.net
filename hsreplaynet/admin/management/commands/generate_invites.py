@@ -146,6 +146,6 @@ class Command(BaseCommand):
 			for _feature in features:
 				invite.features.add(_feature)
 
-			self.stdout.write(f"https://hsreplay.net{invite.get_absolute_url()}&next=/premium")
+			self.stdout.write(f"https://hsreplay.net{invite.get_absolute_url()}")
 
 		self.stdout.write("Done")
