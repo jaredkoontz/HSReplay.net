@@ -26,6 +26,11 @@ class DeckAdmin(admin.ModelAdmin):
 	def get_ordering(self, request):
 		return ["-id"]
 
+	def view_on_site(self, deck):
+		if not deck.is_full_deck:
+			return None
+		return deck.get_absolute_url()
+
 
 @admin.register(ClusterSetSnapshot)
 class ClusterSetSnapshotAdmin(admin.ModelAdmin):
