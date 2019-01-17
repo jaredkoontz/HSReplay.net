@@ -1246,11 +1246,7 @@ def capture_played_card_stats(global_game, played_cards, is_friendly_player):
 		if not is_friendly_player and elapsed_minutes <= 5.0:
 			game_type_name = BnetGameType(global_game.game_type).name
 			redis = get_live_stats_redis()
-			dist = get_played_cards_distribution(
-				game_type_name,
-				redis_client=redis,
-				use_lua=False
-			)
+			dist = get_played_cards_distribution(game_type_name, redis_client=redis)
 			for dbf_id in played_cards:
 				dist.increment(dbf_id)
 	except Exception as e:
