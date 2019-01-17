@@ -498,7 +498,7 @@ ILT_LOOKBACK_MINS = 24 * 60
 # The sliding window size of deck popularities to maintain
 ILT_DECK_POPULARITY_LOOKBACK_MINS = 6 * 60
 # Remove only up to this number of cards when fuzzy matching
-ILT_FUZZY_MAXIMUM_CARDS_REMOVED = 3
+ILT_FUZZY_MAXIMUM_CARDS_REMOVED = 6
 
 # Used in some pages such as /downloads
 FONTAWESOME_CSS_URL = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
