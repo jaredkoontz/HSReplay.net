@@ -959,9 +959,11 @@ def perform_cross_validation(
 	influx_metric(
 		"deck_prediction_validation",
 		{
+			"count": 1,
 			"actual_deck_id": deck.id,
 			"predicted_deck_id": predicted_deck_id
 		},
+		made_prediction=predicted_deck_id is not None,
 		perfect_deck_match=perfect_deck_match,
 		archetype_match=archetype_match,
 		player_class=CardClass(int(player_class)).name,
@@ -972,7 +974,7 @@ def perform_cross_validation(
 		actual_has_archetype=actual_has_archetype,
 		is_friendly_player=is_friendly_player,
 		num_played_cards=len(played_cards_for_player),
-		final_state=PlayState(int(final_state)).name
+		final_state=PlayState(int(final_state)).name,
 	)
 
 
