@@ -872,8 +872,6 @@ def perform_tree_deck_prediction(
 		if guessed_full_deck:
 			guessed_deck_id = guessed_full_deck.id
 			guessed_archetype = guessed_full_deck.archetype_id
-			deck.guessed_full_deck = guessed_full_deck
-			deck.save()
 		else:
 			guessed_deck_id = None
 			guessed_archetype = None
@@ -1108,6 +1106,8 @@ def perform_ilt_deck_prediction(
 			predicted_deck = Deck.objects.get(id=predicted_deck_id)
 			is_decklist_superset = predicted_deck.issuperset(deck)
 			predicted_archetype_id = predicted_deck.archetype_id
+			deck.guessed_full_deck = predicted_deck
+			deck.save()
 
 		influx_metric(
 			"ilt_deck_prediction_result",
