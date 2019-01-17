@@ -60,8 +60,8 @@ class MetaOverview extends React.Component<Props, State> {
 	constructor(props: Props, context?: any) {
 		super(props, context);
 		this.state = {
-			archetypeListSortBy: "archetype",
-			archetypeListSortDirection: "ascending",
+			archetypeListSortBy: "games",
+			archetypeListSortDirection: "descending",
 			mobileView: window.innerWidth <= MOBILE_WIDTH,
 			showFilters: false,
 		};
