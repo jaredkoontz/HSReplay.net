@@ -35,6 +35,16 @@ class DropdownMenu extends React.Component<Props, State> {
 		}
 	};
 
+	private close = () => {
+		if (!this.state.expanded) {
+			return;
+		}
+
+		if (this.ref) {
+			this.setState({ expanded: false });
+		}
+	};
+
 	public componentDidMount(): void {
 		document.addEventListener("mousedown", this.clickAnywhere);
 	}
@@ -61,9 +71,13 @@ class DropdownMenu extends React.Component<Props, State> {
 		if (!this.state.expanded) {
 			return null;
 		}
+		let { children } = this.props;
+		if (typeof children === "function") {
+			children = children({ close: this.close });
+		}
 		return (
 			<ul className="dropdown-menu" ref={ref => (this.dropdownRef = ref)}>
-				{this.props.children}
+				{children}
 			</ul>
 		);
 	}
