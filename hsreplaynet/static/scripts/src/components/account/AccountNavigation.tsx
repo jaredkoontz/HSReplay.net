@@ -62,7 +62,7 @@ class AccountNavigation extends React.Component<Props, State> {
 			<>
 				{this.props.isPremium ? null : (
 					<Modal
-						visible={this.state.activePremiumModal != null}
+						visible={this.state.activePremiumModal !== null}
 						onClose={() =>
 							this.setState({ activePremiumModal: null })
 						}
@@ -85,56 +85,81 @@ class AccountNavigation extends React.Component<Props, State> {
 					label={t("My Data")}
 					glyphicon="stats"
 				>
-					<li className={this.getClassName("/decks/mine/", true)}>
-						<a
-							href="/decks/mine/"
-							className={"text-premium"}
-							id="navbar-link-my-decks"
-							onClick={e => {
-								if (!this.props.isPremium) {
-									e.preventDefault();
-									this.setState({
-										activePremiumModal: "MyDecks",
-									});
-								}
-							}}
-						>
-							<span className="glyphicon glyphicon-th-list" />
-							{t("My Decks")}
-						</a>
-					</li>
-					<li className={this.getClassName("/cards/mine/", true)}>
-						<a
-							href="/cards/mine/"
-							className="text-premium"
-							id="navbar-link-my-cards"
-							onClick={e => {
-								if (!this.props.isPremium) {
-									e.preventDefault();
-									this.setState({
-										activePremiumModal: "MyCards",
-									});
-								}
-							}}
-						>
-							<span className="glyphicon glyphicon-stats" />
-							{t("My Cards")}
-						</a>
-					</li>
-					<li
-						className={this.getClassName("/collection/mine/", true)}
-					>
-						<a href="/collection/mine/" id="navbar-link-my-cards">
-							<span className="glyphicon glyphicon-th-large" />
-							{t("My Collection")}
-						</a>
-					</li>
-					<li className={this.getClassName("/games/mine/")}>
-						<a href="/games/mine/" id="navbar-link-my-replays">
-							<span className="glyphicon glyphicon-play" />
-							{t("My Replays")}
-						</a>
-					</li>
+					{({ close: closeDropdown }) => (
+						<>
+							<li
+								className={this.getClassName(
+									"/decks/mine/",
+									true,
+								)}
+							>
+								<a
+									href="/decks/mine/"
+									className={"text-premium"}
+									id="navbar-link-my-decks"
+									onClick={e => {
+										if (!this.props.isPremium) {
+											e.preventDefault();
+											closeDropdown();
+											this.setState({
+												activePremiumModal: "MyDecks",
+											});
+										}
+									}}
+								>
+									<span className="glyphicon glyphicon-th-list" />
+									{t("My Decks")}
+								</a>
+							</li>
+							<li
+								className={this.getClassName(
+									"/cards/mine/",
+									true,
+								)}
+							>
+								<a
+									href="/cards/mine/"
+									className="text-premium"
+									id="navbar-link-my-cards"
+									onClick={e => {
+										if (!this.props.isPremium) {
+											e.preventDefault();
+											closeDropdown();
+											this.setState({
+												activePremiumModal: "MyCards",
+											});
+										}
+									}}
+								>
+									<span className="glyphicon glyphicon-stats" />
+									{t("My Cards")}
+								</a>
+							</li>
+							<li
+								className={this.getClassName(
+									"/collection/mine/",
+									true,
+								)}
+							>
+								<a
+									href="/collection/mine/"
+									id="navbar-link-my-cards"
+								>
+									<span className="glyphicon glyphicon-th-large" />
+									{t("My Collection")}
+								</a>
+							</li>
+							<li className={this.getClassName("/games/mine/")}>
+								<a
+									href="/games/mine/"
+									id="navbar-link-my-replays"
+								>
+									<span className="glyphicon glyphicon-play" />
+									{t("My Replays")}
+								</a>
+							</li>
+						</>
+					)}
 				</DropdownMenu>
 
 				{this.props.isAuthenticated ? (
