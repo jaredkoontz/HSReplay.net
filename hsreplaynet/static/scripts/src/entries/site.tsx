@@ -141,25 +141,29 @@ function checkModal() {
 					);
 					break;
 				case "premium":
-					ReactDOM.render(
-						<I18nextProvider
-							i18n={i18n}
-							initialLanguage={UserData.getLocale()}
-						>
-							<Modal
-								visible
-								onClose={() => {
-									ReactDOM.unmountComponentAtNode(modalDummy);
-								}}
+					if (!UserData.isPremium()) {
+						ReactDOM.render(
+							<I18nextProvider
+								i18n={i18n}
+								initialLanguage={UserData.getLocale()}
 							>
-								<PremiumModal
-									analyticsLabel={"URL Parameter"}
-									modalStyle="default"
-								/>
-							</Modal>
-						</I18nextProvider>,
-						modalDummy,
-					);
+								<Modal
+									visible
+									onClose={() => {
+										ReactDOM.unmountComponentAtNode(
+											modalDummy,
+										);
+									}}
+								>
+									<PremiumModal
+										analyticsLabel={"URL Parameter"}
+										modalStyle="default"
+									/>
+								</Modal>
+							</I18nextProvider>,
+							modalDummy,
+						);
+					}
 					break;
 			}
 			document.body.appendChild(modalDummy);
