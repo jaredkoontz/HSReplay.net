@@ -48,7 +48,7 @@ import {
 import { CardObj, RenderData, SortDirection } from "../interfaces";
 import { DeckEvents } from "../metrics/Events";
 import UserData, { Account } from "../UserData";
-import { Collection } from "../utils/api";
+import { Archetype, Collection } from "../utils/api";
 import { getDustCostForCollection } from "../utils/collection";
 import TwitchVods from "../components/TwitchVods";
 
@@ -64,8 +64,7 @@ interface Props extends InjectedTranslateProps {
 	account: Account | null;
 	collection: Collection | null;
 	adminUrl: string;
-	archetypeId?: string;
-	archetypeName?: string;
+	archetypeId?: number;
 	cardData: CardData;
 	deckCards: string;
 	deckClass: string;
@@ -180,36 +179,6 @@ class DeckDetail extends React.Component<Props, State> {
 					/>
 				</div>
 			));
-		}
-
-		let archetypeInfo = null;
-		if (this.props.archetypeName) {
-			archetypeInfo = (
-				<li>
-					{t("Archetype")}
-					<span className="infobox-value">
-						<a
-							href={getArchetypeUrl(
-								this.props.archetypeId,
-								this.props.archetypeName,
-							)}
-						>
-							{this.props.archetypeName}
-						</a>
-						<Feature feature="archetype-naming">
-							{" "}
-							<a
-								href={`/api/v1/decks/${
-									this.props.deckId
-								}/feedback/`}
-								title={t("Feedback")}
-							>
-								<span className="glyphicon glyphicon-pencil" />
-							</a>
-						</Feature>
-					</span>
-				</li>
-			);
 		}
 
 		const isPremium = UserData.isPremium();
@@ -646,7 +615,62 @@ class DeckDetail extends React.Component<Props, State> {
 								/>
 							</a>
 						</li>
-						{archetypeInfo}
+						{this.props.archetypeId ? (
+							<DataInjector
+								query={[
+									{
+										key: "archetypeData",
+										params: {},
+										url: "/api/v1/archetypes/",
+									},
+								]}
+							>
+								{({
+									archetypeData,
+								}: {
+									archetypeData: Archetype[];
+								}) => {
+									const archetype =
+										archetypeData &&
+										archetypeData.find(
+											a =>
+												a.id === this.props.archetypeId,
+										);
+									if (
+										!archetype ||
+										!archetype.standard_ccp_signature_core
+									) {
+										return null;
+									}
+									return (
+										<li>
+											{t("Archetype")}
+											<span className="infobox-value">
+												<a
+													href={getArchetypeUrl(
+														this.props.archetypeId,
+														archetype.name,
+													)}
+												>
+													{archetype.name}
+												</a>
+												<Feature feature="archetype-naming">
+													{" "}
+													<a
+														href={`/api/v1/decks/${
+															this.props.deckId
+														}/feedback/`}
+														title={t("Feedback")}
+													>
+														<span className="glyphicon glyphicon-pencil" />
+													</a>
+												</Feature>
+											</span>
+										</li>
+									);
+								}}
+							</DataInjector>
+						) : null}
 						<li>
 							{t("GLOBAL_COST")}
 							<span className="infobox-value">

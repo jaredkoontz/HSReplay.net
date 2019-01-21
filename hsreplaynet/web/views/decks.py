@@ -46,7 +46,7 @@ class DeckDetailView(View):
 			if not card.collectible:
 				raise Http404(_("Deck list contains uncollectible cards."))
 
-		deck_name = str(deck)
+		deck_name = _(str(deck))
 		request.head.title = deck_name
 
 		if deck.deck_class:

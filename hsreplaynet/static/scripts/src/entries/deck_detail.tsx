@@ -32,9 +32,6 @@ const heroDbfId = +document
 const archetypeId = document
 	.getElementById("deck-info")
 	.getAttribute("data-archetype-id");
-const archetypeName = document
-	.getElementById("deck-info")
-	.getAttribute("data-archetype-name");
 UserData.create();
 
 const render = (cardData: CardData) => {
@@ -76,8 +73,9 @@ const render = (cardData: CardData) => {
 							>
 								<DeckDetail
 									adminUrl={adminUrl}
-									archetypeId={archetypeId}
-									archetypeName={archetypeName}
+									archetypeId={
+										archetypeId ? +archetypeId : undefined
+									}
 									cardData={cardData}
 									deckCards={cards}
 									deckClass={deckClass}
