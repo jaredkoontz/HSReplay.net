@@ -16,6 +16,7 @@ from shortuuid import ShortUUID
 from hearthsim.identity.accounts.models import User
 from hsreplaynet.utils import log
 from hsreplaynet.utils.influx import influx_metric
+from hsreplaynet.utils.instrumentation import error_handler
 from hsreplaynet.utils.mailchimp import (
 	find_best_email_for_user, get_mailchimp_client, get_mailchimp_subscription_status
 )
@@ -216,6 +217,7 @@ class EmailPreferencesView(LoginRequiredMixin, View):
 		except Exception as e:
 			log.warning("Failed to contact MailChimp API: %s" % e)
 			influx_metric("mailchimp_request_failures", {"count": 1})
+			error_handler(e)
 
 		messages.info(request, _("Your email preferences have been saved."))
 		return redirect(self.success_url)
