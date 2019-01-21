@@ -4,6 +4,7 @@ import { VictoryLabel, VictoryLegend, VictoryPie } from "victory";
 import { Archetype } from "../../utils/api";
 import { getHeroClassName } from "../../helpers";
 import { InjectedTranslateProps, translate } from "react-i18next";
+import { formatNumber } from "../../i18n";
 
 interface ArchetypeDistributionPieChartProps extends InjectedTranslateProps {
 	matchupData?: any;
@@ -32,11 +33,11 @@ class ArchetypeDistributionPieChart extends React.Component<
 		};
 	}
 
-	private getArchetype(archetypeId: string): Archetype {
-		return this.props.archetypeData.find(a => a.id === archetypeId);
+	private getArchetype(archetypeId: string): Archetype | null {
+		return this.props.archetypeData.find(a => a.id === archetypeId) || null;
 	}
 
-	private getArchetypeName(archetype: Archetype): string {
+	private getArchetypeName(archetype: Archetype | null): string {
 		const { t } = this.props;
 		return archetype
 			? archetype.name
@@ -46,6 +47,7 @@ class ArchetypeDistributionPieChart extends React.Component<
 	}
 
 	private getChartData(): any {
+		const { t } = this.props;
 		const archetypes = this.props.matchupData.series.data[
 			this.props.playerClass
 		];
@@ -67,7 +69,7 @@ class ArchetypeDistributionPieChart extends React.Component<
 					strokeWidth: selected ? 2 : 0,
 					transform: `translate(${radius}px, ${radius}px) scale(${scale})`,
 					url: archetype && archetype.url,
-					x: archetype ? this.getArchetypeName(archetype) : "Other",
+					x: this.getArchetypeName(archetype),
 					y: matchup.pct_of_class,
 				};
 			})
@@ -102,7 +104,7 @@ class ArchetypeDistributionPieChart extends React.Component<
 				archetypeId: p.archetypeId,
 				fontWeight: hovering ? "bold" : "normal",
 				isSelectedArchetype: p.isSelectedArchetype,
-				name: p.x + (hovering ? ` ${p.y}% ` : ""),
+				name: p.x + (hovering ? ` ${formatNumber(+p.y, 1)}% ` : ""),
 				symbol: { style: "circle", fill: p.fill },
 				url: p.url,
 			};
@@ -117,7 +119,7 @@ class ArchetypeDistributionPieChart extends React.Component<
 					standalone={false}
 					labels={d => {
 						if (d.y >= 5 || d.isSelectedArchetype) {
-							return d.y.toFixed(1) + "%";
+							return `${formatNumber(+d.y, 1)}%`;
 						}
 					}}
 					height={this.pieSize}
@@ -157,10 +159,9 @@ class ArchetypeDistributionPieChart extends React.Component<
 					verticalAnchor="middle"
 					x={200}
 					y={20}
-					text={`${getHeroClassName(
-						this.props.playerClass,
-						t,
-					)} Archetypes`}
+					text={t("Archetypes in {className}", {
+						className: getHeroClassName(this.props.playerClass, t),
+					})}
 					style={{ fontSize: 20 }}
 				/>
 			</svg>
