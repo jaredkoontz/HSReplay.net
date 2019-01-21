@@ -204,12 +204,15 @@ class EmailPreferencesView(LoginRequiredMixin, View):
 		try:
 			client = get_mailchimp_client()
 			email = find_best_email_for_user(request.user)
+			status = get_mailchimp_subscription_status(request.user)
 			client.lists.members.create_or_update(
-				settings.MAILCHIM_LIST_KEY_ID,
+				settings.MAILCHIMP_LIST_KEY_ID,
 				get_subscriber_hash(email.email), {
 					"email_address": email.email,
-					"status_if_new": get_mailchimp_subscription_status(request.user)
+					"status_if_new": status,
+					"status": status
 				})
+			influx_metric("mailchimp_requests", {"count": 1}, method="create_or_update")
 		except Exception as e:
 			log.warning("Failed to contact MailChimp API: %s" % e)
 			influx_metric("mailchimp_request_failures", {"count": 1})
