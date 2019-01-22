@@ -10,6 +10,7 @@ from django.utils.translation import gettext_lazy as _
 from django.views.generic import CreateView, DeleteView, TemplateView, UpdateView, View
 from django_reflinks.models import ReferralHit, ReferralLink
 from mailchimp3.helpers import get_subscriber_hash
+from mailchimp3.mailchimpclient import MailChimpError
 from oauth2_provider.models import AccessToken, get_application_model
 from shortuuid import ShortUUID
 
@@ -193,34 +194,95 @@ class MakePrimaryView(LoginRequiredMixin, View):
 class EmailPreferencesView(LoginRequiredMixin, View):
 	success_url = reverse_lazy("account_email")
 
+	@staticmethod
+	def _log_mailchimp_error(e):
+
+		# Log a warning, an InfluxDB metric, and a Sentry alert.
+
+		log.warning("Failed to contact MailChimp API: %s" % e)
+		influx_metric("mailchimp_request_failures", {"count": 1})
+		error_handler(e)
+
+	def _redirect_with_message(self, request, msg):
+
+		# Add a message to the queue of messages to be displayed after the success redirect,
+		# then issue the redirect.
+
+		messages.info(request, msg)
+		return redirect(self.success_url)
+
 	def post(self, request):
 		marketing_prefs = request.POST.get("marketing", "") == "on"
-
-		request.user.settings["email"] = {
-			"marketing": marketing_prefs,
-			"updated": timezone.now().isoformat(),
-		}
-		request.user.save()
+		client = get_mailchimp_client()
 
 		try:
-			client = get_mailchimp_client()
-			email = find_best_email_for_user(request.user)
-			status = get_mailchimp_subscription_status(request.user)
-			client.lists.members.create_or_update(
-				settings.MAILCHIMP_LIST_KEY_ID,
-				get_subscriber_hash(email.email), {
-					"email_address": email.email,
-					"status_if_new": status,
-					"status": status
-				})
-			influx_metric("mailchimp_requests", {"count": 1}, method="create_or_update")
-		except Exception as e:
-			log.warning("Failed to contact MailChimp API: %s" % e)
-			influx_metric("mailchimp_request_failures", {"count": 1})
-			error_handler(e)
+			request.user.settings["email"] = {
+				"marketing": marketing_prefs,
+				"updated": timezone.now().isoformat(),
+			}
 
-		messages.info(request, _("Your email preferences have been saved."))
-		return redirect(self.success_url)
+			status = get_mailchimp_subscription_status(request.user)
+			email = find_best_email_for_user(request.user)
+
+			try:
+				client.lists.members.create_or_update(
+					settings.MAILCHIMP_LIST_KEY_ID,
+					get_subscriber_hash(email.email), {
+						"email_address": email.email,
+						"status_if_new": status,
+						"status": status
+					}
+				)
+			except MailChimpError as e:
+
+				# The request to Mailchimp may fail if the user unsubscribed via the
+				# Mailchimp interface (through a link in an email footer, e.g.). In this
+				# case, they can only resubscribe through a confirmation email. Setting the
+				# user's status to 'pending' will trigger the confirmation email to be sent.
+
+				args = e.args[0]
+
+				if (
+					args.get("status") == 400 and
+					args.get("title") == "Member In Compliance State"
+				):
+					client.lists.members.update(
+						settings.MAILCHIMP_LIST_KEY_ID,
+						get_subscriber_hash(email.email), {
+							"email_address": email.email,
+							"status": "pending"
+						}
+					)
+					influx_metric("mailchimp_requests", {"count": 1}, method="update")
+
+					return self._redirect_with_message(
+						request, _(
+							"Check your inbox! We've sent an email to confirm your \
+							subscription preferences."
+						)
+					)
+				else:
+					self._log_mailchimp_error(e)
+					return self._redirect_with_message(
+						request,
+						_("Failed to save your email preferences. Please try again later!")
+					)
+
+		except Exception as e:
+			self._log_mailchimp_error(e)
+			return self._redirect_with_message(
+				request, _("Failed to save your email preferences. Please try again later!")
+			)
+
+		# Only save the user record if we were actually able to sync the marketing
+		# preferences with Mailchimp.
+
+		request.user.save()
+
+		influx_metric("mailchimp_requests", {"count": 1}, method="create_or_update")
+		return self._redirect_with_message(
+			request, _("Your email preferences have been saved.")
+		)
 
 
 ##
