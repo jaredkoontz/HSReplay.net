@@ -257,8 +257,7 @@ class EmailPreferencesView(LoginRequiredMixin, View):
 
 					return self._redirect_with_message(
 						request, _(
-							"Check your inbox! We've sent an email to confirm your \
-							subscription preferences."
+							"Check your inbox! We've sent an email to confirm your subscription preferences."
 						)
 					)
 				else:
