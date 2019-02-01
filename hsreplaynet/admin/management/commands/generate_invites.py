@@ -121,7 +121,7 @@ class Command(BaseCommand):
 		pretty_coupon = coupon if coupon else "none"
 		self.stdout.write("coupon:       %s" % pretty_coupon)
 
-		pretty_max_uses = "unlimited" if max_uses is 0 else "%d (per invite)" % max_uses
+		pretty_max_uses = "unlimited" if max_uses == 0 else "%d (per invite)" % max_uses
 		self.stdout.write("max_uses:     %s" % pretty_max_uses)
 
 		self.stdout.write("expires:      %s" % ("never" if expires is None else expires))
