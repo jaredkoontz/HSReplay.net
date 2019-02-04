@@ -42,9 +42,9 @@ def test_vod_list_view_multiple_identifiers(client, mocker, user):
 		"Too many identifiers. Only user_id or deck_id or archetype_id must be specified."
 
 
-@pytest.mark.django_db  # noqa: F811
+@pytest.mark.django_db
 @pytest.mark.usefixtures("disconnect_pre_save", "twitch_vod_dynamodb_table")
-def test_vod_list_view_at_legend_rank(client, twitch_vod_game, user, mocker):
+def test_vod_list_view_at_legend_rank(client, twitch_vod_game, user, mocker):  # noqa: F811
 	mocker.patch.multiple(
 		"hsreplaynet.api.views.vods.VodListView",
 		authentication_classes=(),
@@ -87,9 +87,9 @@ def test_vod_list_view_at_legend_rank(client, twitch_vod_game, user, mocker):
 	}]
 
 
-@pytest.mark.django_db  # noqa: F811
+@pytest.mark.django_db
 @pytest.mark.usefixtures("disconnect_pre_save", "twitch_vod_dynamodb_table")
-def test_vod_list_view_by_user_id(client, twitch_vod_game, user, mocker):
+def test_vod_list_view_by_user_id(client, twitch_vod_game, user, mocker):  # noqa: F811
 	mocker.patch.multiple(
 		"hsreplaynet.api.views.vods.VodListView",
 		authentication_classes=(),
@@ -132,9 +132,9 @@ def test_vod_list_view_by_user_id(client, twitch_vod_game, user, mocker):
 	}]
 
 
-@pytest.mark.django_db  # noqa: F811
+@pytest.mark.django_db
 @pytest.mark.usefixtures("disconnect_pre_save", "twitch_vod_dynamodb_table")
-def test_vod_list_view_by_archetype_id(client, twitch_vod_game, user, mocker):
+def test_vod_list_view_by_archetype_id(client, twitch_vod_game, user, mocker):  # noqa: F811
 	mocker.patch("hsreplaynet.api.views.vods.classify_deck", return_value=123)
 	mocker.patch.multiple(
 		"hsreplaynet.api.views.vods.VodListView",
@@ -180,9 +180,9 @@ def test_vod_list_view_by_archetype_id(client, twitch_vod_game, user, mocker):
 	}]
 
 
-@pytest.mark.django_db  # noqa: F811
+@pytest.mark.django_db
 @pytest.mark.usefixtures("disconnect_pre_save", "twitch_vod_dynamodb_table")
-def test_vod_list_view_by_deck_id(client, twitch_vod_game, user, mocker):
+def test_vod_list_view_by_deck_id(client, twitch_vod_game, user, mocker):  # noqa: F811
 	mocker.patch.multiple(
 		"hsreplaynet.api.views.vods.VodListView",
 		authentication_classes=(),
@@ -245,9 +245,9 @@ def test_vod_list_view_by_deck_id_empty(client, mocker):
 	assert not len(response.data)
 
 
-@pytest.mark.django_db  # noqa: F811
+@pytest.mark.django_db
 @pytest.mark.usefixtures("disconnect_pre_save", "twitch_vod_dynamodb_table")
-def test_vod_index_view(client, twitch_vod_game, user, mocker):
+def test_vod_index_view(client, twitch_vod_game, user, mocker):  # noqa: F811
 	mocker.patch("hsreplaynet.api.views.vods.classify_deck", return_value=123)
 	mocker.patch.multiple(
 		"hsreplaynet.api.views.vods.VodIndexView",
