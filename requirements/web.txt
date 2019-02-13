@@ -18,4 +18,4 @@ scikit-learn[alldeps]
 
 # stripe / paypal
 dj-stripe==1.2.3
-dj-paypal==0.11.2
+dj-paypal==0.12.0
