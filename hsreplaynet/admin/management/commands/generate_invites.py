@@ -1,3 +1,4 @@
+from argparse import ArgumentTypeError
 from datetime import date, datetime
 
 import pytz
@@ -6,6 +7,14 @@ from django.core.management.base import BaseCommand, CommandError
 from djstripe.models import Coupon, Plan
 
 from hsreplaynet.features.models import Feature, FeatureInvite
+
+
+def non_empty_string(name):
+	def inner(string):
+		if not string:
+			raise ArgumentTypeError("Empty %s is not allowed" % name)
+		return str(string)
+	return inner
 
 
 class Command(BaseCommand):
@@ -18,14 +27,17 @@ class Command(BaseCommand):
 		)
 		parser.add_argument(
 			"--feature", action="append", default=[],
+			type=non_empty_string("feature"),
 			help="Feature group to add the redeemer to. Can be repeated."
 		)
 		parser.add_argument(
 			"--subscribe_to", nargs="?",
+			type=non_empty_string("subscribe_to"),
 			help="Stripe plan to subscribe the redeemer to."
 		)
 		parser.add_argument(
 			"--coupon", nargs="?",
+			type=non_empty_string("coupon"),
 			help="Stripe coupon to apply to the redeemers account."
 		)
 		parser.add_argument(
@@ -49,6 +61,9 @@ class Command(BaseCommand):
 		count = options["count"]
 		if count < 1:
 			raise CommandError("count needs to be 1 or greater")
+
+		if not options["feature"] and not options["subscribe_to"] and not options["coupon"]:
+			raise CommandError("one of --feature, --subscribe_to or --coupon is required")
 
 		self.stdout.write("Preparing to generate %s invite(s)" % count)
 
@@ -102,7 +117,7 @@ class Command(BaseCommand):
 
 		# preview
 		if not options["noinput"]:
-			self.stdout.write("Please check these parameter are correct:")
+			self.stdout.write("Please check whether these parameter are correct:")
 
 		self.stdout.write("-" * 36)
 		self.stdout.write("code:         <generated>")
