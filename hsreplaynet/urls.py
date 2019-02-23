@@ -106,7 +106,7 @@ urlpatterns = [
 	url(r"^decks/$", DecksView.as_view(), name="decks"),
 	url(r"^decks/mine/$", MyDecksView.as_view(), name="my_decks"),
 	url(r"^decks/trending/", TrendingDecksView.as_view(), name="trending_decks"),
-	url(r"^decks/(?P<id>\w+)/$", DeckDetailView.as_view(), name="deck_detail"),
+	url(r"^decks/(?P<id>([\w+=/])+)/$", DeckDetailView.as_view(), name="deck_detail"),
 
 	# TODO: move me to api module
 	url(

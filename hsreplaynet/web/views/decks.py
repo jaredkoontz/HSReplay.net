@@ -1,12 +1,12 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import Http404
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.utils.text import format_lazy
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import TemplateView, View
 from hearthstone.enums import FormatType
 
-from hsreplaynet.decks.models import Deck
+from hsreplaynet.decks.models import Deck, get_shortid_from_digest
 from hsreplaynet.web.views.premium import PremiumRequiredMixin
 
 from . import SimpleReactView
@@ -36,7 +36,19 @@ class DeckDetailView(View):
 		try:
 			deck = Deck.objects.get_by_shortid(id)
 		except Deck.DoesNotExist:
-			raise Http404(_("Deck does not exist."))
+			deck = None
+
+		if not deck:
+			try:
+				digest = Deck.objects.get_digest_from_deckstring(id)
+			except Deck.DoesNotExist:
+				raise Http404(_("Deck does not exist."))
+
+			shortid = get_shortid_from_digest(digest)
+			return redirect(
+				Deck.objects.get_absolute_url_by_shortid(shortid),
+				permanent=False
+			)
 
 		cards = deck.card_dbf_id_list()
 		if len(cards) != 30:

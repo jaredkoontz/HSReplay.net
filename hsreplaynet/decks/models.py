@@ -171,12 +171,38 @@ class DeckManager(models.Manager):
 			digest=self.get_digest_from_shortid(shortid)
 		)
 
+	def get_digest_from_deckstring(self, deckstring):
+		db = card_db()
+		try:
+			cards, _, _ = deckstrings.parse_deckstring(deckstring)
+		except ValueError:
+			raise Deck.DoesNotExist("Invalid deckstring")
+		card_list = []
+		for dbf_id, count in cards:
+			for i in range(count):
+				card = db[int(dbf_id)]
+				card_list.append(card.card_id)
+		digest = generate_digest_from_deck_list(card_list)
+		return digest
+
+	def get_by_deckstring(self, deckstring):
+		return Deck.objects.get(
+			digest=self.get_digest_from_deckstring(deckstring)
+		)
+
+	def get_absolute_url_by_shortid(self, shortid):
+		return reverse("deck_detail", kwargs={"id": shortid})
+
 
 def generate_digest_from_deck_list(id_list):
 	sorted_cards = sorted(id_list)
 	m = hashlib.md5()
 	m.update(",".join(sorted_cards).encode("utf-8"))
 	return m.hexdigest()
+
+
+def get_shortid_from_digest(digest):
+	return int_to_string(int(digest, 16), ALPHABET)
 
 
 class Deck(models.Model):
@@ -321,7 +347,7 @@ class Deck(models.Model):
 
 	@property
 	def shortid(self):
-		return int_to_string(int(self.digest, 16), ALPHABET)
+		return get_shortid_from_digest(self.digest)
 
 	@property
 	def all_includes(self):
