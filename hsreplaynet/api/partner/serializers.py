@@ -263,7 +263,7 @@ class ArchetypeDataSerializer(Serializer):
 		return serializer.data
 
 	def _get_archetype(self, instance):
-		if self._archetype:
+		if self._archetype and self._archetype["archetype_id"] == instance["id"]:
 			return self._archetype
 		for archetype in self._popularity_data[instance["player_class"]]:
 			if archetype["archetype_id"] == instance["id"]:

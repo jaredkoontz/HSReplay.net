@@ -243,6 +243,78 @@ def test_archetypes_serializer(archetypes_serializer_data):
 
 @pytest.mark.django_db
 @pytest.mark.usefixtures("archetypes_serializer_data")
+def test_archetypes_serializer_many(archetypes_serializer_data):
+	archetype1 = Archetype.objects.create(
+		id=1,
+		name="Archetype 1",
+		player_class=enums.CardClass.DRUID,
+	)
+
+	archetype2 = Archetype.objects.create(
+		id=2,
+		name="Archetype 2",
+		player_class=enums.CardClass.DRUID,
+	)
+
+	mock_data = [
+		dict(game_type="RANKED_STANDARD", archetype=archetype1),
+		dict(game_type="RANKED_STANDARD", archetype=archetype2)
+	]
+
+	context = dict(
+		RANKED_STANDARD=dict(
+			deck_data=archetypes_serializer_data["decks"],
+			popularity_data=archetypes_serializer_data["popularity"],
+			matchup_data=archetypes_serializer_data["matchups"]
+		)
+	)
+
+	serializer = ArchetypeSerializer(instance=mock_data, context=context, many=True)
+	data = serializer.data
+
+	data1 = data[0]
+
+	assert "id" in data1
+	assert data1["id"] == 1
+
+	assert "name" in data1
+	assert len(data1["name"].keys()) == 1
+	assert "enUS" in data1["name"]
+	assert data1["name"]["enUS"] == "Archetype 1"
+
+	ranked_standard = data1["game_types"]["RANKED_STANDARD"]
+	assert "winrate" in ranked_standard
+	assert ranked_standard["winrate"] == 50.50
+
+	assert "class_popularity" in ranked_standard
+	assert ranked_standard["class_popularity"] == 12.34
+
+	assert "global_popularity" in ranked_standard
+	assert ranked_standard["global_popularity"] == 4.56
+
+	data2 = data[1]
+
+	assert "id" in data2
+	assert data2["id"] == 2
+
+	assert "name" in data2
+	assert len(data2["name"].keys()) == 1
+	assert "enUS" in data2["name"]
+	assert data2["name"]["enUS"] == "Archetype 2"
+
+	ranked_standard = data2["game_types"]["RANKED_STANDARD"]
+	assert "winrate" in ranked_standard
+	assert ranked_standard["winrate"] == 52.52
+
+	assert "class_popularity" in ranked_standard
+	assert ranked_standard["class_popularity"] == 23.45
+
+	assert "global_popularity" in ranked_standard
+	assert ranked_standard["global_popularity"] == 5.67
+
+
+@pytest.mark.django_db
+@pytest.mark.usefixtures("archetypes_serializer_data")
 def test_archetypes_serializer_low_data(archetypes_serializer_data):
 	archetype = Archetype.objects.create(
 		id=2,
