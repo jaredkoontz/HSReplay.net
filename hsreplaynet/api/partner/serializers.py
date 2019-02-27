@@ -285,8 +285,6 @@ class ArchetypeDataSerializer(Serializer):
 
 
 class ArchetypeSerializer(Serializer):
-	game_types_data = None
-
 	id = SerializerMethodField()
 	name = SerializerMethodField()
 	player_class = SerializerMethodField()
@@ -318,8 +316,6 @@ class ArchetypeSerializer(Serializer):
 		return "https://hsreplay.net%s" % instance["archetype"].get_absolute_url()
 
 	def get_game_types(self, instance):
-		if self.game_types_data:
-			return self.game_types_data
 		result = dict()
 		data = dict(
 			id=self.get_id(instance),
@@ -327,7 +323,6 @@ class ArchetypeSerializer(Serializer):
 		)
 		serializer = ArchetypeDataSerializer(data, context=self._context[instance["game_type"]])
 		result[instance["game_type"]] = serializer.data
-		self.game_types_data = result
 		return result
 
 
