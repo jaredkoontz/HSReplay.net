@@ -933,6 +933,7 @@ class ArchetypeDetail extends React.Component<Props, State> {
 						params: {
 							GameType: this.getGameType(),
 							RankRange: this.props.rankRange,
+							TimeRange: "LAST_7_DAYS",
 							archetype_id: this.props.archetypeId,
 						},
 						url: "single_archetype_mulligan_guide",
