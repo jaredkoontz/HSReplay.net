@@ -1,3 +1,4 @@
+{% load feature from features %}
 {% load static %}
 {% load web_extras %}
 {% load trans from i18n %}
@@ -59,7 +60,14 @@
 				<ul>
 					<li><a href="https://hearthsim.net/">{% trans "About Us" %}</a></li>
 					<li><a href="https://github.com/HearthSim/">{% trans "Open source" %}</a></li>
-					<li><a href="mailto:jobs@hearthsim.net">{% trans "Careers" %}</a></li>
+					<li>
+						{% feature "careers-page" as careers %}
+						{% if careers.enabled %}
+						<a href="{% url 'careers' %}">{% trans "Careers" %}</a>
+						{% else %}
+						<a href="mailto:jobs@hearthsim.net">{% trans "Careers" %}</a>
+						{% endif %}
+					</li>
 					<li><a href="mailto:press@hearthsim.net">{% trans "Press" %}</a></li>
 				</ul>
 			</section>

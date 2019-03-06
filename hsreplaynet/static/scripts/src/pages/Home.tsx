@@ -773,6 +773,17 @@ class Home extends React.Component<Props, State> {
 			}
 		}
 
+		if (UserData.hasFeature("careers-page")) {
+			banners.push(
+				<PromoBanner
+					href={"/careers/"}
+					backgroundImage="https://media.hearthsim.net/hsreplaynet/jobs-banner2.jpg"
+					title={t("Everyone, get in here - we're hiring!")}
+					subtitle={t("Check out our current job openings")}
+				/>,
+			);
+		}
+
 		if (banners.length) {
 			return banners[Math.floor(Math.random() * banners.length)];
 		}
