@@ -138,11 +138,11 @@
         },
         "dj-stripe": {
             "hashes": [
-                "sha256:1ed9c73c7ee346ff11b9cf1fba9ae24041798409bddd419998c2783873296181",
-                "sha256:d56e401f5e97e63e8646a0a45c609264bdcb8cbeeafdb0ad54217882e61b70ec"
+                "sha256:4ac6a86f888db76b1ef3be1f29423e8309bf3d6ff4ffd5fc28481c8c9f96a5f2",
+                "sha256:94fdcda6e73a7edffed468620cd1ba0cea508b35e23e4ab7f6db89718be055f0"
             ],
             "index": "pypi",
-            "version": "==1.2.3"
+            "version": "==1.2.4"
         },
         "django": {
             "hashes": [

@@ -40,7 +40,7 @@ simplejson = "*"
 sqlalchemy = "*"
 sqlalchemy-redshift = "*"
 stripe = "*"
-dj-stripe = "*"
+dj-stripe = ">=1.2.4,<2.0.0"
 hsredshift = {file = "https://github.com/HearthSim/hsredshift/archive/master.tar.gz"}
 hsarchetypes = {file = "https://github.com/HearthSim/hsarchetypes/archive/master.tar.gz"}
 django-bouncy = "*"
