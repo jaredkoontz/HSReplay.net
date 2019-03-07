@@ -776,10 +776,10 @@ class Home extends React.Component<Props, State> {
 		if (UserData.hasFeature("careers-page")) {
 			banners.push(
 				<PromoBanner
-					href={"/careers/"}
+					href={"https://hearthsim.net/careers.html"}
 					backgroundImage="https://media.hearthsim.net/hsreplaynet/jobs-banner2.jpg"
 					title={t("Everyone, get in here - we're hiring!")}
-					subtitle={t("Check out our current job openings")}
+					subtitle={t("Click here to check out our current job openings")}
 				/>,
 			);
 		}
