@@ -779,7 +779,9 @@ class Home extends React.Component<Props, State> {
 					href={"https://hearthsim.net/careers.html"}
 					backgroundImage="https://media.hearthsim.net/hsreplaynet/jobs-banner2.jpg"
 					title={t("Everyone, get in here - we're hiring!")}
-					subtitle={t("Click here to check out our current job openings")}
+					subtitle={t(
+						"Click here to check out our current job openings",
+					)}
 				/>,
 			);
 		}
