@@ -3,7 +3,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { I18nextProvider } from "react-i18next";
 import CardData from "../CardData";
-import AdUnit from "../components/ads/AdUnit";
+import NitropayAdUnit from "../components/ads/NitropayAdUnit";
 import DeleteReplayButton from "../components/DeleteReplayButton";
 import PlayerInfo from "../components/PlayerInfo";
 import ShareGameDialog from "../components/ShareGameDialog";
@@ -246,7 +246,7 @@ const renderSidebar = () => {
 						</a>
 					</li>
 				</ul>
-				<AdUnit id="rp-d-1" size="300x250" />
+				<NitropayAdUnit id="rp-d-1" size="300x250" />
 			</>
 		</I18nextProvider>,
 		targetTmp1,

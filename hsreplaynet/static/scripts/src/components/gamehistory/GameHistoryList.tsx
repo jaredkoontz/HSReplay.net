@@ -8,7 +8,7 @@ import {
 } from "../../interfaces";
 import GameHistoryItem from "./GameHistoryItem";
 import AdContainer from "../ads/AdContainer";
-import AdUnit from "../ads/AdUnit";
+import NitropayAdUnit from "../ads/NitropayAdUnit";
 import * as _ from "lodash";
 
 interface Props extends ImageProps, CardArtProps {
@@ -21,10 +21,10 @@ export default class GameHistoryList extends React.Component<Props> {
 		const ads = _.range(4, 100, 2).map(x => (
 			<>
 				<AdContainer>
-					<AdUnit id={`mr-d-${x}`} size="728x90" />
-					<AdUnit id={`mr-d-${x + 1}`} size="728x90" />
+					<NitropayAdUnit id={`mr-d-${x}`} size="728x90" />
+					<NitropayAdUnit id={`mr-d-${x + 1}`} size="728x90" />
 				</AdContainer>
-				<AdUnit
+				<NitropayAdUnit
 					id={`mr-m-${Math.floor(x / 2)}`}
 					size="300x250"
 					mobile

@@ -4,7 +4,6 @@ import i18next from "i18next";
 import { AutoSizer } from "react-virtualized";
 import CardData from "../CardData";
 import AdContainer from "../components/ads/AdContainer";
-import AdUnit from "../components/ads/AdUnit";
 import GutterAdUnit from "../components/ads/GutterAdUnit";
 import CollectionSetup from "../components/collection/CollectionSetup";
 import DataInjector from "../components/DataInjector";
@@ -28,6 +27,9 @@ import { TwitchStreamPromotionEvents } from "../metrics/Events";
 import { default as Twitch } from "../Twitch";
 import UserData from "../UserData";
 import memoize from "memoize-one";
+import NetworkNAdUnit from "../components/ads/NetworkNAdUnit";
+import NitropayAdUnit from "../components/ads/NitropayAdUnit";
+import Feature from "../components/Feature";
 
 interface Props extends WithTranslation {
 	cardData: CardData | null;
@@ -143,6 +145,7 @@ class Home extends React.Component<Props, State> {
 			return <img key={n} src={path} />;
 		});
 		ranks.reverse();
+		const promoBanner = this.renderPromoBanner(t);
 		return (
 			<div className="container-fluid">
 				<div className="row" id="banner" style={bannerStyle}>
@@ -158,17 +161,36 @@ class Home extends React.Component<Props, State> {
 						<div id="banner-ranks">{ranks}</div>
 					</div>
 				</div>
-				{this.renderPromoBanner(t)}
-				<div className="top-ads">
-					<AdContainer>
-						<AdUnit id="fp-d-1" size="728x90" />
-						<AdUnit id="fp-d-2" size="728x90" />
-					</AdContainer>
-				</div>
-				<AdUnit id="fp-m-1" size="320x50" mobile />
+				{promoBanner !== null ? (
+					promoBanner
+				) : (
+					<>
+						<Feature feature="networkn" inverted>
+							<div className="top-ads">
+								<AdContainer>
+									<NitropayAdUnit id="fp-d-1" size="728x90" />
+									<NitropayAdUnit id="fp-d-2" size="728x90" />
+								</AdContainer>
+							</div>
+						</Feature>
+						<NetworkNAdUnit id="nn_bb1" center />
+					</>
+				)}
+				<NitropayAdUnit id="fp-m-1" size="320x50" mobile />
+				<NetworkNAdUnit id="nn_mobile_mpu1" mobile center />
+				<GutterAdUnit
+					position="left"
+					id="fp-d-3"
+					size="160x600"
+					networkNId="nn_skyleft"
+				/>
+				<GutterAdUnit
+					position="right"
+					id="fp-d-4"
+					size="160x600"
+					networkNId="nn_skyright"
+				/>
 				<div className="row content-row features">
-					<GutterAdUnit position="left" id="fp-d-3" size="160x600" />
-					<GutterAdUnit position="right" id="fp-d-4" size="160x600" />
 					<div className="col-lg-4 col-md-6 col-sm-6 col-xs-12">
 						<Panel
 							header={
@@ -231,7 +253,7 @@ class Home extends React.Component<Props, State> {
 								/>
 							</DataInjector>
 						</Panel>
-						<AdUnit id="fp-m-2" size="300x250" mobile />
+						<NitropayAdUnit id="fp-m-2" size="300x250" mobile />
 						{this.renderPremiumPanel()}
 					</div>
 					<div className="col-lg-4 col-xs-12">
@@ -279,7 +301,8 @@ class Home extends React.Component<Props, State> {
 						/>
 					</div>
 				</div>
-				<AdUnit id="fp-m-3" size="320x50" mobile />
+				<NitropayAdUnit id="fp-m-3" size="320x50" mobile />
+				<NetworkNAdUnit id="nn_mobile_mpu2" mobile center />
 				{this.renderBelowTheFold()}
 			</div>
 		);
@@ -385,11 +408,11 @@ class Home extends React.Component<Props, State> {
 					</Panel>
 					<div className="center-ads">
 						<AdContainer>
-							<AdUnit id="fp-d-11" size="728x90" />
-							<AdUnit id="fp-d-12" size="728x90" />
+							<NitropayAdUnit id="fp-d-11" size="728x90" />
+							<NitropayAdUnit id="fp-d-12" size="728x90" />
 						</AdContainer>
 					</div>
-					<AdUnit id="fp-m-4" size="320x50" mobile />
+					<NitropayAdUnit id="fp-m-4" size="320x50" mobile />
 					<GutterAdUnit position="left" id="fp-d-7" size="160x600" />
 					<GutterAdUnit position="right" id="fp-d-8" size="160x600" />
 					<Panel
@@ -521,7 +544,7 @@ class Home extends React.Component<Props, State> {
 						id="fp-d-10"
 						size="160x600"
 					/>
-					<AdUnit id="fp-m-5" size="320x50" mobile />
+					<NitropayAdUnit id="fp-m-5" size="320x50" mobile />
 					<Panel
 						header={t("Live Data")}
 						theme="light"
@@ -533,7 +556,7 @@ class Home extends React.Component<Props, State> {
 							numCards={12}
 						/>
 					</Panel>
-					<AdUnit id="fp-m-6" size="320x50" mobile />
+					<NitropayAdUnit id="fp-m-6" size="320x50" mobile />
 				</div>
 			</>
 		);

@@ -1,6 +1,8 @@
 import React from "react";
-import AdUnit from "./AdUnit";
+import NitropayAdUnit from "./NitropayAdUnit";
 import AdHelper, { showAds } from "../../AdHelper";
+import { parsePlaceholderSize } from "./NitropayAdUnit";
+import UserData from "../../UserData";
 
 interface Props {}
 
@@ -30,6 +32,11 @@ export default class AdContainer extends React.Component<Props, State> {
 	}
 
 	public render(): React.ReactNode {
+		if (UserData.hasFeature("networkn")) {
+			console.warn("AdContainer does not support NetworkN Ad Units!");
+			return null;
+		}
+
 		if (!showAds() || this.state.mobileView) {
 			return null;
 		}
@@ -39,12 +46,10 @@ export default class AdContainer extends React.Component<Props, State> {
 		let maxHeight = null;
 		const ids = [];
 		const widths = React.Children.toArray(children).map((child: any) => {
-			if (child.type !== AdUnit) {
-				console.error("AdContainer expected AdUnit as child");
+			if (child.type !== NitropayAdUnit) {
+				console.error("AdContainer expected NitropayAdUnit as child");
 			}
-			const [width, height] = AdUnit.parsePlaceholderSize(
-				child.props.size,
-			);
+			const [width, height] = parsePlaceholderSize(child.props.size);
 			if (height > maxHeight) {
 				maxHeight = height;
 			}

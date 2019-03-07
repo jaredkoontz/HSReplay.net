@@ -178,6 +178,14 @@
 		}
 	}
 
+	.gutter-ad-container {
+		margin-top: 5px;
+
+		.premium-fallback {
+			margin-top: -5px;
+		}
+	}
+
 	.center-ads {
 		margin: 6px auto 4px auto;
 		padding: 0 9px;
@@ -1207,6 +1215,17 @@
 				font-size: 2em;
 				margin-bottom: 5px;
 			}
+		}
+	}
+}
+
+.home {
+	&__top-ads {
+		margin: 10px 0 5px 0;
+		width: 100%;
+
+		> .ad-unit {
+			margin: 0 auto;
 		}
 	}
 }

@@ -17,7 +17,7 @@ import {
 } from "../components/cards/filters";
 import { FilterOption } from "../components/ClassFilter";
 import CollectionSetup from "../components/collection/CollectionSetup";
-import React from "react";
+import React, { Fragment } from "react";
 import InfoboxFilterGroup from "../components/InfoboxFilterGroup";
 import LoadingSpinner from "../components/LoadingSpinner";
 import Modal from "../components/Modal";
@@ -31,6 +31,8 @@ import {
 } from "../interfaces";
 import { Account } from "../UserData";
 import { Collection as ApiCollection } from "../utils/api";
+import Sticky from "../components/utils/Sticky";
+import NetworkNAdUnit from "../components/ads/NetworkNAdUnit";
 
 interface Props extends FragmentChildProps, WithTranslation {
 	cardData: CardData;
@@ -247,6 +249,7 @@ class Collection extends React.Component<Props, State> {
 		}
 		return (
 			<>
+				<NetworkNAdUnit id="nn_mobile_mpu1" mobile center />
 				<button
 					className="btn btn-default visible-xs"
 					id="filter-button"
@@ -260,6 +263,9 @@ class Collection extends React.Component<Props, State> {
 					<span className="glyphicon glyphicon-filter" />
 					{t("Filters")}
 				</button>
+				<Sticky top={10}>
+					<NetworkNAdUnit id="nn_bb1" center />
+				</Sticky>
 				<TextFilter
 					value={this.props.text}
 					onChange={value => this.props.setText(value)}
@@ -371,7 +377,7 @@ class Collection extends React.Component<Props, State> {
 
 		if (this.props.visibility && this.props.collection) {
 			filters.push(
-				<section id="visibility-setting">
+				<section id="visibility-setting" key="visibility">
 					<CollectionVisibility
 						visibility={this.props.visibility}
 						account={this.props.account}
@@ -381,106 +387,117 @@ class Collection extends React.Component<Props, State> {
 		}
 
 		filters.push(
-			<ClassFilter
-				filters="AllNeutral"
-				value={this.props.playerClass as FilterOption[]}
-				onChange={value => this.props.setPlayerClass(value)}
-			/>,
-			<section>
-				<InfoboxFilterGroup
-					onClick={value => {
-						this.props.setGolden(value);
-					}}
-					selectedValue={this.props.golden}
-					header={t("Quality")}
-					deselectable
-				>
-					<InfoboxFilter value="NORMAL">
-						{t("Normal")}
-						{filteredCards && collection ? (
-							<span className="infobox-value">
-								{filteredCards.reduce(
-									(acc, curr) =>
-										acc +
-										(collection.collection[curr.dbfId]
-											? Math.min(
-													maxCount(curr),
-													collection.collection[
-														curr.dbfId
-													][0],
-											  )
-											: 0),
-									0,
-								)}{" "}
-								/{" "}
-								{filteredCards.reduce(
-									(acc, curr) => acc + maxCount(curr),
-									0,
-								)}
-							</span>
-						) : null}
-					</InfoboxFilter>
-					<InfoboxFilter value="GOLDEN">
-						{t("Golden")}
-						{filteredCards && collection ? (
-							<span className="infobox-value">
-								{filteredCards.reduce(
-									(acc, curr) =>
-										acc +
-										(collection.collection[curr.dbfId]
-											? Math.min(
-													maxCount(curr),
-													collection.collection[
-														curr.dbfId
-													][1],
-											  )
-											: 0),
-									0,
-								)}{" "}
-								/{" "}
-								{filteredCards.reduce(
-									(acc, curr) => acc + maxCount(curr),
-									0,
-								)}
-							</span>
-						) : null}
-					</InfoboxFilter>
-				</InfoboxFilterGroup>
-			</section>,
+			<Fragment key="progress">
+				<ClassFilter
+					filters="AllNeutral"
+					value={this.props.playerClass as FilterOption[]}
+					onChange={value => this.props.setPlayerClass(value)}
+				/>
+				<section>
+					<InfoboxFilterGroup
+						onClick={value => {
+							this.props.setGolden(value);
+						}}
+						selectedValue={this.props.golden}
+						header={t("Quality")}
+						deselectable
+					>
+						<InfoboxFilter value="NORMAL">
+							{t("Normal")}
+							{filteredCards && collection ? (
+								<span className="infobox-value">
+									{filteredCards.reduce(
+										(acc, curr) =>
+											acc +
+											(collection.collection[curr.dbfId]
+												? Math.min(
+														maxCount(curr),
+														collection.collection[
+															curr.dbfId
+														][0],
+												  )
+												: 0),
+										0,
+									)}{" "}
+									/{" "}
+									{filteredCards.reduce(
+										(acc, curr) => acc + maxCount(curr),
+										0,
+									)}
+								</span>
+							) : null}
+						</InfoboxFilter>
+						<InfoboxFilter value="GOLDEN">
+							{t("Golden")}
+							{filteredCards && collection ? (
+								<span className="infobox-value">
+									{filteredCards.reduce(
+										(acc, curr) =>
+											acc +
+											(collection.collection[curr.dbfId]
+												? Math.min(
+														maxCount(curr),
+														collection.collection[
+															curr.dbfId
+														][1],
+												  )
+												: 0),
+										0,
+									)}{" "}
+									/{" "}
+									{filteredCards.reduce(
+										(acc, curr) => acc + maxCount(curr),
+										0,
+									)}
+								</span>
+							) : null}
+						</InfoboxFilter>
+					</InfoboxFilterGroup>
+				</section>
+			</Fragment>,
 		);
 
 		filters.push(
-			<CostFilter
-				onChange={value => this.props.setCost(value)}
-				value={this.props.cost}
-			/>,
-			<RarityFilter
-				value={this.props.rarity}
-				onChange={value => this.props.setRarity(value)}
-				collection={collection}
-			/>,
-			<TypeFilter
-				value={this.props.type}
-				onChange={value => this.props.setType(value)}
-				collection={collection}
-			/>,
-			<SetFilter
-				onChange={value => this.props.setSet(value)}
-				value={this.props.set}
-				collection={collection}
-				onlyCollectibleSets
-			/>,
-			<TribeFilter
-				value={this.props.tribe}
-				onChange={value => this.props.setTribe(value)}
-				collection={collection}
-			/>,
-			<MechanicsFilter
-				value={this.props.mechanics}
-				onChange={value => this.props.setMechanics(value)}
-				collection={collection}
-			/>,
+			<Fragment key="type">
+				<CostFilter
+					onChange={value => this.props.setCost(value)}
+					value={this.props.cost}
+				/>
+				<RarityFilter
+					value={this.props.rarity}
+					onChange={value => this.props.setRarity(value)}
+					collection={collection}
+				/>
+				<TypeFilter
+					value={this.props.type}
+					onChange={value => this.props.setType(value)}
+					collection={collection}
+				/>
+				<SetFilter
+					onChange={value => this.props.setSet(value)}
+					value={this.props.set}
+					collection={collection}
+					onlyCollectibleSets
+				/>
+				<TribeFilter
+					value={this.props.tribe}
+					onChange={value => this.props.setTribe(value)}
+					collection={collection}
+				/>
+				<MechanicsFilter
+					value={this.props.mechanics}
+					onChange={value => this.props.setMechanics(value)}
+					collection={collection}
+				/>
+			</Fragment>,
 		);
+
+		filters.push(
+			<Sticky bottom={0} key="ads">
+				<NetworkNAdUnit id="nn_mpu1" />
+			</Sticky>,
+		);
+
 		return filters;
 	}
 

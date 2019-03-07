@@ -39,8 +39,10 @@ import PrettyTimeRange from "../components/text/PrettyTimeRange";
 import PrettyRankRange from "../components/text/PrettyRankRange";
 import LoadingSpinner from "../components/LoadingSpinner";
 import AdContainer from "../components/ads/AdContainer";
-import AdUnit from "../components/ads/AdUnit";
+import NitropayAdUnit from "../components/ads/NitropayAdUnit";
 import PrettyPlayerExperience from "../components/text/PrettyPlayerExperience";
+import NetworkNAdUnit from "../components/ads/NetworkNAdUnit";
+import Sticky from "../components/utils/Sticky";
 
 interface Props extends WithTranslation, FragmentChildProps {
 	cardData: CardData | null;
@@ -1321,7 +1323,8 @@ class Decks extends React.Component<Props, State> {
 							</ul>
 						</section>
 						{backButton}
-						<AdUnit id="dl-d-5" size="300x250" />
+						<NetworkNAdUnit id="nn_mpu1" />
+						<NitropayAdUnit id="dl-d-5" size="300x250" />
 					</aside>
 				</div>
 				<main
@@ -1329,10 +1332,11 @@ class Decks extends React.Component<Props, State> {
 					ref={ref => (this.mainRef = ref)}
 				>
 					<AdContainer>
-						<AdUnit id="dl-d-1" size="728x90" />
-						<AdUnit id="dl-d-2" size="728x90" />
+						<NitropayAdUnit id="dl-d-1" size="728x90" />
+						<NitropayAdUnit id="dl-d-2" size="728x90" />
 					</AdContainer>
-					<AdUnit id="dl-m-1" size="320x50" mobile />
+					<NitropayAdUnit id="dl-m-1" size="320x50" mobile />
+					<NetworkNAdUnit id="nn_mobile_mpu1" mobile center />
 					<button
 						className="btn btn-default pull-left visible-xs visible-sm"
 						type="button"
@@ -1341,8 +1345,12 @@ class Decks extends React.Component<Props, State> {
 						<span className="glyphicon glyphicon-filter" />
 						{t("Filters")}
 					</button>
+					<Sticky top={10}>
+						<NetworkNAdUnit id="nn_bb1" center />
+					</Sticky>
 					{content}
-					<AdUnit id="dl-m-3" size="300x250" mobile />
+					<NitropayAdUnit id="dl-m-3" size="300x250" mobile />
+					<NetworkNAdUnit id="nn_mobile_mpu2" mobile center />
 				</main>
 			</div>
 		);

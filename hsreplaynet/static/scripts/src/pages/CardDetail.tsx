@@ -2,7 +2,7 @@ import React from "react";
 import { WithTranslation, withTranslation } from "react-i18next";
 import CardData from "../CardData";
 import AdContainer from "../components/ads/AdContainer";
-import AdUnit from "../components/ads/AdUnit";
+import NitropayAdUnit from "../components/ads/NitropayAdUnit";
 import AdaptDetail from "../components/carddetail/AdaptDetail";
 import RecommendedDecksList from "../components/carddetail/RecommendedDecksList";
 import CardRankingTable from "../components/CardRankingTable";
@@ -43,6 +43,9 @@ import { I18N_NAMESPACE_HEARTHSTONE } from "../i18n";
 import { RenderData, TableData } from "../interfaces";
 import UserData from "../UserData";
 import { Collection } from "../utils/api";
+import NetworkNAdUnit from "../components/ads/NetworkNAdUnit";
+import Sticky from "../components/utils/Sticky";
+import Feature from "../components/Feature";
 
 interface Props extends WithTranslation {
 	card: any;
@@ -356,221 +359,241 @@ class CardDetail extends React.Component<Props, State> {
 					</div>
 				);
 
-				content = [
-					<section id="content-header" key="content-header">
-						<h1>
-							{t("{cardName} – Statistics", {
-								cardName: this.props.card.name,
-							})}
-						</h1>
-						<div className="top-ads">
-							<AdContainer>
-								<AdUnit id="cd-d-1" size="728x90" />
-								<AdUnit id="cd-d-2" size="728x90" />
-							</AdContainer>
-						</div>
-						{headerContent}
-						<AdUnit id="cd-m-2" size="300x250" mobile />
-					</section>,
-					<section id="page-content" key="page-content">
-						<Fragments
-							defaults={{
-								tab: "",
-							}}
-							keepDefaults
-						>
-							<TabList
-								tab={this.props.tab}
-								setTab={this.props.setTab}
+				content = (
+					<>
+						<Sticky top={10}>
+							<NetworkNAdUnit id="nn_bb1" center />
+						</Sticky>
+						<section id="content-header" key="content-header">
+							<h1>
+								{t("{cardName} – Statistics", {
+									cardName: this.props.card.name,
+								})}
+							</h1>
+							<Feature feature="networkn" inverted>
+								<div className="top-ads">
+									<AdContainer>
+										<NitropayAdUnit
+											id="cd-d-1"
+											size="728x90"
+										/>
+										<NitropayAdUnit
+											id="cd-d-2"
+											size="728x90"
+										/>
+									</AdContainer>
+								</div>
+							</Feature>
+							{headerContent}
+							<NitropayAdUnit id="cd-m-2" size="300x250" mobile />
+						</section>
+						<section id="page-content" key="page-content">
+							<Fragments
+								defaults={{
+									tab: "",
+								}}
+								keepDefaults
 							>
-								<Tab
-									label={t("Recommended Decks")}
-									id="recommended-decks"
-									disabled={this.isArena()}
+								<TabList
+									tab={this.props.tab}
+									setTab={this.props.setTab}
 								>
-									<DataInjector
-										query={{
-											params: {
-												GameType: this.props.gameType,
-												RankRange: this.props.rankRange,
-											},
-											url: "list_decks_by_win_rate",
-										}}
+									<Tab
+										label={t("Recommended Decks")}
+										id="recommended-decks"
+										disabled={this.isArena()}
 									>
-										<TableLoading>
-											<RecommendedDecksList
-												card={this.props.card}
+										<DataInjector
+											query={{
+												params: {
+													GameType: this.props
+														.gameType,
+													RankRange: this.props
+														.rankRange,
+												},
+												url: "list_decks_by_win_rate",
+											}}
+										>
+											<TableLoading>
+												<RecommendedDecksList
+													card={this.props.card}
+													cardData={
+														this.props.cardData
+													}
+													collection={
+														this.props.collection
+													}
+												/>
+											</TableLoading>
+										</DataInjector>
+									</Tab>
+									<Tab
+										label={
+											<span className="text-premium">
+												{t("Turn Details")}
+												<InfoIcon
+													header={t(
+														"Popularity and Winrate by turn",
+													)}
+													content={t(
+														"Learn when this card is usually played in the different matchups and how that affects the winrate.",
+													)}
+												/>
+											</span>
+										}
+										id="turn-statistics"
+										premiumModalOnClick="CardTurn"
+									>
+										<PremiumWrapper
+											analyticsLabel="Single Card Turn Statistics"
+											iconStyle={{ display: "none" }}
+											modalStyle="CardTurn"
+										>
+											{turnCharts}
+										</PremiumWrapper>
+									</Tab>
+									<Tab
+										label={t("Class distribution")}
+										id="class-distribution"
+										hidden={!this.cardIsNeutral()}
+									>
+										<h3>{t("Class Distribution")}</h3>
+										<div id="class-chart">
+											<DataInjector
+												query={{
+													url:
+														"single_card_class_distribution_by_include_count",
+													params: this.getParams(),
+												}}
+											>
+												<ChartLoading>
+													<CardDetailPieChart
+														removeEmpty
+														scheme={getChartScheme(
+															"class",
+															t,
+														)}
+														sortByValue
+														groupSparseData
+														percentage
+														formatLabel={label =>
+															getHeroClassName(
+																label,
+																t,
+															)
+														}
+													/>
+												</ChartLoading>
+											</DataInjector>
+										</div>
+									</Tab>
+									<Tab
+										label={t("Targets")}
+										id="targets"
+										hidden={!this.cardHasTargetReqs()}
+									>
+										<div className="card-tables">
+											<h3>{t("Most popular targets")}</h3>
+											<DataInjector
+												query={{
+													url:
+														"single_card_popular_targets",
+													params: this.getParams(),
+												}}
+												modify={data =>
+													this.mergeHeroes(data)
+												}
+											>
+												<TableLoading>
+													<CardRankingTable
+														cardData={
+															this.props.cardData
+														}
+														numRows={12}
+														dataKey={"ALL"}
+													/>
+												</TableLoading>
+											</DataInjector>
+										</div>
+									</Tab>
+									<Tab
+										label={t("GLOBAL_KEYWORD_DISCOVER", {
+											ns: I18N_NAMESPACE_HEARTHSTONE,
+										})}
+										id="discover"
+										hidden={!this.cardHasDiscover()}
+									>
+										<div className="card-tables">
+											<h3>
+												{t(
+													"Most popular Discover choices",
+												)}
+											</h3>
+											<DataInjector
+												query={{
+													url:
+														"single_card_choices_by_winrate",
+													params: this.getParams(),
+												}}
+											>
+												<TableLoading>
+													<CardRankingTable
+														cardData={
+															this.props.cardData
+														}
+														numRows={12}
+														dataKey={"ALL"}
+														tooltips={{
+															popularity: (
+																<InfoIcon
+																	header={t(
+																		"Popularity for Discover",
+																	)}
+																	content={t(
+																		"A card's percentage represents how often the card was picked over others if it was available for choice.",
+																	)}
+																/>
+															),
+														}}
+													/>
+												</TableLoading>
+											</DataInjector>
+										</div>
+									</Tab>
+									<Tab
+										label={t("Adapt")}
+										id="adapt"
+										hidden={!this.cardHasAdapt()}
+									>
+										<DataInjector
+											query={{
+												params: this.getParams(),
+												url:
+													isPremium &&
+													this.props.opponentClass !==
+														"ALL"
+														? "single_card_adapt_stats_by_opponent"
+														: "single_card_adapt_stats",
+											}}
+										>
+											<AdaptDetail
 												cardData={this.props.cardData}
-												collection={
-													this.props.collection
+												opponentClass={
+													this.props.opponentClass
+												}
+												setOpponentClass={
+													this.props.setOpponentClass
 												}
 											/>
-										</TableLoading>
-									</DataInjector>
-								</Tab>
-								<Tab
-									label={
-										<span className="text-premium">
-											{t("Turn Details")}
-											<InfoIcon
-												header={t(
-													"Popularity and Winrate by turn",
-												)}
-												content={t(
-													"Learn when this card is usually played in the different matchups and how that affects the winrate.",
-												)}
-											/>
-										</span>
-									}
-									id="turn-statistics"
-									premiumModalOnClick="CardTurn"
-								>
-									<PremiumWrapper
-										analyticsLabel="Single Card Turn Statistics"
-										iconStyle={{ display: "none" }}
-										modalStyle="CardTurn"
-									>
-										{turnCharts}
-									</PremiumWrapper>
-								</Tab>
-								<Tab
-									label={t("Class distribution")}
-									id="class-distribution"
-									hidden={!this.cardIsNeutral()}
-								>
-									<h3>{t("Class Distribution")}</h3>
-									<div id="class-chart">
-										<DataInjector
-											query={{
-												url:
-													"single_card_class_distribution_by_include_count",
-												params: this.getParams(),
-											}}
-										>
-											<ChartLoading>
-												<CardDetailPieChart
-													removeEmpty
-													scheme={getChartScheme(
-														"class",
-														t,
-													)}
-													sortByValue
-													groupSparseData
-													percentage
-													formatLabel={label =>
-														getHeroClassName(
-															label,
-															t,
-														)
-													}
-												/>
-											</ChartLoading>
 										</DataInjector>
-									</div>
-								</Tab>
-								<Tab
-									label={t("Targets")}
-									id="targets"
-									hidden={!this.cardHasTargetReqs()}
-								>
-									<div className="card-tables">
-										<h3>{t("Most popular targets")}</h3>
-										<DataInjector
-											query={{
-												url:
-													"single_card_popular_targets",
-												params: this.getParams(),
-											}}
-											modify={data =>
-												this.mergeHeroes(data)
-											}
-										>
-											<TableLoading>
-												<CardRankingTable
-													cardData={
-														this.props.cardData
-													}
-													numRows={12}
-													dataKey={"ALL"}
-												/>
-											</TableLoading>
-										</DataInjector>
-									</div>
-								</Tab>
-								<Tab
-									label={t("GLOBAL_KEYWORD_DISCOVER", {
-										ns: I18N_NAMESPACE_HEARTHSTONE,
-									})}
-									id="discover"
-									hidden={!this.cardHasDiscover()}
-								>
-									<div className="card-tables">
-										<h3>
-											{t("Most popular Discover choices")}
-										</h3>
-										<DataInjector
-											query={{
-												url:
-													"single_card_choices_by_winrate",
-												params: this.getParams(),
-											}}
-										>
-											<TableLoading>
-												<CardRankingTable
-													cardData={
-														this.props.cardData
-													}
-													numRows={12}
-													dataKey={"ALL"}
-													tooltips={{
-														popularity: (
-															<InfoIcon
-																header={t(
-																	"Popularity for Discover",
-																)}
-																content={t(
-																	"A card's percentage represents how often the card was picked over others if it was available for choice.",
-																)}
-															/>
-														),
-													}}
-												/>
-											</TableLoading>
-										</DataInjector>
-									</div>
-								</Tab>
-								<Tab
-									label={t("Adapt")}
-									id="adapt"
-									hidden={!this.cardHasAdapt()}
-								>
-									<DataInjector
-										query={{
-											params: this.getParams(),
-											url:
-												isPremium &&
-												this.props.opponentClass !==
-													"ALL"
-													? "single_card_adapt_stats_by_opponent"
-													: "single_card_adapt_stats",
-										}}
-									>
-										<AdaptDetail
-											cardData={this.props.cardData}
-											opponentClass={
-												this.props.opponentClass
-											}
-											setOpponentClass={
-												this.props.setOpponentClass
-											}
-										/>
-									</DataInjector>
-								</Tab>
-							</TabList>
-						</Fragments>
-					</section>,
-					<AdUnit id="cd-m-3" size="320x50" mobile />,
-				];
+									</Tab>
+								</TabList>
+							</Fragments>
+						</section>
+						<NitropayAdUnit id="cd-m-3" size="320x50" mobile />
+						<NetworkNAdUnit id="nn_mobile_mpu2" mobile center />
+					</>
+				);
 			}
 		} else {
 			content = (
@@ -624,7 +647,8 @@ class CardDetail extends React.Component<Props, State> {
 						/>
 					</h1>
 					<p>{this.getCleanFlavorText()}</p>
-					<AdUnit id="cd-m-1" size="300x250" mobile />
+					<NitropayAdUnit id="cd-m-1" size="300x250" mobile />
+					<NetworkNAdUnit id="nn_mobile_mpu1" mobile center />
 					<InfoboxFilterGroup
 						header={t("Game mode")}
 						selectedValue={this.props.gameType}
@@ -817,7 +841,10 @@ class CardDetail extends React.Component<Props, State> {
 							</span>
 						</li>
 					</ul>
-					<AdUnit id="cd-d-3" size="300x250" />
+					<NitropayAdUnit id="cd-d-3" size="300x250" />
+					<Sticky bottom={0}>
+						<NetworkNAdUnit id="nn_mpu1" />
+					</Sticky>
 				</aside>
 				<main>{content}</main>
 			</div>

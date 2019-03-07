@@ -13,6 +13,23 @@ export type AdUnitSize =
 	| "970x90"
 	| "970x250";
 
+const MOBILE_WIDTH = 768;
+
+const fallbackImages = {
+	"300x250": "premium/fallbacks/fallback-1.jpg",
+	"728x90": "premium/fallbacks/fallback-2.jpg",
+	"320x50": "premium/fallbacks/fallback-3.jpg",
+	"160x600": "premium/fallbacks/fallback-4.jpg",
+	"300x600": "premium/fallbacks/fallback-5.jpg",
+	"970x90": "premium/fallbacks/fallback-6.jpg",
+	"970x250": "premium/fallbacks/fallback-7.jpg",
+};
+
+export const parsePlaceholderSize = (size: string): [number, number] => {
+	const [width, height] = size.split("x").map(Number);
+	return [width, height];
+};
+
 interface Props {
 	id: string;
 	size: AdUnitSize;
@@ -28,19 +45,7 @@ interface State {
 	loadFallback: boolean;
 }
 
-const MOBILE_WIDTH = 768;
-
-const fallbackImages = {
-	"300x250": "premium/fallbacks/fallback-1.jpg",
-	"728x90": "premium/fallbacks/fallback-2.jpg",
-	"320x50": "premium/fallbacks/fallback-3.jpg",
-	"160x600": "premium/fallbacks/fallback-4.jpg",
-	"300x600": "premium/fallbacks/fallback-5.jpg",
-	"970x90": "premium/fallbacks/fallback-6.jpg",
-	"970x250": "premium/fallbacks/fallback-7.jpg",
-};
-
-export default class AdUnit extends React.Component<Props, State> {
+export default class NitropayAdUnit extends React.Component<Props, State> {
 	private ref: HTMLElement | null = null;
 
 	constructor(props: Props, context: any) {
@@ -58,7 +63,8 @@ export default class AdUnit extends React.Component<Props, State> {
 		if (
 			!showAds() ||
 			!AdHelper.isAdEnabled(this.props.id) ||
-			this.state.mobileView !== !!this.props.mobile
+			this.state.mobileView !== !!this.props.mobile ||
+			UserData.hasFeature("networkn")
 		) {
 			return null;
 		}
@@ -68,7 +74,7 @@ export default class AdUnit extends React.Component<Props, State> {
 			this.props.mobile ? "ad-unit--mobile" : "ad-unit--desktop",
 		);
 
-		const [width, height] = AdUnit.parsePlaceholderSize(this.props.size);
+		const [width, height] = parsePlaceholderSize(this.props.size);
 
 		if (this.state.loadFallback && UserData.hasFeature("ad-fallback")) {
 			const className =
@@ -171,11 +177,6 @@ export default class AdUnit extends React.Component<Props, State> {
 		window.removeEventListener("resize", this.resize);
 	}
 
-	public static parsePlaceholderSize(size: string): [number, number] {
-		const [width, height] = size.split("x").map(Number);
-		return [width, height];
-	}
-
 	private loadExternalAd(): boolean {
 		if (this.state.loaded) {
 			// ad has already been loaded
@@ -202,7 +203,7 @@ export default class AdUnit extends React.Component<Props, State> {
 			floor: 0.2,
 			refreshLimit: 10,
 			refreshTime: 90,
-			sizes: [AdUnit.parsePlaceholderSize(this.props.size)],
+			sizes: [parsePlaceholderSize(this.props.size)],
 			report: {
 				enabled: true,
 				wording: "Report Ad",

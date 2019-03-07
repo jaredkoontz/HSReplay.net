@@ -1,0 +1,15 @@
+.sticky {
+	position: relative;
+	width: 100%;
+
+	&__element {
+		position: static;
+
+		@media screen {
+			&--stick {
+				position: fixed;
+				z-index: 100;
+			}
+		}
+	}
+}

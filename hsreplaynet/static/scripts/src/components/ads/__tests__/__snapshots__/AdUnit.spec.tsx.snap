@@ -12,7 +12,7 @@ exports[`AdUnit does render correctly in debug mode 1`] = `
   }
 >
   <div
-    className="ad-unit-debug"
+    className="ad-unit__admin"
     onClick={[Function]}
     style={
       Object {
@@ -22,7 +22,6 @@ exports[`AdUnit does render correctly in debug mode 1`] = `
   >
     <input
       checked={true}
-      className="debug-checkbox"
       type="checkbox"
     />
     <p>

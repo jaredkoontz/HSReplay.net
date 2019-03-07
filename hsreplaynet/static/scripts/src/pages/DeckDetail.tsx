@@ -4,7 +4,7 @@ import { WithTranslation, withTranslation } from "react-i18next";
 import AdHelper from "../AdHelper";
 import CardData from "../CardData";
 import AdContainer from "../components/ads/AdContainer";
-import AdUnit from "../components/ads/AdUnit";
+import NitropayAdUnit from "../components/ads/NitropayAdUnit";
 import ArchetypeImage from "../components/archetypedetail/ArchetypeImage";
 import ArchetypeMatchups from "../components/archetypedetail/ArchetypeMatchups";
 import CardList from "../components/CardList";
@@ -51,6 +51,8 @@ import UserData, { Account } from "../UserData";
 import { Archetype, Collection } from "../utils/api";
 import { getDustCostForCollection } from "../utils/collection";
 import TwitchVods from "../components/TwitchVods";
+import NetworkNAdUnit from "../components/ads/NetworkNAdUnit";
+import Sticky from "../components/utils/Sticky";
 
 interface InventoryGameType {
 	[gameType: string]: InventoryRegion[];
@@ -680,7 +682,7 @@ class DeckDetail extends React.Component<Props, State> {
 							</span>
 						</li>
 					</ul>
-					<AdUnit id="dd-m-1" size="320x50" mobile />
+					<NitropayAdUnit id="dd-m-1" size="320x50" mobile />
 					{filters}
 					<DataInjector
 						fetchCondition={
@@ -702,17 +704,22 @@ class DeckDetail extends React.Component<Props, State> {
 						</HideLoading>
 					</DataInjector>
 					{this.renderAdminSettings()}
-					<AdUnit id="dd-d-9" size="300x250" />
-					<AdUnit id="dd-d-10" size="300x250" />
+					<NetworkNAdUnit id="nn_mpu1" />
+					<NetworkNAdUnit id="nn_mobile_mpu1" mobile center />
+					<NitropayAdUnit id="dd-d-9" size="300x250" />
+					<NitropayAdUnit id="dd-d-10" size="300x250" />
 				</aside>
 				<main>
 					<section id="content-header">
 						<AdContainer>
-							<AdUnit id="dd-d-1" size="728x90" />
-							<AdUnit id="dd-d-2" size="728x90" />
+							<NitropayAdUnit id="dd-d-1" size="728x90" />
+							<NitropayAdUnit id="dd-d-2" size="728x90" />
 						</AdContainer>
+						<Sticky top={10}>
+							<NetworkNAdUnit id="nn_bb1" center />
+						</Sticky>
 						{header}
-						<AdUnit id="dd-m-2" size="300x250" mobile />
+						<NitropayAdUnit id="dd-m-2" size="300x250" mobile />
 					</section>
 					<section id="page-content">
 						<TabList
@@ -721,8 +728,8 @@ class DeckDetail extends React.Component<Props, State> {
 						>
 							<Tab label={t("Overview")} id="overview">
 								<AdContainer>
-									<AdUnit id="dd-d-3" size="728x90" />
-									<AdUnit id="dd-d-4" size="728x90" />
+									<NitropayAdUnit id="dd-d-3" size="728x90" />
+									<NitropayAdUnit id="dd-d-4" size="728x90" />
 								</AdContainer>
 								{overviewContent}
 							</Tab>
@@ -851,7 +858,8 @@ class DeckDetail extends React.Component<Props, State> {
 								{this.renderTwitchVods()}
 							</Tab>
 						</TabList>
-						<AdUnit id="dd-m-3" size="320x50" mobile />
+						<NitropayAdUnit id="dd-m-3" size="320x50" mobile />
+						<NetworkNAdUnit id="nn_mobile_mpu2" mobile center />
 					</section>
 				</main>
 			</div>
@@ -926,13 +934,21 @@ class DeckDetail extends React.Component<Props, State> {
 					collection={this.props.collection}
 					adInterval={Math.floor(cards.length / 2)}
 					ads={
-						["dd-d-5", "dd-d-6"].some(ad =>
-							AdHelper.isAdEnabled(ad),
+						["dd-d-5", "dd-d-6"].some(
+							ad =>
+								AdHelper.isAdEnabled(ad) &&
+								!UserData.hasFeature("networkn"),
 						)
 							? [
 									<AdContainer>
-										<AdUnit id="dd-d-5" size="728x90" />
-										<AdUnit id="dd-d-6" size="728x90" />
+										<NitropayAdUnit
+											id="dd-d-5"
+											size="728x90"
+										/>
+										<NitropayAdUnit
+											id="dd-d-6"
+											size="728x90"
+										/>
 									</AdContainer>,
 							  ]
 							: null

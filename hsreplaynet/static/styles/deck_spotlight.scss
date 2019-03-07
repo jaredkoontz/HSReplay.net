@@ -1,10 +1,22 @@
 #deck-spotlight {
-	margin: 0 auto;
-	padding: 20px 0 50px;
-	width: 80%;
+	margin: 10px auto;
+	padding: 10px 0 40px 0;
+	width: calc(100% - 360px);
+
+	@media (max-width: 1879px) {
+		width: calc(100% - 20px);
+	}
 
 	h1 {
-		margin-top: 20px;
+		margin-top: 0;
+
+		&:first-child {
+			margin-top: 20px;
+		}
+	}
+
+	> .ad-unit {
+		margin-bottom: 20px;
 	}
 
 	.content-message {

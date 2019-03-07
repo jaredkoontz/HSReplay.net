@@ -1,6 +1,31 @@
 .ad-unit,
 .premium-fallback {
 	position: relative;
+	// ad blocker canary
+	display: block;
+	visibility: visible;
+	opacity: 1;
+	top: 0;
+	left: 0;
+
+	&--center {
+		width: 100%;
+		margin: 0 auto;
+	}
+
+	&--desktop {
+		@media (max-width: 767px) {
+			display: none;
+		}
+	}
+
+	&--mobile {
+		@media (min-width: 768px) {
+			display: none;
+		}
+
+		margin: 15px auto;
+	}
 }
 
 .ad-unit__admin {
@@ -41,22 +66,6 @@
 	}
 }
 
-.ad-unit--desktop,
-.premium-fallback--desktop {
-	@media (max-width: 767px) {
-		display: none;
-	}
-}
-
-.ad-unit--mobile,
-.premium-fallback--mobile {
-	@media (min-width: 768px) {
-		display: none;
-	}
-
-	margin: 15px auto;
-}
-
 .ad-container {
 	width: 100%;
 	margin: 15px 0;
@@ -78,24 +87,23 @@
 			margin-right: 0;
 		}
 	}
-}
 
-.ad-container--horizontal {
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	flex: 0;
+	&--horizontal {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		flex: 0;
 
-	> .ad-unit,
-	.premium-fallback {
-		flex-shrink: 0;
-		margin: 0 5px;
+		> .ad-unit,
+		.premium-fallback {
+			flex-shrink: 0;
+			margin: 0 5px;
+		}
 	}
 }
 
 .gutter-ad-container {
 	position: absolute;
-	margin-top: 5px;
 
 	@media (max-width: 1879px) {
 		display: none;

@@ -10,7 +10,10 @@ import TableLoading from "../components/loading/TableLoading";
 import TrendingDecksList from "../components/trending/TrendingDecksList";
 import PropRemapper from "../components/utils/PropRemapper";
 import AdContainer from "../components/ads/AdContainer";
-import AdUnit from "../components/ads/AdUnit";
+import NitropayAdUnit from "../components/ads/NitropayAdUnit";
+import NetworkNAdUnit from "../components/ads/NetworkNAdUnit";
+import GutterAdUnit from "../components/ads/GutterAdUnit";
+import Feature from "../components/Feature";
 
 interface Props extends WithTranslation {
 	cardData: CardData;
@@ -22,11 +25,23 @@ class DeckSpotlight extends React.Component<Props> {
 		const { t } = this.props;
 		return (
 			<div id="deck-spotlight">
-				<AdContainer>
-					<AdUnit id="tr-d-1" size="728x90" />
-					<AdUnit id="tr-d-2" size="728x90" />
-				</AdContainer>
-				<AdUnit id="tr-m-1" size="320x50" mobile />
+				<NetworkNAdUnit id="nn_bb1" center />
+				<Feature feature="networkn" inverted>
+					<AdContainer>
+						<NitropayAdUnit id="tr-d-1" size="728x90" />
+						<NitropayAdUnit id="tr-d-2" size="728x90" />
+					</AdContainer>
+				</Feature>
+				<NitropayAdUnit id="tr-m-1" size="320x50" mobile />
+				<NetworkNAdUnit id="nn_mobile_mpu1" mobile center />
+				<GutterAdUnit position="left" networkNId="nn_skyleft" fluid />
+				<GutterAdUnit position="right" networkNId="nn_skyright" fluid />
+				<h1>{t("Trending Decks")}</h1>
+				<h3>
+					{t(
+						"Here's a selection of decks which have been rising in popularity over the last 48 hours.",
+					)}
+				</h3>
 				<span className="pull-right">
 					<Tooltip
 						header={t("Automatic updates")}
@@ -52,12 +67,6 @@ class DeckSpotlight extends React.Component<Props> {
 						</DataInjector>
 					</Tooltip>
 				</span>
-				<h1>{t("Trending Decks")}</h1>
-				<h3>
-					{t(
-						"Here's a selection of decks which have been rising in popularity over the last 48 hours.",
-					)}
-				</h3>
 				<DataInjector
 					query={{ url: "trending_decks_by_popularity", params: {} }}
 				>
@@ -71,7 +80,8 @@ class DeckSpotlight extends React.Component<Props> {
 						{t("Check out all the decks!")}
 					</a>
 				</section>
-				<AdUnit id="tr-m-3" size="300x250" mobile />
+				<NitropayAdUnit id="tr-m-3" size="300x250" mobile />
+				<NetworkNAdUnit id="nn_mobile_mpu2" mobile center />
 			</div>
 		);
 	}

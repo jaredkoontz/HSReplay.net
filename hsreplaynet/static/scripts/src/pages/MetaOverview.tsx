@@ -22,8 +22,10 @@ import PrettyTimeRange from "../components/text/PrettyTimeRange";
 import { TimeRange } from "../filters";
 import { SortDirection } from "../interfaces";
 import { formatNumber } from "../i18n";
-import AdUnit from "../components/ads/AdUnit";
+import NitropayAdUnit from "../components/ads/NitropayAdUnit";
 import AdContainer from "../components/ads/AdContainer";
+import NetworkNAdUnit from "../components/ads/NetworkNAdUnit";
+import Sticky from "../components/utils/Sticky";
 
 interface Props extends WithTranslation {
 	cardData: CardData;
@@ -328,13 +330,17 @@ class MetaOverview extends React.Component<Props, State> {
 						</ul>
 					</section>
 					{backButton}
-					<AdUnit id="mp-d-11" size="300x250" />
-					<AdUnit id="mp-d-12" size="300x250" />
-					<AdUnit id="mp-d-13" size="300x250" />
-					<AdUnit id="mp-d-14" size="300x250" />
+					<Sticky bottom={0}>
+						<NetworkNAdUnit id="nn_mpu1" />
+					</Sticky>
+					<NitropayAdUnit id="mp-d-11" size="300x250" />
+					<NitropayAdUnit id="mp-d-12" size="300x250" />
+					<NitropayAdUnit id="mp-d-13" size="300x250" />
+					<NitropayAdUnit id="mp-d-14" size="300x250" />
 				</aside>
 				<main className={contentClassNames.join(" ")}>
-					<AdUnit id="mp-m-1" size="320x50" mobile />
+					<NitropayAdUnit id="mp-m-1" size="320x50" mobile />
+					<NetworkNAdUnit id="nn_mobile_mpu1" mobile center />
 					<button
 						className="btn btn-default btn-filters visible-xs visible-sm"
 						type="button"
@@ -343,9 +349,12 @@ class MetaOverview extends React.Component<Props, State> {
 						<span className="glyphicon glyphicon-filter" />
 						{t("Filters")}
 					</button>
+					<Sticky top={5}>
+						<NetworkNAdUnit id="nn_bb1" center />
+					</Sticky>
 					<AdContainer>
-						<AdUnit id="mp-d-1" size="728x90" />
-						<AdUnit id="mp-d-2" size="728x90" />
+						<NitropayAdUnit id="mp-d-1" size="728x90" />
+						<NitropayAdUnit id="mp-d-2" size="728x90" />
 					</AdContainer>
 					<TabList
 						tab={this.props.tab}
@@ -471,7 +480,8 @@ class MetaOverview extends React.Component<Props, State> {
 							{this.renderPopularity(popularityParams)}
 						</Tab>
 					</TabList>
-					<AdUnit id="mp-m-5" size="320x50" mobile />
+					<NitropayAdUnit id="mp-m-5" size="320x50" mobile />
+					<NetworkNAdUnit id="nn_mobile_mpu2" mobile center />
 				</main>
 			</div>
 		);

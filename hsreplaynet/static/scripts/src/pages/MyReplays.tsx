@@ -3,7 +3,7 @@ import React from "react";
 import { Trans, WithTranslation, withTranslation } from "react-i18next";
 import CardData from "../CardData";
 import AdContainer from "../components/ads/AdContainer";
-import AdUnit from "../components/ads/AdUnit";
+import NitropayAdUnit from "../components/ads/NitropayAdUnit";
 import ClassDistributionPieChart from "../components/charts/ClassDistributionPieChart";
 import ClassFilter, { FilterOption } from "../components/ClassFilter";
 import GameHistoryList from "../components/gamehistory/GameHistoryList";
@@ -28,6 +28,8 @@ import {
 	GameReplay,
 	ImageProps,
 } from "../interfaces";
+import Sticky from "../components/utils/Sticky";
+import NetworkNAdUnit from "../components/ads/NetworkNAdUnit";
 
 type ViewType = "tiles" | "list";
 
@@ -522,14 +524,21 @@ class MyReplays extends React.Component<Props, State> {
 						<InfoboxFilter value="lost">{t("Lost")}</InfoboxFilter>
 					</InfoboxFilterGroup>
 					{backButton}
-					<AdUnit id="mr-d-3" size="300x250" />
+					<Sticky bottom={0} key="ads">
+						<NetworkNAdUnit id="nn_mpu1" />
+					</Sticky>
+					<NitropayAdUnit id="mr-d-3" size="300x250" />
 				</aside>
 				<div className={contentClassNames.join(" ")}>
 					<AdContainer>
-						<AdUnit id="mr-d-1" size="728x90" />
-						<AdUnit id="mr-d-2" size="728x90" />
+						<NitropayAdUnit id="mr-d-1" size="728x90" />
+						<NitropayAdUnit id="mr-d-2" size="728x90" />
 					</AdContainer>
-					<AdUnit id="mr-m-1" size="320x50" mobile />
+					<NitropayAdUnit id="mr-m-1" size="320x50" mobile />
+					<Sticky top={10}>
+						<NetworkNAdUnit id="nn_bb1" center />
+					</Sticky>
+					<NetworkNAdUnit id="nn_mobile_mpu1" mobile />
 					<div className="header-buttons">
 						<button
 							className="btn btn-default pull-left visible-xs visible-sm"
@@ -544,6 +553,7 @@ class MyReplays extends React.Component<Props, State> {
 					</div>
 					{content}
 					<div className="pull-right">{pager}</div>
+					<NetworkNAdUnit id="nn_mobile_mpu2" mobile />
 				</div>
 			</div>
 		);

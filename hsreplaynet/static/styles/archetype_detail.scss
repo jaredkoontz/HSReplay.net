@@ -61,6 +61,14 @@
 			padding: 10px;
 			height: 300px;
 		}
+
+		.container-fluid {
+			margin-top: 10px;
+
+			&:first-child {
+				margin-top: 0;
+			}
+		}
 	}
 
 	> aside {

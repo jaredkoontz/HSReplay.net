@@ -3,11 +3,11 @@
 
 	.deck-list-wrapper {
 		min-height: 1180px;
-		padding: 20px;
+		padding: 10px 20px 30px 20px;
 		width: calc(100% - 300px);
 
 		@media (max-width: 991px) {
-			margin-left: 0px;
+			margin-left: 0;
 			width: 100%;
 		}
 
@@ -34,6 +34,10 @@
 		.ad-container:first-child {
 			margin-top: 0;
 		}
+	}
+
+	.deck-list {
+		margin-top: 10px;
 	}
 
 	#min-games-message {

@@ -15,7 +15,7 @@ import DeckTile from "./DeckTile";
 import InfoIcon from "./InfoIcon";
 import Pager from "./Pager";
 import SortIndicator from "./SortIndicator";
-import AdUnit from "./ads/AdUnit";
+import NitropayAdUnit from "./ads/NitropayAdUnit";
 import AdContainer from "./ads/AdContainer";
 
 interface AdInfo {
@@ -181,11 +181,15 @@ class DeckList extends React.Component<Props, State> {
 				this.props.ads.filter(x => x.index === index).forEach(ad => {
 					deckTiles.push(
 						ad.mobile ? (
-							<AdUnit id={ad.ids[0]} size="320x50" mobile />
+							<NitropayAdUnit
+								id={ad.ids[0]}
+								size="320x50"
+								mobile
+							/>
 						) : (
 							<AdContainer>
 								{ad.ids.map(id => (
-									<AdUnit id={id} size="728x90" />
+									<NitropayAdUnit id={id} size="728x90" />
 								))}
 							</AdContainer>
 						),

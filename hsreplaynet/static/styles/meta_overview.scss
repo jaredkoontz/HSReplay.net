@@ -19,6 +19,10 @@
 			margin-left: 6px;
 			margin-bottom: 5px;
 		}
+
+		.sticky + .tab-list {
+			margin-top: 10px;
+		}
 	}
 
 	> aside {

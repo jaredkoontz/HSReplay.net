@@ -17,7 +17,7 @@ import { FragmentChildProps, SortDirection } from "../interfaces";
 import AllSet from "../components/onboarding/AllSet";
 import ConnectAccount from "../components/onboarding/ConnectAccount";
 import AdContainer from "../components/ads/AdContainer";
-import AdUnit from "../components/ads/AdUnit";
+import NitropayAdUnit from "../components/ads/NitropayAdUnit";
 import LoadingSpinner from "../components/LoadingSpinner";
 import CardFilterManager from "../components/cards/CardFilterManager";
 import ClassFilter from "../components/cards/filters/ClassFilter";
@@ -279,13 +279,13 @@ class Cards extends React.Component<Props, State> {
 						{backButton}
 						{this.buildFilters()}
 						{backButton}
-						<AdUnit id="cl-d-3" size="300x250" />
-						<AdUnit id="cl-d-4" size="300x250" />
+						<NitropayAdUnit id="cl-d-3" size="300x250" />
+						<NitropayAdUnit id="cl-d-4" size="300x250" />
 					</aside>
 					<main className={contentClassNames.join(" ")}>
 						<AdContainer>
-							<AdUnit id="cl-d-1" size="728x90" />
-							<AdUnit id="cl-d-2" size="728x90" />
+							<NitropayAdUnit id="cl-d-1" size="728x90" />
+							<NitropayAdUnit id="cl-d-2" size="728x90" />
 						</AdContainer>
 						<button
 							className="btn btn-default visible-xs"

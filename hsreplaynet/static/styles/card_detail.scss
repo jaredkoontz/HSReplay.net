@@ -69,10 +69,18 @@
 			top: 5%;
 		}
 
+		.sticky + #content-header {
+			margin-top: 10px;
+		}
+
 		#content-header > h1 {
 			font-size: 2em;
 			font-weight: bold;
 			text-align: center;
+		}
+
+		.deck-list {
+			margin: 0 0 30px 0;
 		}
 	}
 

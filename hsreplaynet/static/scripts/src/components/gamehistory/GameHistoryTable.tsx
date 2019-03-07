@@ -4,7 +4,7 @@ import { CardArtProps, GameReplay, ImageProps } from "../../interfaces";
 import GameHistoryList from "./GameHistoryList";
 import GameHistoryTableRow from "./GameHistoryTableRow";
 import AdContainer from "../ads/AdContainer";
-import AdUnit from "../ads/AdUnit";
+import NitropayAdUnit from "../ads/NitropayAdUnit";
 import * as _ from "lodash";
 
 interface Props extends ImageProps, CardArtProps, WithTranslation {
@@ -19,10 +19,10 @@ class GameHistoryTable extends React.Component<Props> {
 			<tr className="ad-row">
 				<td colSpan={20}>
 					<AdContainer>
-						<AdUnit id={`mr-d-${x}`} size="728x90" />
-						<AdUnit id={`mr-d-${x + 1}`} size="728x90" />
+						<NitropayAdUnit id={`mr-d-${x}`} size="728x90" />
+						<NitropayAdUnit id={`mr-d-${x + 1}`} size="728x90" />
 					</AdContainer>
-					<AdUnit
+					<NitropayAdUnit
 						id={`mr-m-${Math.floor(x / 2)}`}
 						size="300x250"
 						mobile

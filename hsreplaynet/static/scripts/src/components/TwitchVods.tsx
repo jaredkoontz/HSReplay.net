@@ -5,8 +5,9 @@ import { WithTranslation, withTranslation } from "react-i18next";
 import TwitchEmbed from "./TwitchEmbed";
 import TwitchVodsTable from "./TwitchVodsTable";
 import CardData from "../CardData";
-import AdUnit from "./ads/AdUnit";
+import NitropayAdUnit from "./ads/NitropayAdUnit";
 import Fragments from "./Fragments";
+import NetworkNAdUnit from "./ads/NetworkNAdUnit";
 
 interface Props extends WithTranslation {
 	archetypeData?: Archetype[];
@@ -101,7 +102,8 @@ class TwitchVods extends React.Component<Props> {
 						</Fragments>
 					</div>
 					<div className="vod-ad-container">
-						<AdUnit id="dd-v-1" size="728x90" />
+						<NitropayAdUnit id="dd-v-1" size="728x90" />
+						<NetworkNAdUnit id="nn_bb2" center />
 					</div>
 				</div>
 				<Fragments

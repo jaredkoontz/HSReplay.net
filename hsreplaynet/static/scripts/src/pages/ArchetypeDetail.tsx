@@ -36,8 +36,11 @@ import { isWildSet } from "../helpers";
 import { DeckObj, LoadingStatus, SortDirection } from "../interfaces";
 import { Archetype, Collection } from "../utils/api";
 import AdContainer from "../components/ads/AdContainer";
-import AdUnit from "../components/ads/AdUnit";
+import NitropayAdUnit from "../components/ads/NitropayAdUnit";
 import TwitchVods from "../components/TwitchVods";
+import Sticky from "../components/utils/Sticky";
+import NetworkNAdUnit from "../components/ads/NetworkNAdUnit";
+import Feature from "../components/Feature";
 
 interface Props extends WithTranslation {
 	archetypeId: number;
@@ -213,10 +216,15 @@ class ArchetypeDetail extends React.Component<Props, State> {
 			content = (
 				<>
 					<section id="content-header">
-						<AdContainer>
-							<AdUnit id="ad-d-1" size="728x90" />
-							<AdUnit id="ad-d-2" size="728x90" />
-						</AdContainer>
+						<Sticky top={10}>
+							<NetworkNAdUnit id="nn_bb1" center />
+						</Sticky>
+						<Feature feature="networkn" inverted>
+							<AdContainer>
+								<NitropayAdUnit id="ad-d-1" size="728x90" />
+								<NitropayAdUnit id="ad-d-2" size="728x90" />
+							</AdContainer>
+						</Feature>
 						<div className="container-fluid">
 							<div className="row">
 								<DataInjector
@@ -697,11 +705,18 @@ class ArchetypeDetail extends React.Component<Props, State> {
 							</li>
 						</ul>
 					</section>
-					<AdUnit id="ad-d-3" size="300x250" />
-					<AdUnit id="ad-d-4" size="300x250" />
-					<AdUnit id="ad-d-5" size="300x250" />
+					<Sticky bottom={0}>
+						<NetworkNAdUnit id="nn_mpu1" />
+					</Sticky>
+					<NetworkNAdUnit id="nn_mobile_mpu1" mobile center />
+					<NitropayAdUnit id="ad-d-3" size="300x250" />
+					<NitropayAdUnit id="ad-d-4" size="300x250" />
+					<NitropayAdUnit id="ad-d-5" size="300x250" />
 				</aside>
-				<main>{content}</main>
+				<main>
+					{content}
+					<NetworkNAdUnit id="nn_mobile_mpu2" mobile center />
+				</main>
 			</div>
 		);
 	}
