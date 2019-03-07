@@ -6,8 +6,8 @@ from django.views.generic import TemplateView, View
 
 from hsreplaynet.decks.models import Archetype
 
-from . import SimpleReactView
 from ..html import RequestMetaMixin
+from . import SimpleReactView
 
 
 ##

@@ -5,8 +5,8 @@ from rest_framework import serializers
 
 from hsreplaynet.api.serializers.accounts import SimpleUserSerializer
 
-from .models import GameReplay, GlobalGame, GlobalGamePlayer
 from ..decks.models import Deck
+from .models import GameReplay, GlobalGame, GlobalGamePlayer
 
 
 class DeckListField(serializers.ListField):

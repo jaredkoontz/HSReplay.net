@@ -14,9 +14,9 @@ from unidecode import unidecode
 from hsreplaynet.features.decorators import view_requires_feature_access
 from hsreplaynet.web.views.premium import PremiumRequiredMixin
 
-from . import SimpleReactView
 from ..html import RequestMetaMixin
 from ..i18n import lang_to_blizzard
+from . import SimpleReactView
 
 
 class CardsView(SimpleReactView):

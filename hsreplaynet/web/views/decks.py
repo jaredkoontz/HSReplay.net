@@ -9,8 +9,8 @@ from hearthstone.enums import FormatType
 from hsreplaynet.decks.models import Deck, get_shortid_from_digest
 from hsreplaynet.web.views.premium import PremiumRequiredMixin
 
-from . import SimpleReactView
 from ..html import RequestMetaMixin
+from . import SimpleReactView
 
 
 class DecksView(SimpleReactView):

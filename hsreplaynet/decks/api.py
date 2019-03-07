@@ -25,8 +25,8 @@ from hsredshift.analytics import filters
 from hsreplaynet.api.permissions import UserHasFeature
 from hsreplaynet.decks.models import ArchetypeSuggestion
 
-from .models import Archetype, ArchetypeName, Deck
 from ..utils.db import dictfetchall
+from .models import Archetype, ArchetypeName, Deck
 
 
 class ArchetypeSerializer(serializers.ModelSerializer):
