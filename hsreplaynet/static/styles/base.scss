@@ -24,6 +24,11 @@ body {
 	display: flex;
 	flex-direction: column;
 	font-style: normal;
+
+	&.cmp-state--bar {
+		// Network N CMP banner
+		margin-bottom: 118px;
+	}
 }
 
 body,

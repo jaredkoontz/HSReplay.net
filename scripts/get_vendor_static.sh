@@ -51,6 +51,16 @@ OUTFILE="$STATICDIR/$PKGNAME.min.js"
 wget --no-verbose "$SOURCE" -O "$OUTFILE"
 
 
+# Network N
+
+SOURCE=https://os.network-n.com/dist/hsreplay.min.js
+OUTDIR="$STATICDIR/networkn"
+OUTFILE="$OUTDIR/hsreplay.min.js"
+
+mkdir -p "$OUTDIR"
+wget --no-verbose "$SOURCE" -O "$OUTFILE"
+
+
 # Hearthstone enums
 
 SOURCE="https://api.hearthstonejson.com/v1/enums.d.ts"

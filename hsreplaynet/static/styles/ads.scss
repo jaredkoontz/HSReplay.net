@@ -110,3 +110,11 @@ aside > .premium-fallback {
 .premium-fallback {
 	display: block;
 }
+
+// Network N CMP banner (cookie consent)
+.app_gdpr--2k2uB {
+	--cmpBgColor: #ffffff;
+	--cmpTextColor: #333333;
+	--cmpBrandColor: $red;
+	--cmpHoverColor: darken($red, 10%);
+}

@@ -36,9 +36,21 @@
 {% endblock %}
 {% block ads %}
 	{% feature "ads" as ads %}
-	{% setting "AD_NETWORK_URL" as ad_network_url %}
-	{% if ads.enabled and ad_network_url %}
-		<script src="{{ ad_network_url }}"></script>
+	{% feature "networkn" as networkn %}
+	{% feature "ads-admin" as ads_admin %}
+	{% if ads.enabled and not ads_admin.enabled %}
+		{% if networkn.enabled %}
+			{% setting "AD_NETWORK_HEAD_SNIPPET" as ad_network_snippet %}
+			{% if ad_network_snippet %}
+				{{ ad_network_snippet|safe }}
+				<script src="{% static "vendor/networkn/hsreplay.min.js" %}"></script>
+			{% endif %}
+		{% else %}
+			{% setting "AD_NETWORK_URL" as ad_network_url %}
+			{% if ad_network_url %}
+				<script src="{{ ad_network_url }}"></script>
+			{% endif %}
+		{% endif %}
 	{% endif %}
 {% endblock %}
 {% render_bundle "vendor" %}
