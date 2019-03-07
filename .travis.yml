@@ -6,21 +6,21 @@ jobs:
     - stage: test
       name: "Prettier"
       language: node_js
-      node_js: "node"
+      node_js: "10"
       script: yarn run lint:prettier
       cache: yarn
 
     - stage: test
       name: "TSLint"
       language: node_js
-      node_js: "node"
+      node_js: "10"
       script: yarn run lint:tslint
       cache: yarn
 
     - stage: test
       name: "Jest"
       language: node_js
-      node_js: "node"
+      node_js: "10"
       install:
         - yarn --frozen-lockfile
         - scripts/get_vendor_static.sh
@@ -30,7 +30,7 @@ jobs:
     - stage: test
       name: "Webpack"
       language: node_js
-      node_js: "node"
+      node_js: "10"
       install:
         - yarn --pure-lockfile
         - scripts/get_vendor_static.sh
