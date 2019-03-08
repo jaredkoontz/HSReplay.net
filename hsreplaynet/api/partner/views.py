@@ -93,12 +93,7 @@ class CardsView(PartnerStatsListView):
 		return context
 
 	def get_queryset(self):
-		dbf_ids = set()
-		for game_type in self.supported_game_types:
-			for card in self._get_card_popularity(game_type):
-				dbf_ids.add(card["dbf_id"])
-		queryset = list(Card.objects.filter(dbf_id__in=dbf_ids))
-		return queryset
+		return list(Card.objects.filter(collectible=True))
 
 	def _get_decks(self, game_type):
 		if game_type not in self.constructed_game_types:
