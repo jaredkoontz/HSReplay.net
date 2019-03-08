@@ -1,4 +1,5 @@
 import json
+from collections import OrderedDict
 from itertools import chain
 
 from hearthstone import enums
@@ -56,17 +57,16 @@ class CardDataSerializer(Serializer):
 		super().__init__(*args, **kwargs)
 		self._deck_data = kwargs["context"]["deck_data"]
 		self._popularity_data = kwargs["context"]["popularity_data"]
-		if not self._popularity_data:
-			raise InvalidCardException()
 
 	def _get_card_data(self, instance):
-		if self._card_data:
+		if self._card_data is not None:
 			return self._card_data
 		for data in self._popularity_data:
 			if data["dbf_id"] == instance["card"].dbf_id:
 				self._card_data = data
 				return data
-		raise InvalidCardException()
+		self._card_data = {}
+		return self._card_data
 
 	def get_url(self, instance):
 		return "https://hsreplay.net%s#gameType=%s" % (
@@ -75,15 +75,16 @@ class CardDataSerializer(Serializer):
 		)
 
 	def get_popularity(self, instance):
-		return self._get_card_data(instance)["popularity"]
+		return self._get_card_data(instance).get("popularity")
 
 	def get_deck_winrate(self, instance):
-		return self._get_card_data(instance)["winrate"]
+		return self._get_card_data(instance).get("winrate")
 
 	def get_top_decks(self, instance):
 		if (
 			instance["game_type"] not in self.CONSTRUCTED_GAME_TYPES or
 			not self._deck_data or
+			not self._get_card_data(instance) or
 			instance["card"].dbf_id not in self._deck_data
 		):
 			return []
@@ -95,6 +96,10 @@ class CardDataSerializer(Serializer):
 		)[:self.NUM_TOP_DECKS]
 
 		return [CardDataDeckSerializer(deck).data for deck in decks]
+
+	def to_representation(self, instance):
+		ret = super().to_representation(instance)
+		return OrderedDict([(key, ret[key]) for key in ret if ret[key] is not None])
 
 
 class CardSerializer(Serializer):

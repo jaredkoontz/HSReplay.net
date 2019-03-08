@@ -368,32 +368,36 @@ class TestCardDataSerializer(object):
 		assert serializer.data == EXPECTED_WRATH_CARD_DATA
 
 	@pytest.mark.django_db
-	def test_missing_data(self):
+	def test_empty_data(self):
 		data = {
 			"game_type": "RANKED_STANDARD",
 			"card": Card.objects.get(dbf_id=836)
 		}
 		data = CardDataSerializer(data, context={
-			"deck_data": {},
-			"popularity_data": POPULARITY_DATA
+			"deck_data": EXPLODED_DECK_DATA,
+			"popularity_data": {}
 		}).data
-		with pytest.raises(InvalidCardException):
-			data = CardDataSerializer(data, context={
-				"deck_data": EXPLODED_DECK_DATA,
-				"popularity_data": {}
-			}).data
+
+		assert data == {
+			"url": "https://hsreplay.net/cards/836/wrath#gameType=RANKED_STANDARD",
+			"top_decks": []
+		}
 
 	@pytest.mark.django_db
-	def test_missing_dbf_id(self):
+	def test_missing_data(self):
 		data = {
 			"game_type": "RANKED_STANDARD",
 			"card": Card.objects.get(dbf_id=1050)
 		}
-		with pytest.raises(InvalidCardException):
-			data = CardDataSerializer(data, context={
-				"deck_data": EXPLODED_DECK_DATA,
-				"popularity_data": POPULARITY_DATA
-			}).data
+		data = CardDataSerializer(data, context={
+			"deck_data": EXPLODED_DECK_DATA,
+			"popularity_data": POPULARITY_DATA
+		}).data
+
+		assert data == {
+			"url": "https://hsreplay.net/cards/1050/claw#gameType=RANKED_STANDARD",
+			"top_decks": []
+		}
 
 
 class TestCardSerializer(object):
