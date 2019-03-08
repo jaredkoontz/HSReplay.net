@@ -11,7 +11,7 @@ from tests.api.partner.fixtures import (
 from hsreplaynet.api.partner.serializers import (
 	ArchetypeDataSerializer, ArchetypeSerializer, CardDataDeckSerializer,
 	CardDataSerializer, CardSerializer, ClassArchetypeStatsSerializer,
-	ClassArchetypeSummarySerializer, ClassSerializer, InvalidCardException
+	ClassArchetypeSummarySerializer, ClassSerializer
 )
 from hsreplaynet.decks.models import Archetype
 
