@@ -10,7 +10,7 @@ import PrettyCardClass from "../text/PrettyCardClass";
 import ClusterDetail from "./ClusterDetail";
 import ClusterTabLabel from "./ClusterTabLabel";
 import DeckInfo from "./DeckInfo";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 
 export interface ClusterData {
 	cluster_map: { [clusterId: number]: number };
@@ -40,7 +40,7 @@ interface State {
 	selectedDeck: ClusterMetaData;
 }
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	cardData: CardData | null;
 	data?: ClusterData;
 	format: string;
@@ -292,4 +292,4 @@ class ClassAnalysis extends React.Component<Props, State> {
 	}
 }
 
-export default withLoading()(translate()(ClassAnalysis));
+export default withLoading()(withTranslation()(ClassAnalysis));

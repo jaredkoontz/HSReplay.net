@@ -1,6 +1,6 @@
+import InfoboxFilter from "../components/InfoboxFilter";
 import { CardData as HearthstoneJSONCardData } from "hearthstonejson-client";
-import React from "react";
-import { InjectedTranslateProps, Trans, translate } from "react-i18next";
+import { Trans, WithTranslation, withTranslation } from "react-i18next";
 import CardData from "../CardData";
 import CardImage from "../components/CardImage";
 import CardFilterManager from "../components/cards/CardFilterManager";
@@ -17,7 +17,7 @@ import {
 } from "../components/cards/filters";
 import { FilterOption } from "../components/ClassFilter";
 import CollectionSetup from "../components/collection/CollectionSetup";
-import InfoboxFilter from "../components/InfoboxFilter";
+import React from "react";
 import InfoboxFilterGroup from "../components/InfoboxFilterGroup";
 import LoadingSpinner from "../components/LoadingSpinner";
 import Modal from "../components/Modal";
@@ -32,7 +32,7 @@ import {
 import { Account } from "../UserData";
 import { Collection as ApiCollection } from "../utils/api";
 
-interface Props extends FragmentChildProps, InjectedTranslateProps {
+interface Props extends FragmentChildProps, WithTranslation {
 	cardData: CardData;
 	collection: ApiCollection | null;
 	battleTag: string;
@@ -514,4 +514,4 @@ class Collection extends React.Component<Props, State> {
 	}
 }
 
-export default translate()(Collection);
+export default withTranslation()(Collection);

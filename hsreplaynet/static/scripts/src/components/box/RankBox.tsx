@@ -1,8 +1,8 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { image, toDynamicFixed, winrateData } from "../../helpers";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	href: string;
 	popularity?: number;
 	rank?: number;
@@ -71,4 +71,4 @@ class RankBox extends React.Component<Props> {
 	}
 }
 
-export default translate()(RankBox);
+export default withTranslation()(RankBox);

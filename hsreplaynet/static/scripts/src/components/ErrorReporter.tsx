@@ -1,8 +1,8 @@
 import React from "react";
-import { InjectedTranslateProps, Trans, translate } from "react-i18next";
+import { Trans, WithTranslation, withTranslation } from "react-i18next";
 import RavenWatcher from "../RavenWatcher";
 
-interface Props extends InjectedTranslateProps {}
+interface Props extends WithTranslation {}
 
 interface State {
 	error: Error | null;
@@ -108,4 +108,4 @@ class ErrorReporter extends React.Component<Props, State> {
 		);
 	}
 }
-export default translate()(ErrorReporter);
+export default withTranslation()(ErrorReporter);

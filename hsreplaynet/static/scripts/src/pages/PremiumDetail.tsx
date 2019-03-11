@@ -1,14 +1,14 @@
-import React from "react";
-import { InjectedTranslateProps, Trans, translate } from "react-i18next";
-import UserData from "../UserData";
-import LoginButton from "../components/account/LoginButton";
-import PremiumCheckout from "../components/premium/PremiumCheckout";
-import { image } from "../helpers";
 import {
 	PremiumEvents,
 	ReferralEvents,
 	SubscriptionEvents,
 } from "../metrics/Events";
+import React from "react";
+import UserData from "../UserData";
+import LoginButton from "../components/account/LoginButton";
+import PremiumCheckout from "../components/premium/PremiumCheckout";
+import { image } from "../helpers";
+import { Trans, WithTranslation, withTranslation } from "react-i18next";
 import ReferralsPromo from "./ReferralsPromo";
 import Panel from "../components/Panel";
 import HDTVideo from "../components/HDTVideo";
@@ -16,7 +16,7 @@ import PremiumFeaturePanel from "../components/premium/PremiumFeaturePanel";
 import Testimonial from "../components/premium/Testimonial";
 import TestimonialCarousel from "../components/premium/TestimonialCarousel";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	discount: string;
 	reflink: string;
 	randomQuote: string;
@@ -406,4 +406,4 @@ class PremiumDetail extends React.Component<Props, State> {
 	}
 }
 
-export default translate()(PremiumDetail);
+export default withTranslation()(PremiumDetail);

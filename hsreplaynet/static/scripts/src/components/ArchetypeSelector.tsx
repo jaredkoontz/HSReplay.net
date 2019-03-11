@@ -1,9 +1,9 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { fetchCSRF } from "../helpers";
 import { Archetype } from "../utils/api";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	archetypes?: Archetype[];
 	deckId: string;
 	defaultSelectedArchetype?: number;
@@ -60,14 +60,21 @@ class ArchetypeSelector extends React.Component<Props, State> {
 		);
 	}
 
-	availableArchetypes(): JSX.Element[] {
-		return this.props.archetypes.map(x => (
-			<li>
-				<a href="#" onClick={e => this.onArchetypeClick(e, x.id)}>
-					{x.name}
-				</a>
-			</li>
-		));
+	availableArchetypes(): React.ReactNode {
+		return (
+			<>
+				{this.props.archetypes.map(x => (
+					<li>
+						<a
+							href="#"
+							onClick={e => this.onArchetypeClick(e, x.id)}
+						>
+							{x.name}
+						</a>
+					</li>
+				))}
+			</>
+		);
 	}
 
 	selectedArchetype(): string {
@@ -112,4 +119,4 @@ class ArchetypeSelector extends React.Component<Props, State> {
 	};
 }
 
-export default translate()(ArchetypeSelector);
+export default withTranslation()(ArchetypeSelector);

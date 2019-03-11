@@ -1,8 +1,8 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { Consumer as ModalConsumer } from "../utils/modal";
 
-class CloseModalButton extends React.Component<InjectedTranslateProps> {
+class CloseModalButton extends React.Component<WithTranslation> {
 	public render(): React.ReactNode {
 		const { t } = this.props;
 		return (
@@ -21,4 +21,4 @@ class CloseModalButton extends React.Component<InjectedTranslateProps> {
 	}
 }
 
-export default translate()(CloseModalButton);
+export default withTranslation()(CloseModalButton);

@@ -1,7 +1,7 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	query: string;
 	setQuery: (query: string) => void;
 }
@@ -22,4 +22,4 @@ class GameHistorySearch extends React.Component<Props> {
 		);
 	}
 }
-export default translate()(GameHistorySearch);
+export default withTranslation()(GameHistorySearch);

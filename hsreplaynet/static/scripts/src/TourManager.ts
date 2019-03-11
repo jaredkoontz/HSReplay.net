@@ -1,6 +1,6 @@
 import { cookie } from "cookie_js";
 import Shepherd from "tether-shepherd";
-import { TranslationFunction } from "react-i18next";
+import i18next from "i18next";
 
 export interface StepDefinition {
 	id: string;
@@ -13,7 +13,7 @@ export default class TourManager {
 	public createTour(
 		name: string,
 		steps: StepDefinition[],
-		t: TranslationFunction,
+		t: i18next.TFunction,
 		customDefaults?: object,
 		force?: boolean,
 	): Shepherd.Tour {

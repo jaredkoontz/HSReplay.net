@@ -1,5 +1,5 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import CardData from "../CardData";
 import { Collection } from "../utils/api";
 import DataInjector from "../components/DataInjector";
@@ -12,7 +12,7 @@ import PropRemapper from "../components/utils/PropRemapper";
 import AdContainer from "../components/ads/AdContainer";
 import AdUnit from "../components/ads/AdUnit";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	cardData: CardData;
 	collection: Collection | null;
 }
@@ -77,4 +77,4 @@ class DeckSpotlight extends React.Component<Props> {
 	}
 }
 
-export default translate()(DeckSpotlight);
+export default withTranslation()(DeckSpotlight);

@@ -1,5 +1,5 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import CardData from "../CardData";
 import AdContainer from "../components/ads/AdContainer";
 import AdUnit from "../components/ads/AdUnit";
@@ -16,7 +16,7 @@ import { Limit } from "../components/ObjectSearch";
 import { cardSorting, isCollectibleCard, isWildSet } from "../helpers";
 import UserData from "../UserData";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	cardData: CardData | null;
 	latestSet: string;
 	// fragments
@@ -273,4 +273,4 @@ class Discover extends React.Component<Props, State> {
 	}
 }
 
-export default translate()(Discover);
+export default withTranslation()(Discover);

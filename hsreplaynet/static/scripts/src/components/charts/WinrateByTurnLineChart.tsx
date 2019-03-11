@@ -1,6 +1,6 @@
 import _ from "lodash";
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import {
 	VictoryArea,
 	VictoryAxis,
@@ -14,7 +14,7 @@ import { RenderData } from "../../interfaces";
 import ChartHighlighter from "./ChartHighlighter";
 import WinLossGradient from "./gradients/WinLossGradient";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	data?: RenderData;
 	opponentClass?: string;
 	widthRatio?: number;
@@ -170,4 +170,4 @@ class WinrateByTurnLineChart extends React.Component<Props> {
 	};
 }
 
-export default translate()(WinrateByTurnLineChart);
+export default withTranslation()(WinrateByTurnLineChart);

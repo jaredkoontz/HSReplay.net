@@ -1,6 +1,6 @@
 import _ from "lodash";
 import React from "react";
-import { InjectedTranslateProps, Trans, translate } from "react-i18next";
+import { Trans, WithTranslation, withTranslation } from "react-i18next";
 import CardData from "../../CardData";
 import DataManager from "../../DataManager";
 import { image } from "../../helpers";
@@ -26,7 +26,7 @@ interface CardCount {
 	[dbfId: string]: number;
 }
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	cardData: CardData;
 	numCards: number;
 }
@@ -237,9 +237,10 @@ class LiveData extends React.Component<Props, State> {
 				return items;
 			}
 		}
-		return Array.apply(null, { length: numCards }).map(
-			(x: any, index: number) => ({ item: <div />, key: "ph_" + index }),
-		);
+		for (let i = 0; i < numCards; i++) {
+			items.push({ item: <div />, key: "ph_" + i });
+		}
+		return items;
 	}
 }
-export default translate()(LiveData);
+export default withTranslation()(LiveData);

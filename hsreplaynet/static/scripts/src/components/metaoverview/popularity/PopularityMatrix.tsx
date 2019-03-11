@@ -1,6 +1,6 @@
 import scrollbarSize from "dom-helpers/util/scrollbarSize";
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { AutoSizer, Grid, ScrollSync } from "react-virtualized";
 import CardData from "../../../CardData";
 import { ArchetypeRankPopularity, SortDirection } from "../../../interfaces";
@@ -10,7 +10,7 @@ import ColumnHeader from "./ColumnHeader";
 import PopularityCell from "./PopularityCell";
 import RowHeader from "./RowHeader";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	archetypes: ArchetypeRankPopularity[];
 	cardData: CardData;
 	games: number[];
@@ -492,7 +492,7 @@ class PopularityMatrix extends React.Component<Props> {
 		direction?: SortDirection,
 		infoHeader?: string,
 		infoText?: string,
-	): JSX.Element {
+	): React.ReactNode {
 		return (
 			<SortHeader
 				active={this.props.sortBy === key}
@@ -510,4 +510,4 @@ class PopularityMatrix extends React.Component<Props> {
 	}
 }
 
-export default translate()(PopularityMatrix);
+export default withTranslation()(PopularityMatrix);

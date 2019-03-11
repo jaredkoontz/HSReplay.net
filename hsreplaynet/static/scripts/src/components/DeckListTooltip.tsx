@@ -1,10 +1,10 @@
 import React from "react";
 import CardData from "../CardData";
 import Tooltip from "./Tooltip";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import CardList from "./CardList";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	cardData: CardData;
 	deckName: string;
 	gameType: string;
@@ -25,7 +25,7 @@ class DeckListTooltip extends React.Component<Props> {
 		);
 	}
 
-	renderTooltip(): JSX.Element {
+	renderTooltip(): React.ReactNode {
 		const { t } = this.props;
 		return (
 			<div>
@@ -39,4 +39,4 @@ class DeckListTooltip extends React.Component<Props> {
 	}
 }
 
-export default translate()(DeckListTooltip);
+export default withTranslation()(DeckListTooltip);

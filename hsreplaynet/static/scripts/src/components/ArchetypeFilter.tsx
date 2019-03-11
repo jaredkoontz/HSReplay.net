@@ -1,9 +1,9 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import InfoboxFilter from "./InfoboxFilter";
 import InfoboxFilterGroup from "./InfoboxFilterGroup";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	archetypes: any[];
 	playerClasses: string[];
 	selectedArchetypes: string[];
@@ -98,4 +98,4 @@ class ArchetypeFilter extends React.Component<Props> {
 	}
 }
 
-export default translate()(ArchetypeFilter);
+export default withTranslation()(ArchetypeFilter);

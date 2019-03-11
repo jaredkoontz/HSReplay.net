@@ -1,10 +1,10 @@
 import React from "react";
-import { InjectedTranslateProps, Trans, translate } from "react-i18next";
+import { Trans, WithTranslation, withTranslation } from "react-i18next";
 import UserData from "../UserData";
 import PrettyBlizzardAccount from "../components/text/PrettyBlizzardAccount";
 import { getCookie } from "../helpers";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	blizzardUrl: string;
 	discordUrl: string;
 	twitchUrl: string;
@@ -265,4 +265,4 @@ class AccountConnections extends React.Component<Props, State> {
 	}
 }
 
-export default translate()(AccountConnections);
+export default withTranslation()(AccountConnections);

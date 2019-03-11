@@ -8,7 +8,7 @@ export const enum Limit {
 
 interface Props<T> {
 	getFilteredObjects: (query: string) => T[];
-	getObjectElement: (object: T, count?: number) => JSX.Element;
+	getObjectElement: (object: T, count?: number) => React.ReactNode;
 	getObjectKey: (object: T) => string;
 	id: string;
 	noDataText: string;
@@ -267,7 +267,7 @@ export default class ObjectSearch<T> extends React.Component<Props<T>, State> {
 		}
 	}
 
-	getSelectedObjects(): JSX.Element[] {
+	getSelectedObjects(): React.ReactNode {
 		if (!this.props.selectedObjects) {
 			return null;
 		}
@@ -285,50 +285,58 @@ export default class ObjectSearch<T> extends React.Component<Props<T>, State> {
 			}
 		});
 
-		return Object.keys(objects).map(key => {
-			const object = objects[key].object;
-			const count = objects[key].count;
-			const updateObject = (newValue: number) => {
-				let updatedCount = count;
-				const newSelectedObjects = this.props.selectedObjects.slice(0);
-				while (updatedCount < newValue) {
-					newSelectedObjects.push(object);
-					updatedCount++;
-				}
-				while (updatedCount > newValue) {
-					const index = this.props.selectedObjects.lastIndexOf(
-						object,
+		return (
+			<>
+				{Object.keys(objects).map(key => {
+					const object = objects[key].object;
+					const count = objects[key].count;
+					const updateObject = (newValue: number) => {
+						let updatedCount = count;
+						const newSelectedObjects = this.props.selectedObjects.slice(
+							0,
+						);
+						while (updatedCount < newValue) {
+							newSelectedObjects.push(object);
+							updatedCount++;
+						}
+						while (updatedCount > newValue) {
+							const index = this.props.selectedObjects.lastIndexOf(
+								object,
+							);
+							newSelectedObjects.splice(index, 1);
+							updatedCount--;
+						}
+						this.props.onObjectsChanged(newSelectedObjects);
+					};
+
+					const maxCount = this.props.getMaxCount
+						? this.props.getMaxCount(object)
+						: 1;
+
+					return (
+						<li key={key}>
+							{this.props.getObjectElement(object, count)}
+							<button
+								onClick={() => updateObject(count - 1)}
+								className="btn btn-danger"
+							>
+								<span className={"glyphicon glyphicon-minus"} />
+							</button>
+							{this.props.objectLimit !== Limit.SINGLE ? (
+								<button
+									onClick={() => updateObject(count + 1)}
+									className="btn btn-primary"
+									disabled={
+										maxCount > 0 && count + 1 > maxCount
+									}
+								>
+									<span className="glyphicon glyphicon-plus" />
+								</button>
+							) : null}
+						</li>
 					);
-					newSelectedObjects.splice(index, 1);
-					updatedCount--;
-				}
-				this.props.onObjectsChanged(newSelectedObjects);
-			};
-
-			const maxCount = this.props.getMaxCount
-				? this.props.getMaxCount(object)
-				: 1;
-
-			return (
-				<li key={key}>
-					{this.props.getObjectElement(object, count)}
-					<button
-						onClick={() => updateObject(count - 1)}
-						className="btn btn-danger"
-					>
-						<span className={"glyphicon glyphicon-minus"} />
-					</button>
-					{this.props.objectLimit !== Limit.SINGLE ? (
-						<button
-							onClick={() => updateObject(count + 1)}
-							className="btn btn-primary"
-							disabled={maxCount > 0 && count + 1 > maxCount}
-						>
-							<span className="glyphicon glyphicon-plus" />
-						</button>
-					) : null}
-				</li>
-			);
-		});
+				})}
+			</>
+		);
 	}
 }

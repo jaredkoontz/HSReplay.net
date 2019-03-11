@@ -1,9 +1,9 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { default as UserData } from "../../UserData";
 import DropdownMenu from "../layout/DropdownMenu";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	next: string;
 }
 
@@ -57,4 +57,4 @@ class LanguageSelector extends React.Component<Props, State> {
 	}
 }
 
-export default translate()(LanguageSelector);
+export default withTranslation()(LanguageSelector);

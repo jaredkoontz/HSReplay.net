@@ -1,7 +1,7 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	label: React.ReactNode;
 	glyphicon?: string;
 	id?: string;
@@ -119,4 +119,4 @@ class DropdownMenu extends React.Component<Props, State> {
 	}
 }
 
-export default translate()(DropdownMenu);
+export default withTranslation()(DropdownMenu);

@@ -1,10 +1,10 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import CardFilterItem from "../CardFilterItem";
 import CardFilterItemGroup from "../CardFilterItemGroup";
 import { Collection } from "../../../utils/api";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	value: string[];
 	onChange: (value: string[]) => void;
 	collection?: Collection;
@@ -99,4 +99,4 @@ class MechanicsFilter extends React.Component<Props> {
 		card.mechanics && card.mechanics.indexOf(value) !== -1;
 }
 
-export default translate()(MechanicsFilter);
+export default withTranslation()(MechanicsFilter);

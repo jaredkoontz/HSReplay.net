@@ -1,11 +1,11 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import CardData from "../../CardData";
 import { cloneComponent } from "../../helpers";
 import { LoadingStatus } from "../../interfaces";
 import LoadingSpinner from "../LoadingSpinner";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	cardData?: CardData;
 	customMessage?: string;
 	dataKeys?: string[];
@@ -71,4 +71,4 @@ class TableLoading extends React.Component<Props> {
 		return cloneComponent(this.props.children, this.props);
 	}
 }
-export default translate()(TableLoading);
+export default withTranslation()(TableLoading);

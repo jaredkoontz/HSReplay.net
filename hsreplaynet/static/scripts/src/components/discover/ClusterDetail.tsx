@@ -1,6 +1,6 @@
 import _ from "lodash";
 import React, { Fragment } from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import CardData from "../../CardData";
 import UserData from "../../UserData";
 import { ArchetypeSignature } from "../../utils/api";
@@ -10,7 +10,7 @@ import ClusterSignature from "./ClusterSignature";
 import { formatNumber } from "../../i18n";
 import { fetchCSRF } from "../../helpers";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	canModifyCluster?: boolean;
 	cardData: CardData | null;
 	clusterId: string;
@@ -315,4 +315,4 @@ class ClusterDetail extends React.Component<Props> {
 	}
 }
 
-export default translate()(ClusterDetail);
+export default withTranslation()(ClusterDetail);

@@ -2,12 +2,12 @@ import React from "react";
 import { VictoryContainer, VictoryPie } from "victory";
 import { getHeroColor, pieScaleTransform } from "../../helpers";
 import PrettyCardClass from "../text/PrettyCardClass";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { formatNumber } from "../../i18n";
 import LoadingSpinner from "../LoadingSpinner";
 import { Trans } from "react-i18next";
 
-export interface Props extends InjectedTranslateProps {
+export interface Props extends WithTranslation {
 	data: any[];
 	loading?: boolean;
 	onPieceClicked?: (name: string) => void;
@@ -175,4 +175,4 @@ class ClassDistributionPieChart extends React.Component<Props, State> {
 	}
 }
 
-export default translate()(ClassDistributionPieChart);
+export default withTranslation()(ClassDistributionPieChart);

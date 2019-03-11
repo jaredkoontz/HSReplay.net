@@ -1,6 +1,6 @@
 import _ from "lodash";
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import DataManager from "../../DataManager";
 import { BnetGameType } from "../../hearthstone";
 import { image } from "../../helpers";
@@ -37,7 +37,7 @@ interface State {
 	startTime: number;
 }
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	archetypeData?: Archetype[];
 	gamesCountData?: GameCountData;
 	fullSpeed?: boolean;
@@ -258,5 +258,5 @@ class ReplayFeed extends React.Component<Props, State> {
 }
 
 export default withLoading(["archetypeData", "gamesCountData"])(
-	translate()(ReplayFeed),
+	withTranslation()(ReplayFeed),
 );

@@ -1,14 +1,10 @@
 import React from "react";
-import {
-	InjectedI18nProps,
-	InjectedTranslateProps,
-	translate,
-} from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { CardClass } from "../../hearthstone";
 import { getCardClassName, getHeroClassName, toTitleCase } from "../../helpers";
 import { getCardClass } from "../../utils/enums";
 
-interface Props extends InjectedTranslateProps, InjectedI18nProps {
+interface Props extends WithTranslation {
 	cardClass: CardClass | string;
 }
 
@@ -30,4 +26,4 @@ class PrettyCardClass extends React.Component<Props> {
 	}
 }
 
-export default translate()(PrettyCardClass);
+export default withTranslation()(PrettyCardClass);

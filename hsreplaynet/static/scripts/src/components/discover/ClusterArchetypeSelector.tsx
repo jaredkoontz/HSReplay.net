@@ -72,19 +72,26 @@ export default class ClusterArchetypeSelector extends React.Component<
 		);
 	}
 
-	availableArchetypes(): JSX.Element[] {
+	availableArchetypes(): React.ReactNode {
 		if (!this.props.archetypes) {
 			return null;
 		}
 		const archetypes = this.props.archetypes.slice();
 		archetypes.sort((a, b) => (a.name > b.name ? 1 : -1));
-		return archetypes.map(x => (
-			<li>
-				<a href="#" onClick={e => this.onArchetypeClick(e, x.id)}>
-					{x.name}
-				</a>
-			</li>
-		));
+		return (
+			<>
+				{archetypes.map(x => (
+					<li key={x.id}>
+						<a
+							href="#"
+							onClick={e => this.onArchetypeClick(e, x.id)}
+						>
+							{x.name}
+						</a>
+					</li>
+				))}
+			</>
+		);
 	}
 
 	onArchetypeClick = (event: any, archetypeId: number | null) => {

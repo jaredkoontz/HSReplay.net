@@ -1,5 +1,5 @@
 import React from "react";
-import { InjectedTranslateProps, Trans, translate } from "react-i18next";
+import { Trans, WithTranslation, withTranslation } from "react-i18next";
 import CSRFElement from "../components/CSRFElement";
 import StripeElementsAddCardForm from "../components/payments/StripeElementsAddCardForm";
 import StripeElementsProvider from "../components/payments/StripeElementsProvider";
@@ -82,7 +82,7 @@ interface StripeSubscription {
 	};
 }
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	paypal: PaypalContext;
 	stripe: StripeContext;
 	urls: BillingUrls;
@@ -705,4 +705,4 @@ class AccountBilling extends React.Component<Props, State> {
 	}
 }
 
-export default translate()(AccountBilling);
+export default withTranslation()(AccountBilling);

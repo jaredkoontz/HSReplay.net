@@ -1,12 +1,12 @@
 import React from "react";
-import { InjectedTranslateProps, Trans, translate } from "react-i18next";
+import { Trans, WithTranslation, withTranslation } from "react-i18next";
 import { AutoSizer } from "react-virtualized";
 import { toDynamicFixed, winrateData } from "../../helpers";
 import { LoadingStatus } from "../../interfaces";
 import WinrateLineChart from "./WinrateLineChart";
 import { formatNumber } from "../../i18n";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	chartData?: any;
 	games?: number;
 	href: string;
@@ -84,4 +84,4 @@ class WinrateBox extends React.Component<Props> {
 	}
 }
 
-export default translate()(WinrateBox);
+export default withTranslation()(WinrateBox);

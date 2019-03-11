@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import CardData from "../CardData";
 import DataManager from "../DataManager";
 import UserData, { Account } from "../UserData";
@@ -29,7 +29,7 @@ import TribeFilter from "../components/cards/filters/TribeFilter";
 import TextFilter from "../components/cards/filters/TextFilter";
 import MechanicsFilter from "../components/cards/filters/MechanicsFilter";
 
-interface Props extends FragmentChildProps, InjectedTranslateProps {
+interface Props extends FragmentChildProps, WithTranslation {
 	cardData: CardData;
 	account: Account | null;
 
@@ -312,7 +312,7 @@ class Cards extends React.Component<Props, State> {
 		);
 	}
 
-	buildFilters(): JSX.Element[] {
+	buildFilters(): React.ReactNode {
 		const showReset = this.props.canBeReset;
 		const { t } = this.props;
 
@@ -448,7 +448,7 @@ class Cards extends React.Component<Props, State> {
 			/>,
 		);
 
-		return filters;
+		return <>filters</>;
 	}
 
 	getPersonalParams(): any {
@@ -469,4 +469,4 @@ class Cards extends React.Component<Props, State> {
 	}
 }
 
-export default translate()(Cards);
+export default withTranslation()(Cards);

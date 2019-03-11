@@ -1,5 +1,5 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { PlayState } from "../../hearthstone";
 import { CardArtProps, GlobalGamePlayer, ImageProps } from "../../interfaces";
 import GameModeIcon from "../GameModeIcon";
@@ -8,7 +8,7 @@ import SemanticAge from "../text/SemanticAge";
 import SemanticDuration from "../text/SemanticDuration";
 import GameHistoryPlayer from "./GameHistoryPlayer";
 
-interface Props extends ImageProps, CardArtProps, InjectedTranslateProps {
+interface Props extends ImageProps, CardArtProps, WithTranslation {
 	shortid: string;
 	startTime: Date;
 	endTime: Date;
@@ -100,4 +100,4 @@ class GameHistoryItem extends React.Component<Props> {
 		);
 	}
 }
-export default translate()(GameHistoryItem);
+export default withTranslation()(GameHistoryItem);

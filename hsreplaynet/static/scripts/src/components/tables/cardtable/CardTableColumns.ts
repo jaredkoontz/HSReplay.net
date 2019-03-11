@@ -1,5 +1,5 @@
 import { TableColumn } from "../Table";
-import { TranslationFunction } from "i18next";
+import i18next from "i18next";
 
 export type CardTableColumnKey =
 	| "card"
@@ -27,7 +27,7 @@ export type CardTableColumnKey =
 	| "prevalence";
 
 export function getCardTableColumnData(
-	t: TranslationFunction,
+	t: i18next.TFunction,
 ): { [key in CardTableColumnKey]: TableColumn } {
 	return {
 		card: {

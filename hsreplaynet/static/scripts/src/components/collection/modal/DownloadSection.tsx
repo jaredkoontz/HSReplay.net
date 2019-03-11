@@ -1,8 +1,8 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { image } from "../../../helpers";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	id?: string;
 	hasLegacyClient?: boolean;
 }
@@ -83,4 +83,4 @@ class DownloadSection extends React.Component<Props, State> {
 		);
 	}
 }
-export default translate()(DownloadSection);
+export default withTranslation()(DownloadSection);

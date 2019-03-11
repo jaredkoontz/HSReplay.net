@@ -3,9 +3,9 @@ import { Archetype } from "../../utils/api";
 import CardData from "../../CardData";
 import ProfileArchetypePanel from "./ProfileArchetypePanel";
 import { CardClass } from "../../hearthstone";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	data: ProfileArchetypeData[];
 	cardData: CardData;
 	gameType: string;
@@ -80,4 +80,4 @@ class ProfileArchetypeList extends React.Component<Props> {
 	}
 }
 
-export default translate()(ProfileArchetypeList);
+export default withTranslation()(ProfileArchetypeList);

@@ -2,13 +2,13 @@ import clipboard from "clipboard-polyfill";
 import { encode as encodeDeckstring } from "deckstrings";
 import { CardData as HearthstoneJSONCardData } from "hearthstonejson-client";
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import CardData from "../CardData";
 import { FormatType } from "../hearthstone";
 import { getHeroClassName } from "../helpers";
 import Tooltip from "./Tooltip";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	cardData: CardData;
 	onCopy?: () => void;
 	name?: string;
@@ -184,4 +184,4 @@ class CopyDeckButton extends React.Component<Props, State> {
 	}
 }
 
-export default translate()(CopyDeckButton);
+export default withTranslation()(CopyDeckButton);

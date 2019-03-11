@@ -1,7 +1,7 @@
 import { CardData as HearthstoneJSONCardData } from "hearthstonejson-client";
 import _ from "lodash";
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import UserData from "../UserData";
 import {
 	cardSorting,
@@ -23,7 +23,7 @@ import Tooltip from "./Tooltip";
 import SemanticAge from "./text/SemanticAge";
 import { formatNumber } from "../i18n";
 
-interface ExternalProps extends DeckObj, InjectedTranslateProps {
+interface ExternalProps extends DeckObj, WithTranslation {
 	compareWith?: CardObj[];
 	archetypeName?: string;
 	hrefTab?: string;
@@ -354,4 +354,4 @@ class InjectedDeckTile extends React.Component<ExternalProps> {
 	}
 }
 
-export default translate()(InjectedDeckTile);
+export default withTranslation()(InjectedDeckTile);

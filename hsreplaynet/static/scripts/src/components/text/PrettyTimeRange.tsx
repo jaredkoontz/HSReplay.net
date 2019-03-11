@@ -1,16 +1,13 @@
 import React from "react";
-import {
-	InjectedTranslateProps,
-	translate,
-	TranslationFunction,
-} from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { TimeRange } from "../../filters";
+import i18next from "i18next";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	timeRange: keyof typeof TimeRange;
 }
 
-export function prettyTimeRange(timeRange: string, t: TranslationFunction) {
+export function prettyTimeRange(timeRange: string, t: i18next.TFunction) {
 	const matches = /^LAST_(\d+)_DAYS?$/.exec("" + timeRange);
 	if (matches !== null) {
 		return t("Last {n, plural, one {# day} other {# days}}", {
@@ -40,4 +37,4 @@ class PrettyTimeRange extends React.Component<Props> {
 	}
 }
 
-export default translate()(PrettyTimeRange);
+export default withTranslation()(PrettyTimeRange);

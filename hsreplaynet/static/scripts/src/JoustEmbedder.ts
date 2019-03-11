@@ -6,12 +6,12 @@ import {
 } from "joust";
 import * as Sentry from "@sentry/browser";
 import React from "react";
-import { TranslationFunction } from "react-i18next";
 import { cardArt, joustAsset, joustStaticFile } from "./helpers";
 import BatchingMiddleware from "./metrics/BatchingMiddleware";
 import InfluxMetricsBackend from "./metrics/InfluxMetricsBackend";
 import MetricsReporter from "./metrics/MetricsReporter";
 import UserData from "./UserData";
+import i18next from "i18next";
 
 export default class JoustEmbedder {
 	public turn: number = null;
@@ -23,12 +23,12 @@ export default class JoustEmbedder {
 	public onToggleReveal: (reveal: boolean) => void = null;
 	private url: string = null;
 
-	public embed(target: HTMLElement, t: TranslationFunction) {
+	public embed(target: HTMLElement, t: i18next.TFunction) {
 		this.prepare(target, t);
 		this.render();
 	}
 
-	public prepare(target: HTMLElement, t: TranslationFunction) {
+	public prepare(target: HTMLElement, t: i18next.TFunction) {
 		// find container
 		if (!target) {
 			throw new Error("No target specified");

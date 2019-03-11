@@ -1,5 +1,5 @@
 import React from "react";
-import { InjectedTranslateProps, Trans, translate } from "react-i18next";
+import { Trans, WithTranslation, withTranslation } from "react-i18next";
 import UserData from "../../UserData";
 import BtnGroup from "../BtnGroup";
 import CSRFElement from "../CSRFElement";
@@ -12,7 +12,7 @@ export interface PaypalPlan {
 	currency: string;
 }
 
-interface Props extends CheckoutFormInstanceProps, InjectedTranslateProps {
+interface Props extends CheckoutFormInstanceProps, WithTranslation {
 	plans: PaypalPlan[];
 	showCouponWarning?: boolean;
 }
@@ -152,4 +152,4 @@ class PaypalCheckoutForm extends React.Component<Props, State> {
 		);
 	}
 }
-export default translate()(PaypalCheckoutForm);
+export default withTranslation()(PaypalCheckoutForm);

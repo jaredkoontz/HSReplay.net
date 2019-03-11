@@ -2,11 +2,11 @@ import React from "react";
 import { withLoading } from "./loading/Loading";
 import StreamThumbnail from "./StreamThumbnail";
 import { Stream as ApiStream } from "../utils/api";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import Twitch, { TwitchStream } from "../Twitch";
 import LoadingSpinner from "./LoadingSpinner";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	streams?: ApiStream[];
 	verifyExtension?: boolean;
 }
@@ -111,4 +111,4 @@ class StreamList extends React.Component<Props, State> {
 	}
 }
 
-export default withLoading(["streams"])(translate()(StreamList));
+export default withLoading(["streams"])(withTranslation()(StreamList));

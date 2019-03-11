@@ -13,10 +13,7 @@ export default class Root extends React.Component {
 	public render(): React.ReactNode {
 		return (
 			<StrictMode>
-				<I18nextProvider
-					i18n={i18n}
-					initialLanguage={UserData.getLocale()}
-				>
+				<I18nextProvider i18n={i18n}>
 					<ErrorReporter>
 						<HearthstoneAccountProvider>
 							{this.props.children}

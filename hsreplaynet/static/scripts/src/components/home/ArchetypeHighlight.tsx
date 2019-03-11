@@ -1,11 +1,11 @@
+import SlotMachine from "./SlotMachine";
 import { getArchetypeUrl, toDynamicFixed } from "../../helpers";
-import React, { Fragment } from "react";
 import { Archetype, MetaPreview } from "../../utils/api";
 import { withLoading } from "../loading/Loading";
 import CardData from "../../CardData";
 import { Region } from "../../interfaces";
-import { InjectedTranslateProps, Trans, translate } from "react-i18next";
-import SlotMachine from "./SlotMachine";
+import { Trans, WithTranslation, withTranslation } from "react-i18next";
+import React, { Fragment } from "react";
 import SemanticAge from "../text/SemanticAge";
 import Carousel from "./Carousel";
 import _ from "lodash";
@@ -13,7 +13,7 @@ import { BnetRegion } from "../../hearthstone";
 import PrettyRegion from "../text/PrettyRegion";
 import TwoCardFade from "../TwoCardFade";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	archetypeData?: Archetype[];
 	data?: MetaPreview[];
 	cardData: CardData;
@@ -203,5 +203,5 @@ class ArchetypeHighlight extends React.Component<Props, State> {
 }
 
 export default withLoading(["archetypeData", "cardData"])(
-	translate()(ArchetypeHighlight),
+	withTranslation()(ArchetypeHighlight),
 );

@@ -8,9 +8,9 @@ import RowFooter from "./RowFooter";
 import ArchetypeSearch from "../../ArchetypeSearch";
 import PopularityCell from "./../popularity/PopularityCell";
 import { Archetype } from "../../../utils/api";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	archetypes: ArchetypeData[];
 	allArchetypes: Archetype[];
 	cardData: CardData;
@@ -254,7 +254,7 @@ class ArchetypeList extends React.Component<Props> {
 		direction?: SortDirection,
 		infoHeader?: string,
 		infoText?: string,
-	): JSX.Element {
+	): React.ReactNode {
 		return (
 			<SortHeader
 				active={this.props.sortBy === key}
@@ -272,4 +272,4 @@ class ArchetypeList extends React.Component<Props> {
 	}
 }
 
-export default translate()(ArchetypeList);
+export default withTranslation()(ArchetypeList);

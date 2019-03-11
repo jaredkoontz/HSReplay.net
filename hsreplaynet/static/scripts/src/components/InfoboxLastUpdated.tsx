@@ -1,12 +1,12 @@
 import React from "react";
-import { InjectedTranslateProps, Trans, translate } from "react-i18next";
+import { Trans, WithTranslation, withTranslation } from "react-i18next";
 import DataInjector from "./DataInjector";
 import Tooltip from "./Tooltip";
 import HideLoading from "./loading/HideLoading";
 import SemanticAge from "./text/SemanticAge";
 import PropRemapper from "./utils/PropRemapper";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	fetchCondition?: boolean;
 	params: any;
 	url: string;
@@ -50,4 +50,4 @@ class InfoboxLastUpdated extends React.Component<Props> {
 	}
 }
 
-export default translate()(InfoboxLastUpdated);
+export default withTranslation()(InfoboxLastUpdated);

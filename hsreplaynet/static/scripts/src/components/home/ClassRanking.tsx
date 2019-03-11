@@ -3,7 +3,7 @@ import { BnetGameType } from "../../hearthstone";
 import { withLoading } from "../loading/Loading";
 import ClassList, { ClassListData } from "./ClassList";
 import PrettyCardClass from "../text/PrettyCardClass";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 
 interface ClassData<T> {
 	[cardClass: string]: T;
@@ -16,7 +16,7 @@ interface ClassPerformanceData {
 	win_rate: number;
 }
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	classData?: ClassData<ClassPerformanceData[]>;
 	gameType: BnetGameType;
 }
@@ -76,4 +76,4 @@ class ClassRanking extends React.Component<Props> {
 	}
 }
 
-export default withLoading(["classData"])(translate()(ClassRanking));
+export default withLoading(["classData"])(withTranslation()(ClassRanking));

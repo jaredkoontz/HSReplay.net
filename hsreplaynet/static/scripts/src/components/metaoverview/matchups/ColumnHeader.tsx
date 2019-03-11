@@ -1,13 +1,13 @@
 import _ from "lodash";
 import React from "react";
-import { InjectedTranslateProps, Trans, translate } from "react-i18next";
+import { Trans, WithTranslation, withTranslation } from "react-i18next";
 import { getArchetypeUrl, image } from "../../../helpers";
 import Tooltip from "../../Tooltip";
 import PrettyCardClass from "../../text/PrettyCardClass";
 import ArchetypeSignatureTooltip from "../ArchetypeSignatureTooltip";
 import CardData from "../../../CardData";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	archetypeId: number;
 	archetypeName: string;
 	archetypePlayerClass: string;
@@ -120,4 +120,4 @@ class ColumnHeader extends React.Component<Props> {
 	}
 }
 
-export default translate()(ColumnHeader);
+export default withTranslation()(ColumnHeader);

@@ -1,5 +1,5 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import CardData from "../CardData";
 import CardIcon from "../components/CardIcon";
 
@@ -17,7 +17,7 @@ interface Pack {
 	cards: PackCard[];
 }
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	packs: Pack[];
 	cardData: CardData;
 }
@@ -80,4 +80,4 @@ class MyPacks extends React.Component<Props, State> {
 	}
 }
 
-export default translate()(MyPacks);
+export default withTranslation()(MyPacks);

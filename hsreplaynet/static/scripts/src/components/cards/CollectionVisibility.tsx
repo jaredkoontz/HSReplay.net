@@ -1,12 +1,12 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { Account } from "../../UserData";
 import InfoboxFilterGroup from "../InfoboxFilterGroup";
 import { fetchCSRF } from "../../helpers";
 import CopyText from "../CopyText";
 import InfoboxFilter from "../InfoboxFilter";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	visibility: string;
 	account: Account;
 }
@@ -74,4 +74,4 @@ class CollectionVisibility extends React.Component<Props, State> {
 		);
 	}
 }
-export default translate()(CollectionVisibility);
+export default withTranslation()(CollectionVisibility);

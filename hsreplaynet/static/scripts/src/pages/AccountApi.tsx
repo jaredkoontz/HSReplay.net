@@ -1,5 +1,5 @@
 import React from "react";
-import { InjectedTranslateProps, Trans, translate } from "react-i18next";
+import { Trans, WithTranslation, withTranslation } from "react-i18next";
 import CSRFElement from "../components/CSRFElement";
 import SemanticAge from "../components/text/SemanticAge";
 
@@ -21,7 +21,7 @@ interface AccessToken {
 	token: string;
 }
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	accessTokens: AccessToken[];
 	applications: Application[];
 	urls: Map<string, string>;
@@ -242,4 +242,4 @@ class AccountApi extends React.Component<Props, State> {
 	}
 }
 
-export default translate()(AccountApi);
+export default withTranslation()(AccountApi);

@@ -1,9 +1,9 @@
 import React from "react";
-import { InjectedTranslateProps, Trans, translate } from "react-i18next";
+import { Trans, WithTranslation, withTranslation } from "react-i18next";
 import PrettyCardClass from "../text/PrettyCardClass";
 import Tooltip from "../Tooltip";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	name: string;
 	playerClass: string;
 }
@@ -34,4 +34,4 @@ class OtherArchetype extends React.Component<Props> {
 	}
 }
 
-export default translate()(OtherArchetype);
+export default withTranslation()(OtherArchetype);

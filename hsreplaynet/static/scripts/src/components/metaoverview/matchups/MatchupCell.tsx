@@ -1,6 +1,6 @@
 import _ from "lodash";
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { Colors } from "../../../Colors";
 import {
 	getArchetypeUrl,
@@ -15,7 +15,7 @@ import { formatNumber } from "../../../i18n";
 
 export type CellColorStyle = "background" | "text";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	highlightColumn?: boolean;
 	highlightRow?: boolean;
 	matchupData: MatchupData;
@@ -52,7 +52,7 @@ class MatchupCell extends React.Component<Props> {
 
 	public render(): React.ReactNode {
 		const { ignoreMirror, matchupData, minGames, t } = this.props;
-		let label: string | JSX.Element = "";
+		let label: React.ReactNode = "";
 		let color = "black";
 		let backgroundColor = "white";
 		let fontWeight = null;
@@ -261,4 +261,4 @@ class MatchupCell extends React.Component<Props> {
 		);
 	}
 }
-export default translate()(MatchupCell);
+export default withTranslation()(MatchupCell);

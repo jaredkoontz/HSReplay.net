@@ -1,6 +1,6 @@
 import { cookie } from "cookie_js";
 import React from "react";
-import { InjectedTranslateProps, Trans, translate } from "react-i18next";
+import { Trans, WithTranslation, withTranslation } from "react-i18next";
 import CardData from "../CardData";
 import AdContainer from "../components/ads/AdContainer";
 import AdUnit from "../components/ads/AdUnit";
@@ -39,7 +39,7 @@ interface Props
 	extends ImageProps,
 		CardArtProps,
 		FragmentChildProps,
-		InjectedTranslateProps {
+		WithTranslation {
 	cardData: CardData;
 	totalGames: number;
 	username: string;
@@ -564,4 +564,4 @@ class MyReplays extends React.Component<Props, State> {
 	}
 }
 
-export default translate()(MyReplays);
+export default withTranslation()(MyReplays);

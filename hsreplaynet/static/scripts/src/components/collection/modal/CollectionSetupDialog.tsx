@@ -1,11 +1,11 @@
+import { isCollectionDisabled } from "../../../utils/collection";
 import { cookie } from "cookie_js";
-import React from "react";
-import { InjectedTranslateProps, Trans, translate } from "react-i18next";
+import { Trans, WithTranslation, withTranslation } from "react-i18next";
 import { image } from "../../../helpers";
 import { CollectionEvents } from "../../../metrics/Events";
 import { getAccountKey } from "../../../utils/account";
 import { BlizzardAccount } from "../../../utils/api";
-import { isCollectionDisabled } from "../../../utils/collection";
+import React from "react";
 import Feature from "../../Feature";
 import LoginButton from "../../account/LoginButton";
 import CloseModalButton from "../../modal/CloseModalButton";
@@ -14,7 +14,7 @@ import DownloadSection from "./DownloadSection";
 import ModalAwait from "./ModalAwait";
 import ProgressIndicator from "./ProgressIndicator";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	isAuthenticated: boolean;
 	hasConnectedHDT: boolean;
 	blizzardAccount: BlizzardAccount | null;
@@ -473,4 +473,4 @@ class CollectionSetupDialog extends React.Component<Props, State> {
 		);
 	}
 }
-export default translate()(CollectionSetupDialog);
+export default withTranslation()(CollectionSetupDialog);

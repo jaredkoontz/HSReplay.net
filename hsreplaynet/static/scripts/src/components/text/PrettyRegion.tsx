@@ -1,8 +1,8 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { BnetRegion } from "../../hearthstone";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	region: BnetRegion;
 }
 
@@ -21,4 +21,4 @@ class PrettyRegion extends React.Component<Props> {
 	}
 }
 
-export default translate()(PrettyRegion);
+export default withTranslation()(PrettyRegion);

@@ -1,9 +1,6 @@
 import React from "react";
-import {
-	InjectedTranslateProps,
-	translate,
-	TranslationFunction,
-} from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
+import i18next from "i18next";
 import { AutoSizer } from "react-virtualized";
 import CardData from "../CardData";
 import AdContainer from "../components/ads/AdContainer";
@@ -32,7 +29,7 @@ import { default as Twitch } from "../Twitch";
 import UserData from "../UserData";
 import memoize from "memoize-one";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	cardData: CardData | null;
 	promotedStreamer: string;
 }
@@ -45,7 +42,7 @@ interface State {
 	promoStreamLive?: boolean;
 }
 
-const PromoBanner: React.SFC<{
+const PromoBanner: React.FC<{
 	href: string;
 	backgroundImage: string;
 	title?: string;
@@ -732,7 +729,7 @@ class Home extends React.Component<Props, State> {
 	}
 
 	// Use memoize to prevent re-rendering random banners
-	private renderPromoBanner = memoize((t: TranslationFunction) => {
+	private renderPromoBanner = memoize((t: i18next.TFunction) => {
 		const banners = [];
 
 		if (UserData.hasFeature("arcane-tracker")) {
@@ -793,4 +790,4 @@ class Home extends React.Component<Props, State> {
 	});
 }
 
-export default translate()(Home);
+export default withTranslation()(Home);

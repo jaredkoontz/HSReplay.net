@@ -1,7 +1,7 @@
 import { addDays } from "date-fns";
 import _ from "lodash";
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import {
 	VictoryArea,
 	VictoryAxis,
@@ -20,7 +20,7 @@ import { i18nFormatDate } from "../../i18n";
 import { RenderData } from "../../interfaces";
 import ChartHighlighter from "./ChartHighlighter";
 
-interface PopularityLineChartProps extends InjectedTranslateProps {
+interface PopularityLineChartProps extends WithTranslation {
 	data?: RenderData;
 	maxYDomain: 10 | 100;
 	widthRatio?: number;
@@ -195,4 +195,4 @@ class PopularityLineChart extends React.Component<PopularityLineChartProps> {
 	}
 }
 
-export default translate()(PopularityLineChart);
+export default withTranslation()(PopularityLineChart);

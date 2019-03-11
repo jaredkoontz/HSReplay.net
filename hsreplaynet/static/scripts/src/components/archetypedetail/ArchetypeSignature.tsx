@@ -3,7 +3,7 @@ import _ from "lodash";
 import CardData from "../../CardData";
 import CardList from "../CardList";
 import { ArchetypeSignature as ApiArchetypeSignature } from "../../utils/api";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 
 interface Bucket {
 	cards: number[];
@@ -11,7 +11,7 @@ interface Bucket {
 	title: string;
 }
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	cardData: CardData;
 	signature?: ApiArchetypeSignature;
 	showOccasional?: boolean;
@@ -90,4 +90,4 @@ class ArchetypeSignature extends React.Component<Props> {
 	}
 }
 
-export default translate()(ArchetypeSignature);
+export default withTranslation()(ArchetypeSignature);

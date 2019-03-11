@@ -1,6 +1,6 @@
 import _ from "lodash";
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import AdHelper from "../AdHelper";
 import CardData from "../CardData";
 import AdContainer from "../components/ads/AdContainer";
@@ -60,7 +60,7 @@ interface InventoryRegion {
 	[region: string]: string[];
 }
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	account: Account | null;
 	collection: Collection | null;
 	adminUrl: string;
@@ -1301,4 +1301,4 @@ class DeckDetail extends React.Component<Props, State> {
 	}
 }
 
-export default translate()(DeckDetail);
+export default withTranslation()(DeckDetail);

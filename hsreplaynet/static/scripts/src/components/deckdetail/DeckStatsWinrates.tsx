@@ -1,10 +1,10 @@
 import React from "react";
 import { TableData } from "../../interfaces";
 import PrettyCardClass from "../text/PrettyCardClass";
-import { InjectedTranslateProps, Trans, translate } from "react-i18next";
+import { Trans, WithTranslation, withTranslation } from "react-i18next";
 import { formatNumber } from "../../i18n";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	data?: TableData;
 }
 
@@ -37,4 +37,4 @@ class DeckStatsWinrates extends React.Component<Props> {
 	}
 }
 
-export default translate()(DeckStatsWinrates);
+export default withTranslation()(DeckStatsWinrates);

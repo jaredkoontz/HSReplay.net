@@ -1,10 +1,10 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { image } from "../../../helpers";
 import CardFilterItem from "../CardFilterItem";
 import CardFilterItemGroup from "../CardFilterItemGroup";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	value: string[];
 	onChange: (value: string[]) => void;
 }
@@ -52,4 +52,4 @@ class CostFilter extends React.Component<Props> {
 			: card.cost === +value;
 }
 
-export default translate()(CostFilter);
+export default withTranslation()(CostFilter);

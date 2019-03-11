@@ -1,8 +1,8 @@
 import React from "react";
 import { image } from "../../helpers";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	classNames: string[];
 	onClick: () => void;
 	rank: number;
@@ -47,4 +47,4 @@ class RankSelector extends React.Component<Props> {
 	};
 }
 
-export default translate()(RankSelector);
+export default withTranslation()(RankSelector);

@@ -1,6 +1,6 @@
 import React from "react";
 import { ProfileGameData } from "./ProfileArchetypeList";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { getCardClassName, getHeroClassName, image } from "../../helpers";
 import SemanticAge from "../text/SemanticAge";
 import { formatNumber } from "../../i18n";
@@ -9,7 +9,7 @@ import { BnetGameType } from "../../hearthstone";
 import ArchetypeSignatureTooltip from "../metaoverview/ArchetypeSignatureTooltip";
 import CardData from "../../CardData";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	data: ProfileGameData;
 	cardData: CardData;
 	gameType: string;
@@ -115,4 +115,4 @@ class ProfileReplayPanel extends React.Component<Props> {
 	}
 }
 
-export default translate()(ProfileReplayPanel);
+export default withTranslation()(ProfileReplayPanel);

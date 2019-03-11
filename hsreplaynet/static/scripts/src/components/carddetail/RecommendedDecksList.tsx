@@ -1,12 +1,12 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import CardData from "../../CardData";
 import { DeckObj, TableData } from "../../interfaces";
 import { Collection } from "../../utils/api";
 import DeckList from "../DeckList";
 import Fragments from "../Fragments";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	card: any;
 	cardData: CardData;
 	data?: TableData;
@@ -73,4 +73,4 @@ class RecommendedDecksList extends React.Component<Props> {
 		);
 	}
 }
-export default translate()(RecommendedDecksList);
+export default withTranslation()(RecommendedDecksList);

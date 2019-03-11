@@ -1,5 +1,5 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { toTitleCase } from "../../helpers";
 import { CardArtProps, GlobalGamePlayer, ImageProps } from "../../interfaces";
 import ClassIcon from "../ClassIcon";
@@ -8,7 +8,7 @@ import GameModeText from "../GameModeText";
 import SemanticAge from "../text/SemanticAge";
 import SemanticDuration from "../text/SemanticDuration";
 
-interface Props extends ImageProps, CardArtProps, InjectedTranslateProps {
+interface Props extends ImageProps, CardArtProps, WithTranslation {
 	shortid: string;
 	startTime: Date;
 	endTime: Date;
@@ -106,4 +106,4 @@ class GameHistoryTableRow extends React.Component<Props> {
 	}
 }
 
-export default translate()(GameHistoryTableRow);
+export default withTranslation()(GameHistoryTableRow);

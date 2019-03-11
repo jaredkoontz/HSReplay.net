@@ -1,7 +1,7 @@
+import { Limit } from "../components/ObjectSearch";
 import InfoboxFilterGroup from "../components/InfoboxFilterGroup";
-import { decode as decodeDeckstring } from "deckstrings";
 import React from "react";
-import { InjectedTranslateProps, Trans, translate } from "react-i18next";
+import { Trans, WithTranslation, withTranslation } from "react-i18next";
 import CardData from "../CardData";
 import DataManager from "../DataManager";
 import UserData from "../UserData";
@@ -14,7 +14,7 @@ import InfoIcon from "../components/InfoIcon";
 import InfoboxFilter from "../components/InfoboxFilter";
 import _ from "lodash";
 import InfoboxLastUpdated from "../components/InfoboxLastUpdated";
-import { Limit } from "../components/ObjectSearch";
+import { decode as decodeDeckstring } from "deckstrings";
 import ResetHeader from "../components/ResetHeader";
 import CollectionBanner from "../components/collection/CollectionBanner";
 import DustFilter from "../components/filters/DustFilter";
@@ -42,7 +42,7 @@ import AdContainer from "../components/ads/AdContainer";
 import AdUnit from "../components/ads/AdUnit";
 import PrettyPlayerExperience from "../components/text/PrettyPlayerExperience";
 
-interface Props extends InjectedTranslateProps, FragmentChildProps {
+interface Props extends WithTranslation, FragmentChildProps {
 	cardData: CardData | null;
 	collection: Collection | null;
 	latestSet?: string;
@@ -1379,4 +1379,4 @@ class Decks extends React.Component<Props, State> {
 		return params;
 	}
 }
-export default translate()(Decks);
+export default withTranslation()(Decks);

@@ -10,9 +10,9 @@ import { withLoading } from "../loading/Loading";
 import PopularityMatrix from "./popularity/PopularityMatrix";
 import { getOtherArchetype } from "../../helpers";
 import { Archetype } from "../../utils/api";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	archetypeData?: any;
 	cardData: CardData;
 	gameType: string;
@@ -167,5 +167,5 @@ class ArchetypePopularity extends React.Component<Props> {
 }
 
 export default withLoading(["archetypeData", "popularityData"])(
-	translate()(ArchetypePopularity),
+	withTranslation()(ArchetypePopularity),
 );

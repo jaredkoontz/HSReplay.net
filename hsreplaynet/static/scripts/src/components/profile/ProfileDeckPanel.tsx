@@ -11,9 +11,9 @@ import ExpandTableButton from "./ExpandTableButton";
 import DataInjector from "../DataInjector";
 import LoadingSpinner from "../LoadingSpinner";
 import DeckListTooltip from "../DeckListTooltip";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	data: ProfileDeckData;
 	cardData: CardData;
 	cardUniqueness: number[];
@@ -241,4 +241,4 @@ class ProfileDeckPanel extends React.Component<Props, State> {
 	}
 }
 
-export default translate()(ProfileDeckPanel);
+export default withTranslation()(ProfileDeckPanel);

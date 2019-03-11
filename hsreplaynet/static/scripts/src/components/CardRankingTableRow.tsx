@@ -1,10 +1,10 @@
 import React from "react";
 import CardTile from "./CardTile";
 import { toDynamicFixed, winrateData } from "../helpers";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { formatNumber } from "../i18n";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	card: any;
 	customCardText?: string;
 	popularity: number;
@@ -61,4 +61,4 @@ class CardRankingTableRow extends React.Component<Props> {
 	}
 }
 
-export default translate()(CardRankingTableRow);
+export default withTranslation()(CardRankingTableRow);

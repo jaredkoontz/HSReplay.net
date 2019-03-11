@@ -1,5 +1,5 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import CardData from "../CardData";
 import { cardSorting } from "../helpers";
 import { Collection } from "../utils/api";
@@ -10,7 +10,7 @@ import LoadingSpinner from "./LoadingSpinner";
 
 type CardId = string | number;
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	cardData: CardData | null;
 	cardList: CardId[];
 	predictedCardList?: CardId[];
@@ -152,4 +152,4 @@ class CardList extends React.Component<Props> {
 	}
 }
 
-export default translate()(CardList);
+export default withTranslation()(CardList);

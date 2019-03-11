@@ -1,5 +1,5 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 
 interface Page {
 	number?: number;
@@ -7,7 +7,7 @@ interface Page {
 	skip?: boolean;
 }
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	currentPage?: number;
 	setCurrentPage?: (page: number) => void;
 	pageCount?: number;
@@ -285,4 +285,4 @@ class Pager extends React.Component<Props> {
 		return pages;
 	}
 }
-export default translate()(Pager);
+export default withTranslation()(Pager);

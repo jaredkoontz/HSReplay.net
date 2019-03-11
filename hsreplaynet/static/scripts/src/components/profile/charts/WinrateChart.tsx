@@ -1,8 +1,8 @@
 import React from "react";
 import ProfileChart, { Aggregation } from "./ProfileChart";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	caption?: string;
 	averageWinrate: number;
 	aggregate?: Aggregation;
@@ -107,4 +107,4 @@ class WinrateChart extends React.Component<Props> {
 	}
 }
 
-export default translate()(WinrateChart);
+export default withTranslation()(WinrateChart);

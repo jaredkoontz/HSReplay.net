@@ -7,10 +7,10 @@ import {
 } from "victory";
 import { getChartScheme, pieScaleTransform } from "../../helpers";
 import { ChartScheme, RenderData } from "../../interfaces";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { formatNumber } from "../../i18n";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	data?: RenderData;
 	title?: string;
 	scheme?: ChartScheme;
@@ -197,4 +197,4 @@ class CardDetailPieChart extends React.Component<Props> {
 	}
 }
 
-export default translate()(CardDetailPieChart);
+export default withTranslation()(CardDetailPieChart);

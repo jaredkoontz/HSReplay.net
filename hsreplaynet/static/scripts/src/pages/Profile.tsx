@@ -1,6 +1,6 @@
 import React from "react";
 import scrollbarSize from "dom-helpers/util/scrollbarSize";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import CardData from "../CardData";
 import { Archetype } from "../utils/api";
 import RankIcon from "../components/RankIcon";
@@ -18,7 +18,7 @@ import { prettyTimeRange } from "../components/text/PrettyTimeRange";
 import WinrateChart from "../components/profile/charts/WinrateChart";
 import { subDays } from "date-fns";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	cardData: CardData;
 	archetypeData: Archetype[];
 	username: string;
@@ -364,4 +364,4 @@ class Profile extends React.Component<Props, State> {
 	}
 }
 
-export default translate()(Profile);
+export default withTranslation()(Profile);

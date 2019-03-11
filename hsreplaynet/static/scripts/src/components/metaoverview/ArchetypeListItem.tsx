@@ -1,12 +1,12 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import CardData from "../../CardData";
 import { getHeroSkinCardUrl, toDynamicFixed, winrateData } from "../../helpers";
 import { ApiArchetypePopularity } from "../../interfaces";
 import { Archetype } from "../../utils/api";
 import CardIcon from "../CardIcon";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	archetype: ApiArchetypePopularity;
 	archetypeData: Archetype[];
 	cardData: CardData;
@@ -100,4 +100,4 @@ class ArchetypeListItem extends React.Component<Props> {
 	}
 }
 
-export default translate()(ArchetypeListItem);
+export default withTranslation()(ArchetypeListItem);

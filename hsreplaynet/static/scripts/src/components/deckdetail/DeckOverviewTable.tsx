@@ -1,11 +1,11 @@
 import React from "react";
-import { InjectedTranslateProps, Trans, translate } from "react-i18next";
+import { Trans, WithTranslation, withTranslation } from "react-i18next";
 import { winrateData } from "../../helpers";
 import { TableData } from "../../interfaces";
 import PrettyCardClass from "../text/PrettyCardClass";
 import { formatNumber } from "../../i18n";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	opponentWinrateData?: TableData;
 	deckListData?: TableData;
 	deckId: string;
@@ -112,4 +112,4 @@ class DeckOverviewTable extends React.Component<Props> {
 		);
 	}
 }
-export default translate()(DeckOverviewTable);
+export default withTranslation()(DeckOverviewTable);

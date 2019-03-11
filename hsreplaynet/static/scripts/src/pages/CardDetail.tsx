@@ -1,5 +1,5 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import CardData from "../CardData";
 import AdContainer from "../components/ads/AdContainer";
 import AdUnit from "../components/ads/AdUnit";
@@ -44,7 +44,7 @@ import { RenderData, TableData } from "../interfaces";
 import UserData from "../UserData";
 import { Collection } from "../utils/api";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	card: any;
 	cardData: CardData;
 	cardId: string;
@@ -868,4 +868,4 @@ class CardDetail extends React.Component<Props, State> {
 	}
 }
 
-export default translate()(CardDetail);
+export default withTranslation()(CardDetail);

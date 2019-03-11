@@ -1,6 +1,6 @@
 import { cookie } from "cookie_js";
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import UserData from "../../UserData";
 import { getAccountKey } from "../../utils/account";
 import { Consumer as BlizzardAccountConsumer } from "../utils/hearthstone-account";
@@ -11,7 +11,7 @@ import PremiumModal, { ModalStyle } from "../premium/PremiumModal";
 import Modal from "../Modal";
 import DropdownMenu from "../layout/DropdownMenu";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	isAuthenticated: boolean;
 	isStaff: boolean;
 	hideLogin: boolean;
@@ -222,4 +222,4 @@ class AccountNavigation extends React.Component<Props, State> {
 	}
 }
 
-export default translate()(AccountNavigation);
+export default withTranslation()(AccountNavigation);

@@ -1,12 +1,12 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { toPrettyNumber } from "../../helpers";
 import { TableData } from "../../interfaces";
 import InfoboxLastUpdated from "../InfoboxLastUpdated";
 import { TimeRange } from "../../filters";
 import PrettyTimeRange from "../text/PrettyTimeRange";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	data?: TableData;
 	deckId?: string;
 	lastUpdatedParams: any;
@@ -62,4 +62,4 @@ class DeckStats extends React.Component<Props, State> {
 		);
 	}
 }
-export default translate()(DeckStats);
+export default withTranslation()(DeckStats);

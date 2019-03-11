@@ -1,5 +1,5 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import CardData from "../../CardData";
 import UserData from "../../UserData";
 import { winrateData } from "../../helpers";
@@ -10,7 +10,7 @@ import Pager from "../Pager";
 import SortableTable from "../SortableTable";
 import PremiumWrapper from "../premium/PremiumWrapper";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	cardData: CardData;
 	data?: TableData;
 	opponentClass: string;
@@ -188,4 +188,4 @@ class AdaptDetail extends React.Component<Props, State> {
 		}
 	}
 }
-export default translate()(AdaptDetail);
+export default withTranslation()(AdaptDetail);

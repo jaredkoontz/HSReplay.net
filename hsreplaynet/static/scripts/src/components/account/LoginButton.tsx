@@ -1,9 +1,9 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import UserData from "../../UserData";
 import { addNextToUrl } from "../../utils/account";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	label?: string;
 	className?: string;
 	next?: string;
@@ -135,4 +135,4 @@ class LoginButton extends React.Component<Props, State> {
 	}
 }
 
-export default translate()(LoginButton);
+export default withTranslation()(LoginButton);

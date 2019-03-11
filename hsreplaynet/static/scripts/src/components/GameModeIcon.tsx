@@ -1,10 +1,10 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { BnetGameType } from "../hearthstone";
 import { image } from "../helpers";
 import { GlobalGamePlayer } from "../interfaces";
 
-export interface Props extends InjectedTranslateProps {
+export interface Props extends WithTranslation {
 	player: GlobalGamePlayer;
 	gameType: BnetGameType;
 	disconnected: boolean;
@@ -117,4 +117,4 @@ class GameModeIcon extends React.Component<Props> {
 	}
 }
 
-export default translate()(GameModeIcon);
+export default withTranslation()(GameModeIcon);

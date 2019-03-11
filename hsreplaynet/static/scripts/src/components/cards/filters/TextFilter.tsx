@@ -1,12 +1,12 @@
 import React, { ChangeEvent } from "react";
 import { CardData as Card } from "hearthstonejson-client";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import CardFilter from "../CardFilter";
 import { CardFilterFunction } from "../CardFilterManager";
 import { cleanText, slangToCardId } from "../../../helpers";
 import memoize from "memoize-one";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	value: string;
 	onChange: (value: string) => void;
 	autofocus?: boolean;
@@ -93,4 +93,4 @@ class TextFilter extends React.Component<Props> {
 	});
 }
 
-export default translate()(TextFilter);
+export default withTranslation()(TextFilter);

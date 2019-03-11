@@ -13,9 +13,9 @@ import {
 } from "./cardtable/RowDataGenerator";
 import { isMissingCardFromCollection } from "../../utils/collection";
 import { Collection } from "../../utils/api";
-import { InjectedTranslateProps } from "react-i18next";
+import { withTranslation, WithTranslation } from "react-i18next";
 
-interface Props extends SortableProps, InjectedTranslateProps {
+interface Props extends SortableProps, WithTranslation {
 	baseWinrate?: number;
 	cards?: CardObj[];
 	columns: CardTableColumnKey[];
@@ -116,4 +116,4 @@ class CardTable extends React.Component<Props> {
 	}
 }
 
-export default withLoading()(CardTable);
+export default withLoading()(withTranslation()(CardTable));

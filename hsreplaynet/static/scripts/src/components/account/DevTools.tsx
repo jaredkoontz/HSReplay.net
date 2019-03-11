@@ -2,11 +2,11 @@ import React from "react";
 import { Feature, Features } from "../../utils/api";
 import DataManager from "../../DataManager";
 import { cookie } from "cookie_js";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import LoadingSpinner from "../LoadingSpinner";
 import DropdownMenu from "../layout/DropdownMenu";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	lazyReload?: boolean;
 }
 
@@ -213,4 +213,4 @@ class DevTools extends React.Component<Props, State> {
 	}
 }
 
-export default translate()(DevTools);
+export default withTranslation()(DevTools);

@@ -1,10 +1,10 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { Account } from "../../UserData";
 import CSRFElement from "../CSRFElement";
 import PrettyBlizzardAccount from "../text/PrettyBlizzardAccount";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	username: string;
 	premium: boolean;
 	accountUrl: string;
@@ -192,4 +192,4 @@ class AccountMenu extends React.Component<Props, State> {
 	}
 }
 
-export default translate()(AccountMenu);
+export default withTranslation()(AccountMenu);

@@ -1,6 +1,6 @@
 import _ from "lodash";
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import DataManager from "../DataManager";
 import { getManaCost } from "../helpers";
 import {
@@ -24,7 +24,7 @@ interface AdInfo {
 	mobile?: boolean;
 }
 
-interface Props extends FragmentChildProps, InjectedTranslateProps {
+interface Props extends FragmentChildProps, WithTranslation {
 	decks: DeckObj[];
 	pageSize: number;
 	hideTopPager?: boolean;
@@ -442,4 +442,4 @@ class DeckList extends React.Component<Props, State> {
 		);
 	}
 }
-export default translate()(DeckList);
+export default withTranslation()(DeckList);

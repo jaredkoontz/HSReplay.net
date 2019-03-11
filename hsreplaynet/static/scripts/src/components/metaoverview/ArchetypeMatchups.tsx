@@ -14,9 +14,9 @@ import { withLoading } from "../loading/Loading";
 import LowDataWarning from "./LowDataWarning";
 import ArchetypeMatrix from "./matchups/ArchetypeMatrix";
 import { isEligibleMatchup } from "./matchups/MatchupCell";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	archetypeData?: any;
 	cardData: CardData;
 	gameType: string;
@@ -469,5 +469,5 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 }
 
 export default withLoading(["archetypeData", "matchupData", "popularityData"])(
-	translate()(ArchetypeMatchups),
+	withTranslation()(ArchetypeMatchups),
 );

@@ -1,7 +1,7 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 
-class NoDecksMessage extends React.Component<InjectedTranslateProps> {
+class NoDecksMessage extends React.Component<WithTranslation> {
 	public render(): React.ReactNode {
 		const { t } = this.props;
 		return (
@@ -13,4 +13,4 @@ class NoDecksMessage extends React.Component<InjectedTranslateProps> {
 	}
 }
 
-export default translate()(NoDecksMessage);
+export default withTranslation()(NoDecksMessage);

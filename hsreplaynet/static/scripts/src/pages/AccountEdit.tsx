@@ -1,11 +1,11 @@
 import { cookie } from "cookie_js";
 import React from "react";
-import { InjectedTranslateProps, Trans, translate } from "react-i18next";
+import { Trans, WithTranslation, withTranslation } from "react-i18next";
 import CSRFElement from "../components/CSRFElement";
 import { Visibility } from "../interfaces";
 import { isCollectionDisabled } from "../utils/collection";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	reflink: string;
 	hits: number;
 	collectionVisibility: string;
@@ -281,4 +281,4 @@ class AccountEdit extends React.Component<Props, State> {
 	}
 }
 
-export default translate()(AccountEdit);
+export default withTranslation()(AccountEdit);

@@ -1,12 +1,12 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { winrateData } from "../../helpers";
 import { SortDirection, TableData } from "../../interfaces";
 import SortableTable from "../SortableTable";
 import PrettyCardClass from "../text/PrettyCardClass";
 import { formatNumber } from "../../i18n";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	opponentWinrateData?: TableData;
 	deckListData?: TableData;
 	deckId: string;
@@ -104,4 +104,4 @@ class WinrateBreakdownTable extends React.Component<Props, State> {
 		);
 	}
 }
-export default translate()(WinrateBreakdownTable);
+export default withTranslation()(WinrateBreakdownTable);

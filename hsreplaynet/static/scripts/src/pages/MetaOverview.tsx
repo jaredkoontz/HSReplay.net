@@ -1,5 +1,5 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import CardData from "../CardData";
 import UserData from "../UserData";
 import DataInjector, { Query } from "../components/DataInjector";
@@ -25,7 +25,7 @@ import { formatNumber } from "../i18n";
 import AdUnit from "../components/ads/AdUnit";
 import AdContainer from "../components/ads/AdContainer";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	cardData: CardData;
 	popularitySortBy?: string;
 	setPopularitySortBy?: (popularitySortBy: string) => void;
@@ -477,7 +477,7 @@ class MetaOverview extends React.Component<Props, State> {
 		);
 	}
 
-	renderPopularity(popularityParams: any): JSX.Element {
+	renderPopularity(popularityParams: any): React.ReactNode {
 		const { t } = this.props;
 		if (!UserData.isAuthenticated() || !UserData.isPremium()) {
 			return (
@@ -551,4 +551,4 @@ class MetaOverview extends React.Component<Props, State> {
 		}
 	};
 }
-export default translate()(MetaOverview);
+export default withTranslation()(MetaOverview);

@@ -1,7 +1,7 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	active?: boolean;
 	small?: boolean;
 }
@@ -69,14 +69,13 @@ class LoadingSpinner extends React.Component<Props, State> {
 			className.push("small");
 		}
 
-		return (
-			<div className={className.join(" ")}>
-				{Array.apply(null, { length: 12 }).map((x, i) => (
-					<div key={i} />
-				))}
-			</div>
-		);
+		const dots = [];
+		for (let i = 0; i < 12; i++) {
+			dots.push(<div key={i} />);
+		}
+
+		return <div className={className.join(" ")}>{dots}</div>;
 	}
 }
 
-export default translate()(LoadingSpinner);
+export default withTranslation()(LoadingSpinner);

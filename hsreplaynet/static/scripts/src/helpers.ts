@@ -1,4 +1,3 @@
-/// <reference path="./global.d.ts" />
 import React from "react";
 import CardData from "./CardData";
 import { Colors } from "./Colors";
@@ -16,7 +15,7 @@ import {
 import { Archetype } from "./utils/api";
 import { getCardClass, getRarity } from "./utils/enums";
 import { CardData as HearthstoneJSONCardData } from "hearthstonejson-client";
-import { TranslationFunction } from "react-i18next";
+import i18next from "i18next";
 import { formatNumber } from "./i18n";
 import { DeckDefinition, decode as decodeDeckstring } from "deckstrings";
 import md5 from "md5";
@@ -86,7 +85,7 @@ export function getHeroColor(cardClass: CardClass | string): string {
 
 export function getChartScheme(
 	theme: ChartSchemeType,
-	t: TranslationFunction,
+	t: i18next.TFunction,
 ): ChartScheme {
 	let scheme: ChartScheme = null;
 	switch (theme) {
@@ -151,7 +150,7 @@ const costScheme: ChartScheme = {
 	},
 };
 
-function getRarityScheme(t: TranslationFunction): ChartScheme {
+function getRarityScheme(t: i18next.TFunction): ChartScheme {
 	return {
 		free: {
 			fill: "rgba(211, 211, 211, 0.5)",
@@ -181,7 +180,7 @@ function getRarityScheme(t: TranslationFunction): ChartScheme {
 	};
 }
 
-function getCardtypeScheme(t: TranslationFunction): ChartScheme {
+function getCardtypeScheme(t: i18next.TFunction): ChartScheme {
 	return {
 		minion: {
 			fill: "rgba(171, 212, 115, 0.5)",
@@ -201,7 +200,7 @@ function getCardtypeScheme(t: TranslationFunction): ChartScheme {
 	};
 }
 
-function getClassColorScheme(t: TranslationFunction): ChartScheme {
+function getClassColorScheme(t: i18next.TFunction): ChartScheme {
 	return {
 		all: {
 			stroke: "rgba(169, 169, 169, 1)",
@@ -582,7 +581,7 @@ export function getHeroCardId(cardClass: CardClass | string): string | null {
 
 export function getHeroClassName(
 	cardClass: string,
-	t: TranslationFunction,
+	t: i18next.TFunction,
 ): string {
 	switch (cardClass) {
 		case "DEATHKNIGHT":
@@ -959,7 +958,7 @@ export function getCardClassName(cardClass: CardClass): string {
 
 export function getOtherArchetype(
 	archetypeId: number,
-	t: TranslationFunction,
+	t: i18next.TFunction,
 ): Archetype {
 	if (archetypeId > 0) {
 		return undefined;

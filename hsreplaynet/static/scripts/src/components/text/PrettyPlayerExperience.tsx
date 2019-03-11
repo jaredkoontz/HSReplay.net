@@ -1,8 +1,8 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { PlayerExperience } from "../../filters";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	value: PlayerExperience;
 }
 
@@ -25,4 +25,4 @@ class PrettyPlayerExperience extends React.Component<Props> {
 	}
 }
 
-export default translate()(PrettyPlayerExperience);
+export default withTranslation()(PrettyPlayerExperience);

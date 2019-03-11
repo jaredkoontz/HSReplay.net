@@ -11,10 +11,10 @@ import {
 	winrateData,
 } from "../../helpers";
 import ExpandTableButton from "./ExpandTableButton";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import ArchetypeSignatureTooltip from "../metaoverview/ArchetypeSignatureTooltip";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	data: ProfileArchetypeData;
 	cardData: CardData;
 	gameType: string;
@@ -180,4 +180,4 @@ class ProfileArchetypePanel extends React.Component<Props, State> {
 	}
 }
 
-export default translate()(ProfileArchetypePanel);
+export default withTranslation()(ProfileArchetypePanel);

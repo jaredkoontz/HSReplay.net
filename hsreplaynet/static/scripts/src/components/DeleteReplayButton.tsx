@@ -1,8 +1,8 @@
 import React from "react";
 import { fetchCSRF } from "../helpers";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	shortid: string;
 	done?: () => void;
 }
@@ -79,4 +79,4 @@ class DeleteReplayButton extends React.Component<Props, State> {
 	}
 }
 
-export default translate()(DeleteReplayButton);
+export default withTranslation()(DeleteReplayButton);

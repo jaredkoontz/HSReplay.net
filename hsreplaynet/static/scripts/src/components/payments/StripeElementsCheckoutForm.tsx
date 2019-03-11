@@ -1,5 +1,5 @@
 import React from "react";
-import { InjectedTranslateProps, Trans, translate } from "react-i18next";
+import { Trans, WithTranslation, withTranslation } from "react-i18next";
 import { CardElement, injectStripe } from "react-stripe-elements";
 import UserData from "../../UserData";
 import BtnGroup from "../BtnGroup";
@@ -20,7 +20,7 @@ export interface StripePlan {
 	currency: string;
 }
 
-interface Props extends CheckoutFormInstanceProps, InjectedTranslateProps {
+interface Props extends CheckoutFormInstanceProps, WithTranslation {
 	plans: StripePlan[];
 	defaultSource?: string;
 	coupon?: string;
@@ -458,4 +458,4 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 	}
 }
 
-export default injectStripe(translate()(StripeElementsCheckoutForm));
+export default injectStripe(withTranslation()(StripeElementsCheckoutForm));

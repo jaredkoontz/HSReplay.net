@@ -146,7 +146,7 @@ export default class Selection extends React.Component<Props, State> {
 		}
 	}
 
-	premiumGlyph(option: Option): JSX.Element {
+	premiumGlyph(option: Option): React.ReactNode {
 		if (!this.props.premiumAvailable && option.premium) {
 			return (
 				<span

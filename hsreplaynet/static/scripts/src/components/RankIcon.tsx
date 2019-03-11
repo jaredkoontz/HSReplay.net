@@ -2,9 +2,9 @@ import React from "react";
 import { BnetGameType } from "../hearthstone";
 import { image } from "../helpers";
 import Tooltip from "./Tooltip";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	gameType?: BnetGameType;
 	rank?: number;
 	legendRank?: number;
@@ -53,4 +53,4 @@ class RankIcon extends React.Component<Props> {
 	}
 }
 
-export default translate()(RankIcon);
+export default withTranslation()(RankIcon);

@@ -2,9 +2,9 @@ import React from "react";
 import ProfileReplayPanel from "./ProfileReplayPanel";
 import { ProfileGameData } from "./ProfileArchetypeList";
 import CardData from "../../CardData";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	data: ProfileGameData[];
 	cardData: CardData;
 	gameType: string;
@@ -52,4 +52,4 @@ class ProfileReplayList extends React.Component<Props> {
 	}
 }
 
-export default translate()(ProfileReplayList);
+export default withTranslation()(ProfileReplayList);

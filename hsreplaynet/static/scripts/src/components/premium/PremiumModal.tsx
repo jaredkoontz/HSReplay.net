@@ -1,5 +1,5 @@
 import React from "react";
-import { InjectedTranslateProps, Trans, translate } from "react-i18next";
+import { Trans, WithTranslation, withTranslation } from "react-i18next";
 import UserData from "../../UserData";
 import { image } from "../../helpers";
 import LoginButton from "../account/LoginButton";
@@ -7,7 +7,7 @@ import CloseModalButton from "../modal/CloseModalButton";
 import PremiumCheckout from "./PremiumCheckout";
 import { PremiumEvents, SubscriptionEvents } from "../../metrics/Events";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	analyticsLabel?: string;
 	modalStyle: ModalStyle;
 }
@@ -243,4 +243,4 @@ class PremiumModal extends React.Component<Props, State> {
 	}
 }
 
-export default translate()(PremiumModal);
+export default withTranslation()(PremiumModal);

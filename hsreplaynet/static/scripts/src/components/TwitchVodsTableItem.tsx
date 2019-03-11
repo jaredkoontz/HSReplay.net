@@ -1,18 +1,18 @@
+import Tooltip from "./Tooltip";
 import React from "react";
-import { InjectedTranslateProps, Trans, translate } from "react-i18next";
 import { Archetype } from "../utils/api";
 import CardData from "../CardData";
 import PrettyCardClass from "./text/PrettyCardClass";
 import ArchetypeSignatureTooltip from "./metaoverview/ArchetypeSignatureTooltip";
-import Tooltip from "./Tooltip";
+import { Trans, WithTranslation, withTranslation } from "react-i18next";
 import { image } from "../helpers";
 import RankIcon from "./RankIcon";
 import { BnetGameType } from "../hearthstone";
 import { formatNumber } from "../i18n";
 import SemanticAge from "./text/SemanticAge";
-import { TranslationFunction } from "i18next";
+import i18next from "i18next";
 
-const Opponent: React.SFC<{
+const Opponent: React.FC<{
 	playerClass: string;
 	archetype: Archetype;
 	cardData: CardData;
@@ -56,7 +56,7 @@ const Opponent: React.SFC<{
 	);
 };
 
-const Rank: React.SFC<{ rank: number; legendRank?: number }> = ({
+const Rank: React.FC<{ rank: number; legendRank?: number }> = ({
 	rank,
 	legendRank,
 }) => (
@@ -68,13 +68,13 @@ const Rank: React.SFC<{ rank: number; legendRank?: number }> = ({
 	/>
 );
 
-const Outcome: React.SFC<{ won: boolean }> = ({ won }) => (
+const Outcome: React.FC<{ won: boolean }> = ({ won }) => (
 	<strong className="twitch-vod-table-outcome">
 		{won ? <Trans>Won</Trans> : <Trans>Lost</Trans>}
 	</strong>
 );
 
-const Advantage: React.SFC<{ first: boolean }> = ({ first }) => (
+const Advantage: React.FC<{ first: boolean }> = ({ first }) => (
 	<strong>
 		<img
 			src={image(first ? "first.png" : "coin.png")}
@@ -84,7 +84,7 @@ const Advantage: React.SFC<{ first: boolean }> = ({ first }) => (
 	</strong>
 );
 
-const StreamerName: React.SFC<{ channelName: string }> = ({ channelName }) => {
+const StreamerName: React.FC<{ channelName: string }> = ({ channelName }) => {
 	return (
 		<span className="text-twitch twitch-vod-channel-name">
 			<img src={image("socialauth/twitch.png")} alt="Twitch" />
@@ -93,7 +93,7 @@ const StreamerName: React.SFC<{ channelName: string }> = ({ channelName }) => {
 	);
 };
 
-const GameDuration: React.SFC<{ seconds: number; t: TranslationFunction }> = ({
+const GameDuration: React.FC<{ seconds: number; t: i18next.TFunction }> = ({
 	seconds,
 	t,
 }) => {
@@ -107,11 +107,11 @@ const GameDuration: React.SFC<{ seconds: number; t: TranslationFunction }> = ({
 	);
 };
 
-const Age: React.SFC<{ date: Date }> = ({ date }) => (
+const Age: React.FC<{ date: Date }> = ({ date }) => (
 	<SemanticAge date={date} strict={false} />
 );
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	rank: number;
 	legendRank: number | null;
 	channelName: string;
@@ -176,4 +176,4 @@ class TwitchVodsTableItem extends React.Component<Props> {
 	}
 }
 
-export default translate()(TwitchVodsTableItem);
+export default withTranslation()(TwitchVodsTableItem);

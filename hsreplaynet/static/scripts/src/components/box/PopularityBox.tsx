@@ -1,12 +1,12 @@
 import React from "react";
-import { InjectedTranslateProps, Trans, translate } from "react-i18next";
+import { Trans, WithTranslation, withTranslation } from "react-i18next";
 import { AutoSizer } from "react-virtualized";
 import { toDynamicFixed } from "../../helpers";
 import { LoadingStatus } from "../../interfaces";
 import PrettyCardClass from "../text/PrettyCardClass";
 import PopularityLineChart from "./PopularityLineChart";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	chartData?: any;
 	href: string;
 	onClick?: () => void;
@@ -79,4 +79,4 @@ class PopularityBox extends React.Component<Props> {
 	}
 }
 
-export default translate()(PopularityBox);
+export default withTranslation()(PopularityBox);

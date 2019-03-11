@@ -1,14 +1,14 @@
 import React from "react";
 import { withLoading } from "./loading/Loading";
 import { Archetype, TwitchVodData } from "../utils/api";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import TwitchEmbed from "./TwitchEmbed";
 import TwitchVodsTable from "./TwitchVodsTable";
 import CardData from "../CardData";
 import AdUnit from "./ads/AdUnit";
 import Fragments from "./Fragments";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	archetypeData?: Archetype[];
 	vods?: TwitchVodData[];
 	gameType: string;
@@ -127,4 +127,6 @@ class TwitchVods extends React.Component<Props> {
 	}
 }
 
-export default withLoading(["vods", "archetypeData"])(translate()(TwitchVods));
+export default withLoading(["vods", "archetypeData"])(
+	withTranslation()(TwitchVods),
+);

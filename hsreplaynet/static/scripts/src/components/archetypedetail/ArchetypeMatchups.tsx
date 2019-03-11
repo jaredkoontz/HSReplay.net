@@ -4,9 +4,9 @@ import { withLoading } from "../loading/Loading";
 import ClassArchetypesBox from "../metaoverview/ClassArchetypesBox";
 import CardData from "../../CardData";
 import { Archetype } from "../../utils/api";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	archetypeId: number;
 	archetypeMatchupData?: any;
 	archetypeData?: Archetype[];
@@ -102,5 +102,5 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 }
 
 export default withLoading(["archetypeMatchupData", "archetypeData"])(
-	translate()(ArchetypeMatchups),
+	withTranslation()(ArchetypeMatchups),
 );

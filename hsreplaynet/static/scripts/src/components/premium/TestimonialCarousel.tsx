@@ -2,9 +2,9 @@ import React from "react";
 import Carousel from "../home/Carousel";
 import { image } from "../../helpers";
 import Testimonial, { TestimonialData } from "./Testimonial";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 
-interface Props extends InjectedTranslateProps {}
+interface Props extends WithTranslation {}
 
 interface State {
 	index: number;
@@ -122,4 +122,4 @@ class TestimonialCarousel extends React.Component<Props, State> {
 	}
 }
 
-export default translate()(TestimonialCarousel);
+export default withTranslation()(TestimonialCarousel);

@@ -11,9 +11,9 @@ import { RenderData } from "../../interfaces";
 import { getChartMetaData } from "../../helpers";
 import { VictoryVoronoiContainer } from "victory";
 import ChartHighlighter from "./ChartHighlighter";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	data?: RenderData;
 	opponentClass?: string;
 	widthRatio?: number;
@@ -148,4 +148,4 @@ class TurnPlayedBarChart extends React.Component<Props> {
 	};
 }
 
-export default translate()(TurnPlayedBarChart);
+export default withTranslation()(TurnPlayedBarChart);

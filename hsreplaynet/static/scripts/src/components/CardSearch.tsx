@@ -1,10 +1,10 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { cardSorting, cleanText, slangToCardId } from "../helpers";
 import ObjectSearch, { Limit } from "./ObjectSearch";
 import CardTile from "./CardTile";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	availableCards: any[];
 	id: string;
 	onCardsChanged: (cards: any[]) => void;
@@ -75,7 +75,7 @@ class CardSearch extends React.Component<Props> {
 		return resultSet.concat(filtered);
 	}
 
-	getCardElement(card: any, count: number): JSX.Element {
+	getCardElement(card: any, count: number): React.ReactNode {
 		return <CardTile card={card} count={count} height={34} noLink />;
 	}
 
@@ -89,7 +89,7 @@ class CardSearch extends React.Component<Props> {
 	}
 }
 
-export default translate()(CardSearch);
+export default withTranslation()(CardSearch);
 
 // tslint:disable-next-line:max-classes-per-file
 class CardObjectSearch extends ObjectSearch<any> {}

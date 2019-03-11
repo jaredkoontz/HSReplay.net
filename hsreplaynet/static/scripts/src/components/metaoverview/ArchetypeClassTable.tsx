@@ -5,9 +5,9 @@ import CardData from "../../CardData";
 import ArchetypeSignatureTooltip from "./ArchetypeSignatureTooltip";
 import OtherArchetype from "./OtherArchetype";
 import { Archetype } from "../../utils/api";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 
-interface Props extends SortableProps, InjectedTranslateProps {
+interface Props extends SortableProps, WithTranslation {
 	data: ApiArchetypePopularity[];
 	archetypeData: Archetype[];
 	gameType: string;
@@ -160,4 +160,4 @@ class ArchetypeClassTable extends React.Component<Props> {
 	}
 }
 
-export default translate()(ArchetypeClassTable);
+export default withTranslation()(ArchetypeClassTable);

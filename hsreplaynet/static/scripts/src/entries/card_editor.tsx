@@ -115,24 +115,13 @@ class StatInput extends React.Component<any> {
 }
 
 class TextureUploadInput extends React.Component<any> {
-	public componentDidMount(): void {
-		ReactDOM.findDOMNode(this).addEventListener(
-			"dragover",
-			this.handleDragOver.bind(this),
-		);
-		ReactDOM.findDOMNode(this).addEventListener(
-			"drop",
-			this.handleFileSelect.bind(this),
-		);
-	}
-
-	handleDragOver(event: DragEvent): void {
+	handleDragOver: React.DragEventHandler = event => {
 		event.stopPropagation();
 		event.preventDefault();
 		event.dataTransfer.dropEffect = "copy";
-	}
+	};
 
-	handleFileSelect(event: DragEvent): void {
+	handleFileSelect: React.DragEventHandler = event => {
 		event.stopPropagation();
 		event.preventDefault();
 
@@ -144,11 +133,16 @@ class TextureUploadInput extends React.Component<any> {
 		};
 
 		reader.readAsDataURL(file);
-	}
+	};
 
 	public render(): React.ReactNode {
 		return (
-			<p id="texture-upload-input" className="drop-zone">
+			<p
+				id="texture-upload-input"
+				className="drop-zone"
+				onDragOver={this.handleDragOver}
+				onDrop={this.handleFileSelect}
+			>
 				<input
 					type="hidden"
 					name={this.props.name}

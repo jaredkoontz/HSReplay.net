@@ -1,7 +1,7 @@
 import React from "react";
 import { DeckTrackerEvents } from "../metrics/Events";
 
-const DownloadButton: React.SFC<{
+const DownloadButton: React.FC<{
 	id: string;
 	title: string;
 	subtitle: string;

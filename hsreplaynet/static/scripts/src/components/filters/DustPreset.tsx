@@ -1,9 +1,9 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { getDustValue, image } from "../../helpers";
 import Tooltip from "../Tooltip";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	type: "common" | "rare" | "epic" | "legendary" | "owned";
 	onClick: (value: number) => void;
 	isActive: (value: number) => boolean;
@@ -11,7 +11,7 @@ interface Props extends InjectedTranslateProps {
 }
 
 class DustPreset extends React.Component<Props> {
-	render(): JSX.Element {
+	render(): React.ReactNode {
 		const { t } = this.props;
 		const owned = this.props.type === "owned";
 		const value = this.props.value || getDustValue(this.props.type);
@@ -38,4 +38,4 @@ class DustPreset extends React.Component<Props> {
 	}
 }
 
-export default translate()(DustPreset);
+export default withTranslation()(DustPreset);

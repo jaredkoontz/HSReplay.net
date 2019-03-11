@@ -1,10 +1,10 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { cardSorting, cleanText } from "../helpers";
 import { Archetype } from "../utils/api";
 import ObjectSearch, { Limit } from "./ObjectSearch";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	availableArchetypes: Archetype[];
 	selectedArchetypes?: Archetype[];
 	onArchetypeSelected?: (archetype: Archetype) => void;
@@ -53,7 +53,7 @@ class ArchetypeSearch extends React.Component<Props> {
 		});
 	}
 
-	getArchetypeElement(archetype: Archetype): JSX.Element {
+	getArchetypeElement(archetype: Archetype): React.ReactNode {
 		return (
 			<div
 				className={`player-class ${archetype.player_class_name.toLowerCase()}`}
@@ -67,4 +67,4 @@ class ArchetypeSearch extends React.Component<Props> {
 // tslint:disable-next-line:max-classes-per-file
 class ArchetypeObjectSearch extends ObjectSearch<Archetype> {}
 
-export default translate()(ArchetypeSearch);
+export default withTranslation()(ArchetypeSearch);

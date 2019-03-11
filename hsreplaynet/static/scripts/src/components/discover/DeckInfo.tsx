@@ -1,10 +1,10 @@
 import React from "react";
-import { InjectedTranslateProps, Trans, translate } from "react-i18next";
+import { Trans, WithTranslation, withTranslation } from "react-i18next";
 import CardData from "../../CardData";
 import CardList from "../CardList";
 import { ClusterMetaData } from "./ClassAnalysis";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	cardData: CardData | null;
 	clusterColor: string;
 	deck: ClusterMetaData;
@@ -81,4 +81,4 @@ class DeckInfo extends React.Component<Props> {
 		);
 	}
 }
-export default translate()(DeckInfo);
+export default withTranslation()(DeckInfo);

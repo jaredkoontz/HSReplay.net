@@ -1,5 +1,5 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import CardData from "../CardData";
 import { TableData } from "../interfaces";
 import CardRankingTableRow from "./CardRankingTableRow";
@@ -12,12 +12,12 @@ interface TooltipMap<T> {
 	winrate?: T;
 }
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	data?: TableData;
 	dataKey: string;
 	cardData: CardData;
 	numRows: number;
-	tooltips?: TooltipMap<JSX.Element>;
+	tooltips?: TooltipMap<React.ReactNode>;
 }
 
 interface State {
@@ -79,7 +79,7 @@ class CardRankingTable extends React.Component<Props, State> {
 				);
 			});
 
-		const tooltip = (key: keyof TooltipMap<any>): JSX.Element | null => {
+		const tooltip = (key: keyof TooltipMap<any>): React.ReactNode => {
 			if (!this.props.tooltips) {
 				return null;
 			}
@@ -126,4 +126,4 @@ class CardRankingTable extends React.Component<Props, State> {
 		);
 	}
 }
-export default translate()(CardRankingTable);
+export default withTranslation()(CardRankingTable);

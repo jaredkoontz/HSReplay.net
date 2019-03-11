@@ -1,9 +1,9 @@
 import React from "react";
-import { InjectedTranslateProps, Trans, translate } from "react-i18next";
+import { Trans, WithTranslation, withTranslation } from "react-i18next";
 import CSRFElement from "../components/CSRFElement";
 import { fetchCSRF } from "../helpers";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	code: string;
 	autofocus?: boolean;
 }
@@ -119,4 +119,4 @@ class RedeemCode extends React.Component<Props, State> {
 	};
 }
 
-export default translate()(RedeemCode);
+export default withTranslation()(RedeemCode);

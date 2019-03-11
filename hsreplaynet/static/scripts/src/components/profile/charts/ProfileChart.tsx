@@ -1,5 +1,5 @@
 import React from "react";
-import { translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { ResponsiveLine } from "@nivo/line";
 import { getHeroSkinCardUrl } from "../../../helpers";
 import { formatNumber, formatOrdinal, i18nFormatDate } from "../../../i18n";
@@ -10,7 +10,7 @@ export const enum Aggregation {
 	BY_DAY = "BY_DAY",
 }
 
-interface Props {
+interface Props extends WithTranslation {
 	data: any;
 	caption?: string;
 	summaryLabel?: string;
@@ -246,4 +246,4 @@ class ProfileChart extends React.Component<Props> {
 	}
 }
 
-export default translate()(ProfileChart);
+export default withTranslation()(ProfileChart);

@@ -7,9 +7,9 @@ import CopyDeckButton from "./CopyDeckButton";
 import Tooltip from "./Tooltip";
 import InfoIcon from "./InfoIcon";
 import DataManager from "../DataManager";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	build: number;
 	gameId: string;
 	opponentName: string;
@@ -354,4 +354,4 @@ class PlayerInfo extends React.Component<Props, State> {
 	}
 }
 
-export default translate()(PlayerInfo);
+export default withTranslation()(PlayerInfo);

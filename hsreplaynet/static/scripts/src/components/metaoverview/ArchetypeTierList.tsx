@@ -1,5 +1,5 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import CardData from "../../CardData";
 import { ApiArchetypePopularity } from "../../interfaces";
 import { Archetype } from "../../utils/api";
@@ -13,7 +13,7 @@ interface ClassArchetypeData {
 	[playerClass: string]: ApiArchetypePopularity[];
 }
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	archetypeData?: Archetype[];
 	cardData: CardData;
 	data?: ClassArchetypeData;
@@ -144,5 +144,5 @@ class ArchetypeTierList extends React.Component<Props> {
 }
 
 export default withLoading(["data", "deckData", "archetypeData", "cardData"])(
-	translate()(ArchetypeTierList),
+	withTranslation()(ArchetypeTierList),
 );

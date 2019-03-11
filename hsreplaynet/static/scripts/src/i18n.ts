@@ -5,7 +5,7 @@ import {
 	format as fnsFormat,
 } from "date-fns";
 import fnsEn from "date-fns/locale/en";
-import i18n, { InitOptions } from "i18next";
+import i18n from "i18next";
 import CustomCallbackBackend from "i18next-callback-backend";
 import ICU from "i18next-icu";
 // provide the polyfill synchronously for now
@@ -93,11 +93,16 @@ i18n
 
 		// initial namespaces to load
 		ns: ["frontend", "hearthstone"],
+		lng: UserData.getLocale(),
+		languages: Object.keys(UserData.getLanguages()),
 
-		// improve react-i18next performance
 		react: {
+			// improve react-i18next performance
 			bindStore: false,
-			bindI18n: "languageChanged"
+			bindI18n: "languageChanged",
+
+			// we're fine briefly showing the original strings
+			useSuspense: false,
 		},
 
 		// not required using i18next-react
@@ -157,6 +162,6 @@ i18n
 			// pass translations to i18next
 			callback(null, translations);
 		},
-	} as InitOptions);
+	} as i18n.InitOptions);
 
 export default i18n;

@@ -2,10 +2,10 @@ import React from "react";
 import { TwitchStreamPromotionEvents } from "../metrics/Events";
 import { BnetGameType } from "../hearthstone";
 import RankIcon from "./RankIcon";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { formatNumber } from "../i18n";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	url?: string;
 	displayName?: string;
 	thumbnailUrl?: string;
@@ -108,4 +108,4 @@ class StreamThumbnail extends React.Component<Props> {
 	}
 }
 
-export default translate()(StreamThumbnail);
+export default withTranslation()(StreamThumbnail);

@@ -22,7 +22,7 @@ function renderNavbar() {
 	if (userNav) {
 		const hideLogin = !!+userNav.getAttribute("data-hide-login");
 		ReactDOM.render(
-			<I18nextProvider i18n={i18n} initialLanguage={UserData.getLocale()}>
+			<I18nextProvider i18n={i18n}>
 				<BlizzardAccountProvider>
 					<AccountNavigation
 						isAuthenticated={UserData.isAuthenticated()}
@@ -70,7 +70,7 @@ function renderMobileBanner() {
 	const container = document.getElementById("site-mobile-promo");
 	if (container) {
 		ReactDOM.render(
-			<I18nextProvider i18n={i18n} initialLanguage={UserData.getLocale()}>
+			<I18nextProvider i18n={i18n}>
 				<MobilePromo onClose={() => renderMobileBanner()} />
 			</I18nextProvider>,
 			container,
@@ -120,10 +120,7 @@ function checkModal() {
 			switch (value) {
 				case "collection":
 					ReactDOM.render(
-						<I18nextProvider
-							i18n={i18n}
-							initialLanguage={UserData.getLocale()}
-						>
+						<I18nextProvider i18n={i18n}>
 							<BlizzardAccountProvider>
 								<Modal
 									visible
@@ -143,10 +140,7 @@ function checkModal() {
 				case "premium":
 					if (!UserData.isPremium()) {
 						ReactDOM.render(
-							<I18nextProvider
-								i18n={i18n}
-								initialLanguage={UserData.getLocale()}
-							>
+							<I18nextProvider i18n={i18n}>
 								<Modal
 									visible
 									onClose={() => {

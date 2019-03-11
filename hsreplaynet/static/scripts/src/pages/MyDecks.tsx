@@ -1,7 +1,7 @@
+import InfoboxFilter from "../components/InfoboxFilter";
 import { decode as decodeDeckstring } from "deckstrings";
-import _ from "lodash";
 import React from "react";
-import { InjectedTranslateProps, Trans, translate } from "react-i18next";
+import { Trans, WithTranslation, withTranslation } from "react-i18next";
 import CardData from "../CardData";
 import DataManager from "../DataManager";
 import UserData, { Account } from "../UserData";
@@ -11,7 +11,7 @@ import DeckList from "../components/DeckList";
 import Feature from "../components/Feature";
 import Fragments from "../components/Fragments";
 import InfoIcon from "../components/InfoIcon";
-import InfoboxFilter from "../components/InfoboxFilter";
+import _ from "lodash";
 import InfoboxFilterGroup from "../components/InfoboxFilterGroup";
 import InfoboxLastUpdated from "../components/InfoboxLastUpdated";
 import NoDecksMessage from "../components/NoDecksMessage";
@@ -31,7 +31,7 @@ import LoadingSpinner from "../components/LoadingSpinner";
 import AllSet from "../components/onboarding/AllSet";
 import ConnectAccount from "../components/onboarding/ConnectAccount";
 
-interface Props extends FragmentChildProps, InjectedTranslateProps {
+interface Props extends FragmentChildProps, WithTranslation {
 	account: Account | null;
 	cardData: CardData;
 	excludedCards?: string[];
@@ -675,4 +675,4 @@ class MyDecks extends React.Component<Props, State> {
 	}
 }
 
-export default translate()(MyDecks);
+export default withTranslation()(MyDecks);

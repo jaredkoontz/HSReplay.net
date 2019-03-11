@@ -1,5 +1,5 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import CardData from "../CardData";
 import InfoboxFilterGroup from "../components/InfoboxFilterGroup";
 import { FilterEvents } from "../metrics/Events";
@@ -17,7 +17,7 @@ import { formatNumber, i18nFormatDate } from "../i18n";
 import Pager from "../components/Pager";
 import { addMonths } from "date-fns";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	cardData: CardData;
 	timeRange?: string;
 	setTimeRange?: (timeRange: string) => void;
@@ -322,4 +322,4 @@ class Leaderboards extends React.Component<Props, State> {
 	}
 }
 
-export default translate()(Leaderboards);
+export default withTranslation()(Leaderboards);

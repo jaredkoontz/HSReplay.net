@@ -75,7 +75,7 @@ export default class RowHeader extends React.Component<Props> {
 		);
 	}
 
-	renderName(): JSX.Element | string {
+	renderName(): React.ReactNode {
 		const { archetypeId, archetypeName, archetypePlayerClass } = this.props;
 		if (archetypeId < 0) {
 			return (

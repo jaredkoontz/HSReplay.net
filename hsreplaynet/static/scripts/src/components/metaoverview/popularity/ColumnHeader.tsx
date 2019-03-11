@@ -2,9 +2,9 @@ import React from "react";
 import { ArchetypeRankData, SortDirection } from "../../../interfaces";
 import SortIndicator from "../../SortIndicator";
 import { image } from "../../../helpers";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	active: boolean;
 	direction: SortDirection;
 	rankData: ArchetypeRankData;
@@ -65,4 +65,4 @@ class ColumnHeader extends React.Component<Props> {
 	}
 }
 
-export default translate()(ColumnHeader);
+export default withTranslation()(ColumnHeader);

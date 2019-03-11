@@ -1,11 +1,11 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import CardData from "../../CardData";
 import { cloneComponent } from "../../helpers";
 import { LoadingStatus, RenderData } from "../../interfaces";
 import LoadingSpinner from "../LoadingSpinner";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	cardData?: CardData;
 	data?: RenderData;
 	dataKeys?: string[];
@@ -29,7 +29,7 @@ class ChartLoading extends React.Component<Props> {
 		return cloneComponent(this.props.children, this.props);
 	}
 
-	getLoadingMessage(): JSX.Element {
+	getLoadingMessage(): React.ReactNode {
 		const { t } = this.props;
 		switch (this.props.status) {
 			case LoadingStatus.LOADING:
@@ -88,4 +88,4 @@ class ChartLoading extends React.Component<Props> {
 	}
 }
 
-export default translate()(ChartLoading);
+export default withTranslation()(ChartLoading);

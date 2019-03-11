@@ -1,9 +1,9 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { RankRange } from "../../filters";
 import { formatNumber } from "../../i18n";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	rankRange: keyof typeof RankRange;
 }
 
@@ -67,4 +67,4 @@ class PrettyRankRange extends React.Component<Props> {
 	}
 }
 
-export default translate()(PrettyRankRange);
+export default withTranslation()(PrettyRankRange);

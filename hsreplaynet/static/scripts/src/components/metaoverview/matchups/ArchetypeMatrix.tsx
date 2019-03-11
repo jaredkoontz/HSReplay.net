@@ -1,6 +1,6 @@
 import scrollbarSize from "dom-helpers/util/scrollbarSize";
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { AutoSizer, Grid, ScrollSync } from "react-virtualized";
 import CardData from "../../../CardData";
 import { ArchetypeData, SortDirection } from "../../../interfaces";
@@ -14,7 +14,7 @@ import MatchupCell, { CellColorStyle } from "./MatchupCell";
 import RowFooter from "./RowFooter";
 import RowHeader from "./RowHeader";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	friendlyArchetypes: number[];
 	opposingArchetypes: number[];
 	archetypeMatchups: ArchetypeData[];
@@ -834,7 +834,7 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 		direction?: SortDirection,
 		infoHeader?: string,
 		infoText?: string,
-	): JSX.Element {
+	): React.ReactNode {
 		return (
 			<SortHeader
 				active={this.props.sortBy === key}
@@ -852,4 +852,4 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 	}
 }
 
-export default translate()(ArchetypeMatrix);
+export default withTranslation()(ArchetypeMatrix);

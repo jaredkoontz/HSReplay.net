@@ -354,7 +354,7 @@ export default class Table extends React.Component<Props, State> {
 		width: number,
 		cellHeight: number,
 		topOffset: number,
-	): JSX.Element {
+	): React.ReactNode {
 		if (this.state.hoveringRow === -1) {
 			return null;
 		}
@@ -374,7 +374,7 @@ export default class Table extends React.Component<Props, State> {
 		infoRow: React.ReactNode,
 		width: number,
 		top: number,
-	): JSX.Element {
+	): React.ReactNode {
 		if (!infoRow) {
 			return null;
 		}
@@ -560,7 +560,7 @@ export default class Table extends React.Component<Props, State> {
 		direction?: SortDirection,
 		infoHeader?: string,
 		infoText?: string,
-	): JSX.Element {
+	): React.ReactNode {
 		return (
 			<SortHeader
 				active={this.props.sortBy === key}

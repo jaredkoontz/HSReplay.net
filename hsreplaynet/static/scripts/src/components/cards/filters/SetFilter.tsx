@@ -1,10 +1,10 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import CardFilterItem from "../CardFilterItem";
 import CardFilterItemGroup from "../CardFilterItemGroup";
 import { Collection } from "../../../utils/api";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	value: string[];
 	onChange: (value: string[]) => void;
 	collection?: Collection;
@@ -90,4 +90,4 @@ class SetFilter extends React.Component<Props> {
 	private filter = value => card => card.set === value;
 }
 
-export default translate()(SetFilter);
+export default withTranslation()(SetFilter);

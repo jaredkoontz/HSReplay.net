@@ -1,6 +1,6 @@
 import _ from "lodash";
 import React, { Fragment } from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import AdHelper from "../AdHelper";
 import CardData from "../CardData";
 import AdContainer from "../components/ads/AdContainer";
@@ -48,7 +48,7 @@ import { getCollectionCardCount } from "../utils/collection";
 import CollectionSetup from "../components/collection/CollectionSetup";
 import Modal from "../components/Modal";
 
-interface Props extends FragmentChildProps, InjectedTranslateProps {
+interface Props extends FragmentChildProps, WithTranslation {
 	cardData: CardData;
 	collection: Collection | null;
 
@@ -976,4 +976,4 @@ class Cards extends React.Component<Props, State> {
 	}
 }
 
-export default translate()(Cards);
+export default withTranslation()(Cards);

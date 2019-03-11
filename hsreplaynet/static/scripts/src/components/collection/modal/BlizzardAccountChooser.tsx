@@ -1,9 +1,9 @@
 import React from "react";
 import { BlizzardAccount } from "../../../utils/api";
 import PrettyBlizzardAccount from "../../text/PrettyBlizzardAccount";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	id?: string;
 	accounts: { [account: string]: BlizzardAccount };
 	account: string;
@@ -61,4 +61,4 @@ class BlizzardAccountChooser extends React.Component<Props> {
 	}
 }
 
-export default translate()(BlizzardAccountChooser);
+export default withTranslation()(BlizzardAccountChooser);

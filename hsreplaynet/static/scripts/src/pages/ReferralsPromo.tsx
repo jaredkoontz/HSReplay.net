@@ -1,9 +1,9 @@
 import clipboard from "clipboard-polyfill";
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import UserData from "../UserData";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	url: string;
 	discount: string;
 	onCopy?: () => void;
@@ -131,4 +131,4 @@ class ReferralsPromo extends React.Component<Props, State> {
 	}
 }
 
-export default translate()(ReferralsPromo);
+export default withTranslation()(ReferralsPromo);

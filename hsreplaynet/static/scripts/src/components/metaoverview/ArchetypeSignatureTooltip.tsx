@@ -5,9 +5,9 @@ import { ArchetypeSignature as ApiArchetypeSignature } from "../../utils/api";
 import LoadingSpinner from "../LoadingSpinner";
 import Tooltip from "../Tooltip";
 import ArchetypeSignature from "../archetypedetail/ArchetypeSignature";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	cardData: CardData;
 	archetypeName: string;
 	archetypeId: number;
@@ -54,7 +54,7 @@ class ArchetypeSignatureTooltip extends React.Component<Props, State> {
 		);
 	}
 
-	renderTooltip(): JSX.Element {
+	renderTooltip(): React.ReactNode {
 		if (!this.state.signature || !this.props.cardData) {
 			return <LoadingSpinner active small />;
 		}
@@ -72,4 +72,4 @@ class ArchetypeSignatureTooltip extends React.Component<Props, State> {
 	}
 }
 
-export default translate()(ArchetypeSignatureTooltip);
+export default withTranslation()(ArchetypeSignatureTooltip);

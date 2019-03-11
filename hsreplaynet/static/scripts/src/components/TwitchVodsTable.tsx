@@ -1,7 +1,7 @@
 import React from "react";
 import { Archetype, TwitchVodData } from "../utils/api";
 import { SortDirection } from "../interfaces";
-import { InjectedTranslateProps, Trans, translate } from "react-i18next";
+import { Trans, WithTranslation, withTranslation } from "react-i18next";
 import CardData from "../CardData";
 import OptionalSelect from "./OptionalSelect";
 import SortIndicator from "./SortIndicator";
@@ -11,7 +11,7 @@ import memoize from "memoize-one";
 
 type SortBy = "rank" | "duration" | "age" | "broadcaster";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	archetypeData: Archetype[];
 	gameType: string;
 	cardData: CardData;
@@ -43,7 +43,7 @@ interface Row extends Partial<TwitchVodData> {
 	opposingArchetype?: Archetype;
 }
 
-const Sortable: React.SFC<{
+const Sortable: React.FC<{
 	direction: SortDirection | null;
 	onClick: () => void;
 }> = ({ direction, onClick, children }) => (
@@ -53,7 +53,7 @@ const Sortable: React.SFC<{
 	</span>
 );
 
-const ResetButton: React.SFC<{ onReset: () => void }> = ({ onReset }) => {
+const ResetButton: React.FC<{ onReset: () => void }> = ({ onReset }) => {
 	const onClick = (event: React.MouseEvent<HTMLButtonElement>) => {
 		event.preventDefault();
 		onReset();
@@ -440,4 +440,4 @@ class TwitchVodsTable extends React.Component<Props, State> {
 	private sortBroadcaster = this.onSort("broadcaster", true);
 	private sortDuration = this.onSort("duration");
 }
-export default translate()(TwitchVodsTable);
+export default withTranslation()(TwitchVodsTable);

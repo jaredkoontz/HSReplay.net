@@ -1,5 +1,5 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { AutoSizer } from "react-virtualized";
 import CardData from "../CardData";
 import DataManager from "../DataManager";
@@ -39,7 +39,7 @@ import AdContainer from "../components/ads/AdContainer";
 import AdUnit from "../components/ads/AdUnit";
 import TwitchVods from "../components/TwitchVods";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	archetypeId: number;
 	archetypeName: string;
 	hasStandardData: boolean;
@@ -994,4 +994,4 @@ class ArchetypeDetail extends React.Component<Props, State> {
 		);
 	}
 }
-export default translate()(ArchetypeDetail);
+export default withTranslation()(ArchetypeDetail);

@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { InjectedTranslateProps, Trans, translate } from "react-i18next";
+import { Trans, WithTranslation, withTranslation } from "react-i18next";
 import UserData from "../../UserData";
 import { image } from "../../helpers";
 import InfoIcon, { InfoIconProps } from "../InfoIcon";
@@ -13,7 +13,7 @@ export interface PremiumWrapperContext {
 
 type RenderProp = (context: PremiumWrapperContext) => React.ReactNode;
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	analyticsLabel: string;
 	modalStyle: ModalStyle;
 	iconStyle?: any;
@@ -224,4 +224,4 @@ class PremiumWrapper extends React.Component<Props, State> {
 		return !UserData.isPremium();
 	}
 }
-export default translate()(PremiumWrapper);
+export default withTranslation()(PremiumWrapper);

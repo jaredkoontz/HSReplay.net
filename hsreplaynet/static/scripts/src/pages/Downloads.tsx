@@ -1,13 +1,13 @@
 import React from "react";
 import { image } from "../helpers";
-import { InjectedTranslateProps, Trans, translate } from "react-i18next";
+import { Trans, WithTranslation, withTranslation } from "react-i18next";
 import HDTVideo from "../components/HDTVideo";
 import PremiumFeaturePanel from "../components/premium/PremiumFeaturePanel";
 import Panel from "../components/Panel";
 import UserData from "../UserData";
 import DownloadButton from "../components/DownloadButton";
 
-interface Props extends InjectedTranslateProps {}
+interface Props extends WithTranslation {}
 
 interface State {
 	windowsUrl: string | null;
@@ -339,4 +339,4 @@ class Downloads extends React.Component<Props, State> {
 	}
 }
 
-export default translate()(Downloads);
+export default withTranslation()(Downloads);

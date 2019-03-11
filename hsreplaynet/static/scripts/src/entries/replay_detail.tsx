@@ -68,7 +68,7 @@ const targetTmp1 = document.getElementById("replay-infobox-container");
 // we need to rerender the sidebar whenever the turn from the embedder changes
 const renderSidebar = () => {
 	ReactDOM.render(
-		<I18nextProvider i18n={i18n} initialLanguage={locale}>
+		<I18nextProvider i18n={i18n}>
 			<>
 				<h1>{context["format_name"] || "Replay"}</h1>
 
@@ -267,7 +267,7 @@ const renderPlayerInfo = (
 	}
 	const renderPlayerInfoComponent = (cards?) => {
 		ReactDOM.render(
-			<I18nextProvider i18n={i18n} initialLanguage={locale}>
+			<I18nextProvider i18n={i18n}>
 				<PlayerInfo
 					gameId={context["shortid"]}
 					playerName={context["player_name"]}

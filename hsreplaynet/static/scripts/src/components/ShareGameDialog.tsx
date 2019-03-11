@@ -1,8 +1,8 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import CopyText from "./CopyText";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	url: string;
 	turn: number;
 	reveal?: boolean;
@@ -167,4 +167,4 @@ class ShareGameDialog extends React.Component<Props, State> {
 		);
 	}
 }
-export default translate()(ShareGameDialog);
+export default withTranslation()(ShareGameDialog);

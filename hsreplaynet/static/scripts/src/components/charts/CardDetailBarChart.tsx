@@ -8,9 +8,9 @@ import {
 } from "victory";
 import { RenderData } from "../../interfaces";
 import { getChartScheme } from "../../helpers";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	data?: RenderData;
 	title?: string;
 	labelX?: string;
@@ -105,4 +105,4 @@ class CardDetailBarChart extends React.Component<Props> {
 	}
 }
 
-export default translate()(CardDetailBarChart);
+export default withTranslation()(CardDetailBarChart);

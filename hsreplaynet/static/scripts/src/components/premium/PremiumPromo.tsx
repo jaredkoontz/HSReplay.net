@@ -4,7 +4,7 @@ import { image } from "../../helpers";
 
 interface Props {
 	imageName: string;
-	text: string | JSX.Element;
+	text: React.ReactNode;
 }
 
 export default class PremiumPromo extends React.Component<Props> {

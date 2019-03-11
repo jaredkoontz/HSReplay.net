@@ -1,5 +1,5 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { CardElement, injectStripe } from "react-stripe-elements";
 import UserData from "../../UserData";
 import CSRFElement from "../CSRFElement";
@@ -9,7 +9,7 @@ const enum Step {
 	WORKING,
 }
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	action: string;
 	currency: string;
 }
@@ -120,4 +120,4 @@ class StripeElementsAddCardForm extends React.Component<Props, State> {
 	}
 }
 
-export default injectStripe(translate()(StripeElementsAddCardForm));
+export default injectStripe(withTranslation()(StripeElementsAddCardForm));

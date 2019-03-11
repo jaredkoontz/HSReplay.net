@@ -1,8 +1,8 @@
 import clipboard from "clipboard-polyfill";
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	text: string;
 	onCopy?: () => void;
 }
@@ -71,4 +71,4 @@ class CopyText extends React.Component<Props, State> {
 		});
 	}
 }
-export default translate()(CopyText);
+export default withTranslation()(CopyText);

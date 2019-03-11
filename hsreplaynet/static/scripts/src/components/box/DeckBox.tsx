@@ -1,11 +1,11 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { winrateData } from "../../helpers";
 import { LoadingStatus } from "../../interfaces";
 import CardIcon from "../CardIcon";
 import { CardData } from "hearthstonejson-client";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	cards?: CardData[];
 	deckId?: string;
 	games?: number;
@@ -66,4 +66,4 @@ class DeckBox extends React.Component<Props> {
 		);
 	}
 }
-export default translate()(DeckBox);
+export default withTranslation()(DeckBox);

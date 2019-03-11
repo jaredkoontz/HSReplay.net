@@ -1,9 +1,9 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { getArchetypeUrl, winrateData } from "../../helpers";
 import { LoadingStatus } from "../../interfaces";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	archetypeId?: number;
 	archetypeName?: string;
 	games?: number;
@@ -74,4 +74,4 @@ class MatchupBox extends React.Component<Props> {
 	}
 }
 
-export default translate()(MatchupBox);
+export default withTranslation()(MatchupBox);

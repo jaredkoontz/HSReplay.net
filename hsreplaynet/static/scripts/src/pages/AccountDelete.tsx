@@ -1,10 +1,10 @@
 import React from "react";
-import { InjectedTranslateProps, Trans, translate } from "react-i18next";
+import { Trans, WithTranslation, withTranslation } from "react-i18next";
 import UserData from "../UserData";
 import CSRFElement from "../components/CSRFElement";
 import AccountDeleteReason from "../components/account/AccountDeleteReason";
 
-interface Props extends InjectedTranslateProps {}
+interface Props extends WithTranslation {}
 interface State {}
 
 class AccountDelete extends React.Component<Props, State> {
@@ -201,7 +201,7 @@ class AccountDelete extends React.Component<Props, State> {
 							<input
 								type="submit"
 								className="btn btn-danger"
-								value={t("Delete account")}
+								value={t<string>("Delete account")}
 							/>
 							<a href="/" className="btn btn-info">
 								{t("Cancel")}
@@ -214,4 +214,4 @@ class AccountDelete extends React.Component<Props, State> {
 	}
 }
 
-export default translate()(AccountDelete);
+export default withTranslation()(AccountDelete);

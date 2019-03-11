@@ -1,13 +1,14 @@
 import _ from "lodash";
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { Translation } from "react-i18next";
+import i18next from "i18next";
 import { LoadingStatus } from "../../interfaces";
 import LoadingSpinner from "../LoadingSpinner";
 
-type StringOrJSX = string | JSX.Element | JSX.Element[] | React.ReactNode;
+type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
 
-interface Props extends InjectedTranslateProps {
-	customNoDataMessage?: StringOrJSX;
+interface Props {
+	customNoDataMessage?: React.ReactNode;
 	status?: LoadingStatus;
 }
 
@@ -15,18 +16,22 @@ export const withLoading = (dataKeys?: string[], className?: string) => <
 	T extends {}
 >(
 	// tslint:disable-next-line:variable-name
-	Component: React.ComponentClass<T>,
-) => {
-	const cls = class Loading extends React.Component<T & Props> {
+	Component: React.ComponentType<T>,
+): React.ComponentType<T & Props> => {
+	type InnerProps = T & Props;
+
+	const cls = class Loading extends React.Component<InnerProps> {
+		static displayName = "withLoading";
+
 		private getClassName(): string {
 			return "message-wrapper" + (className ? " " + className : "");
 		}
 
 		private getLoadingMessage(
 			status: LoadingStatus,
-			customNoDataMessage?: StringOrJSX,
-		): StringOrJSX | null {
-			const { t } = this.props;
+			customNoDataMessage: React.ReactNode,
+			t: i18next.TFunction,
+		): React.ReactNode {
 			switch (status) {
 				case LoadingStatus.SUCCESS:
 					return null;
@@ -49,49 +54,74 @@ export const withLoading = (dataKeys?: string[], className?: string) => <
 		}
 
 		public render(): React.ReactNode {
-			const { customNoDataMessage, status } = this.props;
-			if (status !== undefined) {
-				const message = this.getLoadingMessage(
-					status,
-					customNoDataMessage,
-				);
-				if (typeof message === "string") {
-					return (
-						<h3 className={this.getClassName()} aria-busy="true">
-							{message}
-						</h3>
-					);
-				} else if (message !== null) {
-					return (
-						<div className={this.getClassName()} aria-busy="true">
-							{message}
-						</div>
-					);
-				}
-			}
-			const noData = (dataKeys || ["data"]).some(key => {
-				const data = this.props[key];
-				return !data || (Array.isArray(data) && data.length === 0);
-			});
-			if (noData) {
-				const message = this.getLoadingMessage(
-					LoadingStatus.NO_DATA,
-					customNoDataMessage,
-				);
-				if (typeof message === "string") {
-					return <h3 className={this.getClassName()}>{message}</h3>;
-				} else if (message !== null) {
-					return <div className={this.getClassName()}>{message}</div>;
-				}
-			}
-			const props = _.omit(
-				this.props,
-				"status",
-				"customNoDataMessage",
-			) as T;
-			return <Component {...props} />;
+			return (
+				<Translation>
+					{t => {
+						const { customNoDataMessage, status } = this.props;
+						if (status !== undefined) {
+							const message = this.getLoadingMessage(
+								status,
+								customNoDataMessage,
+								t,
+							);
+							if (typeof message === "string") {
+								return (
+									<h3
+										className={this.getClassName()}
+										aria-busy="true"
+									>
+										{message}
+									</h3>
+								);
+							} else if (message !== null) {
+								return (
+									<div
+										className={this.getClassName()}
+										aria-busy="true"
+									>
+										{message}
+									</div>
+								);
+							}
+						}
+						const noData = (dataKeys || ["data"]).some(key => {
+							const data = this.props[key];
+							return (
+								!data ||
+								(Array.isArray(data) && data.length === 0)
+							);
+						});
+						if (noData) {
+							const message = this.getLoadingMessage(
+								LoadingStatus.NO_DATA,
+								customNoDataMessage,
+								t,
+							);
+							if (typeof message === "string") {
+								return (
+									<h3 className={this.getClassName()}>
+										{message}
+									</h3>
+								);
+							} else if (message !== null) {
+								return (
+									<div className={this.getClassName()}>
+										{message}
+									</div>
+								);
+							}
+						}
+						const props = _.omit(
+							this.props,
+							"status",
+							"customNoDataMessage",
+						) as T;
+						return <Component {...props} />;
+					}}
+				</Translation>
+			);
 		}
 	};
 
-	return translate()(cls);
+	return cls;
 };

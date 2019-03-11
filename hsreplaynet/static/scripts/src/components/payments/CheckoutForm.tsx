@@ -1,5 +1,5 @@
 import React from "react";
-import { InjectedTranslateProps, Trans, translate } from "react-i18next";
+import { Trans, WithTranslation, withTranslation } from "react-i18next";
 import { Elements, StripeProvider } from "react-stripe-elements";
 import Stripe from "stripe";
 import UserData from "../../UserData";
@@ -21,7 +21,7 @@ export interface CheckoutFormInstanceProps {
 	onSubscribe: (value: number) => void;
 }
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	defaultPaymentMethod?: PaymentMethod;
 	stripeApiKey: string;
 	stripeDefaultSource?: string;
@@ -210,4 +210,4 @@ class CheckoutForm extends React.Component<Props, State> {
 	}
 }
 
-export default translate()(CheckoutForm);
+export default withTranslation()(CheckoutForm);

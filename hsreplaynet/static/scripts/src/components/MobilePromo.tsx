@@ -1,10 +1,10 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import UserData from "../UserData";
 import DownloadButton from "./DownloadButton";
 import Panel from "./Panel";
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
 	onClose: () => void;
 }
 
@@ -71,4 +71,4 @@ class MobilePromo extends React.Component<Props> {
 	}
 }
 
-export default translate()(MobilePromo);
+export default withTranslation()(MobilePromo);

@@ -1,5 +1,5 @@
 import React from "react";
-import { InjectedTranslateProps, translate } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { CardArtProps, GameReplay, ImageProps } from "../../interfaces";
 import GameHistoryList from "./GameHistoryList";
 import GameHistoryTableRow from "./GameHistoryTableRow";
@@ -7,7 +7,7 @@ import AdContainer from "../ads/AdContainer";
 import AdUnit from "../ads/AdUnit";
 import * as _ from "lodash";
 
-interface Props extends ImageProps, CardArtProps, InjectedTranslateProps {
+interface Props extends ImageProps, CardArtProps, WithTranslation {
 	games: GameReplay[];
 }
 
@@ -104,4 +104,4 @@ class GameHistoryTable extends React.Component<Props> {
 	}
 }
 
-export default translate()(GameHistoryTable);
+export default withTranslation()(GameHistoryTable);
