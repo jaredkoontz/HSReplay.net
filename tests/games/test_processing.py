@@ -184,6 +184,43 @@ def test_record_twitch_vod(user, twitch_vod_game):
 
 @pytest.mark.django_db
 @pytest.mark.usefixtures("disconnect_pre_save", "twitch_vod_dynamodb_table")
+def test_record_twitch_vod_missing_language(user, twitch_vod_game):
+	deck1 = create_deck_from_deckstring(TEST_TWITCH_DECK_STRING_1, archetype_id=123)
+	deck2 = create_deck_from_deckstring(TEST_TWITCH_DECK_STRING_2)
+
+	create_player("Test Player 1", 1, deck1, twitch_vod_game, rank=25)
+	create_player("Test Player 2", 2, deck2, twitch_vod_game, rank=25)
+
+	replay = create_replay(user, twitch_vod_game)
+
+	def prune_language(d: dict):
+		return {k: v for k, v in d.items() if k != "language"}
+
+	replay_meta_no_language = {"twitch_vod": prune_language(TEST_REPLAY_META["twitch_vod"])}
+	expected_twitch_vod_params = prune_language(TEST_TWITCH_VOD_PARAMS)
+
+	record_twitch_vod(replay, replay_meta_no_language)
+
+	expected_vod = TwitchVod(
+		friendly_player_archetype_id=123,
+		hsreplaynet_user_id=user.id,
+		rank=25,
+		replay_shortid=replay.shortid,
+		combined_rank="R25",
+		**expected_twitch_vod_params
+	)
+
+	actual_vod = TwitchVod.get(TEST_REPLAY_META["twitch_vod"]["channel_name"], "R25")
+
+	# Patch the TTL
+
+	expected_vod.ttl = actual_vod.ttl
+
+	assert expected_vod == actual_vod
+
+
+@pytest.mark.django_db
+@pytest.mark.usefixtures("disconnect_pre_save", "twitch_vod_dynamodb_table")
 def test_record_twitch_vod_legend_rank(user, twitch_vod_game):
 	deck1 = create_deck_from_deckstring(TEST_TWITCH_DECK_STRING_1, archetype_id=123)
 	deck2 = create_deck_from_deckstring(TEST_TWITCH_DECK_STRING_2, archetype_id=456)
