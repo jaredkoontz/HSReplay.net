@@ -24,13 +24,12 @@ const isProduction = process.env.NODE_ENV === "production";
 
 const plugins = [];
 if (isProduction) {
-	const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
-	plugins.push(
-		new UglifyJSPlugin({
-			parallel: true,
-			sourceMap: true,
-		}),
-	);
+	const TerserPlugin = require("terser-webpack-plugin-legacy");
+	plugins.push(new TerserPlugin({
+		parallel: true,
+		cache: true,
+		sourceMap: true,
+	}));
 } else {
 	const HardSourceWebpackPlugin = require("hard-source-webpack-plugin");
 	plugins.push(new HardSourceWebpackPlugin({}));
