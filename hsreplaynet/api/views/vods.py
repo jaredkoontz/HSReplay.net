@@ -85,6 +85,7 @@ class VodRequestSerializer(serializers.Serializer):
 class VodSerializer(serializers.Serializer):
 	"""A serializer to extract from a TwitchVod model instance"""
 	channel_name = fields.CharField(source="twitch_channel_name")
+	language = fields.CharField()
 	url = fields.URLField()
 	game_date = TimestampField(precision=1)
 	game_type = fields.CharField()

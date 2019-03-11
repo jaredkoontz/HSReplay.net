@@ -1,6 +1,7 @@
 TEST_TWITCH_VOD_META = {
 	"twitch_vod": {
 		"channel_name": "My Hearthstone Channel",
+		"language": "en",
 		"url": "https://www.twitch.tv/videos/106400740?t=0h1m2s"
 	}
 }

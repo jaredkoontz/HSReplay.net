@@ -83,6 +83,8 @@ class TwitchVod(Model):
 	# The archetype id for the opposing player's deck, if available, else NULL
 	opposing_player_archetype_id = NumberAttribute(null=True)
 
+	language = UnicodeAttribute()  # The language of the VOD on Twitch
+
 	url = UnicodeAttribute()  # The URL of the VOD on Twitch
 
 	archetype_index = TwitchVodArchetypeIndex()

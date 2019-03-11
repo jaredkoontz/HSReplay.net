@@ -1328,6 +1328,7 @@ def record_twitch_vod(replay, meta):
 			format_type=FormatType(game.format).name,
 			game_type=BnetGameType(game.game_type).name,
 			friendly_player_canonical_deck_string=friendly_deck.deckstring,
+			language=vod_meta["language"],
 			url=twitch_vod_url
 		)
 

@@ -72,6 +72,7 @@ def test_vod_list_view_at_legend_rank(client, twitch_vod_game, user, mocker):  #
 	url = TEST_TWITCH_VOD_META["twitch_vod"]["url"]
 	assert response.data == [{
 		"channel_name": channel_name,
+		"language": "en",
 		"url": url,
 		"game_date": "2018-07-15T00:00:00Z",
 		"game_type": "BGT_RANKED_STANDARD",
@@ -117,6 +118,7 @@ def test_vod_list_view_by_user_id(client, twitch_vod_game, user, mocker):  # noq
 	url = TEST_TWITCH_VOD_META["twitch_vod"]["url"]
 	assert response.data == [{
 		"channel_name": channel_name,
+		"language": "en",
 		"url": url,
 		"game_date": "2018-07-15T00:00:00Z",
 		"game_type": "BGT_RANKED_STANDARD",
@@ -165,6 +167,7 @@ def test_vod_list_view_by_archetype_id(client, twitch_vod_game, user, mocker):  
 	url = TEST_TWITCH_VOD_META["twitch_vod"]["url"]
 	assert response.data == [{
 		"channel_name": channel_name,
+		"language": "en",
 		"url": url,
 		"game_date": "2018-07-15T00:00:00Z",
 		"game_type": "BGT_RANKED_STANDARD",
@@ -210,6 +213,7 @@ def test_vod_list_view_by_deck_id(client, twitch_vod_game, user, mocker):  # noq
 	url = TEST_TWITCH_VOD_META["twitch_vod"]["url"]
 	assert response.data == [{
 		"channel_name": channel_name,
+		"language": "en",
 		"url": url,
 		"game_date": "2018-07-15T00:00:00Z",
 		"game_type": "BGT_RANKED_STANDARD",

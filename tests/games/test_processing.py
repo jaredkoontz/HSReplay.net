@@ -91,6 +91,7 @@ def test_update_replay_feed_deleted_user(mocker, user):
 TEST_REPLAY_META = {
 	"twitch_vod": {
 		"channel_name": "My Hearthstone Channel",
+		"language": "en",
 		"url": "https://www.twitch.tv/videos/106400740?t=0h1m2s"
 	}
 }
@@ -110,7 +111,8 @@ TEST_TWITCH_VOD_PARAMS = dict(
 	url=TEST_REPLAY_META["twitch_vod"]["url"],
 	won=False,
 	went_first=True,
-	twitch_channel_name=TEST_REPLAY_META["twitch_vod"]["channel_name"]
+	twitch_channel_name=TEST_REPLAY_META["twitch_vod"]["channel_name"],
+	language=TEST_REPLAY_META["twitch_vod"]["language"]
 )
 
 
