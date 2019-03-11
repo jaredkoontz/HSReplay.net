@@ -818,6 +818,9 @@ export function fetchCSRF(url: string, options?) {
 	if (!headers) {
 		headers = new Headers();
 	}
+	if (!(headers instanceof Headers)) {
+		headers = new Headers(headers);
+	}
 	if (!headers.has("x-csrftoken")) {
 		headers.set("x-csrftoken", getCookie("csrftoken"));
 	}
