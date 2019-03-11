@@ -102,7 +102,7 @@ export default class AdUnit extends React.Component<Props, State> {
 				{debugAds() ? (
 					<div
 						className={
-							"ad-unit-debug" +
+							"ad-unit__admin" +
 							(this.state.working ? " disabled" : "")
 						}
 						style={{
@@ -112,11 +112,7 @@ export default class AdUnit extends React.Component<Props, State> {
 						}}
 						onClick={this.onAdDebugClick}
 					>
-						<input
-							className="debug-checkbox"
-							type="checkbox"
-							checked={this.state.enabled}
-						/>
+						<input type="checkbox" checked={this.state.enabled} />
 						<p>{this.props.id}</p>
 						<p>{this.props.size}</p>
 					</div>
