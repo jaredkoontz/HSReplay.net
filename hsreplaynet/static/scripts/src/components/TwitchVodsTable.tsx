@@ -254,6 +254,20 @@ class TwitchVodsTable extends React.Component<Props, State> {
 		},
 	);
 
+	public componentDidUpdate(
+		prevProps: Readonly<Props>,
+		prevState: Readonly<State>,
+		snapshot?: any,
+	): void {
+		if (
+			prevProps.vodsFirst !== this.props.vodsFirst ||
+			prevProps.vodsOpponent !== this.props.vodsOpponent ||
+			prevProps.vodsResult !== this.props.vodsResult
+		) {
+			this.setState({ page: 1 });
+		}
+	}
+
 	public render(): React.ReactNode {
 		const {
 			t,

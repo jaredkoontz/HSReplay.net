@@ -1,6 +1,7 @@
 import TwitchVodsTable from "../TwitchVodsTable";
-import React from "react";
+import React, { useState } from "react";
 import { mount } from "enzyme";
+import { cloneComponent } from "../../helpers";
 
 const VODS = [
 	{
@@ -66,7 +67,7 @@ const VODS = [
 ];
 
 describe("TwitchVodsTable", () => {
-	test("renders correctly", () => {
+	it("renders correctly", () => {
 		Date.now = jest.fn(() => new Date("2018-10-22T20:14:00Z").getTime());
 		const selectedVod = VODS[0].replay_shortid;
 		const onSelectVod = jest.fn();
@@ -87,7 +88,7 @@ describe("TwitchVodsTable", () => {
 		expect(wrapper).toMatchSnapshot("default");
 	});
 
-	test("allows selecting a VOD", () => {
+	it("allows selecting a VOD", () => {
 		Date.now = jest.fn(() => new Date("2018-10-22T20:14:00Z").getTime());
 		const selectedVod = VODS[0].replay_shortid;
 		const selectVod = jest.fn();
@@ -109,5 +110,51 @@ describe("TwitchVodsTable", () => {
 		expect(selectVod).toHaveBeenCalledTimes(1);
 		expect(selectVod).toHaveBeenCalledWith(VODS[2].replay_shortid);
 		expect(wrapper).toMatchSnapshot("brandonsmithx01");
+	});
+
+	it("allows pagination", () => {
+		Date.now = jest.fn(() => new Date("2018-10-22T20:14:00Z").getTime());
+		const selectedVod = VODS[0].replay_shortid;
+		const selectVod = jest.fn();
+
+		const VodsResultStore: React.FC = ({ children }) => {
+			const [vodsResult, setVodsResult] = useState<string>("any");
+			return cloneComponent(React.Children.only<any>(children), {
+				vodsResult,
+				setVodsResult,
+			});
+		};
+		const wrapper = mount(
+			<VodsResultStore>
+				<TwitchVodsTable
+					archetypeData={[]}
+					gameType={"BGT_RANKED_STANDARD"}
+					cardData={null as any}
+					vods={VODS}
+					vodId={selectedVod}
+					setVodId={selectVod}
+					vodsFirst="any"
+					vodsOpponent="any"
+					pageSize={1}
+				/>
+			</VodsResultStore>,
+		);
+		let pager = wrapper.find(".pagination").childAt(1);
+		expect(pager.text()).toEqual("1 / 4");
+		wrapper.find('.pagination a[title="Next page"]').simulate("click");
+		expect(pager.text()).toEqual("2 / 4");
+
+		const select = wrapper
+			.find(".twitch-vod-table-filterables")
+			.childAt(0)
+			.find("select");
+		expect(
+			(select.getDOMNode() as HTMLSelectElement).selectedIndex,
+		).toEqual(0);
+		(select.getDOMNode() as HTMLSelectElement).selectedIndex = 1;
+		select.simulate("change", { target: { value: "won" } });
+
+		pager = wrapper.find(".pagination").childAt(1);
+		expect(pager.text()).toEqual("1 / 2");
 	});
 });
