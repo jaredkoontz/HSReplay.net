@@ -174,10 +174,7 @@ class ArchetypeDistributionPieChart extends React.Component<
 				return [
 					{
 						mutation: props => {
-							if (
-								!props.datum.isSelectedArchetype &&
-								props.datum.archetypeId !== -1
-							) {
+							if (!props.datum.isSelectedArchetype && props.url) {
 								window.open(props.datum.url, "_self");
 							}
 						},
