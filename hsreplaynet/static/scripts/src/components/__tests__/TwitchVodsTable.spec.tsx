@@ -67,7 +67,7 @@ const VODS = [
 
 describe("TwitchVodsTable", () => {
 	test("renders correctly", () => {
-		Date.now = jest.fn(() => new Date("2018-10-22T20:14:00Z"));
+		Date.now = jest.fn(() => new Date("2018-10-22T20:14:00Z").getTime());
 		const selectedVod = VODS[0].replay_shortid;
 		const onSelectVod = jest.fn();
 		const wrapper = mount(
@@ -88,7 +88,7 @@ describe("TwitchVodsTable", () => {
 	});
 
 	test("allows selecting a VOD", () => {
-		Date.now = jest.fn(() => new Date("2018-10-22T20:14:00Z"));
+		Date.now = jest.fn(() => new Date("2018-10-22T20:14:00Z").getTime());
 		const selectedVod = VODS[0].replay_shortid;
 		const selectVod = jest.fn();
 		const wrapper = mount(

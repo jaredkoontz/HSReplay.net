@@ -545,7 +545,9 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
                   <strong
                     className="twitch-vod-table-outcome"
                   >
-                    <Trans />
+                    <Trans>
+                      Won
+                    </Trans>
                   </strong>
                 </Outcome>
                  
@@ -768,7 +770,9 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
                   <strong
                     className="twitch-vod-table-outcome"
                   >
-                    <Trans />
+                    <Trans>
+                      Won
+                    </Trans>
                   </strong>
                 </Outcome>
                  
@@ -1329,7 +1333,9 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
                   <strong
                     className="twitch-vod-table-outcome"
                   >
-                    <Trans />
+                    <Trans>
+                      Won
+                    </Trans>
                   </strong>
                 </Outcome>
                  
@@ -1552,7 +1558,9 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
                   <strong
                     className="twitch-vod-table-outcome"
                   >
-                    <Trans />
+                    <Trans>
+                      Won
+                    </Trans>
                   </strong>
                 </Outcome>
                  

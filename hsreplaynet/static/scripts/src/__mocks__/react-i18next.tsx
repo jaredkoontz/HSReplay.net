@@ -43,8 +43,9 @@ const mockI18n = {
 	hasResourceBundle: (lng: string, ns: string) => false,
 };
 
-export const translate = () => Component => props => (
+export const withTranslation = () => Component => props => (
 	<Component t={mockTranslate} i18n={mockI18n} {...props} />
 );
 
-export const Trans = ReactI18next.Trans;
+export const Trans = ({ children }) => children;
+Trans.displayName = "Trans";

@@ -76,7 +76,9 @@ Array [
     </time>
     <strong
       className="twitch-vod-table-outcome"
-    />
+    >
+      Won
+    </strong>
      
     going 
     <strong>

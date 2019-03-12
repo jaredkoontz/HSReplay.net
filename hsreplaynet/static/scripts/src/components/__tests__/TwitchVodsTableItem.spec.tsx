@@ -4,7 +4,7 @@ import renderer from "react-test-renderer";
 
 describe("TwitchVodsTableItem", () => {
 	test("renders correctly", () => {
-		Date.now = jest.fn(() => new Date("2018-10-22T20:14:00Z"));
+		Date.now = jest.fn(() => new Date("2018-10-22T20:14:00Z").getTime());
 		const component = renderer.create(
 			<TwitchVodsTableItem
 				rank={0}

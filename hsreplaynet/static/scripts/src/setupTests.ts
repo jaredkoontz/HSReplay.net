@@ -14,3 +14,5 @@ declare global {
 }
 
 global.fetch = fetch;
+
+jest.mock("./UserData");
