@@ -13,7 +13,7 @@ class PrettyCardClass extends React.Component<Props> {
 		const { t, i18n } = this.props;
 		const cardClass = getCardClass(this.props.cardClass);
 
-		if (!i18n.hasResourceBundle(i18n.language, "hearthstone")) {
+		if (!i18n.hasResourceBundle(i18n.language || "en", "hearthstone")) {
 			return toTitleCase(getCardClassName(cardClass));
 		}
 		const text = getHeroClassName(getCardClassName(cardClass), t);
