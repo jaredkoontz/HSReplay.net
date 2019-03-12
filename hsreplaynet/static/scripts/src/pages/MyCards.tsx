@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { WithTranslation, withTranslation } from "react-i18next";
 import CardData from "../CardData";
 import DataManager from "../DataManager";
@@ -315,140 +315,121 @@ class Cards extends React.Component<Props, State> {
 	buildFilters(): React.ReactNode {
 		const showReset = this.props.canBeReset;
 		const { t } = this.props;
-
-		const filters = [
-			<ResetHeader
-				key="reset"
-				onReset={() => this.props.reset()}
-				showReset={showReset}
-			>
-				{t("My Cards")}
-			</ResetHeader>,
-		];
-
-		filters.push(
-			<ClassFilter
-				value={this.props.cardClass}
-				onChange={this.props.setCardClass}
-			/>,
-		);
-
-		filters.push(
-			<section id="mode-filter" key="mode-filter">
-				<InfoboxFilterGroup
-					header={t("Game Mode")}
-					selectedValue={this.props.gameType}
-					onClick={value => this.props.setGameType(value)}
+		return (
+			<>
+				<ResetHeader
+					key="reset"
+					onReset={() => this.props.reset()}
+					showReset={showReset}
 				>
-					<InfoboxFilter value="RANKED_STANDARD">
-						{t("Ranked Standard")}
-					</InfoboxFilter>
-					<InfoboxFilter value="RANKED_WILD">
-						{t("Ranked Wild")}
-					</InfoboxFilter>
-					<InfoboxFilter value="ARENA">{t("Arena")}</InfoboxFilter>
-				</InfoboxFilterGroup>
-			</section>,
-		);
-		filters.push(
-			<InfoboxFilterGroup
-				header={t("Time frame")}
-				selectedValue={this.props.timeRange}
-				onClick={value => this.props.setTimeRange(value)}
-				key="timeframe"
-			>
-				<InfoboxFilter value={TimeRange.LAST_3_DAYS}>
-					<PrettyTimeRange timeRange={TimeRange.LAST_3_DAYS} />
-				</InfoboxFilter>
-				<InfoboxFilter value={TimeRange.LAST_7_DAYS}>
-					<PrettyTimeRange timeRange={TimeRange.LAST_7_DAYS} />
-				</InfoboxFilter>
-				<InfoboxFilter value={TimeRange.LAST_30_DAYS}>
-					<PrettyTimeRange timeRange={TimeRange.LAST_30_DAYS} />
-				</InfoboxFilter>
-				<InfoboxFilter value={TimeRange.CURRENT_SEASON}>
-					<PrettyTimeRange timeRange={TimeRange.CURRENT_SEASON} />
-				</InfoboxFilter>
-				<Feature feature={"current-expansion-filter"}>
-					<InfoboxFilter value={TimeRange.CURRENT_EXPANSION}>
-						<PrettyTimeRange
-							timeRange={TimeRange.CURRENT_EXPANSION}
-						/>
-						<span className="infobox-value">New!</span>
-					</InfoboxFilter>
-				</Feature>
-				<Feature feature={"current-patch-filter"}>
-					<InfoboxFilter value={TimeRange.CURRENT_PATCH}>
-						<PrettyTimeRange timeRange={TimeRange.CURRENT_PATCH} />
-						<span className="infobox-value">{t("New!")}</span>
-					</InfoboxFilter>
-				</Feature>
-			</InfoboxFilterGroup>,
-		);
-
-		if (this.props.account) {
-			filters.push(
-				<Fragment key="data">
-					<h2>{t("Data")}</h2>
-					<ul>
-						<InfoboxLastUpdated
-							url={"single_account_lo_individual_card_stats"}
-							params={this.getPersonalParams()}
-						/>
-					</ul>
+					{t("My Cards")}
+				</ResetHeader>
+				<ClassFilter
+					value={this.props.cardClass}
+					onChange={this.props.setCardClass}
+				/>
+				<section id="mode-filter" key="mode-filter">
 					<InfoboxFilterGroup
-						deselectable
-						selectedValue={this.props.showSparse ? "show" : null}
-						onClick={value =>
-							this.props.setShowSparse(
-								value === "show" ? true : false,
-							)
-						}
+						header={t("Game Mode")}
+						selectedValue={this.props.gameType}
+						onClick={value => this.props.setGameType(value)}
 					>
-						<InfoboxFilter value="show">
-							{t("Show sparse data")}
+						<InfoboxFilter value="RANKED_STANDARD">
+							{t("Ranked Standard")}
+						</InfoboxFilter>
+						<InfoboxFilter value="RANKED_WILD">
+							{t("Ranked Wild")}
+						</InfoboxFilter>
+						<InfoboxFilter value="ARENA">
+							{t("Arena")}
 						</InfoboxFilter>
 					</InfoboxFilterGroup>
-				</Fragment>,
-			);
-		}
-
-		filters.push(
-			<CostFilter
-				value={this.props.cost}
-				onChange={this.props.setCost}
-			/>,
+				</section>
+				<InfoboxFilterGroup
+					header={t("Time frame")}
+					selectedValue={this.props.timeRange}
+					onClick={value => this.props.setTimeRange(value)}
+					key="timeframe"
+				>
+					<InfoboxFilter value={TimeRange.LAST_3_DAYS}>
+						<PrettyTimeRange timeRange={TimeRange.LAST_3_DAYS} />
+					</InfoboxFilter>
+					<InfoboxFilter value={TimeRange.LAST_7_DAYS}>
+						<PrettyTimeRange timeRange={TimeRange.LAST_7_DAYS} />
+					</InfoboxFilter>
+					<InfoboxFilter value={TimeRange.LAST_30_DAYS}>
+						<PrettyTimeRange timeRange={TimeRange.LAST_30_DAYS} />
+					</InfoboxFilter>
+					<InfoboxFilter value={TimeRange.CURRENT_SEASON}>
+						<PrettyTimeRange timeRange={TimeRange.CURRENT_SEASON} />
+					</InfoboxFilter>
+					<Feature feature={"current-expansion-filter"}>
+						<InfoboxFilter value={TimeRange.CURRENT_EXPANSION}>
+							<PrettyTimeRange
+								timeRange={TimeRange.CURRENT_EXPANSION}
+							/>
+							<span className="infobox-value">New!</span>
+						</InfoboxFilter>
+					</Feature>
+					<Feature feature={"current-patch-filter"}>
+						<InfoboxFilter value={TimeRange.CURRENT_PATCH}>
+							<PrettyTimeRange
+								timeRange={TimeRange.CURRENT_PATCH}
+							/>
+							<span className="infobox-value">{t("New!")}</span>
+						</InfoboxFilter>
+					</Feature>
+				</InfoboxFilterGroup>
+				{this.props.account ? (
+					<>
+						<h2>{t("Data")}</h2>
+						<ul>
+							<InfoboxLastUpdated
+								url={"single_account_lo_individual_card_stats"}
+								params={this.getPersonalParams()}
+							/>
+						</ul>
+						<InfoboxFilterGroup
+							deselectable
+							selectedValue={
+								this.props.showSparse ? "show" : null
+							}
+							onClick={value =>
+								this.props.setShowSparse(value === "show")
+							}
+						>
+							<InfoboxFilter value="show">
+								{t("Show sparse data")}
+							</InfoboxFilter>
+						</InfoboxFilterGroup>
+					</>
+				) : null}
+				<CostFilter
+					value={this.props.cost}
+					onChange={this.props.setCost}
+				/>
+				<RarityFilter
+					value={this.props.rarity}
+					onChange={this.props.setRarity}
+				/>
+				<SetFilter
+					value={this.props.set}
+					onChange={this.props.setSet}
+				/>
+				<TypeFilter
+					value={this.props.type}
+					onChange={this.props.setType}
+				/>
+				<TribeFilter
+					value={this.props.tribe}
+					onChange={this.props.setTribe}
+				/>
+				<MechanicsFilter
+					value={this.props.mechanics}
+					onChange={this.props.setMechanics}
+				/>
+			</>
 		);
-		filters.push(
-			<RarityFilter
-				value={this.props.rarity}
-				onChange={this.props.setRarity}
-			/>,
-		);
-		filters.push(
-			<SetFilter value={this.props.set} onChange={this.props.setSet} />,
-		);
-
-		filters.push(
-			<TypeFilter
-				value={this.props.type}
-				onChange={this.props.setType}
-			/>,
-		);
-		filters.push(
-			<TribeFilter
-				value={this.props.tribe}
-				onChange={this.props.setTribe}
-			/>,
-		);
-		filters.push(
-			<MechanicsFilter
-				value={this.props.mechanics}
-				onChange={this.props.setMechanics}
-			/>,
-		);
-
-		return <>filters</>;
 	}
 
 	getPersonalParams(): any {
