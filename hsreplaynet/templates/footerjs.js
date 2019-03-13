@@ -22,10 +22,12 @@ ga("set", "transport", "beacon");
 if(typeof _userdata === "object" && typeof _userdata.userid !== "undefined") {
 	ga("set", "userId", _userdata.userid);
 }
+ga("set", "dimension1", "{% get_current_language as lang %}{{ lang }}");
+ga("set", "dimension2", "{% if premium %}Premium Subscriber{% else %}Free User{% endif %}");
+ga("set", "dimension3", "{% if user.is_authenticated %}Authenticated{% else %}Anonymous{% endif %}");
 ga("send", "pageview", {
 	page: location.pathname,
 });
-ga("set", "dimension1", "{% get_current_language as lang %}{{ lang }}");
 {% endif %}
 {% feature "facebook-pixel" as pixelft %}
 {% setting "FACEBOOK_PIXEL" as fbpixel %}
