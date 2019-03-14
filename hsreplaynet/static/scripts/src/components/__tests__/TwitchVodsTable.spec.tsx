@@ -140,6 +140,7 @@ describe("TwitchVodsTable", () => {
 					vodId={selectedVod}
 					setVodId={selectVod}
 					vodsFirst="any"
+					vodsLanguage="any"
 					vodsOpponent="any"
 					pageSize={1}
 				/>

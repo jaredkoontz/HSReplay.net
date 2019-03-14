@@ -316,9 +316,9 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
           onSelect={[Function]}
           options={
             Object {
-              "en-US": "en-US",
-              "ko": "ko",
-              "pt-BR": "pt-BR",
+              "en-US": "English",
+              "ko": "한국어",
+              "pt-BR": "Português (Brasil)",
             }
           }
           value="any"
@@ -339,19 +339,19 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
                 key="en-US"
                 value="en-US"
               >
-                en-US
+                English
               </option>
               <option
                 key="ko"
                 value="ko"
               >
-                ko
+                한국어
               </option>
               <option
                 key="pt-BR"
                 value="pt-BR"
               >
-                pt-BR
+                Português (Brasil)
               </option>
             </select>
             <span
@@ -1163,9 +1163,9 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
           onSelect={[Function]}
           options={
             Object {
-              "en-US": "en-US",
-              "ko": "ko",
-              "pt-BR": "pt-BR",
+              "en-US": "English",
+              "ko": "한국어",
+              "pt-BR": "Português (Brasil)",
             }
           }
           value="any"
@@ -1186,19 +1186,19 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
                 key="en-US"
                 value="en-US"
               >
-                en-US
+                English
               </option>
               <option
                 key="ko"
                 value="ko"
               >
-                ko
+                한국어
               </option>
               <option
                 key="pt-BR"
                 value="pt-BR"
               >
-                pt-BR
+                Português (Brasil)
               </option>
             </select>
             <span
