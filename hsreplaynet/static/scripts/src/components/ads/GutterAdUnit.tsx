@@ -34,7 +34,7 @@ export default class GutterAdUnit extends React.Component<Props> {
 		if (UserData.hasFeature("networkn")) {
 			if (
 				!("networkNId" in this.props) ||
-				!AdHelper.isAdEnabled(this.props.networkNId)
+				!AdHelper.isAdEnabled(this.props.uniqueId)
 			) {
 				return null;
 			}
