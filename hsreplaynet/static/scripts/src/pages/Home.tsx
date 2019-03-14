@@ -765,6 +765,8 @@ class Home extends React.Component<Props, State> {
 
 	// Use memoize to prevent re-rendering random banners
 	private renderPromoBanner = memoize((t: i18next.TFunction) => {
+		/* Temporarily disable the display of anything except the jobs ad. */
+		/*
 		const banners = [];
 
 		if (UserData.hasFeature("arcane-tracker")) {
@@ -804,17 +806,18 @@ class Home extends React.Component<Props, State> {
 				);
 			}
 		}
-
 		if (UserData.hasFeature("careers-page")) {
 			banners.push(
-				<PromoBanner
-					href={"https://hearthsim.net/careers.html"}
-					backgroundImage="https://media.hearthsim.net/hsreplaynet/jobs-banner2.jpg"
-					title={t("Everyone, get in here - we're hiring!")}
-					subtitle={t(
-						"Click here to check out our current job openings",
-					)}
-				/>,
+		*/
+		return (
+			<PromoBanner
+				href={"https://hearthsim.net/careers.html"}
+				backgroundImage="https://media.hearthsim.net/hsreplaynet/jobs-banner2.jpg"
+				title={t("Everyone, get in here - we're hiring!")}
+				subtitle={t("Click here to check out our current job openings")}
+			/>
+		);
+		/*
 			);
 		}
 
@@ -822,6 +825,7 @@ class Home extends React.Component<Props, State> {
 			return banners[Math.floor(Math.random() * banners.length)];
 		}
 		return null;
+		*/
 	});
 }
 
