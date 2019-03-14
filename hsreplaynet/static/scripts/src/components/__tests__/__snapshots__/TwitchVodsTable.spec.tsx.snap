@@ -30,6 +30,7 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
         "game_date": "2018-10-09T00:00:00Z",
         "game_length_seconds": 355,
         "game_type": "BGT_RANKED_STANDARD",
+        "language": "en-US",
         "legend_rank": 1555,
         "opposing_player_archetype_id": null,
         "opposing_player_class": null,
@@ -45,6 +46,7 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
         "game_date": "2018-10-14T00:00:00Z",
         "game_length_seconds": 159,
         "game_type": "BGT_RANKED_STANDARD",
+        "language": "pt-BR",
         "legend_rank": null,
         "opposing_player_archetype_id": null,
         "opposing_player_class": "MAGE",
@@ -60,6 +62,7 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
         "game_date": "2018-10-18T23:00:00Z",
         "game_length_seconds": 558,
         "game_type": "BGT_RANKED_STANDARD",
+        "language": "pt-BR",
         "legend_rank": null,
         "opposing_player_archetype_id": 226,
         "opposing_player_class": "PRIEST",
@@ -75,6 +78,7 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
         "game_date": "2018-10-15T00:00:00Z",
         "game_length_seconds": 690,
         "game_type": "BGT_RANKED_STANDARD",
+        "language": "ko",
         "legend_rank": 123,
         "opposing_player_archetype_id": null,
         "opposing_player_class": "HUNTER",
@@ -87,6 +91,7 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
     ]
   }
   vodsFirst="any"
+  vodsLanguage="any"
   vodsOpponent="any"
   vodsResult="won"
 >
@@ -125,6 +130,7 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
           "game_date": "2018-10-09T00:00:00Z",
           "game_length_seconds": 355,
           "game_type": "BGT_RANKED_STANDARD",
+          "language": "en-US",
           "legend_rank": 1555,
           "opposing_player_archetype_id": null,
           "opposing_player_class": null,
@@ -140,6 +146,7 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
           "game_date": "2018-10-14T00:00:00Z",
           "game_length_seconds": 159,
           "game_type": "BGT_RANKED_STANDARD",
+          "language": "pt-BR",
           "legend_rank": null,
           "opposing_player_archetype_id": null,
           "opposing_player_class": "MAGE",
@@ -155,6 +162,7 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
           "game_date": "2018-10-18T23:00:00Z",
           "game_length_seconds": 558,
           "game_type": "BGT_RANKED_STANDARD",
+          "language": "pt-BR",
           "legend_rank": null,
           "opposing_player_archetype_id": 226,
           "opposing_player_class": "PRIEST",
@@ -170,6 +178,7 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
           "game_date": "2018-10-15T00:00:00Z",
           "game_length_seconds": 690,
           "game_type": "BGT_RANKED_STANDARD",
+          "language": "ko",
           "legend_rank": 123,
           "opposing_player_archetype_id": null,
           "opposing_player_class": "HUNTER",
@@ -182,6 +191,7 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
       ]
     }
     vodsFirst="any"
+    vodsLanguage="any"
     vodsOpponent="any"
     vodsResult="won"
   >
@@ -293,6 +303,55 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
                 value="coin"
               >
                 Coin
+              </option>
+            </select>
+            <span
+              className="caret"
+            />
+          </div>
+        </OptionalSelect>
+        <OptionalSelect
+          default="Any language"
+          defaultKey="any"
+          onSelect={[Function]}
+          options={
+            Object {
+              "en-US": "en-US",
+              "ko": "ko",
+              "pt-BR": "pt-BR",
+            }
+          }
+          value="any"
+        >
+          <div
+            className="optional-select"
+          >
+            <select
+              onChange={[Function]}
+              value="any"
+            >
+              <option
+                value="any"
+              >
+                Any language
+              </option>
+              <option
+                key="en-US"
+                value="en-US"
+              >
+                en-US
+              </option>
+              <option
+                key="ko"
+                value="ko"
+              >
+                ko
+              </option>
+              <option
+                key="pt-BR"
+                value="pt-BR"
+              >
+                pt-BR
               </option>
             </select>
             <span
@@ -832,6 +891,7 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
         "game_date": "2018-10-09T00:00:00Z",
         "game_length_seconds": 355,
         "game_type": "BGT_RANKED_STANDARD",
+        "language": "en-US",
         "legend_rank": 1555,
         "opposing_player_archetype_id": null,
         "opposing_player_class": null,
@@ -847,6 +907,7 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
         "game_date": "2018-10-14T00:00:00Z",
         "game_length_seconds": 159,
         "game_type": "BGT_RANKED_STANDARD",
+        "language": "pt-BR",
         "legend_rank": null,
         "opposing_player_archetype_id": null,
         "opposing_player_class": "MAGE",
@@ -862,6 +923,7 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
         "game_date": "2018-10-18T23:00:00Z",
         "game_length_seconds": 558,
         "game_type": "BGT_RANKED_STANDARD",
+        "language": "pt-BR",
         "legend_rank": null,
         "opposing_player_archetype_id": 226,
         "opposing_player_class": "PRIEST",
@@ -877,6 +939,7 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
         "game_date": "2018-10-15T00:00:00Z",
         "game_length_seconds": 690,
         "game_type": "BGT_RANKED_STANDARD",
+        "language": "ko",
         "legend_rank": 123,
         "opposing_player_archetype_id": null,
         "opposing_player_class": "HUNTER",
@@ -889,6 +952,7 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
     ]
   }
   vodsFirst="any"
+  vodsLanguage="any"
   vodsOpponent="any"
   vodsResult="won"
 >
@@ -913,6 +977,7 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
           "game_date": "2018-10-09T00:00:00Z",
           "game_length_seconds": 355,
           "game_type": "BGT_RANKED_STANDARD",
+          "language": "en-US",
           "legend_rank": 1555,
           "opposing_player_archetype_id": null,
           "opposing_player_class": null,
@@ -928,6 +993,7 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
           "game_date": "2018-10-14T00:00:00Z",
           "game_length_seconds": 159,
           "game_type": "BGT_RANKED_STANDARD",
+          "language": "pt-BR",
           "legend_rank": null,
           "opposing_player_archetype_id": null,
           "opposing_player_class": "MAGE",
@@ -943,6 +1009,7 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
           "game_date": "2018-10-18T23:00:00Z",
           "game_length_seconds": 558,
           "game_type": "BGT_RANKED_STANDARD",
+          "language": "pt-BR",
           "legend_rank": null,
           "opposing_player_archetype_id": 226,
           "opposing_player_class": "PRIEST",
@@ -958,6 +1025,7 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
           "game_date": "2018-10-15T00:00:00Z",
           "game_length_seconds": 690,
           "game_type": "BGT_RANKED_STANDARD",
+          "language": "ko",
           "legend_rank": 123,
           "opposing_player_archetype_id": null,
           "opposing_player_class": "HUNTER",
@@ -970,6 +1038,7 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
       ]
     }
     vodsFirst="any"
+    vodsLanguage="any"
     vodsOpponent="any"
     vodsResult="won"
   >
@@ -1081,6 +1150,55 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
                 value="coin"
               >
                 Coin
+              </option>
+            </select>
+            <span
+              className="caret"
+            />
+          </div>
+        </OptionalSelect>
+        <OptionalSelect
+          default="Any language"
+          defaultKey="any"
+          onSelect={[Function]}
+          options={
+            Object {
+              "en-US": "en-US",
+              "ko": "ko",
+              "pt-BR": "pt-BR",
+            }
+          }
+          value="any"
+        >
+          <div
+            className="optional-select"
+          >
+            <select
+              onChange={[Function]}
+              value="any"
+            >
+              <option
+                value="any"
+              >
+                Any language
+              </option>
+              <option
+                key="en-US"
+                value="en-US"
+              >
+                en-US
+              </option>
+              <option
+                key="ko"
+                value="ko"
+              >
+                ko
+              </option>
+              <option
+                key="pt-BR"
+                value="pt-BR"
+              >
+                pt-BR
               </option>
             </select>
             <span

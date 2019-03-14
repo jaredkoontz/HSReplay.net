@@ -118,6 +118,7 @@ class TwitchVods extends React.Component<Props> {
 						vodsResult: "won",
 						vodsOpponent: "any",
 						vodsFirst: "any",
+						vodsLanguage: "any",
 						vodId: "",
 					}}
 				>

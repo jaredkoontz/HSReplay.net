@@ -6,6 +6,7 @@ import { cloneComponent } from "../../helpers";
 const VODS = [
 	{
 		channel_name: "Zuhex",
+		language: "en-US",
 		url: "https://www.twitch.tv/videos/320509363?t=3h10m4s",
 		game_date: "2018-10-09T00:00:00Z",
 		game_type: "BGT_RANKED_STANDARD",
@@ -21,6 +22,7 @@ const VODS = [
 	},
 	{
 		channel_name: "AicoritY",
+		language: "pt-BR",
 		url: "https://www.twitch.tv/videos/320346544?t=0h23m9s",
 		game_date: "2018-10-14T00:00:00Z",
 		game_type: "BGT_RANKED_STANDARD",
@@ -36,6 +38,7 @@ const VODS = [
 	},
 	{
 		channel_name: "brandonsmithx01",
+		language: "pt-BR",
 		url: "https://www.twitch.tv/videos/320472337?t=6h57m12s",
 		game_date: "2018-10-18T23:00:00Z",
 		game_type: "BGT_RANKED_STANDARD",
@@ -51,6 +54,7 @@ const VODS = [
 	},
 	{
 		channel_name: "해까닥여울이",
+		language: "ko",
 		url: "https://www.twitch.tv/videos/318585453?t=2h3m47s",
 		game_date: "2018-10-15T00:00:00Z",
 		game_type: "BGT_RANKED_STANDARD",
@@ -82,6 +86,7 @@ describe("TwitchVodsTable", () => {
 				vodsResult="won"
 				vodsFirst="any"
 				vodsOpponent="any"
+				vodsLanguage="any"
 				pageSize={100}
 			/>,
 		);
@@ -103,6 +108,7 @@ describe("TwitchVodsTable", () => {
 				vodsResult="won"
 				vodsFirst="any"
 				vodsOpponent="any"
+				vodsLanguage="any"
 				pageSize={100}
 			/>,
 		);

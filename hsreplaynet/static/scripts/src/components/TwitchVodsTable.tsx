@@ -28,6 +28,8 @@ interface Props extends WithTranslation {
 	setVodsOpponent?: (opponent: string) => void;
 	vodsResult?: string;
 	setVodsResult?: (won: string) => void;
+	vodsLanguage?: string;
+	setVodsLanguage?: (language: string) => void;
 	pageSize: number;
 }
 
@@ -37,6 +39,10 @@ interface State {
 
 interface Opponents {
 	[archetypeId: string]: string;
+}
+
+interface Languages {
+	[language: string]: string;
 }
 
 interface Row extends Partial<TwitchVodData> {
@@ -90,6 +96,7 @@ class TwitchVodsTable extends React.Component<Props, State> {
 				this.props.vodsFirst,
 				this.props.vodsResult,
 				this.props.vodsOpponent,
+				this.props.vodsLanguage,
 			);
 			let rows = this.getRows(
 				filteredVods,
@@ -103,6 +110,7 @@ class TwitchVodsTable extends React.Component<Props, State> {
 					this.props.vodsFirst,
 					"any",
 					this.props.vodsOpponent,
+					this.props.vodsLanguage,
 				);
 				rows = this.getRows(
 					filteredVods,
@@ -145,13 +153,35 @@ class TwitchVodsTable extends React.Component<Props, State> {
 		},
 	);
 
+	private getLanguages = memoize(
+		(vods: TwitchVodData[]): Languages => {
+			const availableLanguages = [
+				...new Set(
+					vods
+						.map(vod => vod.language),
+				),
+			]
+				.filter(x => !!x);
+
+			availableLanguages.sort((a, b) => (a > b ? 1 : -1));
+
+			const languages = {};
+			availableLanguages.forEach(a => {
+				languages[a] = a; //Change second a for language name
+			});
+			return languages;
+		},
+	);
+
 	private getFilteredVods = memoize(
 		(
 			vods: TwitchVodData[],
 			vodsFirst: string,
 			vodsResult: string,
 			vodsOpponent: string,
+			vodsLanguage: string,
 		): TwitchVodData[] => {
+	
 			vods =
 				vodsFirst === "any"
 					? vods
@@ -170,6 +200,10 @@ class TwitchVodsTable extends React.Component<Props, State> {
 								"a" + vod.opposing_player_archetype_id ===
 								vodsOpponent,
 					  );
+			vods =
+				vodsLanguage === "any"
+					? vods
+					: vods.filter(vod => vod.language === vodsLanguage);
 
 			// Remove instant concedes
 			vods = vods.filter(vod => vod.game_length_seconds > 30);
@@ -276,6 +310,7 @@ class TwitchVodsTable extends React.Component<Props, State> {
 			vodsOpponent,
 			vods,
 			archetypeData,
+			vodsLanguage,
 		} = this.props;
 		const sortBy = this.props.vodsSortBy;
 		const sortDirection = this.props.vodsSortDirection;
@@ -285,6 +320,7 @@ class TwitchVodsTable extends React.Component<Props, State> {
 			vodsFirst,
 			vodsResult,
 			vodsOpponent,
+			vodsLanguage,
 		);
 		const rows = this.getRows(
 			filteredVods,
@@ -315,6 +351,13 @@ class TwitchVodsTable extends React.Component<Props, State> {
 						options={{ first: t("First"), coin: t("Coin") }}
 						value={vodsFirst}
 						onSelect={value => this.props.setVodsFirst(value)}
+						defaultKey="any"
+					/>
+					<OptionalSelect
+						default={t("Any language")}
+						options={this.getLanguages(vods)}
+						value={vodsLanguage}
+						onSelect={value => this.props.setVodsLanguage(value)}
 						defaultKey="any"
 					/>
 				</div>
@@ -429,6 +472,7 @@ class TwitchVodsTable extends React.Component<Props, State> {
 							this.props.setVodsFirst("any");
 							this.props.setVodsOpponent("any");
 							this.props.setVodsResult("any");
+							this.props.setVodsLanguage("any");
 						}}
 					/>
 				)}

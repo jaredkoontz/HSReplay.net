@@ -129,6 +129,7 @@ export interface MetaPreview {
  */
 export interface TwitchVodData {
 	channel_name: string;
+	language: string;
 	url: string;
 	game_date: string;
 	game_type: string;
