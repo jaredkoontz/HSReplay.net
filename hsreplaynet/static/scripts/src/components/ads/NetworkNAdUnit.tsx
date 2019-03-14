@@ -61,6 +61,7 @@ export const getAdFallback = (id: NetworkNId): string | null => {
 
 interface BaseProps {
 	center?: boolean;
+	uniqueId: string;
 }
 
 interface DesktopProps {
@@ -80,6 +81,7 @@ const MOBILE_WIDTH = 768;
 
 const NetworkNAdUnit: React.FC<Props> = ({
 	id,
+	uniqueId,
 	mobile = false,
 	center = false,
 }) => {
@@ -159,7 +161,7 @@ const NetworkNAdUnit: React.FC<Props> = ({
 
 	if (
 		!showAds() ||
-		!AdHelper.isAdEnabled(id) ||
+		!AdHelper.isAdEnabled(uniqueId) ||
 		!UserData.hasFeature("networkn") ||
 		!!mobile !== onMobile
 	) {
@@ -203,7 +205,12 @@ const NetworkNAdUnit: React.FC<Props> = ({
 	return (
 		<div className={classNames.join(" ")} style={style} key={id} ref={ref}>
 			{debug ? (
-				<AdUnitAdmin id={id} width={width} height={height} />
+				<AdUnitAdmin
+					id={id}
+					uniqueId={uniqueId}
+					width={width}
+					height={height}
+				/>
 			) : (
 				<div id={id} ref={childRef} />
 			)}

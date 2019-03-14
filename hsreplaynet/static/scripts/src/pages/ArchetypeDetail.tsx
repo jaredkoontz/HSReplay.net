@@ -217,7 +217,11 @@ class ArchetypeDetail extends React.Component<Props, State> {
 				<>
 					<section id="content-header">
 						<Sticky top={10}>
-							<NetworkNAdUnit id="nn_bb1" center />
+							<NetworkNAdUnit
+								id="nn_bb1"
+								uniqueId="ad-bb1"
+								center
+							/>
 						</Sticky>
 						<Feature feature="networkn" inverted>
 							<AdContainer>
@@ -706,16 +710,26 @@ class ArchetypeDetail extends React.Component<Props, State> {
 						</ul>
 					</section>
 					<Sticky bottom={0}>
-						<NetworkNAdUnit id="nn_mpu1" />
+						<NetworkNAdUnit id="nn_mpu1" uniqueId="ad-mpu1" />
 					</Sticky>
-					<NetworkNAdUnit id="nn_mobile_mpu1" mobile center />
+					<NetworkNAdUnit
+						id="nn_mobile_mpu1"
+						uniqueId="ad-mmpu1"
+						mobile
+						center
+					/>
 					<NitropayAdUnit id="ad-d-3" size="300x250" />
 					<NitropayAdUnit id="ad-d-4" size="300x250" />
 					<NitropayAdUnit id="ad-d-5" size="300x250" />
 				</aside>
 				<main>
 					{content}
-					<NetworkNAdUnit id="nn_mobile_mpu2" mobile center />
+					<NetworkNAdUnit
+						id="nn_mobile_mpu2"
+						uniqueId="ad-mmpu2"
+						mobile
+						center
+					/>
 				</main>
 			</div>
 		);
@@ -745,6 +759,7 @@ class ArchetypeDetail extends React.Component<Props, State> {
 					cardData={this.props.cardData}
 					gameType={this.getGameType()}
 					autoplay={this.props.tab === "vods"}
+					uniqueIdPrefix="ad"
 				/>
 			</DataInjector>
 		);

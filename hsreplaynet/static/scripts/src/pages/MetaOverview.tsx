@@ -331,7 +331,7 @@ class MetaOverview extends React.Component<Props, State> {
 					</section>
 					{backButton}
 					<Sticky bottom={0}>
-						<NetworkNAdUnit id="nn_mpu1" />
+						<NetworkNAdUnit id="nn_mpu1" uniqueId="mp-mpu1" />
 					</Sticky>
 					<NitropayAdUnit id="mp-d-11" size="300x250" />
 					<NitropayAdUnit id="mp-d-12" size="300x250" />
@@ -340,7 +340,12 @@ class MetaOverview extends React.Component<Props, State> {
 				</aside>
 				<main className={contentClassNames.join(" ")}>
 					<NitropayAdUnit id="mp-m-1" size="320x50" mobile />
-					<NetworkNAdUnit id="nn_mobile_mpu1" mobile center />
+					<NetworkNAdUnit
+						id="nn_mobile_mpu1"
+						uniqueId="mp-mmpu1"
+						mobile
+						center
+					/>
 					<button
 						className="btn btn-default btn-filters visible-xs visible-sm"
 						type="button"
@@ -350,7 +355,7 @@ class MetaOverview extends React.Component<Props, State> {
 						{t("Filters")}
 					</button>
 					<Sticky top={5}>
-						<NetworkNAdUnit id="nn_bb1" center />
+						<NetworkNAdUnit id="nn_bb1" uniqueId="mp-bb1" center />
 					</Sticky>
 					<AdContainer>
 						<NitropayAdUnit id="mp-d-1" size="728x90" />
@@ -481,7 +486,12 @@ class MetaOverview extends React.Component<Props, State> {
 						</Tab>
 					</TabList>
 					<NitropayAdUnit id="mp-m-5" size="320x50" mobile />
-					<NetworkNAdUnit id="nn_mobile_mpu2" mobile center />
+					<NetworkNAdUnit
+						id="nn_mobile_mpu2"
+						uniqueId="mp-mmpu2"
+						mobile
+						center
+					/>
 				</main>
 			</div>
 		);

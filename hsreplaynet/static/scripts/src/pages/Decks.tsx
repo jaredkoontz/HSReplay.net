@@ -1323,7 +1323,7 @@ class Decks extends React.Component<Props, State> {
 							</ul>
 						</section>
 						{backButton}
-						<NetworkNAdUnit id="nn_mpu1" />
+						<NetworkNAdUnit id="nn_mpu1" uniqueId="dl-mpu1" />
 						<NitropayAdUnit id="dl-d-5" size="300x250" />
 					</aside>
 				</div>
@@ -1336,7 +1336,12 @@ class Decks extends React.Component<Props, State> {
 						<NitropayAdUnit id="dl-d-2" size="728x90" />
 					</AdContainer>
 					<NitropayAdUnit id="dl-m-1" size="320x50" mobile />
-					<NetworkNAdUnit id="nn_mobile_mpu1" mobile center />
+					<NetworkNAdUnit
+						id="nn_mobile_mpu1"
+						uniqueId="dl-mmpu1"
+						mobile
+						center
+					/>
 					<button
 						className="btn btn-default pull-left visible-xs visible-sm"
 						type="button"
@@ -1346,11 +1351,16 @@ class Decks extends React.Component<Props, State> {
 						{t("Filters")}
 					</button>
 					<Sticky top={10}>
-						<NetworkNAdUnit id="nn_bb1" center />
+						<NetworkNAdUnit id="nn_bb1" uniqueId="dl-bb1" center />
 					</Sticky>
 					{content}
 					<NitropayAdUnit id="dl-m-3" size="300x250" mobile />
-					<NetworkNAdUnit id="nn_mobile_mpu2" mobile center />
+					<NetworkNAdUnit
+						id="nn_mobile_mpu2"
+						uniqueId="dl-mmpu2"
+						mobile
+						center
+					/>
 				</main>
 			</div>
 		);

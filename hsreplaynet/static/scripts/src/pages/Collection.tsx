@@ -249,7 +249,12 @@ class Collection extends React.Component<Props, State> {
 		}
 		return (
 			<>
-				<NetworkNAdUnit id="nn_mobile_mpu1" mobile center />
+				<NetworkNAdUnit
+					id="nn_mobile_mpu1"
+					uniqueId="co-mmpu1"
+					mobile
+					center
+				/>
 				<button
 					className="btn btn-default visible-xs"
 					id="filter-button"
@@ -264,7 +269,7 @@ class Collection extends React.Component<Props, State> {
 					{t("Filters")}
 				</button>
 				<Sticky top={10}>
-					<NetworkNAdUnit id="nn_bb1" center />
+					<NetworkNAdUnit id="nn_bb1" uniqueId="co-bb1" center />
 				</Sticky>
 				<TextFilter
 					value={this.props.text}
@@ -494,7 +499,7 @@ class Collection extends React.Component<Props, State> {
 
 		filters.push(
 			<Sticky bottom={0} key="ads">
-				<NetworkNAdUnit id="nn_mpu1" />
+				<NetworkNAdUnit id="nn_mpu1" uniqueId="co-mpu1" />
 			</Sticky>,
 		);
 

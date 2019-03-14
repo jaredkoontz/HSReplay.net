@@ -25,7 +25,7 @@ class DeckSpotlight extends React.Component<Props> {
 		const { t } = this.props;
 		return (
 			<div id="deck-spotlight">
-				<NetworkNAdUnit id="nn_bb1" center />
+				<NetworkNAdUnit id="nn_bb1" uniqueId="tr-bb1" center />
 				<Feature feature="networkn" inverted>
 					<AdContainer>
 						<NitropayAdUnit id="tr-d-1" size="728x90" />
@@ -33,9 +33,24 @@ class DeckSpotlight extends React.Component<Props> {
 					</AdContainer>
 				</Feature>
 				<NitropayAdUnit id="tr-m-1" size="320x50" mobile />
-				<NetworkNAdUnit id="nn_mobile_mpu1" mobile center />
-				<GutterAdUnit position="left" networkNId="nn_skyleft" fluid />
-				<GutterAdUnit position="right" networkNId="nn_skyright" fluid />
+				<NetworkNAdUnit
+					id="nn_mobile_mpu1"
+					uniqueId="tr-mmpu1"
+					mobile
+					center
+				/>
+				<GutterAdUnit
+					position="left"
+					networkNId="nn_skyleft"
+					uniqueId="tr-skyleft"
+					fluid
+				/>
+				<GutterAdUnit
+					position="right"
+					networkNId="nn_skyright"
+					uniqueId="tr-skyright"
+					fluid
+				/>
 				<h1>{t("Trending Decks")}</h1>
 				<h3>
 					{t(
@@ -81,7 +96,12 @@ class DeckSpotlight extends React.Component<Props> {
 					</a>
 				</section>
 				<NitropayAdUnit id="tr-m-3" size="300x250" mobile />
-				<NetworkNAdUnit id="nn_mobile_mpu2" mobile center />
+				<NetworkNAdUnit
+					id="nn_mobile_mpu2"
+					uniqueId="tr-mmpu2"
+					mobile
+					center
+				/>
 			</div>
 		);
 	}

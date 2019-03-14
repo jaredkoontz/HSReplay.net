@@ -173,22 +173,29 @@ class Home extends React.Component<Props, State> {
 								</AdContainer>
 							</div>
 						</Feature>
-						<NetworkNAdUnit id="nn_bb1" center />
+						<NetworkNAdUnit id="nn_bb1" uniqueId="fp-bb1" center />
 					</>
 				)}
 				<NitropayAdUnit id="fp-m-1" size="320x50" mobile />
-				<NetworkNAdUnit id="nn_mobile_mpu1" mobile center />
+				<NetworkNAdUnit
+					id="nn_mobile_mpu1"
+					uniqueId="fp-mmpu1"
+					mobile
+					center
+				/>
 				<GutterAdUnit
 					position="left"
 					id="fp-d-3"
 					size="160x600"
 					networkNId="nn_skyleft"
+					uniqueId="fp-skyleft"
 				/>
 				<GutterAdUnit
 					position="right"
 					id="fp-d-4"
 					size="160x600"
 					networkNId="nn_skyright"
+					uniqueId="fp-skyright"
 				/>
 				<div className="row content-row features">
 					<div className="col-lg-4 col-md-6 col-sm-6 col-xs-12">
@@ -302,7 +309,12 @@ class Home extends React.Component<Props, State> {
 					</div>
 				</div>
 				<NitropayAdUnit id="fp-m-3" size="320x50" mobile />
-				<NetworkNAdUnit id="nn_mobile_mpu2" mobile center />
+				<NetworkNAdUnit
+					id="nn_mobile_mpu2"
+					uniqueId="fp-mmpu2"
+					mobile
+					center
+				/>
 				{this.renderBelowTheFold()}
 			</div>
 		);

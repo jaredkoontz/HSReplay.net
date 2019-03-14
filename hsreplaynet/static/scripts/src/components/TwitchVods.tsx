@@ -15,6 +15,7 @@ interface Props extends WithTranslation {
 	gameType: string;
 	cardData: CardData;
 	autoplay: boolean;
+	uniqueIdPrefix: string;
 }
 
 interface WrapperProps {
@@ -103,7 +104,11 @@ class TwitchVods extends React.Component<Props> {
 					</div>
 					<div className="vod-ad-container">
 						<NitropayAdUnit id="dd-v-1" size="728x90" />
-						<NetworkNAdUnit id="nn_bb2" center />
+						<NetworkNAdUnit
+							id="nn_bb2"
+							uniqueId={this.props.uniqueIdPrefix + "-bb2"}
+							center
+						/>
 					</div>
 				</div>
 				<Fragments

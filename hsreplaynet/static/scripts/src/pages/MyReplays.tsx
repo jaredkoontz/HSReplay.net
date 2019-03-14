@@ -525,7 +525,7 @@ class MyReplays extends React.Component<Props, State> {
 					</InfoboxFilterGroup>
 					{backButton}
 					<Sticky bottom={0} key="ads">
-						<NetworkNAdUnit id="nn_mpu1" />
+						<NetworkNAdUnit id="nn_mpu1" uniqueId="mr-mpu1" />
 					</Sticky>
 					<NitropayAdUnit id="mr-d-3" size="300x250" />
 				</aside>
@@ -536,9 +536,13 @@ class MyReplays extends React.Component<Props, State> {
 					</AdContainer>
 					<NitropayAdUnit id="mr-m-1" size="320x50" mobile />
 					<Sticky top={10}>
-						<NetworkNAdUnit id="nn_bb1" center />
+						<NetworkNAdUnit id="nn_bb1" uniqueId="mr-bb1" center />
 					</Sticky>
-					<NetworkNAdUnit id="nn_mobile_mpu1" mobile />
+					<NetworkNAdUnit
+						id="nn_mobile_mpu1"
+						uniqueId="mr-mmpu1"
+						mobile
+					/>
 					<div className="header-buttons">
 						<button
 							className="btn btn-default pull-left visible-xs visible-sm"
@@ -553,7 +557,11 @@ class MyReplays extends React.Component<Props, State> {
 					</div>
 					{content}
 					<div className="pull-right">{pager}</div>
-					<NetworkNAdUnit id="nn_mobile_mpu2" mobile />
+					<NetworkNAdUnit
+						id="nn_mobile_mpu2"
+						uniqueId="co-mmpu2"
+						mobile
+					/>
 				</div>
 			</div>
 		);

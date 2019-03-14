@@ -281,10 +281,19 @@ class Cards extends React.Component<Props, State> {
 							<NitropayAdUnit id="cl-d-2" size="728x90" />
 						</AdContainer>
 						<Sticky top={10}>
-							<NetworkNAdUnit id="nn_bb1" center />
+							<NetworkNAdUnit
+								id="nn_bb1"
+								uniqueId="cl-bb1"
+								center
+							/>
 						</Sticky>
 						<NitropayAdUnit id="cl-m-1" size="320x50" mobile />
-						<NetworkNAdUnit id="nn_mobile_mpu1" mobile center />
+						<NetworkNAdUnit
+							id="nn_mobile_mpu1"
+							uniqueId="cl-mmpu1"
+							mobile
+							center
+						/>
 						<button
 							className="btn btn-default visible-xs"
 							id="filter-button"
@@ -628,7 +637,7 @@ class Cards extends React.Component<Props, State> {
 
 		filters.push(
 			<Sticky bottom={0} key="networkn-ad">
-				<NetworkNAdUnit id="nn_mpu1" />
+				<NetworkNAdUnit id="nn_mpu1" uniqueId="cl-mpu1" />
 			</Sticky>,
 		);
 

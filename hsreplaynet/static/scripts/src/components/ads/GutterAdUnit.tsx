@@ -19,7 +19,8 @@ interface NitropayProps {
 }
 
 interface NetworkNProps {
-	networkNId?: NetworkNDesktopId;
+	networkNId: NetworkNDesktopId;
+	uniqueId: string;
 }
 
 type Props = BaseProps & (NitropayProps | NetworkNProps);
@@ -49,7 +50,10 @@ export default class GutterAdUnit extends React.Component<Props> {
 					}}
 				>
 					<Sticky top={10}>
-						<NetworkNAdUnit id={this.props.networkNId} />
+						<NetworkNAdUnit
+							id={this.props.networkNId}
+							uniqueId={this.props.uniqueId}
+						/>
 					</Sticky>
 				</div>
 			);

@@ -362,7 +362,11 @@ class CardDetail extends React.Component<Props, State> {
 				content = (
 					<>
 						<Sticky top={10}>
-							<NetworkNAdUnit id="nn_bb1" center />
+							<NetworkNAdUnit
+								id="nn_bb1"
+								uniqueId="cd-bb1"
+								center
+							/>
 						</Sticky>
 						<section id="content-header" key="content-header">
 							<h1>
@@ -591,7 +595,12 @@ class CardDetail extends React.Component<Props, State> {
 							</Fragments>
 						</section>
 						<NitropayAdUnit id="cd-m-3" size="320x50" mobile />
-						<NetworkNAdUnit id="nn_mobile_mpu2" mobile center />
+						<NetworkNAdUnit
+							id="nn_mobile_mpu2"
+							uniqueId="cd-mmpu2"
+							mobile
+							center
+						/>
 					</>
 				);
 			}
@@ -648,7 +657,12 @@ class CardDetail extends React.Component<Props, State> {
 					</h1>
 					<p>{this.getCleanFlavorText()}</p>
 					<NitropayAdUnit id="cd-m-1" size="300x250" mobile />
-					<NetworkNAdUnit id="nn_mobile_mpu1" mobile center />
+					<NetworkNAdUnit
+						id="nn_mobile_mpu1"
+						uniqueId="cd-mmpu1"
+						mobile
+						center
+					/>
 					<InfoboxFilterGroup
 						header={t("Game mode")}
 						selectedValue={this.props.gameType}
@@ -843,7 +857,7 @@ class CardDetail extends React.Component<Props, State> {
 					</ul>
 					<NitropayAdUnit id="cd-d-3" size="300x250" />
 					<Sticky bottom={0}>
-						<NetworkNAdUnit id="nn_mpu1" />
+						<NetworkNAdUnit id="nn_mpu1" uniqueId="cd-mpu1" />
 					</Sticky>
 				</aside>
 				<main>{content}</main>

@@ -4,6 +4,7 @@ import { fetchCSRF } from "../../helpers";
 
 interface Props {
 	id: string;
+	uniqueId: string;
 	width: number;
 	height: number;
 }
@@ -18,7 +19,7 @@ export default class AdUnitAdmin extends React.Component<Props, State> {
 		super(props);
 		this.state = {
 			working: false,
-			enabled: AdHelper.isAdEnabled(props.id, true),
+			enabled: AdHelper.isAdEnabled(props.uniqueId, true),
 		};
 	}
 
@@ -36,14 +37,17 @@ export default class AdUnitAdmin extends React.Component<Props, State> {
 		this.setState({ working: true });
 		try {
 			await new Promise(resolve => setTimeout(resolve, 500));
-			const response = await fetchCSRF(`/api/v1/ads/${this.props.id}/`, {
-				body: JSON.stringify({ enabled: enable }),
-				credentials: "same-origin",
-				headers: {
-					"Content-Type": "application/json",
+			const response = await fetchCSRF(
+				`/api/v1/ads/${this.props.uniqueId}/`,
+				{
+					body: JSON.stringify({ enabled: enable }),
+					credentials: "same-origin",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					method: "PATCH",
 				},
-				method: "PATCH",
-			});
+			);
 			if (!response.ok) {
 				throw new Error("Unable to make changes to ad");
 			}
@@ -60,7 +64,7 @@ export default class AdUnitAdmin extends React.Component<Props, State> {
 	}
 
 	public render(): React.ReactNode {
-		const { id, width, height } = this.props;
+		const { id, uniqueId, width, height } = this.props;
 
 		const classNames = ["ad-unit__admin"];
 
@@ -80,7 +84,9 @@ export default class AdUnitAdmin extends React.Component<Props, State> {
 					disabled={this.state.working}
 					onChange={this.onChange}
 				/>
-				<p>{`#${id}`}</p>
+				<p>
+					#{id} ({uniqueId})
+				</p>
 				<p>
 					{width}&times;{height}
 				</p>

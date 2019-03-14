@@ -704,8 +704,13 @@ class DeckDetail extends React.Component<Props, State> {
 						</HideLoading>
 					</DataInjector>
 					{this.renderAdminSettings()}
-					<NetworkNAdUnit id="nn_mpu1" />
-					<NetworkNAdUnit id="nn_mobile_mpu1" mobile center />
+					<NetworkNAdUnit id="nn_mpu1" uniqueId="dd-mpu1" />
+					<NetworkNAdUnit
+						id="nn_mobile_mpu1"
+						uniqueId="dd-mmpu1"
+						mobile
+						center
+					/>
 					<NitropayAdUnit id="dd-d-9" size="300x250" />
 					<NitropayAdUnit id="dd-d-10" size="300x250" />
 				</aside>
@@ -716,7 +721,11 @@ class DeckDetail extends React.Component<Props, State> {
 							<NitropayAdUnit id="dd-d-2" size="728x90" />
 						</AdContainer>
 						<Sticky top={10}>
-							<NetworkNAdUnit id="nn_bb1" center />
+							<NetworkNAdUnit
+								id="nn_bb1"
+								uniqueId="dd-bb1"
+								center
+							/>
 						</Sticky>
 						{header}
 						<NitropayAdUnit id="dd-m-2" size="300x250" mobile />
@@ -859,7 +868,12 @@ class DeckDetail extends React.Component<Props, State> {
 							</Tab>
 						</TabList>
 						<NitropayAdUnit id="dd-m-3" size="320x50" mobile />
-						<NetworkNAdUnit id="nn_mobile_mpu2" mobile center />
+						<NetworkNAdUnit
+							id="nn_mobile_mpu2"
+							uniqueId="dd-mmpu2"
+							mobile
+							center
+						/>
 					</section>
 				</main>
 			</div>
@@ -1059,6 +1073,7 @@ class DeckDetail extends React.Component<Props, State> {
 					cardData={this.props.cardData}
 					gameType={this.getGameType()}
 					autoplay={this.props.tab === "vods"}
+					uniqueIdPrefix="dd"
 				/>
 			</DataInjector>
 		);
