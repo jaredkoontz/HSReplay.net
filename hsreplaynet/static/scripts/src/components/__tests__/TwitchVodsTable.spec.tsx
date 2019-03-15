@@ -6,7 +6,7 @@ import { cloneComponent } from "../../helpers";
 const VODS = [
 	{
 		channel_name: "Zuhex",
-		language: "en-US",
+		language: "en",
 		url: "https://www.twitch.tv/videos/320509363?t=3h10m4s",
 		game_date: "2018-10-09T00:00:00Z",
 		game_type: "BGT_RANKED_STANDARD",

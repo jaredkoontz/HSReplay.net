@@ -30,7 +30,7 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
         "game_date": "2018-10-09T00:00:00Z",
         "game_length_seconds": 355,
         "game_type": "BGT_RANKED_STANDARD",
-        "language": "en-US",
+        "language": "en",
         "legend_rank": 1555,
         "opposing_player_archetype_id": null,
         "opposing_player_class": null,
@@ -130,7 +130,7 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
           "game_date": "2018-10-09T00:00:00Z",
           "game_length_seconds": 355,
           "game_type": "BGT_RANKED_STANDARD",
-          "language": "en-US",
+          "language": "en",
           "legend_rank": 1555,
           "opposing_player_archetype_id": null,
           "opposing_player_class": null,
@@ -316,7 +316,7 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
           onSelect={[Function]}
           options={
             Object {
-              "en-US": "English",
+              "en": "English",
               "ko": "한국어",
               "pt-BR": "Português (Brasil)",
             }
@@ -336,8 +336,8 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
                 Any language
               </option>
               <option
-                key="en-US"
-                value="en-US"
+                key="en"
+                value="en"
               >
                 English
               </option>
@@ -891,7 +891,7 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
         "game_date": "2018-10-09T00:00:00Z",
         "game_length_seconds": 355,
         "game_type": "BGT_RANKED_STANDARD",
-        "language": "en-US",
+        "language": "en",
         "legend_rank": 1555,
         "opposing_player_archetype_id": null,
         "opposing_player_class": null,
@@ -977,7 +977,7 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
           "game_date": "2018-10-09T00:00:00Z",
           "game_length_seconds": 355,
           "game_type": "BGT_RANKED_STANDARD",
-          "language": "en-US",
+          "language": "en",
           "legend_rank": 1555,
           "opposing_player_archetype_id": null,
           "opposing_player_class": null,
@@ -1163,7 +1163,7 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
           onSelect={[Function]}
           options={
             Object {
-              "en-US": "English",
+              "en": "English",
               "ko": "한국어",
               "pt-BR": "Português (Brasil)",
             }
@@ -1183,8 +1183,8 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
                 Any language
               </option>
               <option
-                key="en-US"
-                value="en-US"
+                key="en"
+                value="en"
               >
                 English
               </option>

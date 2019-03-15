@@ -1,9 +1,9 @@
 import React from "react";
 import { Archetype, TwitchVodData } from "../utils/api";
-import { LanguagesByCode } from "../constants";
 import { SortDirection } from "../interfaces";
 import { Trans, WithTranslation, withTranslation } from "react-i18next";
 import CardData from "../CardData";
+import UserData from "../UserData";
 import OptionalSelect from "./OptionalSelect";
 import SortIndicator from "./SortIndicator";
 import TwitchVodsTableItem from "./TwitchVodsTableItem";
@@ -167,9 +167,10 @@ class TwitchVodsTable extends React.Component<Props, State> {
 
 			availableLanguages.sort((a, b) => (a > b ? 1 : -1));
 
+			const languagesByCode = UserData.getLanguages();
 			const languages = {};
 			availableLanguages.forEach(a => {
-				const languageName = LanguagesByCode[a.toLowerCase()];
+				const languageName = languagesByCode[a.toLowerCase()];
 				languages[a] = languageName ? languageName : a;
 			});
 			return languages;
