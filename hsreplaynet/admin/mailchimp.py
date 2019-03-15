@@ -155,6 +155,7 @@ class AbandonedCartTag(MailChimpTag):
 
 	def should_apply_to(self, user):
 		return (
+			not user.is_premium and
 			user.last_premium_checkout is not None and
 			user.last_premium_checkout < timezone.now() - timedelta(hours=1)
 		)

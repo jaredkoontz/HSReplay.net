@@ -158,3 +158,6 @@ class TestAbandonedCartTag:
 		assert self.tag.should_apply_to(user) is False
 		user.last_premium_checkout = timezone.now() - timedelta(minutes=30)
 		assert self.tag.should_apply_to(user) is False
+		user.last_premium_checkout = timezone.now() - timedelta(minutes=90)
+		user.is_premium = True
+		assert self.tag.should_apply_to(user) is False
