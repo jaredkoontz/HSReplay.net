@@ -318,6 +318,34 @@ def test_record_twitch_vod_arena(user):
 
 @pytest.mark.django_db
 @pytest.mark.usefixtures("twitch_vod_dynamodb_table")
+def test_record_twitch_vod_missing_rank(user, twitch_vod_game):
+	deck = create_deck_from_deckstring(TEST_TWITCH_DECK_STRING_1)
+
+	create_player("Test Player 1", 1, deck, twitch_vod_game, rank=None)
+	create_player("Test Player 2", 2, deck, twitch_vod_game, rank=None)
+
+	replay = create_replay(user, twitch_vod_game)
+
+	record_twitch_vod(replay, TEST_REPLAY_META)
+
+	expected_vod = TwitchVod(
+		hsreplaynet_user_id=user.id,
+		rank=0,
+		replay_shortid=replay.shortid,
+		combined_rank="R0",
+		**TEST_TWITCH_VOD_PARAMS
+	)
+	actual_vod = TwitchVod.get(TEST_REPLAY_META["twitch_vod"]["channel_name"], "R0")
+
+	# Patch the TTL
+
+	expected_vod.ttl = actual_vod.ttl
+
+	assert expected_vod == actual_vod
+
+
+@pytest.mark.django_db
+@pytest.mark.usefixtures("twitch_vod_dynamodb_table")
 def test_record_twitch_vod_dynamodb_exception(user, twitch_vod_game):
 	deck = create_deck_from_deckstring(TEST_TWITCH_DECK_STRING_1)
 

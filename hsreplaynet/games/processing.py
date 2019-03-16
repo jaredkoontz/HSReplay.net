@@ -1339,9 +1339,9 @@ def record_twitch_vod(replay, meta):
 
 		if friendly_player.legend_rank and friendly_player.legend_rank > 0:
 			twitch_vod.legend_rank = friendly_player.legend_rank
-			twitch_vod.combined_rank = "L%s" % friendly_player.legend_rank
+			twitch_vod.combined_rank = "L%d" % (friendly_player.legend_rank or 0)
 		else:
-			twitch_vod.combined_rank = "R%s" % friendly_player.rank
+			twitch_vod.combined_rank = "R%d" % (friendly_player.rank or 0)
 
 		opposing_player = replay.opposing_player
 
