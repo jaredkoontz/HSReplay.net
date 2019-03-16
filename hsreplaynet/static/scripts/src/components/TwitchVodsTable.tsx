@@ -9,6 +9,7 @@ import SortIndicator from "./SortIndicator";
 import TwitchVodsTableItem from "./TwitchVodsTableItem";
 import Pager from "./Pager";
 import memoize from "memoize-one";
+import Feature from "./Feature";
 
 type SortBy = "rank" | "duration" | "age" | "broadcaster";
 
@@ -349,13 +350,17 @@ class TwitchVodsTable extends React.Component<Props, State> {
 						onSelect={value => this.props.setVodsFirst(value)}
 						defaultKey="any"
 					/>
-					<OptionalSelect
-						default={t("Any language")}
-						options={this.getLanguages(vods)}
-						value={vodsLanguage}
-						onSelect={value => this.props.setVodsLanguage(value)}
-						defaultKey="any"
-					/>
+					<Feature feature="twitch-vods-language">
+						<OptionalSelect
+							default={t("Any language")}
+							options={this.getLanguages(vods)}
+							value={vodsLanguage}
+							onSelect={value =>
+								this.props.setVodsLanguage(value)
+							}
+							defaultKey="any"
+						/>
+					</Feature>
 				</div>
 				{rows.length ? (
 					<>

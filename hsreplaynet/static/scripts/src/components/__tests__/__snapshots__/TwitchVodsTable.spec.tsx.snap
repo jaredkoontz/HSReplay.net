@@ -310,55 +310,9 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
             />
           </div>
         </OptionalSelect>
-        <OptionalSelect
-          default="Any language"
-          defaultKey="any"
-          onSelect={[Function]}
-          options={
-            Object {
-              "en": "English",
-              "ko": "한국어",
-              "pt-BR": "Português (Brasil)",
-            }
-          }
-          value="any"
-        >
-          <div
-            className="optional-select"
-          >
-            <select
-              onChange={[Function]}
-              value="any"
-            >
-              <option
-                value="any"
-              >
-                Any language
-              </option>
-              <option
-                key="en"
-                value="en"
-              >
-                English
-              </option>
-              <option
-                key="ko"
-                value="ko"
-              >
-                한국어
-              </option>
-              <option
-                key="pt-BR"
-                value="pt-BR"
-              >
-                Português (Brasil)
-              </option>
-            </select>
-            <span
-              className="caret"
-            />
-          </div>
-        </OptionalSelect>
+        <Feature
+          feature="twitch-vods-language"
+        />
       </div>
       <div
         className="twitch-vod-table-sortables"
@@ -1157,55 +1111,9 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
             />
           </div>
         </OptionalSelect>
-        <OptionalSelect
-          default="Any language"
-          defaultKey="any"
-          onSelect={[Function]}
-          options={
-            Object {
-              "en": "English",
-              "ko": "한국어",
-              "pt-BR": "Português (Brasil)",
-            }
-          }
-          value="any"
-        >
-          <div
-            className="optional-select"
-          >
-            <select
-              onChange={[Function]}
-              value="any"
-            >
-              <option
-                value="any"
-              >
-                Any language
-              </option>
-              <option
-                key="en"
-                value="en"
-              >
-                English
-              </option>
-              <option
-                key="ko"
-                value="ko"
-              >
-                한국어
-              </option>
-              <option
-                key="pt-BR"
-                value="pt-BR"
-              >
-                Português (Brasil)
-              </option>
-            </select>
-            <span
-              className="caret"
-            />
-          </div>
-        </OptionalSelect>
+        <Feature
+          feature="twitch-vods-language"
+        />
       </div>
       <div
         className="twitch-vod-table-sortables"
