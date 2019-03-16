@@ -9,7 +9,6 @@ import SortIndicator from "./SortIndicator";
 import TwitchVodsTableItem from "./TwitchVodsTableItem";
 import Pager from "./Pager";
 import memoize from "memoize-one";
-import { language } from "numbro";
 
 type SortBy = "rank" | "duration" | "age" | "broadcaster";
 
@@ -155,27 +154,21 @@ class TwitchVodsTable extends React.Component<Props, State> {
 		},
 	);
 
-	private getLanguages = memoize(
-		(vods: TwitchVodData[]): Languages => {
-			const availableLanguages = [
-				...new Set(
-					vods
-						.map(vod => vod.language),
-				),
-			]
-				.filter(x => !!x);
+	private getLanguages = memoize((vods: TwitchVodData[]): Languages => {
+		const availableLanguages = [
+			...new Set(vods.map(vod => vod.language)),
+		].filter(x => !!x);
 
-			availableLanguages.sort((a, b) => (a > b ? 1 : -1));
+		availableLanguages.sort((a, b) => (a > b ? 1 : -1));
 
-			const languagesByCode = UserData.getLanguages();
-			const languages = {};
-			availableLanguages.forEach(a => {
-				const languageName = languagesByCode[a.toLowerCase()];
-				languages[a] = languageName ? languageName : a;
-			});
-			return languages;
-		},
-	);
+		const languagesByCode = UserData.getLanguages();
+		const languages = {};
+		availableLanguages.forEach(a => {
+			const languageName = languagesByCode[a.toLowerCase()];
+			languages[a] = languageName ? languageName : a;
+		});
+		return languages;
+	});
 
 	private getFilteredVods = memoize(
 		(
@@ -185,7 +178,6 @@ class TwitchVodsTable extends React.Component<Props, State> {
 			vodsOpponent: string,
 			vodsLanguage: string,
 		): TwitchVodData[] => {
-	
 			vods =
 				vodsFirst === "any"
 					? vods
