@@ -39,6 +39,7 @@ class PlayerSerializer(serializers.Serializer):
 
 class TwitchVodSerializer(serializers.Serializer):
 	channel_name = serializers.CharField(write_only=True)
+	language = serializers.CharField(write_only=True)
 	url = serializers.CharField(write_only=True)
 
 

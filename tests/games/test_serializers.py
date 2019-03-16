@@ -17,6 +17,7 @@ TEST_TWITCH_VOD_METADATA = {
 	"match_start": "2018-09-22T14:03:34.505Z",
 	"twitch_vod": {
 		"channel_name": "Test Channel",
+		"language": "en-gb",
 		"url": "https://www.twitch.tv/videos/12345?t=0h0m0s"
 	}
 }
