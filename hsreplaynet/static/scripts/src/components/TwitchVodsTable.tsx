@@ -165,8 +165,14 @@ class TwitchVodsTable extends React.Component<Props, State> {
 		const languagesByCode = UserData.getLanguages();
 		const languages = {};
 		availableLanguages.forEach(a => {
-			const languageName = languagesByCode[a.toLowerCase()];
-			languages[a] = languageName ? languageName : a;
+			availableLanguages.forEach(a => {
+				let code = a.toLowerCase();
+				if (!(code in languagesByCode)) {
+					code = a.split("-", 1)[0];
+				}
+				const languageName = languagesByCode[code];
+				languages[a] = languageName ? languageName : `Unknown (${a})`;
+			});
 		});
 		return languages;
 	});
