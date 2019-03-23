@@ -122,13 +122,51 @@ class TestClassesView:
 			)
 		)
 
+		class_data = dict(
+			(hsclass.name, [])
+			for hsclass in enums.CardClass if hsclass.is_playable
+		)
+		class_data["DRUID"] = [
+			{
+				"game_type": 3,
+				"popularity": 5.33,
+				"total_games": 14576,
+				"win_rate": 48.38
+			},
+			{
+				"game_type": 2,
+				"popularity": 4.89,
+				"total_games": 54344,
+				"win_rate": 46.65
+			},
+			{
+				"game_type": 30,
+				"popularity": 6.03,
+				"total_games": 12089,
+				"win_rate": 48.92
+			}
+		]
+
 		attrs = {
 			"build_full_params.return_value": mock_parameterized_query
 		}
 
+		mock_class_parameterized_query = Mock(
+			result_available=True,
+			response_payload=dict(
+				series=dict(data=class_data)
+			)
+		)
+
+		class_attr = {
+			"build_full_params.return_value": mock_class_parameterized_query
+		}
+
 		mocker.patch(
 			"hsreplaynet.api.partner.views.get_redshift_query",
-			lambda name: Mock(**attrs)
+			lambda name: Mock(**attrs) if (
+				name == "archetype_popularity_distribution_stats"
+			) else Mock(**class_attr)
 		)
 
 		trigger_if_stale = mocker.patch("hsreplaynet.api.partner.views.trigger_if_stale")
@@ -170,6 +208,7 @@ class TestClassesView:
 			assert isinstance(ranked_standard["popular_archetypes"], list)
 
 			if response_obj["id"] == "DRUID":
+				assert ranked_standard["winrate"] == 46.65
 				assert ranked_standard["top_archetypes"] == [TOKEN_DRUID_SUMMARY]
 				assert ranked_standard["popular_archetypes"] == [TOKEN_DRUID_SUMMARY]
 

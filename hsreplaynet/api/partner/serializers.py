@@ -8,6 +8,13 @@ from rest_framework.serializers import Serializer, SerializerMethodField
 from hsreplaynet.decks.models import Archetype
 
 
+GAME_TYPES = {
+	"RANKED_STANDARD": 2,
+	"ARENA": 3,
+	"RANKED_WILD": 30,
+}
+
+
 class InvalidCardException(Exception):
 	pass
 
@@ -365,6 +372,7 @@ class ClassArchetypeSummarySerializer(Serializer):
 	rendering archetype stats.
 	"""
 
+	winrate = SerializerMethodField()
 	url = SerializerMethodField()
 	top_archetypes = SerializerMethodField()
 	popular_archetypes = SerializerMethodField()
@@ -373,6 +381,10 @@ class ClassArchetypeSummarySerializer(Serializer):
 		super().__init__(*args, **kwargs)
 		self.game_type = kwargs["context"]["game_type"]
 		self.player_class = kwargs["context"]["player_class"]
+		self._winrate = kwargs["context"]["winrate"]
+
+	def get_winrate(self, instance):
+		return self._winrate
 
 	def get_url(self, instance):
 		base_url = "https://hsreplay.net/decks/#playerClasses=%s" % self.player_class.name
@@ -416,6 +428,7 @@ class ClassSerializer(Serializer):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self.archetype_stats = kwargs["context"]["archetype_stats"]
+		self.class_winrates = kwargs["context"]["class_winrates"]
 
 	def get_id(self, instance):
 		return instance["player_class"].name
@@ -463,9 +476,19 @@ class ClassSerializer(Serializer):
 			if "stats" not in archetype_stats_map[archetype_id]:
 				del archetype_stats_map[archetype_id]
 
+		wr_data = next(
+			(
+				x for x in self.class_winrates[player_class.name]
+				if x["game_type"] == GAME_TYPES[game_type]
+			),
+			None
+		)
+		winrate = wr_data["win_rate"] if wr_data else None
+
 		serializer = ClassArchetypeSummarySerializer(archetype_stats_map, context={
 			"game_type": game_type,
-			"player_class": player_class
+			"player_class": player_class,
+			"winrate": winrate
 		})
 		return serializer.data
 

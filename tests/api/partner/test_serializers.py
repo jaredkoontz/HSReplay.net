@@ -460,10 +460,12 @@ class TestClassArchetypeSummarySerializer(object):
 			}
 		}, context={
 			"game_type": "RANKED_STANDARD",
-			"player_class": CardClass.DRUID
+			"player_class": CardClass.DRUID,
+			"winrate": 55
 		})
 
 		assert serializer.data == {
+			"winrate": 55,
 			"url": "https://hsreplay.net/decks/#playerClasses=DRUID",
 			"top_archetypes": [
 				TOKEN_DRUID_SUMMARY,
@@ -511,6 +513,12 @@ class TestClassSerializer(object):
 						TAUNT_DRUID_STATS,
 					]
 				}
+			},
+			"class_winrates": {
+				"DRUID": [{
+					"game_type": 2,
+					"win_rate": 55
+				}]
 			}
 		})
 
@@ -541,6 +549,7 @@ class TestClassSerializer(object):
 			}],
 			"game_types": {
 				"RANKED_STANDARD": {
+					"winrate": 55,
 					"url": "https://hsreplay.net/decks/#playerClasses=DRUID",
 					"top_archetypes": [
 						TOKEN_DRUID_SUMMARY,

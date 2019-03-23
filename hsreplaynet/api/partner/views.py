@@ -29,11 +29,9 @@ class PartnerStatsListView(ListAPIView):
 	required_scopes = ["stats.partner:read"]
 	pagination_class = None
 
-	def _get_query_data(self, query_name, game_type):
+	def _get_query_data(self, query_name, params=None):
 		query = get_redshift_query(query_name)
-		parameterized_query = query.build_full_params(dict(
-			GameType=game_type
-		))
+		parameterized_query = query.build_full_params(params or dict())
 		try:
 			trigger_if_stale(parameterized_query)
 		except OSError as err:
@@ -98,13 +96,13 @@ class CardsView(PartnerStatsListView):
 	def _get_decks(self, game_type):
 		if game_type not in self.constructed_game_types:
 			return None
-		return self._get_query_data("list_decks_by_win_rate", game_type)
+		return self._get_query_data("list_decks_by_win_rate", dict(GameType=game_type))
 
 	def _get_card_popularity(self, game_type):
 		if game_type not in self._query_data:
 			self._query_data[game_type] = self._get_query_data(
 				"card_included_popularity_report",
-				game_type
+				dict(GameType=game_type)
 			)
 
 		return self._query_data[game_type]["ALL"]
@@ -170,13 +168,16 @@ class ArchetypesView(PartnerStatsListView):
 		]
 
 	def _get_decks(self, game_type):
-		return self._get_query_data("list_decks_by_win_rate", game_type)
+		return self._get_query_data("list_decks_by_win_rate", dict(GameType=game_type))
 
 	def _get_archetype_popularity(self, game_type):
-		return self._get_query_data("archetype_popularity_distribution_stats", game_type)
+		return self._get_query_data(
+			"archetype_popularity_distribution_stats",
+			dict(GameType=game_type)
+		)
 
 	def _get_archetype_matchups(self, game_type):
-		return self._get_query_data("head_to_head_archetype_matchups", game_type)
+		return self._get_query_data("head_to_head_archetype_matchups", dict(GameType=game_type))
 
 
 class ClassesView(PartnerStatsListView):
@@ -222,7 +223,8 @@ class ClassesView(PartnerStatsListView):
 		)
 
 		context.update({
-			"archetype_stats": archetype_popularity_by_game_type
+			"archetype_stats": archetype_popularity_by_game_type,
+			"class_winrates": self._get_player_class_performance_summary()
 		})
 
 		return context
@@ -251,4 +253,10 @@ class ClassesView(PartnerStatsListView):
 		return queryset
 
 	def _get_archetype_popularity(self, game_type):
-		return self._get_query_data("archetype_popularity_distribution_stats", game_type)
+		return self._get_query_data(
+			"archetype_popularity_distribution_stats",
+			dict(GameType=game_type)
+		)
+
+	def _get_player_class_performance_summary(self):
+		return self._get_query_data("player_class_performance_summary")
