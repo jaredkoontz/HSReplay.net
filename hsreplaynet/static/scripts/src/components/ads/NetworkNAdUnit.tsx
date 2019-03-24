@@ -17,6 +17,8 @@ export type NetworkNDesktopId =
 	| "nn_mpu1"
 	| "nn_mpu2"
 	| "nn_mpu3"
+	| "nn_lb1"
+	| "nn_lb2"
 	| "nn_skyleft"
 	| "nn_skyright";
 
@@ -32,6 +34,9 @@ export const getAdSize = (id: NetworkNId): [number, number] | null => {
 		// large flex
 		// return [970, 250];
 		// small flex
+		return [728, 90];
+	}
+	if (id.startsWith("nn_lb")) {
 		return [728, 90];
 	}
 	if (id.startsWith("nn_mpu") || id.startsWith("nn_mobile_mpu")) {
