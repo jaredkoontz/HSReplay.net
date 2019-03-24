@@ -282,7 +282,7 @@ class Cards extends React.Component<Props, State> {
 						</AdContainer>
 						<Sticky top={10}>
 							<NetworkNAdUnit
-								id="nn_bb1"
+								id="nn_lb1"
 								uniqueId="cl-bb1"
 								center
 							/>

@@ -355,7 +355,7 @@ class MetaOverview extends React.Component<Props, State> {
 						{t("Filters")}
 					</button>
 					<Sticky top={5}>
-						<NetworkNAdUnit id="nn_bb1" uniqueId="mp-bb1" center />
+						<NetworkNAdUnit id="nn_lb1" uniqueId="mp-bb1" center />
 					</Sticky>
 					<AdContainer>
 						<NitropayAdUnit id="mp-d-1" size="728x90" />

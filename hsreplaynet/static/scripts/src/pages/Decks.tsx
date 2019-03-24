@@ -1351,7 +1351,7 @@ class Decks extends React.Component<Props, State> {
 						{t("Filters")}
 					</button>
 					<Sticky top={10}>
-						<NetworkNAdUnit id="nn_bb1" uniqueId="dl-bb1" center />
+						<NetworkNAdUnit id="nn_lb1" uniqueId="dl-bb1" center />
 					</Sticky>
 					{content}
 					<NitropayAdUnit id="dl-m-3" size="300x250" mobile />

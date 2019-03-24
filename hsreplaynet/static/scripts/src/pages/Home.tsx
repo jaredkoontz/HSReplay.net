@@ -173,7 +173,7 @@ class Home extends React.Component<Props, State> {
 								</AdContainer>
 							</div>
 						</Feature>
-						<NetworkNAdUnit id="nn_bb1" uniqueId="fp-bb1" center />
+						<NetworkNAdUnit id="nn_lb1" uniqueId="fp-bb1" center />
 					</>
 				)}
 				<NitropayAdUnit id="fp-m-1" size="320x50" mobile />

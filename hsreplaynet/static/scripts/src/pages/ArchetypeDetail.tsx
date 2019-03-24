@@ -218,7 +218,7 @@ class ArchetypeDetail extends React.Component<Props, State> {
 					<section id="content-header">
 						<Sticky top={10}>
 							<NetworkNAdUnit
-								id="nn_bb1"
+								id="nn_lb1"
 								uniqueId="ad-bb1"
 								center
 							/>

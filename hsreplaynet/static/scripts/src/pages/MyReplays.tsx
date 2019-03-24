@@ -536,7 +536,7 @@ class MyReplays extends React.Component<Props, State> {
 					</AdContainer>
 					<NitropayAdUnit id="mr-m-1" size="320x50" mobile />
 					<Sticky top={10}>
-						<NetworkNAdUnit id="nn_bb1" uniqueId="mr-bb1" center />
+						<NetworkNAdUnit id="nn_lb1" uniqueId="mr-bb1" center />
 					</Sticky>
 					<NetworkNAdUnit
 						id="nn_mobile_mpu1"

@@ -269,7 +269,7 @@ class Collection extends React.Component<Props, State> {
 					{t("Filters")}
 				</button>
 				<Sticky top={10}>
-					<NetworkNAdUnit id="nn_bb1" uniqueId="co-bb1" center />
+					<NetworkNAdUnit id="nn_lb1" uniqueId="co-bb1" center />
 				</Sticky>
 				<TextFilter
 					value={this.props.text}
