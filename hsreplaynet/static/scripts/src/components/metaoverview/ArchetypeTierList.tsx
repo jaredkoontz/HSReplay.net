@@ -8,6 +8,7 @@ import { withLoading } from "../loading/Loading";
 import ArchetypeListItem from "./ArchetypeListItem";
 import AdContainer from "../ads/AdContainer";
 import NitropayAdUnit from "../ads/NitropayAdUnit";
+import NetworkNAdUnit from "../ads/NetworkNAdUnit";
 
 interface ClassArchetypeData {
 	[playerClass: string]: ApiArchetypePopularity[];
@@ -103,6 +104,13 @@ class ArchetypeTierList extends React.Component<Props> {
 								</div>
 								{tier}
 							</div>
+							{index === 1 ? (
+								<NetworkNAdUnit
+									id="nn_bb1"
+									uniqueId="mp-bb1"
+									center
+								/>
+							) : null}
 							{adUnitIds.length > index ? (
 								<>
 									<AdContainer key={`ad-container-${index}`}>
