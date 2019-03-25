@@ -41,3 +41,9 @@ export const enum PilotPerformance {
 	TOP_50TH_PERCENTILE = "TOP_50TH_PERCENTILE",
 	TOP_20TH_PERCENTILE = "TOP_20TH_PERCENTILE",
 }
+
+export const enum PlayerInitiative {
+	ALL = "ALL",
+	FIRST = "FIRST",
+	COIN = "COIN",
+}

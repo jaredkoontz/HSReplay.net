@@ -36,7 +36,7 @@ import CardTable from "../components/tables/CardTable";
 import PrettyCardClass from "../components/text/PrettyCardClass";
 import Tooltip from "../components/Tooltip";
 import DataManager from "../DataManager";
-import { RankRange } from "../filters";
+import { PlayerInitiative, RankRange } from "../filters";
 import {
 	compareDecks,
 	getArchetypeUrl,
@@ -83,6 +83,8 @@ interface Props extends WithTranslation {
 	setGameType?: (gameType: string) => void;
 	region?: string;
 	setRegion?: (region: string) => void;
+	playerInitiative?: string;
+	setPlayerInitiative?: (playerInitiative: string) => void;
 }
 
 interface State {
@@ -313,7 +315,33 @@ class DeckDetail extends React.Component<Props, State> {
 			);
 		} else {
 			filters.push(
-				<div>
+				<>
+					<Feature feature="mulligan-guide-coin-filter">
+						<InfoboxFilterGroup
+							header={t("Player initiative")}
+							selectedValue={this.getPlayerInitiative()}
+							onClick={initiative =>
+								this.props.setPlayerInitiative(initiative)
+							}
+							disabled={this.props.tab !== "mulligan-guide"}
+						>
+							<PremiumWrapper
+								analyticsLabel="Single Deck Coin"
+								iconStyle={{ display: "none" }}
+								modalStyle="TimeRankRegion"
+							>
+								<InfoboxFilter value={PlayerInitiative.FIRST}>
+									{t("Going first")}
+								</InfoboxFilter>
+								<InfoboxFilter value={PlayerInitiative.COIN}>
+									{t("On coin")}
+								</InfoboxFilter>
+							</PremiumWrapper>
+							<InfoboxFilter value={PlayerInitiative.ALL}>
+								{t("Both")}
+							</InfoboxFilter>
+						</InfoboxFilterGroup>
+					</Feature>
 					<InfoboxFilterGroup
 						header={t("Rank range")}
 						infoHeader={t("Rank range")}
@@ -372,50 +400,54 @@ class DeckDetail extends React.Component<Props, State> {
 							}),
 						)}
 					</InfoboxFilterGroup>
-				</div>,
-				<Feature feature="deck-detail-region-filter">
-					<InfoboxFilterGroup
-						header={t("Region")}
-						selectedValue={this.getRegion()}
-						onClick={region => this.props.setRegion(region)}
-						infoHeader={t("Deck breakdown region")}
-						infoContent={
-							<>
-								<p>
-									{t(
-										"Take a look at how this deck performs in your region!",
-									)}
-								</p>
-								<br />
-								<p>
-									{t(
-										"Greyed out filters indicate an insufficient amount of data for that region.",
-									)}
-								</p>
-							</>
-						}
-					>
-						<PremiumWrapper
-							analyticsLabel="Single Deck Region"
-							iconStyle={{ display: "none" }}
-							modalStyle="TimeRankRegion"
+					<Feature feature="deck-detail-region-filter">
+						<InfoboxFilterGroup
+							header={t("Region")}
+							selectedValue={this.getRegion()}
+							onClick={region => this.props.setRegion(region)}
+							infoHeader={t("Deck breakdown region")}
+							infoContent={
+								<>
+									<p>
+										{t(
+											"Take a look at how this deck performs in your region!",
+										)}
+									</p>
+									<br />
+									<p>
+										{t(
+											"Greyed out filters indicate an insufficient amount of data for that region.",
+										)}
+									</p>
+								</>
+							}
 						>
-							{infoBoxFilter("region", "REGION_US", "Americas")}
-							{infoBoxFilter("region", "REGION_EU", "Europe")}
-							{infoBoxFilter("region", "REGION_KR", "Asia")}
-							<Feature feature="region-filter-china">
-								<InfoboxFilter value="REGION_CN">
-									{infoBoxFilter(
-										"region",
-										"REGION_CN",
-										"China",
-									)}
-								</InfoboxFilter>
-							</Feature>
-						</PremiumWrapper>
-						{infoBoxFilter("region", "ALL", t("All regions"))}
-					</InfoboxFilterGroup>
-				</Feature>,
+							<PremiumWrapper
+								analyticsLabel="Single Deck Region"
+								iconStyle={{ display: "none" }}
+								modalStyle="TimeRankRegion"
+							>
+								{infoBoxFilter(
+									"region",
+									"REGION_US",
+									"Americas",
+								)}
+								{infoBoxFilter("region", "REGION_EU", "Europe")}
+								{infoBoxFilter("region", "REGION_KR", "Asia")}
+								<Feature feature="region-filter-china">
+									<InfoboxFilter value="REGION_CN">
+										{infoBoxFilter(
+											"region",
+											"REGION_CN",
+											"China",
+										)}
+									</InfoboxFilter>
+								</Feature>
+							</PremiumWrapper>
+							{infoBoxFilter("region", "ALL", t("All regions"))}
+						</InfoboxFilterGroup>
+					</Feature>
+				</>,
 			);
 
 			header = [
@@ -1217,6 +1249,12 @@ class DeckDetail extends React.Component<Props, State> {
 			: "ALL";
 	}
 
+	getPlayerInitiative() {
+		return UserData.hasFeature("mulligan-guide-coin-filter")
+			? this.props.playerInitiative
+			: "ALL";
+	}
+
 	hasRegion(region: string): boolean {
 		if (!this.state.hasData) {
 			return false;
@@ -1243,12 +1281,14 @@ class DeckDetail extends React.Component<Props, State> {
 		GameType: string;
 		RankRange: string;
 		Region: string;
+		PlayerInitiative: string;
 		deck_id: string;
 	} {
 		return {
 			GameType: this.getGameType(),
 			RankRange: this.getRankRange(),
 			Region: this.getRegion(),
+			PlayerInitiative: this.getPlayerInitiative(),
 			deck_id: this.props.deckId,
 		};
 	}

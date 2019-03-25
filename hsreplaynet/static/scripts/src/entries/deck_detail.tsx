@@ -58,6 +58,7 @@ const render = (cardData: CardData) => {
 										: "RANKED_STANDARD",
 									rankRange: "ALL",
 									region: "ALL",
+									playerInitiative: "ALL",
 									selectedClasses: [],
 									tab: "mulligan-guide",
 								}}
@@ -67,6 +68,7 @@ const render = (cardData: CardData) => {
 												"selectedClasses",
 												"rankRange",
 												"region",
+												"playerInitiative",
 										  ]
 										: null
 								}
