@@ -97,6 +97,7 @@ const NetworkNAdUnit: React.FC<Props> = ({
 	const [onMobile, setOnMobile] = useState<boolean>(
 		window.innerWidth < MOBILE_WIDTH,
 	);
+	const [documentReady, setDocumentReady] = useState<boolean>(false);
 	const [showFallback, setShowFallback] = useState<boolean>(false);
 	const ref = useRef<HTMLDivElement | null>(null);
 	const childRef = useRef<HTMLDivElement | null>(null);
@@ -116,6 +117,29 @@ const NetworkNAdUnit: React.FC<Props> = ({
 			};
 		},
 		[setOnMobile, MOBILE_WIDTH],
+	);
+
+	useEffect(
+		() => {
+			if (documentReady) {
+				return;
+			}
+			if (
+				(document.readyState as string) === "complete" ||
+				(document.readyState as string) === "loaded"
+			) {
+				setDocumentReady(true);
+				return;
+			}
+			const cb = () => {
+				setDocumentReady(true);
+			};
+			document.addEventListener("DOMContentLoaded", cb);
+			return () => {
+				document.removeEventListener("DOMContentLoaded", cb);
+			};
+		},
+		[setDocumentReady],
 	);
 
 	const debug = debugAds();
@@ -151,6 +175,10 @@ const NetworkNAdUnit: React.FC<Props> = ({
 				}
 			}
 
+			if (!documentReady) {
+				return;
+			}
+
 			// give the ad script 10 seconds to do something
 			let timeout = window.setTimeout(() => {
 				if (childRef.current && childRef.current.children.length > 0) {
@@ -165,7 +193,7 @@ const NetworkNAdUnit: React.FC<Props> = ({
 				}
 			};
 		},
-		[showFallback, setShowFallback, debug, mobile, onMobile],
+		[showFallback, setShowFallback, debug, documentReady, mobile, onMobile],
 	);
 
 	if (
