@@ -46,6 +46,12 @@
 					<li><a href="{% url 'downloads' %}">{% trans "Downloads" %}</a></li>
 					<li><a href="{% url 'privacy_policy' %}">{% trans "Privacy Policy" %}</a></li>
 					<li><a href="{% url 'terms_of_service' %}">{% trans "Terms of Service" %}</a></li>
+					{% feature "networkn" as networkn %}
+					{% if networkn.enabled %}
+					<li>
+						<a style="cursor:pointer" onclick="window.__cmp('showConsentModal')">Manage Cookie Settings</a>
+					</li>
+					{% endif %}
 				</ul>
 			</section>
 			<section class="col-md-4 footer-menu">
