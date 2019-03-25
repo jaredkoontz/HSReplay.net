@@ -330,8 +330,9 @@ class MetaOverview extends React.Component<Props, State> {
 						</ul>
 					</section>
 					{backButton}
+					<NetworkNAdUnit id="nn_mpu1" uniqueId="mp-mpu1" />
 					<Sticky bottom={0}>
-						<NetworkNAdUnit id="nn_mpu1" uniqueId="mp-mpu1" />
+						<NetworkNAdUnit id="nn_mpu2" uniqueId="mp-mpu2" />
 					</Sticky>
 					<NitropayAdUnit id="mp-d-11" size="300x250" />
 					<NitropayAdUnit id="mp-d-12" size="300x250" />

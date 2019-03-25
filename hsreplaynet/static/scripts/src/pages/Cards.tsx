@@ -636,9 +636,12 @@ class Cards extends React.Component<Props, State> {
 		}
 
 		filters.push(
-			<Sticky bottom={0} key="networkn-ad">
+			<>
 				<NetworkNAdUnit id="nn_mpu1" uniqueId="cl-mpu1" />
-			</Sticky>,
+				<Sticky bottom={0} key="networkn-ad">
+					<NetworkNAdUnit id="nn_mpu2" uniqueId="cl-mpu2" />
+				</Sticky>
+			</>,
 		);
 
 		return filters;
