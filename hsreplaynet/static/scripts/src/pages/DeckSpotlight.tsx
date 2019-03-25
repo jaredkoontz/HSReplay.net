@@ -34,8 +34,8 @@ class DeckSpotlight extends React.Component<Props> {
 				</Feature>
 				<NitropayAdUnit id="tr-m-1" size="320x50" mobile />
 				<NetworkNAdUnit
-					id="nn_mobile_mpu1"
-					uniqueId="tr-mmpu1"
+					id="nn_mobile_mpu2"
+					uniqueId="tr-mmpu2"
 					mobile
 					center
 				/>
@@ -97,8 +97,8 @@ class DeckSpotlight extends React.Component<Props> {
 				</section>
 				<NitropayAdUnit id="tr-m-3" size="300x250" mobile />
 				<NetworkNAdUnit
-					id="nn_mobile_mpu2"
-					uniqueId="tr-mmpu2"
+					id="nn_mobile_mpu1"
+					uniqueId="tr-mmpu1"
 					mobile
 					center
 				/>

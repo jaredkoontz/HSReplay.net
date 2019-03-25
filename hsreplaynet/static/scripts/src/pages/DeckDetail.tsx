@@ -706,8 +706,8 @@ class DeckDetail extends React.Component<Props, State> {
 					{this.renderAdminSettings()}
 					<NetworkNAdUnit id="nn_mpu3" uniqueId="dd-mpu1" />
 					<NetworkNAdUnit
-						id="nn_mobile_mpu1"
-						uniqueId="dd-mmpu1"
+						id="nn_mobile_mpu2"
+						uniqueId="dd-mmpu2"
 						mobile
 						center
 					/>
@@ -869,8 +869,8 @@ class DeckDetail extends React.Component<Props, State> {
 						</TabList>
 						<NitropayAdUnit id="dd-m-3" size="320x50" mobile />
 						<NetworkNAdUnit
-							id="nn_mobile_mpu2"
-							uniqueId="dd-mmpu2"
+							id="nn_mobile_mpu1"
+							uniqueId="dd-mmpu1"
 							mobile
 							center
 						/>

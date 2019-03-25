@@ -539,8 +539,8 @@ class MyReplays extends React.Component<Props, State> {
 						<NetworkNAdUnit id="nn_lb1" uniqueId="mr-bb1" center />
 					</Sticky>
 					<NetworkNAdUnit
-						id="nn_mobile_mpu1"
-						uniqueId="mr-mmpu1"
+						id="nn_mobile_mpu2"
+						uniqueId="mr-mmpu2"
 						mobile
 					/>
 					<div className="header-buttons">
@@ -558,8 +558,8 @@ class MyReplays extends React.Component<Props, State> {
 					{content}
 					<div className="pull-right">{pager}</div>
 					<NetworkNAdUnit
-						id="nn_mobile_mpu2"
-						uniqueId="co-mmpu2"
+						id="nn_mobile_mpu1"
+						uniqueId="co-mmpu1"
 						mobile
 					/>
 				</div>

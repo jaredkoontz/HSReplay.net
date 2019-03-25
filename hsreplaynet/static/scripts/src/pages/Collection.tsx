@@ -250,8 +250,8 @@ class Collection extends React.Component<Props, State> {
 		return (
 			<>
 				<NetworkNAdUnit
-					id="nn_mobile_mpu1"
-					uniqueId="co-mmpu1"
+					id="nn_mobile_mpu2"
+					uniqueId="co-mmpu2"
 					mobile
 					center
 				/>

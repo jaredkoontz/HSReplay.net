@@ -289,8 +289,8 @@ class Cards extends React.Component<Props, State> {
 						</Sticky>
 						<NitropayAdUnit id="cl-m-1" size="320x50" mobile />
 						<NetworkNAdUnit
-							id="nn_mobile_mpu1"
-							uniqueId="cl-mmpu1"
+							id="nn_mobile_mpu2"
+							uniqueId="cl-mmpu2"
 							mobile
 							center
 						/>

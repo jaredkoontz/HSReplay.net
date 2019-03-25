@@ -1337,8 +1337,8 @@ class Decks extends React.Component<Props, State> {
 					</AdContainer>
 					<NitropayAdUnit id="dl-m-1" size="320x50" mobile />
 					<NetworkNAdUnit
-						id="nn_mobile_mpu1"
-						uniqueId="dl-mmpu1"
+						id="nn_mobile_mpu2"
+						uniqueId="dl-mmpu2"
 						mobile
 						center
 					/>
@@ -1356,8 +1356,8 @@ class Decks extends React.Component<Props, State> {
 					{content}
 					<NitropayAdUnit id="dl-m-3" size="300x250" mobile />
 					<NetworkNAdUnit
-						id="nn_mobile_mpu2"
-						uniqueId="dl-mmpu2"
+						id="nn_mobile_mpu1"
+						uniqueId="dl-mmpu1"
 						mobile
 						center
 					/>

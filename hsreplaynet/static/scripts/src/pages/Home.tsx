@@ -178,8 +178,8 @@ class Home extends React.Component<Props, State> {
 				)}
 				<NitropayAdUnit id="fp-m-1" size="320x50" mobile />
 				<NetworkNAdUnit
-					id="nn_mobile_mpu1"
-					uniqueId="fp-mmpu1"
+					id="nn_mobile_mpu2"
+					uniqueId="fp-mmpu2"
 					mobile
 					center
 				/>
@@ -310,8 +310,8 @@ class Home extends React.Component<Props, State> {
 				</div>
 				<NitropayAdUnit id="fp-m-3" size="320x50" mobile />
 				<NetworkNAdUnit
-					id="nn_mobile_mpu2"
-					uniqueId="fp-mmpu2"
+					id="nn_mobile_mpu1"
+					uniqueId="fp-mmpu1"
 					mobile
 					center
 				/>

@@ -341,8 +341,8 @@ class MetaOverview extends React.Component<Props, State> {
 				<main className={contentClassNames.join(" ")}>
 					<NitropayAdUnit id="mp-m-1" size="320x50" mobile />
 					<NetworkNAdUnit
-						id="nn_mobile_mpu1"
-						uniqueId="mp-mmpu1"
+						id="nn_mobile_mpu2"
+						uniqueId="mp-mmpu2"
 						mobile
 						center
 					/>
@@ -487,8 +487,8 @@ class MetaOverview extends React.Component<Props, State> {
 					</TabList>
 					<NitropayAdUnit id="mp-m-5" size="320x50" mobile />
 					<NetworkNAdUnit
-						id="nn_mobile_mpu2"
-						uniqueId="mp-mmpu2"
+						id="nn_mobile_mpu1"
+						uniqueId="mp-mmpu1"
 						mobile
 						center
 					/>

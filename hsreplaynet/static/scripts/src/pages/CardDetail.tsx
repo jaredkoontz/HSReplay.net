@@ -596,8 +596,8 @@ class CardDetail extends React.Component<Props, State> {
 						</section>
 						<NitropayAdUnit id="cd-m-3" size="320x50" mobile />
 						<NetworkNAdUnit
-							id="nn_mobile_mpu2"
-							uniqueId="cd-mmpu2"
+							id="nn_mobile_mpu1"
+							uniqueId="cd-mmpu1"
 							mobile
 							center
 						/>
@@ -658,8 +658,8 @@ class CardDetail extends React.Component<Props, State> {
 					<p>{this.getCleanFlavorText()}</p>
 					<NitropayAdUnit id="cd-m-1" size="300x250" mobile />
 					<NetworkNAdUnit
-						id="nn_mobile_mpu1"
-						uniqueId="cd-mmpu1"
+						id="nn_mobile_mpu2"
+						uniqueId="cd-mmpu2"
 						mobile
 						center
 					/>
