@@ -704,7 +704,7 @@ class DeckDetail extends React.Component<Props, State> {
 						</HideLoading>
 					</DataInjector>
 					{this.renderAdminSettings()}
-					<NetworkNAdUnit id="nn_mpu1" uniqueId="dd-mpu1" />
+					<NetworkNAdUnit id="nn_mpu3" uniqueId="dd-mpu1" />
 					<NetworkNAdUnit
 						id="nn_mobile_mpu1"
 						uniqueId="dd-mmpu1"

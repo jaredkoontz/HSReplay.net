@@ -40,6 +40,7 @@ export const getAdSize = (id: NetworkNId): [number, number] | null => {
 		return [728, 90];
 	}
 	if (id.startsWith("nn_mpu") || id.startsWith("nn_mobile_mpu")) {
+		// mpu3 is non-flexing
 		return [300, 250];
 	}
 	if (id.startsWith("nn_sky")) {
