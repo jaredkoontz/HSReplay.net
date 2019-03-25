@@ -77,7 +77,14 @@ export default class AdUnitAdmin extends React.Component<Props, State> {
 		}
 
 		return (
-			<div className={classNames.join(" ")} onClick={this.onClick}>
+			<div
+				className={classNames.join(" ")}
+				onClick={this.onClick}
+				style={{
+					width,
+					height,
+				}}
+			>
 				<input
 					type="checkbox"
 					checked={this.state.enabled}

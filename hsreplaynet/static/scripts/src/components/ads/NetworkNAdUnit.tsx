@@ -29,19 +29,22 @@ export type NetworkNMobileId =
 
 export type NetworkNId = NetworkNDesktopId | NetworkNMobileId;
 
-export const getAdSize = (id: NetworkNId): [number, number] | null => {
+type Dimension = number | [number, number];
+
+export const getAdSize = (id: NetworkNId): [Dimension, Dimension] | null => {
 	if (id.startsWith("nn_bb")) {
-		// large flex
-		// return [970, 250];
-		// small flex
-		return [728, 90];
+		// either [728, 90] or [970, 250]
+		return [[728, 970], [90, 250]];
 	}
 	if (id.startsWith("nn_lb")) {
 		return [728, 90];
 	}
 	if (id.startsWith("nn_mpu") || id.startsWith("nn_mobile_mpu")) {
-		// mpu3 is non-flexing
-		return [300, 250];
+		if (id === "nn_mpu3" || id === "nn_mobile_mpu2") {
+			// mpu3 is non-flexing
+			return [300, 250];
+		}
+		return [300, [250, 600]];
 	}
 	if (id.startsWith("nn_sky")) {
 		return [160, 600];
@@ -174,20 +177,36 @@ const NetworkNAdUnit: React.FC<Props> = ({
 		return null;
 	}
 
-	const [width, height] = getAdSize(id);
-	const style: CSSProperties = {
-		width: `${width}px`,
-		height: `${height}px`,
-	};
+	const style: CSSProperties = {};
+	const [widths, heights] = getAdSize(id);
+
+	let width;
+	if (Array.isArray(widths)) {
+		const [minWidth, maxWidth] = widths;
+		style.minWidth = `${minWidth}px`;
+		style.maxWidth = `${maxWidth}px`;
+		width = minWidth;
+	} else {
+		style.width = `${widths}px`;
+		width = widths;
+	}
+
+	let height;
+	if (Array.isArray(heights)) {
+		const [minHeight, maxHeight] = heights;
+		style.minHeight = `${minHeight}px`;
+		style.maxHeight = `${maxHeight}px`;
+		height = minHeight;
+	} else {
+		style.height = `${heights}px`;
+		height = heights;
+	}
 
 	if (showFallback && UserData.hasFeature("ad-fallback")) {
 		const fallbackClassNames = [
 			"premium-fallback",
 			mobile ? "premium-fallback--mobile" : "premium-fallback--desktop",
 		];
-		if (center) {
-			fallbackClassNames.push("premium-fallback--center");
-		}
 		return (
 			<a
 				href="/premium/"
@@ -204,11 +223,8 @@ const NetworkNAdUnit: React.FC<Props> = ({
 		"ad-unit",
 		mobile ? "ad-unit--mobile" : "ad-unit--desktop",
 	];
-	if (center) {
-		classNames.push("ad-unit--center");
-	}
 
-	return (
+	const adUnit = (
 		<div className={classNames.join(" ")} style={style} key={id} ref={ref}>
 			{debug ? (
 				<AdUnitAdmin
@@ -222,6 +238,12 @@ const NetworkNAdUnit: React.FC<Props> = ({
 			)}
 		</div>
 	);
+
+	if (center) {
+		return <div className="center-ad-container">{adUnit}</div>;
+	}
+
+	return adUnit;
 };
 
 export default NetworkNAdUnit;

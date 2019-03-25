@@ -8,11 +8,6 @@
 	top: 0;
 	left: 0;
 
-	&--center {
-		width: 100%;
-		margin: 0 auto;
-	}
-
 	&--desktop {
 		@media (max-width: 767px) {
 			display: none;
@@ -100,6 +95,13 @@
 			margin: 0 5px;
 		}
 	}
+}
+
+.center-ad-container {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .gutter-ad-container {
