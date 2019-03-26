@@ -53,10 +53,7 @@ export const getAdSize = (id: NetworkNId): [Dimension, Dimension] | null => {
 };
 
 export const getAdFallback = (id: NetworkNId): string | null => {
-	if (id.startsWith("nn_bb")) {
-		// large flex
-		// return "premium/fallbacks/fallback-7.jpg";
-		// small flex
+	if (id.startsWith("nn_bb") || id.startsWith("nn_lb")) {
 		return "premium/fallbacks/fallback-2.jpg";
 	}
 	if (id.startsWith("nn_mpu") || id.startsWith("nn_mobile_mpu")) {
@@ -239,7 +236,7 @@ const NetworkNAdUnit: React.FC<Props> = ({
 					? "premium-fallback--mobile"
 					: "premium-fallback--desktop",
 			];
-			return (
+			const fallback = (
 				<a
 					href="/premium/"
 					className={fallbackClassNames.join(" ")}
@@ -249,6 +246,10 @@ const NetworkNAdUnit: React.FC<Props> = ({
 					}}
 				/>
 			);
+			if (center) {
+				return <div className="center-ad-container">{fallback}</div>;
+			}
+			return fallback;
 		}
 	}
 
