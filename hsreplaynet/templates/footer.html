@@ -49,7 +49,9 @@
 					{% feature "networkn" as networkn %}
 					{% if networkn.enabled %}
 					<li>
-						<a style="cursor:pointer" onclick="window.__cmp('showConsentModal')">Manage Cookie Settings</a>
+						<a style="cursor:pointer" onclick="window.__cmp('showConsentModal')">
+							{% trans "Manage Cookie Settings" %}
+						</a>
 					</li>
 					{% endif %}
 				</ul>
