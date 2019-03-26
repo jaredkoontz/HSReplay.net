@@ -206,45 +206,50 @@ const NetworkNAdUnit: React.FC<Props> = ({
 	}
 
 	const style: CSSProperties = {};
-	const [widths, heights] = getAdSize(id);
-
+	const sizes = getAdSize(id);
 	let width;
-	if (Array.isArray(widths)) {
-		const [minWidth, maxWidth] = widths;
-		style.minWidth = `${minWidth}px`;
-		style.maxWidth = `${maxWidth}px`;
-		width = minWidth;
-	} else {
-		style.width = `${widths}px`;
-		width = widths;
-	}
-
 	let height;
-	if (Array.isArray(heights)) {
-		const [minHeight, maxHeight] = heights;
-		style.minHeight = `${minHeight}px`;
-		style.maxHeight = `${maxHeight}px`;
-		height = minHeight;
-	} else {
-		style.height = `${heights}px`;
-		height = heights;
-	}
+	if (sizes) {
+		const [widths, heights] = sizes;
 
-	if (showFallback && UserData.hasFeature("ad-fallback")) {
-		const fallbackClassNames = [
-			"premium-fallback",
-			mobile ? "premium-fallback--mobile" : "premium-fallback--desktop",
-		];
-		return (
-			<a
-				href="/premium/"
-				className={fallbackClassNames.join(" ")}
-				style={{
-					...style,
-					backgroundImage: `url(${image(getAdFallback(id))})`,
-				}}
-			/>
-		);
+		if (Array.isArray(widths)) {
+			const [minWidth, maxWidth] = widths;
+			style.minWidth = `${minWidth}px`;
+			style.maxWidth = `${maxWidth}px`;
+			width = minWidth;
+		} else {
+			style.width = `${widths}px`;
+			width = widths;
+		}
+
+		if (Array.isArray(heights)) {
+			const [minHeight, maxHeight] = heights;
+			style.minHeight = `${minHeight}px`;
+			style.maxHeight = `${maxHeight}px`;
+			height = minHeight;
+		} else {
+			style.height = `${heights}px`;
+			height = heights;
+		}
+
+		if (showFallback && UserData.hasFeature("ad-fallback")) {
+			const fallbackClassNames = [
+				"premium-fallback",
+				mobile
+					? "premium-fallback--mobile"
+					: "premium-fallback--desktop",
+			];
+			return (
+				<a
+					href="/premium/"
+					className={fallbackClassNames.join(" ")}
+					style={{
+						...style,
+						backgroundImage: `url(${image(getAdFallback(id))})`,
+					}}
+				/>
+			);
+		}
 	}
 
 	const classNames = [
@@ -258,8 +263,8 @@ const NetworkNAdUnit: React.FC<Props> = ({
 				<AdUnitAdmin
 					id={id}
 					uniqueId={uniqueId}
-					width={width}
-					height={height}
+					width={width || 250}
+					height={height || 250}
 				/>
 			) : (
 				<div id={id} ref={childRef} />

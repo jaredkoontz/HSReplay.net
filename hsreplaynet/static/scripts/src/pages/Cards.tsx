@@ -264,6 +264,11 @@ class Cards extends React.Component<Props, State> {
 				>
 					<CollectionSetup />
 				</Modal>
+				<NetworkNAdUnit
+					id="nn_mobile_lb1_sticky"
+					uniqueId="cl-mlb1"
+					mobile
+				/>
 				<div className="cards">
 					<aside
 						className={filterClassNames.join(" ")}
