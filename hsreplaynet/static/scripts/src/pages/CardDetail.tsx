@@ -389,6 +389,12 @@ class CardDetail extends React.Component<Props, State> {
 								</div>
 							</Feature>
 							{headerContent}
+							<NetworkNAdUnit
+								id="nn_mobile_mpu1"
+								uniqueId="cd-mmpu1"
+								mobile
+								center
+							/>
 							<NitropayAdUnit id="cd-m-2" size="300x250" mobile />
 						</section>
 						<section id="page-content" key="page-content">
@@ -595,12 +601,6 @@ class CardDetail extends React.Component<Props, State> {
 							</Fragments>
 						</section>
 						<NitropayAdUnit id="cd-m-3" size="320x50" mobile />
-						<NetworkNAdUnit
-							id="nn_mobile_mpu1"
-							uniqueId="cd-mmpu1"
-							mobile
-							center
-						/>
 					</>
 				);
 			}
