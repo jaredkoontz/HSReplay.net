@@ -38,7 +38,7 @@ from hsreplaynet.uploads.utils import user_agent_product
 from hsreplaynet.utils import guess_ladder_season, log
 from hsreplaynet.utils.influx import influx_metric, influx_timer
 from hsreplaynet.utils.instrumentation import error_handler
-from hsreplaynet.utils.prediction import deck_prediction_tree, inverse_lookup_table
+from hsreplaynet.utils.prediction import inverse_lookup_table
 from hsreplaynet.vods.models import TwitchVod
 
 from .models import (
@@ -604,8 +604,8 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 
 		player_class = Deck.objects._convert_hero_id_to_player_class(player_hero_id)
 
-		# tree-based deck prediction
-		deck_prediction_enabled = getattr(settings, "FULL_DECK_PREDICTION_ENABLED", True)
+		# ilt-based deck prediction
+		ilt_deck_prediction_enabled = getattr(settings, "ILT_DECK_PREDICTION_ENABLED", True)
 		is_eligible_format = global_game.format in [FormatType.FT_STANDARD, FormatType.FT_WILD]
 		is_eligible_gametype = global_game.game_type in [
 			# BnetGameType.BGT_FRIENDS,
@@ -615,26 +615,9 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 			# BnetGameType.BGT_CASUAL_WILD,
 		]
 
-		tree_deck_prediction_result = {}
-		if deck_prediction_enabled and is_eligible_format and is_eligible_gametype:
-			try:
-				tree_deck_prediction_result = perform_tree_deck_prediction(
-					global_game=global_game,
-					player=player,
-					player_class=player_class,
-					played_cards_for_player=played_cards[player.player_id],
-					is_friendly_player=is_friendly_player,
-					deck=deck,
-				)
-			except Exception as e:
-				error_handler(e)
-
-		# ilt-based deck prediction
-		ilt_deck_prediction_result = {}
-		ilt_deck_prediction_enabled = getattr(settings, "ILT_DECK_PREDICTION_ENABLED", False)
 		if ilt_deck_prediction_enabled and is_eligible_format and is_eligible_gametype:
 			try:
-				ilt_deck_prediction_result = perform_ilt_deck_prediction(
+				perform_ilt_deck_prediction(
 					game_format=global_game.format,
 					player_class=player_class,
 					deck=deck,
@@ -643,41 +626,6 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 				)
 			except Exception as e:
 				error_handler(e)
-
-		# emit deck prediction consensus metrics
-		if deck_prediction_enabled and ilt_deck_prediction_enabled:
-			tree_deck_id = tree_deck_prediction_result.get("predicted_deck_id")
-			tree_archetype_id = tree_deck_prediction_result.get("predicted_archetype_id")
-			ilt_deck_id = ilt_deck_prediction_result.get("predicted_deck_id")
-			ilt_archetype_id = ilt_deck_prediction_result.get("predicted_archetype_id")
-			ilt_fuzzy_removed_cards = ilt_deck_prediction_result.get("removed_cards", 0)
-			influx_metric(
-				"deck_prediction_comparative",
-				{
-					"count": 1,
-					"partial_deck_id": str(deck.id),
-					"tree_deck_id": str(tree_deck_id or ""),
-					"tree_archetype_id": str(tree_archetype_id or ""),
-					"ilt_deck_id": str(ilt_deck_id or ""),
-					"ilt_archetype_id": str(ilt_archetype_id or ""),
-					"ilt_fuzzy_removed_cards": int(ilt_fuzzy_removed_cards),
-				},
-				game_format=FormatType(int(global_game.format)).name,
-				player_class=CardClass(int(player_class)).name,
-				partial_deck_size=len(deck),
-				is_full_deck=deck.is_full_deck,
-				has_tree_deck=tree_deck_id is not None,
-				has_tree_archetype=tree_archetype_id is not None,
-				has_ilt_deck=ilt_deck_id is not None,
-				has_ilt_archetype=ilt_archetype_id is not None,
-				has_ilt_removed_cards=ilt_fuzzy_removed_cards != 0,
-				archetypes_match=(
-					ilt_archetype_id == tree_archetype_id and ilt_archetype_id is not None
-				),
-				decks_match=(
-					ilt_deck_id == tree_deck_id and ilt_deck_id is not None
-				),
-			)
 
 		name, _ = player.names
 		if not name:
@@ -778,144 +726,6 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 		players[player.player_id] = game_player
 
 	return players
-
-
-def perform_tree_deck_prediction(
-	global_game, player, player_class, played_cards_for_player, is_friendly_player, deck
-):
-	tree = deck_prediction_tree(player_class, global_game.format)
-
-	# 5 played cards partitions a 14 day window into buckets of ~ 500 or less
-	# We can search through ~ 2,000 decks in 100ms so that gives us plenty of headroom
-	min_played_cards = tree.max_depth - 1
-
-	# We can control via settings the minumum number of cards we need
-	# To know about in the deck list before we attempt to guess the full deck
-	min_observed_cards = settings.DECK_PREDICTION_MINIMUM_CARDS
-
-	# sorted_played_cards = sorted(played_cards_for_player, key=lambda c: c.cost)
-	played_card_dbfs = [c.dbf_id for c in played_cards_for_player][:min_played_cards]
-	played_card_names = [c.name for c in played_cards_for_player][:min_played_cards]
-
-	deck_size = len(deck)
-
-	has_enough_observed_cards = deck_size >= min_observed_cards
-	has_enough_played_cards = len(played_card_dbfs) >= min_played_cards
-
-	is_eligible = has_enough_observed_cards and has_enough_played_cards
-	influx_metric(
-		"deck_prediction_eligibility",
-		{
-			"deck_id": deck.id,
-			"is_eligible": 1 if is_eligible else 0
-		},
-		has_enough_observed_cards=has_enough_observed_cards,
-		has_enough_played_cards=has_enough_played_cards,
-		player_class=CardClass(int(player_class)).name,
-		format=FormatType(int(global_game.format)).name,
-		num_observed_cards=deck_size,
-		num_played_cards=len(played_card_dbfs)
-	)
-
-	if deck_size == 30:
-		# we have the full deck as a datapoint
-		perform_cross_validation(
-			tree=tree,
-			global_game=global_game,
-			player=player,
-			player_class=player_class,
-			is_friendly_player=is_friendly_player,
-			deck=deck,
-			played_cards_for_player=played_cards_for_player,
-			played_card_dbfs=played_card_dbfs,
-		)
-		with influx_timer("deck_prediction_duration", method="observe"):
-			observe_deck(
-				tree=tree,
-				deck=deck,
-				played_card_dbfs=played_card_dbfs
-			)
-
-		# deck_id == proxy_deck_id for complete decks
-		deck.guessed_full_deck = deck
-		deck.save()
-
-		influx_metric(
-			"deck_prediction_funnel",
-			{
-				"actual_deck_id": deck.id,
-			},
-			is_friendly_player=is_friendly_player,
-			player_class=CardClass(int(player_class)).name,
-			format=FormatType(int(global_game.format)).name,
-			is_complete_deck=True,
-			deck_size=deck_size,
-			is_eligible=is_eligible,
-			is_prediction_success=None,
-			deck_has_archetype=deck.archetype_id is not None,
-			num_played_cards=len(played_cards_for_player)
-		)
-
-	elif is_eligible:
-		# we have enough cards to predict the full deck
-		with influx_timer("deck_prediction_duration", method="predict"):
-			guessed_full_deck = predict_deck(
-				tree=tree,
-				global_game=global_game,
-				player_class=player_class,
-				deck=deck,
-				deck_size=deck_size,
-				played_card_dbfs=played_card_dbfs,
-				played_card_names=played_card_names,
-			)
-
-		if guessed_full_deck:
-			guessed_deck_id = guessed_full_deck.id
-			guessed_archetype = guessed_full_deck.archetype_id
-		else:
-			guessed_deck_id = None
-			guessed_archetype = None
-
-		influx_metric(
-			"deck_prediction_funnel",
-			{
-				"actual_deck_id": deck.id,
-				"predicted_deck_id": guessed_deck_id
-			},
-			is_friendly_player=is_friendly_player,
-			player_class=CardClass(int(player_class)).name,
-			format=FormatType(int(global_game.format)).name,
-			is_complete_deck=False,
-			deck_size=deck_size,
-			is_eligible=True,
-			is_prediction_success=(guessed_full_deck is not None),
-			deck_has_archetype=deck.archetype_id is not None,
-			prediction_has_archetype=(guessed_archetype is not None),
-			num_played_cards=len(played_cards_for_player)
-		)
-		return {
-			"predicted_deck_id": guessed_deck_id,
-			"predicted_archetype_id": guessed_archetype,
-		}
-	else:
-		influx_metric(
-			"deck_prediction_funnel",
-			{
-				"actual_deck_id": deck.id,
-			},
-			is_friendly_player=is_friendly_player,
-			player_class=CardClass(int(player_class)).name,
-			format=FormatType(int(global_game.format)).name,
-			is_complete_deck=False,
-			deck_size=deck_size,
-			is_eligible=False,
-			is_prediction_success=None,
-			deck_has_archetype=deck.archetype_id is not None,
-			prediction_has_archetype=None,
-			num_played_cards=len(played_cards_for_player)
-		)
-
-	return {}
 
 
 def perform_cross_validation(

@@ -110,8 +110,6 @@ CACHES = {
 additional_caches = (
 	"redshift",
 	"live_stats",
-	"deck_prediction_primary",
-	"deck_prediction_replica",
 	"throttling",
 )
 
