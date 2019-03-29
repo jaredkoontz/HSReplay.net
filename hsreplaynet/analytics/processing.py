@@ -558,6 +558,7 @@ def get_mulligan_preview():
 				GameType="RANKED_STANDARD",
 				RankRange="ALL",
 				Region="ALL",
+				PlayerInitiative="ALL",
 				deck_id=str(deck_obj.id)
 			))
 			if not parameterized_mulligan_query.result_available:
