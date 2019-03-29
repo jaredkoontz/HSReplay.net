@@ -323,6 +323,10 @@ class DeckDetail extends React.Component<Props, State> {
 							onClick={initiative =>
 								this.props.setPlayerInitiative(initiative)
 							}
+							infoHeader={t("Player Initiative")}
+							infoContent={t(
+								"See how this deck fares when going first or second and learn the nuances of the Mulligan!",
+							)}
 							disabled={this.props.tab !== "mulligan-guide"}
 						>
 							<PremiumWrapper
