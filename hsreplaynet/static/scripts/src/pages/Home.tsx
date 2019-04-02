@@ -3,7 +3,6 @@ import { WithTranslation, withTranslation } from "react-i18next";
 import i18next from "i18next";
 import { AutoSizer } from "react-virtualized";
 import CardData from "../CardData";
-import AdContainer from "../components/ads/AdContainer";
 import GutterAdUnit from "../components/ads/GutterAdUnit";
 import CollectionSetup from "../components/collection/CollectionSetup";
 import DataInjector from "../components/DataInjector";
@@ -28,8 +27,6 @@ import { default as Twitch } from "../Twitch";
 import UserData from "../UserData";
 import memoize from "memoize-one";
 import NetworkNAdUnit from "../components/ads/NetworkNAdUnit";
-import NitropayAdUnit from "../components/ads/NitropayAdUnit";
-import Feature from "../components/Feature";
 
 interface Props extends WithTranslation {
 	cardData: CardData | null;
@@ -164,19 +161,8 @@ class Home extends React.Component<Props, State> {
 				{promoBanner !== null ? (
 					promoBanner
 				) : (
-					<>
-						<Feature feature="networkn" inverted>
-							<div className="top-ads">
-								<AdContainer>
-									<NitropayAdUnit id="fp-d-1" size="728x90" />
-									<NitropayAdUnit id="fp-d-2" size="728x90" />
-								</AdContainer>
-							</div>
-						</Feature>
-						<NetworkNAdUnit id="nn_lb1" uniqueId="fp-bb1" center />
-					</>
+					<NetworkNAdUnit id="nn_lb1" uniqueId="fp-bb1" center />
 				)}
-				<NitropayAdUnit id="fp-m-1" size="320x50" mobile />
 				<NetworkNAdUnit
 					id="nn_mobile_mpu2"
 					uniqueId="fp-mmpu2"
@@ -185,15 +171,11 @@ class Home extends React.Component<Props, State> {
 				/>
 				<GutterAdUnit
 					position="left"
-					id="fp-d-3"
-					size="160x600"
 					networkNId="nn_skyleft"
 					uniqueId="fp-skyleft"
 				/>
 				<GutterAdUnit
 					position="right"
-					id="fp-d-4"
-					size="160x600"
 					networkNId="nn_skyright"
 					uniqueId="fp-skyright"
 				/>
@@ -260,7 +242,6 @@ class Home extends React.Component<Props, State> {
 								/>
 							</DataInjector>
 						</Panel>
-						<NitropayAdUnit id="fp-m-2" size="300x250" mobile />
 						{this.renderPremiumPanel()}
 					</div>
 					<div className="col-lg-4 col-xs-12">
@@ -308,7 +289,6 @@ class Home extends React.Component<Props, State> {
 						/>
 					</div>
 				</div>
-				<NitropayAdUnit id="fp-m-3" size="320x50" mobile />
 				<NetworkNAdUnit
 					id="nn_mobile_mpu1"
 					uniqueId="fp-mmpu1"
@@ -337,8 +317,6 @@ class Home extends React.Component<Props, State> {
 		return (
 			<>
 				<div className="row content-row info-content" id="pilot">
-					<GutterAdUnit position="left" id="fp-d-5" size="160x600" />
-					<GutterAdUnit position="right" id="fp-d-6" size="160x600" />
 					<Panel
 						header={t("Be a Better Deck Pilot")}
 						theme="light"
@@ -418,15 +396,6 @@ class Home extends React.Component<Props, State> {
 							</a>
 						</div>
 					</Panel>
-					<div className="center-ads">
-						<AdContainer>
-							<NitropayAdUnit id="fp-d-11" size="728x90" />
-							<NitropayAdUnit id="fp-d-12" size="728x90" />
-						</AdContainer>
-					</div>
-					<NitropayAdUnit id="fp-m-4" size="320x50" mobile />
-					<GutterAdUnit position="left" id="fp-d-7" size="160x600" />
-					<GutterAdUnit position="right" id="fp-d-8" size="160x600" />
 					<Panel
 						header={t("Master the Meta")}
 						theme="light"
@@ -550,13 +519,6 @@ class Home extends React.Component<Props, State> {
 							</a>
 						</div>
 					</Panel>
-					<GutterAdUnit position="left" id="fp-d-9" size="160x600" />
-					<GutterAdUnit
-						position="right"
-						id="fp-d-10"
-						size="160x600"
-					/>
-					<NitropayAdUnit id="fp-m-5" size="320x50" mobile />
 					<Panel
 						header={t("Live Data")}
 						theme="light"
@@ -568,7 +530,6 @@ class Home extends React.Component<Props, State> {
 							numCards={12}
 						/>
 					</Panel>
-					<NitropayAdUnit id="fp-m-6" size="320x50" mobile />
 				</div>
 			</>
 		);

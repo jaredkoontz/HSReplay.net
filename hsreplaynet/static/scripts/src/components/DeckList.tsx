@@ -15,8 +15,6 @@ import DeckTile from "./DeckTile";
 import InfoIcon from "./InfoIcon";
 import Pager from "./Pager";
 import SortIndicator from "./SortIndicator";
-import NitropayAdUnit from "./ads/NitropayAdUnit";
-import AdContainer from "./ads/AdContainer";
 
 interface AdInfo {
 	index: number;
@@ -177,25 +175,6 @@ class DeckList extends React.Component<Props, State> {
 					collection={this.props.collection}
 				/>,
 			);
-			if (this.props.ads) {
-				this.props.ads.filter(x => x.index === index).forEach(ad => {
-					deckTiles.push(
-						ad.mobile ? (
-							<NitropayAdUnit
-								id={ad.ids[0]}
-								size="320x50"
-								mobile
-							/>
-						) : (
-							<AdContainer>
-								{ad.ids.map(id => (
-									<NitropayAdUnit id={id} size="728x90" />
-								))}
-							</AdContainer>
-						),
-					);
-				});
-			}
 		});
 
 		const pager = top => {

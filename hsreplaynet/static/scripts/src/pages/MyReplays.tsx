@@ -2,8 +2,6 @@ import { cookie } from "cookie_js";
 import React from "react";
 import { Trans, WithTranslation, withTranslation } from "react-i18next";
 import CardData from "../CardData";
-import AdContainer from "../components/ads/AdContainer";
-import NitropayAdUnit from "../components/ads/NitropayAdUnit";
 import ClassDistributionPieChart from "../components/charts/ClassDistributionPieChart";
 import ClassFilter, { FilterOption } from "../components/ClassFilter";
 import GameHistoryList from "../components/gamehistory/GameHistoryList";
@@ -527,14 +525,8 @@ class MyReplays extends React.Component<Props, State> {
 					<Sticky bottom={0} key="ads">
 						<NetworkNAdUnit id="nn_mpu1" uniqueId="mr-mpu1" />
 					</Sticky>
-					<NitropayAdUnit id="mr-d-3" size="300x250" />
 				</aside>
 				<div className={contentClassNames.join(" ")}>
-					<AdContainer>
-						<NitropayAdUnit id="mr-d-1" size="728x90" />
-						<NitropayAdUnit id="mr-d-2" size="728x90" />
-					</AdContainer>
-					<NitropayAdUnit id="mr-m-1" size="320x50" mobile />
 					<Sticky top={10}>
 						<NetworkNAdUnit id="nn_lb1" uniqueId="mr-bb1" center />
 					</Sticky>

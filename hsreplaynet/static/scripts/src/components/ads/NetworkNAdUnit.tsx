@@ -196,7 +196,6 @@ const NetworkNAdUnit: React.FC<Props> = ({
 	if (
 		!showAds() ||
 		!AdHelper.isAdEnabled(uniqueId) ||
-		!UserData.hasFeature("networkn") ||
 		!!mobile !== onMobile
 	) {
 		return null;

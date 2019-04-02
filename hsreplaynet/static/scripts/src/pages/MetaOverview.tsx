@@ -22,8 +22,6 @@ import PrettyTimeRange from "../components/text/PrettyTimeRange";
 import { TimeRange } from "../filters";
 import { SortDirection } from "../interfaces";
 import { formatNumber } from "../i18n";
-import NitropayAdUnit from "../components/ads/NitropayAdUnit";
-import AdContainer from "../components/ads/AdContainer";
 import NetworkNAdUnit from "../components/ads/NetworkNAdUnit";
 import Sticky from "../components/utils/Sticky";
 
@@ -334,13 +332,8 @@ class MetaOverview extends React.Component<Props, State> {
 					<Sticky bottom={0}>
 						<NetworkNAdUnit id="nn_mpu2" uniqueId="mp-mpu2" />
 					</Sticky>
-					<NitropayAdUnit id="mp-d-11" size="300x250" />
-					<NitropayAdUnit id="mp-d-12" size="300x250" />
-					<NitropayAdUnit id="mp-d-13" size="300x250" />
-					<NitropayAdUnit id="mp-d-14" size="300x250" />
 				</aside>
 				<main className={contentClassNames.join(" ")}>
-					<NitropayAdUnit id="mp-m-1" size="320x50" mobile />
 					<NetworkNAdUnit
 						id="nn_mobile_mpu2"
 						uniqueId="mp-mmpu2"
@@ -358,10 +351,6 @@ class MetaOverview extends React.Component<Props, State> {
 					<Sticky top={5}>
 						<NetworkNAdUnit id="nn_lb1" uniqueId="mp-lb1" center />
 					</Sticky>
-					<AdContainer>
-						<NitropayAdUnit id="mp-d-1" size="728x90" />
-						<NitropayAdUnit id="mp-d-2" size="728x90" />
-					</AdContainer>
 					<TabList
 						tab={this.props.tab}
 						setTab={tab => this.props.setTab(tab)}
@@ -486,7 +475,6 @@ class MetaOverview extends React.Component<Props, State> {
 							{this.renderPopularity(popularityParams)}
 						</Tab>
 					</TabList>
-					<NitropayAdUnit id="mp-m-5" size="320x50" mobile />
 					<NetworkNAdUnit
 						id="nn_mobile_mpu1"
 						uniqueId="mp-mmpu1"

@@ -10,7 +10,6 @@ import AccountNavigation from "../components/account/AccountNavigation";
 import PremiumModal from "../components/premium/PremiumModal";
 import i18n from "../i18n";
 import { I18nextProvider } from "react-i18next";
-import NitropayAdUnit from "../components/ads/NitropayAdUnit";
 import { SubscriptionEvents } from "../metrics/Events";
 import MobilePromo from "../components/MobilePromo";
 
@@ -33,16 +32,6 @@ function renderNavbar() {
 				</BlizzardAccountProvider>
 			</I18nextProvider>,
 			userNav,
-		);
-	}
-}
-
-function renderFooterAds() {
-	const containers = document.getElementsByClassName("footer-ad-container");
-	for (let i = 0; i < containers.length; i++) {
-		ReactDOM.render(
-			<NitropayAdUnit id={`ft-d-${i + 1}`} size="320x50" />,
-			containers.item(i),
 		);
 	}
 }
@@ -80,11 +69,9 @@ function renderMobileBanner() {
 
 if (document.readyState === "loading") {
 	document.addEventListener("DOMContentLoaded", renderNavbar);
-	document.addEventListener("DOMContentLoaded", renderFooterAds);
 	document.addEventListener("DOMContentLoaded", renderMobileBanner);
 } else {
 	renderNavbar();
-	renderFooterAds();
 	renderMobileBanner();
 }
 

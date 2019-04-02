@@ -5,7 +5,6 @@ import { WithTranslation, withTranslation } from "react-i18next";
 import TwitchEmbed from "./TwitchEmbed";
 import TwitchVodsTable from "./TwitchVodsTable";
 import CardData from "../CardData";
-import NitropayAdUnit from "./ads/NitropayAdUnit";
 import Fragments from "./Fragments";
 import NetworkNAdUnit from "./ads/NetworkNAdUnit";
 
@@ -103,7 +102,6 @@ class TwitchVods extends React.Component<Props> {
 						</Fragments>
 					</div>
 					<div className="vod-ad-container">
-						<NitropayAdUnit id="dd-v-1" size="728x90" />
 						<NetworkNAdUnit
 							id="nn_lb2"
 							uniqueId={this.props.uniqueIdPrefix + "-lb2"}

@@ -1,10 +1,7 @@
 import _ from "lodash";
 import React, { Fragment } from "react";
 import { WithTranslation, withTranslation } from "react-i18next";
-import AdHelper from "../AdHelper";
 import CardData from "../CardData";
-import AdContainer from "../components/ads/AdContainer";
-import NitropayAdUnit from "../components/ads/NitropayAdUnit";
 import CardImage from "../components/CardImage";
 import { FilterOption } from "../components/ClassFilter";
 import DataInjector from "../components/DataInjector";
@@ -277,14 +274,8 @@ class Cards extends React.Component<Props, State> {
 						{backButton}
 						{this.renderFilters()}
 						{backButton}
-						<NitropayAdUnit id="cl-d-3" size="300x250" />
-						<NitropayAdUnit id="cl-d-4" size="300x250" />
 					</aside>
 					<main className={contentClassNames.join(" ")}>
-						<AdContainer>
-							<NitropayAdUnit id="cl-d-1" size="728x90" />
-							<NitropayAdUnit id="cl-d-2" size="728x90" />
-						</AdContainer>
 						<Sticky top={10}>
 							<NetworkNAdUnit
 								id="nn_lb1"
@@ -292,7 +283,6 @@ class Cards extends React.Component<Props, State> {
 								center
 							/>
 						</Sticky>
-						<NitropayAdUnit id="cl-m-1" size="320x50" mobile />
 						<NetworkNAdUnit
 							id="nn_mobile_mpu2"
 							uniqueId="cl-mmpu2"
@@ -871,34 +861,6 @@ class Cards extends React.Component<Props, State> {
 								topInfoRow={topInfoMessage}
 								bottomInfoRow={bottomInfomessage}
 								adInterval={12}
-								ads={_.range(5, 100, 2).map(x => {
-									const ads = [`cl-d-${x}`, `cl-d-${x + 1}`];
-									const showAds =
-										ads.some(ad =>
-											AdHelper.isAdEnabled(ad),
-										) && !UserData.hasFeature("networkn");
-									return showAds ? (
-										<>
-											<AdContainer
-												key={`ads-${x}-${x + 1}`}
-											>
-												<NitropayAdUnit
-													id={ads[0]}
-													size="728x90"
-												/>
-												<NitropayAdUnit
-													id={ads[1]}
-													size="728x90"
-												/>
-											</AdContainer>
-											<NitropayAdUnit
-												id={`cl-m-${Math.floor(x / 2)}`}
-												size="320x50"
-												mobile
-											/>
-										</>
-									) : null;
-								})}
 								collection={
 									this.props.display === "crafting"
 										? this.props.collection

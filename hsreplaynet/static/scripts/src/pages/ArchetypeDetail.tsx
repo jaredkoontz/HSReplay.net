@@ -35,12 +35,9 @@ import {
 import { isWildSet } from "../helpers";
 import { DeckObj, LoadingStatus, SortDirection } from "../interfaces";
 import { Archetype, Collection } from "../utils/api";
-import AdContainer from "../components/ads/AdContainer";
-import NitropayAdUnit from "../components/ads/NitropayAdUnit";
 import TwitchVods from "../components/TwitchVods";
 import Sticky from "../components/utils/Sticky";
 import NetworkNAdUnit from "../components/ads/NetworkNAdUnit";
-import Feature from "../components/Feature";
 
 interface Props extends WithTranslation {
 	archetypeId: number;
@@ -223,12 +220,6 @@ class ArchetypeDetail extends React.Component<Props, State> {
 								center
 							/>
 						</Sticky>
-						<Feature feature="networkn" inverted>
-							<AdContainer>
-								<NitropayAdUnit id="ad-d-1" size="728x90" />
-								<NitropayAdUnit id="ad-d-2" size="728x90" />
-							</AdContainer>
-						</Feature>
 						<div className="container-fluid">
 							<div className="row">
 								<DataInjector
@@ -718,9 +709,6 @@ class ArchetypeDetail extends React.Component<Props, State> {
 						mobile
 						center
 					/>
-					<NitropayAdUnit id="ad-d-3" size="300x250" />
-					<NitropayAdUnit id="ad-d-4" size="300x250" />
-					<NitropayAdUnit id="ad-d-5" size="300x250" />
 				</aside>
 				<main>
 					{content}

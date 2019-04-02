@@ -9,11 +9,8 @@ import HideLoading from "../components/loading/HideLoading";
 import TableLoading from "../components/loading/TableLoading";
 import TrendingDecksList from "../components/trending/TrendingDecksList";
 import PropRemapper from "../components/utils/PropRemapper";
-import AdContainer from "../components/ads/AdContainer";
-import NitropayAdUnit from "../components/ads/NitropayAdUnit";
 import NetworkNAdUnit from "../components/ads/NetworkNAdUnit";
 import GutterAdUnit from "../components/ads/GutterAdUnit";
-import Feature from "../components/Feature";
 
 interface Props extends WithTranslation {
 	cardData: CardData;
@@ -26,13 +23,6 @@ class DeckSpotlight extends React.Component<Props> {
 		return (
 			<div id="deck-spotlight">
 				<NetworkNAdUnit id="nn_bb1" uniqueId="tr-bb1" center />
-				<Feature feature="networkn" inverted>
-					<AdContainer>
-						<NitropayAdUnit id="tr-d-1" size="728x90" />
-						<NitropayAdUnit id="tr-d-2" size="728x90" />
-					</AdContainer>
-				</Feature>
-				<NitropayAdUnit id="tr-m-1" size="320x50" mobile />
 				<NetworkNAdUnit
 					id="nn_mobile_mpu2"
 					uniqueId="tr-mmpu2"
@@ -95,7 +85,6 @@ class DeckSpotlight extends React.Component<Props> {
 						{t("Check out all the decks!")}
 					</a>
 				</section>
-				<NitropayAdUnit id="tr-m-3" size="300x250" mobile />
 				<NetworkNAdUnit
 					id="nn_mobile_mpu1"
 					uniqueId="tr-mmpu1"

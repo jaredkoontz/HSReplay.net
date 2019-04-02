@@ -38,8 +38,6 @@ import {
 import PrettyTimeRange from "../components/text/PrettyTimeRange";
 import PrettyRankRange from "../components/text/PrettyRankRange";
 import LoadingSpinner from "../components/LoadingSpinner";
-import AdContainer from "../components/ads/AdContainer";
-import NitropayAdUnit from "../components/ads/NitropayAdUnit";
 import PrettyPlayerExperience from "../components/text/PrettyPlayerExperience";
 import NetworkNAdUnit from "../components/ads/NetworkNAdUnit";
 import Sticky from "../components/utils/Sticky";
@@ -1324,18 +1322,12 @@ class Decks extends React.Component<Props, State> {
 						</section>
 						{backButton}
 						<NetworkNAdUnit id="nn_mpu3" uniqueId="dl-mpu1" />
-						<NitropayAdUnit id="dl-d-5" size="300x250" />
 					</aside>
 				</div>
 				<main
 					className={contentClassNames.join(" ")}
 					ref={ref => (this.mainRef = ref)}
 				>
-					<AdContainer>
-						<NitropayAdUnit id="dl-d-1" size="728x90" />
-						<NitropayAdUnit id="dl-d-2" size="728x90" />
-					</AdContainer>
-					<NitropayAdUnit id="dl-m-1" size="320x50" mobile />
 					<NetworkNAdUnit
 						id="nn_mobile_mpu2"
 						uniqueId="dl-mmpu2"
@@ -1354,7 +1346,6 @@ class Decks extends React.Component<Props, State> {
 						<NetworkNAdUnit id="nn_lb1" uniqueId="dl-bb1" center />
 					</Sticky>
 					{content}
-					<NitropayAdUnit id="dl-m-3" size="300x250" mobile />
 					<NetworkNAdUnit
 						id="nn_mobile_mpu1"
 						uniqueId="dl-mmpu1"

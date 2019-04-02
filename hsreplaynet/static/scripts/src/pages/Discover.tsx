@@ -1,8 +1,6 @@
 import React from "react";
 import { WithTranslation, withTranslation } from "react-i18next";
 import CardData from "../CardData";
-import AdContainer from "../components/ads/AdContainer";
-import NitropayAdUnit from "../components/ads/NitropayAdUnit";
 import CardSearch from "../components/CardSearch";
 import ClassFilter, { FilterOption } from "../components/ClassFilter";
 import DataInjector from "../components/DataInjector";
@@ -148,7 +146,6 @@ class Discover extends React.Component<Props, State> {
 							this.props.setIncludedCards([]);
 						}}
 					/>
-					<NitropayAdUnit id="ds-m-1" size="320x50" mobile />
 					<section id="include-cards-filter">
 						<h2 id="card-search-include-label">
 							{t("Included cards")}
@@ -211,13 +208,8 @@ class Discover extends React.Component<Props, State> {
 							}
 						/>
 					</ul>
-					<NitropayAdUnit id="ds-d-3" size="300x250" />
 				</aside>
 				<main>
-					<AdContainer>
-						<NitropayAdUnit id="ds-d-1" size="728x90" />
-						<NitropayAdUnit id="ds-d-2" size="728x90" />
-					</AdContainer>
 					<DataInjector
 						query={{
 							url: dataUrl + "?" + this.state.key,
@@ -266,7 +258,6 @@ class Discover extends React.Component<Props, State> {
 							}}
 						/>
 					</DataInjector>
-					<NitropayAdUnit id="ds-m-2" size="320x50" mobile />
 				</main>
 			</div>
 		);

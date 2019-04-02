@@ -1,10 +1,7 @@
 import _ from "lodash";
 import React from "react";
 import { WithTranslation, withTranslation } from "react-i18next";
-import AdHelper from "../AdHelper";
 import CardData from "../CardData";
-import AdContainer from "../components/ads/AdContainer";
-import NitropayAdUnit from "../components/ads/NitropayAdUnit";
 import ArchetypeImage from "../components/archetypedetail/ArchetypeImage";
 import ArchetypeMatchups from "../components/archetypedetail/ArchetypeMatchups";
 import CardList from "../components/CardList";
@@ -718,7 +715,6 @@ class DeckDetail extends React.Component<Props, State> {
 							</span>
 						</li>
 					</ul>
-					<NitropayAdUnit id="dd-m-1" size="320x50" mobile />
 					{filters}
 					<DataInjector
 						fetchCondition={
@@ -747,15 +743,9 @@ class DeckDetail extends React.Component<Props, State> {
 						mobile
 						center
 					/>
-					<NitropayAdUnit id="dd-d-9" size="300x250" />
-					<NitropayAdUnit id="dd-d-10" size="300x250" />
 				</aside>
 				<main>
 					<section id="content-header">
-						<AdContainer>
-							<NitropayAdUnit id="dd-d-1" size="728x90" />
-							<NitropayAdUnit id="dd-d-2" size="728x90" />
-						</AdContainer>
 						<Sticky top={10}>
 							<NetworkNAdUnit
 								id="nn_lb1"
@@ -764,7 +754,6 @@ class DeckDetail extends React.Component<Props, State> {
 							/>
 						</Sticky>
 						{header}
-						<NitropayAdUnit id="dd-m-2" size="300x250" mobile />
 					</section>
 					<section id="page-content">
 						<TabList
@@ -772,10 +761,6 @@ class DeckDetail extends React.Component<Props, State> {
 							setTab={this.props.setTab}
 						>
 							<Tab label={t("Overview")} id="overview">
-								<AdContainer>
-									<NitropayAdUnit id="dd-d-3" size="728x90" />
-									<NitropayAdUnit id="dd-d-4" size="728x90" />
-								</AdContainer>
 								{overviewContent}
 							</Tab>
 							<Tab
@@ -903,7 +888,6 @@ class DeckDetail extends React.Component<Props, State> {
 								{this.renderTwitchVods()}
 							</Tab>
 						</TabList>
-						<NitropayAdUnit id="dd-m-3" size="320x50" mobile />
 						<NetworkNAdUnit
 							id="nn_mobile_mpu1"
 							uniqueId="dd-mmpu1"
@@ -982,27 +966,6 @@ class DeckDetail extends React.Component<Props, State> {
 					sortBy={this.state.sortBy}
 					sortDirection={this.state.sortDirection as SortDirection}
 					collection={this.props.collection}
-					adInterval={Math.floor(cards.length / 2)}
-					ads={
-						["dd-d-5", "dd-d-6"].some(
-							ad =>
-								AdHelper.isAdEnabled(ad) &&
-								!UserData.hasFeature("networkn"),
-						)
-							? [
-									<AdContainer>
-										<NitropayAdUnit
-											id="dd-d-5"
-											size="728x90"
-										/>
-										<NitropayAdUnit
-											id="dd-d-6"
-											size="728x90"
-										/>
-									</AdContainer>,
-							  ]
-							: null
-					}
 				/>
 			</DataInjector>
 		);

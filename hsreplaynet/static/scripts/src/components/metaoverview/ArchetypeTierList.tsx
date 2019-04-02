@@ -6,8 +6,6 @@ import { Archetype } from "../../utils/api";
 import InfoIcon from "../InfoIcon";
 import { withLoading } from "../loading/Loading";
 import ArchetypeListItem from "./ArchetypeListItem";
-import AdContainer from "../ads/AdContainer";
-import NitropayAdUnit from "../ads/NitropayAdUnit";
 import NetworkNAdUnit from "../ads/NetworkNAdUnit";
 
 interface ClassArchetypeData {
@@ -77,12 +75,6 @@ class ArchetypeTierList extends React.Component<Props> {
 			t("Losing Archetypes"),
 		];
 
-		const adUnitIds = [
-			["mp-d-3", "mp-d-4"],
-			["mp-d-5", "mp-d-6"],
-			["mp-d-7", "mp-d-8"],
-		];
-
 		return (
 			<div className="archetype-tier-list">
 				{tiers.map((tier, index) => {
@@ -110,25 +102,6 @@ class ArchetypeTierList extends React.Component<Props> {
 									uniqueId="mp-bb1"
 									center
 								/>
-							) : null}
-							{adUnitIds.length > index ? (
-								<>
-									<AdContainer key={`ad-container-${index}`}>
-										<NitropayAdUnit
-											id={adUnitIds[index][0]}
-											size="728x90"
-										/>
-										<NitropayAdUnit
-											id={adUnitIds[index][1]}
-											size="728x90"
-										/>
-									</AdContainer>
-									<NitropayAdUnit
-										id={`mp-m-${index + 2}`}
-										size="300x250"
-										mobile
-									/>
-								</>
 							) : null}
 						</>
 					);

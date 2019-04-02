@@ -7,9 +7,6 @@ import {
 	ImageProps,
 } from "../../interfaces";
 import GameHistoryItem from "./GameHistoryItem";
-import AdContainer from "../ads/AdContainer";
-import NitropayAdUnit from "../ads/NitropayAdUnit";
-import * as _ from "lodash";
 
 interface Props extends ImageProps, CardArtProps {
 	games: GameReplay[];
@@ -18,63 +15,18 @@ interface Props extends ImageProps, CardArtProps {
 export default class GameHistoryList extends React.Component<Props> {
 	public render(): React.ReactNode {
 		const columns = [];
-		const ads = _.range(4, 100, 2).map(x => (
-			<>
-				<AdContainer>
-					<NitropayAdUnit id={`mr-d-${x}`} size="728x90" />
-					<NitropayAdUnit id={`mr-d-${x + 1}`} size="728x90" />
-				</AdContainer>
-				<NitropayAdUnit
-					id={`mr-m-${Math.floor(x / 2)}`}
-					size="300x250"
-					mobile
-				/>
-			</>
-		));
-		const getAd = id => {
-			return id < ads.length && id >= 0 ? ads[id] : null;
-		};
 		this.props.games.forEach((game: GameReplay, i: number) => {
 			const startTime: Date = new Date(game.global_game.match_start);
 			const endTime: Date = new Date(game.global_game.match_end);
 			if (i > 0) {
 				if (!(i % 2)) {
 					columns.push(<div className="clearfix visible-sm-block" />);
-					if (!(i % 4)) {
-						columns.push(
-							<div className="visible-sm">
-								{getAd(i / 4 - 1)}
-							</div>,
-						);
-						columns.push(
-							<div className="clearfix visible-xs-block" />,
-						);
-						columns.push(
-							<div className="visible-xs">
-								{getAd(i / 4 - 1)}
-							</div>,
-						);
-					}
 				}
 				if (!(i % 3)) {
 					columns.push(<div className="clearfix visible-md-block" />);
-					if (!(i % 6)) {
-						columns.push(
-							<div className="visible-md">
-								{getAd(i / 6 - 1)}
-							</div>,
-						);
-					}
 				}
 				if (!(i % 4)) {
 					columns.push(<div className="clearfix visible-lg-block" />);
-					if (!(i % 8)) {
-						columns.push(
-							<div className="visible-lg">
-								{getAd(i / 8 - 1)}
-							</div>,
-						);
-					}
 				}
 			}
 

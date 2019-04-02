@@ -3,9 +3,6 @@ import { WithTranslation, withTranslation } from "react-i18next";
 import { CardArtProps, GameReplay, ImageProps } from "../../interfaces";
 import GameHistoryList from "./GameHistoryList";
 import GameHistoryTableRow from "./GameHistoryTableRow";
-import AdContainer from "../ads/AdContainer";
-import NitropayAdUnit from "../ads/NitropayAdUnit";
-import * as _ from "lodash";
 
 interface Props extends ImageProps, CardArtProps, WithTranslation {
 	games: GameReplay[];
@@ -15,25 +12,7 @@ class GameHistoryTable extends React.Component<Props> {
 	public render(): React.ReactNode {
 		const columns = [];
 		const { t } = this.props;
-		const ads = _.range(4, 20, 2).map(x => (
-			<tr className="ad-row">
-				<td colSpan={20}>
-					<AdContainer>
-						<NitropayAdUnit id={`mr-d-${x}`} size="728x90" />
-						<NitropayAdUnit id={`mr-d-${x + 1}`} size="728x90" />
-					</AdContainer>
-					<NitropayAdUnit
-						id={`mr-m-${Math.floor(x / 2)}`}
-						size="300x250"
-						mobile
-					/>
-				</td>
-			</tr>
-		));
-		const getAd = id => {
-			return id < ads.length && id >= 0 ? ads[id] : null;
-		};
-		this.props.games.forEach((game, index) => {
+		this.props.games.forEach(game => {
 			const startTime: Date = new Date(game.global_game.match_start);
 			const endTime: Date = new Date(game.global_game.match_end);
 
@@ -65,10 +44,6 @@ class GameHistoryTable extends React.Component<Props> {
 					opposingPlayer={game.opposing_player}
 				/>,
 			);
-
-			if ((index + 1) % 15 === 0 && index > 0) {
-				columns.push(getAd((index + 1) / 15 - 1));
-			}
 		});
 		return (
 			<div className="match-table">

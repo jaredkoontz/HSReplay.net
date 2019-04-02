@@ -1,8 +1,6 @@
 import React from "react";
 import { WithTranslation, withTranslation } from "react-i18next";
 import CardData from "../CardData";
-import AdContainer from "../components/ads/AdContainer";
-import NitropayAdUnit from "../components/ads/NitropayAdUnit";
 import AdaptDetail from "../components/carddetail/AdaptDetail";
 import RecommendedDecksList from "../components/carddetail/RecommendedDecksList";
 import CardRankingTable from "../components/CardRankingTable";
@@ -45,7 +43,6 @@ import UserData from "../UserData";
 import { Collection } from "../utils/api";
 import NetworkNAdUnit from "../components/ads/NetworkNAdUnit";
 import Sticky from "../components/utils/Sticky";
-import Feature from "../components/Feature";
 
 interface Props extends WithTranslation {
 	card: any;
@@ -199,54 +196,56 @@ class CardDetail extends React.Component<Props, State> {
 					);
 				}
 
-				const headerContent = [
-					<div className="col-lg-6 col-md-6">
-						<div className="chart-wrapper">
-							<DataInjector
-								query={{
-									url: "single_card_stats_over_time",
-									params: this.getParams(),
-								}}
-							>
-								<ChartLoading>
-									<PopularityLineChart
-										widthRatio={2}
-										maxYDomain={100}
-									/>
-								</ChartLoading>
-							</DataInjector>
-							<InfoIcon
-								header={t("Popularity over time")}
-								content={t(
-									"Percentage of decks that include at least one copy of this card.",
-								)}
-							/>
+				const headerContent = (
+					<>
+						<div className="col-lg-6 col-md-6">
+							<div className="chart-wrapper">
+								<DataInjector
+									query={{
+										url: "single_card_stats_over_time",
+										params: this.getParams(),
+									}}
+								>
+									<ChartLoading>
+										<PopularityLineChart
+											widthRatio={2}
+											maxYDomain={100}
+										/>
+									</ChartLoading>
+								</DataInjector>
+								<InfoIcon
+									header={t("Popularity over time")}
+									content={t(
+										"Percentage of decks that include at least one copy of this card.",
+									)}
+								/>
+							</div>
 						</div>
-					</div>,
-					<div className="col-lg-6 col-md-6">
-						<div className="chart-wrapper">
-							<DataInjector
-								query={{
-									url: "single_card_stats_over_time",
-									params: this.getParams(),
-								}}
-							>
-								<ChartLoading>
-									<WinrateLineChart
-										widthRatio={2}
-										axisLabelY={t("Deck winrate")}
-									/>
-								</ChartLoading>
-							</DataInjector>
-							<InfoIcon
-								header={t("Winrate over time")}
-								content={t(
-									"Winrate of decks that include at least one copy of this card.",
-								)}
-							/>
+						<div className="col-lg-6 col-md-6">
+							<div className="chart-wrapper">
+								<DataInjector
+									query={{
+										url: "single_card_stats_over_time",
+										params: this.getParams(),
+									}}
+								>
+									<ChartLoading>
+										<WinrateLineChart
+											widthRatio={2}
+											axisLabelY={t("Deck winrate")}
+										/>
+									</ChartLoading>
+								</DataInjector>
+								<InfoIcon
+									header={t("Winrate over time")}
+									content={t(
+										"Winrate of decks that include at least one copy of this card.",
+									)}
+								/>
+							</div>
 						</div>
-					</div>,
-				];
+					</>
+				);
 
 				const turnStatsQuery = {
 					params: this.getParams(),
@@ -374,20 +373,6 @@ class CardDetail extends React.Component<Props, State> {
 									cardName: this.props.card.name,
 								})}
 							</h1>
-							<Feature feature="networkn" inverted>
-								<div className="top-ads">
-									<AdContainer>
-										<NitropayAdUnit
-											id="cd-d-1"
-											size="728x90"
-										/>
-										<NitropayAdUnit
-											id="cd-d-2"
-											size="728x90"
-										/>
-									</AdContainer>
-								</div>
-							</Feature>
 							{headerContent}
 							<NetworkNAdUnit
 								id="nn_mobile_mpu1"
@@ -395,7 +380,6 @@ class CardDetail extends React.Component<Props, State> {
 								mobile
 								center
 							/>
-							<NitropayAdUnit id="cd-m-2" size="300x250" mobile />
 						</section>
 						<section id="page-content" key="page-content">
 							<Fragments
@@ -600,7 +584,6 @@ class CardDetail extends React.Component<Props, State> {
 								</TabList>
 							</Fragments>
 						</section>
-						<NitropayAdUnit id="cd-m-3" size="320x50" mobile />
 					</>
 				);
 			}
@@ -656,7 +639,6 @@ class CardDetail extends React.Component<Props, State> {
 						/>
 					</h1>
 					<p>{this.getCleanFlavorText()}</p>
-					<NitropayAdUnit id="cd-m-1" size="300x250" mobile />
 					<NetworkNAdUnit
 						id="nn_mobile_mpu2"
 						uniqueId="cd-mmpu2"
@@ -855,7 +837,6 @@ class CardDetail extends React.Component<Props, State> {
 							</span>
 						</li>
 					</ul>
-					<NitropayAdUnit id="cd-d-3" size="300x250" />
 					<Sticky bottom={0}>
 						<NetworkNAdUnit id="nn_mpu1" uniqueId="cd-mpu1" />
 					</Sticky>
