@@ -47,11 +47,13 @@ const PromoBanner: React.FC<{
 	title?: string;
 	subtitle?: string;
 	target?: string;
+	rel?: string;
 }> = props => (
 	<a
 		href={props.href}
 		className="feature-promo"
 		target={props.target || "_self"}
+		rel={props.rel}
 	>
 		<img src={props.backgroundImage} />
 		<div className="feature-promo-content">
@@ -774,6 +776,23 @@ class Home extends React.Component<Props, State> {
 					title={t("Everyone, get in here - we're hiring!")}
 					subtitle={t(
 						"Click here to check out our current job openings",
+					)}
+				/>,
+			);
+		}
+
+		if (UserData.hasFeature("promo-banner-untapped")) {
+			banners.push(
+				<PromoBanner
+					href="https://mtga.untapped.gg/?utm_source=hsreplaynet&utm_medium=promobanner"
+					target="_blank"
+					rel="noopener"
+					backgroundImage={staticFile(
+						"images/promo-banner-untapped.png",
+					)}
+					title={t("Also play Magic the Gathering: Arena?")}
+					subtitle={t(
+						"Check out our new MTG Arena deck tracker, now in beta!",
 					)}
 				/>,
 			);
