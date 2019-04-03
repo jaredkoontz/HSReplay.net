@@ -281,8 +281,7 @@ header .navbar {
 	clear: both;
 	color: $lightgrey;
 	margin-top: auto;
-	padding: 1em;
-	width: 100%;
+	padding: 20px 0;
 	border-top: 1px solid $darkblue;
 	display: flex;
 	align-items: center;
@@ -294,17 +293,6 @@ header .navbar {
 
 	abbr {
 		border-bottom: none;
-	}
-
-	.footer-content {
-		max-width: 930px;
-		flex: 1 1 0;
-	}
-
-	.footer-ad-container {
-		@media (max-width: 1529px) {
-			display: none;
-		}
 	}
 
 	.footer-brand {
@@ -348,6 +336,7 @@ header .navbar {
 
 	.footer-menu {
 		font-size: small;
+		white-space: nowrap;
 
 		@media (max-width: 991px) {
 			font-size: initial;
@@ -369,6 +358,10 @@ header .navbar {
 		ul {
 			list-style-type: none;
 			padding: 0px;
+		}
+
+		.glyphicon {
+			font-size: 0.7em;
 		}
 	}
 

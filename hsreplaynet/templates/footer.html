@@ -3,105 +3,121 @@
 {% load web_extras %}
 {% load trans from i18n %}
 
-<div class="footer-content row">
-	<p class="visible-xs text-center prominent">
-		<a href="#">&uparrow; {% trans "Back to top" %}</a>
-	</p>
-	<div class="col-md-4">
-		<div class="row footer-brand">
-			<a href="/">
-				<img src="{% static 'images/logo.png' %}" id="footer-logo" alt="HSReplay" />
-				<h1>HSReplay.net</h1>
-			</a>
-		</div>
-		<section>
-			<h2 class="sr-only">{% trans "Social Media" %}</h2>
-			<ul class="horizontal-icons">
-				{% setting 'HSREPLAY_TWITTER_HANDLE' as twitter_handle %}
-				<li><a href="https://twitter.com/{{ twitter_handle }}" target="_blank" rel="noopener" class="social-button">
-					<span class="label">{% trans "Follow us on Twitter" %}</span>
-					{% include "snippets/twitter_button.svg" with fill="#9e9e9e" width=28 height=28 selector=".social-button" %}
-				</a></li>
-
-				{% setting 'HSREPLAY_DISCORD_URL' as discord_url %}
-				<li><a href="{{ discord_url }}" target="_blank" rel="noopener" class="social-button">
-					<span class="label">{% trans "Join our Discord server" %}</span>
-					{% include "snippets/discord_button.svg" with fill="#9e9e9e" width=28 height=28 selector=".social-button" %}
-				</a></li>
-
-				{% setting 'HSREPLAY_FACEBOOK_URL' as facebook_url %}
-				<li><a href="{{ facebook_url }}" target="_blank" rel="noopener" class="social-button">
-					<span class="label">{% trans "Like us on Facebook" %}</span>
-					{% include "snippets/facebook_button.svg" with fill="#9e9e9e" width=28 height=28 selector=".social-button" %}
-				</a></li>
-			</ul>
-		</section>
-	</div>
-	<div class="col-md-8">
-		<div class="row">
-			<section class="col-md-4 footer-menu">
-				<h2>HSReplay.net</h2>
-				<ul>
-					<li><a href="{% url 'premium' %}">{% trans "Premium" %}</a></li>
-					<li><a href="{% url 'downloads' %}">{% trans "Downloads" %}</a></li>
-					<li><a href="{% url 'privacy_policy' %}">{% trans "Privacy Policy" %}</a></li>
-					<li><a href="{% url 'terms_of_service' %}">{% trans "Terms of Service" %}</a></li>
-					{% feature "networkn" as networkn %}
-					{% if networkn.enabled %}
-					<li>
-						<a style="cursor:pointer" onclick="window.__cmp('showConsentModal')">
-							{% trans "Manage Cookie Settings" %}
-						</a>
-					</li>
-					{% endif %}
-				</ul>
-			</section>
-			<section class="col-md-4 footer-menu">
-				<h2>{% trans "Help" %}</h2>
-				<ul>
-					<li><a href="https://help.hsreplay.net">{% trans "FAQ" %}</a></li>
-					<li><a href="{% url 'contact_us' %}">{% trans "Contact" %}</a></li>
-				</ul>
-			</section>
-			<section class="col-md-4 footer-menu">
-				<h2>HearthSim</h2>
-				<ul>
-					<li><a href="https://hearthsim.net/">{% trans "About Us" %}</a></li>
-					<li><a href="https://github.com/HearthSim/">{% trans "Open source" %}</a></li>
-					<li>
-						{% feature "careers-page" as careers %}
-						{% if careers.enabled %}
-						<a href="https://hearthsim.net/careers.html">{% trans "Careers" %}</a>
-						{% else %}
-						<a href="mailto:jobs@hearthsim.net">{% trans "Careers" %}</a>
-						{% endif %}
-					</li>
-					<li><a href="mailto:press@hearthsim.net">{% trans "Press" %}</a></li>
-				</ul>
-			</section>
-		</div>
-		<section class="row copyright">
-			<h2 class="sr-only">{% trans "Copyright" %}</h2>
-			<p>&copy; {% now 'Y' %} &middot; {% trans "This website is not affiliated with Blizzard Entertainment." %}</p>
-			{% if user.is_staff or debug %}
-			<p>
-				{% setting "RAVEN_CONFIG" as raven_config %}
-				{% if raven_config.release %}
-				<a href="https://github.com/HearthSim/HSReplay.net/commits/{{ raven_config.release }}" target="_blank" rel="noopener">
-					@<abbr title="{{ raven_config.release }}">{{ raven_config.release|slice:":7" }}</abbr>
+<div class="container">
+	<div class="row">
+		<p class="visible-xs text-center prominent">
+			<a href="#">&uparrow; {% trans "Back to top" %}</a>
+		</p>
+		<div class="col-lg-4 col-md-4">
+			<div class="row footer-brand">
+				<a href="/">
+					<img src="{% static 'images/logo.png' %}" id="footer-logo" alt="HSReplay" />
+					<h1>HSReplay.net</h1>
 				</a>
-				{% else %}
-				@unknown revision
-				{% endif %}
+			</div>
+			<section>
+				<h2 class="sr-only">{% trans "Social Media" %}</h2>
+				<ul class="horizontal-icons">
+					{% setting 'HSREPLAY_TWITTER_HANDLE' as twitter_handle %}
+					<li><a href="https://twitter.com/{{ twitter_handle }}" target="_blank" rel="noopener" class="social-button">
+						<span class="label">{% trans "Follow us on Twitter" %}</span>
+						{% include "snippets/twitter_button.svg" with fill="#9e9e9e" width=28 height=28 selector=".social-button" %}
+					</a></li>
 
-				&middot; {{ python_version }}
-				&middot; {{ django_version }}
+					{% setting 'HSREPLAY_DISCORD_URL' as discord_url %}
+					<li><a href="{{ discord_url }}" target="_blank" rel="noopener" class="social-button">
+						<span class="label">{% trans "Join our Discord server" %}</span>
+						{% include "snippets/discord_button.svg" with fill="#9e9e9e" width=28 height=28 selector=".social-button" %}
+					</a></li>
 
-				{% if debug %}
-				&middot; <strong>Running in DEBUG mode</strong>
+					{% setting 'HSREPLAY_FACEBOOK_URL' as facebook_url %}
+					<li><a href="{{ facebook_url }}" target="_blank" rel="noopener" class="social-button">
+						<span class="label">{% trans "Like us on Facebook" %}</span>
+						{% include "snippets/facebook_button.svg" with fill="#9e9e9e" width=28 height=28 selector=".social-button" %}
+					</a></li>
+				</ul>
+			</section>
+		</div>
+		<div class="col-lg-8 col-md-8">
+			<div class="row">
+				<section class="col-lg-3 col-md-6 col-sm-6 footer-menu">
+					<h2>HSReplay.net</h2>
+					<ul>
+						<li><a href="{% url 'downloads' %}">{% trans "Downloads" %}</a></li>
+						<li><a href="{% url 'premium' %}">{% trans "Premium" %}</a></li>
+						<li><a href="{% url 'account_edit' %}">{% trans "Your Account" %}</a></li>
+					</ul>
+				</section>
+				<section class="col-lg-3 col-md-6 col-sm-6 footer-menu">
+					<h2>{% trans "Help" %}</h2>
+					<ul>
+						<li>
+							<a href="https://help.hsreplay.net">{% trans "Support Center" %}</a>
+							<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+						</li>
+						<li><a href="{% url 'contact_us' %}">{% trans "Contact" %}</a></li>
+					</ul>
+				</section>
+				<div class="clearfix visible-md-block visible-sm-block"></div>
+				<section class="col-lg-3 col-md-6 col-sm-6 footer-menu">
+					<h2>{% trans "Legal" %}</h2>
+					<ul>
+						<li>
+							<a href="https://hearthsim.net/legal/terms-of-service.html" target="_blank" rel="noopener">{% trans "Terms of Service" %}</a>
+							<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+						</li>
+						<li>
+							<a href="https://hearthsim.net/legal/privacy-policy.html" target="_blank" rel="noopener">{% trans "Privacy Policy" %}</a>
+							<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+						</li>
+						<li>
+							<a style="cursor:pointer" onclick="window.__cmp('showConsentModal')">
+								{% trans "Manage Cookie Settings" %}
+							</a>
+						</li>
+					</ul>
+				</section>
+				<section class="col-lg-3 col-md-6 col-sm-6 footer-menu">
+					<h2>HearthSim</h2>
+					<ul>
+						<li>
+							<a href="https://hearthsim.net/" target="_blank" rel="noopener">{% trans "About Us" %}</a>
+							<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+						</li>
+						<li>
+							<a href="https://hearthsim.net/careers.html" target="_blank" rel="noopener">{% trans "Careers" %}</a>
+							<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+						</li>
+						<li>
+							<a href="https://untapped.gg/" target="_blank" rel="noopener">Untapped.gg</a>
+							<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+						</li>
+					</ul>
+				</section>
+			</div>
+			<section class="row copyright">
+				<h2 class="sr-only">{% trans "Copyright" %}</h2>
+				<p>&copy; {% now 'Y' %} &middot; {% trans "This website is not affiliated with Blizzard Entertainment." %}</p>
+				{% if user.is_staff or debug %}
+				<p>
+					{% setting "RAVEN_CONFIG" as raven_config %}
+					{% if raven_config.release %}
+					<a href="https://github.com/HearthSim/HSReplay.net/commits/{{ raven_config.release }}" target="_blank" rel="noopener">
+						@<abbr title="{{ raven_config.release }}">{{ raven_config.release|slice:":7" }}</abbr>
+					</a>
+					{% else %}
+					@unknown revision
+					{% endif %}
+
+					&middot; {{ python_version }}
+					&middot; {{ django_version }}
+
+					{% if debug %}
+					&middot; <strong>Running in DEBUG mode</strong>
+					{% endif %}
+				</p>
 				{% endif %}
-			</p>
-			{% endif %}
-		</section>
+			</section>
+		</div>
 	</div>
 </div>
