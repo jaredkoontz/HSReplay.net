@@ -21,7 +21,7 @@ import Panel from "../components/Panel";
 import PremiumModal from "../components/premium/PremiumModal";
 import TwitchEmbed from "../components/TwitchEmbed";
 import { BnetGameType } from "../hearthstone";
-import { image } from "../helpers";
+import { image, staticFile } from "../helpers";
 import { TwitchStreamPromotionEvents } from "../metrics/Events";
 import { default as Twitch } from "../Twitch";
 import UserData from "../UserData";
@@ -726,11 +726,9 @@ class Home extends React.Component<Props, State> {
 
 	// Use memoize to prevent re-rendering random banners
 	private renderPromoBanner = memoize((t: i18next.TFunction) => {
-		/* Temporarily disable the display of anything except the jobs ad. */
-		/*
 		const banners = [];
 
-		if (UserData.hasFeature("arcane-tracker")) {
+		if (UserData.hasFeature("promo-banner-arcane-tracker")) {
 			banners.push(
 				<PromoBanner
 					href="https://play.google.com/store/apps/details?id=net.mbonnin.arcanetracker"
@@ -742,7 +740,7 @@ class Home extends React.Component<Props, State> {
 			);
 		}
 
-		if (UserData.hasFeature("twitch-vods")) {
+		if (UserData.hasFeature("promo-banner-twitch-vods")) {
 			const seenDecks = UserData.hasCookie(
 				"twitch-vods-decks-popup-closed",
 				"0",
@@ -767,18 +765,17 @@ class Home extends React.Component<Props, State> {
 				);
 			}
 		}
-		if (UserData.hasFeature("careers-page")) {
+
+		if (UserData.hasFeature("promo-banner-careers")) {
 			banners.push(
-		*/
-		return (
-			<PromoBanner
-				href={"https://hearthsim.net/careers.html"}
-				backgroundImage="https://media.hearthsim.net/hsreplaynet/jobs-banner2.jpg"
-				title={t("Everyone, get in here - we're hiring!")}
-				subtitle={t("Click here to check out our current job openings")}
-			/>
-		);
-		/*
+				<PromoBanner
+					href="https://hearthsim.net/careers.html"
+					backgroundImage="https://media.hearthsim.net/hsreplaynet/jobs-banner2.jpg"
+					title={t("Everyone, get in here - we're hiring!")}
+					subtitle={t(
+						"Click here to check out our current job openings",
+					)}
+				/>,
 			);
 		}
 
@@ -786,7 +783,6 @@ class Home extends React.Component<Props, State> {
 			return banners[Math.floor(Math.random() * banners.length)];
 		}
 		return null;
-		*/
 	});
 }
 
