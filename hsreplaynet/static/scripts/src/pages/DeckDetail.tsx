@@ -329,7 +329,7 @@ class DeckDetail extends React.Component<Props, State> {
 							<PremiumWrapper
 								analyticsLabel="Single Deck Coin"
 								iconStyle={{ display: "none" }}
-								modalStyle="TimeRankRegion"
+								modalStyle="default"
 							>
 								<InfoboxFilter value={PlayerInitiative.FIRST}>
 									{t("Going first")}
