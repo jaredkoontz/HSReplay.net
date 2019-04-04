@@ -6,6 +6,7 @@ import LoginButton from "../account/LoginButton";
 import CloseModalButton from "../modal/CloseModalButton";
 import PremiumCheckout from "./PremiumCheckout";
 import { PremiumEvents, SubscriptionEvents } from "../../metrics/Events";
+import { addNextToUrl } from "../../utils/account";
 
 interface Props extends WithTranslation {
 	analyticsLabel?: string;
@@ -190,7 +191,19 @@ class PremiumModal extends React.Component<Props, State> {
 							<div className="premium-feature-description">
 								<h1>{data.title}</h1>
 								<p>{data.description}</p>
-								<a className="learn-more" href="/premium/">
+								<a
+									className="learn-more"
+									href={
+										document &&
+										document.location &&
+										document.location.pathname
+											? addNextToUrl(
+													"/premium/",
+													document.location.pathname,
+											  )
+											: "/premium/"
+									}
+								>
 									{t("See all features")}
 								</a>
 							</div>
