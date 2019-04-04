@@ -200,6 +200,7 @@ const CardSetOptions = [
 	[CardSet.GILNEAS, "The Witchwood"],
 	[CardSet.BOOMSDAY, "The Boomsday Project"],
 	[CardSet.TROLL, "Rastakhan's Rumble"],
+	[CardSet.DALARAN, "Rise of Shadows"],
 ];
 
 const CardTypeOptions = [
