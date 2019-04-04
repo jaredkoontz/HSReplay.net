@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createRef } from "react";
 import ReactDOM from "react-dom";
 
 interface Props {
@@ -6,14 +6,14 @@ interface Props {
 }
 
 export default class ModalScroller extends React.Component<Props> {
-	private ref: HTMLDivElement;
+	private ref = createRef<HTMLDivElement>();
 
 	private close = () => {
 		this.props.onClose();
 	};
 
 	private click = event => {
-		if (event.target !== this.ref) {
+		if (event.target !== this.ref.current) {
 			return;
 		}
 		this.close();
@@ -59,7 +59,7 @@ export default class ModalScroller extends React.Component<Props> {
 				<div
 					className="site-modal-container"
 					onClick={this.click}
-					ref={ref => (this.ref = ref)}
+					ref={this.ref}
 				>
 					{this.props.children}
 				</div>
