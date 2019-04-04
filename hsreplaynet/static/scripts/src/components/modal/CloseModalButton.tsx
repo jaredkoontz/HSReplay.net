@@ -12,6 +12,7 @@ class CloseModalButton extends React.Component<WithTranslation> {
 						onClick={() => onClose()}
 						aria-label={t("Close")}
 						className="modal-close"
+						tabIndex={0}
 					>
 						&times;
 					</span>

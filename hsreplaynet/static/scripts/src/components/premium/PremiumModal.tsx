@@ -139,10 +139,15 @@ class PremiumModal extends React.Component<Props, State> {
 			isAuthenticated && paymentData.stripe.has_subscription_past_due;
 		const data = this.getData();
 		return (
-			<div className="premium-modal" role="dialog">
+			<aside
+				className="premium-modal"
+				role="dialog"
+				aria-labelledby="premium-modal-title"
+				aria-modal="true"
+			>
 				<header>
 					<CloseModalButton />
-					<h1>
+					<h1 id="premium-modal-title">
 						<Trans
 							defaults="HSReplay.net <0>Premium</0>"
 							components={[
@@ -286,7 +291,7 @@ class PremiumModal extends React.Component<Props, State> {
 						</>
 					)}
 				</footer>
-			</div>
+			</aside>
 		);
 	}
 }

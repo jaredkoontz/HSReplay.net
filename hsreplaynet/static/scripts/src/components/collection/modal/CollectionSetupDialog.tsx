@@ -422,7 +422,11 @@ class CollectionSetupDialog extends React.Component<Props, State> {
 	public render(): React.ReactNode {
 		const { t } = this.props;
 		return (
-			<div className="collection-setup-modal">
+			<aside
+				className="collection-setup-modal"
+				role="dialog"
+				aria-modal="true"
+			>
 				<div
 					className="modal-banner"
 					style={{
@@ -469,7 +473,7 @@ class CollectionSetupDialog extends React.Component<Props, State> {
 					) : null}
 					{this.renderStep()}
 				</div>
-			</div>
+			</aside>
 		);
 	}
 }
