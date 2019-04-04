@@ -691,6 +691,7 @@
 		background-size: cover;
 		position: relative;
 		display: flex;
+		flex-direction: column;
 		align-items: center;
 		justify-content: center;
 		> * {
@@ -708,6 +709,8 @@
 			width: 100%;
 			height: 100%;
 			position: absolute;
+			top: 0;
+			left: 0;
 			background: $offwhite;
 			opacity: 0.8;
 			z-index: 0;
@@ -737,6 +740,10 @@
 					rgba(99, 99, 99, 0.5) 100%
 				);
 			}
+		}
+
+		p {
+			text-align: center;
 		}
 	}
 

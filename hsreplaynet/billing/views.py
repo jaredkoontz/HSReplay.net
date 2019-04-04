@@ -140,6 +140,11 @@ class SubscribeMixin:
 				)
 			return False
 
+		# reject if there's any Stripe subscription (possibly past_due)
+		customer = user.stripe_customer
+		if customer and customer.valid_subscriptions.exists():
+			return False
+
 		return True
 
 

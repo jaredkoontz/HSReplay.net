@@ -135,9 +135,11 @@ class PremiumModal extends React.Component<Props, State> {
 		const paymentData = JSON.parse(element.textContent);
 		const premiumPrice = paymentData.stripe.plans[0].description;
 		const isAuthenticated = UserData.isAuthenticated();
+		const hasPastDue =
+			isAuthenticated && paymentData.stripe.has_subscription_past_due;
 		const data = this.getData();
 		return (
-			<div className="premium-modal">
+			<div className="premium-modal" role="dialog">
 				<header>
 					<CloseModalButton />
 					<h1>
@@ -148,7 +150,7 @@ class PremiumModal extends React.Component<Props, State> {
 							]}
 						/>
 					</h1>
-					{this.state.showCheckout ? null : (
+					{this.state.showCheckout || hasPastDue ? null : (
 						<h4>
 							{t("Subscribe for {price}", {
 								price: premiumPrice,
@@ -198,44 +200,90 @@ class PremiumModal extends React.Component<Props, State> {
 					className={
 						!this.state.showCheckout && data.image ? "large" : null
 					}
-					style={{
-						backgroundImage: `url(${(!this.state.showCheckout &&
-							data.image) ||
-							image("premium/rank-portrait-bk.jpg")})`,
-					}}
+					style={
+						!hasPastDue
+							? {
+									backgroundImage: `url(${(!this.state
+										.showCheckout &&
+										data.image) ||
+										image(
+											"premium/rank-portrait-bk.jpg",
+										)})`,
+							  }
+							: {
+									padding: "20px 0 10px 0",
+									backgroundImage: `url(${(!this.state
+										.showCheckout &&
+										data.image) ||
+										image(
+											"premium/rank-portrait-bk.jpg",
+										)})`,
+							  }
+					}
 				>
 					<div className="color-overlay" />
 					{data.image && !this.state.showCheckout ? (
 						<div className="button-backdrop" />
 					) : null}
-					{isAuthenticated ? (
-						this.state.showCheckout ? null : (
-							<a
-								href="#"
-								className="btn promo-button"
-								onClick={e => {
-									e.preventDefault();
-									SubscriptionEvents.onInitiateCheckout(
-										this.props.analyticsLabel,
-									);
-									this.setState({ showCheckout: true });
-								}}
-							>
-								{t("Subscribe now")}
-							</a>
-						)
+					{hasPastDue ? (
+						<>
+							<p>
+								<a
+									href="/account/billing/"
+									className="btn promo-button white-style"
+								>
+									{t("Subscription suspended")}
+								</a>
+							</p>
+							<p>
+								{t(
+									"Your subscription was suspended due to an open payment.",
+								)}
+								<br />
+								<a
+									href="/account/billing/"
+									style={{
+										textDecoration: "underline",
+									}}
+								>
+									{t("Please visit the billing settings")}
+								</a>.
+							</p>
+						</>
 					) : (
-						<LoginButton
-							next={
-								document &&
-								document.location &&
-								document.location.pathname
-									? `${
-											document.location.pathname
-									  }?modal=premium`
-									: "/premium/"
-							}
-						/>
+						<>
+							{isAuthenticated ? (
+								this.state.showCheckout ? null : (
+									<a
+										href="#"
+										className="btn promo-button"
+										onClick={e => {
+											e.preventDefault();
+											SubscriptionEvents.onInitiateCheckout(
+												this.props.analyticsLabel,
+											);
+											this.setState({
+												showCheckout: true,
+											});
+										}}
+									>
+										{t("Subscribe now")}
+									</a>
+								)
+							) : (
+								<LoginButton
+									next={
+										document &&
+										document.location &&
+										document.location.pathname
+											? `${
+													document.location.pathname
+											  }?modal=premium`
+											: "/premium/"
+									}
+								/>
+							)}
+						</>
 					)}
 				</footer>
 			</div>
