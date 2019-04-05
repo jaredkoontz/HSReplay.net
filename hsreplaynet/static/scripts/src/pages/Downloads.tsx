@@ -295,6 +295,19 @@ class Downloads extends React.Component<Props, State> {
 						</a>
 					</div>
 				</Panel>
+				<Panel theme="light" accent="blue" className="panel-mtga">
+					<p>
+						{t(
+							"Also play MTG Arena? Check out our deck tracker for that:",
+						)}
+					</p>
+					<a
+						href="https://mtga.untapped.gg/?utm_source=hsreplaynet&utm_medium=downloadbanner"
+						className="btn promo-button-outline"
+					>
+						{t("Visit {website}", { website: "Untapped.gg" })}
+					</a>
+				</Panel>
 			</div>
 		);
 	}

@@ -328,4 +328,27 @@
 			}
 		}
 	}
+
+	.panel-mtga {
+		margin: 10px 15px;
+
+		.panel-content {
+			background-color: $untappedgg-background;
+			background-image: url("https://static.mtga.untapped.gg/static/mtga/background-mid.jpg");
+			background-position: 100% 34%;
+			background-size: 80%;
+			background-repeat: no-repeat;
+			padding: 40px 0;
+			text-align: center;
+			color: white;
+			font-size: 1.7em;
+			font-weight: bold;
+
+			.promo-button-outline {
+				font-size: 0.8em;
+				color: $untappedgg-orange;
+				border-color: $untappedgg-orange;
+			}
+		}
+	}
 }
