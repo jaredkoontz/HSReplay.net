@@ -79,13 +79,6 @@ class SetFilter extends React.Component<Props> {
 				<CardFilterItem value={"HOF"}>
 					{t("GLOBAL_CARD_SET_HOF")}
 				</CardFilterItem>
-				{!this.props.onlyCollectibleSets ? (
-					<>
-						<CardFilterItem value={"TAVERNS_OF_TIME"}>
-							{t("Taverns of Time")}
-						</CardFilterItem>
-					</>
-				) : null}
 			</CardFilterItemGroup>
 		);
 	}
