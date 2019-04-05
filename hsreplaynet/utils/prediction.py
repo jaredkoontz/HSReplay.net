@@ -131,7 +131,7 @@ class RedisInverseLookupTable(BaseInverseLookupTable):
 		candidates = self._zinter(keys)
 		if len(candidates):
 			deck_ids = map(lambda deck_id: int(deck_id.decode("utf-8")), candidates)
-			return max(deck_ids, key=lambda deck_id: self._get_popularity_for_deck(deck_id))
+			return self._pick_most_popular_deck(list(deck_ids))
 
 		# count number of decks for each card once before fuzzy matching
 		pipeline = self.redis.pipeline()
@@ -160,9 +160,9 @@ class RedisInverseLookupTable(BaseInverseLookupTable):
 			# ...calculate our new candidates
 			candidates = self._zinter(sorted_keys)
 			# ...and finally check whether we got a match
-			if len(candidates) > 0:
+			if len(candidates):
 				deck_ids = map(lambda deck_id: int(deck_id.decode("utf-8")), candidates)
-				return max(deck_ids, key=lambda deck_id: self._get_popularity_for_deck(deck_id))
+				return self._pick_most_popular_deck(list(deck_ids))
 
 		# we were unable to match a deck
 		return None
@@ -187,12 +187,27 @@ class RedisInverseLookupTable(BaseInverseLookupTable):
 			# if the loop exits normally we haven't seen enough cards
 			return False
 
-	def _get_popularity_for_deck(self, deck_id: int) -> int:
-		key = self._get_deck_key(deck_id)
+	def _pick_most_popular_deck(self, deck_ids: List[int]) -> int:
+		# trivial case
+		if len(deck_ids) == 1:
+			return deck_ids[0]
+
+		# calculate lookback window
 		now_msecs = int(time.time() * 1000)
 		lookback_msecs = self.deck_popularity_lookback_mins * 60 * 1000
-		# count all remaining observations
-		return self.redis.zcount(key, now_msecs - lookback_msecs, "+inf")
+		lookback_start = now_msecs - lookback_msecs
+
+		# gather deck popularities
+		pipeline = self.redis.pipeline()
+		for deck_id in deck_ids:
+			key = self._get_deck_key(deck_id)
+			pipeline.zcount(key, lookback_start, "+inf")
+		popularities = {
+			deck_ids[index]: popularity for index, popularity in enumerate(pipeline.execute())
+		}
+
+		# pick most popular deck
+		return max(deck_ids, key=lambda deck_id: popularities[deck_id])
 
 
 def inverse_lookup_table(
