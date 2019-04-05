@@ -22,6 +22,7 @@ from hslog.export import EntityTreeExporter, FriendlyPlayerExporter
 from hsreplay import __version__ as hsreplay_version
 from hsreplay.document import HSReplayDocument
 from pynamodb.exceptions import PynamoDBException
+from redis.exceptions import TimeoutError
 
 from hearthsim.identity.accounts.models import AuthToken, BlizzardAccount, Visibility
 from hsredshift.etl.exceptions import CorruptReplayDataError, CorruptReplayPacketError
@@ -858,11 +859,15 @@ def perform_ilt_deck_prediction(
 			played_cards,
 			{}
 		)
-		with influx_timer(
-			"ilt_cross_validation_duration",
-			method=method, game_format=pretty_game_format, player_class=pretty_player_class
-		):
-			predicted_deck_id = ilt.predict(played_card_dbfs)
+		try:
+			with influx_timer(
+				"ilt_cross_validation_duration",
+				method=method, game_format=pretty_game_format, player_class=pretty_player_class
+			):
+				predicted_deck_id = ilt.predict(played_card_dbfs)
+		except TimeoutError:
+			# timeouts here just fail cross-validation, which isn't critical
+			predicted_deck_id = None
 
 		deck_match = predicted_deck_id == deck.id
 		archetype_match = False
@@ -904,11 +909,17 @@ def perform_ilt_deck_prediction(
 	else:
 		method = "predict"
 		# predict the partial deck
-		with influx_timer(
-			"ilt_deck_prediction_duration",
-			method=method, game_format=pretty_game_format, player_class=pretty_player_class
-		):
-			predicted_deck_id = ilt.predict(deck.dbf_map())
+		timeout = False
+		try:
+			with influx_timer(
+				"ilt_deck_prediction_duration",
+				method=method, game_format=pretty_game_format, player_class=pretty_player_class
+			):
+				predicted_deck_id = ilt.predict(deck.dbf_map())
+		except TimeoutError:
+			timeout = True
+			predicted_deck_id = None
+
 		removed_cards = ilt._cards_removed
 
 		is_decklist_superset = False
@@ -930,7 +941,8 @@ def perform_ilt_deck_prediction(
 			game_format=pretty_game_format,
 			player_class=pretty_player_class,
 			made_prediction=predicted_deck_id is not None,
-			is_decklist_superset=is_decklist_superset
+			is_decklist_superset=is_decklist_superset,
+			prediction_timeout=timeout,
 		)
 
 	influx_metric(
