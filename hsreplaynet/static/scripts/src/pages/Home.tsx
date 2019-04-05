@@ -734,10 +734,11 @@ class Home extends React.Component<Props, State> {
 			banners.push(
 				<PromoBanner
 					href="https://play.google.com/store/apps/details?id=net.mbonnin.arcanetracker"
+					target="_blank"
+					rel="noopener"
 					backgroundImage="https://media.hearthsim.net/hsreplaynet/android-banner.jpg"
 					title={t("Hearthstone Deck Tracker now on Android")}
 					subtitle={t("Don't you guys have phones?")}
-					target="_blank"
 				/>,
 			);
 		}
@@ -772,6 +773,8 @@ class Home extends React.Component<Props, State> {
 			banners.push(
 				<PromoBanner
 					href="https://hearthsim.net/careers.html"
+					target="_blank"
+					rel="noopener"
 					backgroundImage="https://media.hearthsim.net/hsreplaynet/jobs-banner2.jpg"
 					title={t("Everyone, get in here - we're hiring!")}
 					subtitle={t(
