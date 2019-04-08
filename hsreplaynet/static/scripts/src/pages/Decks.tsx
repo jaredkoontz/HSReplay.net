@@ -1040,11 +1040,6 @@ class Decks extends React.Component<Props, State> {
 													PlayerExperience.FIFTY_GAMES
 												}
 											/>
-											<Feature feature="pilot-performance-filter-promo">
-												<span className="infobox-value">
-													{t("New!")}
-												</span>
-											</Feature>
 										</InfoboxFilter>
 										<InfoboxFilter
 											value={
@@ -1056,11 +1051,6 @@ class Decks extends React.Component<Props, State> {
 													PlayerExperience.TWENTYFIVE_GAMES
 												}
 											/>
-											<Feature feature="pilot-performance-filter-promo">
-												<span className="infobox-value">
-													{t("New!")}
-												</span>
-											</Feature>
 										</InfoboxFilter>
 									</PremiumWrapper>
 									<InfoboxFilter value={PlayerExperience.ALL}>

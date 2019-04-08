@@ -360,7 +360,7 @@ class Cards extends React.Component<Props, State> {
 							<PrettyTimeRange
 								timeRange={TimeRange.CURRENT_EXPANSION}
 							/>
-							<span className="infobox-value">New!</span>
+							<span className="infobox-value">{t("New!")}</span>
 						</InfoboxFilter>
 					</Feature>
 					<Feature feature={"current-patch-filter"}>

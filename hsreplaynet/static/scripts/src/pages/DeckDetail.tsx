@@ -333,9 +333,15 @@ class DeckDetail extends React.Component<Props, State> {
 							>
 								<InfoboxFilter value={PlayerInitiative.FIRST}>
 									{t("Going first")}
+									<span className="infobox-value">
+										{t("New!")}
+									</span>
 								</InfoboxFilter>
 								<InfoboxFilter value={PlayerInitiative.COIN}>
 									{t("On coin")}
+									<span className="infobox-value">
+										{t("New!")}
+									</span>
 								</InfoboxFilter>
 							</PremiumWrapper>
 							<InfoboxFilter value={PlayerInitiative.ALL}>
