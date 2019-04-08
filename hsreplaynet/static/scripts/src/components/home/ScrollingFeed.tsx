@@ -16,7 +16,6 @@ interface State {
 
 interface Props {
 	items: FeedItem[];
-	itemConverter: (item: any) => React.ReactNode;
 	direction: "up" | "down";
 	itemHeight: number;
 	lowItemCount: number;
@@ -126,6 +125,9 @@ export default class ScrollingFeed extends React.Component<Props, State> {
 	}
 
 	render(): React.ReactNode {
+		const { children } = this.props;
+		const render = children as (item: FeedItem) => React.ReactNode;
+
 		const items = this.state.visibleItems.map((item, index) => {
 			const style = {
 				top: this.getTop(index),
@@ -140,7 +142,7 @@ export default class ScrollingFeed extends React.Component<Props, State> {
 					key={index + this.state.index}
 					style={style}
 				>
-					{this.props.itemConverter(item.data)}
+					{render(item.data)}
 				</div>
 			);
 		});

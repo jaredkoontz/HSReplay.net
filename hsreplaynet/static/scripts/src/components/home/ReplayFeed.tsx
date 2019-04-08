@@ -9,6 +9,7 @@ import RankIcon from "../RankIcon";
 import { withLoading } from "../loading/Loading";
 import ScrollingFeed from "./ScrollingFeed";
 import { formatNumber } from "../../i18n";
+import UserData from "../../UserData";
 
 interface ReplayData {
 	player1_rank: string;
@@ -190,14 +191,15 @@ class ReplayFeed extends React.Component<Props, State> {
 					<ScrollingFeed
 						direction="up"
 						items={items}
-						itemConverter={d => this.itemConverter(d)}
 						itemHeight={44}
 						onLowItems={() => this.fetchData()}
 						lowItemCount={10}
 						itemsPerSecond={
 							this.props.fullSpeed ? gamesPerSecond : 1.2
 						}
-					/>
+					>
+						{d => this.itemConverter(d)}
+					</ScrollingFeed>
 					<div id="replay-contributors">
 						{t("Contributors:")}{" "}
 						{formatNumber(
@@ -218,8 +220,13 @@ class ReplayFeed extends React.Component<Props, State> {
 	}
 
 	itemConverter(data: ReplayData): React.ReactNode {
+		const { t } = this.props;
 		const winnerIcon = (
-			<img className={"winner-icon"} src={image("crown.png")} />
+			<img
+				className={"winner-icon"}
+				src={image("crown.png")}
+				alt={t("Crown")}
+			/>
 		);
 		const p1Archetype = this.props.archetypeData.find(a => {
 			return a.id === +data.player1_archetype;
@@ -227,6 +234,47 @@ class ReplayFeed extends React.Component<Props, State> {
 		const p2Archetype = this.props.archetypeData.find(a => {
 			return a.id === +data.player2_archetype;
 		});
+		if (UserData.hasFeature("league-of-evil-takeover")) {
+			const MEMBERS = [
+				<>
+					<span>Rafaam</span>&nbsp;<em>crushed</em>
+				</>,
+				<>
+					<span>Hagatha</span>&nbsp;<em>destroyed</em>
+				</>,
+				<>
+					<span>Dr. Boom</span>&nbsp;<em>devastated</em>
+				</>,
+				<>
+					<span>Lazul</span>&nbsp;<em>mystified</em>
+				</>,
+				<>
+					<span>Togwaggle</span>&nbsp;<em>tricked</em>
+				</>,
+			];
+			const victim =
+				data.player1_won === "True" ? p2Archetype : p1Archetype;
+			const member = MEMBERS[+data.player1_archetype % MEMBERS.length];
+			return (
+				<a
+					className="replay-feed-item"
+					href={`/replay/${data.id}`}
+					target="_blank"
+				>
+					<div className="replay-feed-player text-right">
+						{member}
+					</div>
+					<div className="replay-feed-player player-right">
+						<RankIcon
+							gameType={BnetGameType.BGT_RANKED_STANDARD}
+							rank={+data.player2_rank}
+							legendRank={+data.player2_legend_rank}
+						/>
+						<span>{victim ? victim.name : t("Player")}</span>
+					</div>
+				</a>
+			);
+		}
 		return (
 			<a
 				className="replay-feed-item"
@@ -240,7 +288,7 @@ class ReplayFeed extends React.Component<Props, State> {
 						rank={+data.player1_rank}
 						legendRank={+data.player1_legend_rank}
 					/>
-					<span>{p1Archetype && p1Archetype.name}</span>
+					<span>{p1Archetype ? p1Archetype.name : t("Player")}</span>
 				</div>
 				<img className="vs-icon" src={image("vs.png")} />
 				<div className="replay-feed-player player-right">
@@ -250,7 +298,7 @@ class ReplayFeed extends React.Component<Props, State> {
 						rank={+data.player2_rank}
 						legendRank={+data.player2_legend_rank}
 					/>
-					<span>{p2Archetype && p2Archetype.name}</span>
+					<span>{p2Archetype ? p2Archetype.name : t("Player")}</span>
 				</div>
 			</a>
 		);

@@ -1,20 +1,25 @@
 import React from "react";
 
 interface Props {
-	title: string;
-	subtitle: string;
-	backgroundCardId: string;
-	backgroundStyle?: any;
+	title: React.ReactNode;
+	subtitle: React.ReactNode;
+	backgroundCardId?: string;
+	backgroundStyle?: React.CSSProperties;
 	onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
 	href?: string;
 }
 
 export default class FeaturePanel extends React.Component<Props> {
 	render(): React.ReactNode {
-		const style = Object.assign({}, this.props.backgroundStyle);
-		style["backgroundImage"] = `url(${HEARTHSTONE_ART_URL}/512x/${
-			this.props.backgroundCardId
-		}.jpg)`;
+		const style = Object.assign(
+			{},
+			{
+				backgroundImage: `url(${HEARTHSTONE_ART_URL}/512x/${
+					this.props.backgroundCardId
+				}.jpg)`,
+			},
+			this.props.backgroundStyle || {},
+		);
 		return (
 			<div className="feature-panel">
 				<a

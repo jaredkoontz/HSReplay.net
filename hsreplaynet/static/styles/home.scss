@@ -202,8 +202,8 @@
 					flex-wrap: wrap;
 					background: linear-gradient(
 						to right,
-						transparent 0%,
-						rgba(29, 54, 87, 0.1) 100%
+						$offwhite 0%,
+						mix(rgb(29, 54, 87), $offwhite, 10%) 100%
 					);
 					padding: 2vw;
 					border: 1px solid rgba(0, 0, 0, 0.3);
@@ -212,8 +212,8 @@
 				&.panel-accent-red > .panel-content {
 					background: linear-gradient(
 						to right,
-						transparent 0%,
-						rgba(201, 72, 91, 0.1) 100%
+						$offwhite 0%,
+						mix(rgb(201, 72, 91), $offwhite, 10%) 100%
 					);
 				}
 
@@ -229,8 +229,8 @@
 					flex-wrap: wrap-reverse;
 					background: linear-gradient(
 						to left,
-						transparent 0%,
-						rgba(29, 54, 87, 0.1) 100%
+						$offwhite 0%,
+						mix(rgb(29, 54, 87), $offwhite, 10%) 100%
 					);
 				}
 
@@ -238,7 +238,7 @@
 					background: linear-gradient(
 						to left,
 						transparent 0%,
-						rgba(201, 72, 91, 0.1) 100%
+						mix(rgb(201, 72, 91), $offwhite, 10%) 100%
 					);
 				}
 			}

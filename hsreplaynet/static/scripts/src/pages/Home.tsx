@@ -121,6 +121,16 @@ class Home extends React.Component<Props, State> {
 				title={t("Replays")}
 				subtitle={t("Watch and share your games")}
 				backgroundCardId="PART_002"
+				backgroundStyle={
+					UserData.hasFeature("league-of-evil-takeover")
+						? {
+								backgroundImage: `url(${image(
+									"takeover/my_replays.jpg",
+								)})`,
+								backgroundSize: "cover",
+						  }
+						: null
+				}
 				href="/games/mine/"
 			/>
 		);
@@ -146,11 +156,29 @@ class Home extends React.Component<Props, State> {
 		ranks.reverse();
 		const promoBanner = this.renderPromoBanner(t);
 		return (
-			<div className="container-fluid">
+			<div
+				className="container-fluid"
+				style={
+					UserData.hasFeature("league-of-evil-takeover")
+						? {
+								background: `url(${image(
+									"takeover/background.jpg",
+								)})`,
+								backgroundSize: "cover",
+								backgroundAttachment: "fixed",
+								backgroundRepeat: "no-repeat",
+						  }
+						: null
+				}
+			>
 				<div className="row" id="banner" style={bannerStyle}>
 					<div id="banner-wrapper">
 						<div id="banner-text">
-							<h1>{t("Unleash your potential")}</h1>
+							<h1>
+								{UserData.hasFeature("league-of-evil-takeover")
+									? t("Unleash Your Evil")
+									: t("Unleash Your Potential")}
+							</h1>
 							<h2 className="hidden-xs">
 								{t(
 									"Find the best deck for your rank and region",
@@ -275,20 +303,7 @@ class Home extends React.Component<Props, State> {
 								<ClassRanking gameType={this.state.gameType} />
 							</DataInjector>
 						</Panel>
-						<Modal
-							visible={this.state.showCollectionModal}
-							onClose={this.closeCollectionModal}
-						>
-							<CollectionSetup />
-						</Modal>
-						<FeaturePanel
-							title={t("Collection Uploading")}
-							subtitle={t(
-								"Find the best decks for your collection",
-							)}
-							backgroundCardId="LOOTA_814"
-							onClick={this.showCollectionModal}
-						/>
+						{this.renderCollectionPanel()}
 					</div>
 				</div>
 				<NetworkNAdUnit
@@ -538,6 +553,7 @@ class Home extends React.Component<Props, State> {
 	}
 
 	private renderCollectionPanel(): React.ReactNode {
+		const { t } = this.props;
 		return (
 			<>
 				<Modal
@@ -547,9 +563,20 @@ class Home extends React.Component<Props, State> {
 					<CollectionSetup />
 				</Modal>
 				<FeaturePanel
-					title="Collection Uploading"
-					subtitle="Find the best decks for your collection"
+					title={t("Collection Uploading")}
+					subtitle={t("Find the best decks for your collection")}
 					backgroundCardId="LOOTA_814"
+					backgroundStyle={
+						UserData.hasFeature("league-of-evil-takeover")
+							? {
+									backgroundImage: `url(${image(
+										"takeover/collection_uploading.jpg",
+									)})`,
+									backgroundSize: "cover",
+									backgroundPositionY: "40%",
+							  }
+							: null
+					}
 					onClick={this.showCollectionModal}
 				/>
 			</>
@@ -678,9 +705,20 @@ class Home extends React.Component<Props, State> {
 					title={t("My Decks")}
 					subtitle={t("Check out statistics about your decks")}
 					backgroundCardId="KARA_00_07"
-					backgroundStyle={{
-						backgroundPositionY: "30%",
-					}}
+					backgroundStyle={Object.assign(
+						{
+							backgroundPositionY: "30%",
+						},
+						UserData.hasFeature("league-of-evil-takeover")
+							? {
+									backgroundImage: `url(${image(
+										"takeover/my_decks.jpg",
+									)})`,
+									backgroundSize: "cover",
+									backgroundPositionY: "100%",
+							  }
+							: {},
+					)}
 					href="/decks/mine/"
 				/>
 			);
