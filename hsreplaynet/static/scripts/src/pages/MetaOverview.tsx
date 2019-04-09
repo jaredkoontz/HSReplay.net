@@ -201,6 +201,28 @@ class MetaOverview extends React.Component<Props, State> {
 									timeRange={TimeRange.LAST_7_DAYS}
 								/>
 							</InfoboxFilter>
+							<Feature
+								feature={"current-expansion-filter-preview"}
+							>
+								<Feature
+									feature={"current-expansion-filter"}
+									inverted
+								>
+									<InfoboxFilter
+										value={TimeRange.CURRENT_EXPANSION}
+										disabled
+									>
+										<PrettyTimeRange
+											timeRange={
+												TimeRange.CURRENT_EXPANSION
+											}
+										/>
+										<span className="infobox-value">
+											{t("Coming soon!")}
+										</span>
+									</InfoboxFilter>
+								</Feature>
+							</Feature>
 							<Feature feature="current-expansion-filter">
 								<InfoboxFilter
 									value={TimeRange.CURRENT_EXPANSION}
