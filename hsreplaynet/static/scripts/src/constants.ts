@@ -7,5 +7,8 @@ export const wildSets = [
 	"OG",
 	"KARA",
 	"GANGS",
+	"UNGORO",
+	"ICECROWN",
+	"LOOTAPALOOZA",
 	"HOF",
 ];
