@@ -167,7 +167,7 @@ class CopyDeckButton extends React.Component<Props, State> {
 				`### ${deckName}`,
 				"# " + t("Class: {className}", { className }),
 				"# " + t("Format: {formatName}", { formatName }),
-				standard ? "# " + t("Year of the Raven") : "",
+				standard ? "# " + t("Year of the Dragon") : "",
 				"#",
 				...prettyDeckList,
 				"#",
