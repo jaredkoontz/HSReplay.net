@@ -261,8 +261,8 @@ class ReplayFeed extends React.Component<Props, State> {
 					href={`/replay/${data.id}`}
 					target="_blank"
 				>
-					<div className="replay-feed-player text-right">
-						{member}
+					<div className="replay-feed-player event-left">
+						<span>{member}</span>
 					</div>
 					<div className="replay-feed-player player-right">
 						<RankIcon

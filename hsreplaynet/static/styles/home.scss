@@ -949,6 +949,14 @@
 					}
 				}
 
+				&.event-left {
+					text-align: right;
+
+					em {
+						padding-right: 0.15em;
+					}
+				}
+
 				&.player-right {
 					flex-direction: row;
 					text-align: left;
