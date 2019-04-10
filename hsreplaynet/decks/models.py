@@ -28,7 +28,8 @@ from hsreplaynet.utils.aws import s3_object_exists
 from hsreplaynet.utils.aws.clients import FIREHOSE, LAMBDA, S3
 from hsreplaynet.utils.aws.redshift import get_redshift_query
 from hsreplaynet.utils.aws.streams import (
-	publish_batch_to_firehose, publish_from_iterable_at_fixed_speed, to_data_blobs
+	next_record_batch_of_size, publish_batch_to_firehose,
+	publish_from_iterable_at_fixed_speed, to_data_blobs
 )
 from hsreplaynet.utils.db import dictfetchall
 from hsreplaynet.utils.influx import influx_metric, influx_timer
@@ -153,7 +154,11 @@ class DeckManager(models.Manager):
 				publish_batch_size=500
 			)
 
-		Deck.objects.filter(id__in=deck_ids).update(archetype_id=archetype_id)
+		iterable = iter(deck_ids)
+		batch = next_record_batch_of_size(iterable, 500)
+		while len(batch):
+			Deck.objects.filter(id__in=batch).update(archetype_id=archetype_id)
+			batch = next_record_batch_of_size(iterable, 500)
 
 	def _publish_archetypes_to_firehose(self, batch):
 		publish_batch_to_firehose(settings.ARCHETYPE_FIREHOSE_STREAM_NAME, batch)
