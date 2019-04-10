@@ -432,7 +432,12 @@ export default class ClusterChart extends React.Component<Props, State> {
 					set === "ALL" ||
 					!this.props.cardData ||
 					cards.some(
-						dbfId => this.props.cardData.fromDbf(dbfId).set === set,
+						dbfId =>
+							this.props.cardData.fromDbf(dbfId).set === set &&
+							[
+								45988, // "Marin the Fox" was released outside the expansion
+								52438, // "Archmage Vargoth" was released outside the expansion
+							].indexOf(dbfId) === -1,
 					)))
 		);
 	}

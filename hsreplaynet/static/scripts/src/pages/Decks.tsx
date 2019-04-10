@@ -375,7 +375,8 @@ class Decks extends React.Component<Props, State> {
 								cardObj =>
 									cardObj.card.set !==
 										this.props.includedSet ||
-									cardObj.card.dbfId === 45988, // "Marin the Fox" was released outside the expansion
+									cardObj.card.dbfId === 45988 || // "Marin the Fox" was released outside the expansion
+									cardObj.card.dbfId === 52438, // "Archmage Vargoth" was released outside the expansion
 							)
 						) {
 							return;
