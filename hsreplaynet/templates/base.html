@@ -34,14 +34,20 @@
 		</script>
 	{% endif %}
 {% endblock %}
+
+{% feature "ads" as ads %}
+{% feature "ads-admin" as ads_admin %}
+
 {% block ads %}
-	{% feature "ads" as ads %}
-	{% feature "ads-admin" as ads_admin %}
 	{% if ads.enabled and not ads_admin.enabled and not premium %}
-		{% setting "AD_NETWORK_HEAD_SNIPPET" as ad_network_snippet %}
-		{% if ad_network_snippet %}
-			{{ ad_network_snippet|safe }}
-			<script src="{% static "vendor/networkn/hsreplay.min.js" %}"></script>
+		{% setting "AD_NETWORK_PRE_HEAD_SNIPPET" as ad_network_pre_head_snippet %}
+		{% if ad_network_pre_head_snippet %}
+		{{ ad_network_pre_head_snippet|safe }}
+		{% endif %}
+		<script src="{% static "vendor/networkn/hsreplay.min.js" %}" async></script>
+		{% setting "AD_NETWORK_POST_HEAD_SNIPPET" as ad_network_post_head_snippet %}
+		{% if ad_network_post_head_snippet %}
+		{{ ad_network_post_head_snippet|safe }}
 		{% endif %}
 	{% endif %}
 {% endblock %}
@@ -50,6 +56,12 @@
 {% endblock %}
 
 {% block body %}
+	{% if ads.enabled and not ads_admin.enabled and not premium %}
+	{% setting "AD_NETWORK_PRE_BODY_SNIPPET" as ad_network_pre_body_snippet %}
+	{% if ad_network_pre_body_snippet %}
+	{{ ad_network_pre_body_snippet|safe }}
+	{% endif %}
+	{% endif %}
 
 	<header>
 		{% block header %}
@@ -84,5 +96,12 @@
 				{% include "footer.html" %}
 			{% endblock %}
 		</footer>
+	{% endif %}
+
+	{% if ads.enabled and not ads_admin.enabled and not premium %}
+	{% setting "AD_NETWORK_POST_BODY_SNIPPET" as ad_network_post_body_snippet %}
+	{% if ad_network_post_body_snippet %}
+	{{ ad_network_post_body_snippet|safe }}
+	{% endif %}
 	{% endif %}
 {% endblock %}
