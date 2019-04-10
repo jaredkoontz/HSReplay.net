@@ -316,7 +316,7 @@ class Cards extends React.Component<Props, State> {
 
 	private filterGameType = memoize(
 		(gameType: string): CardFilterFunction | null => {
-			if (gameType === "RANKED_WILD") {
+			if (gameType === "RANKED_WILD" || gameType === "ARENA") {
 				return null;
 			}
 			return (card: HearthstoneJSONCardData) => !isWildSet(card.set);
