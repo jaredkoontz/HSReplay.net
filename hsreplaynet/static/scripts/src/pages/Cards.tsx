@@ -266,16 +266,16 @@ class Cards extends React.Component<Props, State> {
 					uniqueId="cl-mlb1"
 					mobile
 				/>
-				<div className="cards">
-					<aside
+				<main className="cards">
+					<div
 						className={filterClassNames.join(" ")}
 						id="cards-infobox"
 					>
 						{backButton}
 						{this.renderFilters()}
 						{backButton}
-					</aside>
-					<main className={contentClassNames.join(" ")}>
+					</div>
+					<div className={contentClassNames.join(" ")}>
 						<Sticky top={10}>
 							<NetworkNAdUnit
 								id="nn_lb1"
@@ -304,8 +304,8 @@ class Cards extends React.Component<Props, State> {
 						</button>
 						{this.renderSearch()}
 						{this.renderContent()}
-					</main>
-				</div>
+					</div>
+				</main>
 			</CardFilterManager>
 		);
 	}
@@ -342,15 +342,7 @@ class Cards extends React.Component<Props, State> {
 		const isStatsView = this.isStatsView();
 		const { t } = this.props;
 
-		const filters = [
-			<ResetHeader
-				key="reset"
-				onReset={() => this.resetFilters()}
-				showReset={showReset}
-			>
-				{isStatsView ? t("Cards") : t("Gallery")}
-			</ResetHeader>,
-		];
+		const filters = [];
 
 		const modeFilter = (
 			<section id="mode-filter" key="mode-filter">
@@ -639,7 +631,18 @@ class Cards extends React.Component<Props, State> {
 			</>,
 		);
 
-		return filters;
+		return (
+			<>
+				<ResetHeader
+					key="reset"
+					onReset={() => this.resetFilters()}
+					showReset={showReset}
+				>
+					{isStatsView ? t("Cards") : t("Gallery")}
+				</ResetHeader>
+				<aside>{filters}</aside>
+			</>
+		);
 	}
 
 	renderSearch(): React.ReactNode {

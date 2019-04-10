@@ -680,7 +680,7 @@ class Decks extends React.Component<Props, State> {
 		const premiumTabIndex = isPremium ? 0 : -1;
 
 		return (
-			<div className="decks">
+			<main className="decks">
 				<div className={filterClassNames.join(" ")} id="decks-infobox">
 					{backButton}
 					<ResetHeader
@@ -1337,7 +1337,7 @@ class Decks extends React.Component<Props, State> {
 						<NetworkNAdUnit id="nn_mpu3" uniqueId="dl-mpu1" />
 					</aside>
 				</div>
-				<main
+				<div
 					className={contentClassNames.join(" ")}
 					ref={ref => (this.mainRef = ref)}
 				>
@@ -1365,8 +1365,8 @@ class Decks extends React.Component<Props, State> {
 						mobile
 						center
 					/>
-				</main>
-			</div>
+				</div>
+			</main>
 		);
 	}
 

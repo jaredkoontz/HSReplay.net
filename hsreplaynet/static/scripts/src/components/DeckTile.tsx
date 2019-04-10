@@ -266,7 +266,7 @@ class DeckTile extends React.Component<Props> {
 						data-card-class={this.props.playerClass}
 					>
 						<div className="col-lg-2 col-md-2 col-sm-2 col-xs-6">
-							<span
+							<h3
 								className="deck-name"
 								style={{
 									backgroundImage:
@@ -278,7 +278,7 @@ class DeckTile extends React.Component<Props> {
 								}}
 							>
 								{deckName}
-							</span>
+							</h3>
 							<small>{headerData}</small>
 							{globalDataIndicator}
 						</div>

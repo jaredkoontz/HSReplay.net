@@ -165,12 +165,12 @@ export default class Tooltip extends React.Component<Props, State> {
 				onTouchStart={() => this.setState({ isTouchDevice: true })}
 			>
 				{!this.props.noSrTooltip ? (
-					<section className="sr-only">
+					<aside className="sr-only">
 						{this.props.header ? (
 							<h4>{this.props.header}</h4>
 						) : null}
 						{content}
-					</section>
+					</aside>
 				) : null}
 				{this.renderTooltip()}
 				{this.props.children}

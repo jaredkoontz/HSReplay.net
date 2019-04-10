@@ -11,13 +11,13 @@ Array [
       onMouseMove={[Function]}
       onTouchStart={[Function]}
     >
-      <section
+      <aside
         className="sr-only"
       >
         <p>
           Legend 1234
         </p>
-      </section>
+      </aside>
       <figure
         className="rank-icon-standalone"
       >
@@ -52,11 +52,11 @@ Array [
       onMouseMove={[Function]}
       onTouchStart={[Function]}
     >
-      <section
+      <aside
         className="sr-only"
       >
         Mage
-      </section>
+      </aside>
       <img
         className="class-icon"
         src="/static/images/64x/class-icons/mage.png"

@@ -497,13 +497,13 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
                           onMouseMove={[Function]}
                           onTouchStart={[Function]}
                         >
-                          <section
+                          <aside
                             className="sr-only"
                           >
                             <p>
                               Legend 1555
                             </p>
-                          </section>
+                          </aside>
                           <figure
                             className="rank-icon-standalone"
                           >
@@ -654,13 +654,13 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
                           onMouseMove={[Function]}
                           onTouchStart={[Function]}
                         >
-                          <section
+                          <aside
                             className="sr-only"
                           >
                             <p>
                               Rank 1
                             </p>
-                          </section>
+                          </aside>
                           <figure
                             className="rank-icon-standalone"
                           >
@@ -716,7 +716,7 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
                       onMouseMove={[Function]}
                       onTouchStart={[Function]}
                     >
-                      <section
+                      <aside
                         className="sr-only"
                       >
                         <Component
@@ -734,7 +734,7 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
                             Priest
                           </PrettyCardClass>
                         </Component>
-                      </section>
+                      </aside>
                       <img
                         className="class-icon"
                         src="/static/images/64x/class-icons/priest.png"
@@ -1298,13 +1298,13 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
                           onMouseMove={[Function]}
                           onTouchStart={[Function]}
                         >
-                          <section
+                          <aside
                             className="sr-only"
                           >
                             <p>
                               Legend 1555
                             </p>
-                          </section>
+                          </aside>
                           <figure
                             className="rank-icon-standalone"
                           >
@@ -1455,13 +1455,13 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
                           onMouseMove={[Function]}
                           onTouchStart={[Function]}
                         >
-                          <section
+                          <aside
                             className="sr-only"
                           >
                             <p>
                               Rank 1
                             </p>
-                          </section>
+                          </aside>
                           <figure
                             className="rank-icon-standalone"
                           >
@@ -1517,7 +1517,7 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
                       onMouseMove={[Function]}
                       onTouchStart={[Function]}
                     >
-                      <section
+                      <aside
                         className="sr-only"
                       >
                         <Component
@@ -1535,7 +1535,7 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
                             Priest
                           </PrettyCardClass>
                         </Component>
-                      </section>
+                      </aside>
                       <img
                         className="class-icon"
                         src="/static/images/64x/class-icons/priest.png"

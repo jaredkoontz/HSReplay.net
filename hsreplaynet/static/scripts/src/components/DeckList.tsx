@@ -320,7 +320,8 @@ class DeckList extends React.Component<Props, State> {
 		}
 
 		return (
-			<div className="deck-list">
+			<section className="deck-list">
+				<h2 className="sr-only">{t("List of decks")}</h2>
 				{this.props.helpMessage ? (
 					<p className="help-block pull-left">
 						<span className="visible-sm-inline">&nbsp;</span>
@@ -421,7 +422,7 @@ class DeckList extends React.Component<Props, State> {
 					{deckTiles}
 				</ul>
 				{pager(false)}
-			</div>
+			</section>
 		);
 	}
 }
