@@ -626,6 +626,11 @@ class CardDetail extends React.Component<Props, State> {
 
 		return (
 			<div className="card-detail-container">
+				<NetworkNAdUnit
+					id="nn_mobile_lb1_sticky"
+					uniqueId="cd-mlb1"
+					mobile
+				/>
 				<aside className="infobox" id="card-detail-infobox">
 					<h1 className="art">
 						<img

@@ -614,6 +614,11 @@ class ArchetypeDetail extends React.Component<Props, State> {
 
 		return (
 			<div className="archetype-detail-container">
+				<NetworkNAdUnit
+					id="nn_mobile_lb1_sticky"
+					uniqueId="ad-mlb1"
+					mobile
+				/>
 				<aside className="infobox">
 					<DataInjector
 						query={[

@@ -561,6 +561,11 @@ class DeckDetail extends React.Component<Props, State> {
 
 		return (
 			<div className="deck-detail-container">
+				<NetworkNAdUnit
+					id="nn_mobile_lb1_sticky"
+					uniqueId="dd-mlb1"
+					mobile
+				/>
 				<aside className="infobox">
 					{this.props.archetypeId ? (
 						<DataInjector

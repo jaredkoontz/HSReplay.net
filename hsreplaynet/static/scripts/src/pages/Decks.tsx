@@ -681,6 +681,11 @@ class Decks extends React.Component<Props, State> {
 
 		return (
 			<main className="decks">
+				<NetworkNAdUnit
+					id="nn_mobile_lb1_sticky"
+					uniqueId="dl-mlb1"
+					mobile
+				/>
 				<div className={filterClassNames.join(" ")} id="decks-infobox">
 					{backButton}
 					<ResetHeader

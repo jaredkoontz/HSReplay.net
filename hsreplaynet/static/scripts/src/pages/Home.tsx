@@ -188,6 +188,11 @@ class Home extends React.Component<Props, State> {
 						<div id="banner-ranks">{ranks}</div>
 					</div>
 				</div>
+				<NetworkNAdUnit
+					id="nn_mobile_lb1_sticky"
+					uniqueId="fp-mlb1"
+					mobile
+				/>
 				{promoBanner !== null ? (
 					promoBanner
 				) : (

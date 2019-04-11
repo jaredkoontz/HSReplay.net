@@ -171,6 +171,11 @@ class MetaOverview extends React.Component<Props, State> {
 
 		return (
 			<div className="meta-overview-container">
+				<NetworkNAdUnit
+					id="nn_mobile_lb1_sticky"
+					uniqueId="mp-mlb1"
+					mobile
+				/>
 				<aside className={infoboxClassNames.join(" ")}>
 					{backButton}
 					<h1>{t("Meta overview")}</h1>
