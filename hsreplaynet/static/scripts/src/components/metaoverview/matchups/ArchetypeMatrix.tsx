@@ -13,6 +13,7 @@ import ColumnHeader from "./ColumnHeader";
 import MatchupCell, { CellColorStyle } from "./MatchupCell";
 import RowFooter from "./RowFooter";
 import RowHeader from "./RowHeader";
+import { CustomWeights } from "../ArchetypeMatchups";
 
 interface Props extends WithTranslation {
 	friendlyArchetypes: number[];
@@ -20,8 +21,9 @@ interface Props extends WithTranslation {
 	archetypeMatchups: ArchetypeData[];
 	allArchetypes: Archetype[];
 	cardData: CardData;
-	customWeights: any;
+	customWeights: CustomWeights;
 	onCustomWeightsChanged: (archetypeId: number, popularity: number) => void;
+	onResetCustomWeights?: () => void;
 	useCustomWeights: boolean;
 	onUseCustomWeightsChanged: (useCustomPopularities: boolean) => void;
 	favorites: number[];
@@ -523,6 +525,26 @@ class ArchetypeMatrix extends React.Component<Props, State> {
 						)}
 					/>
 				</label>
+				{this.props.useCustomWeights ? (
+					<button
+						type="reset"
+						className="btn btn-default custom-weights-reset"
+						onClick={e => {
+							e.preventDefault();
+							if (
+								confirm(
+									t(
+										"This will reset all your custom popularity weights to 0. Are you sure?",
+									),
+								)
+							) {
+								this.props.onResetCustomWeights();
+							}
+						}}
+					>
+						{t("Reset…")}
+					</button>
+				) : null}
 			</div>
 		);
 	}

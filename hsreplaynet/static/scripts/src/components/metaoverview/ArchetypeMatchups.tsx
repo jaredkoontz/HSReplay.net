@@ -35,7 +35,7 @@ interface State {
 	apiArchetypes: Archetype[];
 	archetypeData: ArchetypeData[];
 	currentSort: number[];
-	customWeights: any;
+	customWeights: CustomWeights;
 	favorites: number[];
 	ignoredColumns: number[];
 	maxPopularity: number;
@@ -44,6 +44,10 @@ interface State {
 }
 
 const POPULARITY_CUTOFF_PERCENTAGE = 0;
+
+export interface CustomWeights {
+	[archetypeId: string]: number;
+}
 
 class ArchetypeMatchups extends React.Component<Props, State> {
 	constructor(props: Props, context?: any) {
@@ -109,6 +113,9 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 					friendlyArchetypes={this.state.archetypeData.map(x => x.id)}
 					opposingArchetypes={this.state.archetypeData.map(x => x.id)}
 					customWeights={this.state.customWeights}
+					onResetCustomWeights={() => {
+						this.onResetCustomWeights();
+					}}
 					onCustomWeightsChanged={(
 						archetypeId: number,
 						popularity: number,
@@ -327,6 +334,11 @@ class ArchetypeMatchups extends React.Component<Props, State> {
 			return false;
 		}
 		return this.state.favorites.indexOf(archetypeId) !== -1;
+	}
+
+	onResetCustomWeights() {
+		UserData.setSetting("archetype-custom-popularities", {});
+		this.setState({ customWeights: {} });
 	}
 
 	onCustomPopularitiesChanged(archetypeId: number, popularity: number) {
