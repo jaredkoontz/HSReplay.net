@@ -621,16 +621,6 @@ class Cards extends React.Component<Props, State> {
 				</InfoboxFilterGroup>,
 			);
 		}
-
-		filters.push(
-			<>
-				<NetworkNAdUnit id="nn_mpu1" uniqueId="cl-mpu1" />
-				<Sticky bottom={0} key="networkn-ad">
-					<NetworkNAdUnit id="nn_mpu2" uniqueId="cl-mpu2" />
-				</Sticky>
-			</>,
-		);
-
 		return (
 			<>
 				<ResetHeader
@@ -641,6 +631,10 @@ class Cards extends React.Component<Props, State> {
 					{isStatsView ? t("Cards") : t("Gallery")}
 				</ResetHeader>
 				<aside>{filters}</aside>
+				<NetworkNAdUnit id="nn_mpu1" uniqueId="cl-mpu1" />
+				<Sticky bottom={0} key="networkn-ad">
+					<NetworkNAdUnit id="nn_mpu2" uniqueId="cl-mpu2" />
+				</Sticky>
 			</>
 		);
 	}
