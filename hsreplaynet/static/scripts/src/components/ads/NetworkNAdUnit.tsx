@@ -171,24 +171,6 @@ const NetworkNAdUnit: React.FC<Props> = ({
 					}
 				}
 			}
-
-			if (!documentReady) {
-				return;
-			}
-
-			// give the ad script 10 seconds to do something
-			let timeout = window.setTimeout(() => {
-				if (childRef.current && childRef.current.children.length > 0) {
-					return;
-				}
-				setShowFallback(true);
-				timeout = null;
-			}, 10000);
-			return () => {
-				if (timeout !== null) {
-					window.clearTimeout(timeout);
-				}
-			};
 		},
 		[showFallback, setShowFallback, debug, documentReady, mobile, onMobile],
 	);
