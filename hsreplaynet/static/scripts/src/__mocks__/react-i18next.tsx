@@ -47,5 +47,9 @@ export const withTranslation = () => Component => props => (
 	<Component t={mockTranslate} i18n={mockI18n} {...props} />
 );
 
+export const useTranslation = () => ({
+	t: mockTranslate,
+});
+
 export const Trans = ({ children }) => children;
 Trans.displayName = "Trans";

@@ -1,33 +1,36 @@
 import React from "react";
 import { SortDirection } from "../interfaces";
+import { useTranslation } from "react-i18next";
 
 interface Props {
 	className?: string;
 	direction?: SortDirection | null;
 }
 
-export default class SortIndicator extends React.Component<Props> {
-	public render(): React.ReactNode {
-		let classNameAsc = "glyphicon glyphicon-triangle-top";
-		let classNameDesc = "glyphicon glyphicon-triangle-bottom";
-		let className = this.props.className
-			? this.props.className + " "
-			: "" + "sort-indicator".trim();
+const SortIndicator: React.FC<Props> = ({ className, direction }) => {
+	let ascClassName = "glyphicon glyphicon-triangle-top";
+	let descClassName = "glyphicon glyphicon-triangle-bottom";
+	let wrapperClassName = className
+		? className + " "
+		: "" + "sort-indicator".trim();
 
-		if (this.props.direction !== null) {
-			className += " primary";
-			if (this.props.direction === "ascending") {
-				classNameAsc += " active";
-			} else {
-				classNameDesc += " active";
-			}
+	const { t } = useTranslation();
+
+	if (direction !== null) {
+		wrapperClassName += " primary";
+		if (direction === "ascending") {
+			ascClassName += " active";
+		} else {
+			descClassName += " active";
 		}
-
-		return (
-			<span className={className}>
-				<span className={classNameAsc} />
-				<span className={classNameDesc} />
-			</span>
-		);
 	}
-}
+
+	return (
+		<span className={wrapperClassName}>
+			<span className={ascClassName} aria-hidden />
+			<span className={descClassName} aria-hidden />
+		</span>
+	);
+};
+
+export default SortIndicator;

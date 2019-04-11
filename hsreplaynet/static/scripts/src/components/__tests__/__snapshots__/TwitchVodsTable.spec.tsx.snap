@@ -335,9 +335,11 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
                 className="sort-indicator"
               >
                 <span
+                  aria-hidden={true}
                   className="glyphicon glyphicon-triangle-top"
                 />
                 <span
+                  aria-hidden={true}
                   className="glyphicon glyphicon-triangle-bottom"
                 />
               </span>
@@ -362,9 +364,11 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
                 className="sort-indicator"
               >
                 <span
+                  aria-hidden={true}
                   className="glyphicon glyphicon-triangle-top"
                 />
                 <span
+                  aria-hidden={true}
                   className="glyphicon glyphicon-triangle-bottom"
                 />
               </span>
@@ -389,9 +393,11 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
                 className="sort-indicator"
               >
                 <span
+                  aria-hidden={true}
                   className="glyphicon glyphicon-triangle-top"
                 />
                 <span
+                  aria-hidden={true}
                   className="glyphicon glyphicon-triangle-bottom"
                 />
               </span>
@@ -416,9 +422,11 @@ exports[`TwitchVodsTable allows selecting a VOD: brandonsmithx01 1`] = `
                 className="sort-indicator"
               >
                 <span
+                  aria-hidden={true}
                   className="glyphicon glyphicon-triangle-top"
                 />
                 <span
+                  aria-hidden={true}
                   className="glyphicon glyphicon-triangle-bottom"
                 />
               </span>
@@ -1136,9 +1144,11 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
                 className="sort-indicator"
               >
                 <span
+                  aria-hidden={true}
                   className="glyphicon glyphicon-triangle-top"
                 />
                 <span
+                  aria-hidden={true}
                   className="glyphicon glyphicon-triangle-bottom"
                 />
               </span>
@@ -1163,9 +1173,11 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
                 className="sort-indicator"
               >
                 <span
+                  aria-hidden={true}
                   className="glyphicon glyphicon-triangle-top"
                 />
                 <span
+                  aria-hidden={true}
                   className="glyphicon glyphicon-triangle-bottom"
                 />
               </span>
@@ -1190,9 +1202,11 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
                 className="sort-indicator"
               >
                 <span
+                  aria-hidden={true}
                   className="glyphicon glyphicon-triangle-top"
                 />
                 <span
+                  aria-hidden={true}
                   className="glyphicon glyphicon-triangle-bottom"
                 />
               </span>
@@ -1217,9 +1231,11 @@ exports[`TwitchVodsTable renders correctly: default 1`] = `
                 className="sort-indicator"
               >
                 <span
+                  aria-hidden={true}
                   className="glyphicon glyphicon-triangle-top"
                 />
                 <span
+                  aria-hidden={true}
                   className="glyphicon glyphicon-triangle-bottom"
                 />
               </span>
