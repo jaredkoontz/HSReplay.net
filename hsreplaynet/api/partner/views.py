@@ -5,7 +5,6 @@ from rest_framework import status, views
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 
-from hsredshift.analytics.filters import RankRange, TimeRange
 from hsreplaynet.analytics.utils import trigger_if_stale
 from hsreplaynet.api.partner.serializers import (
 	ArchetypeSerializer, CardSerializer, ClassSerializer
@@ -174,15 +173,15 @@ class ArchetypesView(PartnerStatsListView):
 	def _get_archetype_popularity(self, game_type):
 		return self._get_query_data("archetype_popularity_distribution_stats", dict(
 			GameType=game_type,
-			RankRange=RankRange.LEGEND_THROUGH_TWENTY,
-			TimeRange=TimeRange.CURRENT_EXPANSION
+			RankRange="LEGEND_THROUGH_TWENTY",
+			TimeRange="CURRENT_EXPANSION"
 		))
 
 	def _get_archetype_matchups(self, game_type):
 		return self._get_query_data("head_to_head_archetype_matchups", dict(
 			GameType=game_type,
-			RankRange=RankRange.LEGEND_THROUGH_TWENTY,
-			TimeRange=TimeRange.CURRENT_EXPANSION
+			RankRange="LEGEND_THROUGH_TWENTY",
+			TimeRange="CURRENT_EXPANSION"
 		))
 
 
