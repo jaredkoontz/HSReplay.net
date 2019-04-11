@@ -168,7 +168,11 @@ class ArchetypesView(PartnerStatsListView):
 		]
 
 	def _get_decks(self, game_type):
-		return self._get_query_data("list_decks_by_win_rate", dict(GameType=game_type))
+		return self._get_query_data("list_decks_by_win_rate", dict(
+			GameType=game_type,
+			RankRange="LEGEND_THROUGH_TWENTY",
+			TimeRange="CURRENT_EXPANSION"
+		))
 
 	def _get_archetype_popularity(self, game_type):
 		return self._get_query_data("archetype_popularity_distribution_stats", dict(
