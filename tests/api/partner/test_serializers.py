@@ -1,4 +1,5 @@
 import pytest
+from django.utils import timezone
 from django_hearthstone.cards.models import Card
 from hearthstone import enums
 from hearthstone.enums import CardClass
@@ -13,7 +14,9 @@ from hsreplaynet.api.partner.serializers import (
 	CardDataSerializer, CardSerializer, ClassArchetypeStatsSerializer,
 	ClassArchetypeSummarySerializer, ClassSerializer
 )
-from hsreplaynet.decks.models import Archetype
+from hsreplaynet.decks.models import (
+	Archetype, ClassClusterSnapshot, ClusterSetSnapshot, ClusterSnapshot
+)
 
 
 EXPLODED_DECK_DATA = {
@@ -156,6 +159,7 @@ EXPECTED_WRATH_CARD_DATA = {
 EXPECTED_WRATH_DATA = {
 	"card_id": "EX1_154",
 	"dbf_id": 836,
+	"is_standard": True,
 	"game_types": {
 		"RANKED_STANDARD": EXPECTED_WRATH_CARD_DATA,
 	}
@@ -165,6 +169,26 @@ EXPECTED_WRATH_DATA = {
 @pytest.mark.django_db
 @pytest.mark.usefixtures("archetypes_serializer_data")
 def test_archetypes_serializer(archetypes_serializer_data):
+	cluster_set = ClusterSetSnapshot.objects.create(latest=True, promoted_on=timezone.now())
+	class_cluster = ClassClusterSnapshot(
+		cluster_set=cluster_set,
+		player_class=CardClass.DRUID
+	)
+	class_cluster.save()
+
+	ClusterSnapshot.objects.create(
+		ccp_signature={
+			"86": 0.13819617622610142,
+			"531": 0.24418121363258521,
+			"1109": 0.5286783042394015,
+			"49184": 0.9821280133000831,
+			"51791": 0.9445137157107232,
+			"53179": 0.9954280964256027
+		},
+		class_cluster=class_cluster,
+		cluster_id=123,
+		external_id=1
+	)
 	archetype = Archetype.objects.create(
 		id=1,
 		name="Archetype 1",
@@ -196,6 +220,9 @@ def test_archetypes_serializer(archetypes_serializer_data):
 
 	assert "player_class" in data
 	assert data["player_class"] == "DRUID"
+
+	assert "signature_cards" in data
+	assert data["signature_cards"] == [53179, 49184]
 
 	assert "url" in data
 	assert data["url"] == "https://hsreplay.net/archetypes/1/archetype-1"

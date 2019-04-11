@@ -3,6 +3,7 @@ from collections import OrderedDict
 from itertools import chain
 
 from hearthstone import enums
+from hearthstone.enums import CardSet
 from rest_framework.serializers import Serializer, SerializerMethodField
 
 from hsreplaynet.decks.models import Archetype
@@ -113,6 +114,7 @@ class CardSerializer(Serializer):
 	card_id = SerializerMethodField()
 	dbf_id = SerializerMethodField()
 	game_types = SerializerMethodField()
+	is_standard = SerializerMethodField()
 
 	# Generates a map of dbf_id -> archetype_id -> deck with best winrate
 
@@ -179,6 +181,9 @@ class CardSerializer(Serializer):
 			if data:
 				result[game_type] = data
 		return result
+
+	def get_is_standard(self, instance):
+		return instance.card_set in CardSet
 
 
 class InvalidArchetypeException(Exception):
@@ -302,6 +307,7 @@ class ArchetypeSerializer(Serializer):
 	player_class = SerializerMethodField()
 	url = SerializerMethodField()
 	game_types = SerializerMethodField()
+	signature_cards = SerializerMethodField()
 
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
@@ -336,6 +342,14 @@ class ArchetypeSerializer(Serializer):
 		serializer = ArchetypeDataSerializer(data, context=self._context[instance["game_type"]])
 		result[instance["game_type"]] = serializer.data
 		return result
+
+	def get_signature_cards(self, instance):
+		signature = instance["archetype"].standard_ccp_signature
+		if signature:
+			components = sorted(signature["components"], key=lambda x: x[1], reverse=True)
+			return [dbf for dbf, _ in components][:2]
+		else:
+			return []
 
 
 class ClassArchetypeStatsSerializer(Serializer):
