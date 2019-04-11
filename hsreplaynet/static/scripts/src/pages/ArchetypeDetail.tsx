@@ -709,8 +709,8 @@ class ArchetypeDetail extends React.Component<Props, State> {
 						<NetworkNAdUnit id="nn_mpu1" uniqueId="ad-mpu1" />
 					</Sticky>
 					<NetworkNAdUnit
-						id="nn_mobile_mpu2"
-						uniqueId="ad-mmpu2"
+						id="nn_mobile_mpu1"
+						uniqueId="ad-mmpu1"
 						mobile
 						center
 					/>
@@ -718,8 +718,8 @@ class ArchetypeDetail extends React.Component<Props, State> {
 				<main>
 					{content}
 					<NetworkNAdUnit
-						id="nn_mobile_mpu1"
-						uniqueId="ad-mmpu1"
+						id="nn_mobile_mpu2"
+						uniqueId="ad-mmpu2"
 						mobile
 						center
 					/>

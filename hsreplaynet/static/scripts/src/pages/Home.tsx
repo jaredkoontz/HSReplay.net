@@ -199,8 +199,8 @@ class Home extends React.Component<Props, State> {
 					<NetworkNAdUnit id="nn_lb1" uniqueId="fp-bb1" center />
 				)}
 				<NetworkNAdUnit
-					id="nn_mobile_mpu2"
-					uniqueId="fp-mmpu2"
+					id="nn_mobile_mpu1"
+					uniqueId="fp-mmpu1"
 					mobile
 					center
 				/>
@@ -312,8 +312,8 @@ class Home extends React.Component<Props, State> {
 					</div>
 				</div>
 				<NetworkNAdUnit
-					id="nn_mobile_mpu1"
-					uniqueId="fp-mmpu1"
+					id="nn_mobile_mpu2"
+					uniqueId="fp-mmpu2"
 					mobile
 					center
 				/>

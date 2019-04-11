@@ -375,8 +375,8 @@ class CardDetail extends React.Component<Props, State> {
 							</h1>
 							{headerContent}
 							<NetworkNAdUnit
-								id="nn_mobile_mpu1"
-								uniqueId="cd-mmpu1"
+								id="nn_mobile_mpu2"
+								uniqueId="cd-mmpu2"
 								mobile
 								center
 							/>
@@ -645,8 +645,8 @@ class CardDetail extends React.Component<Props, State> {
 					</h1>
 					<p>{this.getCleanFlavorText()}</p>
 					<NetworkNAdUnit
-						id="nn_mobile_mpu2"
-						uniqueId="cd-mmpu2"
+						id="nn_mobile_mpu1"
+						uniqueId="cd-mmpu1"
 						mobile
 						center
 					/>

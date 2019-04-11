@@ -362,8 +362,8 @@ class MetaOverview extends React.Component<Props, State> {
 				</aside>
 				<main className={contentClassNames.join(" ")}>
 					<NetworkNAdUnit
-						id="nn_mobile_mpu2"
-						uniqueId="mp-mmpu2"
+						id="nn_mobile_mpu1"
+						uniqueId="mp-mmpu1"
 						mobile
 						center
 					/>
@@ -503,8 +503,8 @@ class MetaOverview extends React.Component<Props, State> {
 						</Tab>
 					</TabList>
 					<NetworkNAdUnit
-						id="nn_mobile_mpu1"
-						uniqueId="mp-mmpu1"
+						id="nn_mobile_mpu2"
+						uniqueId="mp-mmpu2"
 						mobile
 						center
 					/>
