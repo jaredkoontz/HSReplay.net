@@ -1,3 +1,5 @@
+from typing import Dict, Tuple
+
 from django_hearthstone.cards.models import Card
 from hearthstone import enums
 from oauth2_provider.contrib.rest_framework import OAuth2Authentication, TokenHasScope
@@ -11,6 +13,7 @@ from hsreplaynet.api.partner.serializers import (
 )
 from hsreplaynet.api.partner.utils import QueryDataNotAvailableException
 from hsreplaynet.decks.api import Archetype
+from hsreplaynet.features.models import Feature
 from hsreplaynet.utils import get_logger, influx
 from hsreplaynet.utils.aws.redshift import get_redshift_query
 
@@ -29,7 +32,7 @@ class PartnerStatsListView(ListAPIView):
 	required_scopes = ["stats.partner:read"]
 	pagination_class = None
 
-	def _get_query_data(self, query_name, params=None):
+	def _get_query_data(self, query_name, params=None) -> Tuple[Dict, Dict]:
 		query = get_redshift_query(query_name)
 		parameterized_query = query.build_full_params(params or dict())
 		try:
@@ -42,7 +45,7 @@ class PartnerStatsListView(ListAPIView):
 		if not parameterized_query.result_available:
 			raise QueryDataNotAvailableException()
 		response = parameterized_query.response_payload
-		return response["series"]["data"]
+		return response["series"]["data"], response["series"]["metadata"]
 
 
 class CardsView(PartnerStatsListView):
@@ -93,17 +96,23 @@ class CardsView(PartnerStatsListView):
 	def get_queryset(self):
 		return list(Card.objects.filter(collectible=True))
 
-	def _get_decks(self, game_type):
+	def _get_decks(self, game_type) -> Dict:
 		if game_type not in self.constructed_game_types:
 			return None
-		return self._get_query_data("list_decks_by_win_rate", dict(GameType=game_type))
+
+		deck_data, _ = self._get_query_data(
+			"list_decks_by_win_rate",
+			dict(GameType=game_type)
+		)
+		return deck_data
 
 	def _get_card_popularity(self, game_type):
 		if game_type not in self._query_data:
-			self._query_data[game_type] = self._get_query_data(
+			query_data, _ = self._get_query_data(
 				"card_included_popularity_report",
 				dict(GameType=game_type)
 			)
+			self._query_data[game_type] = query_data
 
 		return self._query_data[game_type]["ALL"]
 
@@ -136,13 +145,16 @@ class ArchetypesView(PartnerStatsListView):
 
 	def get_serializer_context(self):
 		context = super().get_serializer_context()
-		context.update(dict(
-			(game_type, dict(
+		for game_type in self.supported_game_types:
+			matchup_data, matchup_metadata = self._get_archetype_matchups(game_type)
+
+			context[game_type] = dict(
 				deck_data=self._get_decks(game_type),
 				popularity_data=self._get_archetype_popularity(game_type),
-				matchup_data=self._get_archetype_matchups(game_type)
-			)) for game_type in self.supported_game_types
-		))
+				matchup_data=matchup_data,
+				matchup_metadata=matchup_metadata
+			)
+
 		return context
 
 	def get_queryset(self):
@@ -154,6 +166,15 @@ class ArchetypesView(PartnerStatsListView):
 					game_type=game_type
 				))
 		return queryset
+
+	def _has_current_expansion_filter(self):
+		if self.request.user.is_staff:
+			return True
+		try:
+			feature = Feature.objects.get(name="current-expansion-filter")
+			return feature.enabled_for_user(self.request.user)
+		except Feature.DoesNotExist:
+			return False
 
 	def _is_valid_archetype(self, archetype):
 		return (
@@ -167,25 +188,39 @@ class ArchetypesView(PartnerStatsListView):
 			self._is_valid_archetype(archetype)
 		]
 
-	def _get_decks(self, game_type):
-		return self._get_query_data("list_decks_by_win_rate", dict(
-			GameType=game_type,
-			RankRange="LEGEND_THROUGH_TWENTY",
-			TimeRange="CURRENT_EXPANSION"
-		))
+	def _get_decks(self, game_type) -> Dict:
+		time_range = "CURRENT_EXPANSION" if self._has_current_expansion_filter() \
+			else "LAST_7_DAYS"
+		deck_data, _ = self._get_query_data(
+			"list_decks_by_win_rate",
+			dict(
+				GameType=game_type,
+				RankRange="LEGEND_THROUGH_TWENTY",
+				TimeRange=time_range
+			)
+		)
+		return deck_data
 
-	def _get_archetype_popularity(self, game_type):
-		return self._get_query_data("archetype_popularity_distribution_stats", dict(
-			GameType=game_type,
-			RankRange="LEGEND_THROUGH_TWENTY",
-			TimeRange="CURRENT_EXPANSION"
-		))
+	def _get_archetype_popularity(self, game_type) -> Dict:
+		time_range = "CURRENT_EXPANSION" if self._has_current_expansion_filter() \
+			else "LAST_7_DAYS"
+		popularity_data, _ = self._get_query_data(
+			"archetype_popularity_distribution_stats",
+			dict(
+				GameType=game_type,
+				RankRange="LEGEND_THROUGH_TWENTY",
+				TimeRange=time_range
+			)
+		)
+		return popularity_data
 
-	def _get_archetype_matchups(self, game_type):
+	def _get_archetype_matchups(self, game_type) -> Tuple[Dict, Dict]:
+		time_range = "CURRENT_EXPANSION" if self._has_current_expansion_filter() \
+			else "LAST_7_DAYS"
 		return self._get_query_data("head_to_head_archetype_matchups", dict(
 			GameType=game_type,
 			RankRange="LEGEND_THROUGH_TWENTY",
-			TimeRange="CURRENT_EXPANSION"
+			TimeRange=time_range
 		))
 
 
@@ -261,11 +296,13 @@ class ClassesView(PartnerStatsListView):
 
 		return queryset
 
-	def _get_archetype_popularity(self, game_type):
-		return self._get_query_data(
+	def _get_archetype_popularity(self, game_type) -> Dict:
+		popularity_data, _ = self._get_query_data(
 			"archetype_popularity_distribution_stats",
 			dict(GameType=game_type)
 		)
+		return popularity_data
 
-	def _get_player_class_performance_summary(self):
-		return self._get_query_data("player_class_performance_summary")
+	def _get_player_class_performance_summary(self) -> Dict:
+		performance_summary, _ = self._get_query_data("player_class_performance_summary")
+		return performance_summary

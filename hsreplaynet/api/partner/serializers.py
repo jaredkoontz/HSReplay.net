@@ -230,8 +230,10 @@ class ArchetypeDataSerializer(Serializer):
 		self._deck_data = kwargs["context"]["deck_data"]
 		self._popularity_data = kwargs["context"]["popularity_data"]
 		self._matchup_data = kwargs["context"]["matchup_data"]
+		self._matchup_metadata = kwargs["context"]["matchup_metadata"]
 		if (
 			not self._popularity_data or
+			not self._matchup_metadata or
 			not self._matchup_data or
 			not self._deck_data
 		):
@@ -247,7 +249,7 @@ class ArchetypeDataSerializer(Serializer):
 		return super().to_representation(instance)
 
 	def get_winrate(self, instance):
-		return self._get_archetype(instance)["win_rate"]
+		return self._matchup_metadata[str(instance["id"])]["win_rate"]
 
 	def get_class_popularity(self, instance):
 		return self._get_archetype(instance)["pct_of_class"]

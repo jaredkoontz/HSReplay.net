@@ -167,8 +167,8 @@ EXPECTED_WRATH_DATA = {
 
 
 @pytest.mark.django_db
-@pytest.mark.usefixtures("archetypes_serializer_data")
-def test_archetypes_serializer(archetypes_serializer_data):
+@pytest.mark.usefixtures("archetypes_serializer_data", "archetypes_serializer_metadata")
+def test_archetypes_serializer(archetypes_serializer_data, archetypes_serializer_metadata):
 	cluster_set = ClusterSetSnapshot.objects.create(latest=True, promoted_on=timezone.now())
 	class_cluster = ClassClusterSnapshot(
 		cluster_set=cluster_set,
@@ -203,7 +203,8 @@ def test_archetypes_serializer(archetypes_serializer_data):
 		RANKED_STANDARD=dict(
 			deck_data=archetypes_serializer_data["decks"],
 			popularity_data=archetypes_serializer_data["popularity"],
-			matchup_data=archetypes_serializer_data["matchups"]
+			matchup_data=archetypes_serializer_data["matchups"],
+			matchup_metadata=archetypes_serializer_metadata["matchups"]
 		)
 	)
 
@@ -269,8 +270,11 @@ def test_archetypes_serializer(archetypes_serializer_data):
 
 
 @pytest.mark.django_db
-@pytest.mark.usefixtures("archetypes_serializer_data")
-def test_archetypes_serializer_many(archetypes_serializer_data):
+@pytest.mark.usefixtures("archetypes_serializer_data", "archetypes_serializer_metadata")
+def test_archetypes_serializer_many(
+	archetypes_serializer_data,
+	archetypes_serializer_metadata
+):
 	archetype1 = Archetype.objects.create(
 		id=1,
 		name="Archetype 1",
@@ -292,7 +296,8 @@ def test_archetypes_serializer_many(archetypes_serializer_data):
 		RANKED_STANDARD=dict(
 			deck_data=archetypes_serializer_data["decks"],
 			popularity_data=archetypes_serializer_data["popularity"],
-			matchup_data=archetypes_serializer_data["matchups"]
+			matchup_data=archetypes_serializer_data["matchups"],
+			matchup_metadata=archetypes_serializer_metadata["matchups"],
 		)
 	)
 
@@ -341,8 +346,11 @@ def test_archetypes_serializer_many(archetypes_serializer_data):
 
 
 @pytest.mark.django_db
-@pytest.mark.usefixtures("archetypes_serializer_data")
-def test_archetypes_serializer_low_data(archetypes_serializer_data):
+@pytest.mark.usefixtures("archetypes_serializer_data", "archetypes_serializer_metadata")
+def test_archetypes_serializer_low_data(
+	archetypes_serializer_data,
+	archetypes_serializer_metadata
+):
 	archetype = Archetype.objects.create(
 		id=2,
 		name="Archetype 2",
@@ -361,7 +369,8 @@ def test_archetypes_serializer_low_data(archetypes_serializer_data):
 		RANKED_STANDARD=dict(
 			deck_data=archetypes_serializer_data["decks"],
 			popularity_data=archetypes_serializer_data["popularity"],
-			matchup_data=matchups
+			matchup_data=matchups,
+			matchup_metadata={"2": {"total_games": 0, "win_rate": 0}}
 		)
 	)
 

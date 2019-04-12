@@ -141,3 +141,16 @@ def archetypes_serializer_data():
 		popularity=popularity,
 		matchups=matchups
 	)
+
+
+@pytest.fixture(scope="function")
+def archetypes_serializer_metadata():
+	matchups = {
+		"1": {"total_games": 579, "win_rate": 50.50},
+		"2": {"total_games": 345, "win_rate": 52.52}
+	}
+	return dict(
+		decks={},
+		popularity={},
+		matchups=matchups
+	)

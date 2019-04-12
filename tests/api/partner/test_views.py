@@ -54,9 +54,13 @@ def test_archetypes_view_no_redshift_data(client, mocker, partner_token):
 
 
 @pytest.mark.django_db
-@pytest.mark.usefixtures("archetypes_serializer_data")
+@pytest.mark.usefixtures("archetypes_serializer_data", "archetypes_serializer_metadata")
 def test_archetypes_view_valid_data(
-	archetypes_serializer_data, client, mocker, partner_token
+	archetypes_serializer_data,
+	archetypes_serializer_metadata,
+	client,
+	mocker,
+	partner_token
 ):
 	archetype = Archetype.objects.create(
 		id=1,
@@ -66,11 +70,14 @@ def test_archetypes_view_valid_data(
 
 	def mock_get_query_data(self, query_name, game_type):
 		if query_name == "list_decks_by_win_rate":
-			return archetypes_serializer_data["decks"]
+			return archetypes_serializer_data["decks"], {}
 		elif query_name == "archetype_popularity_distribution_stats":
-			return archetypes_serializer_data["popularity"]
+			return archetypes_serializer_data["popularity"], {}
 		elif query_name == "head_to_head_archetype_matchups":
-			return archetypes_serializer_data["matchups"]
+			return (
+				archetypes_serializer_data["matchups"],
+				archetypes_serializer_metadata["matchups"]
+			)
 		raise Exception()
 
 	def mock_get_archetypes(self):
@@ -117,9 +124,7 @@ class TestClassesView:
 
 		mock_parameterized_query = Mock(
 			result_available=True,
-			response_payload=dict(
-				series=dict(data=series_data)
-			)
+			response_payload=dict(series=dict(data=series_data, metadata=dict()))
 		)
 
 		class_data = dict(
@@ -153,9 +158,7 @@ class TestClassesView:
 
 		mock_class_parameterized_query = Mock(
 			result_available=True,
-			response_payload=dict(
-				series=dict(data=class_data)
-			)
+			response_payload=dict(series=dict(data=class_data, metadata=dict()))
 		)
 
 		class_attr = {
@@ -268,9 +271,9 @@ def test_cards_view_valid_data(client, mocker, partner_token):
 
 	def mock_get_query_data(self, query_name, game_type):
 		if query_name == "list_decks_by_win_rate":
-			return DECK_DATA
+			return DECK_DATA, {}
 		elif query_name == "card_included_popularity_report":
-			return {"ALL": POPULARITY_DATA}
+			return {"ALL": POPULARITY_DATA}, {}
 		raise Exception()
 
 	mocker.patch(
