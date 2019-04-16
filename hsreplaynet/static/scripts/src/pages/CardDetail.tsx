@@ -33,6 +33,7 @@ import {
 	getDustCost,
 	getHeroClassName,
 	isArenaOnlyCard,
+	isArenaSet,
 	isCollectibleCard,
 	isWildSet,
 	toPrettyNumber,
@@ -677,7 +678,7 @@ class CardDetail extends React.Component<Props, State> {
 						<InfoboxFilter
 							disabled={
 								(this.props.card &&
-									isWildSet(this.props.card.set)) ||
+									!isArenaSet(this.props.card.set)) ||
 								this.cardIsQuest()
 							}
 							value="ARENA"

@@ -2,7 +2,7 @@ import React from "react";
 import CardData from "./CardData";
 import { Colors } from "./Colors";
 import Fragments from "./components/Fragments";
-import { wildSets } from "./constants";
+import { arenaSets, wildSets } from "./constants";
 import { CardClass, Rarity } from "./hearthstone";
 import {
 	ChartMetaData,
@@ -610,6 +610,10 @@ export function getHeroClassName(
 			return t("GLOBAL_CLASS_NEUTRAL");
 	}
 	return toTitleCase(cardClass);
+}
+
+export function isArenaSet(set: string) {
+	return arenaSets.indexOf(set) !== -1;
 }
 
 export function isWildSet(set: string) {
