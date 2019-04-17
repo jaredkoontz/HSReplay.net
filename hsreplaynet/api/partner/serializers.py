@@ -3,7 +3,6 @@ from collections import OrderedDict
 from itertools import chain
 
 from hearthstone import enums
-from hearthstone.enums import CardSet
 from rest_framework.serializers import Serializer, SerializerMethodField
 
 from hsreplaynet.decks.models import Archetype
@@ -183,7 +182,7 @@ class CardSerializer(Serializer):
 		return result
 
 	def get_is_standard(self, instance):
-		return instance.card_set in CardSet
+		return instance.card_set.is_standard
 
 
 class InvalidArchetypeException(Exception):
