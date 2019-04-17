@@ -1364,6 +1364,7 @@ class Decks extends React.Component<Props, State> {
 						<NetworkNAdUnit id="nn_lb1" uniqueId="dl-bb1" center />
 					</Sticky>
 					{content}
+					<NetworkNAdUnit id="nn_lb2" uniqueId="dl-lb2" center />
 					<NetworkNAdUnit
 						id="nn_mobile_mpu2"
 						uniqueId="dl-mmpu2"
