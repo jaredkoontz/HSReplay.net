@@ -57,8 +57,9 @@
 
 			<div class="checkbox">
 				<label>
-					{% url 'terms_of_service' as tos_url %}
+					{% with tos_url="https://hearthsim.net/legal/terms-of-service.html" %}
 					<input type="checkbox" required/> {% blocktrans %}I agree to the <a href="{{ tos_url }}">Terms of Service</a>.{% endblocktrans %}
+					{% endwith %}
 				</label>
 			</div>
 
