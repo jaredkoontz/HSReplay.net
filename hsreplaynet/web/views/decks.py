@@ -67,13 +67,14 @@ class DeckDetailView(View):
 				{"property": "x-hearthstone:deck:deckstring", "content": deck.deckstring},
 			)
 
-		self.request.head.add_meta({
-			"name": "description",
-			"content": format_lazy(
-				_("{name} stats and decklist. Import it: {deckstring}"),
-				name=deck_name, deckstring=deck.deckstring
-			),
-		})
+		description = format_lazy(
+			_("{name} stats and decklist. Import it: {deckstring}"),
+			name=deck_name, deckstring=deck.deckstring
+		)
+		self.request.head.add_meta(
+			{"name": "description", "content": description},
+			{"property": "og:description", "content": description},
+		)
 
 		context = {
 			"deck": deck,

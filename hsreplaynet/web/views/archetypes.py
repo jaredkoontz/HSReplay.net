@@ -49,13 +49,14 @@ class ArchetypeDetailView(RequestMetaMixin, View):
 		request.head.title = _(archetype.name)
 		request.head.set_canonical_url(archetype.get_absolute_url())
 
-		self.request.head.add_meta({
-			"name": "description",
-			"content": format_lazy(
-				_("Find stats and different {name} decklists."),
-				name=_(archetype.name)
-			),
-		})
+		description = format_lazy(
+			_("Find stats and different {name} decklists."),
+			name=_(archetype.name)
+		)
+		self.request.head.add_meta(
+			{"name": "description", "content": description},
+			{"property": "og:description", "content": description},
+		)
 
 		context = {
 			"archetype_id": archetype.id,
