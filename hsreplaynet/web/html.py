@@ -72,7 +72,10 @@ class HTMLHead:
 		title = self.get_title()
 		if title:
 			tags.append(HTMLTag("title", content=title))
-			self.opengraph["og:title"] = title
+
+		short_title = self.get_short_title()
+		if short_title:
+			self.opengraph["og:title"] = short_title
 
 		tags += self._meta_tags
 
@@ -151,6 +154,13 @@ class HTMLHead:
 			return " - ".join(title_parts)
 		else:
 			return ""
+
+	def get_short_title(self):
+		if self.title:
+			return str(self.title)
+		if self.base_title:
+			return str(self.base_title)
+		return ""
 
 	def add_link(self, **attrs):
 		self._link_tags.append(HTMLTag("link", attrs=attrs))
