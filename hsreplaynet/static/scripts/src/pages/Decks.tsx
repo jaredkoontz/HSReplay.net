@@ -562,7 +562,7 @@ class Decks extends React.Component<Props, State> {
 				>
 					<DeckList
 						decks={this.state.filteredDecks}
-						pageSize={12}
+						pageSize={18}
 						helpMessage={helpMessage}
 						collection={this.props.collection}
 						ads={[

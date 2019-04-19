@@ -97,9 +97,25 @@ class ArchetypeTierList extends React.Component<Props> {
 								{tier}
 							</div>
 							{index === 1 ? (
+								<>
+									<NetworkNAdUnit
+										id="nn_lb2"
+										uniqueId="mp-bb1"
+										center
+									/>
+									<NetworkNAdUnit
+										id="nn_mobile_mpu1"
+										uniqueId="mp-mmpu1"
+										mobile
+										center
+									/>
+								</>
+							) : null}
+							{index === 2 ? (
 								<NetworkNAdUnit
-									id="nn_bb1"
-									uniqueId="mp-bb1"
+									id="nn_mobile_mpu2"
+									uniqueId="mp-mmpu2"
+									mobile
 									center
 								/>
 							) : null}

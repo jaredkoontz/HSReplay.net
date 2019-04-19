@@ -13,7 +13,6 @@ import { image } from "../../helpers";
 
 export type NetworkNDesktopId =
 	| "nn_bb1"
-	| "nn_bb2"
 	| "nn_mpu1"
 	| "nn_mpu2"
 	| "nn_mpu3"

@@ -361,12 +361,6 @@ class MetaOverview extends React.Component<Props, State> {
 					</Sticky>
 				</aside>
 				<main className={contentClassNames.join(" ")}>
-					<NetworkNAdUnit
-						id="nn_mobile_mpu1"
-						uniqueId="mp-mmpu1"
-						mobile
-						center
-					/>
 					<button
 						className="btn btn-default btn-filters visible-xs visible-sm"
 						type="button"
@@ -502,12 +496,6 @@ class MetaOverview extends React.Component<Props, State> {
 							{this.renderPopularity(popularityParams)}
 						</Tab>
 					</TabList>
-					<NetworkNAdUnit
-						id="nn_mobile_mpu2"
-						uniqueId="mp-mmpu2"
-						mobile
-						center
-					/>
 				</main>
 			</div>
 		);

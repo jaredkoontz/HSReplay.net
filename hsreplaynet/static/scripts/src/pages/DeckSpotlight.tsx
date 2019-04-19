@@ -23,12 +23,6 @@ class DeckSpotlight extends React.Component<Props> {
 		return (
 			<div id="deck-spotlight">
 				<NetworkNAdUnit id="nn_bb1" uniqueId="tr-bb1" center />
-				<NetworkNAdUnit
-					id="nn_mobile_mpu1"
-					uniqueId="tr-mmpu1"
-					mobile
-					center
-				/>
 				<GutterAdUnit
 					position="left"
 					networkNId="nn_skyleft"
@@ -47,6 +41,12 @@ class DeckSpotlight extends React.Component<Props> {
 						"Here's a selection of decks which have been rising in popularity over the last 48 hours.",
 					)}
 				</h3>
+				<NetworkNAdUnit
+					id="nn_mobile_mpu1"
+					uniqueId="tr-mmpu1"
+					mobile
+					center
+				/>
 				<span className="pull-right">
 					<Tooltip
 						header={t("Automatic updates")}
@@ -79,18 +79,18 @@ class DeckSpotlight extends React.Component<Props> {
 						<TrendingDecksList collection={this.props.collection} />
 					</TableLoading>
 				</DataInjector>
-				<section id="deck-db-link">
-					<h2>{t("Can't find what you are looking for?")}</h2>
-					<a href="/decks/" className="promo-button">
-						{t("Check out all the decks!")}
-					</a>
-				</section>
 				<NetworkNAdUnit
 					id="nn_mobile_mpu2"
 					uniqueId="tr-mmpu2"
 					mobile
 					center
 				/>
+				<section id="deck-db-link">
+					<h2>{t("Can't find what you are looking for?")}</h2>
+					<a href="/decks/" className="promo-button">
+						{t("Check out all the decks!")}
+					</a>
+				</section>
 			</div>
 		);
 	}
