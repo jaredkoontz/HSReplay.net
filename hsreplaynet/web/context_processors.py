@@ -1,3 +1,5 @@
+from random import random
+
 from django.conf import settings
 from django.contrib.messages import get_messages
 from django.urls import reverse
@@ -135,4 +137,43 @@ def ads(request):
 	ids = [au.name for au in AdUnit.objects.filter(enabled=True)]
 	return {
 		"ads": ids
+	}
+
+
+# Two things to note about Heap:
+# 1) We have a very limited number of sessions available, so we need to
+# *heavily* down sample. This is configured in LOCAL_SETTINGS.
+# 2) We need to down sample *sessions*, not users or page views. Therefore
+# we store the use_heap state in the current django session, which is
+# our best approximation of heap sessions.
+def heap_analytics(request):
+	# Skip if Do Not Track is enabled
+	if request.dnt:
+		return {}
+
+	# Skip if heap is not configured
+	if not hasattr(settings, "HEAP_APP_ID") or not hasattr(settings, "HEAP_SAMPLING_PERCENT"):
+		return {}
+
+	# Handle existing sessions
+	if request.session and "use_heap" in request.session:
+		heap = request.session["use_heap"]
+		if heap:
+			return {
+				"heap_analytics": {
+					"app_id": settings.HEAP_APP_ID
+				}
+			}
+		return {}
+
+	# Down sample
+	if random() > settings.HEAP_SAMPLING_PERCENT / 100:
+		request.session["use_heap"] = False
+		return {}
+
+	request.session["use_heap"] = True
+	return {
+		"heap_analytics": {
+			"app_id": settings.HEAP_APP_ID
+		}
 	}
