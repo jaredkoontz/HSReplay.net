@@ -136,6 +136,7 @@ TEMPLATES = [{
 			"hsreplaynet.web.context_processors.debug",
 			"hsreplaynet.web.context_processors.premium",
 			"hsreplaynet.web.context_processors.userdata",
+			"hsreplaynet.web.context_processors.heap_analytics",
 		],
 	},
 }]
