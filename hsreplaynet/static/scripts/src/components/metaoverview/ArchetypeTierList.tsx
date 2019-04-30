@@ -111,7 +111,7 @@ class ArchetypeTierList extends React.Component<Props> {
 									/>
 								</>
 							) : null}
-							{index === 2 ? (
+							{index === 1 ? (
 								<NetworkNAdUnit
 									id="nn_mobile_mpu2"
 									uniqueId="mp-mmpu2"
