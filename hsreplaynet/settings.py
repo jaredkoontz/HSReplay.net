@@ -146,7 +146,7 @@ TEMPLATES = [{
 # Email
 
 SERVER_EMAIL = "admin@hsreplay.net"
-DEFAULT_FROM_EMAIL = "contact@hsreplay.net"
+DEFAULT_FROM_EMAIL = "HSReplay.net <contact@hsreplay.net>"
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 
