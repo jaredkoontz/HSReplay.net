@@ -175,7 +175,7 @@ def heap_analytics(request):
 		return {}
 
 	# Down sample
-	if random() > settings.HEAP_SAMPLING_PERCENT / 100:
+	if random() > settings.HEAP_SAMPLING_PERCENT / 100.0:
 		request.session["use_heap"] = False
 		return {}
 
