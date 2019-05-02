@@ -147,6 +147,14 @@ def ads(request):
 # we store the use_heap state in the current django session, which is
 # our best approximation of heap sessions.
 def heap_analytics(request):
+	# "force-heap" feature can be enabled for testing purposes
+	if feature_enabled_for_user("force-heap", request.user):
+		return {
+			"heap_analytics": {
+				"app_id": settings.HEAP_APP_ID
+			}
+		}
+
 	# Skip if Do Not Track is enabled
 	if request.dnt:
 		return {}
