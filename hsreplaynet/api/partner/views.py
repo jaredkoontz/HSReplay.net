@@ -190,7 +190,7 @@ class ArchetypesView(PartnerStatsListView):
 
 	def _get_decks(self, game_type) -> Dict:
 		time_range = "CURRENT_EXPANSION" if self._has_current_expansion_filter() \
-			else "LAST_7_DAYS"
+			else "LAST_30_DAYS"
 		deck_data, _ = self._get_query_data(
 			"list_decks_by_win_rate",
 			dict(
