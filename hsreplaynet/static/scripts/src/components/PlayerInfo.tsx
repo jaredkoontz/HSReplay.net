@@ -23,6 +23,13 @@ interface State {
 	game: GameReplay;
 }
 
+const DeckLink: React.FC<{shortid: string | null}> = ({shortid, children}) => {
+	if (!shortid) {
+		return <span>{children}</span>;
+	}
+	return <a href={`/decks/${shortid}/`}>{children}</a>;
+};
+
 class PlayerInfo extends React.Component<Props, State> {
 	constructor(props: Props, context?: any) {
 		super(props, context);
@@ -53,6 +60,8 @@ class PlayerInfo extends React.Component<Props, State> {
 
 		let playerCards = null;
 		let opponentCards = null;
+		let playerShortid = null;
+		let opponentShortid = null;
 		let playerName = null;
 		let opponentName = null;
 		let playerCopyButton = null;
@@ -75,6 +84,8 @@ class PlayerInfo extends React.Component<Props, State> {
 			} = this.state.game;
 			playerName = friendly_player.name;
 			opponentName = opposing_player.name;
+			playerShortid = friendly_deck.shortid;
+			opponentShortid = opposing_deck.shortid;
 
 			if (
 				opposing_deck &&
@@ -257,9 +268,9 @@ class PlayerInfo extends React.Component<Props, State> {
 			>
 				<div className="deck-header-fade" />
 				<div className="deck-name">
-					<span>
+					<DeckLink shortid={opponentShortid}>
 						{`${this.pluralize(opponentName || "Opponent")} Deck`}
-					</span>
+					</DeckLink>
 					{opponentInfoIcon}
 				</div>
 				{opponentCopyButton}
@@ -268,7 +279,7 @@ class PlayerInfo extends React.Component<Props, State> {
 		);
 
 		const defaultDirection = this.props.playerExpandDirection;
-		const toggledDriection =
+		const toggledDirection =
 			this.props.playerExpandDirection === "up" ? "down" : "up";
 
 		const playerExpandButton = (
@@ -280,7 +291,7 @@ class PlayerInfo extends React.Component<Props, State> {
 					className={
 						"btn btn-primary glyphicon glyphicon-menu-" +
 						(display === "player"
-							? toggledDriection
+							? toggledDirection
 							: defaultDirection)
 					}
 					onClick={() =>
@@ -303,7 +314,9 @@ class PlayerInfo extends React.Component<Props, State> {
 			>
 				<div className="deck-header-fade" />
 				<div className="deck-name">
-					{`${this.pluralize(playerName || "Player")} Deck`}
+					<DeckLink shortid={playerShortid}>
+						{`${this.pluralize(playerName || "Player")} Deck`}
+					</DeckLink>
 				</div>
 				{playerCopyButton}
 				{this.state.game ? playerExpandButton : null}
