@@ -16,10 +16,16 @@ class DeckListField(serializers.ListField):
 class DeckSerializer(serializers.ModelSerializer):
 	cards = DeckListField(source="card_id_list", read_only=True)
 	predicted_cards = DeckListField(source="predicted_card_id_list", read_only=True)
+	shortid = serializers.SerializerMethodField()
+
+	def get_shortid(self, deck: Deck):
+		if not deck.is_full_deck:
+			return None
+		return deck.shortid
 
 	class Meta:
 		model = Deck
-		fields = ("digest", "size", "cards", "predicted_cards")
+		fields = ("shortid", "archetype", "size", "cards", "predicted_cards")
 
 
 class GameSerializer(serializers.Serializer):

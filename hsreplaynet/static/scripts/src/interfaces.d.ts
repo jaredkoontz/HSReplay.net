@@ -56,8 +56,9 @@ export interface GlobalGamePlayer {
 }
 
 export interface Deck {
-	digest: string;
-	size: any;
+	shortid: string | null;
+	archetype: number | null;
+	size: number;
 	cards: string[];
 	predicted_cards: string[] | null;
 }
