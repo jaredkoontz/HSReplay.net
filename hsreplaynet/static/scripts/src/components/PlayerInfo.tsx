@@ -23,7 +23,10 @@ interface State {
 	game: GameReplay;
 }
 
-const DeckLink: React.FC<{shortid: string | null}> = ({shortid, children}) => {
+const DeckLink: React.FC<{ shortid: string | null }> = ({
+	shortid,
+	children,
+}) => {
 	if (!shortid) {
 		return <span>{children}</span>;
 	}

@@ -99,7 +99,9 @@
 			1px 1px 0 #000;
 
 		> a {
-			&:active, &:hover:not(.btn), &:not(.btn) {
+			&:active,
+			&:hover:not(.btn),
+			&:not(.btn) {
 				color: inherit;
 				text-decoration: none;
 			}
