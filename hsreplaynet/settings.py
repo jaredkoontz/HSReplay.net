@@ -340,8 +340,8 @@ OAUTH2_PROVIDER = {
 
 OAUTH2_PROVIDER_APPLICATION_MODEL = "oauth2.Application"
 
-ROTATE_REFRESH_TOKEN = True
-REFRESH_TOKEN_GRACE_PERIOD_SECONDS = 600
+# Do not rotate refresh tokens on every refresh
+ROTATE_REFRESH_TOKEN = False
 
 
 if ENV_DEV:
