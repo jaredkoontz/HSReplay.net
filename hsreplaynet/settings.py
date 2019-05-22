@@ -334,14 +334,12 @@ OAUTH2_PROVIDER = {
 	"ALLOWED_REDIRECT_URI_SCHEMES": ["https", "http"],
 	"CLIENT_ID_GENERATOR_CLASS": "hsreplaynet.api.generators.ClientIdGenerator",
 	"CLIENT_SECRET_GENERATOR_CLASS": "hsreplaynet.api.generators.ClientSecretGenerator",
+	"ROTATE_REFRESH_TOKEN": False,
 	"SCOPES_BACKEND_CLASS": "hearthsim.identity.oauth2.models.ApplicationScopes",
 	"FULL_ACCESS_SCOPE": "fullaccess",
 }
 
 OAUTH2_PROVIDER_APPLICATION_MODEL = "oauth2.Application"
-
-# Do not rotate refresh tokens on every refresh
-ROTATE_REFRESH_TOKEN = False
 
 
 if ENV_DEV:
