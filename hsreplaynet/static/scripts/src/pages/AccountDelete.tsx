@@ -202,8 +202,8 @@ class AccountDelete extends React.Component<Props, State> {
 								type="submit"
 								className="btn btn-danger"
 								value={t<string>("Delete account")}
-							/>
-							<a href="/" className="btn btn-info">
+							/>{" "}
+							<a href="/" className="btn btn-default">
 								{t("Cancel")}
 							</a>
 						</p>

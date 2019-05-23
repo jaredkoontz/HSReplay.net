@@ -15,8 +15,8 @@
 		<form action="" method="POST">
 			{% csrf_token %}
 			<p>
-				<a class="btn btn-info" href="/">{% trans "Cancel" %}</a>
 				<button class="btn btn-danger" type="submit">{% trans "Delete my replays" %}</button>
+				<a class="btn btn-default" href="/">{% trans "Cancel" %}</a>
 			</p>
 		</form>
 	</div>
