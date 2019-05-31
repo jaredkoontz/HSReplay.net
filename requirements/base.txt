@@ -14,7 +14,7 @@ django-oauth-toolkit==1.2.0
 django-redis==4.9.0
 django-storages==1.6.6
 djangorestframework==3.8.2
-requests==2.20.0
+requests==2.22.0
 influxdb==5.0.0
 lxml==4.2.2
 pynamodb==3.3.1
