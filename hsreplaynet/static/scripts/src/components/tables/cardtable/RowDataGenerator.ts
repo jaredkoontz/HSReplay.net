@@ -2,6 +2,7 @@ import { CardObj, SortDirection } from "../../../interfaces";
 import { cardSorting } from "../../../helpers";
 import { AnnotatedNumber, TableColumn } from "../Table";
 import React from "react";
+import UserData from "../../../UserData";
 
 export interface CardData {
 	card: CardObj;
@@ -88,6 +89,24 @@ function generateRowData(
 			values: columns.map(x => {
 				if (!data) {
 					return null;
+				}
+				if (
+					UserData.hasFeature("rafaam-data-warning") &&
+					card.card.dbfId === 52119 &&
+					[
+						"opening_hand_winrate",
+						"winrate_when_drawn",
+						"winrate_when_played",
+					].indexOf(x.dataKey) !== -1
+				) {
+					return {
+						value: data[x.dataKey],
+						annotation: {
+							type: "warning",
+							tooltip:
+								"We are currently investigating a possible issue with this card's statistics.",
+						},
+					};
 				}
 				if (
 					x.lowDataKey &&
