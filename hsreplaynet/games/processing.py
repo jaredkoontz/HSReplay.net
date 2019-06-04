@@ -3,6 +3,7 @@ import re
 from collections import defaultdict
 from functools import reduce
 from io import StringIO
+from typing import Optional
 
 from dateutil.parser import parse as dateutil_parse
 from django.conf import settings
@@ -34,7 +35,7 @@ from hsreplaynet.api.live.distributions import (
 )
 from hsreplaynet.decks.models import Deck
 from hsreplaynet.games.exporters import GameDigestExporter
-from hsreplaynet.uploads.models import UploadEventStatus
+from hsreplaynet.uploads.models import UploadEvent, UploadEventStatus
 from hsreplaynet.uploads.utils import user_agent_product
 from hsreplaynet.utils import guess_ladder_season, log
 from hsreplaynet.utils.influx import influx_metric, influx_timer
@@ -530,7 +531,10 @@ def _can_claim(blizzard_account):
 	return True
 
 
-def _pick_decklist(meta, decklist_from_meta, replay_decklist, is_friendly_player=True):
+def _pick_decklist(
+	meta, decklist_from_meta, replay_decklist,
+	is_friendly_player: bool = True, upload_event: Optional[UploadEvent] = None
+):
 	is_spectated_replay = meta.get("spectator_mode", False)
 	is_dungeon_run = meta.get("scenario_id", 0) == 2663
 
@@ -546,8 +550,32 @@ def _pick_decklist(meta, decklist_from_meta, replay_decklist, is_friendly_player
 		# Spectated replays never know more than is in the replay data
 		# But may have erroneous data from the spectator's client's memory
 		# Read from before they entered the spectated game
+		influx_metric(
+			"replay_deck_source",
+			{
+				"count": 1,
+				"shortid": upload_event.shortid if upload_event else "",
+			},
+			source="replay",
+			is_meta_superset=meta_decklist_is_superset,
+			is_spectated_replay=is_spectated_replay,
+			is_friendly_player=is_friendly_player,
+			has_meta_decklist=bool(decklist_from_meta),
+		)
 		return replay_decklist
 	else:
+		influx_metric(
+			"replay_deck_source",
+			{
+				"count": 1,
+				"shortid": upload_event.shortid if upload_event else "",
+			},
+			source="meta",
+			is_meta_superset=meta_decklist_is_superset,
+			is_spectated_replay=is_spectated_replay,
+			is_friendly_player=is_friendly_player,
+			has_meta_decklist=bool(decklist_from_meta),
+		)
 		return decklist_from_meta
 
 
@@ -568,7 +596,9 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 			for c in player.initial_deck if c.initial_card_id
 		]
 		decklist = _pick_decklist(
-			meta, decklist_from_meta, replay_decklist, is_friendly_player=is_friendly_player
+			meta, decklist_from_meta, replay_decklist,
+			is_friendly_player=is_friendly_player,
+			upload_event=upload_event,
 		)
 
 		player_hero_id = player._hero.card_id
