@@ -5,7 +5,11 @@ from django.contrib.auth.decorators import login_required
 from .views import AdminMetaView
 
 
-admin.site.login = login_required(admin.site.login)
+admin.site.login = login_required(
+	admin.site.login,
+	login_url="/account/login/",
+	redirect_field_name="next"
+)
 
 urlpatterns = [
 	url(r"^_debug/", AdminMetaView.as_view()),
