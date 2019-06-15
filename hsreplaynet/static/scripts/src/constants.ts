@@ -1,10 +1,10 @@
 export const arenaSets = [
 	"CORE",
 	"EXPERT1",
-	"NAXX",
-	"OG",
-	"GANGS",
-	"GILNEAS",
+	"GVG",
+	"TGT",
+	"KARA",
+	"BOOMSDAY",
 	"DALARAN",
 ];
 
