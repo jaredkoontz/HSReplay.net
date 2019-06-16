@@ -12,13 +12,15 @@ class StaticViewSitemap(Sitemap):
 		return [
 			"home",
 			"trending_decks",
+			"meta_overview",
 			"decks",
 			"cards",
+			"downloads",
 			"premium",
 		]
 
 	def changefreq(self, item):
-		if item in ["home", "premium"]:
+		if item in ["home", "premium", "downloads"]:
 			return "weekly"
 		return "daily"
 
@@ -28,16 +30,12 @@ class StaticViewSitemap(Sitemap):
 
 class CardSitemap(Sitemap):
 	def items(self):
-		return Card.objects.all()
+		return Card.objects.all().filter(collectible=False)
 
 	def priority(self, card):
-		if not card.collectible:
-			return 0.4
 		return 0.6
 
 	def changefreq(self, card):
-		if not card.collectible:
-			return "monthly"
 		return "daily"
 
 
@@ -46,7 +44,7 @@ class ArchetypeSitemap(Sitemap):
 	priority = 0.8
 
 	def items(self):
-		return Archetype.objects.exclude(deleted=True)
+		return Archetype.objects.live()
 
 
 SITEMAPS = {
