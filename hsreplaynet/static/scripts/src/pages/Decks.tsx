@@ -39,7 +39,9 @@ import PrettyTimeRange from "../components/text/PrettyTimeRange";
 import PrettyRankRange from "../components/text/PrettyRankRange";
 import LoadingSpinner from "../components/LoadingSpinner";
 import PrettyPlayerExperience from "../components/text/PrettyPlayerExperience";
-import NetworkNAdUnit from "../components/ads/NetworkNAdUnit";
+import NetworkNAdUnit, {
+	refreshAdUnits,
+} from "../components/ads/NetworkNAdUnit";
 import Sticky from "../components/utils/Sticky";
 
 interface Props extends WithTranslation, FragmentChildProps {
@@ -114,29 +116,33 @@ class Decks extends React.Component<Props, State> {
 	public componentDidUpdate(
 		prevProps: Readonly<Props>,
 		prevState: Readonly<State>,
-		prevContext: any,
+		snapshot?: any,
 	): void {
 		if (
-			this.props.excludedCards !== prevProps.excludedCards ||
+			!_.isEqual(this.props.excludedCards, prevProps.excludedCards) ||
 			this.props.gameType !== prevProps.gameType ||
-			this.props.includedCards !== prevProps.includedCards ||
-			!_.eq(this.props.opponentClasses, prevProps.opponentClasses) ||
-			!_.eq(this.props.playerClasses, prevProps.playerClasses) ||
+			!_.isEqual(this.props.includedCards, prevProps.includedCards) ||
+			!_.isEqual(this.props.opponentClasses, prevProps.opponentClasses) ||
+			!_.isEqual(this.props.playerClasses, prevProps.playerClasses) ||
+			!_.isEqual(this.props.archetypes, prevProps.archetypes) ||
 			this.props.rankRange !== prevProps.rankRange ||
 			this.props.region !== prevProps.region ||
 			this.props.timeRange !== prevProps.timeRange ||
-			this.props.cardData !== prevProps.cardData ||
 			this.props.includedSet !== prevProps.includedSet ||
 			this.props.trainingData !== prevProps.trainingData ||
 			this.props.maxDustCost !== prevProps.maxDustCost ||
 			this.props.withStream !== prevProps.withStream ||
 			this.props.minGames !== prevProps.minGames ||
 			this.props.pilotExperience !== prevProps.pilotExperience ||
-			this.props.wildCard !== prevProps.wildCard
+			this.props.wildCard !== prevProps.wildCard ||
+			this.props.cardData !== prevProps.cardData
 		) {
 			this.updateFilteredDecks();
-			this.deckListsFragmentsRef &&
-				this.deckListsFragmentsRef.reset("page");
+			if (this.props.cardData === prevProps.cardData) {
+				refreshAdUnits();
+				this.deckListsFragmentsRef &&
+					this.deckListsFragmentsRef.reset("page");
+			}
 		}
 
 		if (this.props.collection) {

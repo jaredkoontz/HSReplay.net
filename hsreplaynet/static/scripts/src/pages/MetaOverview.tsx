@@ -22,7 +22,9 @@ import PrettyTimeRange from "../components/text/PrettyTimeRange";
 import { TimeRange } from "../filters";
 import { SortDirection } from "../interfaces";
 import { formatNumber } from "../i18n";
-import NetworkNAdUnit from "../components/ads/NetworkNAdUnit";
+import NetworkNAdUnit, {
+	refreshAdUnits,
+} from "../components/ads/NetworkNAdUnit";
 import Sticky from "../components/utils/Sticky";
 
 interface Props extends WithTranslation {
@@ -564,6 +566,21 @@ class MetaOverview extends React.Component<Props, State> {
 
 	public componentWillUnmount(): void {
 		window.removeEventListener("resize", this.onResize);
+	}
+
+	public componentDidUpdate(
+		prevProps: Readonly<Props>,
+		prevState: Readonly<State>,
+		snapshot?: any,
+	): void {
+		if (
+			prevProps.gameType !== this.props.gameType ||
+			prevProps.timeFrame !== this.props.timeFrame ||
+			prevProps.rankRange !== this.props.rankRange ||
+			prevProps.region !== this.props.region
+		) {
+			refreshAdUnits();
+		}
 	}
 
 	onResize = () => {

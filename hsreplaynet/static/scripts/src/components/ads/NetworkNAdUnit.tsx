@@ -10,6 +10,7 @@ import UserData from "../../UserData";
 import AdUnitAdmin from "./AdUnitAdmin";
 import detectPassiveEvents from "detect-passive-events";
 import { image } from "../../helpers";
+import _ from "lodash";
 
 export type NetworkNDesktopId =
 	| "nn_bb1"
@@ -63,6 +64,12 @@ export const getAdFallback = (id: NetworkNId): string | null => {
 	}
 	return null;
 };
+
+export const refreshAdUnits = _.throttle(() => {
+	if (window["refreshBids"] !== undefined) {
+		window["refreshBids"]();
+	}
+}, 5000);
 
 interface BaseProps {
 	center?: boolean;
