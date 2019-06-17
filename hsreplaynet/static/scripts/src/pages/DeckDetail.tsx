@@ -313,42 +313,40 @@ class DeckDetail extends React.Component<Props, State> {
 		} else {
 			filters.push(
 				<>
-					<Feature feature="mulligan-guide-coin-filter">
-						<InfoboxFilterGroup
-							header={t("Player initiative")}
-							selectedValue={this.getPlayerInitiative()}
-							onClick={initiative =>
-								this.props.setPlayerInitiative(initiative)
-							}
-							infoHeader={t("Player Initiative")}
-							infoContent={t(
-								"See how this deck fares when going first or second and learn the nuances of the Mulligan!",
-							)}
-							disabled={this.props.tab !== "mulligan-guide"}
+					<InfoboxFilterGroup
+						header={t("Player initiative")}
+						selectedValue={this.getPlayerInitiative()}
+						onClick={initiative =>
+							this.props.setPlayerInitiative(initiative)
+						}
+						infoHeader={t("Player Initiative")}
+						infoContent={t(
+							"See how this deck fares when going first or second and learn the nuances of the Mulligan!",
+						)}
+						disabled={this.props.tab !== "mulligan-guide"}
+					>
+						<PremiumWrapper
+							analyticsLabel="Single Deck Coin"
+							iconStyle={{ display: "none" }}
+							modalStyle="default"
 						>
-							<PremiumWrapper
-								analyticsLabel="Single Deck Coin"
-								iconStyle={{ display: "none" }}
-								modalStyle="default"
-							>
-								<InfoboxFilter value={PlayerInitiative.FIRST}>
-									{t("Going first")}
-									<span className="infobox-value">
-										{t("New!")}
-									</span>
-								</InfoboxFilter>
-								<InfoboxFilter value={PlayerInitiative.COIN}>
-									{t("On coin")}
-									<span className="infobox-value">
-										{t("New!")}
-									</span>
-								</InfoboxFilter>
-							</PremiumWrapper>
-							<InfoboxFilter value={PlayerInitiative.ALL}>
-								{t("Both")}
+							<InfoboxFilter value={PlayerInitiative.FIRST}>
+								{t("Going first")}
+								<span className="infobox-value">
+									{t("New!")}
+								</span>
 							</InfoboxFilter>
-						</InfoboxFilterGroup>
-					</Feature>
+							<InfoboxFilter value={PlayerInitiative.COIN}>
+								{t("On coin")}
+								<span className="infobox-value">
+									{t("New!")}
+								</span>
+							</InfoboxFilter>
+						</PremiumWrapper>
+						<InfoboxFilter value={PlayerInitiative.ALL}>
+							{t("Both")}
+						</InfoboxFilter>
+					</InfoboxFilterGroup>
 					<InfoboxFilterGroup
 						header={t("Rank range")}
 						infoHeader={t("Rank range")}
@@ -1221,16 +1219,11 @@ class DeckDetail extends React.Component<Props, State> {
 	}
 
 	getRegion() {
-		return UserData.hasFeature("deck-region-filter") &&
-			this.hasRegion(this.props.region)
-			? this.props.region
-			: "ALL";
+		return this.hasRegion(this.props.region) ? this.props.region : "ALL";
 	}
 
 	getPlayerInitiative() {
-		return UserData.hasFeature("mulligan-guide-coin-filter")
-			? this.props.playerInitiative
-			: "ALL";
+		return this.props.playerInitiative;
 	}
 
 	hasRegion(region: string): boolean {

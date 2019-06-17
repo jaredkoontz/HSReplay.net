@@ -1043,102 +1043,96 @@ class Decks extends React.Component<Props, State> {
 								</InfoboxFilter>
 							</InfoboxFilterGroup>
 						</section>
-						<Feature feature="pilot-performance">
-							<section id="pilot-experience-filter">
-								<InfoboxFilterGroup
-									header={t("Player Experience")}
-									infoHeader={t("Player Experience")}
-									infoContent={t(
-										"Only games from players who uploaded at least this many replays with a deck are included in the statistics for that deck.",
-									)}
-									selectedValue={this.props.pilotExperience}
-									onClick={value => {
-										this.props.setPilotExperience(value);
-										FilterEvents.onFilterInteraction(
-											"decks",
-											"pilot_experience",
-											value,
-										);
-									}}
+						<section id="pilot-experience-filter">
+							<InfoboxFilterGroup
+								header={t("Player Experience")}
+								infoHeader={t("Player Experience")}
+								infoContent={t(
+									"Only games from players who uploaded at least this many replays with a deck are included in the statistics for that deck.",
+								)}
+								selectedValue={this.props.pilotExperience}
+								onClick={value => {
+									this.props.setPilotExperience(value);
+									FilterEvents.onFilterInteraction(
+										"decks",
+										"pilot_experience",
+										value,
+									);
+								}}
+							>
+								<PremiumWrapper
+									analyticsLabel="Deck List Pilot Experience"
+									iconStyle={{ display: "none" }}
+									modalStyle="TimeRankRegion"
 								>
-									<PremiumWrapper
-										analyticsLabel="Deck List Pilot Experience"
-										iconStyle={{ display: "none" }}
-										modalStyle="TimeRankRegion"
+									<InfoboxFilter
+										value={PlayerExperience.FIFTY_GAMES}
 									>
-										<InfoboxFilter
+										<PrettyPlayerExperience
 											value={PlayerExperience.FIFTY_GAMES}
-										>
-											<PrettyPlayerExperience
-												value={
-													PlayerExperience.FIFTY_GAMES
-												}
-											/>
-										</InfoboxFilter>
-										<InfoboxFilter
+										/>
+									</InfoboxFilter>
+									<InfoboxFilter
+										value={
+											PlayerExperience.TWENTYFIVE_GAMES
+										}
+									>
+										<PrettyPlayerExperience
 											value={
 												PlayerExperience.TWENTYFIVE_GAMES
 											}
-										>
-											<PrettyPlayerExperience
-												value={
-													PlayerExperience.TWENTYFIVE_GAMES
-												}
-											/>
-										</InfoboxFilter>
-									</PremiumWrapper>
-									<InfoboxFilter value={PlayerExperience.ALL}>
-										<PrettyPlayerExperience
-											value={PlayerExperience.ALL}
 										/>
 									</InfoboxFilter>
-								</InfoboxFilterGroup>
-							</section>
-						</Feature>
-						<Feature feature="deck-region-filter">
-							<section id="region-filter">
-								<InfoboxFilterGroup
-									header={t("Region")}
-									selectedValue={this.props.region}
-									onClick={region => {
-										this.props.setRegion(region);
-										FilterEvents.onFilterInteraction(
-											"decks",
-											"region",
-											region,
-										);
-									}}
-									infoHeader={t("Region")}
-									infoContent={t(
-										"Want to get more specific? Take a look at the decks played in your region!",
-									)}
+								</PremiumWrapper>
+								<InfoboxFilter value={PlayerExperience.ALL}>
+									<PrettyPlayerExperience
+										value={PlayerExperience.ALL}
+									/>
+								</InfoboxFilter>
+							</InfoboxFilterGroup>
+						</section>
+						<section id="region-filter">
+							<InfoboxFilterGroup
+								header={t("Region")}
+								selectedValue={this.props.region}
+								onClick={region => {
+									this.props.setRegion(region);
+									FilterEvents.onFilterInteraction(
+										"decks",
+										"region",
+										region,
+									);
+								}}
+								infoHeader={t("Region")}
+								infoContent={t(
+									"Want to get more specific? Take a look at the decks played in your region!",
+								)}
+							>
+								<PremiumWrapper
+									analyticsLabel="Deck List Region"
+									iconStyle={{ display: "none" }}
+									modalStyle="TimeRankRegion"
 								>
-									<PremiumWrapper
-										analyticsLabel="Deck List Region"
-										iconStyle={{ display: "none" }}
-										modalStyle="TimeRankRegion"
-									>
-										<InfoboxFilter value="REGION_US">
-											{t("Americas")}
-										</InfoboxFilter>
-										<InfoboxFilter value="REGION_EU">
-											{t("Europe")}
-										</InfoboxFilter>
-										<InfoboxFilter value="REGION_KR">
-											{t("Asia")}
-										</InfoboxFilter>
-										<Feature feature="region-filter-china">
-											<InfoboxFilter value="REGION_CN">
-												{t("China")}
-											</InfoboxFilter>
-										</Feature>
-									</PremiumWrapper>
-									<InfoboxFilter value="ALL">
-										{t("All regions")}
+									<InfoboxFilter value="REGION_US">
+										{t("Americas")}
 									</InfoboxFilter>
-								</InfoboxFilterGroup>
-							</section>
-						</Feature>
+									<InfoboxFilter value="REGION_EU">
+										{t("Europe")}
+									</InfoboxFilter>
+									<InfoboxFilter value="REGION_KR">
+										{t("Asia")}
+									</InfoboxFilter>
+									<Feature feature="region-filter-china">
+										<InfoboxFilter value="REGION_CN">
+											{t("China")}
+										</InfoboxFilter>
+									</Feature>
+								</PremiumWrapper>
+								<InfoboxFilter value="ALL">
+									{t("All regions")}
+								</InfoboxFilter>
+							</InfoboxFilterGroup>
+						</section>
 						<section id="game-mode-filter">
 							<h2>{t("Game mode")}</h2>
 							<InfoboxFilterGroup
@@ -1400,15 +1394,11 @@ class Decks extends React.Component<Props, State> {
 		const params = {
 			GameType: this.props.gameType,
 			RankRange: this.props.rankRange,
-			Region: UserData.hasFeature("deck-region-filter")
-				? this.props.region
-				: "ALL",
+			Region: this.props.region,
 			TimeRange: this.props.timeRange,
 		};
 		if (UserData.isPremium()) {
-			params["PilotExperience"] = UserData.hasFeature("pilot-performance")
-				? this.props.pilotExperience
-				: "ALL";
+			params["PilotExperience"] = this.props.pilotExperience;
 		}
 		return params;
 	}

@@ -273,46 +273,44 @@ class MetaOverview extends React.Component<Props, State> {
 							</InfoboxFilterGroup>
 						</section>
 					</Feature>
-					<Feature feature="meta-region-filter">
-						<section id="region-filter">
-							<h2>{t("Region")}</h2>
-							<InfoIcon
-								className="pull-right"
-								header={t("Region filter")}
-								content={t(
-									"Replay volume from the Chinese region is too low for reliable statistics.",
-								)}
-							/>
-							<InfoboxFilterGroup
-								selectedValue={this.props.region}
-								onClick={region => this.props.setRegion(region)}
+					<section id="region-filter">
+						<h2>{t("Region")}</h2>
+						<InfoIcon
+							className="pull-right"
+							header={t("Region filter")}
+							content={t(
+								"Replay volume from the Chinese region is too low for reliable statistics.",
+							)}
+						/>
+						<InfoboxFilterGroup
+							selectedValue={this.props.region}
+							onClick={region => this.props.setRegion(region)}
+						>
+							<PremiumWrapper
+								analyticsLabel="Meta Overview Region"
+								iconStyle={{ display: "none" }}
+								modalStyle="TimeRankRegion"
 							>
-								<PremiumWrapper
-									analyticsLabel="Meta Overview Region"
-									iconStyle={{ display: "none" }}
-									modalStyle="TimeRankRegion"
-								>
-									<InfoboxFilter value="REGION_US">
-										{t("Americas")}
-									</InfoboxFilter>
-									<InfoboxFilter value="REGION_EU">
-										{t("Europe")}
-									</InfoboxFilter>
-									<InfoboxFilter value="REGION_KR">
-										{t("Asia")}
-									</InfoboxFilter>
-									<Feature feature="region-filter-china">
-										<InfoboxFilter value="REGION_CN">
-											{t("China")}
-										</InfoboxFilter>
-									</Feature>
-								</PremiumWrapper>
-								<InfoboxFilter value="ALL">
-									{t("All regions")}
+								<InfoboxFilter value="REGION_US">
+									{t("Americas")}
 								</InfoboxFilter>
-							</InfoboxFilterGroup>
-						</section>
-					</Feature>
+								<InfoboxFilter value="REGION_EU">
+									{t("Europe")}
+								</InfoboxFilter>
+								<InfoboxFilter value="REGION_KR">
+									{t("Asia")}
+								</InfoboxFilter>
+								<Feature feature="region-filter-china">
+									<InfoboxFilter value="REGION_CN">
+										{t("China")}
+									</InfoboxFilter>
+								</Feature>
+							</PremiumWrapper>
+							<InfoboxFilter value="ALL">
+								{t("All regions")}
+							</InfoboxFilter>
+						</InfoboxFilterGroup>
+					</section>
 					<section id="info">
 						<h2>{t("Data")}</h2>
 						<ul>
