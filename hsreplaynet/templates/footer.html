@@ -18,22 +18,22 @@
 			<section>
 				<h2 class="sr-only">{% trans "Social Media" %}</h2>
 				<ul class="horizontal-icons">
-					{% setting 'HSREPLAY_TWITTER_HANDLE' as twitter_handle %}
-					<li><a href="https://twitter.com/{{ twitter_handle }}" target="_blank" rel="noopener" class="social-button">
-						<span class="label">{% trans "Follow us on Twitter" %}</span>
-						{% include "snippets/twitter_button.svg" with fill="#9e9e9e" width=28 height=28 selector=".social-button" %}
-					</a></li>
-
 					{% setting 'HSREPLAY_DISCORD_URL' as discord_url %}
 					<li><a href="{{ discord_url }}" target="_blank" rel="noopener" class="social-button">
-						<span class="label">{% trans "Join our Discord server" %}</span>
-						{% include "snippets/discord_button.svg" with fill="#9e9e9e" width=28 height=28 selector=".social-button" %}
+						<span class="sr-only">{% trans "Join our Discord server" %}</span>
+						{% include "snippets/discord_button.svg" with fill="#fff" %}
+					</a></li>
+
+					{% setting 'HSREPLAY_TWITTER_HANDLE' as twitter_handle %}
+					<li><a href="https://twitter.com/{{ twitter_handle }}" target="_blank" rel="noopener" class="social-button">
+						<span class="sr-only">{% trans "Follow us on Twitter" %}</span>
+						{% include "snippets/twitter_button.svg" with fill="#fff" %}
 					</a></li>
 
 					{% setting 'HSREPLAY_FACEBOOK_URL' as facebook_url %}
 					<li><a href="{{ facebook_url }}" target="_blank" rel="noopener" class="social-button">
-						<span class="label">{% trans "Like us on Facebook" %}</span>
-						{% include "snippets/facebook_button.svg" with fill="#9e9e9e" width=28 height=28 selector=".social-button" %}
+						<span class="sr-only">{% trans "Like us on Facebook" %}</span>
+						{% include "snippets/facebook_button.svg" with fill="#fff" %}
 					</a></li>
 				</ul>
 			</section>
