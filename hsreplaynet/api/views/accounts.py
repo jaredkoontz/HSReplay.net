@@ -5,6 +5,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.db import transaction
 from hearthstone.enums import BnetRegion
 from oauth2_provider.contrib.rest_framework import OAuth2Authentication
+from oauth2_provider.models import AccessToken
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.exceptions import ValidationError
 from rest_framework.generics import ListAPIView, RetrieveAPIView
@@ -22,20 +23,30 @@ from hsreplaynet.utils import get_uuid_object_or_404
 from hsreplaynet.utils.influx import influx_metric
 
 from ..serializers.accounts import (
-	AccountHiLoRegionSerializer, BlizzardAccountSerializer,
-	ClaimTokenSerializer, UserDetailsSerializer
+	AccountHiLoRegionSerializer, BlizzardAccountSerializer, ClaimTokenSerializer,
+	FrontendUserSerializer, ThirdPartyApplicationUserSerializer, UserSerializer
 )
 from ..serializers.socialaccount import TwitchSocialAccountSerializer
 
 
 class UserDetailsView(RetrieveAPIView):
 	queryset = get_user_model().objects.all()
-	serializer_class = UserDetailsSerializer
 	authentication_classes = (SessionAuthentication, OAuth2Authentication)
 	permission_classes = (IsAuthenticated, )
 
 	def get_object(self):
 		return self.request.user
+
+	def get_serializer_class(self):
+		if not self.request.auth:
+			# SessionAuthentication
+			return FrontendUserSerializer
+		if isinstance(self.request.auth, AccessToken) and \
+			self.request.auth.allow_scopes(["fullaccess"]):
+			# privileged OAuth clients (e.g. first party deck trackers)
+			return UserSerializer
+		# Third parties, e.g. other OAuth clients
+		return ThirdPartyApplicationUserSerializer
 
 
 class UnlinkBlizzardAccountView(APIView):
