@@ -15,6 +15,7 @@ import DeckTile from "./DeckTile";
 import InfoIcon from "./InfoIcon";
 import Pager from "./Pager";
 import SortIndicator from "./SortIndicator";
+import { refreshAdUnits } from "./ads/NetworkNAdUnit";
 
 interface AdInfo {
 	index: number;
@@ -40,6 +41,7 @@ interface Props extends FragmentChildProps, WithTranslation {
 	collection?: Collection | null;
 	ads?: AdInfo[];
 	pageTop?: HTMLElement | null;
+	refreshAdUnits?: boolean;
 }
 
 interface State {
@@ -75,6 +77,16 @@ class DeckList extends React.Component<Props, State> {
 			this.props.setPage(1);
 		}
 		this.cacheDecks(nextProps.decks, nextProps.collection);
+	}
+
+	public componentDidUpdate(
+		prevProps: Readonly<Props>,
+		prevState: Readonly<State>,
+		snapshot?: any,
+	): void {
+		if (this.props.refreshAdUnits && prevProps.page !== this.props.page) {
+			refreshAdUnits();
+		}
 	}
 
 	cacheDecks(decks: DeckObj[], collection: Collection | null) {

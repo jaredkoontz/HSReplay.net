@@ -94,7 +94,7 @@ interface State {
 }
 
 class Decks extends React.Component<Props, State> {
-	private deckListsFragmentsRef;
+	private deckListsFragmentsRef = React.createRef<Fragments>();
 	private trackTimeout: number | null = null;
 	private hasTrackedView: boolean;
 	private readonly minGames: [number, number] = [1000, 400];
@@ -118,7 +118,7 @@ class Decks extends React.Component<Props, State> {
 		prevState: Readonly<State>,
 		snapshot?: any,
 	): void {
-		if (
+		const didFiltersChange =
 			!_.isEqual(this.props.excludedCards, prevProps.excludedCards) ||
 			this.props.gameType !== prevProps.gameType ||
 			!_.isEqual(this.props.includedCards, prevProps.includedCards) ||
@@ -134,15 +134,18 @@ class Decks extends React.Component<Props, State> {
 			this.props.withStream !== prevProps.withStream ||
 			this.props.minGames !== prevProps.minGames ||
 			this.props.pilotExperience !== prevProps.pilotExperience ||
-			this.props.wildCard !== prevProps.wildCard ||
-			this.props.cardData !== prevProps.cardData
-		) {
+			this.props.wildCard !== prevProps.wildCard;
+
+		if (didFiltersChange || this.props.cardData !== prevProps.cardData) {
 			this.updateFilteredDecks();
-			if (this.props.cardData === prevProps.cardData) {
-				refreshAdUnits();
-				this.deckListsFragmentsRef &&
-					this.deckListsFragmentsRef.reset("page");
-			}
+		}
+
+		if (didFiltersChange && this.deckListsFragmentsRef.current) {
+			this.deckListsFragmentsRef.current.reset("page");
+		}
+
+		if (didFiltersChange) {
+			refreshAdUnits();
 		}
 
 		if (this.props.collection) {
@@ -564,7 +567,7 @@ class Decks extends React.Component<Props, State> {
 						sortDirection: "descending",
 						page: 1,
 					}}
-					ref={ref => (this.deckListsFragmentsRef = ref)}
+					ref={this.deckListsFragmentsRef}
 				>
 					<DeckList
 						decks={this.state.filteredDecks}
@@ -579,6 +582,7 @@ class Decks extends React.Component<Props, State> {
 							{ index: 5, ids: ["dl-m-2"], mobile: true },
 						]}
 						pageTop={this.mainRef}
+						refreshAdUnits
 					>
 						{!isCollectionDisabled() ? (
 							<CollectionBanner
