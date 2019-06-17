@@ -575,7 +575,8 @@ class MetaOverview extends React.Component<Props, State> {
 			prevProps.gameType !== this.props.gameType ||
 			prevProps.timeFrame !== this.props.timeFrame ||
 			prevProps.rankRange !== this.props.rankRange ||
-			prevProps.region !== this.props.region
+			prevProps.region !== this.props.region ||
+			prevProps.tab !== this.props.tab
 		) {
 			refreshAdUnits();
 		}
