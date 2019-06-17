@@ -590,7 +590,16 @@ def update_global_players(global_game, entity_tree, meta, upload_event, exporter
 		is_friendly_player = player.player_id == meta["friendly_player"]
 		player_meta = meta.get("player%i" % (player.player_id), {})
 
-		decklist_from_meta = player_meta.get("deck")
+		# This is a temporary fix for Arcane Tracker submitting the incorrect card id for
+		# Madame Lazul, where the card id is from the hero rather than the collectible card.
+		UNCOLLECTIBLES_MAP = {
+			"HERO_09b": "DAL_729",  # Madame Lazul
+		}
+		decklist_from_meta = [
+			UNCOLLECTIBLES_MAP.get(card_id, card_id)
+			for card_id in player_meta.get("deck")
+		] if player_meta.get("deck") else None
+
 		replay_decklist = [
 			get_original_card_id(c.initial_card_id)
 			for c in player.initial_deck if c.initial_card_id
