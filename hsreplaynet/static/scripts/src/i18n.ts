@@ -95,6 +95,7 @@ i18n
 		ns: ["frontend", "hearthstone"],
 		lng: UserData.getLocale(),
 		languages: Object.keys(UserData.getLanguages()),
+		load: "currentOnly",
 
 		react: {
 			// improve react-i18next performance
@@ -122,16 +123,15 @@ i18n
 				namespace === I18N_NAMESPACE_FRONTEND
 			) {
 				try {
-					const modules = await Promise.all([
+					const [loadedTranslations, localeData] = await Promise.all([
 						import(/* webpackChunkName: "i18n/[index]" */ `i18n/hsreplaynet/frontend/${language}/frontend.json`),
 						import(/* webpackChunkName: "i18n/[index]" */ `./locale-data/${language}.ts`),
 					]);
 
 					// load primary frontend translations
-					Object.assign(translations, modules[0]);
+					Object.assign(translations, loadedTranslations);
 
 					// handle ICU, numbro, date-fns
-					const localeData = modules[1];
 					icu.mem = {}; // clear ICU memoization cache due to plural rules
 					icu.addLocaleData(localeData.icu);
 					numbro.registerLanguage(localeData.numbro, true);
@@ -149,7 +149,7 @@ i18n
 						import(/* webpackChunkName: "i18n/[index]" */ `i18n/hearthstone/${language}/gameplay.json`),
 						import(/* webpackChunkName: "i18n/[index]" */ `i18n/hearthstone/${language}/presence.json`),
 					]);
-					for (const [_, module] of modules.entries()) {
+					for (const module of modules.values()) {
 						if (!module) {
 							continue;
 						}
