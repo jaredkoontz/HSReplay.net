@@ -13,6 +13,9 @@ from hsreplaynet.uploads.models import UploadEvent
 
 from ..legacy import AuthTokenAuthentication, LegacyAPIKeyPermission, RequireAuthToken
 from ..permissions import IsOwnerOrReadOnly
+from ..throttles import (
+	RetrieveGameDataBurstRateThrottle, RetrieveGameDataSustainedRateThrottle
+)
 
 
 class WriteOnlyOnceViewSet(
@@ -27,6 +30,10 @@ class UploadEventViewSet(WriteOnlyOnceViewSet):
 	queryset = UploadEvent.objects.all()
 	serializer_class = UploadEventSerializer
 	lookup_field = "shortid"
+	throttle_classes = (
+		RetrieveGameDataBurstRateThrottle,
+		RetrieveGameDataSustainedRateThrottle,
+	)
 
 
 class GameReplayDetail(RetrieveUpdateDestroyAPIView):
@@ -34,6 +41,10 @@ class GameReplayDetail(RetrieveUpdateDestroyAPIView):
 	serializer_class = GameReplaySerializer
 	lookup_field = "shortid"
 	permission_classes = (IsOwnerOrReadOnly, )
+	throttle_classes = (
+		RetrieveGameDataBurstRateThrottle,
+		RetrieveGameDataSustainedRateThrottle,
+	)
 
 	def perform_destroy(self, instance):
 		instance.is_deleted = True

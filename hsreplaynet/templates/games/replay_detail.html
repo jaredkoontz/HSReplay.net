@@ -21,11 +21,18 @@
 	{% endwith %}
 	<main>
 		{% if not replay %}
+			{% if rate_limit %}
+			<div class="alert alert-warning">
+				<h1>Too many requests</h1>
+				<p>You're accessing replays too fast. Please try again later.</p>
+			</div>
+			{% else %}
 			<div class="alert alert-warning">
 				<h1>Replay not available</h1>
 				<p>This replay is no longer available.</p>
 				<p><a href="/games/mine/">Back to games list</a></p>
 			</div>
+			{% endif %}
 		{% else %}
 			{% include "snippets/noscript.html" %}
 			<section id="main-content-wrapper">

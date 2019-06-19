@@ -1,5 +1,5 @@
 from django.core.cache import caches
-from rest_framework.throttling import SimpleRateThrottle
+from rest_framework.throttling import SimpleRateThrottle, UserRateThrottle
 
 
 class PerViewRateThrottle(SimpleRateThrottle):
@@ -33,5 +33,21 @@ class PerViewUserSustainedRateThrottle(PerViewUserRateThrottle):
 	scope = "per_view_user_sustained"
 
 
-class RedeemCodeRateThrottle(PerViewUserRateThrottle):
-	rate = "5/min"
+class RedeemCodeRateThrottle(UserRateThrottle):
+	scope = "redeem_code"
+
+
+class RetrieveGameDataBurstRateThrottle(UserRateThrottle):
+	scope = "retrieve_game_data_burst"
+
+
+class RetrieveGameDataSustainedRateThrottle(UserRateThrottle):
+	scope = "retrieve_game_data_sustained"
+
+
+class ViewReplayBurstRateThrottle(UserRateThrottle):
+	scope = "view_replay_burst"
+
+
+class ViewReplaySustainedRateThrottle(UserRateThrottle):
+	scope = "view_replay_sustained"

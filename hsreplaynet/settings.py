@@ -308,7 +308,12 @@ REST_FRAMEWORK = {
 	),
 	"DEFAULT_THROTTLE_RATES": {
 		"per_view_user_burst": "10/sec",
-		"per_view_user_sustained": "120/min"
+		"per_view_user_sustained": "120/min",
+		"redeem_code": "5/min",
+		"retrieve_game_data_burst": "12/min",
+		"retrieve_game_data_sustained": "200/day",
+		"view_replay_burst": "12/min",
+		"view_replay_sustained": "200/day",
 	}
 }
 

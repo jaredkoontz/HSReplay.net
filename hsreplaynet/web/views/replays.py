@@ -8,6 +8,9 @@ from django.utils.translation import gettext_lazy as _
 from django.views.decorators.clickjacking import xframe_options_exempt
 from django.views.generic import View
 
+from hsreplaynet.api.throttles import (
+	ViewReplayBurstRateThrottle, ViewReplaySustainedRateThrottle
+)
 from hsreplaynet.games.models import GameReplay
 from hsreplaynet.uploads.models import UploadEvent
 
@@ -39,6 +42,16 @@ class ReplayDetailView(View):
 		return replay
 
 	def get(self, request, id):
+		# throttle using DRF's throttles
+		if (
+			not ViewReplayBurstRateThrottle().allow_request(request, None) or
+			not ViewReplaySustainedRateThrottle().allow_request(request, None)
+		):
+			return render(
+				self.request, self.template_name,
+				{"replay": None, "rate_limit": True}, status=429
+			)
+
 		replay = self.replay = self.get_object(id)
 		if replay.is_deleted:
 			return render(self.request, self.template_name, {"replay": None}, status=410)
