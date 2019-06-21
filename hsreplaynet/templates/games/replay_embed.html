@@ -20,7 +20,9 @@
 	</style>
 </head>
 <body>
+	{% if replay %}
 	<div id="joust-container" data-replayurl="{{ replay.replay_xml.url }}"></div>
+	{% endif %}
 	{% render_bundle "vendor" %}
 	<script src="{% joust_static 'joust.js' %}"></script>
 	{% render_bundle "replay_embed" %}

@@ -129,6 +129,16 @@ class ReplayEmbedView(View):
 
 	@xframe_options_exempt
 	def get(self, request, id):
+		# throttle using DRF's throttles
+		if (
+			not ViewReplayBurstRateThrottle().allow_request(request, None) or
+			not ViewReplaySustainedRateThrottle().allow_request(request, None)
+		):
+			return render(
+				self.request, self.template_name,
+				{"replay": None, "rate_limit": True}, status=429
+			)
+
 		replay = GameReplay.objects.find_by_short_id(id)
 		if not replay:
 			raise Http404("Replay not found.")
@@ -139,6 +149,13 @@ class ReplayEmbedView(View):
 
 class AnnotatedReplayView(View):
 	def get(self, request, shortid):
+		# throttle using DRF's throttles
+		if (
+			not ViewReplayBurstRateThrottle().allow_request(request, None) or
+			not ViewReplaySustainedRateThrottle().allow_request(request, None)
+		):
+			return HttpResponse(status=429)
+
 		from hsreplay.utils import annotate_replay
 		from io import BytesIO
 
