@@ -516,23 +516,19 @@ export function cardSorting(a: any, b: any, direction = 1): number {
 	if (b.card !== undefined) {
 		b = b.card;
 	}
-	if (a.cost > b.cost) {
-		return direction;
+	// first, hideStats cards should be at the top
+	if (a.hideStats !== b.hideStats) {
+		return !!a.hideStats > !!b.hideStats ? -direction : direction;
 	}
-	if (a.cost < b.cost) {
-		return -direction;
+	// then, sort by ascending cost
+	if (a.cost !== b.cost) {
+		return a.cost > b.cost ? direction : -direction;
 	}
-	if (!a.hideStats && b.hideStats) {
-		return direction;
-	}
-	if (a.hideStats && !b.hideStats) {
-		return -direction;
-	}
-	if (a.name > b.name) {
-		return direction;
-	}
-	if (a.name < b.name) {
-		return -direction;
+	// then, sort by ascending lowercased name
+	const aName = a.name.toLowerCase();
+	const bName = b.name.toLowerCase();
+	if (aName !== bName) {
+		return aName > bName ? direction : -direction;
 	}
 	return 0;
 }
@@ -854,16 +850,6 @@ export function getFragments(
 		return "";
 	}
 	return Fragments.encodeFragmentString(fragments);
-}
-
-export function sortCards(a, b): number {
-	if (a["cost"] === b["cost"]) {
-		if (a["name"] === b["name"]) {
-			return 0;
-		}
-		return a["name"] > b["name"] ? 1 : -1;
-	}
-	return a["cost"] > b["cost"] ? 1 : -1;
 }
 
 export function hexToHsl(hex: string): number[] {

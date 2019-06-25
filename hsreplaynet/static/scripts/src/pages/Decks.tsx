@@ -26,7 +26,6 @@ import {
 	image,
 	isCollectibleCard,
 	isWildSet,
-	sortCards,
 } from "../helpers";
 import { DeckObj, FragmentChildProps } from "../interfaces";
 import { CollectionEvents, DeckEvents, FilterEvents } from "../metrics/Events";
@@ -1251,7 +1250,7 @@ class Decks extends React.Component<Props, State> {
 											);
 										}
 									}
-									cards.sort(sortCards);
+									cards.sort(cardSorting);
 									this.props.setIncludedCards(
 										cards.map(card => card.dbfId),
 									);

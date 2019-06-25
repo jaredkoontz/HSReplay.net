@@ -24,7 +24,6 @@ import {
 	getCardClassName,
 	isCollectibleCard,
 	isWildSet,
-	sortCards,
 } from "../helpers";
 import { DeckObj, FragmentChildProps, TableData } from "../interfaces";
 import LoadingSpinner from "../components/LoadingSpinner";
@@ -530,7 +529,7 @@ class MyDecks extends React.Component<Props, State> {
 										);
 									}
 								}
-								cards.sort(sortCards);
+								cards.sort(cardSorting);
 								this.props.setIncludedCards(
 									cards.map(card => card.dbfId),
 								);
