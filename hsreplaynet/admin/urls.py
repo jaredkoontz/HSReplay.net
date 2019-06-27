@@ -1,6 +1,6 @@
-from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.auth.decorators import login_required
+from django.urls import include, path
 
 from .views import AdminMetaView
 
@@ -12,7 +12,7 @@ admin.site.login = login_required(
 )
 
 urlpatterns = [
-	url(r"^_debug/", AdminMetaView.as_view()),
-	url(r"^loginas/", include("loginas.urls")),
-	url(r"^", admin.site.urls),
+	path("_debug/", AdminMetaView.as_view()),
+	path("loginas/", include("loginas.urls")),
+	path("", admin.site.urls),
 ]

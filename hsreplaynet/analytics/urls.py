@@ -1,77 +1,77 @@
-from django.conf.urls import url
+from django.urls import path
 
 from . import views
 
 
 urlpatterns = [
-	url(
-		r"^query/(?P<name>\w+)/$", views.fetch_query_results,
+	path(
+		"query/<str:name>/", views.fetch_query_results,
 		name="analytics_fetch_query_results"
 	),
-	url(
-		r"^local/query/(?P<name>\w+)/$", views.fetch_local_query_results,
+	path(
+		"local/query/<str:name>/", views.fetch_local_query_results,
 		name="analytics_fetch_local_query_results"
 	),
-	url(
-		r"^evict/(?P<name>\w+)/$", views.evict_query_from_cache,
+	path(
+		"evict/<str:name>/", views.evict_query_from_cache,
 		name="analytics_evict_from_cache"
 	),
-	url(
-		r"^evictall/(?P<name>\w+)/$", views.evict_all_from_cache,
+	path(
+		"evictall/<str:name>/", views.evict_all_from_cache,
 		name="analytics_evict_all_from_cache"
 	),
-	url(
-		r"^refresh/(?P<name>\w+)/$", views.refresh_query_from_cache,
+	path(
+		"refresh/<str:name>/", views.refresh_query_from_cache,
 		name="analytics_refresh_from_cache"
 	),
-	url(
-		r"^refreshall/(?P<name>\w+)/$", views.refresh_all_from_cache,
+	path(
+		"refreshall/<str:name>/", views.refresh_all_from_cache,
 		name="analytics_refresh_all_from_cache"
 	),
-	url(
-		r"^release/semaphore/(?P<name>\w+)/$", views.release_semaphore,
+	path(
+		"release/semaphore/<str:name>/", views.release_semaphore,
 		name="analytics_release_semaphore"
 	),
-	url(
-		r"^clustering/list/(?P<game_format>\w+)/$",
+	path(
+		"clustering/list/<str:game_format>/",
 		views.list_clustering_data,
 		name="analytics_list_clustering_data"
 	),
-	url(
-		r"^clustering/data/live/(?P<game_format>\w+)/$",
+	path(
+		"clustering/data/live/<str:game_format>/",
 		views.live_clustering_data,
 		name="analytics_live_clustering_data"
 	),
-	url(
-		r"^clustering/data/(?P<id>\d+)/$",
+	path(
+		"clustering/data/<int:id>/",
 		views.clustering_details,
 		name="analytics_clustering_details"
 	),
-	url(
-		r"^clustering/data/(?P<snapshot_id>\d+)/(?P<cluster_id>\d+)/$",
+	path(
+		"clustering/data/<int:snapshot_id>/<int:cluster_id>/",
 		views.SingleClusterUpdateView.as_view(),
 		name="analytics_update_cluster_archetype"
 	),
-	url(
-		r"^clustering/data/latest/(?P<game_format>\w+)/$",
+	path(
+		"clustering/data/latest/<str:game_format>/",
 		views.latest_clustering_data,
 		name="analytics_latest_clustering_data"
 	),
-	url(
-		r"^meta/preview/$",
+	path(
+		"meta/preview/",
 		views.meta_preview,
 		name="analytics_meta_preview"
 	),
-	url(
-		r"^mulligan/preview/$",
+	path(
+		"mulligan/preview/",
 		views.mulligan_preview,
 		name="analytics_mulligan_preview"
 	)
 ]
 
 api_urlpatterns = [
-	url(
-		r"^v1/analytics/query/(?P<name>\w+)/$", views.fetch_query_results,
+	path(
+		"v1/analytics/query/<str:name>/", views.fetch_query_results,
 		name="analytics_api_fetch_query_results"
 	),
 ]

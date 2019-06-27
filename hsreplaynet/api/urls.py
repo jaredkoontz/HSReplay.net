@@ -1,4 +1,4 @@
-from django.conf.urls import include, url
+from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
 from hsreplaynet.analytics.urls import api_urlpatterns as analytics_urlpatterns
@@ -9,7 +9,6 @@ from hsreplaynet.features.api import FeatureViewSet, SetFeatureView
 
 from . import views
 from .legacy import AuthTokenViewSet, CreateAccountClaimView
-from .partner import views as partner_views
 from .views import leaderboard as leaderboard_views
 
 
@@ -22,46 +21,44 @@ router.register(r"tokens", AuthTokenViewSet)
 router.register(r"webhooks", views.webhooks.WebhookViewSet)
 
 urlpatterns = [
-	url(r"^v1/account/$", views.accounts.UserDetailsView.as_view()),
-	url(r"^v1/account/claim_token/$", views.accounts.ClaimTokenAPIView.as_view()),
-	url(r"^v1/account/social/twitch/$", views.accounts.TwitchSocialAccountListView.as_view()),
-	url(r"^v1/account/unlink/$", views.accounts.UnlinkBlizzardAccountView.as_view()),
-	url(r"^v1/account/redeem/$", views.features.RedeemCodeView.as_view()),
-	url(r"^v1/ads/(?P<name>[\w\d-]+)/$", views.ads.AdUnitView.as_view()),
-	url(
-		r"^v1/blizzard_accounts/(?P<hi>\d+)/(?P<lo>\d+)/$",
+	path("v1/account/", views.accounts.UserDetailsView.as_view()),
+	path("v1/account/claim_token/", views.accounts.ClaimTokenAPIView.as_view()),
+	path("v1/account/social/twitch/", views.accounts.TwitchSocialAccountListView.as_view()),
+	path("v1/account/unlink/", views.accounts.UnlinkBlizzardAccountView.as_view()),
+	path("v1/account/redeem/", views.features.RedeemCodeView.as_view()),
+	path("v1/ads/<str:name>/", views.ads.AdUnitView.as_view()),
+	path(
+		"v1/blizzard_accounts/<int:hi>/<int:lo>/",
 		views.accounts.UpdateBlizzardAccountView.as_view()
 	),
-	url(r"^v1/claim_account/$", CreateAccountClaimView.as_view()),
-	url(r"^v1/collection/$", views.collections.CollectionView.as_view()),
-	url(
-		r"^v1/collection/upload_request/$",
+	path("v1/claim_account/", CreateAccountClaimView.as_view()),
+	path("v1/collection/", views.collections.CollectionView.as_view()),
+	path(
+		"v1/collection/upload_request/",
 		views.collections.CollectionURLPresigner.as_view()
 	),
-	url(r"^v1/collection/visibility/$", views.collections.CollectionVisibilityView.as_view()),
-	url(r"^v1/analytics/decks/summary/$", MyDecksAPIView.as_view()),
-	url(r"^v1/decks/$", GetOrCreateDeckView.as_view()),
-	url(r"^v1/decks/(?P<shortid>\w+)/$", DeckDetailView.as_view()),
-	url(r"^v1/decks/(?P<shortid>\w+)/feedback/$", DeckFeedbackView.as_view()),
-	url(r"^v1/games/$", views.games.GameReplayList.as_view()),
-	url(r"^v1/games/(?P<shortid>.+)/$", views.games.GameReplayDetail.as_view()),
-	url(r"^v1/analytics/global/$", views.analytics.GlobalAnalyticsQueryView.as_view()),
-	url(r"^v1/analytics/personal/$", views.analytics.PersonalAnalyticsQueryView.as_view()),
-	url(r"^v1/features/(?P<name>[\w-]+)/$", SetFeatureView.as_view()),
-	url(r"^v1/live/", include("hsreplaynet.api.live.urls")),
-	url(r"^v1/vods/$", views.vods.VodListView.as_view()),
-	url(r"^v1/vods/index/$", views.vods.VodIndexView.as_view()),
-	url(r"^api-auth/", include("rest_framework.urls", namespace="rest_framework")),
+	path("v1/collection/visibility/", views.collections.CollectionVisibilityView.as_view()),
+	path("v1/analytics/decks/summary/", MyDecksAPIView.as_view()),
+	path("v1/decks/", GetOrCreateDeckView.as_view()),
+	path("v1/decks/<str:shortid>/", DeckDetailView.as_view()),
+	path("v1/decks/<str:shortid>/feedback/", DeckFeedbackView.as_view()),
+	path("v1/games/", views.games.GameReplayList.as_view()),
+	path("v1/games/<str:shortid>/", views.games.GameReplayDetail.as_view()),
+	path("v1/analytics/global/", views.analytics.GlobalAnalyticsQueryView.as_view()),
+	path("v1/analytics/personal/", views.analytics.PersonalAnalyticsQueryView.as_view()),
+	path("v1/features/<str:name>/", SetFeatureView.as_view()),
+	path("v1/live/", include("hsreplaynet.api.live.urls")),
+	path("v1/vods/", views.vods.VodListView.as_view()),
+	path("v1/vods/index/", views.vods.VodIndexView.as_view()),
+	path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
 
 	# Partner stats API
-	url(r"^v1/partner-stats/archetypes/$", partner_views.ArchetypesView.as_view()),
-	url(r"^v1/partner-stats/cards/$", partner_views.CardsView.as_view()),
-	url(r"^v1/partner-stats/classes/$", partner_views.ClassesView.as_view()),
+	path("v1/partner-stats/", include("hsreplaynet.api.partner.urls")),
 
 	# Leaderboard API
-	url(r"^v1/leaderboard/$", leaderboard_views.DelegatingLeaderboardView.as_view())
+	path("v1/leaderboard/", leaderboard_views.DelegatingLeaderboardView.as_view())
 ]
 
 urlpatterns += analytics_urlpatterns
 
-urlpatterns += [url(r"v1/", include(router.urls))]
+urlpatterns += [path("v1/", include(router.urls))]

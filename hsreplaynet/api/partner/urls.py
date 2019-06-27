@@ -1,10 +1,10 @@
-from django.conf.urls import url
+from django.urls import path
 
 from . import views
 
 
 urlpatterns = [
-	url(r"^v1/archetypes/$", views.ArchetypesView.as_view()),
-	url(r"^v1/cards/$", views.CardsView.as_view()),
-	url(r"^v1/classes/$", views.ClassesView.as_view()),
+	path("archetypes/", views.ArchetypesView.as_view()),
+	path("cards/", views.CardsView.as_view()),
+	path("classes/", views.ClassesView.as_view()),
 ]
