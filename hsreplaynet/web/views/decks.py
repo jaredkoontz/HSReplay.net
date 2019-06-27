@@ -71,6 +71,8 @@ class DeckDetailView(View):
 			_("{name} stats and decklist. Import it: {deckstring}"),
 			name=deck_name, deckstring=deck.deckstring
 		)
+
+		self.request.head.set_canonical_url(deck.get_absolute_url())
 		self.request.head.add_meta(
 			{"name": "description", "content": description},
 			{"property": "og:description", "content": description},
