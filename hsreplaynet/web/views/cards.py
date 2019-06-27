@@ -95,6 +95,8 @@ class CardDetailView(SimpleReactView):
 
 		try:
 			obj = queryset.get()
+			if obj.card_id == "PlaceholderCard":
+				raise queryset.model.DoesNotExist
 		except queryset.model.DoesNotExist:
 			raise Http404(_("No card found matching the query."))
 
