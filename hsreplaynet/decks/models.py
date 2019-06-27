@@ -184,9 +184,10 @@ class DeckManager(models.Manager):
 			raise Deck.DoesNotExist("Invalid deckstring")
 		card_list = []
 		for dbf_id, count in cards:
-			for i in range(count):
-				card = db[int(dbf_id)]
-				card_list.append(card.card_id)
+			dbf_id = int(dbf_id)
+			if dbf_id not in db:
+				raise Deck.DoesNotExist("Unknown card in deckstring")
+			card_list.extend([db[dbf_id].card_id for i in range(count)])
 		digest = generate_digest_from_deck_list(card_list)
 		return digest
 
