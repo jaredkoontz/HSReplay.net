@@ -18,6 +18,7 @@ import {
 	modeMatch,
 	nameMatch,
 	resultMatch,
+	seasonMatch,
 } from "../GameFilters";
 import { getHeroCard, image } from "../helpers";
 import {
@@ -55,6 +56,8 @@ interface Props
 	setHero?: (hero: string) => void;
 	opponent?: string;
 	setOpponent?: (opponent: string) => void;
+	season?: string;
+	setSeason?: (result: string) => void;
 }
 
 interface State {
@@ -154,6 +157,7 @@ class MyReplays extends React.Component<Props, State> {
 		const mode = this.props.mode;
 		const format = this.props.format;
 		const result = this.props.result;
+		const season = this.props.season;
 		const hero = this.props.hero !== "ALL" ? this.props.hero : null;
 		const opponent =
 			this.props.opponent !== "ALL" ? this.props.opponent : null;
@@ -169,6 +173,9 @@ class MyReplays extends React.Component<Props, State> {
 					return false;
 				}
 				if (result && !resultMatch(game, result)) {
+					return false;
+				}
+				if (season && !seasonMatch(game, season)) {
 					return false;
 				}
 				if (
@@ -288,26 +295,40 @@ class MyReplays extends React.Component<Props, State> {
 
 		let page = 0;
 		const firstPage = this.state.gamesPages[page];
-
 		if (firstPage) {
 			games = this.filterGames(firstPage);
-			// we load one more than we need so we know whether there is next page
-			while (
-				games.length <
-				this.state.pageSize * (this.state.currentLocalPage + 1) + 1
+			if (
+				!this.props.season ||
+				firstPage.every(game => seasonMatch(game, this.props.season))
 			) {
-				const nextPage = this.state.gamesPages[++page];
-				if (!nextPage) {
+				// we load one more than we need so we know whether there is next page
+				while (
+					games.length <
+					this.state.pageSize * (this.state.currentLocalPage + 1) + 1
+				) {
+					const nextPage = this.state.gamesPages[++page];
 					if (
-						this.state.next &&
-						!this.state.working &&
-						(hasFilters || page === this.state.currentLocalPage)
+						nextPage &&
+						this.props.season &&
+						nextPage.some(
+							game => !seasonMatch(game, this.props.season),
+						)
 					) {
-						this.query(this.state.next);
+						games = games.concat(this.filterGames(nextPage));
+						break;
 					}
-					break;
+					if (!nextPage) {
+						if (
+							this.state.next &&
+							!this.state.working &&
+							(hasFilters || page === this.state.currentLocalPage)
+						) {
+							this.query(this.state.next);
+						}
+						break;
+					}
+					games = games.concat(this.filterGames(nextPage));
 				}
-				games = games.concat(this.filterGames(nextPage));
 			}
 			// slice off everything before the currentLocalPage
 			games = games.slice(
@@ -383,20 +404,22 @@ class MyReplays extends React.Component<Props, State> {
 			</button>
 		);
 
-		const pager = (
-			<Pager
-				currentPage={this.state.currentLocalPage + 1}
-				setCurrentPage={(p: number) =>
-					this.setState({ currentLocalPage: p - 1 })
-				}
-				pageCount={
-					this.state.next
-						? null
-						: Object.keys(this.state.gamesPages).length
-				}
-				minimal
-			/>
-		);
+		const pager =
+			games.length >= this.state.pageSize ||
+			this.state.currentLocalPage > 0 ? (
+				<Pager
+					currentPage={this.state.currentLocalPage + 1}
+					setCurrentPage={(p: number) =>
+						this.setState({ currentLocalPage: p - 1 })
+					}
+					pageCount={
+						this.state.next
+							? null
+							: Object.keys(this.state.gamesPages).length
+					}
+					minimal
+				/>
+			) : null;
 
 		return (
 			<div className="my-replays-content">
@@ -520,6 +543,19 @@ class MyReplays extends React.Component<Props, State> {
 					>
 						<InfoboxFilter value="won">{t("Won")}</InfoboxFilter>
 						<InfoboxFilter value="lost">{t("Lost")}</InfoboxFilter>
+					</InfoboxFilterGroup>
+					<h2>{t("Season")}</h2>
+					<InfoboxFilterGroup
+						deselectable
+						selectedValue={this.props.season}
+						onClick={season => this.props.setSeason(season)}
+					>
+						<InfoboxFilter value={"current"}>
+							{t("Current season")}
+						</InfoboxFilter>
+						<InfoboxFilter value={"previous"}>
+							{t("Previous season")}
+						</InfoboxFilter>
 					</InfoboxFilterGroup>
 					{backButton}
 					<Sticky bottom={0} key="ads">

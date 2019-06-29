@@ -4,18 +4,20 @@ import {
 	modeMatch,
 	nameMatch,
 	resultMatch,
+	seasonMatch,
 } from "../GameFilters";
 import { GameReplay, GlobalGame, GlobalGamePlayer } from "../interfaces";
 import * as TypeMoq from "typemoq";
 import { BnetGameType, FormatType } from "../hearthstone";
 import CardData from "../CardData";
 import { CardData as HearthstoneJSONCardData } from "hearthstonejson-client";
+import { subMonths } from "date-fns";
 
 describe("nameMatch", () => {
-	const createReplay = function(
+	const createReplay = (
 		player1Name: string,
 		player2Name?: string,
-	): GameReplay {
+	): GameReplay => {
 		const mockedGameReplay: TypeMoq.IMock<GameReplay> = TypeMoq.Mock.ofType<
 			GameReplay
 		>();
@@ -64,7 +66,7 @@ describe("nameMatch", () => {
 });
 
 describe("modeMatch", () => {
-	const createReplay = function(gameType: BnetGameType): GameReplay {
+	const createReplay = (gameType: BnetGameType): GameReplay => {
 		const mockedGameReplay: TypeMoq.IMock<GameReplay> = TypeMoq.Mock.ofType<
 			GameReplay
 		>();
@@ -134,7 +136,7 @@ describe("modeMatch", () => {
 });
 
 describe("formatMatch", () => {
-	const createReplay = function(format: FormatType): GameReplay {
+	const createReplay = (format: FormatType): GameReplay => {
 		const mockedGameReplay: TypeMoq.IMock<GameReplay> = TypeMoq.Mock.ofType<
 			GameReplay
 		>();
@@ -178,7 +180,7 @@ describe("formatMatch", () => {
 });
 
 describe("resultMatch", () => {
-	const createReplay = function(won: boolean): GameReplay {
+	const createReplay = (won: boolean): GameReplay => {
 		const mockedGameReplay: TypeMoq.IMock<GameReplay> = TypeMoq.Mock.ofType<
 			GameReplay
 		>();
@@ -199,6 +201,47 @@ describe("resultMatch", () => {
 	test("returns true for unrecognized results", () => {
 		expect(resultMatch(winningGame, "called_it_even")).toBe(true);
 		expect(resultMatch(losingGame, "its_a_toss_up")).toBe(true);
+	});
+});
+
+describe("seasonMatch", () => {
+	const createReplay = (seasonDate: Date): GameReplay => {
+		const mockedGameReplay: TypeMoq.IMock<GameReplay> = TypeMoq.Mock.ofType<
+			GameReplay
+		>();
+		const mockedGlobalGame: TypeMoq.IMock<GlobalGame> = TypeMoq.Mock.ofType<
+			GlobalGame
+		>();
+
+		mockedGlobalGame
+			.setup(x => x.match_start)
+			.returns(() => seasonDate.toDateString());
+		mockedGameReplay
+			.setup(x => x.global_game)
+			.returns(() => mockedGlobalGame.object);
+
+		return mockedGameReplay.object;
+	};
+
+	const currentSeasonGame: GameReplay = createReplay(new Date());
+	const previousSeasonGame: GameReplay = createReplay(
+		subMonths(new Date(), 1),
+	);
+
+	test("correctly matches the current season game result", () => {
+		expect(seasonMatch(currentSeasonGame, "current")).toBe(true);
+	});
+
+	test("does not match the current season game result", () => {
+		expect(seasonMatch(currentSeasonGame, "previous")).toBe(false);
+	});
+
+	test("correctly matches the previous season game result", () => {
+		expect(seasonMatch(previousSeasonGame, "current")).toBe(false);
+	});
+
+	test("does not match the previous season game result", () => {
+		expect(seasonMatch(previousSeasonGame, "previous")).toBe(true);
 	});
 });
 
