@@ -53,15 +53,13 @@ def test_grant_partner_access_wrong_scope(user):
 	app.save()
 
 	out = StringIO()
-	with pytest.raises(
-		CommandError,
-		message="The command should raise when the application's scope does not match"
-	):
+	with pytest.raises(CommandError):
 		call_command(
 			"grant_partner_access",
 			user.username, reuse_application=app.id,
 			noinput=True, stdout=out
 		)
+		pytest.fail("The command should raise when the application's scope does not match")
 
 
 def test_grant_partner_access_wrong_user(user):
@@ -83,12 +81,10 @@ def test_grant_partner_access_wrong_user(user):
 	app.save()
 
 	out = StringIO()
-	with pytest.raises(
-		CommandError,
-		message="The command should raise when the application's user does not match"
-	):
+	with pytest.raises(CommandError):
 		call_command(
 			"grant_partner_access",
 			user.username, reuse_application=app.id,
 			noinput=True, stdout=out
 		)
+		pytest.fail("The command should raise when the application's user does not match")
