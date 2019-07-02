@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import Http404, HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.http import Http404, HttpResponse
+from django.shortcuts import redirect, render
 from django.templatetags.static import static
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
@@ -180,11 +180,11 @@ class UploadDetailView(SimpleReactView):
 		shortid = kwargs["shortid"]
 		replay = GameReplay.objects.find_by_short_id(shortid)
 		if replay:
-			return HttpResponseRedirect(replay.get_absolute_url())
+			return redirect(replay.get_absolute_url(), permanent=True)
 		try:
 			self.upload = UploadEvent.objects.get(shortid=shortid)
 			if self.upload.game:
-				return HttpResponseRedirect(self.upload.game.get_absolute_url())
+				return redirect(self.upload.game.get_absolute_url(), permanent=True)
 		except UploadEvent.DoesNotExist:
 			self.upload = None
 
