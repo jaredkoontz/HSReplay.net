@@ -188,6 +188,9 @@ class UploadDetailView(SimpleReactView):
 		except UploadEvent.DoesNotExist:
 			self.upload = None
 
+		# Ensure that the actual contents is not crawled as it's always temporary
+		request.head.add_meta({"name": "robots", "content": "noindex"})
+
 		return super().get(request, **kwargs)
 
 	def get_react_context(self):
