@@ -3,7 +3,7 @@
 -r base.txt
 
 https://github.com/HearthSim/django-allauth/archive/battlenet-developer-portal-migration.tar.gz
-django-bouncy==0.2.6
+django-bouncy==0.2.7
 django-loginas==0.3.4
 django-reflinks==0.5.0
 django-webpack-loader==0.6.0
