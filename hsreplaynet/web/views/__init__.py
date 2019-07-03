@@ -108,6 +108,7 @@ class LoginView(BaseLoginView):
 	def get(self, request):
 		request.head.base_title = ""
 		request.head.title = "Sign in to HSReplay.net"
+		request.head.set_robots("noindex")
 		return super().get(request)
 
 
