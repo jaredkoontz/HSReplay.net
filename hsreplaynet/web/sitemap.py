@@ -30,7 +30,7 @@ class StaticViewSitemap(Sitemap):
 
 class CardSitemap(Sitemap):
 	def items(self):
-		return Card.objects.all().filter(collectible=False)
+		return Card.objects.all().filter(collectible=True)
 
 	def priority(self, card):
 		return 0.6
