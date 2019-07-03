@@ -45,6 +45,7 @@ class HTMLHead:
 		self.title = ""
 		self.canonical_url = ""
 		self.hreflang = None
+		self.robots = None
 		self.opengraph = {}
 		# self.favicon = ""
 
@@ -76,6 +77,9 @@ class HTMLHead:
 		short_title = self.get_short_title()
 		if short_title:
 			self.opengraph["og:title"] = short_title
+
+		if self.robots:
+			tags.append(HTMLTag("meta", attrs={"name": "robots", "content": self.robots}))
 
 		tags += self._meta_tags
 
@@ -200,6 +204,9 @@ class HTMLHead:
 	def set_hreflang(self, callback):
 		self.hreflang = callback
 
+	def set_robots(self, robots: str) -> None:
+		self.robots = robots
+
 
 class RequestMetaMixin:
 	def get(self, request, *args, **kwargs):
@@ -215,4 +222,6 @@ class RequestMetaMixin:
 				{"name": "description", "content": self.description},
 				{"property": "og:description", "content": self.description},
 			)
+		if hasattr(self, "robots"):
+			self.request.head.set_robots(self.robots)
 		return super().get(request, *args, **kwargs)

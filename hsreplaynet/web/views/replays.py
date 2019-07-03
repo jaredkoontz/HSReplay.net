@@ -175,6 +175,7 @@ class AnnotatedReplayView(View):
 class UploadDetailView(SimpleReactView):
 	bundle = "upload_processing"
 	title = _("Uploading replay…")
+	robots = "noindex"
 
 	def get(self, request, **kwargs):
 		shortid = kwargs["shortid"]
@@ -187,9 +188,6 @@ class UploadDetailView(SimpleReactView):
 				return redirect(self.upload.game.get_absolute_url(), permanent=True)
 		except UploadEvent.DoesNotExist:
 			self.upload = None
-
-		# Ensure that the actual contents is not crawled as it's always temporary
-		request.head.add_meta({"name": "robots", "content": "noindex"})
 
 		return super().get(request, **kwargs)
 
