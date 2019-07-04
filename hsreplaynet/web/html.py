@@ -107,32 +107,38 @@ class HTMLHead:
 
 		tags += self._link_tags
 
+		# if noindex is set, we never want to include rel="alternate"/hreflang or rel="canonical"
+		noindex = self.robots and "noindex" in self.robots
+
 		if self.canonical_url:
 			base_url = self.canonical_url
 			tags.append(HTMLTag("meta", attrs={"property": "og:url", "content": self.canonical_url}))
-			tags.append(HTMLTag("link", attrs={"rel": "canonical", "href": self.canonical_url}))
+			if not noindex:
+				tags.append(HTMLTag("link", attrs={"rel": "canonical", "href": self.canonical_url}))
 		else:
 			base_url = self.request.build_absolute_uri(self.request.get_full_path())
 
 		url = urlparse(base_url)
 		query_dict = QueryDict(url.query, mutable=True)
-		for language_code, _ in settings.LANGUAGES:
-			loc_url = url
-			query_dict["hl"] = language_code
-			if self.hreflang:
-				hreflang = self.hreflang(language_code)
-				base_url = self.request.build_absolute_uri(hreflang)
-				loc_url = urlparse(base_url)
-			loc_url = loc_url._replace(query=query_dict.urlencode())
-			tags.append(HTMLTag("link", attrs={
-				"rel": "alternate", "hreflang": language_code, "href": loc_url.geturl()
-			}))
 
-		del query_dict["hl"]
-		url = url._replace(query=query_dict.urlencode())
-		tags.append(HTMLTag("link", attrs={
-			"rel": "alternate", "hreflang": "x-default", "href": url.geturl(),
-		}))
+		if not noindex:
+			for language_code, _ in settings.LANGUAGES:
+				loc_url = url
+				query_dict["hl"] = language_code
+				if self.hreflang:
+					hreflang = self.hreflang(language_code)
+					base_url = self.request.build_absolute_uri(hreflang)
+					loc_url = urlparse(base_url)
+				loc_url = loc_url._replace(query=query_dict.urlencode())
+				tags.append(HTMLTag("link", attrs={
+					"rel": "alternate", "hreflang": language_code, "href": loc_url.geturl()
+				}))
+
+			del query_dict["hl"]
+			url = url._replace(query=query_dict.urlencode())
+			tags.append(HTMLTag("link", attrs={
+				"rel": "alternate", "hreflang": "x-default", "href": url.geturl(),
+			}))
 
 		for k, v in self.opengraph.items():
 			tags.append(HTMLTag("meta", attrs={"property": k, "content": v}))
