@@ -7,13 +7,13 @@ https://github.com/HearthSim/hsarchetypes/archive/master.tar.gz
 https://github.com/HearthSim/hsredshift/archive/master.tar.gz
 
 boto3==1.9.9
-Django==2.1.7
+Django==2.2.3
 django-intenumfield==1.4.0
 django-hearthstone==0.6.2
 django-oauth-toolkit==1.2.0
 django-redis==4.9.0
 django-storages==1.6.6
-djangorestframework==3.8.2
+djangorestframework==3.9.3
 requests==2.22.0
 influxdb==5.0.0
 lxml==4.2.2
