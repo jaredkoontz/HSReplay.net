@@ -4,8 +4,9 @@ import { CardObj, DeckObj, TableData } from "../../interfaces";
 import { Collection } from "../../utils/api";
 import DeckList from "../DeckList";
 import Fragments from "../Fragments";
+import { WithTranslation, withTranslation } from "react-i18next";
 
-interface Props {
+interface Props extends WithTranslation {
 	cardData?: CardData;
 	data?: TableData;
 	playerClass: string;
@@ -14,8 +15,9 @@ interface Props {
 	collection?: Collection | null;
 }
 
-export default class SimilarDecksList extends React.Component<Props> {
+class SimilarDecksList extends React.Component<Props> {
 	public render(): React.ReactNode {
+		const { t } = this.props;
 		const dbfIds = this.props.rawCardList.split(",");
 
 		const deckList = {};
@@ -49,7 +51,13 @@ export default class SimilarDecksList extends React.Component<Props> {
 		});
 
 		if (!byDistance.length) {
-			return <h3 className="message-wrapper">No deck found</h3>;
+			return (
+				<h3 className="message-wrapper">
+					{t(
+						"There is no similar deck that is commonly played in this game mode right now.",
+					)}
+				</h3>
+			);
 		}
 
 		byDistance.sort((a, b) => a.distance - b.distance);
@@ -107,3 +115,4 @@ export default class SimilarDecksList extends React.Component<Props> {
 		);
 	}
 }
+export default withTranslation()(SimilarDecksList);

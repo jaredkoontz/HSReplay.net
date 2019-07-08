@@ -51,7 +51,13 @@ class RecommendedDecksList extends React.Component<Props> {
 		});
 
 		if (!decks.length) {
-			return <h3 className="message-wrapper">{t("No deck found")}</h3>;
+			return (
+				<h3 className="message-wrapper">
+					{t(
+						"This card is not being played in any popular deck in this game mode right now.",
+					)}
+				</h3>
+			);
 		}
 
 		return (
