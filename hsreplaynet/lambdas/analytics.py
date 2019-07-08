@@ -5,7 +5,7 @@ from threading import Thread
 from urllib.parse import unquote
 
 from django.conf import settings
-from raven.contrib.django.raven_compat.models import client as sentry
+from sentry_sdk import capture_exception
 from redis_semaphore import NotAvailable
 
 from hsreplaynet.analytics.processing import (
@@ -76,7 +76,7 @@ def refresh_stale_redshift_queries(event, context):
 				logger.info("Nothing to refresh.")
 		except Exception:
 			logger.error("Error refreshing query")
-			sentry.captureException()
+			capture_exception()
 
 		current_time = time.time()
 		duration = current_time - start_time

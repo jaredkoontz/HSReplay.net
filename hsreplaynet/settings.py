@@ -44,7 +44,6 @@ INSTALLED_APPS_CORE = [
 	"django.contrib.messages",
 	"django.contrib.staticfiles",
 	"django.contrib.sites",
-	"raven.contrib.django.raven_compat",
 	"rest_framework",
 	"django_hearthstone.cards",
 	"django_hearthstone.scenarios",
@@ -529,12 +528,31 @@ I18N_CONTRIBUTE_URL = (
 	"/pub?embedded=true"
 )
 
+# Allow SENTRY_DSN to be overwritten by local_settings.py
+SENTRY_DSN = None
+
 try:
 	from hsreplaynet.local_settings import *
 except ImportError as e:
 	# Make sure you have a `local_settings.py` file in the same directory as `settings.py`.
 	# We raise a verbose error because the file is *required* in production.
 	raise RuntimeError("A `local_settings.py` file could not be found or imported. (%s)" % e)
+
+
+# Initialize Sentry
+# This needs to be behind local_settings import, as we depend on the DSN
+if SENTRY_DSN:
+	import sentry_sdk
+	from sentry_sdk.integrations.django import DjangoIntegration
+	from sentry_sdk.integrations.aws_lambda import AwsLambdaIntegration
+
+	sentry_sdk.init(
+		dsn=SENTRY_DSN,
+		integrations=[
+			DjangoIntegration(),
+			AwsLambdaIntegration(),
+		]
+	)
 
 
 if __name__ == "__main__":

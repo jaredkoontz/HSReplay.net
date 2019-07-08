@@ -30,7 +30,6 @@ numpy = "*"
 pynamodb = "*"
 python-dateutil = "*"
 python-redis-lock = {extras = ["django"]}
-raven = "*"
 redis = ">=2.10.6,<3"
 redis-semaphore = "*"
 requests = "*"
@@ -46,6 +45,7 @@ hsarchetypes = {file = "https://github.com/HearthSim/hsarchetypes/archive/master
 django-bouncy = "==0.2.7"
 unidecode = "*"
 pipenv = "*"
+sentry-sdk = "==0.9.5"
 
 [dev-packages]
 django-debug-toolbar = "*"
