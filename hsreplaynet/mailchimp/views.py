@@ -43,7 +43,6 @@ class MailchimpWebhookView(View):
 			{"value": 1},
 			reason=request.POST.get("data[reason]"),
 			type="unsubscribe",
-			primary_email=primary_email,
 			user_exists=user_exists
 		)
 
@@ -77,7 +76,6 @@ class MailchimpWebhookView(View):
 			"mailchimp_webhook_request",
 			{"value": 1},
 			type="subscribe",
-			primary_email=primary_email,
 			user_exists=user_exists
 		)
 
