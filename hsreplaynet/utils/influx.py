@@ -73,7 +73,7 @@ def influx_metric(measure, fields, timestamp=None, **kwargs):
 		"measurement": measure,
 		"tags": kwargs,
 		"fields": fields,
-		"time": timestamp.isoformat()
+		"time": timestamp,
 	}
 	influx_write_payload([payload])
 
@@ -107,7 +107,7 @@ def influx_timer(measure, timestamp=None, cloudwatch_url=None, **kwargs):
 			},
 			"measurement": measure,
 			"tags": tags,
-			"time": timestamp.isoformat(),
+			"time": timestamp,
 		}
 
 		if exception_raised and cloudwatch_url:
