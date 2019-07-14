@@ -27,7 +27,7 @@ lxml = "*"
 "mailchimp3" = "*"
 numpy = "*"
 "psycopg2" = "*"
-pynamodb = "~=3.4.1"
+pynamodb = "==4.0.0b3"
 python-dateutil = "*"
 python-redis-lock = {extras = ["django"]}
 raven = "*"
@@ -58,7 +58,6 @@ fakeredis = "*"
 q = "*"
 requests-mock = "*"
 tox = "*"
-pynamodb = "==4.0.0b2"
 
 [requires]
 python_version = "3.6"
