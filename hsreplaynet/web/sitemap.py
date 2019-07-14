@@ -1,6 +1,8 @@
 from django.contrib.sitemaps import Sitemap
+from django.db.models import Q
 from django.urls import reverse
 from django_hearthstone.cards.models import Card
+from hearthstone.enums import CardSet, CardType
 
 from hsreplaynet.decks.models import Archetype
 
@@ -30,7 +32,17 @@ class StaticViewSitemap(Sitemap):
 
 class CardSitemap(Sitemap):
 	def items(self):
-		return Card.objects.all().filter(collectible=True)
+		return Card.objects.all().filter(
+			Q(collectible=True),
+			Q(type__in=[
+				CardType.MINION,
+				CardType.SPELL,
+				CardType.WEAPON
+			]) | (
+				Q(type=CardType.HERO) &
+				~Q(card_set__in=[CardSet.CORE, CardSet.HERO_SKINS])
+			)
+		)
 
 	def priority(self, card):
 		return 0.6
