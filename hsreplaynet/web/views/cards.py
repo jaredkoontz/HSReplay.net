@@ -103,11 +103,7 @@ class CardDetailView(SimpleReactView):
 		locale = Locale[lang_to_blizzard(translation.get_language())]
 		name = obj.localized_name(locale=locale)
 
-		is_playable_card = (
-			obj.type in [CardType.MINION, CardType.SPELL, CardType.WEAPON] or
-			obj.type == CardType.HERO and obj.card_set not in [CardSet.CORE, CardSet.HERO_SKINS]
-		)
-		if not obj.collectible or not is_playable_card:
+		if not obj.includible:
 			self.request.head.set_robots("noindex")
 
 		self.request.head.set_canonical_url(obj.get_absolute_url())
