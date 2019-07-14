@@ -111,7 +111,7 @@ urlpatterns = [
 	path("decks/mine/", MyDecksView.as_view(), name="my_decks"),
 	path("trending/", RedirectView.as_view(pattern_name="trending_decks", permanent=False)),
 	path("decks/trending/", TrendingDecksView.as_view(), name="trending_decks"),
-	path("decks/<str:id>/", DeckDetailView.as_view(), name="deck_detail"),
+	re_path(r"^decks/(?P<id>([\w+=/])+)/$", DeckDetailView.as_view(), name="deck_detail"),
 
 	# TODO: move me to api module
 	path(
