@@ -8,14 +8,12 @@ jobs:
       language: node_js
       node_js: "10"
       script: yarn run lint:prettier
-      cache: yarn
 
     - stage: test
       name: "TSLint"
       language: node_js
       node_js: "10"
       script: yarn run lint:tslint
-      cache: yarn
 
     - stage: test
       name: "Jest"
@@ -25,7 +23,6 @@ jobs:
         - yarn --frozen-lockfile
         - scripts/get_vendor_static.sh
       script: yarn run jest
-      cache: yarn
 
     - stage: test
       name: "Webpack"
@@ -36,7 +33,6 @@ jobs:
         - scripts/get_vendor_static.sh
         - git clone https://github.com/HearthSim/hsreplaynet-i18n locale
       script: yarn run build
-      cache: yarn
 
     - stage: test
       name: "Flake8"
@@ -65,7 +61,13 @@ jobs:
         - echo "DJSTRIPE_USE_NATIVE_JSONFIELD = True" > hsreplaynet/local_settings.py
         - yarn run build
       script: tox -e py36
-      cache: pip
+      cache:
+        - pip
+        - yarn
+        - npm
 matrix:
   allow_failures:
     - script: yarn run lint:tslint
+cache:
+  - yarn
+  - npm
