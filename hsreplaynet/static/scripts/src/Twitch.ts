@@ -18,9 +18,9 @@ export default class Twitch {
 	private static readonly BASE_URL: string = "https://api.twitch.tv";
 
 	public static async fetchStreamMetadata(
-		usernames: string[],
+		logins: string[],
 	): Promise<TwitchStreamResponse> {
-		const userParams = usernames.map(stream => `user_login=${stream}`);
+		const userParams = logins.map(stream => `user_login=${stream}`);
 		const response = await fetch(
 			`/api/v1/live/twitch/streams/?${userParams.join("&")}`,
 		);

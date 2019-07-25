@@ -215,10 +215,11 @@ class StreamingNowView(APIView):
 				# User has explicitly opted out of stream promotion
 				continue
 
+			extra_data = socialaccount.extra_data
 			details["twitch"] = {
-				"name": socialaccount.extra_data.get("name"),
-				"display_name": socialaccount.extra_data.get("display_name"),
-				"_id": socialaccount.extra_data.get("_id"),
+				"login": extra_data.get("name") or extra_data.get("login"),
+				"display_name": extra_data.get("display_name"),
+				"id": extra_data.get("_id") or extra_data.get("id"),
 			}
 
 			ret.append(details)

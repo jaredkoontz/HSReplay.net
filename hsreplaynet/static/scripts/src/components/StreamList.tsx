@@ -24,14 +24,14 @@ class StreamList extends React.Component<Props, State> {
 	}
 
 	public componentDidMount(): void {
-		const streamers = this.props.streams.map(stream => stream.twitch.name);
+		const logins = this.props.streams.map(stream => stream.twitch.login);
 		Promise.all([
-			Twitch.fetchStreamMetadata(streamers),
+			Twitch.fetchStreamMetadata(logins),
 			this.props.verifyExtension
 				? Twitch.fetchEnabledTwitchExtensions()
 				: Promise.resolve(null),
 		]).then(([streamsForDeck, streamsWithExtension]): void => {
-			let eligibleStreams = streamers.map(
+			let eligibleStreams = logins.map(
 				streamer => streamsForDeck[streamer],
 			);
 			if (streamsWithExtension !== null) {
@@ -71,12 +71,12 @@ class StreamList extends React.Component<Props, State> {
 				{this.state.metadata.map((twitchStream: TwitchStream) => {
 					const stream = this.props.streams.find(
 						(toCompare: ApiStream) =>
-							"" + toCompare.twitch._id === twitchStream.user_id,
+							"" + toCompare.twitch.id === twitchStream.user_id,
 					);
 					if (!stream) {
 						return null;
 					}
-					const url = `https://www.twitch.tv/${stream.twitch.name}`;
+					const url = `https://www.twitch.tv/${stream.twitch.login}`;
 					return (
 						<li key={twitchStream.user_id}>
 							<StreamThumbnail

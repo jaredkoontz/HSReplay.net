@@ -102,8 +102,8 @@ export interface Stream {
 	legend_rank: 0 | number;
 	game_type: BnetGameType;
 	twitch: {
-		_id: number;
-		name: string;
+		id: number;
+		login: string;
 		display_name: string;
 	};
 }
