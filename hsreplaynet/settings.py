@@ -272,8 +272,8 @@ ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 SOCIALACCOUNT_ADAPTER = "hsreplaynet.web.battlenet.BattleNetAdapter"
 SOCIALACCOUNT_PROVIDERS = {
-	# NOTE: Can be removed in allauth 0.34+ (added as default scope)
-	"twitch": {"SCOPE": ["user_read"]},
+	"twitch": {"SCOPE": []},
+	"discord": {"SCOPE": ["identify"]},
 }
 
 
