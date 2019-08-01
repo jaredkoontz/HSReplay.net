@@ -94,6 +94,9 @@ class MechanicsFilter extends React.Component<Props> {
 				<CardFilterItem value={"TWINSPELL"}>
 					{t("GLOBAL_KEYWORD_TWINSPELL")}
 				</CardFilterItem>
+				<CardFilterItem value={"REBORN"}>
+					{t("GLOBAL_KEYWORD_REBORN")}
+				</CardFilterItem>
 			</CardFilterItemGroup>
 		);
 	}
