@@ -266,22 +266,22 @@
         },
         "hslog": {
             "hashes": [
-                "sha256:922cf89ed4c2f4b16d5f84cbc4d716baef7cf0d61c9891f53acc52b52081bf41",
-                "sha256:db93de3987216d90ecb6a73d2cfdba5f643411ad9481884acd40a0465e524968"
+                "sha256:e090772e84770e413c2db5c76f9b3991c33787285c1c423e0f4da2aa592ee0c4",
+                "sha256:ef0490d8dbb1964f14c2cc7e412d51bc7f998a376dcff8f2467c13efa743d1f1"
             ],
             "index": "pypi",
-            "version": "==1.5.1"
+            "version": "==1.6.0"
         },
         "hsredshift": {
             "file": "https://github.com/HearthSim/hsredshift/archive/master.tar.gz"
         },
         "hsreplay": {
             "hashes": [
-                "sha256:12ae8625ca24cd20c55b81947f39b29a9bd07d1e7d6ef6e54e41a942c72e915b",
-                "sha256:956661d500cd681c2523d3d2aa48b3dc006f649e0504f3bc57b2c84b3ad67ccb"
+                "sha256:a06229518818d99d83d1b66099317da28170185bab3241630886dd605ce3084e",
+                "sha256:e5097948150e6d1c5e5200b72c29e620db07375de4129a10f981aa362560bfc7"
             ],
             "index": "pypi",
-            "version": "==1.8.0"
+            "version": "==1.9.2"
         },
         "idna": {
             "hashes": [
