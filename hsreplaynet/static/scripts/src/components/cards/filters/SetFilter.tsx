@@ -31,6 +31,9 @@ class SetFilter extends React.Component<Props> {
 				<CardFilterItem value={"EXPERT1"}>
 					{t("GLOBAL_CARD_SET_EXPERT1")}
 				</CardFilterItem>
+				<CardFilterItem value={"ULDUM"}>
+					{t("GLOBAL_CARD_SET_ULDUM")}
+				</CardFilterItem>
 				<CardFilterItem value={"DALARAN"}>
 					{t("GLOBAL_CARD_SET_DALARAN")}
 				</CardFilterItem>
