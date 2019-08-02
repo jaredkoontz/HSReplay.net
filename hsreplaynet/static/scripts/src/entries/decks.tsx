@@ -73,7 +73,7 @@ const render = (cardData: CardData) => {
 								<Decks
 									cardData={cardData}
 									collection={collection}
-									latestSet="DALARAN"
+									latestSet="ULDUM"
 								/>
 							</Fragments>
 						)}

@@ -28,7 +28,7 @@ const render = (cardData: CardData) => {
 						: null
 				}
 			>
-				<Discover cardData={cardData} latestSet="DALARAN" />
+				<Discover cardData={cardData} latestSet="ULDUM" />
 			</Fragments>
 		</Root>,
 		container,
