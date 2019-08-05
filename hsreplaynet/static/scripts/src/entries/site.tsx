@@ -222,6 +222,10 @@ function showPopover(
 
 if (window && window.location) {
 	document.addEventListener("DOMContentLoaded", () => {
+		if (!UserData.hasFeature("popovers")) {
+			return;
+		}
+
 		if (
 			window.location.pathname.match(
 				/\/(archetypes|meta|replay|games|decks|cards)\//,
