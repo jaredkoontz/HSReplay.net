@@ -20,7 +20,9 @@ export type NetworkNDesktopId =
 	| "nn_lb1"
 	| "nn_lb2"
 	| "nn_skyleft"
-	| "nn_skyright";
+	| "nn_skyright"
+	| "nn_skinl"
+	| "nn_skinr";
 
 export type NetworkNMobileId =
 	| "nn_mobile_mpu1"
@@ -48,6 +50,9 @@ export const getAdSize = (id: NetworkNId): [Dimension, Dimension] | null => {
 	}
 	if (id.startsWith("nn_sky")) {
 		return [160, 600];
+	}
+	if (id.startsWith("nn_skin")) {
+		return [[160, 300], 600];
 	}
 	return null;
 };
@@ -191,8 +196,6 @@ const NetworkNAdUnit: React.FC<Props> = ({
 
 	const style: CSSProperties = {};
 	const sizes = getAdSize(id);
-	let width;
-	let height;
 	if (sizes) {
 		const [widths, heights] = sizes;
 
@@ -200,20 +203,16 @@ const NetworkNAdUnit: React.FC<Props> = ({
 			const [minWidth, maxWidth] = widths;
 			style.minWidth = `${minWidth}px`;
 			style.maxWidth = `${maxWidth}px`;
-			width = minWidth;
 		} else {
 			style.width = `${widths}px`;
-			width = widths;
 		}
 
 		if (Array.isArray(heights)) {
 			const [minHeight, maxHeight] = heights;
 			style.minHeight = `${minHeight}px`;
 			style.maxHeight = `${maxHeight}px`;
-			height = minHeight;
 		} else {
 			style.height = `${heights}px`;
-			height = heights;
 		}
 
 		if (showFallback && UserData.hasFeature("ad-fallback")) {
@@ -251,8 +250,8 @@ const NetworkNAdUnit: React.FC<Props> = ({
 				<AdUnitAdmin
 					id={id}
 					uniqueId={uniqueId}
-					width={width || 250}
-					height={height || 250}
+					width={sizes ? sizes[0] : null}
+					height={sizes ? sizes[1] : null}
 				/>
 			) : (
 				<div id={id} ref={childRef} />

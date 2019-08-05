@@ -156,43 +156,42 @@ class Home extends React.Component<Props, State> {
 		ranks.reverse();
 		const promoBanner = this.renderPromoBanner(t);
 		return (
-			<div
-				className="container-fluid"
-				style={
-					UserData.hasFeature("league-of-evil-takeover")
-						? {
-								background: `url(${image(
-									"takeover/background.jpg",
-								)})`,
-								backgroundSize: "cover",
-								backgroundAttachment: "fixed",
-								backgroundRepeat: "no-repeat",
-						  }
-						: null
-				}
-			>
-				<div className="row" id="banner" style={bannerStyle}>
-					<div id="banner-wrapper">
-						<div id="banner-text">
-							<h1>
-								{UserData.hasFeature("league-of-evil-takeover")
-									? t("Unleash Your Evil")
-									: t("Unleash Your Potential")}
-							</h1>
-							<h2 className="hidden-xs">
-								{t(
-									"Find the best deck for your rank and region",
-								)}
-							</h2>
+			<>
+				<div
+					className="container-fluid"
+					style={
+						UserData.hasFeature("league-of-evil-takeover")
+							? {
+									background: `url(${image(
+										"takeover/background.jpg",
+									)})`,
+									backgroundSize: "cover",
+									backgroundAttachment: "fixed",
+									backgroundRepeat: "no-repeat",
+							  }
+							: null
+					}
+				>
+					<div className="row" id="banner" style={bannerStyle}>
+						<div id="banner-wrapper">
+							<div id="banner-text">
+								<h1>
+									{UserData.hasFeature(
+										"league-of-evil-takeover",
+									)
+										? t("Unleash Your Evil")
+										: t("Unleash Your Potential")}
+								</h1>
+								<h2 className="hidden-xs">
+									{t(
+										"Find the best deck for your rank and region",
+									)}
+								</h2>
+							</div>
+							<div id="banner-ranks">{ranks}</div>
 						</div>
-						<div id="banner-ranks">{ranks}</div>
 					</div>
 				</div>
-				<NetworkNAdUnit
-					id="nn_mobile_lb1_sticky"
-					uniqueId="fp-mlb1"
-					mobile
-				/>
 				{promoBanner !== null ? (
 					promoBanner
 				) : (
@@ -204,121 +203,139 @@ class Home extends React.Component<Props, State> {
 					mobile
 					center
 				/>
-				<GutterAdUnit
-					position="left"
-					networkNId="nn_skyleft"
-					uniqueId="fp-skyleft"
-				/>
-				<GutterAdUnit
-					position="right"
-					networkNId="nn_skyright"
-					uniqueId="fp-skyright"
-				/>
-				<div className="row content-row features">
-					<div className="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-						<Panel
-							header={
-								<>
-									<span>{t("Live Data")}</span>
-									{this.renderLiveDataButton()}
-								</>
-							}
-							theme="dark"
-							accent="blue"
-						>
-							<DataInjector
-								query={[
-									archetypeDataQuery,
-									{
-										url: "/api/v1/live/games_count/weekly/",
-										key: "gamesCountData",
-									},
-								]}
-								extract={{
-									gamesCountData: data => ({
-										gamesCountData: data.data,
-									}),
-								}}
-							>
-								<ReplayFeed
-									fullSpeed={this.state.fullReplaySpeed}
-								/>
-							</DataInjector>
-						</Panel>
-						{this.renderPromoPanel()}
-					</div>
-					<div className="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-						<Panel
-							header={
-								<>
-									<span>{t("Premium Feature")}</span>
-									{this.renderPremiumFeatureButton()}
-								</>
-							}
-							accent="premium"
-							theme="dark"
-						>
-							<DataInjector
-								query={[
-									archetypeDataQuery,
-									{
-										url: "/analytics/meta/preview/",
-										key: "previewData",
-									},
-								]}
-								extract={{
-									previewData: data => ({
-										data,
-									}),
-								}}
-							>
-								<ArchetypeHighlight
-									cardData={this.props.cardData}
-								/>
-							</DataInjector>
-						</Panel>
-						{this.renderPremiumPanel()}
-					</div>
-					<div className="col-lg-4 col-xs-12">
-						<Panel
-							header={
-								<>
-									<span className="hidden-xs">
-										{t("Class Winrates")}
-									</span>
-									<span className="visible-xs">
-										{t("Winrates")}
-									</span>
-									{this.renderArchetypeHighlightButton()}
-								</>
-							}
-							theme="dark"
-							accent="blue"
-						>
-							<DataInjector
-								query={{
-									url: "player_class_performance_summary",
-								}}
-								extract={{
-									data: data => ({
-										classData: data.series.data,
-									}),
-								}}
-							>
-								<ClassRanking gameType={this.state.gameType} />
-							</DataInjector>
-						</Panel>
-						{this.renderCollectionPanel()}
-					</div>
+				<div id="home-columns">
+					<aside className="home-side-column">
+						<GutterAdUnit
+							position="left"
+							minWidth={1630}
+							flex={1900}
+							uniqueIdThin="fp-skyleft"
+							uniqueIdWide="fp-skinl"
+						/>
+					</aside>
+					<main>
+						<NetworkNAdUnit
+							id="nn_mobile_lb1_sticky"
+							uniqueId="fp-mlb1"
+							mobile
+						/>
+						<div className="row content-row features">
+							<div className="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+								<Panel
+									header={
+										<>
+											<span>{t("Live Data")}</span>
+											{this.renderLiveDataButton()}
+										</>
+									}
+									theme="dark"
+									accent="blue"
+								>
+									<DataInjector
+										query={[
+											archetypeDataQuery,
+											{
+												url:
+													"/api/v1/live/games_count/weekly/",
+												key: "gamesCountData",
+											},
+										]}
+										extract={{
+											gamesCountData: data => ({
+												gamesCountData: data.data,
+											}),
+										}}
+									>
+										<ReplayFeed
+											fullSpeed={
+												this.state.fullReplaySpeed
+											}
+										/>
+									</DataInjector>
+								</Panel>
+								{this.renderPromoPanel()}
+							</div>
+							<div className="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+								<Panel
+									header={
+										<>
+											<span>{t("Premium Feature")}</span>
+											{this.renderPremiumFeatureButton()}
+										</>
+									}
+									accent="premium"
+									theme="dark"
+								>
+									<DataInjector
+										query={[
+											archetypeDataQuery,
+											{
+												url: "/analytics/meta/preview/",
+												key: "previewData",
+											},
+										]}
+										extract={{
+											previewData: data => ({
+												data,
+											}),
+										}}
+									>
+										<ArchetypeHighlight
+											cardData={this.props.cardData}
+										/>
+									</DataInjector>
+								</Panel>
+								{this.renderPremiumPanel()}
+							</div>
+							<div className="col-lg-4 col-xs-12">
+								<Panel
+									header={
+										<>
+											<span>{t("Winrates")}</span>
+											{this.renderArchetypeHighlightButton()}
+										</>
+									}
+									theme="dark"
+									accent="blue"
+								>
+									<DataInjector
+										query={{
+											url:
+												"player_class_performance_summary",
+										}}
+										extract={{
+											data: data => ({
+												classData: data.series.data,
+											}),
+										}}
+									>
+										<ClassRanking
+											gameType={this.state.gameType}
+										/>
+									</DataInjector>
+								</Panel>
+								{this.renderCollectionPanel()}
+							</div>
+						</div>
+						<NetworkNAdUnit
+							id="nn_mobile_mpu2"
+							uniqueId="fp-mmpu2"
+							mobile
+							center
+						/>
+						{this.renderBelowTheFold()}
+					</main>
+					<aside className="home-side-column">
+						<GutterAdUnit
+							position="right"
+							minWidth={1630}
+							flex={1900}
+							uniqueIdThin="fp-skyright"
+							uniqueIdWide="fp-skinr"
+						/>
+					</aside>
 				</div>
-				<NetworkNAdUnit
-					id="nn_mobile_mpu2"
-					uniqueId="fp-mmpu2"
-					mobile
-					center
-				/>
-				{this.renderBelowTheFold()}
-			</div>
+			</>
 		);
 	}
 

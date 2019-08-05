@@ -5,8 +5,8 @@ import { fetchCSRF } from "../../helpers";
 interface Props {
 	id: string;
 	uniqueId: string;
-	width: number;
-	height: number;
+	width: number | [number, number];
+	height: number | [number, number];
 }
 
 interface State {
@@ -66,6 +66,13 @@ export default class AdUnitAdmin extends React.Component<Props, State> {
 	public render(): React.ReactNode {
 		const { id, uniqueId, width, height } = this.props;
 
+		const displayWidth: number = Array.isArray(width)
+			? Math.max(...width)
+			: width;
+		const displayHeight: number = Array.isArray(height)
+			? Math.max(...height)
+			: height;
+
 		const classNames = ["ad-unit__admin"];
 
 		if (this.state.enabled) {
@@ -76,13 +83,21 @@ export default class AdUnitAdmin extends React.Component<Props, State> {
 			classNames.push("ad-unit__admin--working");
 		}
 
+		const minWidth = Array.isArray(width) ? Math.min(...width) : width;
+		const maxWidth = Array.isArray(width) ? Math.max(...width) : width;
+		const minHeight = Array.isArray(height) ? Math.min(...height) : height;
+		const maxHeight = Array.isArray(height) ? Math.max(...height) : height;
+
+		const from = `${minWidth}×${minHeight}`;
+		const to = `${maxWidth}×${maxHeight}`;
+
 		return (
 			<div
 				className={classNames.join(" ")}
 				onClick={this.onClick}
 				style={{
-					width,
-					height,
+					width: `${maxWidth}px`,
+					height: `${maxHeight}px`,
 				}}
 			>
 				<input
@@ -95,7 +110,13 @@ export default class AdUnitAdmin extends React.Component<Props, State> {
 					#{id} ({uniqueId})
 				</p>
 				<p>
-					{width}&times;{height}
+					{from === to ? (
+						from
+					) : (
+						<>
+							{from} / {to}
+						</>
+					)}
 				</p>
 			</div>
 		);

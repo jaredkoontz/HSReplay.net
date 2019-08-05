@@ -1,50 +1,69 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AdHelper, { showAds } from "../../AdHelper";
-import NetworkNAdUnit, { getAdSize, NetworkNDesktopId } from "./NetworkNAdUnit";
-import Sticky from "../utils/Sticky";
+import NetworkNAdUnit, { NetworkNId } from "./NetworkNAdUnit";
+import detectPassiveEvents from "detect-passive-events";
+import NativeSticky from "../utils/NativeSticky";
 
-interface BaseProps {
+interface Props {
 	position: "left" | "right";
-	fluid?: boolean;
+	minWidth: number;
+	flex: number;
+	uniqueIdThin: string;
+	uniqueIdWide: string;
 }
 
-interface NetworkNProps {
-	networkNId: NetworkNDesktopId;
-	uniqueId: string;
-}
+const GutterAdUnit: React.FC<Props> = ({
+	position,
+	minWidth,
+	flex,
+	uniqueIdThin,
+	uniqueIdWide,
+}) => {
+	const [wide, setWide] = useState<boolean>(window.innerWidth >= flex);
+	const [visible, setVisible] = useState<boolean>(
+		window.innerWidth >= minWidth,
+	);
 
-type Props = BaseProps & NetworkNProps;
+	useEffect(
+		() => {
+			const resize = () => {
+				setWide(window.innerWidth >= flex);
+				setVisible(window.innerWidth >= minWidth);
+			};
+			if (detectPassiveEvents.hasSupport) {
+				window.addEventListener("resize", resize, { passive: true });
+			} else {
+				window.addEventListener("resize", resize, false);
+			}
+			return () => {
+				document.removeEventListener("resize", resize);
+			};
+		},
+		[minWidth, flex],
+	);
 
-export default class GutterAdUnit extends React.Component<Props> {
-	public render(): React.ReactNode {
-		if (!showAds()) {
-			return null;
-		}
-		const { position, fluid } = this.props;
-		if (
-			!("networkNId" in this.props) ||
-			!AdHelper.isAdEnabled(this.props.uniqueId)
-		) {
-			return null;
-		}
-		const [width] = getAdSize(this.props.networkNId);
-		return (
-			<div
-				className="gutter-ad-container"
-				style={{
-					[position]: fluid
-						? "10px"
-						: `calc((100% - 1540px)/2 - ${width}px)`,
-					width: `${width}px`,
-				}}
-			>
-				<Sticky top={10}>
-					<NetworkNAdUnit
-						id={this.props.networkNId}
-						uniqueId={this.props.uniqueId}
-					/>
-				</Sticky>
-			</div>
-		);
+	const left = position === "left";
+	const networkNId: NetworkNId = wide
+		? left
+			? "nn_skinl"
+			: "nn_skinr"
+		: left
+			? "nn_skyleft"
+			: "nn_skyright";
+	const actualUniqueId = wide ? uniqueIdWide : uniqueIdThin;
+
+	if (!showAds()) {
+		return null;
 	}
-}
+	if (!AdHelper.isAdEnabled(actualUniqueId) || !visible) {
+		return null;
+	}
+
+	return (
+		<NativeSticky top={10} bottom={10}>
+			<NetworkNAdUnit id={networkNId} uniqueId={actualUniqueId} />
+		</NativeSticky>
+	);
+};
+
+export default GutterAdUnit;

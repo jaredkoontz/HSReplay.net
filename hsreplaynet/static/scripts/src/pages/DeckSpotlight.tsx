@@ -23,74 +23,91 @@ class DeckSpotlight extends React.Component<Props> {
 		return (
 			<div id="deck-spotlight">
 				<NetworkNAdUnit id="nn_bb1" uniqueId="tr-bb1" center />
-				<GutterAdUnit
-					position="left"
-					networkNId="nn_skyleft"
-					uniqueId="tr-skyleft"
-					fluid
-				/>
-				<GutterAdUnit
-					position="right"
-					networkNId="nn_skyright"
-					uniqueId="tr-skyright"
-					fluid
-				/>
-				<h1>{t("Trending Decks")}</h1>
-				<h3>
-					{t(
-						"Here's a selection of decks which have been rising in popularity over the last 48 hours.",
-					)}
-				</h3>
-				<NetworkNAdUnit
-					id="nn_mobile_mpu1"
-					uniqueId="tr-mmpu1"
-					mobile
-					center
-				/>
-				<span className="pull-right">
-					<Tooltip
-						header={t("Automatic updates")}
-						content={t(
-							"This page is periodically updated as new data becomes available.",
-						)}
-					>
-						{t("Last updated")}&nbsp;
+				<div id="deck-spotlight-container">
+					<aside>
+						<GutterAdUnit
+							position="left"
+							minWidth={1630}
+							flex={1900}
+							uniqueIdThin="tr-skyleft"
+							uniqueIdWide="tr-skinl"
+						/>
+					</aside>
+					<main>
+						<h1>{t("Trending Decks")}</h1>
+						<h3>
+							{t(
+								"Here's a selection of decks which have been rising in popularity over the last 48 hours.",
+							)}
+						</h3>
+						<NetworkNAdUnit
+							id="nn_mobile_mpu1"
+							uniqueId="tr-mmpu1"
+							mobile
+							center
+						/>
+						<span className="pull-right">
+							<Tooltip
+								header={t("Automatic updates")}
+								content={t(
+									"This page is periodically updated as new data becomes available.",
+								)}
+							>
+								{t("Last updated")}&nbsp;
+								<DataInjector
+									query={{
+										url: "trending_decks_by_popularity",
+										params: {},
+									}}
+									modify={data =>
+										data && data.as_of
+											? new Date(data.as_of)
+											: null
+									}
+								>
+									<HideLoading>
+										<PropRemapper map={{ data: "date" }}>
+											<SemanticAge />
+										</PropRemapper>
+									</HideLoading>
+								</DataInjector>
+							</Tooltip>
+						</span>
 						<DataInjector
 							query={{
 								url: "trending_decks_by_popularity",
 								params: {},
 							}}
-							modify={data =>
-								data && data.as_of ? new Date(data.as_of) : null
-							}
 						>
-							<HideLoading>
-								<PropRemapper map={{ data: "date" }}>
-									<SemanticAge />
-								</PropRemapper>
-							</HideLoading>
+							<TableLoading cardData={this.props.cardData}>
+								<TrendingDecksList
+									collection={this.props.collection}
+								/>
+							</TableLoading>
 						</DataInjector>
-					</Tooltip>
-				</span>
-				<DataInjector
-					query={{ url: "trending_decks_by_popularity", params: {} }}
-				>
-					<TableLoading cardData={this.props.cardData}>
-						<TrendingDecksList collection={this.props.collection} />
-					</TableLoading>
-				</DataInjector>
-				<NetworkNAdUnit
-					id="nn_mobile_mpu2"
-					uniqueId="tr-mmpu2"
-					mobile
-					center
-				/>
-				<section id="deck-db-link">
-					<h2>{t("Can't find what you are looking for?")}</h2>
-					<a href="/decks/" className="promo-button">
-						{t("Check out all the decks!")}
-					</a>
-				</section>
+						<NetworkNAdUnit
+							id="nn_mobile_mpu2"
+							uniqueId="tr-mmpu2"
+							mobile
+							center
+						/>
+						<section id="deck-db-link">
+							<h2>{t("Can't find what you are looking for?")}</h2>
+							<a href="/decks/" className="promo-button">
+								{t("Check out all the decks!")}
+							</a>
+						</section>
+					</main>
+					<aside>
+						<GutterAdUnit
+							position="right"
+							minWidth={1630}
+							flex={1900}
+							uniqueIdThin="tr-skyright"
+							uniqueIdWide="tr-skinr"
+						/>
+					</aside>
+				</div>
 			</div>
 		);
 	}

@@ -1697,7 +1697,7 @@ ol.list-ltr {
 	.panel-header {
 		width: calc(100% + 2px);
 		margin: 0 -1px;
-		font-size: 1.4em;
+		font-size: 1.3em;
 		padding: 8px;
 		font-variant: small-caps;
 		font-weight: bold;
@@ -1727,6 +1727,10 @@ ol.list-ltr {
 					background: rgba(255, 255, 255, 0.4);
 				}
 			}
+		}
+
+		span + .btn {
+			margin-left: 4px;
 		}
 	}
 
