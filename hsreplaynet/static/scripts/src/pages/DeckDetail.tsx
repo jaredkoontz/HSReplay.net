@@ -48,7 +48,9 @@ import UserData, { Account } from "../UserData";
 import { Archetype, Collection } from "../utils/api";
 import { getDustCostForCollection } from "../utils/collection";
 import TwitchVods from "../components/TwitchVods";
-import NetworkNAdUnit from "../components/ads/NetworkNAdUnit";
+import NetworkNAdUnit, {
+	refreshAdUnits,
+} from "../components/ads/NetworkNAdUnit";
 import Sticky from "../components/utils/Sticky";
 
 interface InventoryGameType {
@@ -117,6 +119,19 @@ class DeckDetail extends React.Component<Props, State> {
 			this.props.setRankRange(RankRange.LEGEND_ONLY);
 		}
 		this.fetchInventory();
+	}
+
+	public componentDidUpdate(
+		prevProps: Readonly<Props>,
+		prevState: Readonly<State>,
+		snapshot?: any,
+	): void {
+		if (
+			prevProps.gameType !== this.props.gameType ||
+			prevProps.tab !== this.props.tab
+		) {
+			refreshAdUnits();
+		}
 	}
 
 	fetchInventory() {

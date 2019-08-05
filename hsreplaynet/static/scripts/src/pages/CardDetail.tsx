@@ -42,7 +42,9 @@ import { I18N_NAMESPACE_HEARTHSTONE } from "../i18n";
 import { RenderData, TableData } from "../interfaces";
 import UserData from "../UserData";
 import { Collection } from "../utils/api";
-import NetworkNAdUnit from "../components/ads/NetworkNAdUnit";
+import NetworkNAdUnit, {
+	refreshAdUnits,
+} from "../components/ads/NetworkNAdUnit";
 import Sticky from "../components/utils/Sticky";
 
 interface Props extends WithTranslation {
@@ -145,6 +147,19 @@ class CardDetail extends React.Component<Props, State> {
 			if (isWildSet(nextProps.card.set)) {
 				this.props.setGameType("RANKED_WILD");
 			}
+		}
+	}
+
+	public componentDidUpdate(
+		prevProps: Readonly<Props>,
+		prevState: Readonly<State>,
+		snapshot?: any,
+	): void {
+		if (
+			prevProps.gameType !== this.props.gameType ||
+			prevProps.tab !== this.props.tab
+		) {
+			refreshAdUnits();
 		}
 	}
 

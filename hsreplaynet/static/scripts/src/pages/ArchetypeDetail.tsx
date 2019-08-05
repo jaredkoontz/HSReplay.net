@@ -37,7 +37,9 @@ import { DeckObj, LoadingStatus, SortDirection } from "../interfaces";
 import { Archetype, Collection } from "../utils/api";
 import TwitchVods from "../components/TwitchVods";
 import Sticky from "../components/utils/Sticky";
-import NetworkNAdUnit from "../components/ads/NetworkNAdUnit";
+import NetworkNAdUnit, {
+	refreshAdUnits,
+} from "../components/ads/NetworkNAdUnit";
 
 interface Props extends WithTranslation {
 	archetypeId: number;
@@ -82,6 +84,16 @@ class ArchetypeDetail extends React.Component<Props, State> {
 	public componentDidMount(): void {
 		this.fixGameTypeFragments();
 		this.fetchDeckData(this.props);
+	}
+
+	public componentDidUpdate(
+		prevProps: Readonly<Props>,
+		prevState: Readonly<State>,
+		snapshot?: any,
+	): void {
+		if (prevProps.tab !== this.props.tab) {
+			refreshAdUnits();
+		}
 	}
 
 	hasData(props?: Props): boolean {

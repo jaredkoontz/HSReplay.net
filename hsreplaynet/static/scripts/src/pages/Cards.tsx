@@ -45,7 +45,9 @@ import { getCollectionCardCount } from "../utils/collection";
 import CollectionSetup from "../components/collection/CollectionSetup";
 import Modal from "../components/Modal";
 import Sticky from "../components/utils/Sticky";
-import NetworkNAdUnit from "../components/ads/NetworkNAdUnit";
+import NetworkNAdUnit, {
+	refreshAdUnits,
+} from "../components/ads/NetworkNAdUnit";
 
 interface Props extends FragmentChildProps, WithTranslation {
 	cardData: CardData;
@@ -186,6 +188,14 @@ class Cards extends React.Component<Props, State> {
 			prevProps.rankRange !== this.props.rankRange
 		) {
 			this.loadSparseFilterDicts();
+		}
+
+		if (
+			prevProps.display !== this.props.display ||
+			prevProps.playerClass !== this.props.playerClass ||
+			prevProps.gameType !== this.props.gameType
+		) {
+			refreshAdUnits();
 		}
 	}
 
