@@ -35,10 +35,9 @@
 	{% endif %}
 {% endblock %}
 
-{% feature "ads" as ads %}
-{% feature "ads-admin" as ads_admin %}
-
 {% block ads %}
+	{% feature "ads" as ads %}
+	{% feature "ads-admin" as ads_admin %}
 	{% if ads.enabled and not ads_admin.enabled and not premium %}
 		{% setting "AD_NETWORK_PRE_HEAD_SNIPPET" as ad_network_pre_head_snippet %}
 		{% if ad_network_pre_head_snippet %}
@@ -56,6 +55,8 @@
 {% endblock %}
 
 {% block body %}
+	{% feature "ads" as ads %}
+	{% feature "ads-admin" as ads_admin %}
 	{% if ads.enabled and not ads_admin.enabled and not premium %}
 	{% setting "AD_NETWORK_PRE_BODY_SNIPPET" as ad_network_pre_body_snippet %}
 	{% if ad_network_pre_body_snippet %}
