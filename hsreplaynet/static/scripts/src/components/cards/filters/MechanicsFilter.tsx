@@ -27,6 +27,9 @@ class MechanicsFilter extends React.Component<Props> {
 				<CardFilterItem value={"BATTLECRY"}>
 					{t("GLOBAL_KEYWORD_BATTLECRY")}
 				</CardFilterItem>
+				<CardFilterItem value={"CHARGE"}>
+					{t("GLOBAL_KEYWORD_CHARGE")}
+				</CardFilterItem>
 				<CardFilterItem value={"CHOOSE_ONE"}>
 					{t("Choose One")}
 				</CardFilterItem>
