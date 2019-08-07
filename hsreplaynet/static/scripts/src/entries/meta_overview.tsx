@@ -14,7 +14,7 @@ const render = (cardData: CardData) => {
 	if (!UserData.isPremium()) {
 		immutable.push("rankRange", "region");
 		if (
-			!UserData.hasFeature("current-expansion-filter") &&
+			!UserData.hasFeature("current-expansion-filter-meta") &&
 			!UserData.hasFeature("current-patch-filter-meta")
 		) {
 			immutable.push("timeFrame");
@@ -34,7 +34,7 @@ const render = (cardData: CardData) => {
 					tab: "tierlist",
 					timeFrame: UserData.hasFeature("current-patch-filter-meta")
 						? TimeRange.CURRENT_PATCH
-						: UserData.hasFeature("current-expansion-filter")
+						: UserData.hasFeature("current-expansion-filter-meta")
 							? TimeRange.CURRENT_EXPANSION
 							: TimeRange.LAST_7_DAYS,
 				}}

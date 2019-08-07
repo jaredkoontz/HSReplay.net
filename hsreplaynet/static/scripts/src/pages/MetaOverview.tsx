@@ -212,7 +212,7 @@ class MetaOverview extends React.Component<Props, State> {
 								feature={"current-expansion-filter-preview"}
 							>
 								<Feature
-									feature={"current-expansion-filter"}
+									feature={"current-expansion-filter-meta"}
 									inverted
 								>
 									<InfoboxFilter
@@ -230,7 +230,7 @@ class MetaOverview extends React.Component<Props, State> {
 									</InfoboxFilter>
 								</Feature>
 							</Feature>
-							<Feature feature="current-expansion-filter">
+							<Feature feature="current-expansion-filter-meta">
 								<InfoboxFilter
 									value={TimeRange.CURRENT_EXPANSION}
 								>
