@@ -19,7 +19,6 @@ import TestimonialCarousel from "../components/premium/TestimonialCarousel";
 interface Props extends WithTranslation {
 	discount: string;
 	reflink: string;
-	randomQuote: string;
 	premiumPrice: string;
 	hasSubscriptionPastDue: boolean;
 }
@@ -157,11 +156,11 @@ class PremiumDetail extends React.Component<Props, State> {
 				</div>
 				<div className="col-lg-6 col-sm-12">
 					<Testimonial
-						image={image("premium/trump.jpg")}
-						name={'Jeffrey "Trump" Shih'}
-						subtitle={t("Mayor of Value Town, Streamer")}
+						image={image("premium/regiskillbin.jpg")}
+						name="Regis Killbin"
+						subtitle={t("Streamer and Content Creator")}
 						text={
-							'"I use HSReplay.net to find all the hot up and coming decks. I comb through all the statistics to find out many things like which decks are performing the best, what matchups are good and bad, and all the cool tech choices people are using in their decks. Lets me nerd out on stats."'
+							"\"There's really no better resource for improving your gameplay or exploring your curiosities than HSReplay.net's Premium features. I'm on the site every day for bleeding-edge meta reads and super-detailed mulligan guides.\""
 						}
 					/>
 				</div>
@@ -223,7 +222,10 @@ class PremiumDetail extends React.Component<Props, State> {
 							text={t(
 								"Learn the best cards to keep in your opening hand against your opponent's class.",
 							)}
-							bullets={[t("Mulligan stats by class matchup")]}
+							bullets={[
+								t("Mulligan stats by class matchup"),
+								t("Mulligan stats broken out by Play/Coin"),
+							]}
 						/>
 					</div>
 					<div className="col-lg-4 col-sm-12">
@@ -358,10 +360,6 @@ class PremiumDetail extends React.Component<Props, State> {
 						<div className="container">
 							{isAuthenticated ? (
 								<>
-									<h3 className="text-center">
-										{this.props.randomQuote}
-									</h3>
-
 									<div className="form-group">
 										<PremiumCheckout
 											analyticsLabel={"Premium Detail"}

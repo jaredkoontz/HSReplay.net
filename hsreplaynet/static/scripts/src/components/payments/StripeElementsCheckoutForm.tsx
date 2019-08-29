@@ -234,11 +234,35 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 	}
 
 	getPlanButtons() {
-		return this.props.plans.map((plan: StripePlan) => ({
-			label: <h4>{plan.description}</h4>,
-			value: plan.stripeId,
-			className: "btn btn-default",
-		}));
+		return this.props.plans.map((plan, i) => {
+			let discount: React.ReactNode = null;
+			if (this.props.plans.length === 2) {
+				const otherPlan =
+					i === 0 ? this.props.plans[1] : this.props.plans[0];
+				if (+plan.amount > +otherPlan.amount) {
+					const difference = +otherPlan.amount * 6 - +plan.amount;
+					const reduction = Math.floor(
+						100 / (+otherPlan.amount * 6) * difference,
+					);
+					discount = (
+						<>
+							<br />
+							<strong>{`${reduction}% cheaper`}</strong>
+						</>
+					);
+				}
+			}
+			return {
+				label: (
+					<h4>
+						{plan.description}
+						{discount}
+					</h4>
+				),
+				value: plan.stripeId,
+				className: "btn btn-default",
+			};
+		});
 	}
 
 	getCouponMessage(): React.ReactNode {

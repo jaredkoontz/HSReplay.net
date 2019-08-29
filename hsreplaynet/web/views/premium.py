@@ -1,5 +1,3 @@
-import random
-
 from django.http import HttpResponseRedirect
 from django.utils.translation import gettext_lazy as _
 from django_reflinks.models import ReferralLink
@@ -25,28 +23,8 @@ class PremiumDetailView(SimpleReactView):
 	)
 	bundle = "premium_detail"
 
-	quotes = [
-		"It only cost my soul!",
-		"Mind if I roll Need?",
-		"I hope you like my invention!",
-		"Who knows what secrets we'll uncover?",
-		"You require my assistance?",
-		"Don't worry love, the cavalry's here!",
-		"Put your faith in the stats.",
-		"The gates are open!",
-		"Are you ready for this?",
-		"Join, or die… or both!",
-		"D-d-don't touch that!",
-		"Wanna blow somethin' up?",
-		"I have no time for games!",
-		"Support a small indie company!",
-		"Everyone, get in here!",
-	]
-
 	def get_react_context(self):
-		ret = {
-			"random_quote": random.choice(self.quotes),
-		}
+		ret = {}
 
 		user = self.request.user
 		if user.is_authenticated:

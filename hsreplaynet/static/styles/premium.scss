@@ -80,7 +80,7 @@
 			border: 1px solid $blue;
 			box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16),
 				0 3px 6px rgba(0, 0, 0, 0.23);
-			max-width: 170px;
+			height: 200px;
 			margin: 0 20px;
 		}
 
@@ -193,8 +193,7 @@
 			}
 
 			> img {
-				width: 400px;
-				max-height: 490px;
+				height: 400px;
 				max-width: 100%;
 			}
 
@@ -773,10 +772,23 @@
 		justify-content: center;
 
 		.btn {
+			display: flex;
+			align-items: center;
+			justify-content: center;
 			flex-basis: 0;
 			flex-grow: 0;
 			flex-shrink: 1;
 			padding: 1em 2em;
+
+			> h4 {
+				line-height: 1.5em;
+
+				> small {
+					font-weight: bold;
+					font-size: 0.9em;
+					color: black;
+				}
+			}
 		}
 	}
 

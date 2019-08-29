@@ -20,7 +20,6 @@ window.onload = () => {
 				<PremiumDetail
 					discount={context["discount"]}
 					reflink={context["reflink"]}
-					randomQuote={context["random_quote"]}
 					premiumPrice={
 						paymentData["stripe"]["plans"][0]["description"]
 					}

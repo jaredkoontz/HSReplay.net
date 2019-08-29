@@ -62,7 +62,7 @@ class TestimonialCarousel extends React.Component<Props, State> {
 		this.stopRotation();
 		this.interval = window.setTimeout(
 			() => this.rotate(this.startRotation),
-			12000,
+			8000,
 		);
 	};
 
@@ -87,26 +87,32 @@ class TestimonialCarousel extends React.Component<Props, State> {
 		const { t } = this.props;
 		return [
 			{
+				image: image("premium/boarcontrol.png"),
+				name: "BoarControl",
+				subtitle: t("Hearthstone Grandmaster"),
+				text:
+					'"Since I started competing in HS full time around 2 years ago HSReplay has been a key tool in my preparation for competitions as well as placing high on ladder. The meta tab allows me to see deck matchups for conquest and LHS events, while the decks tab has helped me to multiple top 25 finishes (using the top 1000 filter). Additionally the mulligan win rates (on and off coin) for each match up is a great tool when first learning a deck."',
+			},
+			{
+				image: image("premium/kripparian.jpg"),
+				name: "Kripparian",
+				subtitle: t("Streamer, Vegan Lord"),
+				text:
+					'"I love building my own decks and making choices of which cards to include and exclude based on the in depth stats provided by HSReplay."',
+			},
+			{
 				image: image("premium/RDU.jpg"),
 				name: 'Radu "RDU" Dima',
 				subtitle: t("Pro Player and Streamer"),
 				text:
-					'"I think both HSReplay.net and Hearthstone Deck Tracker are great tools. They are so good that they play a huge role right now in the competitive and casual side of Hearthstone. Everyone who likes the game should try these tools."',
+					'"I think both HSReplay and Hearthstone Deck Tracker are great tools. They are so good that they play a huge role right now in the competitive and casual side of Hearthstone. Everyone who likes the game should try these tools."',
 			},
-			{
-				image: image("premium/gaara.jpg"),
-				name: 'Petar "Gaara" Stevanovic',
-				subtitle: t("Pro Player and Streamer"),
-				text:
-					'"I use HSReplay.net every day. Seeing the mulligan winrates and best decks in the last 24 hours has become my daily routine. My favorite thing to do is when my Twitch chat says I missed lethal, I show them the replay with the tool on the site to prove them wrong. It\'s a great site!"',
-			},
-			{
-				image: image("premium/dog.jpg"),
-				name: 'David "Dog" Caero',
-				subtitle: t("Everyone's Favorite Shirtless Pro Player"),
-				text:
-					'"I use it for all my net decking needs and it helps me get a good picture of matchups I\'m not very familiar with."',
-			},
+			/*{
+				image: image("premium/trump.jpg"),
+				name: 'Jeffrey "Trump" Shih',
+				subtitle: t("Mayor of Value Town, Streamer"),
+				text: '"I use HSReplay to find all the hot up and coming decks. I comb through all the statistics to find out many things like which decks are performing the best, what matchups are good and bad, and all the cool tech choices people are using in their decks. Lets me nerd out on stats."',
+			},*/
 		];
 	}
 
