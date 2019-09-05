@@ -393,8 +393,9 @@ SUNWELL_SCRIPT_URL = SUNWELL_URL + "sunwell.cdn.min.js"
 
 HSREPLAY_DISCORD_URL = "https://discord.gg/hearthsim"
 HSREPLAY_FACEBOOK_APP_ID = "1278788528798942"
-HSREPLAY_FACEBOOK_URL = "https://www.facebook.com/HSReplayNet/"
+HSREPLAY_FACEBOOK_URL = "https://www.facebook.com/HSReplayNet"
 HSREPLAY_TWITTER_HANDLE = "HSReplayNet"
+HSREPLAY_INSTAGRAM_URL = "https://www.instagram.com/hsreplaynet/"
 
 # This setting controls whether utils.aws.clients are initialized.
 # Add `CONNECT_TO_AWS = True` in local_settings.py if you need to use those locally.

@@ -18,6 +18,7 @@
 			<section>
 				<h2 class="sr-only">{% trans "Social Media" %}</h2>
 				<ul class="horizontal-icons">
+					{% spaceless %}
 					{% setting 'HSREPLAY_DISCORD_URL' as discord_url %}
 					<li><a href="{{ discord_url }}" target="_blank" rel="noopener" class="social-button">
 						<span class="sr-only">{% trans "Join our Discord server" %}</span>
@@ -35,6 +36,13 @@
 						<span class="sr-only">{% trans "Like us on Facebook" %}</span>
 						{% include "snippets/facebook_button.svg" with fill="#fff" %}
 					</a></li>
+
+					{% setting 'HSREPLAY_INSTAGRAM_URL' as instagram_url %}
+					<li><a href="{{ instagram_url }}" target="_blank" rel="noopener" class="social-button">
+						<span class="sr-only">{% trans "Follow us on Instagram" %}</span>
+						{% include "snippets/instagram_button.svg" with fill="#fff" %}
+					</a></li>
+					{% endspaceless %}
 				</ul>
 			</section>
 		</div>

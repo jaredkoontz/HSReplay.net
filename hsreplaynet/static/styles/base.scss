@@ -109,10 +109,6 @@ html {
 		> a {
 			padding-bottom: 12px;
 
-			&.social-button {
-				padding-bottom: 4px;
-			}
-
 			&.text-premium {
 				color: $premium;
 			}
@@ -293,7 +289,7 @@ html {
 
 	.footer-brand {
 		padding: 0;
-		padding-right: 15px;
+		padding-right: 8px;
 		text-align: center;
 
 		img {
@@ -306,7 +302,7 @@ html {
 			font-size: 1.7em;
 			font-weight: bold;
 			margin: 12px 0 0 5px;
-			padding: 12px 0;
+			padding: 11px 0;
 			position: relative;
 			top: 4px;
 		}
@@ -319,15 +315,29 @@ html {
 	}
 
 	.horizontal-icons {
-		margin: 1em 0;
+		margin: 1.5em 0;
 		list-style-type: none;
 		padding-left: 0;
 		text-align: center;
 
 		li {
 			display: inline-block;
-			margin: 0.5em;
-			vertical-align: middle;
+			position: relative;
+			height: 35px;
+			width: 35px;
+			margin: 0 0.4em;
+			box-sizing: border-box;
+
+			a {
+				position: absolute;
+				top: 0;
+				left: 0;
+				height: 100%;
+				width: 100%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
 		}
 	}
 
