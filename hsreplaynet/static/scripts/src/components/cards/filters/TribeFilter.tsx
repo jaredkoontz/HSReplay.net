@@ -52,7 +52,13 @@ class TribeFilter extends React.Component<Props> {
 		);
 	}
 
-	private filter = value => card => card.race === value;
+	private filter = value => card => {
+		if (card.dbfId === 49502) {
+			// Nightmare Amalgam
+			return true;
+		}
+		return card.race === value;
+	};
 }
 
 export default withTranslation()(TribeFilter);
