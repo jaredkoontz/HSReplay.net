@@ -4,6 +4,7 @@ import CSRFElement from "../components/CSRFElement";
 import StripeElementsAddCardForm from "../components/payments/StripeElementsAddCardForm";
 import StripeElementsProvider from "../components/payments/StripeElementsProvider";
 import SemanticAge from "../components/text/SemanticAge";
+import UserData from "../UserData";
 
 interface BillingUrls {
 	cancel: string;
@@ -15,6 +16,13 @@ interface BillingUrls {
 interface PaypalContext {
 	end_of_period: string;
 	subscribed: boolean;
+	billing_agreements?: PaypalBillingAgreement[];
+}
+
+interface PaypalBillingAgreement {
+	plan: {
+		frequency: "monthly" | "semiannual";
+	};
 }
 
 interface StripeContext {
@@ -79,6 +87,7 @@ interface StripeSubscription {
 		id: string;
 		name: string;
 		price: string;
+		frequency: "monthly" | "semiannual";
 	};
 }
 
@@ -672,14 +681,36 @@ class AccountBilling extends React.Component<Props, State> {
 
 					<hr />
 					<p>
-						<Trans
-							defaults="Don't hesitate to <0>contact us</0> if you have issues or questions!"
-							components={[
-								<a href={`mailto:${SITE_EMAIL}`} key={0}>
-									0
-								</a>,
-							]}
-						/>
+						{UserData.hasFeature("semiannual-sale") &&
+						((paypal.billing_agreements &&
+							paypal.billing_agreements.some(
+								b => b.plan.frequency === "monthly",
+							)) ||
+							(stripe.subscriptions &&
+								stripe.subscriptions.some(
+									s => s.plan.frequency === "monthly",
+								))) ? (
+							<Trans
+								defaults="Want to upgrade to a 6-months subscription for only {amount}? <0>Contact us</0>."
+								components={[
+									<a href={`mailto:${SITE_EMAIL}`} key={0}>
+										0
+									</a>,
+								]}
+								values={{
+									amount: "$19.99",
+								}}
+							/>
+						) : (
+							<Trans
+								defaults="Don't hesitate to <0>contact us</0> if you have issues or questions!"
+								components={[
+									<a href={`mailto:${SITE_EMAIL}`} key={0}>
+										0
+									</a>,
+								]}
+							/>
+						)}
 					</p>
 				</div>
 			</section>

@@ -4,6 +4,7 @@ import UserData from "../../UserData";
 import BtnGroup from "../BtnGroup";
 import CSRFElement from "../CSRFElement";
 import { CheckoutFormInstanceProps } from "./CheckoutForm";
+import Feature from "../Feature";
 
 export interface PaypalPlan {
 	paypalId: string;
@@ -36,34 +37,66 @@ class PaypalCheckoutForm extends React.Component<Props, State> {
 	}
 
 	getPlanButtons() {
-		return this.props.plans.map((plan, i) => {
-			let discount: React.ReactNode = null;
-			if (this.props.plans.length === 2) {
-				const otherPlan =
-					i === 0 ? this.props.plans[1] : this.props.plans[0];
-				if (+plan.amount > +otherPlan.amount) {
-					const difference = +otherPlan.amount * 6 - +plan.amount;
-					const reduction = Math.floor(
-						100 / (+otherPlan.amount * 6) * difference,
-					);
-					discount = (
-						<>
-							<br />
-							<strong>{`${reduction}% cheaper`}</strong>
-						</>
-					);
-				}
+		if (UserData.hasFeature("semiannual-sale")) {
+			if (this.props.plans.length !== 2) {
+				throw new Error("Invalid plan configuration");
 			}
-			return {
-				label: (
-					<h4>
-						{plan.description}*{discount}
-					</h4>
-				),
-				value: plan.paypalId,
-				className: "btn btn-default",
-			};
-		});
+			let monthlyPlan;
+			let semiannualPlan;
+			if (+this.props.plans[0].amount < +this.props.plans[1].amount) {
+				monthlyPlan = this.props.plans[0];
+				semiannualPlan = this.props.plans[1];
+			} else {
+				monthlyPlan = this.props.plans[1];
+				semiannualPlan = this.props.plans[0];
+			}
+			return [
+				{
+					label: <h4>{monthlyPlan.description}</h4>,
+					value: monthlyPlan.paypalId,
+					className: "btn btn-default",
+				},
+				{
+					label: (
+						<h4>
+							$20.49 USD the first 6 months**<br />
+							<strong>38% OFF</strong>
+						</h4>
+					),
+					value: semiannualPlan.stripeId,
+					className: "btn btn-default",
+				},
+			];
+		} else {
+			return this.props.plans.map((plan, i) => {
+				let discount: React.ReactNode = null;
+				if (this.props.plans.length === 2) {
+					const otherPlan =
+						i === 0 ? this.props.plans[1] : this.props.plans[0];
+					if (+plan.amount > +otherPlan.amount) {
+						const difference = +otherPlan.amount * 6 - +plan.amount;
+						const reduction = Math.floor(
+							100 / (+otherPlan.amount * 6) * difference,
+						);
+						discount = (
+							<>
+								<br />
+								<strong>{`${reduction}% cheaper`}</strong>
+							</>
+						);
+					}
+				}
+				return {
+					label: (
+						<h4>
+							{plan.description}*{discount}
+						</h4>
+					),
+					value: plan.paypalId,
+					className: "btn btn-default",
+				};
+			});
+		}
 	}
 
 	private getPlanData(paypalId: string): PaypalPlan | null {
@@ -155,6 +188,10 @@ class PaypalCheckoutForm extends React.Component<Props, State> {
 						{t(
 							"*Includes an additional $0.50 USD processing fee (PayPal only).",
 						)}
+						<Feature feature="semiannual-sale">
+							<br />
+							**$25.50 USD after the first 6 months.
+						</Feature>
 					</em>
 				</div>
 				{this.renderCouponWarning()}

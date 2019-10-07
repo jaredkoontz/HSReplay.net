@@ -14,9 +14,11 @@ from django.utils.translation import gettext as _
 from django.views.generic import View
 from djpaypal.models import BillingAgreement
 from djstripe.enums import SubscriptionStatus
+from djstripe.models import Coupon
 from djstripe.settings import STRIPE_LIVE_MODE
 from stripe.error import CardError, InvalidRequestError
 
+from hsreplaynet.features.models import Feature
 from hsreplaynet.utils.influx import influx_metric
 from hsreplaynet.web.templatetags.web_extras import pretty_card
 from hsreplaynet.web.views import SimpleReactView
@@ -407,6 +409,17 @@ class SubscribeView(LoginRequiredMixin, StripeMixin, SubscribeMixin, View):
 		if plan_id not in (settings.MONTHLY_PLAN_ID, settings.SEMIANNUAL_PLAN_ID):
 			raise SuspiciousOperation("Invalid plan ID (%r)" % (plan_id))
 
+		coupon = None
+		try:
+			feature = Feature.objects.get(name="semiannual-sale")
+			if (
+				feature.enabled_for_user(customer.subscriber) and
+				plan_id == settings.SEMIANNUAL_PLAN_ID
+			):
+				coupon = Coupon.objects.get(stripe_id=settings.SEMIANNUAL_SALE_COUPON_ID)
+		except Feature.DoesNotExist:
+			pass
+
 		try:
 			# Attempt to subscribe the customer to the plan
 			# Note on `charge_immediately`:
@@ -415,7 +428,11 @@ class SubscribeView(LoginRequiredMixin, StripeMixin, SubscribeMixin, View):
 			# If set to True, we will attempt to send an Invoice immediately.
 			# This is not the behaviour we want; it will error, there is nothing
 			# to invoice as it's done automatically by Stripe.
-			customer.subscribe(plan_id, charge_immediately=False)
+			customer.subscribe(
+				plan_id,
+				charge_immediately=False,
+				coupon=coupon,
+			)
 		except InvalidRequestError:
 			# Most likely, bad form data. This will be logged by Stripe.
 			messages.error(self.request, _("Could not process subscription."))
@@ -725,6 +742,18 @@ class PaypalSubscribeView(LoginRequiredMixin, SubscribeMixin, BasePaypalView):
 		override_merchant_preferences = {
 			"setup_fee": plan.regular_payment_definition.amount.copy(),
 		}
+
+		# If this is the 6 month plan, and the promotion feature is enabled, replace the
+		# setup fee (but only the setup fee) with the reduced amount.
+		try:
+			feature = Feature.objects.get(name="semiannual-sale")
+			if (
+				feature.enabled_for_user(request.user) and
+				plan.id == settings.PAYPAL_SEMIANNUAL_PLAN_ID
+			):
+				override_merchant_preferences["setup_fee"] = 20.49
+		except Feature.DoesNotExist:
+			pass
 
 		prepared_agreement = plan.create_agreement(
 			request.user, start_date=start_date,
