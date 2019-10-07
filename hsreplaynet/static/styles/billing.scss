@@ -1,0 +1,51 @@
+.price-tag {
+	background-color: #dd2f2f;
+	color: white;
+
+	display: inline-block;
+	position: relative;
+
+	height: 21px;
+	line-height: 21px;
+
+	border-radius: 0 3px 3px 0;
+
+	margin-left: 14px;
+	padding: 0 5px 0 5px;
+
+	font-size: 12px;
+	font-style: normal;
+	font-weight: bold;
+
+	vertical-align: top;
+
+	&:before {
+		content: "";
+		position: absolute;
+		display: block;
+		left: -8px;
+		width: 0;
+		height: 0;
+		border-top: 11px solid transparent;
+		border-bottom: 10px solid transparent;
+		border-right: 8px solid #dd2f2f;
+	}
+
+	&:after {
+		content: "";
+		background-color: white;
+		border-radius: 50%;
+		width: 5px;
+		height: 5px;
+		display: block;
+		position: absolute;
+		left: -4px;
+		top: 8px;
+	}
+
+	&--cutout-blue {
+		&:after {
+			background-color: $blue;
+		}
+	}
+}

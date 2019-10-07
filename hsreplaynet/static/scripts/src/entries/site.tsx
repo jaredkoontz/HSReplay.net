@@ -231,16 +231,16 @@ if (window && window.location) {
 				/\/(archetypes|meta|replay|games|decks|cards)\//,
 			)
 		) {
-			showPopover(
-				"navbar-link-premium",
-				"reflinks",
-				true,
-				"refer-popup-closed",
-				t("Refer a Friend!"),
-				t(
-					"Tell a friend about HSReplay.net for a cheaper Premium subscription!",
-				),
-			);
+			if (!UserData.isPremium()) {
+				showPopover(
+					"navbar-link-premium",
+					"semiannual-sale",
+					false,
+					"october-sale-popup-closed",
+					t("Premium Subscription Sale!"),
+					"6 months of Premium for only $19.99, only until October 14!",
+				);
+			}
 
 			if (["th"].indexOf(UserData.getLocale()) !== -1) {
 				showPopover(

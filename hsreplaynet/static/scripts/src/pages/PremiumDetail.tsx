@@ -15,6 +15,7 @@ import HDTVideo from "../components/HDTVideo";
 import PremiumFeaturePanel from "../components/premium/PremiumFeaturePanel";
 import Testimonial from "../components/premium/Testimonial";
 import TestimonialCarousel from "../components/premium/TestimonialCarousel";
+import Feature from "../components/Feature";
 
 interface Props extends WithTranslation {
 	discount: string;
@@ -117,6 +118,16 @@ class PremiumDetail extends React.Component<Props, State> {
 													price: this.props
 														.premiumPrice,
 												})}
+												<Feature feature="semiannual-sale">
+													<br />
+													<br />
+													{t(
+														"Or just $19.99 for 6 months. Limited time only.",
+													)}
+													<i className="price-tag">
+														{t("SALE")}
+													</i>
+												</Feature>
 											</h3>
 											<a
 												href="#checkout"

@@ -803,6 +803,17 @@ class Home extends React.Component<Props, State> {
 			);
 		}
 
+		if (UserData.hasFeature("semiannual-sale")) {
+			banners.push(
+				<PromoBanner
+					href="https://hsreplay.net/premium/"
+					backgroundImage={staticFile(
+						"images/premium-promotional/october_sale.png",
+					)}
+				/>,
+			);
+		}
+
 		if (UserData.hasFeature("promo-banner-twitch-vods")) {
 			const seenDecks = UserData.hasCookie(
 				"twitch-vods-decks-popup-closed",
