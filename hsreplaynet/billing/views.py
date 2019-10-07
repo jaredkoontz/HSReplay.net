@@ -12,6 +12,7 @@ from django.utils.http import is_safe_url
 from django.utils.timezone import now
 from django.utils.translation import gettext as _
 from django.views.generic import View
+from djpaypal.models import BillingAgreement
 from djstripe.enums import SubscriptionStatus
 from djstripe.settings import STRIPE_LIVE_MODE
 from stripe.error import CardError, InvalidRequestError
@@ -239,6 +240,8 @@ class BillingView(LoginRequiredMixin, StripeMixin, SimpleReactView):
 			if subscription.plan.amount and not subscription.cancel_at_period_end:
 				stripe["has_upcoming_payment"] = True
 
+			is_monthly_plan = subscription.plan.stripe_id == settings.MONTHLY_PLAN_ID
+
 			stripe["subscriptions"].append({
 				"id": subscription.stripe_id,
 				"status": subscription.status,
@@ -253,6 +256,7 @@ class BillingView(LoginRequiredMixin, StripeMixin, SimpleReactView):
 					"amount": subscription.plan.amount,
 					"name": str(subscription.plan),
 					"price": subscription.plan.human_readable_price,
+					"frequency": "monthly" if is_monthly_plan else "semiannual"
 				},
 			})
 
@@ -260,6 +264,23 @@ class BillingView(LoginRequiredMixin, StripeMixin, SimpleReactView):
 		if self.request.user.is_paypal_premium:
 			paypal["subscribed"] = True
 			paypal["end_of_period"] = self.request.user.paypal_end_of_cancellation_period
+			paypal["billing_agreements"] = []
+
+			for billing_agreement in BillingAgreement.objects.filter(
+				user=self.request.user, state="Active"
+			):
+				is_monthly_billing_agreement = False
+				plan = billing_agreement.plan
+				if "payment_definitions" in plan and len(
+					plan["payment_definitions"]) == 1:
+					payment_definition = plan["payment_definitions"][0]
+					if payment_definition["frequency_interval"] == "1":
+						is_monthly_billing_agreement = True
+				paypal["billing_agreements"].append({
+					"plan": {
+						"frequency": "monthly" if is_monthly_billing_agreement else "semiannual",
+					}
+				})
 
 		return {
 			"paypal": paypal,
