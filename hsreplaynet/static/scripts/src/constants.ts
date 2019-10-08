@@ -1,11 +1,15 @@
 export const arenaSets = [
-	"CORE",
-	"EXPERT1",
-	"ULDUM",
-	"TROLL",
-	"UNGORO",
-	"LOOTAPALOOZA",
+	"NAXX",
+	"GVG",
+	"BRM",
+	"TGT",
 	"LOE",
+	"OG",
+	"KARA",
+	"GANGS",
+	"UNGORO",
+	"ICECROWN",
+	"LOOTAPALOOZA",
 ];
 
 export const wildSets = [
