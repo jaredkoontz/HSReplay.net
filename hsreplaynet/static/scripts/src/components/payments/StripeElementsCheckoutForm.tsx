@@ -304,15 +304,25 @@ class StripeElementsCheckoutForm extends React.Component<Props, State> {
 		}
 
 		if (UserData.hasFeature("semiannual-sale")) {
-			return (
-				<p className="alert alert-warning">
-					<Trans>
-						Your active coupon will not apply due to the ongoing
-						sale.<br />
-						<strong>You will be charged the full amount.</strong>
-					</Trans>
-				</p>
-			);
+			let semiannualPlan;
+			if (this.props.plans[0].amount < this.props.plans[1].amount) {
+				semiannualPlan = this.props.plans[1];
+			} else {
+				semiannualPlan = this.props.plans[0];
+			}
+			if (this.state.selectedPlan === semiannualPlan.stripeId) {
+				return (
+					<p className="alert alert-warning">
+						<Trans>
+							Your active coupon will not apply due to the ongoing
+							sale.<br />
+							<strong>
+								You will be charged the full amount.
+							</strong>
+						</Trans>
+					</p>
+				);
+			}
 		}
 
 		return (
