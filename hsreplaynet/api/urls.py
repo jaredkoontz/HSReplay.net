@@ -31,6 +31,7 @@ urlpatterns = [
 		"v1/blizzard_accounts/<int:hi>/<int:lo>/",
 		views.accounts.UpdateBlizzardAccountView.as_view()
 	),
+	path("v1/billing/history/", views.billing.TransactionHistoryView.as_view()),
 	path("v1/claim_account/", CreateAccountClaimView.as_view()),
 	path("v1/collection/", views.collections.CollectionView.as_view()),
 	path(
