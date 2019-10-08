@@ -63,7 +63,7 @@ class PaypalCheckoutForm extends React.Component<Props, State> {
 							<strong>38% OFF</strong>
 						</h4>
 					),
-					value: semiannualPlan.stripeId,
+					value: semiannualPlan.paypalId,
 					className: "btn btn-default",
 				},
 			];

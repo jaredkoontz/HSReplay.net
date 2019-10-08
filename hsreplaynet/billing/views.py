@@ -751,7 +751,10 @@ class PaypalSubscribeView(LoginRequiredMixin, SubscribeMixin, BasePaypalView):
 				feature.enabled_for_user(request.user) and
 				plan.id == settings.PAYPAL_SEMIANNUAL_PLAN_ID
 			):
-				override_merchant_preferences["setup_fee"] = 20.49
+				override_merchant_preferences["setup_fee"] = {
+					"value": "20.49",
+					"currency": "USD",
+				}
 		except Feature.DoesNotExist:
 			pass
 
