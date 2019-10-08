@@ -52,7 +52,7 @@ class PaypalCheckoutForm extends React.Component<Props, State> {
 			}
 			return [
 				{
-					label: <h4>{monthlyPlan.description}</h4>,
+					label: <h4>{monthlyPlan.description}*</h4>,
 					value: monthlyPlan.paypalId,
 					className: "btn btn-default",
 				},
