@@ -26,6 +26,7 @@ window.onload = () => {
 					hasSubscriptionPastDue={
 						paymentData["stripe"]["has_subscription_past_due"]
 					}
+					promoteSale={context["promote_sale"]}
 				/>
 			</Root>,
 			referralRoot,

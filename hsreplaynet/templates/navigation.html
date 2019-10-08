@@ -69,14 +69,14 @@
 						<li{% nav_active 'premium' css='active active-premium' %} id="navbar-link-premium">
 							{% spaceless %}
 							<a href="{% url 'premium' %}" class="text-premium">
-								{% if premium %}
+								{% feature "semiannual-sale" as sale %}
+								{% if sale.enabled and promote_semiannual_sale %}
+									<span>{% trans "Premium" %}</span>
+									<i class="price-tag price-tag--cutout-blue">{% trans "SALE!" %}</i>
+								{% elif premium %}
 									{% trans "Refer a Friend" %}
 								{% else %}
 									<span>{% trans "Premium" %}</span>
-									{% feature "semiannual-sale" as sale %}
-									{% if sale.enabled %}
-									<i class="price-tag price-tag--cutout-blue">{% trans "SALE!" %}</i>
-									{% endif %}
 								{% endif %}
 							</a>
 							{% endspaceless %}

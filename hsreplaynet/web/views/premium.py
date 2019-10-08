@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.utils.translation import gettext_lazy as _
 from django_reflinks.models import ReferralLink
@@ -36,5 +37,16 @@ class PremiumDetailView(SimpleReactView):
 			if not reflink.disabled:
 				ret["reflink"] = "https://hsreplay.net" + reflink.get_absolute_url()
 				ret["discount"] = "$2.50 USD"
+
+			promote_sale = True
+			customer = user.stripe_customer
+			subscription = customer.subscription if customer else None
+			plan = subscription.plan if subscription else None
+			if (
+				(user.is_stripe_premium and plan.stripe_id != settings.MONTHLY_PLAN_ID) or
+				user.is_paypal_premium
+			):
+				promote_sale = False
+			ret["promote_sale"] = promote_sale
 
 		return ret

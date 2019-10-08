@@ -109,12 +109,24 @@ def premium(request):
 	if is_premium and request.COOKIES.get("free-mode") == "true":
 		is_premium = False
 
+	promote_semiannual_sale = True
+	if request.user.is_authenticated:
+		if request.user.is_paypal_premium:
+			promote_semiannual_sale = False
+		else:
+			customer = request.user.stripe_customer
+			subscription = customer.subscription if customer else None
+			plan = subscription.plan if subscription else None
+			if request.user.is_stripe_premium and plan.stripe_id == settings.SEMIANNUAL_PLAN_ID:
+				promote_semiannual_sale = False
+
 	if "just-subscribed" in request.COOKIES:
 		just_subscribed = True
 
 	return {
 		"site_email": settings.DEFAULT_FROM_EMAIL,
 		"premium": is_premium,
+		"promote_semiannual_sale": promote_semiannual_sale,
 		"just_subscribed": just_subscribed,
 		"has_subscription_past_due": has_subscription_past_due,
 		"stripe_monthly_plan": stripe_plans.filter(stripe_id=settings.MONTHLY_PLAN_ID).first(),

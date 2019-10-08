@@ -22,6 +22,7 @@ interface Props extends WithTranslation {
 	reflink: string;
 	premiumPrice: string;
 	hasSubscriptionPastDue: boolean;
+	promoteSale: boolean;
 }
 
 interface State {
@@ -76,6 +77,24 @@ class PremiumDetail extends React.Component<Props, State> {
 											)}
 										</strong>
 									</h3>
+									{this.props.promoteSale &&
+									UserData.hasFeature("semiannual-sale") ? (
+										<h3>
+											<a
+												href={`mailto:${SITE_EMAIL}`}
+												style={{
+													color: "black",
+													textDecoration: "underline",
+												}}
+											>
+												Contact us
+											</a>{" "}
+											to upgrade to the 6-months
+											subscription for only $19.99 USD.<br />
+											Valid only until October 14.
+											<i className="price-tag">SALE!</i>
+										</h3>
+									) : null}
 									<a
 										href="/account/billing/"
 										className="btn promo-button white-style"
@@ -122,7 +141,7 @@ class PremiumDetail extends React.Component<Props, State> {
 													<br />
 													<br />
 													{t(
-														"Or just $19.99 for 6 months. Limited time only.",
+														"Or just $19.99 USD for 6 months. Limited time only.",
 													)}
 													<i className="price-tag">
 														{t("SALE")}

@@ -5,6 +5,7 @@ import StripeElementsAddCardForm from "../components/payments/StripeElementsAddC
 import StripeElementsProvider from "../components/payments/StripeElementsProvider";
 import SemanticAge from "../components/text/SemanticAge";
 import UserData from "../UserData";
+import Feature from "../components/Feature";
 
 interface BillingUrls {
 	cancel: string;
@@ -99,6 +100,7 @@ interface Props extends WithTranslation {
 
 interface State {
 	canceling: boolean;
+	dueToSale: boolean;
 }
 
 class AccountBilling extends React.Component<Props, State> {
@@ -106,6 +108,7 @@ class AccountBilling extends React.Component<Props, State> {
 		super(props, context);
 		this.state = {
 			canceling: false,
+			dueToSale: false,
 		};
 	}
 	public render(): React.ReactNode {
@@ -163,6 +166,35 @@ class AccountBilling extends React.Component<Props, State> {
 						>
 							<CSRFElement />
 							<ul>
+								<Feature feature="semiannual-sale">
+									<li className="checkbox">
+										<label>
+											<input
+												type="checkbox"
+												onChange={() =>
+													this.setState({
+														dueToSale: true,
+													})
+												}
+											/>
+											I want to upgrade to the 6 month
+											plan due to the sale
+										</label>
+										{this.state.dueToSale ? (
+											<p>
+												<strong>
+													Don't cancel here!
+												</strong>{" "}
+												<a
+													href={`mailto:${SITE_EMAIL}`}
+												>
+													Please contact our support
+													team
+												</a>.
+											</p>
+										) : null}
+									</li>
+								</Feature>
 								{reasons.map(reason => (
 									<li className="checkbox" key={reason[0]}>
 										<label>
@@ -234,6 +266,7 @@ class AccountBilling extends React.Component<Props, State> {
 									className="btn btn-info"
 									onClick={e => {
 										this.setState({ canceling: false });
+										e.preventDefault();
 									}}
 								>
 									{t("I changed my mind")}
@@ -682,14 +715,10 @@ class AccountBilling extends React.Component<Props, State> {
 					<hr />
 					<p>
 						{UserData.hasFeature("semiannual-sale") &&
-						((paypal.billing_agreements &&
-							paypal.billing_agreements.some(
-								b => b.plan.frequency === "monthly",
-							)) ||
-							(stripe.subscriptions &&
-								stripe.subscriptions.some(
-									s => s.plan.frequency === "monthly",
-								))) ? (
+						stripe.subscriptions &&
+						stripe.subscriptions.some(
+							s => s.plan.frequency === "monthly",
+						) ? (
 							<Trans
 								defaults="Want to upgrade to a 6-months subscription for only {amount}? <0>Contact us</0>."
 								components={[
@@ -698,7 +727,7 @@ class AccountBilling extends React.Component<Props, State> {
 									</a>,
 								]}
 								values={{
-									amount: "$19.99",
+									amount: "$19.99 USD",
 								}}
 							/>
 						) : (
