@@ -2,7 +2,7 @@ import copy
 import json
 import time
 from collections import defaultdict
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from random import seed, shuffle
 
 from django.conf import settings
@@ -349,16 +349,18 @@ def get_cluster_set_data(
 
 	gt = "RANKED_STANDARD" if game_format == FormatType.FT_STANDARD else "RANKED_WILD"
 	query = get_redshift_query("list_cluster_set_data")
-	time_range_val = "LAST_%i_DAY" % lookback
-	if lookback > 1:
-		time_range_val += "S"
 
 	parameterized_query = query.build_full_params(dict(
-		TimeRange=time_range_val,
+		TimeRange="LAST_1_DAY",
 		min_games=min_observations,
 		min_pilots=min_pilots,
 		GameType=gt,
 	))
+
+	# update time range
+	today = date.today()
+	parameterized_query.final_bind_params["min_date"] = today - timedelta(days=lookback)
+	parameterized_query.final_bind_params["max_date"] = today
 
 	def result_available():
 		return (
