@@ -390,9 +390,13 @@ class Decks extends React.Component<Props, State> {
 							return;
 						}
 						if (
-							this.props.gameType === "RANKED_WILD" &&
 							this.props.wildCard &&
-							!cards.some(card => isWildSet(card.card.set))
+							!cards.some(
+								card =>
+									isWildSet(card.card.set) ||
+									card.card.set === "WILD_EVENT" ||
+									"" + card.card.set === "1439",
+							)
 						) {
 							return;
 						}
@@ -1177,28 +1181,26 @@ class Decks extends React.Component<Props, State> {
 									{t("At least one new card")}
 								</InfoboxFilter>
 							</InfoboxFilterGroup>
-							{this.props.gameType === "RANKED_WILD" ? (
-								<InfoboxFilterGroup
-									deselectable
-									selectedValue={
-										this.props.wildCard ? "WILD_CARD" : ""
-									}
-									onClick={value => {
-										this.props.setWildCard(
-											value === "WILD_CARD",
-										);
-										FilterEvents.onFilterInteraction(
-											"decks",
-											"include_wild_card",
-											value ? "yes" : "no",
-										);
-									}}
-								>
-									<InfoboxFilter value={"WILD_CARD"}>
-										{t("At least one Wild card")}
-									</InfoboxFilter>
-								</InfoboxFilterGroup>
-							) : null}
+							<InfoboxFilterGroup
+								deselectable
+								selectedValue={
+									this.props.wildCard ? "WILD_CARD" : ""
+								}
+								onClick={value => {
+									this.props.setWildCard(
+										value === "WILD_CARD",
+									);
+									FilterEvents.onFilterInteraction(
+										"decks",
+										"include_wild_card",
+										value ? "yes" : "no",
+									);
+								}}
+							>
+								<InfoboxFilter value={"WILD_CARD"}>
+									{t("At least one Wild card")}
+								</InfoboxFilter>
+							</InfoboxFilterGroup>
 							<CardSearch
 								id="card-search-include"
 								label="card-search-include-label"
