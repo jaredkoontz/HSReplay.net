@@ -622,6 +622,11 @@ export function isCraftableSet(set: string) {
 		return false;
 	}
 
+	// WILD_EVENT cards can never be crafted
+	if (set === "WILD_EVENT") {
+		return false;
+	}
+
 	// everything else can be crafted
 	return true;
 }
