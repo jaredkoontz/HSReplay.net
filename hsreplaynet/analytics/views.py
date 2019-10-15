@@ -298,6 +298,7 @@ def _fetch_query_results(parameterized_query, run_local=False, user=None, priori
 
 	query_fetch_metric_fields = {
 		"count": 1,
+		"user_id": int(user.id if user and user.is_authenticated else -1)
 	}
 	query_fetch_metric_fields.update(
 		parameterized_query.supplied_non_filters_dict
